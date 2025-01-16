@@ -1,0 +1,118 @@
+---
+title: 'React'
+description: 'React runtime for Rive. '
+---
+
+## Overview
+
+This guide documents how to get started using the React runtime library. Rive runtime libraries are open-source. The source is available in its [GitHub repository](https://github.com/rive-app/rive-react). 
+
+This library contains a React component, as well as custom hooks to help integrate Rive into your web application (types included). Under the hood, this runtime is a React-friendly wrapper around the `@rive-app/canvas` runtime, exposing types, and Rive instance functionality.
+
+## Quick Start
+
+
+See our [quick start example](https://codesandbox.io/p/sandbox/rive-quick-start-react-9ywsjl) that shows how to play a Rive animation with React.
+
+<iframe height="700" width= "100%" scrolling="no" title="Untitled" src="https://codesandbox.io/p/sandbox/rive-quick-start-react-9ywsjl?layout=%257B%2522sidebarPanel%2522%253A%2522EXPLORER%2522%252C%2522rootPanelGroup%2522%253A%257B%2522direction%2522%253A%2522horizontal%2522%252C%2522contentType%2522%253A%2522UNKNOWN%2522%252C%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522id%2522%253A%2522ROOT_LAYOUT%2522%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522contentType%2522%253A%2522UNKNOWN%2522%252C%2522direction%2522%253A%2522vertical%2522%252C%2522id%2522%253A%2522cm0cil5q400073b6ir6frfrrk%2522%252C%2522sizes%2522%253A%255B100%255D%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522contentType%2522%253A%2522EDITOR%2522%252C%2522direction%2522%253A%2522horizontal%2522%252C%2522id%2522%253A%2522EDITOR%2522%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL%2522%252C%2522contentType%2522%253A%2522EDITOR%2522%252C%2522id%2522%253A%2522cm0cil5q400033b6iaw79xtq7%2522%257D%255D%257D%252C%257B%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522contentType%2522%253A%2522SHELLS%2522%252C%2522direction%2522%253A%2522horizontal%2522%252C%2522id%2522%253A%2522SHELLS%2522%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL%2522%252C%2522contentType%2522%253A%2522SHELLS%2522%252C%2522id%2522%253A%2522cm0cil5q400043b6i7f8ktzuk%2522%257D%255D%257D%255D%257D%252C%257B%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522contentType%2522%253A%2522DEVTOOLS%2522%252C%2522direction%2522%253A%2522vertical%2522%252C%2522id%2522%253A%2522DEVTOOLS%2522%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL%2522%252C%2522contentType%2522%253A%2522DEVTOOLS%2522%252C%2522id%2522%253A%2522cm0cil5q400063b6ii74o0hpx%2522%257D%255D%257D%255D%252C%2522sizes%2522%253A%255B50%252C50%255D%257D%252C%2522tabbedPanels%2522%253A%257B%2522cm0cil5q400033b6iaw79xtq7%2522%253A%257B%2522tabs%2522%253A%255B%257B%2522id%2522%253A%2522cm0cil5q400023b6ioy9e9ht3%2522%252C%2522mode%2522%253A%2522permanent%2522%252C%2522type%2522%253A%2522FILE%2522%252C%2522filepath%2522%253A%2522%252Fsrc%252FApp.js%2522%252C%2522state%2522%253A%2522IDLE%2522%257D%252C%257B%2522id%2522%253A%2522cm14udjop00023b6i1xens5cv%2522%252C%2522mode%2522%253A%2522permanent%2522%252C%2522type%2522%253A%2522FILE%2522%252C%2522initialSelections%2522%253A%255B%257B%2522startLineNumber%2522%253A8%252C%2522startColumn%2522%253A38%252C%2522endLineNumber%2522%253A8%252C%2522endColumn%2522%253A38%257D%255D%252C%2522filepath%2522%253A%2522%252Fpackage.json%2522%252C%2522state%2522%253A%2522IDLE%2522%257D%255D%252C%2522id%2522%253A%2522cm0cil5q400033b6iaw79xtq7%2522%252C%2522activeTabId%2522%253A%2522cm14udjop00023b6i1xens5cv%2522%257D%252C%2522cm0cil5q400063b6ii74o0hpx%2522%253A%257B%2522tabs%2522%253A%255B%257B%2522id%2522%253A%2522cm0cil5q400053b6ilwaai70z%2522%252C%2522mode%2522%253A%2522permanent%2522%252C%2522type%2522%253A%2522UNASSIGNED_PORT%2522%252C%2522port%2522%253A0%257D%255D%252C%2522id%2522%253A%2522cm0cil5q400063b6ii74o0hpx%2522%252C%2522activeTabId%2522%253A%2522cm0cil5q400053b6ilwaai70z%2522%257D%252C%2522cm0cil5q400043b6i7f8ktzuk%2522%253A%257B%2522tabs%2522%253A%255B%255D%252C%2522id%2522%253A%2522cm0cil5q400043b6i7f8ktzuk%2522%257D%257D%252C%2522showDevtools%2522%253Atrue%252C%2522showShells%2522%253Afalse%252C%2522showSidebar%2522%253Afalse%252C%2522sidebarPanelSize%2522%253A15%257D" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true"></iframe>
+
+
+## Getting Started
+
+Follow the steps below for a quick start on integrating Rive into your React app.
+
+### 1. Install the dependency
+
+The Rive React runtime allows for two main options based on which backing renderer you need.
+
+- **(Recommended)** `@rive-app/react-canvas` - Wraps the `@rive-app/canvas` dependency. Unless you specifically need a `WebGL` backing renderer, we recommend you use this dependency when using Rive in your apps for quick and fast usage.
+- `@rive-app/react-canvas-lite` - Similar to `@rive-app/react-canvas`, but[ ](https://app.outverse.com/rive/doc/canvas-vs-webgl/docanjXoQ1uT)[smaller](https://app.outverse.com/rive/doc/canvas-vs-webgl/docanjXoQ1uT). This is recommended if the Rive graphic does not use [Rive Text](https://app.outverse.com/rive/doc/text-overview/docSfhykWoWu)
+- `@rive-app/react-webgl` - Wraps the `@rive-app/webgl` dependency. In the future, we may have advanced rendering features that are only supported by using `WebGL`. At the moment, however, due to the size of the dependency (with Skia), we do not recommend it unless you have specific needs here. We are currently working on improving the performance and size with the [Rive Renderer](https://rive.app/renderer).
+- `@rive-app/react-webgl2` - Wraps the `@rive-app/webgl2` dependency. It uses the Rive Renderer with a WebGL2 context and has a much smaller build size than `rive-app/react-webgl`. In a future major release, this package may be deprecated, and `@rive-app/react-webgl` will make use of the Rive Renderer completely, without an added Skia dependency. 
+
+<Note>
+ To take advantage of trying out the Rive Renderer with react-webgl2 , you should [enable the draft](https://www.wikihow.tech/Enable-WebGL-Draft-Extensions-in-Google-Chrome) `WEBGL_shader_pixel_local_storage` Chrome Extension (by adding WebGL Draft Extensions), otherwise, Rive will fall back to an MSAA solution (also with WebGL2) on browsers without the extension support. Current work is underway with major browsers to support this extension by default in consumer's browsers.
+</Note>
+
+```bash
+npm i --save @rive-app/react-canvas
+```
+
+### 2a. Render the Rive component
+
+Rive React provides a basic component as its default import for displaying simple animations with a few props you can set such as artboard and layout. Include the code below in your React project to test out an example Rive animation.
+
+```javascript
+import Rive from '@rive-app/react-canvas';
+
+export const Simple = () => (
+  <Rive
+    src="https://cdn.rive.app/animations/vehicles.riv"
+    stateMachines="bumpy"
+  />
+);
+```
+
+See [Parameters and Return Values](../react/parameters-and-return-values)[ ](https://app.outverse.com/rive/doc/parameters-and-return-values/docJlDMNulDh)for more on the parameters and return values of the `<Rive />` component.
+
+### 2b. Using the useRive hook 
+
+In many cases, you may not only need the React component to render your animation but also the `rive` object instance that controls it as well. The Rive object instance allows you to tap into APIs for:
+
+- Setting Rive Text values dynamically
+- Subscribing to Rive Events with your own callbacks
+- Controlling animation playback (i.e. pause and play)
+- ... and [much more](https://github.com/rive-app/rive-wasm)
+
+The `useRive` hook returns both this `rive` instance, as well as the React component that mounts the underlying `<canvas>` element that Rive will draw onto.
+
+```javascript
+import { useRive } from '@rive-app/react-canvas';
+
+export default function Simple() {
+  const { rive, RiveComponent } = useRive({
+    src: 'https://cdn.rive.app/animations/vehicles.riv',
+    stateMachines: "bumpy",
+    autoplay: false,
+  });
+
+  return (
+    <RiveComponent
+      onMouseEnter={() => rive && rive.play()}
+      onMouseLeave={() => rive && rive.pause()}
+    />
+  );
+}
+```
+
+<Note>
+ **Note:** Rive will not instantiate until the `<RiveCopmonent />` is rendered out, as the underlying `<canvas>` element needs to be present in the DOM. 
+<br/>
+</Note> 
+
+Also, keep in mind that the canvas size depends on the container it's placed within. Initially, this is 0x0. Either pass a `className` to `RiveComponent` or wrap `RiveComponent` with an appropriately sized container.
+
+See [here](./parameters-and-return-values) for more on the parameters and return values of `useRive`.
+
+Additionally, explore subsequent runtime pages to learn how to control animation playback, state machines, and more.
+
+#### Rendering Considerations with useRive
+
+At this time, we highly recommend isolating your usage of `useRive` to its own wrapper component if you plan on conditionally rendering the `<RiveComponent />` returned from the `useRive` hook. This is due to Rive being instanced when the component is mounted and the rendering context associated with a specific underlying `<canvas>` element. When React tries to unmount/re-render, you may end up with the animation restarting or not displaying when a new `<canvas>` is mounted. 
+
+By isolating `useRive` to its own wrapper component, Rive will have a chance to properly clean up, and restart the animation with a new canvas. In a parent component, you can then conditionally render the wrapper component based on any state or prop-based logic.
+
+Check out this example to see this pattern in use: [https://codesandbox.io/s/userive-wrapper-pattern-zx2h3j](https://codesandbox.io/s/userive-wrapper-pattern-zx2h3j)
+
+## Resources
+
+Github: [https://github.com/rive-app/rive-react](https://github.com/rive-app/rive-react) Types: [https://github.com/rive-app/rive-react/blob/main/src/types.ts](https://github.com/rive-app/rive-react/blob/main/src/types.ts) Examples:
+
+- Simple skinning example: [https://codesandbox.io/s/rive-skins-7tmtxm](https://codesandbox.io/s/rive-skins-7tmtxm)
+- Storybook demo: [https://rive-app.github.io/rive-react/](https://rive-app.github.io/rive-react/)
+- Animated Login Form:
+  - Code: [https://github.com/rive-app/rive-use-cases/tree/main/lib/components/login-form](https://github.com/rive-app/rive-use-cases/tree/main/lib/components/login-form)
+  - Demo: [https://rive-app.github.io/rive-use-cases/?path=/story/example-loginformcomponent--primary](https://rive-app.github.io/rive-use-cases/?path=/story/example-loginformcomponent--primary)
+- Rise of the Robots:
+  - Code: [https://github.com/PaulieScanlon/rise-of-the-robots](https://github.com/PaulieScanlon/rise-of-the-robots)
+  - Demo: [https://www.gatsbyjs.com/demos/rise-of-the-robots/](https://www.gatsbyjs.com/demos/rise-of-the-robots/)

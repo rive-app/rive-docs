@@ -1,0 +1,160 @@
+---
+title: 'States'
+description: ''
+---
+
+States are simply timeline animations that can play at any point in your state machine. A state could be as simple as changing the color and position of an object, or as complex as blending multiple timelines together.
+
+There are a few types of states that you’ll end up using as you work with the State Machine, including Default States, Single animations, and Blend States. We’ll explore each of these below. 
+
+## Default States 
+
+The Default States are the states that, by default, are added to every State Machine.
+
+![Image](https://ucarecdn.com/42815967-dd47-4da1-ba8a-4fc12f64d972/)
+
+Default States
+
+### Entry State 
+
+The Entry State is the state that your State Machine will start from. You’ll notice that by default, your state machine will already have an animation attached to the Entry State, but you can change this animation at any time. Note that you can connect multiple animations to the Entry State if you need I.E. you want to build a switch that can start in either the on or off state.
+
+![Image](https://ucarecdn.com/9d359af8-f3c3-4d57-8f88-7ba8dcad4847/)
+
+Using the Entry state
+
+### Exit State 
+
+The Exit State tells the State Machine layer to stop playing. This niche state has uses when multiple layers are being used.
+
+### Any State
+
+Unlike normal states, states connected to the Any State can be played at any time, regardless of which state your state machine is in. Any States are great to use when you want to create an array of states that can be activated at any time, such as changing the skin of a character.
+
+![Image](https://ucarecdn.com/6c4401fc-1b7c-4748-901d-a6e237f57e51/)
+
+Rating system using the Any state
+
+## Animation States 
+
+Animation states include all states other than the default states added to a State Machine. These states will control the look and motion of your interactive content. There are three types of animation states; Single Animation, 1D blend, and Direct blend states.
+
+To add a State to the Graph, you can drag and drop an animation from the Animations List directly onto the Graph. Notice that this will create a Single Animation state. You can change the state type using the inspector.
+
+![Image](https://ucarecdn.com/f99e2294-1915-4449-8632-71227dc4f87f/)
+
+Drop and drop State onto the Graph
+
+Additionally, you can right-click on the graph and create a blank state of any type with no associated timelines.
+
+![Image](https://ucarecdn.com/34662198-6e61-43bd-83dd-d4d8e1ee8012/)
+
+Right-click to add State
+
+To assign a timeline to a state, use the timeline dropdown in the inspector.
+
+### Single animation state 
+
+Any timeline that we create can be used as a single animation state. Depending on the type of animation we are using, the single animation state could be a one-shot, looping, or ping-pong state. In most cases, you’ll be using single animation states to create most of your state machines.
+
+### Blend states 
+
+A Blend State is any state that blends together two or more timeline animations. We use these states for content like loading bars, health systems, scrolling interactions, and dynamic face rigs.
+
+There are two types of blend states; 1D and Direct Blend states.
+
+#### 1D Blend state: 
+
+A 1D Blend State allows us to mix multiple timelines together with a single numerical input. This state works by ramping up one animation and ramping down the other while you increase or decrease a number input. Note that this mixing is not linear, but is additive and could give you unexpected results.
+
+![Image](https://ucarecdn.com/875b9ed6-41c7-4023-aaad-f38d2042dca7/)
+
+Health bar using Blend state
+
+**Configuring a 1D Blend State:**
+
+You'll want to start by creating a few timelines for your Blend state. Keep in mind that it's often best to use timelines with only a few properties keyed. In this health bar example, only the X scale is keyed.
+
+![Image](https://ucarecdn.com/a2e08c89-388b-4b21-b31b-3d5fb6e94cd7/)
+
+Timelines for health bar
+
+After adding a 1D Blend State to the graph, use the Inspector to configure the state.
+
+![Image](https://ucarecdn.com/266c2c6d-6719-4b65-b06a-b1ca35d2eb86/)
+
+Add Blend state
+
+First, add the number input you want to drive the blend using the dropdown. If you haven’t created one yet, you’ll notice that nothing appears here.
+
+![Image](https://ucarecdn.com/baf39e65-5bf1-44ed-bd2e-b0f0afa24ded/)
+
+Create and add number input to Blend state
+
+The plus button that appears below the number input allows you to add timelines to your blend state. Use the dropdown to assign a specific timeline. Note that you can add as many timelines as you’d like.
+
+![Image](https://ucarecdn.com/fe5d4505-8290-4be9-b0d6-58f13d1df553/)
+
+Add timelines to the Blend state
+
+Next, you need to define a numerical range that your blend state will work between. This particular blend works between 0 and 100.
+
+![Image](https://ucarecdn.com/6a92f242-2979-44c7-bb95-fc51ebeeda5d/)
+
+Notice that once you define the range, a graphic appears above the input dropdown, visually representing how your animations will mix. When the state machine is active, as you increase or decrease your input within the defined range, you’ll see a visual representation move across that graph, showing you the mix of your timelines.
+
+![Image](https://ucarecdn.com/44a40cb9-90d9-4aca-920f-6042cc52340f/)
+
+Blend State in action
+
+#### Additive Blend state:
+
+An Additive Blend state allows you to blend together multiple timelines using multiple number inputs. This allows us to create unique poses and facial positions by mixing multiple animations together. While working with an Additive Blend, you’ll either be mixing an animation by value or input. Read more below.
+
+![Image](https://ucarecdn.com/71cf4345-b728-47a4-946c-e08de2eb86dd/)
+
+Using Additive Blend for facial animations
+
+**Value vs Input blend**
+
+When adding animations to an Additive blend state, you’ll be prompted to either add a Blend by Value animation or a Blend by Input animation.
+
+![Image](https://ucarecdn.com/8e2c7380-85cf-4e41-8dd8-82e98f34d1bd/)
+
+Adding timeline to Additive Blend
+
+A Blend by Value timeline can be thought of as the baseline animation, or default pose. This value is not tied to an input, so it can’t be used to control the state machine. Instead, this value describes its mix weighting.
+
+An Input blend is an animation that is mixed with the default pose or motion via a number input. Each of your different Input blends should have their own number input.
+
+## Additional State Options 
+
+When you select a state on the State Machine Graph, you’ll have a number of options that you can change.
+
+**Change state type**
+
+The top three icons allow you to change the type of state. You can select from single animation, 1D blend, and Additive blend.
+
+![Image](https://ucarecdn.com/185c56c3-4d69-4526-95c9-62af59675f18/)
+
+Convert state type
+
+**Change animation**
+
+You can use the dropdown to change which animation is assigned to the current state.
+
+![Image](https://ucarecdn.com/e8a8e540-b5ed-4947-b2cc-45ba793f0ea0/)
+
+Changing animation on a state
+
+**Speed**
+
+You can alter the playback speed of a state by changing this value. Note that you can play animations forward with a positive value, and backward with a negative value.
+
+![Image](https://ucarecdn.com/5ada4e3d-bbba-412d-8bc3-6b4417717e16/)
+
+Change animation speed
+
+**Transitions**
+
+You can see any transitions that leave from the selected state. You also have the option to ignore specific transitions by turning off the eye icon.

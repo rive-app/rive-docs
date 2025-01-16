@@ -1,0 +1,78 @@
+---
+title: 'Audio Events'
+description: ''
+---
+
+Event-based audio provides the means to trigger sound effects within your animations and/or in response to user interactions. Just like existing events, they can be triggered by a keyframe on a timeline, during a state transition, or via a listener.
+
+Audio events represent the first phase of audio features in Rive — they provide an ideal way to trigger sound effects that can be layered on top of each other.
+
+Previously, triggering audio with events would require some work with one of the Rive runtimes and your application or game. The introduction of audio events directly inside the Rive editor streamlines the process of adding sound to your animations — further empowering designers, whilst simplifying the implementation for developers.
+
+<Info>Audio events are ideal for triggering shorter sounds in response to user interactions or to compliment character animations. Whilst longer form audio — such as background music and voice overs — can also be triggered with audio events, they lack a level of control to manipulate volume, panning, and more over time. Stay tuned for additional audio features coming soon that provide preferred solutions for other audio use cases.</Info>
+
+---
+
+## Audio assets 
+
+### Importing audio 
+
+Drag and drop audio assets into your Rive file to add them to the assets panel. Alternatively, you can navigate to the assets panel via the tabs at the top of the hierarchy. Select the add action alongside the audio category to prompt your operating system's file browser.
+
+<Info>The integrated sound library provided by Soundly is available to everyone. However, uploading custom audio files is reserved for Pro users.</Info>
+
+### Soundly 
+
+We've partnered with Soundly to provide everyone with direct access to their free library of over 3,000 sounds sourced from audio professionals. Find the 'Browse Sounds' option in the toolbar burger menu to browse Soundly's free library.
+
+Select the play action or click on the waveform to preview sounds throughout the Sounds panel. Select the add action to move a chosen sound into your assets panel to use within your Rive file.
+
+### Creating clips 
+
+You may want to create a shorter clip from a longer source audio asset, particularly if a selection of sound effects are contained within a single file. To create a clip, start by selecting the source audio file within the assets panel. With a chosen asset selected, a waveform panel will surface at the base of the stage. Use the expander to reveal the waveform.
+
+To create a new clip, click and drag on the waveform to highlight a range. The start and end points can be adjusted via the grey borders. Once you're happy with the clip range, select the add action to save the clip. It'll show up beneath the original audio source in the assets panel.
+
+<info>Clips get generated into new audio files at export time.</info>
+
+Additional clips can be created by selecting the source audio asset and repeating the process. The waveform clipper includes a dropdown menu to switch between existing clips, which can be adjusted as needed.
+
+### Setting volume 
+
+Select an audio asset or corresponding clip to set it's volume in the inspector. Note that volume can't be keyed over time yet. Upcoming audio features including 'Audio Groups' and 'Audio Emitters' will introduce options to key volume, panning, and more.
+
+### Export options 
+
+Like other asset formats, you can configure export options for your audio assets to optimise for runtime. 
+
+**Export Type:** Select the audio file in the **Assets** panel and change the **Type** option to define where you'd like the audio file to export to.
+
+![Image](https://ucarecdn.com/a4ebb837-e3fa-4d3d-a730-39faf4914047/)
+
+- **Embedded:** Embed the audio file inside the `.riv`. Embedding the audio inside the Rive file is the simplest option, however will increase the size of the file.
+- **Referenced:** Export the audio file alongside the `.riv`. This option is ideal if you have multiple Rive files using the same audio asset, or if you'd like to change the audio asset at runtime. Using a referenced audio file will reduce the size of your Rive files.
+- **Hosted:** Upload the audio file to Rive's CDN for a runtime to download from on demand. Similar to referenced, choosing to host the asset on Rive's CDN will omit it from the `.riv` and reduce the exported file size. The Rive runtimes will fetch the audio when your animation plays in your app, game, or website.
+
+<Info>Assets hosted on Rive's CDN can be accessed by anyone with the link.</Info>
+
+**Format:** choose to export your audio file as a `.wav`, `.flac`, or `.mp3`.
+
+**Quality:** when exporting your audio as an mp3 file, you can additionally set the level of compression via the quality field.
+
+---
+
+## Creating an audio event 
+
+The simplest way to create an audio event is to drag your audio asset or clip directly from the assets panel onto the stage. In doing so, an event is created with the preassigned asset. Alternatively, create a regular event by activating the event tool (`SHFIT + E`) and clicking on the stage. Once created, set the type setting in the inspector to Audio. Additional options to assign an asset and browse the Soundly library will be presented for audio events.
+
+## Triggering an audio event 
+
+Like regular events, audio events can be triggered in a selection of different ways:
+
+- **Timeline:** Whilst in animate mode, with a timeline selected, the event inspector will surface a button to key the event. Keying an event causes it to be reported. In the context of an audio event, reporting it will start the playback of the assigned audio asset.
+- **Transitions:** Select a transition node within a State Machine and add an event via the inspector. You can choose whether the event should be reported at the start or at the end of the transition.
+- **Listeners:** Select a listener within a State Machine and add an 'report event' action via the inspector. The pointer option will determine when the audio will play. For example, a pointer down listener with an assigned audio event targeting a shape will start playback when the user clicks on the shape.
+
+### Monitoring audio 
+
+Audio levels can be monitored via the VU meter at the base of the inspector. Use the VU meter to check for clipping. This may occur if multiple audio events are playing at once, causing the overall output to clip. If you notice peak levels turning red, considering lowering the volume of your audio asset to provide more headroom.

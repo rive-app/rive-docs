@@ -1,0 +1,42 @@
+---
+title: 'Rive Events'
+description: 'Access Rive Events in Unreal.'
+---
+
+
+For more information on Rive Events see the respective [runtime](https://rive.app/community/doc/rive-events/docbOnaeffgr) and [editor](https://rive.app/community/doc/overview/docREl0GMIeb) documentation.
+
+## Overview 
+
+Rive Events provides a way to communicate information from the graphic to your runtime code, such as a button press. An event can contain any number of the following properties: **boolean**, **number**, or **string**.
+
+## Accessing Events 
+
+To access a Rive event, bind the **Event** **Name** to a **Custom Event** from the **Artboard**. In this example, the `CustomRiveEvent` will fire each time an event named `Rating` is reported.
+
+![Image](https://ucarecdn.com/ca25bf3f-bd2f-4e95-8fd1-e84de3d287db/)
+
+<Note>
+ An **Event** is accessed by its string name from an **Artboard** (retrieved from a **RiveFile)**.
+</Note>
+The function `Print to Texts` takes the **Rive Event** and loops over all of the event's properties.
+
+## Example
+
+Let's take a look at an example. The video below demonstrates a Rive file using the "Star Rating" example. This example reports an event each time one of the stars are pressed. The event is named `Rating` and contains a **number** property named `value` that matches the pressed star.
+
+<video
+  controls
+  className="w-full aspect-video"
+  src="https://ucarecdn.com/eab0a89d-afad-481f-be56-3cd876ea00f8/"
+></video>
+
+In Blueprint, we:
+
+1. **Bind Named Rive Event**: `Rating`
+2. Break the **RiveEvent**, and loop over the **number** properties
+3. Break each **RiveEventNumberProperty**
+4. Find the **number** property named `value`
+5. Print the value of the **number** property
+
+![Image](https://ucarecdn.com/46ccbabe-68d5-4486-bc04-83e5459c397c/)

@@ -1,0 +1,34 @@
+---
+title: 'Scrolling'
+description: ''
+---
+
+Scrolling comes to Rive in the form of two new constraints; one to add touch-based scrolling to overflowed content, and another to create a scroll bar. Both constraints work in conjunction with the existing layout components. We plan to provide generalised scrolling components for quicker setup in future.
+
+<Note>Heads up: Scroll wheel/trackpad gestures aren't supported yet. We prioritized releasing this feature now to enhance our layout engine. A revamped input system in 2025 will support gestures, key presses, game controllers, and more!</Note>
+
+---
+
+## Content Scrolling
+
+To add scrolling to a Layout Component, select the Layout Component that defines the content region to be scrolled, use the add action within the constraint inspector to add a scroll content constraint.
+
+![Image](https://ucarecdn.com/1ee7adc4-4698-4f6d-a0e7-8ec73f53c492/)
+
+Once added, use the options fly-out to adjust the scroll direction and physics.
+
+![Image](https://ucarecdn.com/7facc36a-7677-41f4-be65-74df00a0cbe9/)
+
+Switch to animate mode and start playback of a State Machine to preview the applied scroll constraint.
+
+---
+
+## Creating a Scroll Bar
+
+To create a scroll bar, select a Layout Component acting as the scroll bar thumb. From the constraints inspector, add a Scroll Bar Thumb constraint.
+
+![Image](https://ucarecdn.com/0c295a18-6d04-471d-ba86-c74e4988c4a9/)
+
+Use the target button within the options panel to connect a scrolling Layout Component.
+
+![Image](https://ucarecdn.com/2f05011a-cf88-41b5-9a96-ae4712d500d9/)

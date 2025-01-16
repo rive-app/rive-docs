@@ -1,0 +1,51 @@
+---
+title: 'Migrating from 2.x.x to 3.x.x'
+description: 'Migrating guide from &lt; 3.x'
+---
+
+Migrating to v3 of the iOS runtime should be fairly straightforward. See the sections below on concerns you may need to look out for to change to your app if you upgrade.
+
+## Enums Naming
+
+Starting in v3, the Layout option enums have changed to match enum naming conventions from the other runtimes for consistency. See below for what you should change `Fit` and `Alignment` options to. There are also a few other enums for parameters that have changed slightly regarding loop modes and direction.
+
+| Fit | Before | After |
+| --- | --- | --- |
+| Fill | `.fitFill` | `.fill` |
+| Contain | `.fitContain` | `.contain` |
+| Cover | `.fitCover` | `.cover` |
+| Fit Width | `.fitFitWidth` | `.fitWidth` |
+| Fit Height | `.fitFitHeight` | `.fitHeight` |
+| Scale Down | `.fitScaleDown` | `.scaleDown` |
+| None | `.fitNone` | `.noFit` |
+
+| Alignment | Before | After |
+| --- | --- | --- |
+| Top Left | `.alignmentTopLeft` | `.topLeft` |
+| Top Center | `.alignmentTopCenter` | `.topCenter` |
+| Top Right | `.alignmentTopRight` | `.topRight` |
+| Center Left | `.alignmentCenterLeft` | `.centerLeft` |
+| Center | `.alignmentCenter` | `.center` |
+| Center Right | `.alignmentCenterRight` | `.centerRight` |
+| Bottom Left | `.alignmentBottomLeft` | `.bottomLeft` |
+| Bottom Center | `.alignmentBottomCenter` | `.bottomCenter` |
+| Bottom Right | `.alignmentBottomRight` | `.bottomRight` |
+
+| Loop Mode | Before | After |
+| --- | --- | --- |
+| One Shot | `loopOneShot` | `oneShot` |
+| Loop | `loopLoop` | `loop` |
+| Ping Pong | `loopPingPong` | `pingPong` |
+| Auto | `loopAuto` | `autoLoop` |
+
+| Direction | Before | After |
+| --- | --- | --- |
+| Backwards | `directionBackwards` | `backwards` |
+| Forwards | `directionForwards` | `forwards` |
+| Auto | `directionAuto` | `autoDirection` |
+
+## Default playing behavior 
+
+One changed default behavior in v3 is what plays in the Rive canvas. Before v3, if no state machine or specific animation was specified when setting up the `RiveViewModel`, the first animation made in the Rive file would play.
+
+With v3, if no state machine or specific animation is specified, the first state machine (if one is created) in the Rive file will play. So if you prefer to keep your existing default behavior of the first animation, simply set the `animationName` property on `RiveViewModel` when creating it.

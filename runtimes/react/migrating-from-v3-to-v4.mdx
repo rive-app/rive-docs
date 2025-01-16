@@ -1,0 +1,20 @@
+---
+title: 'Migrating from v3 to v4'
+description: 'Migration notes going from v3 to v4 of the React runtime'
+---
+
+Starting in v4 of our React runtimes, Rive will support Rive Text at runtime, which includes the following packages:
+
+- React
+  - `@rive-app/react-canvas`
+  - `@rive-app/react-webgl`
+
+## Major Changes
+
+<Note>
+ No breaking API changes!
+</Note>
+
+While a new major version has been released for the runtimes without breaking API changes, v4 was released due to a **bundle** **size increase** in the package from the core Web (JS) runtime dependency. See that migration guide [here](https://app.outverse.com/rive/doc/web--migrating-from-v1-to-v2/doc9zpmqx6dg).
+
+In the future, we may introduce a "lite" package without these larger dependencies if you don't need the text feature, but for now, it will remain the default on the main web runtime packages.

@@ -1,0 +1,30 @@
+---
+title: 'Bone Tips'
+description: ''
+---
+
+How you rig your design is important. A smart rig allows you to create fewer keys, making your animation easy to work with and keeping your timeline tidy. 
+
+## Use bones to animate multiple vertices together
+
+With Rive you can bind vertices and bezier handles to bones. You can connect different bones to different vertices to control parts of a shape.
+
+![Image](https://ucarecdn.com/23a2b758-3cf9-4da3-8bed-07f9a00fedac/)
+
+In this page-turn example, we've connected the bezier handles at the top and bottom of the page to a single bone.
+
+![Image](https://ucarecdn.com/1e7effde-d92b-4921-9354-f5e23e2d7c28/)
+
+This allows you to easily deform the page with just a few bones acting as controls.
+
+## The way you weight vertices or handles is important
+
+Weighting a vertex and its handles differently allows you to create interesting deformations.
+
+![Image](https://ucarecdn.com/de64c428-ad75-4158-b04a-4f71cc758599/)
+
+In this example, the top and bottom bezier handles (on the back shape of the orange) are weighted differently from their vertices. This causes the bezier handles to move at a different speed as the connected bone is scaled, creating a 3D effect.
+
+![Image](https://ucarecdn.com/e27fa553-0313-47f6-9712-3f898a5170df/)
+
+Notice how the vertices and handles on the back shape of the orange move as the bone's scale changes.

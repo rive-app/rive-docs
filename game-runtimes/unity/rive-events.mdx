@@ -1,0 +1,115 @@
+---
+title: 'Rive Events'
+description: 'Access Rive Events in Unity.'
+---
+
+For more information on Rive Events see the respective runtime and editor documentation.
+
+<CardGroup col="2">
+  <Card title="Rive Events"  icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>}>
+    With Rive events, you have the ability to subscribe to meaningful signals that get reported from animations, state machines, and Rive listeners, all created at design time from the Rive editor.
+    <br />
+    <a href="./rive-events" target="_blank"></a>
+  </Card>
+  <Card title="Events"  icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>}>
+    Events are a way to send signals to your runtime code to execute a block of code at the right moment. They enhance the communication between designers and developers by passing along useful information.
+    <br />
+    <a href="../../editor/events/overview" target="_blank"></a>
+  </Card>
+</CardGroup>
+## Accessing Events 
+
+The following code demonstrates accessing all Rive events reported from an active state machine.
+<Tabs>
+    <Tab title="Components">
+
+        With a reference to the **Rive Widget,** you can subscribe to the `OnRiveEventReported`  event in your scripts:
+
+        ```csharp
+        ...
+
+        private void OnEnable()
+        {
+            m_riveWidget.OnRiveEventReported += HandleRiveEventReported;
+        }
+
+        private void OnDisable()
+        {
+            m_riveWidget.OnRiveEventReported -= HandleRiveEventReported;
+        }
+        ```
+    </Tab>
+
+    <Tab title="Low-level API">
+
+        ```csharp
+        ...
+
+        foreach (var reportedEvent in m_stateMachine?.ReportedEvents() ?? Enumerable.Empty<ReportedEvent>())
+        {
+            Debug.Log($"Event received, name: \"{reportedEvent.Name}\", secondsDelay: {reportedEvent.SecondsDelay}");
+        }
+
+        // Important! Call `advance` after accessing events.
+        m_stateMachine?.Advance(Time.deltaTime);
+        ```
+
+        The method `ReportedEvents()` returns a list of `ReportedEvents`
+
+    </Tab>
+</Tabs>
+
+Let's look at a code snippet for a star-rating Rive file. If a reported event's name is **Star,** the **rating** property of type `float` and a **message** of type `string` are retrieved from the event data (custom properties).
+
+```csharp
+private void HandleRiveEventReported(ReportedEvent reportedEvent)
+{
+    Debug.Log($"Event received, name: \"{reportedEvent.Name}\", secondsDelay: {reportedEvent.SecondsDelay}");
+    
+    
+    if (reportedEvent.Name == "Star")
+    {
+           // You can access properties directly and cast them
+           if (evt.Properties.TryGetValue("rating", out object rating))
+           {
+               float ratingValue = (float)rating;
+               Debug.Log($"Rating: {ratingValue}");
+           }
+
+           if (evt.Properties.TryGetValue("message", out object message))
+           {
+               string messageValue = message as string;
+               Debug.Log($"Message: {messageValue}");
+           }
+        
+           
+
+            /*
+            // For Typesafe access to properties, use the TryGet* methods
+            for (uint i = 0; i < evt.PropertyCount; i++)
+            {
+                ReportedEvent.Property property = evt.GetProperty(i);
+
+                if (property.Name == "rating" && property.TryGetNumber(out string ratingValue))
+                {
+                    Debug.Log($"Rating: {ratingValue}");
+                }
+                else if (property.Name == "message" && property.TryGetString(out string messageValue))
+                {
+                    Debug.Log($"Message: {messageValue}");
+
+                }
+
+            }
+             */
+
+    }
+}
+```
+
+- Properties that can be read are **bool**, **string**, and **float**.
+- Access a dictionary of all properties with: `reportedEvent.Properties`.
+
+### Additional Resources
+
+For a complete example see the **getting-started** project in the [examples repository](https://github.com/rive-app/rive-unity-examples) and open the **EventsScene** scene.

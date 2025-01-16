@@ -1,0 +1,127 @@
+---
+title: 'Getting Started'
+description: 'Adding Rive to your Unreal project.'
+---
+
+
+
+
+<Note>
+ The rive-unreal package is currently in **Technical Preview** for macOS and Windows. It currently supports **Unreal v5.3 and above.**
+</Note>
+
+## Build requirements 
+
+Specific platform dependencies and build tools are needed to compile the Rive plugin.
+
+<Note>
+ These steps are only a temporary requirement before the plugin is distributed through **Unreal's Marketplace**.
+</Note>
+
+### Unreal Version
+
+- Install *UE 5.3.2 or above* - [Epic Games Launcher.](https://store.epicgames.com/en-US/download)
+- Ensure that *5.3.2 or above* is set as the current version:
+
+  ![Image](https://ucarecdn.com/c75a2b18-7208-4b28-bfef-a998a9a0bf08/)
+- Ensure **Engine Source** is checked from the **Options** launcher shown above:
+
+  ![Image](https://ucarecdn.com/50bf5981-f34a-43cd-b149-09a84bb8b49b/)
+
+<Note>
+ Work is underway to support newer (and older) versions of Unreal. If you require a specific version of Unreal to be supported, please reach out to us on our [support channel](https://rive.atlassian.net/servicedesk/customer/portals).
+</Note>
+### MacOS
+
+The plugin should work on M-Series chips and Intel. *Please [file an issue on Github](https://github.com/rive-app/rive-unreal/issues) if you're encountering difficulties and share you environment details.*
+
+**Steps:**
+
+- [Install XCode ](https://developer.apple.com/xcode/)for MacOS.
+
+### Windows
+
+<Note>
+ At the moment Rive-Unreal only supports DX11 on Windows. Work for direct RHI integration, DX12, and Vulkan is in progress.
+</Note>
+
+**Steps:**
+
+1. [Install Visual Studio](https://visualstudio.microsoft.com/) for Windows.
+2. Follow [these instructions](https://dev.epicgames.com/documentation/en-us/unreal-engine/setting-up-visual-studio-development-environment-for-cplusplus-projects-in-unreal-engine?application_version=5.3) for setting up Visual Studio for Unreal development.
+3. Ensure your project [RHI is set to DirectX 11:](https://dev.epicgames.com/community/learning/tutorials/aqV9/render-hardware-interface-rhi)
+
+   ![Image](https://ucarecdn.com/67796611-16cd-43f6-ae84-1990a793dcb0/)
+
+**Debug steps**:
+
+Follow these additional steps if you're encountering issues building.
+
+- For the **Visual Studio Installer** within the **Game development with C++** section, be sure to also check:
+  - Unreal Engine installer
+  - Unreal Engine Test Adapter
+  - Unreal Engine uproject support (Preview)
+- Ensure Visual Studio and toolchains are updated to the latest versions.
+- Ensure you're using a supported version of MSVC. You may run into Windows Toolchain issues, for example:
+
+<Note>
+ *"UnrealBuildTool has banned the MSVC 14.39.33519-14.39.99999 toolchains due to compiler issues. Please install a different toolchain such as 14.38.33130 by opening the generated solution and installing recommended components or from the Visual Studio installer.*
+</Note>
+## Example projects
+
+To quickly experiment with rive-unreal, take a look at our [example project](https://github.com/rive-app/rive-unreal-examples). This sample project demonstrates various Rive features and ways to render Rive content. The blueprint code provides additional instructions and comments on using Rive-Unreal.
+
+**Follow these steps:**
+
+1. Ensure you've completed the steps outlined in **Build requirements** above.
+2. Download the latest project from the Github [releases tab](https://github.com/rive-app/rive-unreal/releases) (named **rive-unreal-examples.zip**).
+3. Extract the project and run **RiveExamples.uproject.**
+4. Wait a bit until a popup appears, asking to build missing modules. Select **yes.**
+
+   ![Image](https://ucarecdn.com/4cf3df6f-9ce6-47d5-8368-8c51f3c7d995/)
+5. It may take a while to open the project the first time and appear as if nothing is happening. It shouldn't take longer than a few minutes.
+6. Play the **DemoRoom** game (`/Content/Rive/DemoRoom.umap`).
+
+**Debug steps**:
+
+- See the debug steps in **Build requirements.**
+- If you encounter difficulties compiling, please [report the issue on our Github.](https://github.com/rive-app/rive-unreal/issues)
+
+## Add Rive to an existing project 
+
+<Note>
+ We plan to distribute the Rive Unreal plugin as a free asset on the Unreal Marketplace. Until then, the following steps are needed to add Rive to an existing project.
+</Note>
+
+**Steps:**
+
+1. Ensure you've completed the steps outlined in **Build requirements** above. Shut down the Unreal Editor if it is open.
+2. Download the latest version of the plugin from the Github [releases tab](https://github.com/rive-app/rive-unreal/releases) (named **rive-unreal.zip**)
+3. Extract the zip and copy the content to your Unreal project in the file system folder `Your-Project-Name/Plugins/Rive/`
+4. Open your project *.uproject* file.
+5. Wait a bit until a popup appears, asking to build missing modules. Select **yes.**
+6. It may take a while to open the project the first time and appear as if nothing is happening. It shouldn't take longer than a few minutes.
+7. Once the project is open, ensure that the Rive plugin is enabled: **Settings-&gt;Plugins** and search for **Rive.**
+
+   ![Image](https://ucarecdn.com/1e6d9667-d43b-4948-abd1-7735c25cbecb/)
+
+Now you can add Rive content!
+
+**Debug steps**:  
+
+- See the debug steps in **Build requirements.**
+- For Windows, ensure the RHI is set to **DirectX 11.**
+- If you encounter difficulties compiling, please [report the issue on our Github.](https://github.com/rive-app/rive-unreal/issues)
+
+## Adding a Rive file to Unreal
+
+See our documentation on [Exporting](../../editor/exporting/exporting-for-runtime) real-time content.
+
+Once you have a `.riv` file, you can simply drag it into the Unreal asset panel, which will automatically create a **RiveFile** object, a **Material**, and a **Widget Blueprint**. On our [Community Page](https://rive.app/community/files/), you can find Rive content that can be remixed and used in your project. 
+<video
+  controls
+  className="w-full aspect-video"
+  src="https://ucarecdn.com/b1e1f06a-9308-4913-a7ae-a346ca43bbb2/"
+></video>
+
+See the following sections on using the **RiveFile** object.

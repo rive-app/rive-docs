@@ -1,0 +1,66 @@
+---
+title: 'Clipping'
+description: ''
+---
+
+Clipping allows you to cut one shape out from another.
+
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/u8EPxqT3LnM?si=tAyq7soAq_E13Zrz" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+## How to use Clipping
+
+Select the shape you want to clip and hit the plus button next to the Clipping options in the Inspector. Now, select the path you want to use as a clipping path.
+
+![Image](https://ucarecdn.com/40d8f552-2e48-4513-82cb-b99953cd5afa/)
+
+You can add as many clipping paths to a shape as you'd like.
+
+## How to use a group as a clipping path
+
+![Image](https://ucarecdn.com/8ef11ad2-491b-46f3-b101-3723d6611a5a/)
+
+Instead of selecting multiple clipping paths one-by-one, you can select a group and all the paths inside the group will be used as clipping paths. In this example, we are adding the ball group as a clipping path to the light shape, which creates a lighting effect on the ball as it moves across the screen.
+
+![Image](https://ucarecdn.com/e9605e43-3ad5-4246-afd2-6635d79bd7cd/)
+
+Using a group as a clipping path
+
+## Clipping and path direction
+
+![Image](https://ucarecdn.com/c2654331-1f52-4428-8f4c-fd62372ffb1f/)
+
+Reverse path direction
+
+In the event that you have shapes that aren't clipping, or only partially clipping, be sure to check the winding of that shape. In most cases, reversing the direction of the path with fix this problem.
+
+## Inverse Clipping
+
+Clipping is typically used to hide a part of your graphics. In the example below, we're using an ellipse to show only part of our jewel graphic.
+
+![Image](https://ucarecdn.com/cb6d8e76-41f9-4ef3-81db-80db5ef37412/)
+
+You occasionally may want to invert the clipping, so that only the graphics outside of the clipping paths are drawn.
+
+![Image](https://ucarecdn.com/7d83b2ef-77de-4c9d-9220-12977d137fef/)
+
+This is achieved using a clipping path that looks like the gray shape in the image below.
+
+![Image](https://ucarecdn.com/b71b9c54-7d99-43d9-9614-29ada59bf6cc/)
+
+To create this shape, draw a rectangle the size of the artboard. Add both the rectangle path and ellipse path to the same shape layer in your Hierarchy.
+
+![Image](https://ucarecdn.com/2c9721d3-a003-47c4-b0b8-e8da713831da/)
+
+Note that your shape might not show a hole as ours does. That's because you need to set the Fill Rule of your shape to Even-Odd. This setting doesn't affect your Clipping Path, but it helps explain how the Even-Odd operation works, which will be useful later!
+
+![Image](https://ucarecdn.com/4e35e170-b0e0-470b-8d2c-53bf74388fd7/)
+
+Select the group containing the jewel and use the "plus" icon in the Clipping section of the Inspector to add your clipping shape.
+
+![Image](https://ucarecdn.com/a5b01f21-4757-435b-8a6b-f822cc519005/)
+
+Open the Clip Options and set the Operation to Even-Odd.
+
+![Image](https://ucarecdn.com/c38910e3-9b33-4fef-a69f-5a2154aa6eec/)
+
+Be sure to hide the visibility of your clipping shape so it's not covering your graphic.

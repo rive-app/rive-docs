@@ -1,0 +1,43 @@
+---
+title: 'Text'
+description: ''
+---
+
+For more information on Rive Text see the respective runtime and editor documentation.
+
+<CardGroup col="2">
+  <Card title="Text"  icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>}>
+    Runtime docs on Rive Text.
+    <br />
+    <a href="../../runtimes/text" target="_blank"></a>
+  </Card>
+  <Card title="Text Overview"  icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>}>
+    Editor docs on Rive Text.
+    <br />
+    <a href="../../editor/text/text-overview" target="_blank"></a>
+  </Card>
+</CardGroup>
+
+## Update Rive Text in Unity
+
+<Note>
+ A unique run name must be set in the editor to be easily discoverable at runtime. See the text runtime docs for more information.
+</Note>
+
+A text run can be updated from an artboard instance by providing the **name** and **new value**:
+
+```json
+Artboard artboard;
+
+....
+
+artboard.SetTextRun("textRunName", "newValue");
+```
+
+<Note>
+ **Note:** This API only updates text runs on the given artboard, and will not update text runs on nested artboards.
+</Note>
+
+### Nested Text Runs
+
+For more information about updating nested text runs in Unity, [take a look at this example](https://rive.app/community/doc/text/docn2E6y1lXo#readupdate-nested-text-runs-at-runtime).

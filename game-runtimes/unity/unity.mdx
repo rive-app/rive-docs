@@ -1,0 +1,56 @@
+---
+title: 'Unity'
+description: 'Unity runtime for Rive.'
+---
+
+
+<Note>
+ The Rive Unity runtime is currently in **Technical Preview** for Mac and Windows installs of Unity. We're hoping to gather feedback about the API and feature-set as we expand platform support. Please reach out to us on our [Forum](https://rive.app/community/forums/home) or through our [Support Channel](https://rive.atlassian.net/servicedesk/customer/portals).
+</Note>
+
+<Note>
+ See '**Feature Support**' below for an updated list of Rive features in Unity.
+</Note>
+## Rendering Support 
+
+The rive-unity runtime uses the [Rive Renderer](https://rive.app/renderer) and is up to date with the latest C++ runtime version of Rive.
+
+- [WebGL](https://github.com/rive-app/rive-unity/blob/main/WEBGL.md)
+- Metal on Mac
+- Metal on iOS
+- D3D11 on Windows
+- OpenGL on Windows
+- OpenGL on Android
+
+Planned support for:
+
+- D3D12
+- Vulkan
+
+### Bug Reports
+
+If you encounter any errors or unexpected crashes while integrating the Rive Unity runtime, we recommend logging a detailed issue directly to the [rive-unity](https://github.com/rive-app/rive-unity/issues) repo with an **Editor.log** attached to the issue to help provide more details and context about what might have occurred.
+
+You can find more details on where to find your Editor.log file in the [Unity docs](https://docs.unity3d.com/Manual/LogFiles.html).
+
+<Note>
+ Note that it is best to grab the Editor.log file immediately after a crash has occurred
+</Note>
+## Feature Support 
+
+The rive-unity runtime uses the latest Rive C++ runtime. For more details on runtime support, see the [Feature Support](../../runtimes/features-support) page. Refer to the following table for what is currently supported in the Unity runtime.
+
+| **Feature** | **Supported** |
+| --- | --- |
+| [Animation Playback](https://app.outverse.com/rive/doc/animation-playback/docDKKxsr7ko)[​](https://app.outverse.com/rive/doc/animation-playback/docDKKxsr7ko) | ✅ |
+| [Fit & Alignment​](https://app.outverse.com/rive/doc/layout/docBl81zd1GB) | ✅ |
+| [Listeners​](https://app.outverse.com/rive/doc/listeners/docRlEVvrCZW) | ✅ |
+| [Setting State Machine Inputs​](https://app.outverse.com/rive/doc/state-machines/docHnjaSeIIr) | ✅ |
+| [Listening to Events](https://app.outverse.com/rive/doc/rive-events/docvlavjXfq8) | ✅ |
+| [​](https://app.outverse.com/rive/doc/text/docn2E6y1lXo)[Updating text at runtime](https://app.outverse.com/rive/doc/text/docn2E6y1lXo)[​](https://app.outverse.com/rive/doc/text/docn2E6y1lXo) | ✅ |
+| [​](https://app.outverse.com/rive/doc/loading-assets/doc1etuJJdEC)[Out-of-band assets](https://app.outverse.com/rive/doc/loading-assets/doc1etuJJdEC)[​](https://app.outverse.com/rive/doc/loading-assets/doc1etuJJdEC) | ✅ |
+| [​](https://app.outverse.com/rive/doc/procedural-rendering/docF2fNqCP1W)[Procedural rendering](https://app.outverse.com/rive/doc/procedural-rendering/docF2fNqCP1W)[​](https://app.outverse.com/rive/doc/procedural-rendering/docF2fNqCP1W) | ✅ |
+| PNG images | ✅ |
+| JPEG images | ✅ |
+| WEBP images | ✅ |
+

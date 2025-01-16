@@ -1,0 +1,101 @@
+---
+title: 'Runtime Asset Swapping'
+description: ''
+---
+
+You can dynamically swap assets in your Rive animations at runtime using the `CustomAssetLoaderCallback`. This lets you change fonts, images, or audio files while your Rive file is playing, making it possible to create dynamic visuals.
+
+## Setting Up Asset Loading
+
+To swap assets at runtime, provide a callback when loading your Rive file:
+
+```csharp
+File.Load(Asset asset, CustomAssetLoaderCallback customAssetLoaderCallback);
+File.Load(TextAsset asset, CustomAssetLoaderCallback customAssetLoaderCallback);
+File.Load(byte[] riveFileByteContents, CustomAssetLoaderCallback customAssetLoaderCallback);
+```
+
+Your callback will be invoked whenever the runtime needs to load an asset. The callback should return `true` if you've handled the asset loading, or `false` to let the runtime handle it using the default loading behavior.
+
+Here's an example showing how you might swap a font at runtime:
+
+```csharp
+private FontOutOfBandAsset m_fontOobAsset;
+private File m_file;
+FontEmbeddedAssetReference fontEmbeddedAssetReference
+
+private bool OobAssetLoaderDelegate(EmbeddedAssetReference assetReference)
+{
+    // Keep a reference to the fontEmbeddedAssetReference so we can update the font again later
+    fontEmbeddedAssetReference = assetReference as FontEmbeddedAssetReference;
+    if (fontEmbeddedAssetReference != null)
+    {
+        fontEmbeddedAssetReference.SetFont(m_fontOobAsset);
+        return true;
+    }
+    return false;
+}
+
+private void Start()
+{    
+    m_fontOobAsset.Load();  
+    m_file = Rive.File.Load(asset, OobAssetLoaderDelegate);
+
+    // You could call fontEmbeddedAssetReference.SetFont() here again to change the font
+}
+
+private void OnDestroy()
+{  
+    m_fontOobAsset.Unload();  
+    m_file.Dispose();
+}
+```
+
+## Asset Types
+
+You can swap these types of assets at runtime:
+
+- `FontOutOfBandAsset`: For font files
+- `ImageOutOfBandAsset`: For image files
+- `AudioOutOfBandAsset`: For audio files
+
+## Asset Reference Types
+
+When handling assets in your callback, you'll need to check the type of the `EmbeddedAssetReference` before setting the asset. Each asset type has its own reference class with specific setter methods:
+
+```csharp
+private bool AssetLoaderDelegate(EmbeddedAssetReference assetReference)
+{
+    // Handle font assets
+    if (assetReference is FontEmbeddedAssetReference fontReference)
+    {
+        fontReference.SetFont(myFontAsset);
+        return true;
+    }
+    
+    // Handle image assets
+    if (assetReference is ImageEmbeddedAssetReference imageReference)
+    {
+        imageReference.SetImage(myImageAsset);
+        return true;
+    }
+    
+    // Handle audio assets
+    if (assetReference is AudioEmbeddedAssetReference audioReference)
+    {
+        audioReference.SetAudio(myAudioAsset);
+        return true;
+    }
+    
+    return false;
+}
+```
+
+## Memory Management
+
+When working with runtime asset swapping, we recommend following these best practices:
+
+1. Always call `Load()` on your Out-Of-Band asset before using it in the callback
+2. Dispose of resources properly:
+   - Call `Unload()` on your assets when they're no longer needed
+   - Call `Dispose()` on the Rive file when you're done with it

@@ -1,0 +1,130 @@
+---
+title: 'Transitions'
+description: ''
+---
+
+Transitions supply the logical map for the state machine to follow. There are a number of considerations and configurable properties for transitions that we will cover below. Note that we’ll briefly discuss Inputs as well, so be sure to read more about those as well here. 
+
+## Creating a new Transition 
+
+To create a transition, place your mouse near the state you want to leave until you notice the ellipse appear. Click and drag the ellipse to the state you want to transition to. Once you’ve connected two states, you’ll notice an ellipse with an arrow icon indicating the transition's direction.
+
+![Image](https://ucarecdn.com/4838deb6-8760-468a-b798-f33e1f0e3b2e/)
+
+Creating a transition
+
+Note that you can create multiple transitions from one state to another. Each of these transitions can require a different condition to be met, which will fire the transition, thus giving you the ability to make “or” conditions.
+
+![Image](https://ucarecdn.com/373c16da-c3b4-4da8-bd01-bb153fea6c2a/)
+
+Creating an "or" transition
+
+## Configuring a Transition 
+
+Once you’ve added a transition, selecting the direction indicator will allow you to configure the transition. There are three different sections to the transition panel, the transition properties, conditions, and interpolation.
+
+### Transition properties
+
+The transition properties allow you to customize how a transition occurs.
+
+![Image](https://ucarecdn.com/9b35e6bf-8e06-4df9-b211-10d3e1150435/)
+
+Transition properties
+
+### Duration 
+
+The duration property describes how long it takes for a transition to occur.
+
+The duration is set to zero by default, meaning the transition happens immediately. So, when we transition between these two animations, it appears as though the object snaps from one side of the artboard to the other.
+
+![Image](https://ucarecdn.com/1e341e26-ece2-466e-b19f-5fa03b34c3b9/)
+
+Duration of 0ms
+
+If we increase the duration, you’ll notice that the higher the number, the longer the transition takes.
+
+![Image](https://ucarecdn.com/9a1c524a-2179-4385-8765-5ab0eb75ffec/)
+
+Duration of 500ms
+
+In a way, transitions act as their own animation. The starting properties (coming from the state your state machine is leaving from) will be interpolated to the ending properties (the starting properties of the state your state machine is going to). If the starting properties are the first key on a timeline, and the ending properties are the second key, the duration is the timing between those two keys. Transitions are much more complex than this, but thinking about transitions this way will help you diagnose issues with your state machine.
+
+![Image](https://ucarecdn.com/c1801cb1-13bf-44be-9da0-dc2eb7f5e404/)
+
+Interpolation on a Transition
+
+Much like keys on our timeline, we can change the interpolation, which we’ll discuss more below.
+
+### Exit Time 
+
+Exit Time tells the state machine how much of the state must play before transitioning.
+
+By default, Exit Time is unchecked. If you want to enable the Exit Time, use the check box. Once the setting is enabled, you can use either a time value or percent.
+
+![Image](https://ucarecdn.com/4424da18-50d8-4aea-9371-7b57b176a12e/)
+
+Using Exit Time
+
+For example, if you want the state machine to play the entire animation before transitioning, you can either enter the duration of the animation, or use 100%.
+
+### Pause when exiting
+
+The Pause When Exiting option pauses the animation you are leaving from during the transition.
+
+![Image](https://ucarecdn.com/6584d924-13f7-4012-b590-d16549791638/)
+
+Pause when exiting
+
+As we discussed in the duration section, when a transition happens, properties from the first state are mixed with the first key of the next state. In reality, the animation your state machine leaves from continues to play as the transition happens.
+
+### Conditions 
+
+Conditions are the rules for our transitions. Without conditions, our transitions would continuously fire and our state machine would likely look either glitchy, or only play a single animation. Conditions require us to define some inputs, which you can read more about [here](/editor/state-machine/inputs).
+
+![Image](https://ucarecdn.com/a5336985-e1d4-4892-a04a-deee93e6a8b1/)
+
+Conditions
+
+#### Adding a new condition 
+
+To add a new condition to a transition, hit the plus button next to the Conditions section.
+
+![Image](https://ucarecdn.com/7a2b887e-c69d-4dd4-943b-de85d76b3a42/)
+
+Adding a new Condition
+
+Each new condition provides a dropdown showing all of the inputs you’ve added to the State Machine. The configuration options will be different depending on the input type you select.
+
+Note that you can add multiple conditions to a single transition to create an “and” transition.
+
+**Configuring a Boolean**
+
+When you configure a boolean, you can decide if the transition happens when said boolean is either true or false.
+
+![Image](https://ucarecdn.com/8443963d-69c7-44a7-9ced-b01d28210b5e/)
+
+Configure a boolean
+
+**Configuring a Number**
+
+When you configure a number input, you can tell the transition to happen when a numerical condition happens such as equalling a specific number, being greater than or less than a specific number.
+
+![Image](https://ucarecdn.com/3b6da0a7-b56f-4cb1-89f0-831af97fdbce/)
+
+Configure number input
+
+**Configuring a Trigger**
+
+When you add a trigger input to a transition, you are telling the transition to fire when that trigger occurs.
+
+![Image](https://ucarecdn.com/c8c6a924-f62a-4e3a-80cb-83c758a37343/)
+
+Configuring triggers
+
+### Interpolation 
+
+You can add interpolation to your transition at the bottom of the Transitions Panel. By default, the interpolation is set to linear, but you can use the cubic and hold interpolations.
+
+Note that the interpolation between states is most effective when your transition duration is longer.
+
+If you are unfamiliar with the basics of Interpolation, read more [Interpolation (Easing)](../animate-mode/interpolation-easing).

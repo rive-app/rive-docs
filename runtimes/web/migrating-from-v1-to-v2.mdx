@@ -1,0 +1,22 @@
+---
+title: 'Migrating from v1 to v2'
+description: 'Migration notes going from v1 to v2 of the JS runtime.'
+---
+
+Starting in v2 of our Web (JS) runtimes, Rive will support Rive Text at runtime, which includes the following packages:
+
+- Web (JS) / WASM
+  - `@rive-app/canvas`
+  - `@rive-app/canvas-advanced`
+  - `@rive-app/webgl`
+  - `@rive-app/webgl-advanced`
+  - ...and other `@rive-app/*-single` variants
+
+## Major Changes
+<Note>
+ No breaking API changes!
+</Note>
+
+While a new major version has been released for the runtimes without breaking API changes, v2 was released due to a **bundle** **size increase** in the package. The reason for this is new internal dependencies added to the Web Assembly (WASM) build that powers Rive, specifically for supporting the powerful Rive Text feature. You may find that the request for the WASM file when loading Rive is *\~261kb* brotli-compressed as of `v2.0.0`.
+
+If you're looking for a lite version without the Rive Text feature, you can look to `@rive-app/canvas-lite` and `@rive-app/canvas-advanced-lite`

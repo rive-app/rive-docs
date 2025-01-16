@@ -1,0 +1,105 @@
+---
+title: 'Nested Artboards'
+description: ''
+---
+
+Nested Artboards can speed up your workflow by allowing you to reuse animations and State Machines. Any changes made to the source Artboard will be reflected across any of the Nested Artboards. 
+
+## Creating a Nested Artboard 
+
+To add a new Nested Artboard, use the Nested Artboard tool you can find in the Artboards menu or the shortcut `N`. Once the tool is activated, click anywhere on the desired artboard.
+
+![Image](https://ucarecdn.com/160cd677-f1d3-493e-9e30-acc79c147b57/)
+
+You’ll notice at first that your Nested Artboard appears as a group. You’ll need to assign an artboard to it using the inspector before it will appear.
+
+## Configuring a Nested Artboard 
+
+Once you’ve added a Nested Artboard, there are a number of ways to playback various animations and State Machines.
+
+### State Machines 
+
+After assigning an artboard to a Nested Artboard, you’ll notice that the default state machine for that artboard is displayed in the Inspector.
+
+![Image](https://ucarecdn.com/94ebcfa4-8a62-40a4-a0a4-6c165f9f7358/)
+
+If you’ve exposed any Inputs, you can access them using the options menu (when an animation is selected) or in the Inputs Panel (when a state machine is selected).
+
+![Image](https://ucarecdn.com/c2d02ee1-da89-4df9-bc6e-ff6e65a60a25/)
+
+### Adding an Animation 
+
+You can playback any animation associated with a Nested Artboard. You’ll need to add the desired animation to the Nested Artboard using the plus button in the Inspector.
+
+![Image](https://ucarecdn.com/c09c02ea-f94a-4f00-ba0f-ece2f40129f5/)
+
+These animations can be used by themselves, mixed with its state machine, or other animations.
+
+Note that before adding the animation, you must select whether the animation is a Simple or Remap animation. We’ll discuss the differences below.
+
+#### Simple 
+
+Simple animations are an easy way to enable an animation playback on a Nested Artboard.
+
+![Image](https://ucarecdn.com/57c30af7-d4ba-416d-8779-ac4daa46d6fb/)
+
+A Simple animation lets you key when an animation begins playing on a timeline. You also have the option to change the animation's playback speed.
+
+#### Remap 
+
+Remap animations allow you to key time values of an animation on the timeline. This lets you stretch, shrink, or even play an animation in reverse.
+
+![Image](https://ucarecdn.com/20fc0aed-92c9-4fad-b888-dee58f8c0308/)
+
+Note that the time value is in percent, with 0% representing the start of the timeline and 100% representing the end.
+
+### Mix Value 
+
+As you add additional animations to a nested artboard, animations begin to mix together. This mixing is important, especially when multiple animations share keyed properties. Without adjusting this value, your nested artboard may not playback your animations in the way you want.
+
+By default, any animation added to a nested artboard starts with a mix value of 100%. You can adjust this value in design mode or in a specific animation by setting keys. **Note that an animation that has a non-zero mix value will always be mixing with other animations, regardless if it has a play key set or not.**
+
+To ensure the correct animation is playing, ensure that you key the mix value for the desired animation to 100%, and all other animations have a mix of 0%.
+
+## Exposing Inputs and Events 
+
+If you intend to use a Nested Artboard as a component, you should expose inputs that the main artboard can see. This allows you to control Nested Artboards with Other Nested Artboards using a main State Machine.
+
+<video width="700" height="400" controls>
+  <source src="https://ucarecdn.com/a3133104-a0d3-4a82-9d71-ae1770ce15f3/" type="video/mp4"></source>
+  Your browser does not support the video tag.
+</video>
+
+### How to Expose an Input 
+
+Exposing an Input allows the parent artboard to access and manipulate it. To do this, select the desired input, then check the expose to main artboard option in the inspector.
+
+![Image](https://ucarecdn.com/251b0247-ae05-4f58-8858-8e7a21abd816/)
+
+After creating a nested artboard, you’ll see any exposed inputs in the Inspector via the options panel and in the Inputs panel.
+
+### Using Input on a Parent Artboard 
+
+Exposed inputs can be found in the Inputs panel or in the inspector. You can use them through listeners, an event, or by keying them on a timeline.
+
+![Image](https://ucarecdn.com/ee1dd959-9fba-45c9-a74b-1173cd71e894/)
+
+#### Via a Listener 
+
+When you create a listener, you’ll find all exposed Inputs as a set input property of a Listener. This option lets you, for example, change the boolean input of multiple artboards simultaneously.
+
+![Image](https://ucarecdn.com/2349fdd6-5a5a-434e-a1dc-3974e6f1e01c/)
+
+**Using Events**
+
+Additionally, we can use listeners to listen for Events firing in our Nested Artboards and change inputs based on those.
+
+![Image](https://ucarecdn.com/2b1ddae6-31c9-41be-969c-86a59b2206cd/)
+
+To see an Event associated with an artboard, you’ll need to set the Artboard as a target of the listener. The Event will now be listed as a listener action.
+
+#### Keying on the State Machine 
+
+You can key exposed inputs on the parent artboard via the options panel in the inspector.
+
+This is a handy trick when you, for example, want to set the text value of a nested artboard.

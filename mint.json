@@ -1,91 +1,466 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Starter Kit",
+  "name": "Rive",
   "logo": {
-    "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
+    "dark": "/logo/rive_mark_square_transparent.pngs",
+    "light": "/logo/rive_mark_square_transparent.png",
+    "href": "https://rive.app/"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/favicon_black.png",
   "colors": {
-    "primary": "#0D9373",
-    "light": "#07C983",
-    "dark": "#0D9373",
+    "primary": "#ffa41c",
+    "light": "#ffa41c",
+    "dark": "#ffa41c",
     "anchors": {
-      "from": "#0D9373",
-      "to": "#07C983"
+      "from": "#ffa41c",
+      "to": "#ffa41c"
     }
   },
   "topbarLinks": [
     {
       "name": "Support",
-      "url": "mailto:hi@mintlify.com"
+      "url": "https://rive.app/community/forums/support/fsnLLkXUaA62"
     }
   ],
+  "modeToggle": {
+    "default": "dark"
+  },
+  "background": {
+    "style": "grid"
+  },
+  "font":{
+    "headings": {
+      "family": "Tomorrow Placeholder",
+      "url": "https://framerusercontent.com/assets/nCpxWS6DaPlPe0lHzStXAPCo3lw.woff2",
+      "format": "woff2",
+      "weight": 500
+    }
+  },
   "topbarCtaButton": {
-    "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
+    "name": "Get Started",
+    "url": "https://editor.rive.app/",
+    "arrow": false,
+    "style": "roundedRectangle"
   },
   "tabs": [
     {
-      "name": "API Reference",
-      "url": "api-reference"
+      "name": "Documentation",
+      "url": "/getting-started/introduction"
+    },
+    {
+      "name": "Forums",
+      "url": "/getting-started/introduction"
+    },
+    {
+      "name": "Files",
+      "url": "/getting-started/introduction"
     }
   ],
   "anchors": [
     {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
+      "name": "Case Studies",
+      "icon": "books",
+      "url": "https://rive.app/blog/case-studies"
     },
     {
       "name": "Community",
-      "icon": "slack",
-      "url": "https://mintlify.com/community"
+      "icon": "discord",
+      "url": "https://discord.com/invite/FGjmaTr"
     },
     {
       "name": "Blog",
       "icon": "newspaper",
-      "url": "https://mintlify.com/blog"
+      "url": "https://rive.app/blog"
     }
   ],
   "navigation": [
     {
-      "group": "Get Started",
+      "group": "Getting Started",
       "pages": [
-        "introduction",
-        "quickstart",
-        "development"
+        "getting-started/introduction",
+        "getting-started/best-practices",
+        "getting-started/quick-links"
       ]
     },
     {
-      "group": "Essentials",
+      "group": "Editor",
       "pages": [
-        "essentials/markdown",
-        "essentials/code",
-        "essentials/images",
-        "essentials/settings",
-        "essentials/navigation",
-        "essentials/reusable-snippets"
+        {
+          "group": "Interface Overview",
+          "pages": [
+            "editor/interface-overview/overview",
+            "editor/interface-overview/toolbar",
+            "editor/interface-overview/hierarchy",
+            "editor/interface-overview/inspector",
+            "editor/interface-overview/stage"
+
+          ]
+        },
+        {
+          "group": "Fundamentals",
+          "pages": [
+            "editor/fundamentals/overview",
+            "editor/fundamentals/design-vs-animate-mode",
+            "editor/fundamentals/artboards",
+            "editor/fundamentals/nested-artboards",
+            "editor/fundamentals/pen-tool-overview",
+            "editor/fundamentals/pen-tool-tips",
+            "editor/fundamentals/shapes-and-paths-overview",
+            "editor/fundamentals/shape-and-path-tips",
+            "editor/fundamentals/procedural-shapes",
+            "editor/fundamentals/groups",
+            "editor/fundamentals/selecting-and-navigating-groups",
+            "editor/fundamentals/transform-spaces",
+            "editor/fundamentals/group-tips",
+            "editor/fundamentals/fill-and-stroke",
+            "editor/fundamentals/fill-and-stroke-tips",
+            "editor/fundamentals/edit-vertices",
+            "editor/fundamentals/edit-vertices-tips",
+            "editor/fundamentals/freeze-and-origin",
+            "editor/fundamentals/importing-assets",
+            "editor/fundamentals/revision-history"
+          ]
+        },
+        {
+          "group": "Manipulating Shapes",
+          "pages": [
+            "editor/manipulating-shapes/manipulating-shapes",
+            "editor/manipulating-shapes/bones",
+            "editor/manipulating-shapes/bone-tips",
+            "editor/manipulating-shapes/meshes",
+            "editor/manipulating-shapes/clipping",
+            "editor/manipulating-shapes/solos",
+            "editor/manipulating-shapes/trim-path",
+            "editor/manipulating-shapes/joysticks"
+          ]
+        },
+        {
+          "group": "Constraints",
+          "pages": [
+          "editor/constraints/constraints-overview",
+            "editor/constraints/ik-constraint",
+            "editor/constraints/distance-constraint",
+            "editor/constraints/scale-constraint",
+            "editor/constraints/rotation-constraint",
+            "editor/constraints/transform-constraint",
+            "editor/constraints/translation-constraint",
+            "editor/constraints/follow-path-constraint"
+          ]
+        },
+        {
+          "group": "Animate Mode",
+          "pages": [
+            "editor/animate-mode/animate-mode-overview",
+            "editor/animate-mode/timeline",
+            "editor/animate-mode/keys",
+            "editor/animate-mode/animation-mixing",
+            "editor/animate-mode/interpolation-easing",
+            "editor/animate-mode/animating-draw-order"
+          ]
+        },        
+        {
+          "group": "State Machines",
+          "pages": [
+            "editor/state-machine/state-machine",
+            "editor/state-machine/states",
+            "editor/state-machine/inputs",
+            "editor/state-machine/transitions",
+            "editor/state-machine/listeners",
+            "editor/state-machine/layers"
+          ]
+        },
+        {
+          "group": "Events",
+          "pages": [
+            "editor/events/overview",
+            "editor/events/audio-events"
+          ]
+        },                        
+        "editor/keyboard-shortcuts",
+        {
+          "group": "Exporting",
+          "pages": [
+            "editor/exporting/exporting-for-runtime",
+            "editor/exporting/exporting-for-video-and-static-design",
+            "editor/exporting/exporting-for-backup"
+          ]
+        },           
+        {
+          "group": "Share Links",
+          "pages": [
+            "editor/share-links/overview",
+            "editor/share-links/framer-and-rive"
+          ]
+        }, 
+        {
+          "group": "Text",
+          "pages": [
+            "editor/text/text-overview",
+            "editor/text/text-runs",
+            "editor/text/text-styles",
+            "editor/text/text-modifiers",
+            "editor/text/fonts"
+          ]
+        },
+        {
+          "group": "Layouts",
+          "pages": [
+            "editor/layouts/layouts-overview",
+            "editor/layouts/layout-parameters",
+            "editor/layouts/layout-animation",
+            "editor/layouts/layouts-&-constraints",
+            "editor/layouts/scrolling",
+            "editor/layouts/n-slicing"
+            
+          ]
+        },
+        "editor/tagging"
       ]
     },
     {
-      "group": "API Documentation",
+      "group": "Runtimes",
       "pages": [
-        "api-reference/introduction"
+            "runtimes/getting-started",
+            {
+              "group": "Web (JS)",
+              "pages": [
+                "runtimes/web/web-js",
+                "runtimes/web/rive-parameters",
+                "runtimes/web/canvas-vs-webgl",
+                "runtimes/web/migrating-from-rive-js",
+                "runtimes/web/faq",
+                "runtimes/web/preloading-wasm",
+                "runtimes/web/low-level-api-usage",
+                "runtimes/web/migrating-from-v1-to-v2"
+
+              ]
+            },            
+            {
+              "group": "React",
+              "pages": [
+                "runtimes/react/react",
+                "runtimes/react/parameters-and-return-values",
+                "runtimes/react/migrating-from-v0-to-v1",
+                "runtimes/react/migrating-from-v1-to-v3",
+                "runtimes/react/migrating-from-v3-to-v4"
+              ]
+            },
+            {
+              "group": "React Native",
+              "pages": [
+                "runtimes/react-native/react-native",
+                "runtimes/react-native/props",
+                "runtimes/react-native/rive-ref-methods",
+                "runtimes/react-native/loading-rive-to-expo",
+                "runtimes/react-native/adding-rive-to-expo",
+                "runtimes/react-native/migrating-from-v3-to-v4",
+                "runtimes/react-native/migrating-from-v4-to-v6"
+              ]
+            },
+            {
+              "group": "Flutter",
+              "pages": [
+                "runtimes/flutter/flutter",
+                "runtimes/flutter/caching-a-rave-file",
+                "runtimes/flutter/alternative-widget-setup",
+                "runtimes/flutter/custom-rive-renderobject",
+                "runtimes/flutter/custom-painter"
+              ]
+            },
+            {
+              "group": "iOS/macOS",
+              "pages": [
+                "runtimes/ios-macos/ios-macos",
+                "runtimes/ios-macos/migrating-from-1.x.x-to-2.x.x",
+                "runtimes/ios-macos/migrating-from-2.x.x-to-3.x.x",
+                "runtimes/ios-macos/migrating-from-3.x.x-to-4.x.x",
+                "runtimes/ios-macos/migrating-from-4.x.x-to-5.x.x",
+                "runtimes/ios-macos/migrating-from-5.x.x-to-6.x.x",
+                "runtimes/ios-macos/faq"
+              ]
+            },
+            {
+              "group": "Android",
+              "pages": [
+                "runtimes/android/android"
+              ]
+            },
+            {
+              "group": "Community Runtimes",
+              "pages": [
+                "runtimes/community-runtimes/angular",
+                "runtimes/community-runtimes/vue",
+                "runtimes/community-runtimes/c-sharp"
+              ]
+            },
+        "runtimes/animation-playback",
+        "runtimes/layout",
+        "runtimes/state-machines",
+        "runtimes/text",
+        "runtimes/playing-audio",
+        "runtimes/rive-events",
+        "runtimes/loading-assets",
+        "runtimes/caching-a-rive-file",
+        {
+          "group": "Choose a Renderer",
+          "pages": [
+            "runtimes/choose-a-renderer/overview",
+            "runtimes/choose-a-renderer/faq"
+          ]
+        },
+        {
+          "group": "Advanced Topics",
+          "pages": [
+            "runtimes/advanced-topic/format"
+          ]
+        },
+        "runtimes/features-support",
+        "runtimes/logging"
       ]
     },
     {
-      "group": "Endpoint Examples",
+      "group": "Game Runtimes",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
+        {
+          "group": "Unreal",
+          "pages": [
+            "game-runtimes/unreal/unreal",
+            "game-runtimes/unreal/getting-started",
+            "game-runtimes/unreal/fundamentals",
+            "game-runtimes/unreal/state-machines",
+            "game-runtimes/unreal/rive-events",
+            "game-runtimes/unreal/text",
+            "game-runtimes/unreal/audio",
+            "game-runtimes/unreal/loading-assets",
+            "game-runtimes/unreal/runtime-asset-swapping",
+            "game-runtimes/unreal/common-use-cases"
+          ]
+        },
+        {
+          "group": "Unity",
+          "pages": [
+            "game-runtimes/unity/unity",
+            "game-runtimes/unity/getting-started",
+            "game-runtimes/unity/fundamentals",
+            "game-runtimes/unity/components",
+            "game-runtimes/unity/layouts",
+            "game-runtimes/unity/listeners",
+            "game-runtimes/unity/state-machines",
+            "game-runtimes/unity/rive-events",
+            "game-runtimes/unity/text",
+            "game-runtimes/unity/loading-assets",
+            "game-runtimes/unity/procedural-rendering",
+            "game-runtimes/unity/runtime-asset-swapping"
+          ]
+        },
+        {
+          "group": "Bevy",
+          "pages": [
+            "game-runtimes/bevy/bevy",
+            "game-runtimes/bevy/getting-started",
+            "game-runtimes/bevy/state-machines",
+            "game-runtimes/bevy/rive-events",
+            "game-runtimes/bevy/text"
+          ]
+        },
+        "game-runtimes/defold",
+        "game-runtimes/noesis"
+      ]
+    },
+    {
+      "group": "Rive Gamekit",
+      "pages": [
+        "rive-gamekit/overview",
+        "rive-gamekit/fundamentals",
+        "rive-gamekit/advancing-state-machine",
+        "rive-gamekit/paint-&-layouts",
+        {
+          "group": "Tutorials",
+          "pages": [
+            "rive-gamekit/tutorials/tutorials",
+            "rive-gamekit/tutorials/tilemaps",
+            "rive-gamekit/tutorials/adding-keyboard-and-mouse-interaction"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "TUTORIALS",
+      "pages": [
+        "tutorials/bouncing-ball",
+        "tutorials/tom-morello"
+      ]
+    },
+    {
+      "group": "Community",
+      "pages": [
+        "community/community-overview"
+      ]
+    },
+    {
+      "group": "Account Admin",
+      "pages": [
+        {
+          "group": "Account Overview",
+          "pages": [
+            "account-admin/account-overview/account-overview",
+            "account-admin/account-overview/creating-an-account",
+            "account-admin/account-overview/account-management",
+            "account-admin/account-overview/cancel-my-account",
+            "account-admin/account-overview/delete-my-account",
+            "account-admin/account-overview/trouble-logging-in",
+            "account-admin/account-overview/billing-changes",
+            "account-admin/account-overview/downloading-my-receipt-or-invoice"
+          ]
+        },
+        {
+          "group": "Workspaces",
+          "pages": [
+            "account-admin/workspaces/workspaces-overview",
+            "account-admin/workspaces/creating-a-workspace",
+            "account-admin/workspaces/inviting-workspace-members",
+            "account-admin/workspaces/removing-workspace-members",
+            "account-admin/workspaces/reactivating-a-canceled-workspace"
+          ]
+        },
+        {
+          "group": "Pricing",
+          "pages": [
+            "account-admin/pricing/pricing"
+          ]
+        }
+      ]
+    },    
+    {
+      "group": "Legal",
+      "pages": [
+        "legal/terms-of-service",
+        "legal/acceptable-use-policy",
+        "legal/privacy-policy",
+        "legal/gamekit-evaluation-agreement"
       ]
     }
+
   ],
   "footerSocials": {
-    "x": "https://x.com/mintlify",
-    "github": "https://github.com/mintlify",
-    "linkedin": "https://linkedin.com/company/mintlify"
+    "youtube": "https://www.youtube.com/channel/UCPal2R1FxwRTPylhP_7ofEg",
+    "x": "https://twitter.com/rive_app",
+    "instagram": "https://www.instagram.com/rive.app/",
+    "github": "https://github.com/rive-app",
+    "discord": "https://discord.com/invite/FGjmaTr"
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+ 

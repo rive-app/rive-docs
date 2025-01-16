@@ -1,0 +1,155 @@
+---
+title: 'State Machines'
+description: ''
+---
+
+Interact with the Rive State Machine in Unity. 
+
+For more information on Rive State Machines see the respective [runtime](https://app.outverse.com/rive/doc/state-machines/docxeznG7iiK) and [editor](https://app.outverse.com/rive/doc/state-machine/docwH5zPdh93) documentation.
+
+<CardGroup col="2">
+  <Card title="State Machines"  icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>}>
+    (Runtime) Rive's state machines provide a way to combine a set of animations and manage the transition between them through a series of inputs that can be programmatically controlled.
+    <br />
+    <a href="../../runtimes/state-machines" target="_blank"></a>
+  </Card>
+  <Card title="State Machines"  icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>}>
+    (Editor) State Machines are a visual way to connect animations together and define the logic that drives the transitions.
+    <br />
+    <a href="../../runtimes/state-machines" target="_blank"></a>
+  </Card>
+</CardGroup>
+
+## Overview
+
+A StateMachine contains [Inputs](https://rive.app/community/doc/inputs/docwgNrq7ssz) and [Events](https://rive.app/community/doc/rive-events/docbOnaeffgr) and advances (plays) an animation.
+<Tabs>
+    <Tab title="Components">
+        A **Rive Widget** automatically loads and advances the state machine from [your artboard configuration settings](https://rive.app/community/doc/fundamentals/docRiDeDEKyX#state-machines). Here's how you can access the loaded state machine in your scripts:**
+
+        ```csharp
+        [SerializeField] private RiveWidget m_riveWidget; 
+
+        ...
+
+        if (m_riveWidget.Status == WidgetStatus.Loaded)
+        {
+        StateMachine m_stateMachine = m_riveWidget.StateMachine;
+        }
+        ```
+
+    </Tab>
+
+    <Tab title="Low-level API">
+        State Machines are instantiated from an Arboard instance:
+
+        ```csharp
+        private StateMachine m_stateMachine;
+
+        ...
+
+        m_stateMachine = m_artboard?.StateMachine(); // default state machine
+        m_stateMachine = m_artboard?.StateMachine(0); // state machine at index
+        m_stateMachine = m_artboard?.StateMachine("Name"); // state machine with name
+        ```
+
+        The state machine is played by calling `advance` and passing in the delta time:
+
+        ```csharp
+        private void Update()
+        {
+            m_stateMachine?.Advance(Time.deltaTime);
+        }
+        ```
+    </Tab>
+</Tabs>
+## Accessing Inputs
+
+There are three input types, each extends `SMIInput` (State Machine Input):
+
+- `SMIBool` contains a `.Value` property, a boolean that can be set to true or false.
+- `SMITrigger` is a boolean that is set to true for one frame by calling the `.Fire()` method.
+- `SMINumber` contains a `.Value` property, a float that can be set to any value.
+
+State machine inputs can be accessed in a number of different ways.
+
+#### Access by name 
+
+Retrieve a state machine input by name and type.
+
+**Trigger:**
+
+```csharp
+SMITrigger someTrigger = m_stateMachine.GetTrigger("icon_02_press_trig");
+if (someTrigger != null)
+{
+    someTrigger.Fire();
+}
+```
+
+**Bool:**
+
+```csharp
+SMIBool someBool = m_stateMachine.GetBool("centerHover");
+if (someBool == null) return;
+Debug.Log(someBool.Value);
+someBool.Value = !someBool.Value;
+Debug.Log(someBool.Value);
+```
+
+**Number:**
+
+```csharp
+SMINumber someNumber = m_stateMachine.GetNumber("rating");
+if (someNumber == null) return;
+Debug.Log(someNumber.Value);
+someNumber.Value = 4;
+Debug.Log(someNumber.Value);
+```
+
+#### Access by index
+
+Get the input count (length) and retrieve by index:
+
+```csharp
+Debug.Log(m_stateMachine.InputCount());
+SMIInput input = m_stateMachine.Input(1);
+```
+
+#### Access all inputs 
+
+Retrieve a list of all `SMIInputs`:
+
+```csharp
+var inputs = m_riveStateMachine.Inputs();
+foreach (var input in inputs)
+{
+    switch (input)
+    {
+        case SMITrigger smiTrigger:
+        {
+            // Do something
+            break;
+        }
+        case SMIBool smiBool:
+        {
+            // Do something
+            break;
+        }
+        case SMINumber smiNumber:
+        {
+            // Do something
+            break;
+        }
+    }
+}
+```
+
+
+## Accessing Nested Inputs 
+
+For more information about accessing inputs in nested artboards,  check out this [example](https://rive.app/community/doc/state-machines/docxeznG7iiK#nested-inputs).
+
+### Additional Resources
+
+For a complete example see the **getting-started** project in the [examples repository](https://github.com/rive-app/rive-unity-examples) and open the **StateMachineInputScene** scene. Enter **Play** mode and in the inspector on the **Main Camera** component, you can interact with all available state machine inputs for the provided animation.

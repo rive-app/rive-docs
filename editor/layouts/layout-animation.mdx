@@ -1,0 +1,29 @@
+---
+title: 'Layout Animation'
+description: ''
+---
+
+Add animation to a layout container to define how it interpolates when content reflows. When a layout container needs to resize, its children may need to change their position. Adding layout animation allows the reflowing of children to happen over time and with a chosen easing curve.
+
+## Adding Layout Animation
+
+To get started, select a layout component and select the `+` action alongside `Layout Animation` in the inspector. Typically, you may want to set this on the parent layout in the majority of cases.
+
+![Image](https://ucarecdn.com/d72ffb27-34c2-4703-8828-07d89e023cf6/)
+
+Next, choose from one of 3 different modes:
+
+- **None:** No animation.
+- **Inherit:** Inherit the animation parameters from the parent layout.
+- **Custom:** Define the animation parameters for the selected layout.
+
+With the custom option selected, you can set a duration and interpolation type similar to that of a State Machine transition. All interpolation types except cubic value are supported.
+
+![Image](https://ucarecdn.com/2de7450c-11b4-459d-a5a0-dabeae3c342c/)
+
+With a custom animation applied to a parent layout, setting the child layouts to `inherit` means they'll all use the same parameters as those on the parent. Alternatively, you can choose to apply custom interpolation to child components individually.
+
+<video width="640" controls>
+  <source src="https://ucarecdn.com/377012bf-760a-48bc-baf8-6747efe3ad5d/" type="video/mp4"></source>
+  Custom animation
+</video>

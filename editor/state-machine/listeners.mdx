@@ -1,0 +1,106 @@
+---
+title: 'Listeners'
+description: ''
+---
+
+Listeners give designers the tools to take their State Machine one step further and define click, hover, and mouse move actions that can change inputs in the editor and at runtime without the need for a developer.
+
+For example, this button does not have listeners attached to it. If we click on the button, nothing happens. We would need to change the inputs directly in the input panel to make our button react.
+
+![Image](https://ucarecdn.com/a2beca1f-6273-444d-8d57-47a91d8c6c61/)
+
+Button without Listener
+
+Once we add a listener, you’ll notice that now when we click on the button, it reacts exactly like we would expect it to in our website, app, or game.
+
+![Image](https://ucarecdn.com/700db248-e784-42d0-ba04-e6f551eb4403/)
+
+Button with a Listener
+
+Note that Listeners are not required for any State Machine. Once you’ve gone through the basic set-up and ensured that your interaction works as expected, it can be exported and used at runtime. While listeners do allow designers to enable some interactions, more complex interactions will need to be defined at runtime.
+
+#### Creating a new Listener
+
+To create a new Listener, use the plus button in the Listeners tab. Once you’ve created a Listener, select the Listener and configure it using the inspector. Read more about configuring a Listener below.
+
+![Image](https://ucarecdn.com/c32710a7-61ef-424b-a123-8586b8dcb760/)
+
+Creating a new Listener
+
+## Anatomy of a Listener
+
+A listener consists of three parts; a target, a user action, and a listener action. The target tells the listener where on the artboard it should be listening for a users action. Once the defined action happens within the target area, the listener reacts by either changing an input value, or aligning a target with the mouse cursor. Continue reading below for more information.
+
+![Image](https://ucarecdn.com/c1b3fa7c-4eed-4be7-a64f-5ce0deeba0f8/)
+
+Listener properties
+
+### Target
+
+Listeners require us to define an area where it will listen for an action. If you are familiar with game development, then our target is a hitbox that we define on the artboard. Additionally, you can select an Artboard or Nested Artboard as a target which will automatically listen for any Events from that Artboard.
+
+There are two ways to define a target.
+
+If you have an object selected when creating a listener, then the object you have selected will automatically be designated as the target.
+
+![Image](https://ucarecdn.com/d94b83dd-95cb-4c6d-976c-fa959bd67dd2/)
+
+Automatically add target
+
+Alternatively, you can select hit the target button with the listener selected and either select an object in the Hierarchy or directly on the Stage.
+
+![Image](https://ucarecdn.com/02b7c53d-d2b7-458f-a7ff-9073f211bf41/)
+
+Manually add target
+
+**Considerations**
+
+You have the ability to set most objects as the target of a Listener but the target will work differently depending on the type of object you target. For example, targeting any shape or group will create a hit box, but targeting an Artboard or Nested Artboard will listen for any events coming from those Artboards.
+
+As a best practice, we typically recommend using shapes that are specifically meant to be targets, I.E. an ellipse or rectangle with it’s opacity set to 0%. Using shapes as targets give you more control over over when that target is available and specifically, how much of the Artboard it covers.
+
+If you do decide to select a Group as a target, shapes within the group will act as the target.
+
+### Action
+
+Actions are specifically which actions the listener is listening for. When you select any object on an Artboard,  by default the listener action is set to pointer enter, but it can be changed at any time. Conversely, when you target any Artboard or Nested Artboard, the listener will, by default, be listening for any Events coming out of that Artboard.
+
+![Image](https://ucarecdn.com/9523ddd8-e2cf-4a85-a888-24c789b09715/)
+
+There are seven different listener actions.
+
+**Pointer Down** - Either a mouse click down, or finger press (on touch screen device).
+
+**Pointer Up** - Releasing a mouse click or finger press.
+
+**Pointer Enter** - A mouse or finger entering the target area.
+
+**Pointer Exit** - A mouse of finger exiting the target area.
+
+**Mouse move** - Any mouse of finger movement within the target area.
+
+**Click -** Requires to both pointer down and pointer up within the target area.
+
+**Listen For Event** - This action is hidden unless you are targeting an Artboard or Nested artboard. If an Artboard has multiple Events, you can use the dropdown to select the specific Event you want to listen for.
+
+### Listener Action 
+
+A listener actions is what the listener does when the defined user interaction happens within the target area. There are three types of Listener Actions; Input change, Report Event, and Align target. To add a Listener action, click the plus button next to the User Action dropdown. Keep in mind that you can add as many Listener Actions as you’d like.
+
+![Image](https://ucarecdn.com/a4304a3e-00b4-4368-a68a-ba7a3c04f446/)
+
+**Input Change**
+
+An input change allows the listener to change a defined input. For example, we can change a boolean value, fire a trigger, or set a number value to a specific integer. This is how we can, for example, create hovers and clicks that work directly on the Artboard.
+
+Keep in mind that when you select an Input Change as a Listener action, you’ll be prompted to define how you want to change the selected input.
+
+**Report Event**
+
+Reporting an Event is a great way to send signals to either your developers at runtime, or to other artboards. Keep in mind that every time the user action is met, your Event will report.
+
+**Align Target**
+
+The Align Target action will align a target with the mouse cursor when the defined user action happens within the target area. With this action, we can create powerful parallax effects and avatars that follow the mouse cursor.
+
+When adding an Align target, you’ll need to specify which object you want aligned.

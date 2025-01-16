@@ -1,0 +1,495 @@
+---
+title: 'Layout'
+description: 'Rive offers multiple options for controlling how graphics are laid out within the canvas, view, widget, or texture.'
+---
+
+## Responsive Layout
+
+Rive’s new Layout feature lets you design resizable artboards with built-in responsive behavior, configured directly in the graphic. Just set a **Fit** of type **Layout** at runtime and the artboard will resize automatically. Optionally, provide a **Layout Scale Factor** to further adjust the scale of the content.
+
+For more Editor information and how to configure your graphic see [Layouts Overview](../editor/layouts/layouts-overview).
+
+<Note>
+ The **Alignment** property will not have an effect when the using a **Fit** of type **Layout**.
+</Note>
+
+<Warning>
+ Check the [Feature Support](./features-support) page to see if this feature is already supported for your runtime.
+</Warning>
+
+<Tabs>
+  <Tab title="Web">
+    **Examples**
+
+    - [Layout JS example](https://codesandbox.io/p/sandbox/rive-responsive-layout-js-ppzfvr?layout=%257B%2522sidebarPanel%2522%253A%2522EXPLORER%2522%252C%2522rootPanelGroup%2522%253A%257B%2522direction%2522%253A%2522horizontal%2522%252C%2522contentType%2522%253A%2522UNKNOWN%2522%252C%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522id%2522%253A%2522ROOT_LAYOUT%2522%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522contentType%2522%253A%2522UNKNOWN%2522%252C%2522direction%2522%253A%2522vertical%2522%252C%2522id%2522%253A%2522cm0cil09k00073b6iv1ejuur6%2522%252C%2522sizes%2522%253A%255B100%255D%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522contentType%2522%253A%2522EDITOR%2522%252C%2522direction%2522%253A%2522horizontal%2522%252C%2522id%2522%253A%2522EDITOR%2522%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL%2522%252C%2522contentType%2522%253A%2522EDITOR%2522%252C%2522id%2522%253A%2522cm0cil09k00033b6ikh7soopm%2522%257D%255D%257D%252C%257B%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522contentType%2522%253A%2522SHELLS%2522%252C%2522direction%2522%253A%2522horizontal%2522%252C%2522id%2522%253A%2522SHELLS%2522%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL%2522%252C%2522contentType%2522%253A%2522SHELLS%2522%252C%2522id%2522%253A%2522cm0cil09k00043b6iunl8mzfv%2522%257D%255D%257D%255D%257D%252C%257B%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522contentType%2522%253A%2522DEVTOOLS%2522%252C%2522direction%2522%253A%2522vertical%2522%252C%2522id%2522%253A%2522DEVTOOLS%2522%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL%2522%252C%2522contentType%2522%253A%2522DEVTOOLS%2522%252C%2522id%2522%253A%2522cm0cil09k00063b6i00s5g6ph%2522%257D%255D%257D%255D%252C%2522sizes%2522%253A%255B50%252C50%255D%257D%252C%2522tabbedPanels%2522%253A%257B%2522cm0cil09k00033b6ikh7soopm%2522%253A%257B%2522tabs%2522%253A%255B%257B%2522id%2522%253A%2522cm0cil09k00023b6ig0rr427m%2522%252C%2522mode%2522%253A%2522permanent%2522%252C%2522type%2522%253A%2522FILE%2522%252C%2522filepath%2522%253A%2522%252Fsrc%252Findex.html%2522%252C%2522state%2522%253A%2522IDLE%2522%257D%252C%257B%2522id%2522%253A%2522cm0nwqywg00ha3b6ik477m0sa%2522%252C%2522mode%2522%253A%2522permanent%2522%252C%2522type%2522%253A%2522FILE%2522%252C%2522initialSelections%2522%253A%255B%257B%2522startLineNumber%2522%253A89%252C%2522startColumn%2522%253A1%252C%2522endLineNumber%2522%253A108%252C%2522endColumn%2522%253A2%257D%255D%252C%2522filepath%2522%253A%2522%252Fsrc%252Findex.mjs%2522%252C%2522state%2522%253A%2522IDLE%2522%257D%255D%252C%2522id%2522%253A%2522cm0cil09k00033b6ikh7soopm%2522%252C%2522activeTabId%2522%253A%2522cm0nwqywg00ha3b6ik477m0sa%2522%257D%252C%2522cm0cil09k00063b6i00s5g6ph%2522%253A%257B%2522id%2522%253A%2522cm0cil09k00063b6i00s5g6ph%2522%252C%2522activeTabId%2522%253A%2522cm0nwzrmt001v3b6i36d3eupe%2522%252C%2522tabs%2522%253A%255B%257B%2522id%2522%253A%2522cm0cil09k00053b6iih3l7rxf%2522%252C%2522mode%2522%253A%2522permanent%2522%252C%2522type%2522%253A%2522UNASSIGNED_PORT%2522%252C%2522port%2522%253A0%257D%252C%257B%2522type%2522%253A%2522SANDBOX_INFO%2522%252C%2522isCloud%2522%253Afalse%252C%2522id%2522%253A%2522cm0nwzdgp000k3b6i1bwmm5bi%2522%252C%2522mode%2522%253A%2522permanent%2522%257D%252C%257B%2522type%2522%253A%2522UNASSIGNED_PORT%2522%252C%2522port%2522%253A0%252C%2522id%2522%253A%2522cm0nwzrmt001v3b6i36d3eupe%2522%252C%2522mode%2522%253A%2522permanent%2522%257D%255D%257D%252C%2522showDevtools%2522%253Atrue%252C%2522showShells%2522%253Afalse%252C%2522showSidebar%2522%253Atrue%252C%2522sidebarPanelSize%2522%253A15%257D&workspaceId=c4e440b0-16a2-4bc4-a73f-fafaae12a1af)
+
+    **Steps**
+
+    1. Set `Fit` to `Fit.Layout` - this will automatically scale and resize the artboard to match the canvas size when calling `resizeDrawingSurfaceToCanvas()`.
+    2. Optionally set `layoutScaleFactor` for manual control of the artboard size (scale factor).
+    3. Subscribe to `window.onresize` and call `resizeDrawingSurfaceToCanvas()` to adjust the artboard size as the canvas and window changes.
+    4. Subscribe to **device pixel ratio** changes and call `resizeDrawingSurfaceToCanvas()` to ensure the artboard updates correctly on various screen densities. For example, when dragging the window between multiple monitors with different device pixel ratios.
+
+    ```javascript
+    <style>
+      body {
+        background: #f0f0f0;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      canvas {
+        background-color: red;
+        display: block;
+        width: 100vw;
+        height: 100vh;
+      }
+    </style>
+
+    <canvas id="riveCanvas"></canvas>
+
+    <script src="https://unpkg.com/@rive-app/canvas@latest"></script>
+
+    <script>
+      const rive = new Rive({
+        src: "your-rive-file.riv",
+        autoplay: true,
+        canvas: riveCanvas,
+        layout: new Layout({
+          fit: Fit.Layout,
+          // layoutScaleFactor: 2, // 2x scale of the layout, when using `Fit.Layout`. This allows you to resize the layout as needed.
+        }),
+        stateMachines: ["State Machine 1"],
+        onLoad: () => {
+          computeSize();
+        },
+      });
+
+      function computeSize() {
+        rive.resizeDrawingSurfaceToCanvas();
+      }
+
+      // Subscribe to window size changes and update call `resizeDrawingSurfaceToCanvas`
+      window.onresize = computeSize;
+
+      // Subscribe to devicePixelRatio changes and call `resizeDrawingSurfaceToCanvas`
+      window
+        .matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`)
+        .addEventListener("change", computeSize);
+    </script>
+    ```
+
+  </Tab>
+
+  <Tab title="React">
+    **Examples**
+
+    - [Layout React Example](https://codesandbox.io/p/sandbox/rive-responsive-layouts-react-wvvt7w?workspaceId=c4e440b0-16a2-4bc4-a73f-fafaae12a1af)
+
+    **Steps**
+
+    1. Set `fit` to `Fit.Layout` in the `Layout` object - this will automatically scale and resize the artboard to match the canvas size.
+    2. Pass the `Layout` object to the `layout` prop in `useRive`.
+    3. Optionally set `layoutScaleFactor` in the `Layout` object for manual control of the artboard's scale factor.
+    4. The React runtime automatically handles window resizing and device pixel ratio changes.
+
+    ```jsx
+    import { useRive, Layout, Fit } from "@rive-app/react-canvas";
+
+    export const RiveComponent = () => {
+      const { RiveComponent } = useRive({
+        src: "your-rive-file.riv",
+        stateMachines: "State Machine 1",
+        layout: new Layout({
+          fit: Fit.Layout,
+          // layoutScaleFactor: 2, // Optional: 2x scale of the layout
+        }),
+        autoplay: true,
+      });
+
+      return <RiveComponent />;
+    };
+    ```
+
+  </Tab>
+  <Tab title="React Native">
+    Coming soon
+  </Tab>
+
+  <Tab title="Flutter">
+    Coming soon! This feature depends on an upcoming new Rive Flutter runtime—stay tuned for updates.
+  </Tab>
+
+  <Tab title="iOS/macOS">
+    **Examples**
+
+    - [SwiftUI](https://github.com/rive-app/rive-ios/blob/main/Example-iOS/Source/Examples/SwiftUI/SwiftLayout.swift)
+
+    **Steps**
+
+    1. Set `fit` on an instance of `RiveViewModel` to `layout`
+    2. Optionally set `layoutScaleFactor` on `RiveViewModel` for manual control of an artboard's scale factor.
+
+    <Info>
+     To enable automatically determining the scale factor, set `.layoutScaleFactor` to `RiveViewModel.layoutScaleFactorAutomatic`. This is the default value; it is equivalent to `-1`. When set, Rive will listen for window and screen changes for the view model's view, and automatically apply the correct scale factor for the current view hierarchy.
+    </Info>
+    ```swift
+    let viewModel = RiveViewModel(fileName: "...")
+    viewModel.fit = .layout
+    viewModel.layoutScaleFactor = RiveViewModel.layoutScaleFactorAutomatic // Allow Rive to determine the scale factor
+    viewModel.layoutScaleFactor = 2.0 // Or, explicitly set the scale factor
+    ```
+
+  </Tab>
+    <Tab title="Android">
+    **Examples**
+
+    See the [Layout](https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/LayoutActivity.kt) example.
+
+    **Steps**
+
+    1. Set the XML `riveLayout` type to `"LAYOUT"`:
+
+    ```kotlin
+    <app.rive.runtime.kotlin.RiveAnimationView
+        ...
+        app:riveFit="LAYOUT"
+    />
+    ```
+
+    2. Alternatively, use a reference to the `RiveAnimationView` and set the `fit` property to `LAYOUT`:
+
+    ```kotlin
+    val animationView = findViewById<RiveAnimationView>(R.id.my_view)
+    animationView.fit = Fit.LAYOUT
+    ```
+
+    3. To adjust the scale factor of the contents, use the `layoutScaleFactor` property. This is nullable, so by default, it will use the density as reported by `resources.displayMetrics.density`. You can override this to any positive float value, or return control to the system by resetting to `null`:
+
+    ```kotlin
+    // Force a set scale factor
+    animationView.layoutScaleFactor = 2.5f
+    // Reset to system control
+    animationView.layoutScaleFactor = null
+    ```
+
+    4. Additionally, the artboard size can be controlled by using the `width` and `height` properties. `resetArtboardSize()` can be used to return these values to their defaults:
+
+    ```kotlin
+    // Force a certain artboard size
+    animationView.controller.activeArtboard?.width = 1000f
+    animationView.controller.activeArtboard?.height = 1000f
+    // Reset the artboard size to defaults
+    animationView.controller.activeArtboard?.resetArtboardSize()
+    ```
+
+  </Tab>
+
+</Tabs>
+
+
+## Additional Layout Options
+
+If the graphic doesn’t use Rive’s Layout feature, you can configure the layout with other **Fit** options and **Alignment** settings. See the sections below for more information on **Fit** and **Alignment**.
+<Tabs>
+  <Tab title="Web">
+    Use the `Layout` object to configure `Fit` and `Alignment`. See **Fit** and **Alignment** below for all enum options.
+
+    ```javascript
+    <div>
+        <canvas id="canvas" width="800" height="600"></canvas>
+    </div>
+    <script src="https://unpkg.com/@rive-app/canvas@latest"></script>
+    <script>
+        // Fill the canvas, cropping Rive if necessary
+        let layout = new rive.Layout({
+            fit: rive.Fit.Cover,
+        });
+
+        // Fit to the width and align to the top of the canvas
+        layout = new rive.Layout({
+            fit: rive.Fit.FitWidth,
+            alignment: rive.Alignment.TopCenter,
+        });
+
+        // Constrain the Rive content to (minX, minY), (maxX, maxY) in the canvas
+        layout = new rive.Layout({
+            fit: rive.Fit.Contain,
+            minX: 50,
+            minY: 50,
+            maxX: 100,
+            maxY: 100,
+        });
+
+        const r = new rive.Rive({
+            src: 'https://cdn.rive.app/animations/vehicles.riv',
+            canvas: document.getElementById('canvas'),
+            layout: layout,
+            autoplay: true
+        });
+
+        // Update the layout
+        r.layout = new rive.Layout({ fit: rive.Fit.Fill });
+    </script>
+    ```
+  </Tab>
+  
+  <Tab title="React">
+    Use the `Layout` object to configure `Fit` and `Alignment`. See **Fit** and **Alignment** below for all enum options.
+
+    ```javascript
+    import Rive, { Layout, Fit, Alignment } from '@rive-app/react-canvas';
+
+    export const Simple = () => (
+      <Rive
+        src="https://cdn.rive.app/animations/vehicles.riv"
+        layout={new Layout({ fit: Fit.Contain, alignment: Alignment.TopCenter })}
+      />
+    );
+    ```
+
+    With the `useRive` hook:
+
+    ```javascript
+    import { useRive, Layout, Fit, Alignment } from '@rive-app/react-canvas';
+
+    export default function Example() {
+      const { RiveComponent } = useRive({
+        src: 'my-file.riv',
+        artboard: 'my-artboard',
+        animations: 'my-animation',
+        layout: new Layout({
+          fit: Fit.Cover,
+          alignment: Alignment.TopCenter,
+        }),
+        autoplay: true,
+      });
+
+      return <RiveComponent />;
+    }
+    ```
+  </Tab>
+  
+  <Tab title="React Native">
+    Set layout attributes for `Fit` and `Alignment` on the `Rive` component directly. See **Fit** and **Alignment** below for all enum options.
+
+    ```javascript
+    import Rive, { Alignment, Fit } from 'rive-react-native';
+
+    export default function Simple() {
+      return (
+        <ScrollView>
+          <Rive
+            fit={Fit.Cover}
+            alignment={Alignment.TopCenter}
+            resourceName="truck_v7"
+          />
+        </ScrollView>
+      );
+    };
+    ```
+  </Tab>
+  
+    <Tab title="Flutter">
+    <Warning>
+     The current Rive Flutter runtime does not support `Fit.Layout`. The next major release will support this which will be a breaking change.
+    </Warning>
+    The fit and alignment options behave like their counterparts in Flutter (see `BoxFit` and `Size` as examples).
+
+    Bounds options are absent; Flutter's layout engine and options are the preferred way to handle positioning Rive content.
+
+    ```dart
+    // Fill the canvas, cropping Rive if necessary
+    var widget = const RiveAnimation.network(
+      'https://cdn.rive.app/animations/vehicles.riv',
+      fit: BoxFit.cover,
+    );
+
+    // Fit to the width and align to the top of the canvas
+    widget = const RiveAnimation.network(
+      'https://cdn.rive.app/animations/vehicles.riv',
+      fit: BoxFit.fitWidth,
+      alignment: Alignment.topCenter,
+    );
+    ```
+  </Tab>
+
+  <Tab title="iOS/macOS">
+    See values and descriptions in the sections below for `Fit` and `Alignment`. The runtime provides the following enums to set on layout parameters:
+
+    - **Fit**
+      - `.fill`
+      - `.contain`
+      - `.cover`
+      - `.fitWidth`
+      - `.fitHeight`
+      - `.scaleDown`
+      - `.noFit`
+    
+    - **Alignment**
+      - `.topLeft`
+      - `.topCenter`
+      - `.topRight`
+      - `.centerLeft`
+      - `.center`
+      - `.centerRight`
+      - `.bottomLeft`
+      - `.bottomCenter`
+      - `.bottomRight`
+
+    ### SwiftUI 
+
+    The following example shows how to set layout parameters and switch them at runtime:
+
+    ```swift
+    struct SwiftLayout: View {
+        @State private var fit: RiveFit = .contain
+        @State private var alignment: RiveAlignment = .center
+        
+        var body: some View {
+            VStack {
+                RiveViewModel(fileName: "fancy_rive_file", fit: fit, alignment: alignment).view()
+            }
+            HStack {
+                Text("Some Fit Examples")
+            }
+            HStack {
+                Button("Fill") { fit = .fill }
+                Button("Contain") { fit = .contain }
+                Button("Cover") { fit = .cover }
+            }
+            HStack {
+                Text("Some Alignment Examples")
+            }
+            HStack {
+                Button("Top Left") { alignment = .topLeft }
+                Button("Top Center") { alignment = .topCenter }
+                Button("Top Right") { alignment = .topRight }
+            }
+        }
+    }
+    ```
+
+    ### UIKit
+
+    The following example shows how to set layout parameters and switch them at runtime:
+
+    ```swift
+    class LayoutViewController: UIViewController {
+        @IBOutlet weak var riveView: RiveView!
+        var viewModel = RiveViewModel(fileName: "fancy_rive_file")
+        
+        override func viewDidLoad() {
+            viewModel.setView(riveView)
+        }
+        
+        @IBAction func fitButtonTriggered(_ sender: UIButton) {
+            setFit(name: sender.currentTitle!)
+        }
+        
+        @IBAction func alignmentButtonTriggered(_ sender: UIButton) {
+            setAlignment(name: sender.currentTitle!)
+        }
+        
+        func setFit(name: String) {
+            var fit: RiveFit = .contain
+            switch name {
+            case "Fill": fit = .fill
+            case "Contain": fit = .contain
+            case "Cover": fit = .cover
+            case "Fit Width": fit = .fitWidth
+            case "Fit Height": fit = .fitHeight
+            case "Scale Down": fit = .scaleDown
+            case "None": fit = .noFit
+            default: fit = .contain
+            }
+            viewModel.fit = fit
+        }
+        
+        func setAlignment(name: String) {
+            var alignment: RiveAlignment = .center
+            switch name {
+            case "Top Left": alignment = .topLeft
+            case "Top Center": alignment = .topCenter
+            case "Top Right": alignment = .topRight
+            case "Center Left": alignment = .centerLeft
+            case "Center": alignment = .center
+            case "Center Right": alignment = .centerRight
+            case "Bottom Left": alignment = .bottomLeft
+            case "Bottom Center": alignment = .bottomCenter
+            case "Bottom Right": alignment = .bottomRight
+            default: alignment = .center
+            }
+            viewModel.alignment = alignment
+        }
+    }
+    ```
+  </Tab>
+    <Tab title="Android">
+    The animation view can be further customized as part of specifying layout attributes.
+
+    `riveFit` can be specified to determine how the animation should be resized to fit its container. The available choices are `NONE`, `FILL`, `CONTAIN`, `COVER`, `FIT_WIDTH`, `FIT_HEIGHT`, `SCALE_DOWN`, and `LAYOUT`.
+
+    `riveAlignment` informs how it should be aligned within the container. The available choices are `TOP_LEFT`, `TOP_CENTER`, `TOP_RIGHT`, `CENTER_LEFT`, `CENTER`, `CENTER_RIGHT`, `BOTTOM_LEFT`, `BOTTOM_CENTER`, and `BOTTOM_RIGHT`.
+
+    See more about these values and meanings in the sections below.
+
+    Specify the layout values in your Resource layout:
+
+    ```kotlin
+    <app.rive.runtime.kotlin.RiveAnimationView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:riveResource="@raw/off_road_car_blog"
+        app:riveAlignment="TOP_CENTER"
+        app:riveFit="FILL"
+    />
+    ```
+
+    Or in your Activity code:
+
+    ```kotlin
+    animationView.fit = Fit.FILL
+    animationView.alignment = Alignment.CENTER
+    ```
+  </Tab>
+
+
+</Tabs>
+
+
+## Fit 
+
+Fit determines how the Rive content will be fitted to the view. There are a number of options available:
+
+- `Layout`: Rive content will be resized automatically based on layout constraints of the artboard to match the underlying view size. See [the above](./layout#responsive-layout) for more information on how to use this option.
+- `Cover`: Rive will cover the view, preserving the aspect ratio. If the Rive content has a different ratio to the view, then the Rive content will be clipped.
+- `Contain`: **(Default)** Rive content will be contained within the view, preserving the aspect ratio. If the ratios differ, then a portion of the view will be unused.
+- `Fill`: Rive content will fill the available view. If the aspect ratios differ, then the Rive content will be stretched.
+- `FitWidth`: Rive content will fill to the width of the view. This may result in clipping or unfilled view space.
+- `FitHeight`: Rive content will fill to the height of the view. This may result in clipping or unfilled view space.
+- `None`: Rive content will render to the size of its artboard, which may result in clipping or unfilled view space.
+- `ScaleDown`: Rive content is scaled down to the size of the view, preserving the aspect ratio. This is equivalent to `Contain` when the content is larger than the canvas. If the canvas is larger, then `ScaleDown` will not scale up.
+
+## Alignment
+
+Alignment determines how the content aligns with respect to the view bounds. The following options are available:
+
+- `Center` **(Default)**
+- `TopLeft`
+- `TopCenter`
+- `TopRight`
+- `CenterLeft`
+- `CenterRight`
+- `BottomLeft`
+- `BottomCenter`
+- `BottomRight`
+
+## Bounds
+
+The bounds for the area in which the Rive content will render can be set by providing the minimum and maximum x and y coordinates. These coordinates are relative to the view in which the Rive content is contained, and all must be provided. These will override alignment settings.
+
+- `minX`
+- `minY`
+- `maxX`
+- `maxY`

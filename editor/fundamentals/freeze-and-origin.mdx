@@ -1,0 +1,46 @@
+---
+title: 'Freeze and Origin'
+description: ''
+---
+
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/20aS5ZOkNpI?si=8X-VGCtWg3Y07Z79" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+When you transform objects, their children inherit the same transformations. The location where these transformations happen (sometimes called the origin, anchor point, or pivot) affects how your objects animate. 
+
+For example, manipulating the scale of a group creates different results if the scale originates in the center or the bottom.
+
+![Image](https://ucarecdn.com/14d4d046-5cec-403f-a855-df2f2d973e8e/)
+
+Scaling from the center or the bottom of a group
+
+You need to reposition the parent group to change the point of origin for these transformations. However, moving a parent causes all the children to move with it. The Freeze feature makes it possible to achieve this without having to rework the hierarchy structure.
+
+## Freeze 
+
+The Freeze feature allows you to move any parent object (groups, shapes, bones) without affecting the position of its children. Activate Freeze in the [Transform Tools menu](https://app.outverse.com/rive/doc/toolbar/docC0WckDcbf)[ ](https://app.outverse.com/rive/doc/toolbar/docC0WckDcbf)or use the `Y` shortcut.
+
+![Image](https://ucarecdn.com/d841e0b7-7a01-4c32-9c7b-dadd97c5d3d7/)
+
+Find the Freeze feature in the Transform Tools menu
+
+Now you can reposition the parent object.
+
+![Image](https://ucarecdn.com/bd770843-ad72-4584-b23d-ea7cbf3297a7/)
+
+Repositioning a parent without moving the children
+
+Be sure to turn off Freeze by pressing `Y` again.
+
+## Origin 
+
+Procedural objects (like artboards and procedural paths) have an origin property. The origin of a procedural path determines where its properties originate from. For example, changing the width of a rectangle with its origin in the middle (50% X and 50% Y) causes it to grow from its center.
+
+![Image](https://ucarecdn.com/2497d2bd-ddbe-432c-b68c-6d70e34a1af0/)
+
+Changing the width on a rectangle with its origin on the left side (0% X) causes it to grow from its left.
+
+![Image](https://ucarecdn.com/253c5325-712b-4e95-b369-3e50604ce817/)
+
+This is particularly useful when animating paths that have other procedural properties enabled, such as rounded corners.
+
+You can use the Freeze feature to change the Origin position on the Stage. Alternatively, set the exact value in the Inspector.

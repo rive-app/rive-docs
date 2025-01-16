@@ -1,0 +1,606 @@
+---
+title: 'Loading Assets'
+description: 'Loading and replacing assets dynamically at runtime'
+---
+
+
+Some Rive files may contain assets that can be embedded within the actual file binary, such as font, image, or audio files. The Rive runtimes may then load these assets when the Rive file is loaded. While this makes for easy usage of the Rive files/runtimes, there may be opportunities to load these assets in or even replace them at runtime instead of embedding them in the file binary.
+
+There are several benefits to this approach:
+
+- Keep the `.riv` files tiny without potential bloat of larger assets
+- Dynamically load an asset for any reason, such as loading an image with a smaller resolution if the `.riv` is running on a mobile device vs. an image of a larger resolution for desktop devices
+- Preload assets to have available immediately when displaying your `.riv`
+- Use assets already bundled with your application, such as font files
+- Sharing the same asset between multiple `.riv`s
+
+## Methods for Loading Assets 
+
+There are currently three different ways to load assets for your Rive files.
+
+In the Rive editor select the desired asset from the **Assets** tab, and in the inspector choose the desired export option:
+
+![Image](https://ucarecdn.com/df455228-a712-4cff-a24d-0771b8575e9d/)
+
+See the **Export Options** section in the editor docs for more details.
+
+### Embedded Assets
+
+In the Rive editor, static assets can be included in the `.riv` file, by choosing the *"Embedded"* export type. As stated in the beginning of this page, when the Rive file gets loaded, the runtime will implicitly attempt to load in the assets embedded in the `.riv` as well, and you don't need to concern yourself with loading any assets manually.
+
+**Caveat:** Embedded assets may bulk up the file size, especially when it comes to fonts when using Rive Text ([Text Overview](../editor/text/text-overview)).
+
+<Note>
+ **Embedded is the default option.**
+</Note>
+### Loading via Rive's CDN
+
+In the Rive editor, you can mark an imported asset as a *"Hosted"* export type, which means that when you export the `.riv` file, the asset will not be embedded in the file binary, but will be hosted on Rive's CDN. This means that at runtime when loading in the file, the runtime will see the asset is marked as "Hosted" and load the asset in from the Rive CDN, so that you don't need need to concern yourself with loading anything yourself, and the file can still remain tiny.
+
+**Caveat:** The app will make an extra call to a Rive CDN to retrieve your asset
+
+### Image CDNs 
+
+Some image CDNs allow for on-the-fly image transformations, including resizing, cropping, and automatic format conversion based on the browser's and device's capabilities. These CDNs can host your Rive image assets. Note that for these CDNs, you may need to specify the accepted formats, for example, as part of the HTTP header request:
+
+```html
+...
+headers: {
+  Accept: 'image/png,image/webp,image/jpeg,*/*',
+}
+...
+```
+
+Please see your CDN provider's documentation for additional information.
+
+<Warning>
+ Rive support the following image formats: **jpeg**, **png**, and **webp**
+</Warning>
+
+### Referenced Assets 
+
+In the Rive editor, you can mark an imported asset as a *"Referenced"* export type, which means that when you export the `.riv` file, the asset will not be embedded in the file binary, and the responsibility of loading the asset will be handled by your application at runtime. This option enables you to dynamically load in assets via a handler API when the runtime begins loading in the `.riv` file. This option is preferable if you have a need to dynamically load in a specific asset based on any kind of app/game logic, and especially if you want to keep file size small.
+
+All referenced assets, including the `.riv`, will be bundled as a zip file when you export your animation.
+
+**Caveat:** You will need to provide an asset handler API when loading in Rive which should do the work of loading in an asset yourself. See Handling Assets below.
+
+## Handling Assets 
+
+See below for documentation on how to handle loading in assets at runtime for your Rive file with various runtimes.
+
+<Tabs>
+
+    <Tab title="Web (JS)">
+
+        ### Examples 
+
+        - [Specify a font asset to load](https://codesandbox.io/s/rive-out-of-band-fonts-d3lzs4)
+        - [Specify an image asset to load](https://codesandbox.io/s/rive-out-of-band-images-pfx4h2?file=/src/index.mjs)
+        - [Out of band assets (fonts) - canvas advanced](https://codesandbox.io/p/sandbox/friendly-khayyam-w3d9fd?layout=%257B%2522sidebarPanel%2522%253A%2522EXPLORER%2522%252C%2522rootPanelGroup%2522%253A%257B%2522direction%2522%253A%2522horizontal%2522%252C%2522contentType%2522%253A%2522UNKNOWN%2522%252C%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522id%2522%253A%2522ROOT_LAYOUT%2522%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522contentType%2522%253A%2522UNKNOWN%2522%252C%2522direction%2522%253A%2522vertical%2522%252C%2522id%2522%253A%2522cm0cou61400063b6ira695zmh%2522%252C%2522sizes%2522%253A%255B100%255D%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522contentType%2522%253A%2522EDITOR%2522%252C%2522direction%2522%253A%2522horizontal%2522%252C%2522id%2522%253A%2522EDITOR%2522%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL%2522%252C%2522contentType%2522%253A%2522EDITOR%2522%252C%2522id%2522%253A%2522cm0cou61400023b6i02r2kr1y%2522%257D%255D%257D%...id%2522%253A%2522cm0cou61400053b6i1lmphdj8%2522%252C%2522activeTabId%2522%253A%2522cm0z39sq400uy3b6ii5qaagic%2522%252C%2522tabs%2522%253A%255B%257B%2522id%2522%253A%2522cm0cou61400043b6iarkccomy%2522%252C%2522mode%2522%253A%2522permanent%2522%252C%2522type%2522%253A%2522UNASSIGNED_PORT%2522%252C%2522port%2522%253A0%257D%252C%257B%2522type%2522%253A%2522UNASSIGNED_PORT%2522%252C%2522port%2522%253A0%252C%2522id%2522%253A%2522cm0coub1i000p3b6iajg4byw7%2522%252C%2522mode%2522%253A%2522permanent%2522%257D%252C%257B%2522type%2522%253A%2522SANDBOX_INFO%2522%252C%2522isCloud%2522%253Afalse%252C%2522id%2522%253A%2522cm0z39sq400uy3b6ii5qaagic%2522%252C%2522mode%2522%253A%2522permanent%2522%257D%255D%257D%252C%2522cm0cou61400033b6i1izal3vh%2522%253A%257B%2522tabs%2522%253A%255B%255D%252C%2522id%2522%253A%2522cm0cou61400033b6i1izal3vh%2522%257D%257D%252C%2522showDevtools%2522%253Atrue%252C%2522showShells%2522%253Afalse%252C%2522showSidebar%2522%253Atrue%252C%2522sidebarPanelSize%2522%253A15%257D)
+
+        ### Using the Asset Handler API 
+
+        When instantiating a new Rive instance, add an `assetLoader` callback property to the list of parameters. This callback will be called for every asset the runtime detects from the `.riv` file on load, and will be responsible for either handling the load of an asset at runtime or passing on the responsibility and giving the runtime a chance to load it otherwise.
+
+        An instance where you may want to handle loading an asset is if an asset in the file is marked as **Referenced**, and you need to provide an actual asset to render for the graphic, as Rive does not embed it in the `.riv` and thus cannot load it.
+
+        An instance where you may want to give the runtime a chance to load the asset is if the asset in the file is marked as **Hosted**, and want to pass the responsibility of loading it to the runtime (which will call into a Rive CDN to do so).
+
+        ```javascript
+        assetLoader: (asset: rc.FileAsset, bytes: Uint8Array) => boolean;
+        ```
+
+        Your provided callback will be passed an `asset` and `bytes`.
+
+        - `asset` - Reference to a `FileAsset` object from WASM. You can grab a number of properties from this object, such as the name, asset type, and more. You'll also use this to set a new Rive-specific asset for the dynamically loaded in asset you want to set (i.e. `RenderImage` for an image, `Font` for a font, or `Audio` for audio).
+        - `bytes` - Array of bytes for the asset (if possible, such as if it's an embedded asset)
+
+        **Important**: Note that the return value is a `boolean`, which is where you need to return `true` if you intend on handling and loading in an asset yourself, or `false` if you do not want to handle asset loading for that given asset yourself, and attempt to have the runtime try to load the asset.
+
+        When decoding an asset be sure to call `unref` once it is no longer needed - to avoid memory leaks. This allows the engine to clean it up when it is not used by any more animations.\
+        Example Usage
+
+        ```javascript
+        import {
+        Rive,
+        Fit,
+        Alignment,
+        Layout,
+        decodeFont,
+        ImageAsset, // Optionally include for type checking
+        FontAsset, // Optionally include for type checking
+        FileAsset, // Optionally include for type checking
+        } from "@rive-app/canvas";
+
+        // Load a random asset by using a decodeFont API to feed to a
+        // setFont API on the asset provided in assetLoader
+        const randomFontAsset = (asset) => {
+        const urls = [
+            "https://cdn.rive.app/runtime/flutter/IndieFlower-Regular.ttf",
+            "https://cdn.rive.app/runtime/flutter/comic-neue.ttf",
+            "https://cdn.rive.app/runtime/flutter/inter.ttf",
+            "https://cdn.rive.app/runtime/flutter/inter-tight.ttf",
+            "https://cdn.rive.app/runtime/flutter/josefin-sans.ttf",
+            "https://cdn.rive.app/runtime/flutter/send-flowers.ttf",
+        ];
+        let randomIndex = Math.floor(Math.random() * urls.length);
+        fetch(urls[randomIndex]).then(
+            async (res) => {
+            // decodeFont creates a Rive-specific Font object that `setFont()` takes
+            // on the asset from assetLoader
+            const font = await decodeFont(new Uint8Array(await res.arrayBuffer()));
+            asset.setFont(font);
+            
+            // Be sure to call unref on the font once it is no longer needed. This 
+            // allows the engine to clean it up when it is not used by any more animations.
+            font.unref();
+            }
+        );
+        };
+
+
+        const riveInstance = new Rive({
+        src: "acqua_text.riv",
+        stateMachines: "State Machine 1", // Name of the State Machine to play
+        canvas: document.getElementById("rive-canvas"),
+        layout: new Layout({
+            fit: Fit.Cover,
+            alignment: Alignment.Center,
+        }),
+        autoplay: true,
+        // Callback handler to pass in that dictates what to do with an asset found in
+        // the Rive file that's being loaded in
+        assetLoader: (asset, bytes) => {
+            console.log("Asset properties to query", {
+            name: asset.name,
+            fileExtension: asset.fileExtension,
+            cdnUuid: asset.cdnUuid,
+            isFont: asset.isFont,
+            isImage: asset.isImage,
+            isAudio: asset.isAudio,
+            bytes,
+            });
+
+            // If the asset has a `cdnUuid`, return false to let the runtime handle
+            // loading it in from a CDN. Or if there are bytes found for the asset
+            // (aka, it was embedded), return false as there's no work needed here
+            if (asset.cdnUuid.length > 0 || bytes.length > 0) {
+            return false;
+            }
+
+            // Here, we load a font asset with a random font on load of the Rive file
+            // and return true, because this callback handler is responsible for loading
+            // the asset, as opposed to the runtime
+            if (asset.isFont) {
+                randomFontAsset(asset);
+                return true;
+            }
+        },
+        onLoad: () => {
+            // Prevent a blurry canvas by using the device pixel ratio
+            riveInstance.resizeDrawingSurfaceToCanvas();
+        }
+        });
+        ```
+    </Tab>
+    <Tab title="React">
+
+    ### Examples 
+
+    - [Specify a font asset to load](https://codesandbox.io/s/rive-out-of-band-fonts-react-6yljqv?file=/src/styles.css)
+    - [Specify an image asset to load](https://codesandbox.io/s/rive-out-of-band-images-react-y5fmx6?file=/src/App.js)
+    - [Specify an image asset to load (TypeScript)](https://codesandbox.io/p/sandbox/awesome-allen-8nsynq)
+
+    ### Using the Asset Handler API
+
+    When instantiating a new Rive instance with the `useRive` hook, add an `assetLoader` callback property to the list of parameters. This callback will be called for every asset the runtime detects from the `.riv` file on load, and will be responsible for either handling the load of an asset at runtime or passing on the responsibility and giving the runtime a chance to load it otherwise.
+
+    <Note>
+     Note that you can only use the `assetLoader` callback with the `useRive` hook, and not the default-exported `<Rive />` component from the React runtime
+    </Note>
+
+    ```javascript
+    assetLoader: (asset: rc.FileAsset, bytes: Uint8Array) => boolean;
+    ```
+
+    See the Web (JS) tab in this table for more API details.
+
+    </Tab>
+
+    <Tab title="Flutter">
+
+        ### Examples 
+
+        - [Swap out fonts dynamically](https://zapp.run/edit/rive-out-of-band-assets-fonts-zva0062lva10)
+        - [Swap out images dynamically](https://zapp.run/edit/rive-out-of-band-assets-image-z09q06hl09r0?entry=lib/main.dart&file=pubspec.yaml:2865-2888)
+
+        ### Using the Asset Handler API 
+
+        When instantiating a `RiveFile`, add an `assetLoader` callback property to the list of parameters. This callback will be called for every asset the runtime detects from the `.riv` file on load, and will be responsible for either handling the load of an asset at runtime or passing on the responsibility and giving the runtime a chance to load it otherwise.
+
+        An instance where you may want to handle loading an asset is if an asset in the file is marked as **Referenced**, and you need to provide an actual asset to render for the graphic, as Rive does not embed it in the `.riv` and thus cannot load it.
+
+        An instance where you may want to give the runtime a chance to load the asset is if the asset in the file is marked as **Hosted**, and want to pass the responsibility of loading it to the runtime (which will call into a Rive CDN to do so).
+
+        ```dart
+        final riveAsset = await RiveFile.asset(
+            'assets/acqua_text.riv',
+            assetLoader: CallbackAssetLoader(
+                (asset, bytes) async {
+                if (asset is FontAsset) {
+                    asset.font = _fontCache[Random().nextInt(_fontCache.length)];
+                    _fontAssets.add(asset);
+                    return true;
+                }
+                return false;
+                },
+            ),
+            );
+        ```
+
+        Your provided callback will be passed an `asset` and `bytes`.
+
+        - `asset` - Reference to a `FileAsset` object. You can grab a number of properties from this object, such as the name, asset type, and more. You'll also use this to set a new Rive specific asset for dynamically loaded content. Types: `FontAsset`, `ImageAsset`, and `AudioAsset`.
+        - `bytes` - Array of bytes for the asset (if possible, such as if it's an embedded asset)
+
+        **Important**: Note that the return value is a `boolean`, which is where you need to return `true` if you intend on handling and loading in an asset yourself, or `false` if you do not want to handle asset loading for that given asset yourself, and attempt to have the runtime try to load the asset.
+
+        **Example Usage**
+
+        Load and cache a collection of fonts. Here we demonstrate loading from Rive's CDN, but you can load these font files any way you desire.
+
+        ```dart
+        // Load a random font asset by using a decodeFont API to feed to a
+        // setFont API on the asset provided in assetLoader
+        /// Create a local cache of random fonts
+        Future<void> _warmUpCache() async {
+            final futures = <Future>[];
+
+            loadFont(url) async {
+            final res = await http.get(Uri.parse(url));
+            final body = Uint8List.view(res.bodyBytes.buffer);
+            final font = await FontAsset.parseBytes(body);
+
+            if (font != null) {
+                _fontCache.add(font);
+            }
+            }
+
+            for (var url in [
+            'https://cdn.rive.app/runtime/flutter/IndieFlower-Regular.ttf',
+            'https://cdn.rive.app/runtime/flutter/comic-neue.ttf',
+            'https://cdn.rive.app/runtime/flutter/inter.ttf',
+            'https://cdn.rive.app/runtime/flutter/inter-tight.ttf',
+            'https://cdn.rive.app/runtime/flutter/josefin-sans.ttf',
+            'https://cdn.rive.app/runtime/flutter/send-flowers.ttf',
+            ]) {
+            futures.add(loadFont(url));
+            }
+
+            await Future.wait(futures);
+        }
+        ```
+
+        Swap out the font dynamically:
+
+        ```dart
+        class RiveRandomCachedFont extends StatefulWidget {
+        const RiveRandomCachedFont({
+            Key? key,
+            required this.fontCache,
+        }) : super(key: key);
+
+        final List fontCache;
+
+        @override
+        State<_RiveRandomCachedFont> createState() => RiveRandomCachedFontState();
+        }
+
+        class RiveRandomCachedFontState extends State<RiveRandomCachedFont> {
+        List get _fontCache => widget.fontCache;
+
+        @override
+        void initState() {
+            super.initState();
+            _loadRiveFile();
+        }
+
+        RiveFile? _riveFontSampleFile;
+        final List<FontAsset?> _fontAssets = [];
+
+        Future<void> _loadRiveFile() async {
+        
+            final riveAsset = await RiveFile.asset(
+            'assets/acua_text.riv',
+            // Provide an asset loader and manage the font assets manually.
+            assetLoader: CallbackAssetLoader(
+                (asset, bytes) async {
+                if (asset is FontAsset) {
+                    asset.font = _fontCache[Random().nextInt(_fontCache.length)];
+                    _fontAssets.add(asset);
+                    return true;
+                }
+                return false;
+                },
+            ),
+            );
+
+            setState(() {
+            // Keep a reference to the font asset, to swap out the font at any point.
+            _riveFontSampleFile = riveAsset;
+            });
+        }
+
+        @override
+        Widget build(BuildContext context) {
+            if (_riveFontSampleFile == null) {
+            return const Center(child: CircularProgressIndicator());
+            }
+
+            return Column(
+            children: [
+                Expanded(
+                child: RiveAnimation.direct(
+                    _riveFontSampleFile!, // Pass in the Rive file
+                    stateMachines: const ['State Machine 1'],
+                    fit: BoxFit.cover,
+                ),
+                ),
+                Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                    onPressed: () {
+                    for (var element in _fontAssets) {
+                        element?.font = _fontCache[Random().nextInt(_fontCache.length)];
+                    }
+                    },
+                    child: const Text('Random font asset'),
+                ),
+                ),
+            ],
+            );
+        }
+        }
+        ```
+    </Tab>
+
+
+    <Tab title="iOS/macOS">
+
+        ### Examples 
+
+        - [(SwiftUI) Swap out images and fonts](https://github.com/rive-app/rive-ios/blob/main/Example-iOS/Source/Examples/SwiftUI/SwiftSimpleAssets.swift)
+        - [(UIKit) Swap and cache images and fonts](https://github.com/rive-app/rive-ios/blob/main/Example-iOS/Source/Examples/Storyboard/CachedAssets.swift)
+
+        ### Using the Asset Handler API
+
+        When instantiating a `RiveViewModel` (or `RiveFile` directly), add a `customLoader` callback property to the list of parameters. This callback will be called for every asset the runtime detects from the `.riv` file on load, and the callback will be responsible for either handling the load of an asset at runtime or passing on the responsibility and giving the runtime a chance to load it otherwise.
+
+        An instance where you may want to handle loading an asset is if an asset in the file is marked as **Referenced**, and you need to provide an actual asset to render for the graphic, as Rive does not embed it in the `.riv` and thus cannot load it.
+
+        An instance where you may want to give the runtime a chance to load the asset is if the asset in the file is marked as **Hosted**, and want to pass the responsibility of loading it to the runtime (which will call into a Rive CDN to do so).
+
+        ```swift
+        RiveViewModel(fileName: "simple_assets", loadCdn: false, customLoader: { (asset: RiveFileAsset, data: Data, factory: RiveFactory) -> Bool in
+            // A simple check for a Rive file with one asset
+            if (asset is RiveImageAsset){ 
+                // picture-47982.jpeg can be exported with the .riv file from the Rive editor.
+                // It is then included in the main bundle resources of the project
+                guard let url = (.main as Bundle).url(forResource: "picture-47982", withExtension: "jpeg") else {
+                    fatalError("Failed to locate 'picture-47982' in bundle.")
+                }
+                guard let data = try? Data(contentsOf: url) else {
+                    fatalError("Failed to load \(url) from bundle.")
+                }
+                (asset as! RiveImageAsset).renderImage(
+                    factory.decodeImage(data)
+                )
+                return true;
+            }
+            return false;
+        }).view()
+        ```
+
+        Your provided callback will be passed an `asset`, `data`, and a `factory`.
+
+        - `asset` - Reference to a `RiveFileAsset` object. You'll use this reference to set a new Rive-specific asset for dynamically loaded content. If you wish to dynamically swap a given image/font over the lifetime of your view, you may want to cache this object. You can grab a number of properties from this object, such as:
+
+
+        - `name()` - Name of the asset without the unique file identifier appended, (i.e. `picture.webp` instead of `picture-47982.webp`)
+        - `uniqueFilename()` - Name of the asset with the unique file identifier, (i.e. `picture-47982.webp` instead of `picture.webp`)
+        - `fileExtension()` - Name of the file extension (i.e. `"png"`)
+        - `cdnBaseUrl()` - Name of the base URL for the CDN
+        - `cdnUuid()` - Identifier for the resource in the Rive CDN. Useful to see if this has length so you can see if the asset is marked for grabbing from a Rive CDN (in which case, you can let the Rive runtime retrieve the asset, rather than your app logic)
+
+
+        - `data` - Array of bytes for the asset. This is useful to determine if the asset is already embedded in the Rive file (aka, not marked as "referenced" in the editor)
+        - `factory` - Utility with methods to transform an asset's bytes into a `RiveRenderImage` ,`RiveFont`, or `RiveAudio` which the `asset` object uses to render via `.renderImage(your-rive-render-image)` , `.font(your-rive-font)` , or `.audio(your-rive-audio)` . These assets are created by calling `factory.decodeImage(data)`, `factory.decodeFont(data)`, or `factory.decodeAudio(data)`
+
+        **Important**: Note that the return value of the callback is a `boolean`, which is where you need to return:
+
+        - `true` if you intend on handling and loading in an asset yourself, or
+        - `false` if you do not want to handle asset loading for that given asset yourself, and attempt to have the runtime try to load the asset.
+
+        **Example Usage**
+
+        ```swift
+        import SwiftUI
+        import RiveRuntime
+
+        struct SimpleAssetReplacement: View {
+            @StateObject private var riveInstance = RiveViewModel(fileName: "simple_assets", autoPlay: false, loadCdn: false, customLoader: { (asset: RiveFileAsset, data: Data, factory: RiveFactory) -> Bool in
+                if (asset is RiveImageAsset) {
+                    guard let url = (.main as Bundle).url(forResource: "picture-47982", withExtension: "jpeg") else {
+                        fatalError("Failed to locate 'picture-47982' in bundle.")
+                    }
+                    guard let data = try? Data(contentsOf: url) else {
+                        fatalError("Failed to load \(url) from bundle.")
+                    }
+                    (asset as! RiveImageAsset).renderImage(
+                        factory.decodeImage(data)
+                    )
+                    return true;
+                } else if (asset is RiveFontAsset) {
+                    guard let url = (.main as Bundle).url(forResource: "Inter-45562", withExtension: "ttf") else {
+                        fatalError("Failed to locate 'Inter-45562' in bundle.")
+                    }
+                    guard let data = try? Data(contentsOf: url) else {
+                        fatalError("Failed to load \(url) from bundle.")
+                    }
+                    (asset as! RiveFontAsset).font(
+                        factory.decodeFont(data)
+                    )
+                    return true;
+                }
+                return false;
+            })
+            
+            var body: some View {
+                riveInstance.view()
+            }
+        }
+        ```
+
+        ### Fonts 
+
+        When using a custom loader, referenced fonts can be loaded one of two ways: with raw data (from a file, as seen above), or with a `UIFont` / `NSFont`.\
+        When using `UIFont` / `NSFont`, size, weight, and width of the supplied font is ignored. The font will be used as defined in the text run, rather than being overridden by the supplied font's styling.
+
+        ```swift
+        import SwiftUI
+        import RiveRuntime
+
+        struct SimpleFontReplacement: View {
+            @StateObject private var riveInstance = RiveViewModel(fileName: "simple_assets", autoPlay: false, loadCdn: false, customLoader: { (asset: RiveFileAsset, data: Data, factory: RiveFactory) -> Bool in
+                if (asset is RiveFontAsset) {
+                    (asset as! RiveFontAsset).font(
+                        factory.decodeFont(UIFont.systemFont(ofSize: 12))
+                    )
+                    return true;
+                }
+                return false;
+            })
+            
+            var body: some View {
+                riveInstance.view()
+            }
+        }
+        ```
+
+        ### Images 
+
+        When loading assets for referenced images, you may need to scale local assets to the size of an image asset as defined in your Rive file. When using a custom loader, you can access the size of the referenced image via the `size` property of a `RiveImageAsset`.
+
+        ```swift
+        import SwiftUI
+        import RiveRuntime
+
+        struct SimpleImageSizeReplacement: View {
+            @StateObject private var riveInstance = RiveViewModel(fileName: "simple_assets", autoPlay: false, loadCdn: false, customLoader: { (asset: RiveFileAsset, data: Data, factory: RiveFactory) -> Bool in
+                guard let imageAsset = asset as? RiveImageAsset else { return false }
+                    let requestedSize = imageAsset.size
+                    let image = UIImage(...)
+                    let resizedImage = resize(image, to: requestedSize)
+                    guard let pngData = resizedImage.pngData() else { return false }
+                    imageAsset.renderImage(
+                        factory.decodeImage(pngData)
+                    )
+                    return true
+                }
+                return false;
+            }
+            
+            var body: some View {
+                riveInstance.view()
+            }
+        
+        ```
+    </Tab>
+
+    <Tab title="Android">
+    
+        ### Examples
+
+        - https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/AssetLoaderFragment.kt
+
+        ### Using the Asset Handler API
+
+        When instantiating a new `RiveAnimationView`, set a new attribute called `riveAssetLoaderClass` whose value is a string name of the full path to a class that will be responsible for either handling the load of an asset at runtime or passing on the responsibility and giving the runtime a chance to load it otherwise.
+
+        **via XML**
+
+        ```kotlin
+        <app.rive.runtime.kotlin.RiveAnimationView
+            android:id="@+id/rive_font_load_simple"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:riveStateMachine="State Machine 1"
+            app:riveAssetLoaderClass="app.rive.runtime.example.HandleRiveFontAsset"
+            app:riveResource="@raw/acqua_text" />
+        ```
+
+        In your accompanying activity, create a new class with the name provided to `riveAssetLoaderClass`, who should implement the `ContextAssetLoader` abstract class from the Rive runtime. Here, you can override a `loadContents` function, which will do the work of determining what assets (if any) to load:
+
+        - `asset` - Reference to a `FileAsset` object. You can grab a number of properties from this object, such as the name, asset type, and more. You'll also use this to set a new Rive-specific asset for the dynamically loaded in asset you want to set
+        - `bytes` - Array of bytes for the asset (if possible, such as if it's an embedded asset)
+
+        ```kotlin
+        override fun loadContents(asset: FileAsset, inBandBytes: ByteArray): Boolean
+        ```
+
+        **Important**: Note that the return value is a `boolean`, which is where you need to return `true` if you intend on handling and loading in an asset yourself, or `false` if you do not want to handle asset loading for that given asset yourself, and attempt to have the runtime try to load the asset.
+
+        **Example Usage**
+
+        To accompany the XML snippet above, here's an example of what the accompanying activity may look like:
+
+        ```kotlin
+
+
+        package app.rive.runtime.example
+
+        import android.content.Context
+        import android.os.Bundle
+        import android.widget.FrameLayout
+        import androidx.appcompat.app.AppCompatActivity
+        import app.rive.runtime.kotlin.core.ExperimentalAssetLoader
+        import app.rive.runtime.kotlin.core.FileAsset
+
+
+        import app.rive.runtime.kotlin.core.ContextAssetLoader
+        import kotlin.random.Random
+
+        class FontLoadActivity : AppCompatActivity() {
+            override fun onCreate(savedInstanceState: Bundle?) {
+                super.onCreate(savedInstanceState)
+                setContentView(R.layout.rive_font_load_simple)
+            }
+        }
+
+        open class HandleSimpleRiveAsset(context: Context) : ContextAssetLoader(context) {
+            private val fontPool = arrayOf(
+                R.raw.montserrat,
+                R.raw.opensans,
+            )
+            /**
+            * Override this method to customize the asset loading process.
+            */
+            override fun loadContents(asset: FileAsset, inBandBytes: ByteArray): Boolean {
+                val randFontIndex = Random.nextInt(fontPool.size)
+                val fontToLoad = fontPool[randFontIndex]
+                context.resources.openRawResource(fontToLoad).use {
+                    // Load in the font bytes to the asset
+                    return asset.decode(it.readBytes())
+                }
+            }
+        }
+        ```
+    </Tab>
+
+</Tabs>
+
+
+## Additional Resources
+
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/BrWBmZwouQQ?si=3eZ4thd333RKXhPi" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>

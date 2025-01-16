@@ -1,0 +1,86 @@
+---
+title: 'IK Constraint'
+description: ''
+---
+
+Learn how to use Inverse Kinematics in Rive.
+
+## About Inverse Kinematics (IK) 
+
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/8FK5E5WBUpM?si=8cFpWkaROrc1JWLi" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+### Forward Kinematics 
+
+Most skeletal animation in Rive is done by rotating the angles of bones. The position of a child bone changes according to the rotation of its parent. Positioning a bone at the end of a chain requires rotating multiple parent bones (the bones up the chain) to reach the desired pose. This type of skeletal posing is called Forward Kinematics.
+
+### Inverse Kinematics 
+
+Inverse Kinematics allows you to place a target at the end of the chain and the system works backward to find a valid orientation for the parent bones above it.
+
+![Image](https://ucarecdn.com/ffcfbb2c-ad3a-49d4-a4ef-ec83a7e2780c/)
+
+There are many applications for this technique, but some of the more common examples include making a character point at an item or making a character's feet stay planted on the ground.
+
+## How to create an IK constraint 
+
+To use IK, you need a bone chain and a target. The target can be any object, though in most cases you'll want to use a group with its [Style set to Target](/editor/fundamentals/groups#group-style).
+
+### 1. Create a bone chain and a target 
+
+Use the **B** shortcut to create a [bone chain](/editor/manipulating-shapes/bones#how-to-create-bones). Then use the **G** shortcut to create a [group](/editor/fundamentals/groups). Set the group's Style option in the Inspector to Target.
+
+![Image](https://ucarecdn.com/efde9d84-1364-4cf7-b7a4-16c4834f14f9/)
+
+Use the B and G shortcuts to activate the Bone and Group tools
+
+### 2. Add an IK constraint 
+
+Select the last bone you want to affect and add an IK constraint using the Constraints section of the Inspector.
+
+![Image](https://ucarecdn.com/9b320235-1cfb-4a11-9e02-f64d2149cf11/)
+
+### 3. Select a target 
+
+Open the constraint fly-out menu and use the target button to select the empty group created in step 1.
+
+![Image](https://ucarecdn.com/9646ddc3-b452-41a8-894f-635ccd12df09/)
+
+### 4. Test the IK system 
+
+Move the target group to test the system is working.
+
+![Image](https://ucarecdn.com/d646176c-f782-4b04-acf2-2c69ae495e36/)
+
+## Bone Count 
+
+Use the Bone Count property to set how far up the chain the IK system should work. Note that bones affected by the IK system are highlighted when the target is selected.
+
+![Image](https://ucarecdn.com/de7b0c48-49b2-4c6b-8935-1530fef7bffa/)
+
+## Invert Direction 
+
+Use the Invert Direction toggle to swap the angle at which your IK system solves.
+
+![Image](https://ucarecdn.com/c25849b6-b06f-4bd4-a921-fa16fa8de3a9/)
+
+## Strength 
+
+Use the Strength property to control how much the influenced bones should follow the target. A Strength of 0% means the target won't affect the influenced bones at all.
+
+Note that Strength can be animated, like most properties in Rive. Use this to create unique effects or to blend between two or more IK constraints (each with their own target).
+
+![Image](https://ucarecdn.com/b6d8a9bf-c604-4f91-86fe-1c1223aedd89/)
+
+## Constraints order 
+
+The order of constraints matters. For example, if a bone has two IK constraints, both with a strength of 100%, the second constraint (bottom-most) will cancel out the first one. If they don't have 100% strength, then the IK system will blend between the two. Use drag and drop to change the order of constraints.
+
+![Image](https://ucarecdn.com/4751a9cd-f2c8-4b4a-9043-bd71276315f6/)
+
+Use drag and drop to change the order of constraints
+
+## Multiple IK constraints and nested targets 
+
+You can set up multiple IK constraints for more complex rigs. A common setup is to have an IK constraint on the feet of a character (note that in our example below it only affects 1 bone) and another IK constraint for the leg bones (two bones). The leg target is a child of the foot target so that moving the feet will also move the legs.
+
+![Image](https://ucarecdn.com/553313ae-136c-456f-9a72-d756904fa823/)

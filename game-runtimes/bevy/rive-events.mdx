@@ -1,0 +1,53 @@
+---
+title: 'Rive Events'
+description: 'Listen to Rive Events in Bevy.'
+---
+
+For more information on Rive Events see the respective runtime and editor documentation.
+
+<CardGroup col="2">
+  <Card title="Rive Events"  icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>}>
+    With Rive events, you have the ability to subscribe to meaningful signals that get reported from animations, state machines, and Rive listeners, all created at design time from the Rive editor.
+    <br />
+    <a href="../../runtimes/rive-events" target="_blank">Learn more</a>
+  </Card>
+  <Card title="Events"  icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>}>
+    Events are a way to send signals to your runtime code to execute a block of code at the right moment.
+    <br />
+    <a href="../../editor/events/overview" target="_blank">Learn more</a>
+  </Card>
+</CardGroup>
+
+## Subscribing to Events
+
+Imports needed:
+
+```rust
+use rive_bevy::{GenericEvent, RivePlugin, SceneTarget, SpriteEntity, StateMachine};
+use rive_rs::state_machine::Property;
+```
+
+The following code demonstrates a system listening to all Rive events reported from active state machines.
+
+For example, let's take a look at a code snippet for a star-rating Rive file. If a reported event's name is **star,** the **Number** property is retrieved from the event data.
+
+```rust
+fn receive_rive_events_system(mut rive_event: EventReader<GenericEvent>) {
+    for event in rive_event.read() {
+        info!("Rive event: {:?}", event);
+        // We can match on the event name and extract the properties.
+        if event.name == "Star" {
+            // Find the "rating" property which is a Property::Number.
+            if let Some(Property::Number(rating)) = event.properties.get("rating") {
+                info!("Rating: {:?}", rating);
+            }
+        }
+    }
+}
+```
+
+Other properties that can be read are **Bool** and **String**, with `Property::Bool` and `Property::String`.
+
+### Additional Resources
+
+- [Rive Bevy events example](https://github.com/rive-app/rive-bevy/blob/main/examples/rive-events.rs)

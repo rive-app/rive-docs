@@ -1,0 +1,39 @@
+---
+title: 'Common Use Cases'
+description: ''
+---
+
+
+<Note>
+ The Unreal plugin is in Technical Preview and may change.
+</Note>
+
+## Using the OnRiveReady Event
+
+Accessing rive objects requires them to be initialized. This is due to the multithreaded nature of Rive's underlying implementation. **OnRiveReady** events can be used to determine when Rive is ready for use.
+
+For instance, you may want to set data in a Rive component when it is first created, like filling in the user's name in a **Text Run** when a **RiveWidget** is created.
+
+The blueprint below shows how to bind to the **OnRiveReady** event of a **RiveWidget** and set the text when play has begun and the **RiveWidget** is ready for use.
+
+![Image](https://ucarecdn.com/7bb2da03-269e-4e7d-844d-7dd69d05b0ed/)
+
+## Controlling Rive files in Unreal Sequencer
+
+Rive files have both inputs and triggers that can be called via Blueprints, which in turn can be called by triggers in the Unreal Sequencer. The Rive and Unreal terminology collides a bit here, so I’ll try to be as clear as possible.
+
+1. In sequencer, add your RiveActor as a track.
+2. Move the timeline head to the location where you want to trigger an input or Rive trigger.
+3. Add a key.
+4. Right-click the key, select Properties and select “Create New Endpoint”. This will create a Blueprint node that will trigger whatever Blueprint action you like, including Rive actions.
+5. Open the Blueprint (double-click on Event) and add a Rive Set Bool Value node (be sure to uncheck “Context Sensitive” in the search box.
+6. The Rive Set Value nodes require an artboard as an input which can be derived from the Sequencer Event node. Add a Rive Get Artboard node and drag the target from the Sequencer Event node. A conversion node will be automatically added.
+7. Ensure the Blueprint’s “Call In Editor” box is checked.\
+   \
+   In the example video below, I have a Rive file that has a Boolean input called “Processing” which kicks off a looping animation.
+
+<video
+  controls
+  className="w-full aspect-video"
+  src="https://ucarecdn.com/22a368aa-5110-4b79-afa8-e244a3500e24/"
+></video>

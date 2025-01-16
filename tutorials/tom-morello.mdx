@@ -1,0 +1,150 @@
+---
+title: 'Tom Morello'
+description: ''
+---
+
+## Intro
+
+In this tutorial, we'll look at an advanced file and look into some of the techniques used. While we won't build the file step by step, we will examine the design, rig, animations, and state machine. For a more in-depth look, dive into the source file and look around. 
+
+![Image](https://1159711764-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-M3EXlibk6bj2FzPQW-9%2F-Mgvi1fvDdy7Q7ngUHRD%2F-MgviOLzyZsObj195P7d%2F2021-08-12%2012.56.13.gif?alt=media&token=0662a636-8961-4065-a5ad-49a4136ec75d)
+
+## Design
+
+### 1. Use simple shapes
+
+Notice the majority of the character uses simple shapes.
+
+![Image](https://1159711764-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-M3EXlibk6bj2FzPQW-9%2F-Mgvn4zKrmlF6HRPWD8J%2F-Mgvn7RqbFWHFpgy9y7D%2F2021-08-12%2013.15.25.gif?alt=media&token=783a1d77-bcf1-401b-87b7-c56d4293a411)
+
+*Use simple shapes*
+
+The arms and legs have additional vertices added to account for the knees and elbows.
+
+![Image](https://1159711764-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-M3EXlibk6bj2FzPQW-9%2F-MgvoI5QZicecVLXSjGS%2F-MgvoLlNj04uNOFfGbx2%2F2021-08-12%2013.18.26.gif?alt=media&token=1d8e5bd4-f709-417c-8033-4d59dda86371)
+
+Use additional vertices for knees and elbows
+
+​[Strokes](https://app.outverse.com/rive/doc/fill-and-stroke/docssRdNqU2I)[ ](https://app.outverse.com/rive/doc/fill-and-stroke/docssRdNqU2I)with [rounded end caps](https://app.outverse.com/rive/doc/fill-and-stroke/docssRdNqU2I#heading-5) are used to create the fingers.
+
+![Image](https://1159711764-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-M3EXlibk6bj2FzPQW-9%2F-MgvpDdXAb5bdmwQjnLD%2F-Mgvp_bJI4MkCbgMnqZH%2F2021-08-12%2013.24.07.gif?alt=media&token=4568ceb2-6033-4928-b293-6ec89f34f408)
+
+*Use stokes for fingers*
+
+Notice the guitar cable is split into multiple shapes to give the cable a 3D effect.
+
+![Image](https://1159711764-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-M3EXlibk6bj2FzPQW-9%2F-MgvrurWtrlumQVCJIDu%2F-Mgvrx_ZXYBfQuV_LetV%2F2021-08-12%2013.36.30.gif?alt=media&token=1be972d9-5c90-4472-b1f9-dcbff586ece8)
+
+### 2. Rim lighting
+
+Rim lighting helps your character stand out in the composition.
+
+![Image](https://1159711764-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-M3EXlibk6bj2FzPQW-9%2F-Mgvz3pORBTT0EiK5cuj%2F-Mgw-GXfl2YRpb-jHkqu%2FScreen%20Shot%202021-08-12%20at%202.14.48%20PM.png?alt=media&token=43f90d8e-a87f-4b71-af2f-731ed948579b)
+
+Duplicate shapes and change their color to easily light one or multiple sides.
+
+![Image](https://1159711764-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-M3EXlibk6bj2FzPQW-9%2F-MgwAf2ih4bzt_Tv-8GN%2F-MgwBy0b9EIiPPtMho3n%2F2021-08-12%2015.05.23.gif?alt=media&token=ae9f2482-c8ac-46f4-bd38-823f0f2536d7)
+
+Use gradient strokes on your shapes. As the light falls off, turn down the opacity or select a darker color.
+
+![Image](https://1159711764-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-M3EXlibk6bj2FzPQW-9%2F-MgwDqBbi11nsZEZk3TH%2F-MgwEeSfsgLvtcZ4R6qd%2F2021-08-12%2015.16.37.gif?alt=media&token=214fc1ac-1fae-4220-a922-09cf54899a15)
+
+### 3. Background & effects
+
+Use gradients with multiple stoppers to create a base for the background.
+
+![Image](https://1159711764-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-M3EXlibk6bj2FzPQW-9%2F-MgwLE0QAowS5KBhZe8i%2F-MgwLeF2QOCjW67Hlv_K%2F2021-08-12%2015.26.52.gif?alt=media&token=d9c29bfe-c392-4a28-8876-0b61b1922af2)
+
+Use blend modes to create unique effects such as lens flares, color shifts, and framing.
+
+![Image](https://1159711764-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-M3EXlibk6bj2FzPQW-9%2F-MgwOTVqgF5G5vcOiqVD%2F-MgwOU_a9kJ2oHiM082q%2F2021-08-12%2015.36.35.gif?alt=media&token=d3d65541-605a-416e-a506-76b702bcb470)
+
+Lens flare with Overlay mode
+
+![Image](https://1159711764-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-M3EXlibk6bj2FzPQW-9%2F-MgwOTVqgF5G5vcOiqVD%2F-MgwOeIaTdx5ohjpiymI%2F2021-08-12%2015.39.08.gif?alt=media&token=8d524250-38e7-4790-8f2f-f5daabc5d1e9)
+
+Color shift with Screen mode
+
+![Image](https://1159711764-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-M3EXlibk6bj2FzPQW-9%2F-MgwOTVqgF5G5vcOiqVD%2F-MgwP-6B_d1a0Pr7tbQ0%2F2021-08-12%2015.46.27.gif?alt=media&token=bd826ba4-6603-4986-a678-95d81a59f3bf)
+
+*Framing with Color Burn mode*
+
+## Rigging
+
+Start with a basic skeleton.
+
+![Image](https://1159711764-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-M3EXlibk6bj2FzPQW-9%2F-MhEZQbcwLER1DlgVqRD%2F-MhEayekV8Yy2xFJSxf-%2F2021-08-16%2009.32.59.gif?alt=media&token=7a7d384c-ab55-48c3-b69a-71af5363da1e)
+
+Add in additional bones for accessories.
+
+![Image](https://1159711764-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-M3EXlibk6bj2FzPQW-9%2F-MhEZQbcwLER1DlgVqRD%2F-MhEfAxiuNGidtC_E51S%2F2021-08-16%2009.52.06.gif?alt=media&token=e98c5253-2acb-4dde-a4b1-22480a9c14df)
+
+Ensure the bones have the proper hierarchical relationships.
+
+![Image](https://1159711764-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-M3EXlibk6bj2FzPQW-9%2F-MhFFxOoQKuLdNwLrsuu%2F-MhFIC6c_gIWmV4y_4SK%2F2021-08-16%2012.41.45.gif?alt=media&token=d0cb7138-7c90-4695-b2d3-af302de7960c)
+
+Set up [IK constraints](https://help.rive.app/editor/constraints/ik-constraint) to make controlling the legs easier.
+
+![Image](https://1159711764-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-M3EXlibk6bj2FzPQW-9%2F-MhFJg5i18m0p8Gpv-hL%2F-MhFJgSmwbGjR_Urv7HR%2F2021-08-16%2012.51.42.gif?alt=media&token=0316c32a-3db8-46b5-b442-4f307600b237)
+
+For the best performance, [bind and weight](https://help.rive.app/editor/manipulating-shapes/bones#2-binding) only the shapes that will be influenced by two or more bones.
+
+![Image](https://1159711764-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-M3EXlibk6bj2FzPQW-9%2F-MhFK649iTpKqBe6lvYp%2F-MhFNR6ABWKFHjwDgAyl%2F2021-08-16%2013.09.57.gif?alt=media&token=0c1e0894-6e01-49cd-8adb-1eef3561624d)
+
+Use [parent-child relationships](https://help.rive.app/editor/manipulating-shapes/bones#1-hierarchical-relationships) for shapes or groups that only use a single bone.
+
+![Image](https://1159711764-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-M3EXlibk6bj2FzPQW-9%2F-MhFK649iTpKqBe6lvYp%2F-MhFOSNCeGOIXTa_XOyK%2F2021-08-16%2013.14.20.gif?alt=media&token=70d381ea-c8bb-4457-89d9-a70e5998aab0)
+
+Ensure all objects are nested under a Root group before animating. This group will allow you to control the transform properties of the entire composition, even if you've already added some animations.
+
+![Image](https://1159711764-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-M3EXlibk6bj2FzPQW-9%2F-MhFOh0IL8UwoRv2PKhX%2F-MhFQPOtBz4EFDhXr9ox%2F2021-08-16%2013.20.51.gif?alt=media&token=9b546aff-0926-4dc3-9c29-5dd6c4f5d48d)
+
+​
+
+## Animation
+
+Animate the idle first. Let the control bone do most of the work.
+
+![Image](https://1159711764-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-M3EXlibk6bj2FzPQW-9%2F-MhFTUCSCwvaKuH84-MW%2F-MhFVJo5v2QXE-swmP0b%2F2021-08-16%2013.45.18.gif?alt=media&token=8f28227e-dafb-4d20-af04-f4443514a233)
+
+Add secondary motion to make the animation more interesting.
+
+![Image](https://1159711764-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-M3EXlibk6bj2FzPQW-9%2F-MhFTUCSCwvaKuH84-MW%2F-MhFWCVSiwmndvzB238K%2F2021-08-16%2013.45.55.gif?alt=media&token=cce5fe70-0e60-4d8d-8971-2fc1a55fd7b3)
+
+If you are planning on using the animation in the [state machine](https://help.rive.app/editor/state-machine), be sure to key all objects (bones, shapes, paths, ect...) in their current position. This will ensure the character can return to the proper pose when switching between states.
+
+![Image](https://1159711764-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-M3EXlibk6bj2FzPQW-9%2F-MhFTUCSCwvaKuH84-MW%2F-MhFYPKOLZzMdrLmY7s2%2F2021-08-16%2013.57.27.gif?alt=media&token=3acce67e-f069-4c74-b211-51a7ae2da546)
+
+Use the bones to help you achieve the proper poses, then edit the timing.
+
+![Image](https://1159711764-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-M3EXlibk6bj2FzPQW-9%2F-MhFTUCSCwvaKuH84-MW%2F-MhFdUgbeOUIf5fzcbNH%2F2021-08-16%2014.20.15.gif?alt=media&token=d5e8cf39-c1f1-454b-aa1a-6828f0cecd07)
+
+Once you are happy with the main poses and timing, add in secondary motion.
+
+![Image](https://1159711764-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-M3EXlibk6bj2FzPQW-9%2F-MhFTUCSCwvaKuH84-MW%2F-MhFhaSyPfLluXzRWQ1_%2F2021-08-16%2014.38.23.gif?alt=media&token=b899f271-7068-4655-ab17-ffc1c883c686)
+
+## State Machine
+
+Create a new state machine with the plus button in the animations list.
+
+![Image](https://1159711764-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-M3EXlibk6bj2FzPQW-9%2F-MhFj7Zd1znlCQTQIbjr%2F-MhFjEj5m0zESTA2e4Fq%2F2021-08-16%2014.51.22.gif?alt=media&token=e18d2aa8-c8d5-4317-88c2-8563fd5ab95a)
+
+Drag your animations onto the graph.
+
+![Image](https://1159711764-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-M3EXlibk6bj2FzPQW-9%2F-MhFleMWtk_YZyJIaiy9%2F-MhFlp5r5mvhAypcyknW%2F2021-08-16%2015.00.10.gif?alt=media&token=bf4ccf5c-0972-4aef-9f0f-86cf563a9de5)
+
+Add [transitions](https://app.outverse.com/rive/doc/transitions/docpF7IDbHp6).
+
+![Image](https://1159711764-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-M3EXlibk6bj2FzPQW-9%2F-MhFleMWtk_YZyJIaiy9%2F-MhFm_1SDS4XfP-q3Jr_%2F2021-08-16%2015.05.09.gif?alt=media&token=4464d71b-d005-43b1-b803-e687ddab2a35)
+
+Add an [input](https://app.outverse.com/rive/doc/inputs/docwgNrq7ssz)[.](https://app.outverse.com/rive/doc/inputs/docwgNrq7ssz)
+
+![Image](https://1159711764-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-M3EXlibk6bj2FzPQW-9%2F-MhFleMWtk_YZyJIaiy9%2F-MhFn9C1DtffbywBRlt1%2F2021-08-16%2015.07.50.gif?alt=media&token=5cdea0d9-1870-4e4d-90ed-a75003700754)
+
+Configure transition [conditions](https://app.outverse.com/rive/doc/state-machine/docwH5zPdh93).
+
+![Image](https://1159711764-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-M3EXlibk6bj2FzPQW-9%2F-MhFleMWtk_YZyJIaiy9%2F-MhFo10ew0Oyr6sHU4tr%2F2021-08-16%2015.10.19.gif?alt=media&token=289294bc-83c7-4701-884a-404a48dcc7a9)
+
+Test and make any changes necessary.
+
+![Image](https://1159711764-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-M3EXlibk6bj2FzPQW-9%2F-MhFleMWtk_YZyJIaiy9%2F-MhFoMckscBiGWYBnsxR%2F2021-08-16%2015.11.20.gif?alt=media&token=9d317723-32f6-4d1b-be51-75dcd7a8a81f)

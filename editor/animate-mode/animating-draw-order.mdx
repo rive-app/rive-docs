@@ -1,0 +1,24 @@
+---
+title: 'Animating Draw Order'
+description: ''
+---
+
+You can change the draw order of your graphics at design time by moving items up and down the [Hierarchy](../interface-overview/hierarchy)– but what if you want to change the draw order during an animation? Or what if you want to change the draw order without breaking the current hierarchical structure? Rive allows you to accomplish this with Draw Order Rules.
+
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/9gQkxPVPffs?si=3DBZrJvJ_l-vANno" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+## Draw Order Rules
+
+To animate the draw order of a group or shape, start by selecting it. Use the Draw Order section of the Inspector to create Draw Order Rules.
+
+![Image](https://ucarecdn.com/426adab7-b1d3-47bc-bc42-c5cc397fa9d6/)
+
+The Normal rule is the default order (based on [Hierarchy](../interface-overview/hierarchy) order). When the radio button next to this rule is active, the shape appears at its default draw order.
+
+Draw Order Rules allow you to select a target (note that this must be a drawable item, not a group) and whether to draw above or below the target.
+
+<Note>The target must be a drawable item, like a shape. It cannot be a group.</Note>
+
+In Animate mode, use the radio button next to the Draw Order Rules to set a key. Note that these are[ ](https://app.outverse.com/rive/doc/interpolation-easing/docP9A6iGEsI)[Hold keys](https://app.outverse.com/rive/doc/interpolation-easing/docP9A6iGEsI)[ ](https://app.outverse.com/rive/doc/interpolation-easing/docP9A6iGEsI)as Draw Order cannot be interpolated.
+
+![Image](https://ucarecdn.com/32925768-cbcf-461c-9fe1-b745bf90a34d/)

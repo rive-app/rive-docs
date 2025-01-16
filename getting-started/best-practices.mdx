@@ -1,0 +1,117 @@
+---
+title: 'Best Practices'
+description: ''
+---
+
+Editor & runtime performance and usage considerations 
+
+Rive is built to efficiently play interactive graphics in the editor and at runtime in applications and games. However, poorly optimized animations can consume significant resources and cause poor performance, particularly on low-end devices. In the following sections, we will outline important considerations and tips for maintaining optimal performance and minimal resource utilisation both during design/animate time in the Rive editor, as well as during runtime in applications.
+
+<Info>We recommend continuous testing of your animations on your target devices/platforms.</Info>
+
+## Design-time Considerations
+
+See below for some techniques to employ in the Rive editor to keep Rive performant:
+
+### Raster Assets
+
+Raster assets could have a significant impact on runtime memory and file size.
+
+When using images, you should strike a balance between image quality, image dimension, and file size. Considerations include resizing images to fit the desired display area and choosing an appropriate compression level to reduce file size while maintaining acceptable visual quality.
+
+**Image Size/Dimension**
+
+It is crucial to ensure that the size of an image asset is appropriate for its usage. For instance, avoid using an image with large dimensions (e.g., 8192 x 7022) when it will be displayed in a small section of your artboard (e.g., sized 100 x 100).
+
+Using large images can quickly consume device memory. This is particularly true on mobile devices where applications are more memory-constrained. Even if these images are compressed, their dimensions will still impact the amount of application memory used.
+
+#### Compression
+
+Compression involves reducing the file size by employing various algorithms to discard some image data. You can compress images directly from the Rive editor, which means you maintain the original image but compress the images for runtime use. If the asset is embedded in the animation, this will reduce the file size of the exported riv.
+
+#### Other Considerations
+
+- If you’re importing assets for reference only, ensure they are deleted before exporting the .riv file to ensure the asset doesn’t get bundled in.
+- Depending on your target device/platform, it may make sense to have multiple different raster assets. For example, use smaller images when targeting mobile vs. desktop.
+- See our docs on [Loading Assets](../runtimes/loading-assets), to dynamically load in assets at runtime, instead of embedding the files in the exported `.riv` binary.
+
+### Importing Lottie Files
+
+Although Rive does offer a Lottie converter for easy export of `.riv` files, you will discover that re-implementing the graphics and animations directly in Rive can result in much smaller file sizes.
+
+Working directly in Rive is generally preferable as it allows for file optimization based on your animation requirements. For instance, using bones and constraints to create rigs will result in fewer keys in the animation compared to converting directly from Lottie.
+
+### Idle Animations
+
+If you have idle animation states where the graphic remains static at a given state in a state machine, consider using a "one-shot" animation and ensuring that the timeline animation is not unnecessarily long. At runtime in a state machine, if no looping animations or active blend states are playing, the runtime will preemptively “pause” itself until a state machine input or Rive Listener triggers the next transition in the state machine. This is useful because resource consumption (i.e., CPU usage) may decrease to the point of making Rive impact on resources negligent on applications.
+
+Scenarios: Icons, buttons, graphics that only animate based on user interaction, etc.
+
+### Using Solos
+
+A [Solo](https://uat.rive.app/community/doc/solos/docXEEYoqU0R) is similar to a group but with the added ability to toggle the rendering of nested objects. It functions like a radio button, deactivating other objects on the same level.
+
+One common use case for Solos is creating different skins for a character that can be easily toggled on and off. Using Solos is much faster than individually animating the opacity of each object. Additionally, it allows the editor and runtimes to optimize your animation by not computing/rendering the deactivated Solos.
+
+### Blend States
+
+Similar to the guidance in “Idle Animations”, ensure blend states transition out to other states, or move to an exit state when finished if possible. When blend states are activated at runtime, Rive will continually play the state machine, even if it is not necessary anymore. Providing some transition away from the blend state when complete ensures Rive has one less “active” animation to track when considering whether to self-pause at any point while playing the state machine.
+
+## Runtime Considerations
+
+See below for some techniques to employ when using Rive runtimes in application to keep Rive performant:
+
+### Out-of-band Assets
+
+See our documentation on [Loading Assets](../runtimes/loading-assets). This feature allows you to dynamically load and replace assets (such as fonts, images, and audio) at runtime through code and provide the resources to your Rive graphic. This has the following benefits:
+
+- Reduces the exported .riv binary size.
+- Assets can be reused across multiple Rive files or other areas of your application.
+- Assets can be preloaded and cached to be more readily available before displaying a Rive graphic.
+
+### Pausing Programmatically
+
+There are several cases where you may want to pause a running animation/state machine configured with Rive programmatically. By pausing the Rive graphic at runtime, you may notice that Rive’s impact on the application has negligible resource consumption (i.e., CPU).
+
+1. Rive graphic is offscreen
+
+   a. If a Rive graphic is scrolled offscreen and does not need to continue playing, call the `pause` API on the respective runtime you’re using to prevent Rive from continuing to animate and consume resources when not needed.
+
+   b. Call the `play` API to continue playing Rive when the graphic needs to continue animating if back onscreen.
+2. Accessibility
+   - If a user has set in device settings that they prefer reduced motion, you may want to read this property at runtime and programmatically either call `pause` or set `autoplay: false` with the Rive runtime to ensure these users have reduced motion when navigating the application. Alternatively, different artboards or state machines can be created and loaded at runtime that function differently.
+3. State machine is idle with static graphics
+
+   a. `Pause` when the Rive graphic is idling while it waits for a transition in the state machine from user interaction, data resolving, etc.
+
+### Low-level runtime
+
+Most runtimes have both a high-level API for ease of use and a more “advanced” low-level runtime counterpart, which allows you to have more granular control of how animations/state machines play (”advance”) over time.
+
+You can load a Rive file (.riv) using low-level runtimes and manage its resources. With this pattern, you can dynamically create multiple instances of a given Artboard (and its associated state machine).
+
+This is useful if you’re creating a whole “scene” with Rive content that draws to the same canvas/view and needs to efficiently manage how each entity advances over time. For example, if you render 100 instances of an artboard you may want to control when and how each of these entities animates over time, as well as when it stops and removes itself from the scene, thus being more strategic about how much Rive utilizes in resources to draw each frame.
+
+See runtime-specific documentation here:
+<CardGroup cols={2}>
+  <Card 
+  title="Low-level API Usage"
+  icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>}
+  href="https://mintlify.com/docs/development"
+  >
+      While the JS runtime offers a high-level API that allows for integrating Rives into web applications quickly, the runtime also allows for a smaller advanced low-level API that allows for constructing and controlling Rive(s) in your own render loop.
+  </Card>
+  <Card 
+  title="Custom Painter"
+  icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>}
+  href="https://mintlify.com/docs/development"
+  >
+  You can manage advancing and drawing an artboard yourself by using a CustomPainter. This will give you more control at a painting level, allowing you to:
+  </Card>
+</CardGroup>
+
+### Low-end devices
+
+Rive will try to run performantly across all browsers/devices, but if you can, test how your application performs on resource-constrained devices with your specific Rive graphics running. You may find that for a given screen, Rive files that include heavily-animated graphics might be overkill for what is truly needed and decide to display static Rive graphics (i.e., autoplay: false) or reduce the amount of Rive entities animating at any given point.
+
+A strategy for lower-end devices could be to create an alternative artboard or state machine with reduced usage/motion, that can dynamically be loaded in at runtime when running on older devices.

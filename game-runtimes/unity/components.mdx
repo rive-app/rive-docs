@@ -1,0 +1,319 @@
+---
+title: 'Components'
+description: ''
+---
+
+The Rive Unity package includes components to help you integrate Rive into your project quickly and easily. These components are a high-level abstraction over the [low-level API](https://rive.app/community/doc/fundamentals/docRiDeDEKyX), handling rendering and pointer input, and providing a unified way of working with Rive across render pipelines.
+
+We recommend working with these components unless you have specific rendering needs or need more control over where Rive fits into your graphics pipeline, in which case you can use the low-level API.
+
+## Rive Panel 
+
+The Rive Panel is the foundation for displaying Rive graphics in Unity. It acts as a viewport that manages and renders a collection of Rive widgets to a render texture, with the panel's dimensions determining the render target's size.
+
+The panel renders multiple widgets to a single render texture, which means you draw different Rive files and artboards to one texture by placing multiple Rive Widgets under the same panel. This is more performant than using multiple panels as each panel renders to a separate texture by default. 
+
+#### Setup 
+
+Create an instance: Right-click in the scene hierarchy `→ Rive → Rive Panel` 
+
+<Warning>
+ A Rive Panel simply handles drawing the graphics to a texture. You'll need to use the Rive Panel **with** a [Panel Renderer](https://rive.app/community/doc/components/docZxgcghXbV#panel-renderers) to display the texture.
+</Warning>
+
+**Configuration**
+
+| Property | Description |
+| --- | --- |
+| Custom Render Target Strategy | The strategy to use for rendering the panel. By default, each panel renders to a single RenderTexture that matches the panel's dimensions. You can provide a different strategy to render to a pool of textures or share a texture between panels. |
+| Update Mode | Controls how the panel updates widgets: `Auto` for automatic updates each frame, or `Manual` for explicit control through `Tick()`. |
+| Disable Editor Preview | Use this to prevent the panel from rendering in Edit mode in the Unity Editor |
+
+**Properties**
+
+| Property | Description |
+| --- | --- |
+| Widget Container | The RectTransform that holds the panel's widgets. |
+| Widgets | A read-only list of widgets managed by the panel. |
+| Render Texture | The current render texture where widgets are drawn. |
+| Scale In RenderTexture | The scale of the panel within its render texture. Returns `Vector2.one` if no render strategy is set. |
+| Offset In Render Texture | The offset of the panel within its render texture. Returns `Vector2.one` if no render target strategy is set. |
+| Is Rendering | Whether the panel is currently registered with a render target strategy and actively rendering. |
+
+**Public Methods**
+
+| Name | Description |
+| --- | --- |
+| Tick(float deltaTime) | Updates all widgets in the panel. Called automatically in Auto mode.<br/>You only need to call this if the `Update Mode` is set to `Manual` |
+| StartRendering() | Begins rendering the panel if it isn't already rendering to a render texture. |
+| StopRendering() | Stops rendering the panel if it's currently rendering to a render texture |
+| SetDimensions(Vector2 dimensions) | Sets the width and height of the panel. |
+| RegisterInputProvider(IPanelInputProvider provider) | Registers a custom input provider for handling pointer events. |
+| UnregisterInputProvider(IPanelInputProvider provider) | Removes a previously registered input provider. |
+
+## Rive Widget 
+
+The Rive Widget is the primary component for displaying Rive artboards in Unity. It handles loading Rive files either from assets during edit time or from runtime-loaded files (useful when loading Rive content from a server or Addressables). The component manages artboard and state machine setup, automatically configuring everything needed to display your graphic.
+
+#### Setup
+
+Create an instance: Right-click in the scene hierarchy `→ Rive → Widgets → RiveWidget`
+
+<Note>
+ Rive Widgets must be placed under a RivePanel to be displayed.
+</Note>
+
+**Configuration**
+
+| Field | Description |
+| --- | --- |
+| Asset | The Rive asset (.riv) to load. |
+| Artboard Name | The name of the artboard to load from the Rive file. |
+| State Machine Name | The name of the state machine to load from the selected artboard. |
+| Hit Test Behaviour | How pointer events are handled (Opaque, Translucent, Transparent, None). |
+| Fit | How the artboard should fit within the widget's bounds. See the [Fit docs](https://rive.app/community/doc/layout/docBl81zd1GB#fit) for more details about the available options. |
+| Alignment | How to align the artboard within the widget's bounds |
+| Layout Scale Factor | Scale multiplier used when in Layout fit mode. |
+| Layout Scaling Mode | How the widget scales in Layout mode ( `ReferenceArtboardSize` ,  `ConstantPhysicalSize` and `ConstantPixelSize`). |
+| Fallback DPI | DPI value to use when screen DPI is unavailable |
+| Reference DPI | Target DPI for scaling calculations |
+
+**Properties**
+
+| Name | Description |
+| --- | --- |
+| File | The currently loaded Rive file instance. |
+| Artboard | The currently loaded artboard instance. |
+| State Machine | The currently loaded state machine instance. |
+| Status | Current status of the widget (Uninitialized, Loading, Loaded, Error) |
+
+**Events**
+
+| Name | Description |
+| --- | --- |
+| OnRiveEventReported | Triggered when a Rive event is reported from the Rive graphic. |
+| OnWidgetStatusChanged | Triggered when the widget's status changes (e.g., from Loading to Loaded, or Error). |
+
+**Public Methods**
+
+| Name | Description |
+| --- | --- |
+| Load(File file) | Loads a Rive file using the default artboard and state machine. |
+| Load(File file, string artboardName, string stateMachineName) | Loads a Rive file with specified artboard and state machine.  |
+| Load(Asset asset) | Loads from a Rive asset using the default artboard and state machine. The Rive Widget manages the lifecycle of the loaded file and cleans up the file when the widget is destroyed or when a new asset is passed in. |
+| Load(Asset asset, string artboardName, string stateMachineName) | Loads from a Rive asset with specified artboard and state machine. The Rive Widget manages the lifecycle of the loaded file and cleans up the file when the widget is destroyed or when a new asset is passed in. |
+
+<Warning>
+ If you use any Load methods that accept a `File` instance, you're responsible for disposing of the File instance when you no longer need it. This is not the case when loading from an `Asset`  as the Rive Widget manages the lifecycle of the underlying file (loading and disposing).
+</Warning>
+
+## Procedural Rive Widget
+
+The Procedural Rive Widget enables runtime generation of graphics using the Rive's Renderer. This component lets you create graphics programmatically using Rive's drawing primitives (paths and paints, etc.).
+See [this example](https://github.com/rive-app/rive-unity/blob/0765c81e1b68e77fcbf0e62afee7290eff400d17/tests/package/PlayModeTests/Components/Goldens/TestPanels/TestProceduralDrawing.cs) for a practical implementation of a procedural drawing.
+
+#### Setup 
+
+Create an instance: Right-click in the scene hierarchy `→ Rive → Widgets → Procedural Rive Widget`
+
+<Note>
+ Procedural Rive Widgets must be placed under a RivePanel to be displayed.
+</Note>
+**Configuration**
+
+| Property | Description |
+| --- | --- |
+| Procedural Drawing | ProceduralDrawing instance that defines what to draw. |
+| Hit Test Behavior | How pointer events are handled (Opaque, Translucent, Transparent, None). |
+
+**Properties**
+
+| Name | Description |
+| --- | --- |
+| Status | Current status of the widget (Uninitialized, Loading, Loaded, Error). |
+
+**Events**
+
+| Name | Description |
+| --- | --- |
+| OnWidgetStatusChanged | Triggered when the widget's status changes (e.g., from Loading to Loaded, or Error). |
+
+**Public Methods**
+
+| Name | Description |
+| --- | --- |
+| Load(ProceduralDrawing proceduralDrawing) | Loads a new procedural drawing into the widget. |
+
+## Panel Renderers
+
+Panel renderers connect RivePanel's render texture to Unity's display systems. By separating rendering logic from display concerns, we can support different rendering contexts (UI, world space, etc.) while keeping the core Rive functionality consistent. 
+
+Each renderer type specializes in a specific Unity rendering pathway, handling details like input systems and render order automatically.
+
+### Rive Canvas Renderer
+
+The Rive Canvas Renderer displays Rive content within Unity's UI system (uGUI). It automatically configures the necessary Canvas components and handles UI-specific concerns like proper render order and raycasting.
+
+<Note>
+ The Rive Canvas Renderer controls the size of the Rive Panel based on the uGUI Canvas it is being displayed under.
+</Note>
+
+You can also create a Rive Panel that has been automatically configured to use this component by right-clicking in the scene hierarchy and navigating to the `Rive > Rive Panel (Canvas)` 
+
+#### Requirements 
+
+- Requires an EventSystem in the scene for pointer input
+- Requires a GraphicRaycaster on the Canvas for pointer input
+- The Rive Panel must be under a uGUI canvas
+- This component must be placed on the same game object as the Rive Panel
+
+#### Configuration 
+
+| Property | Description |
+| --- | --- |
+| Pointer Input Mode | Controls whether the renderer accepts pointer input (Enable/Disable). |
+
+#### Properties 
+
+| Name | Description |
+| --- | --- |
+| Rive Panel | The panel being rendered. |
+
+### Rive Texture Renderer
+
+Rive Texture Renderer projects Rive content onto materials in your 3D scene. It bridges the gap between Rive's 2D rendering system and Unity's 3D material system, making it easy to apply Rive content to any mesh in your scene.
+
+#### Requirements 
+
+- Must be placed on a GameObject with a MeshRenderer on it. e.g. a Cube, Plane, Quad, or Capsule.
+- Requires an EventSystem in the scene for pointer input
+- Requires a PhysicsRaycaster on the camera for pointer input in 3D space
+- Target GameObject needs a MeshCollider for pointer input
+
+#### Configuration 
+
+| Field | Description |
+| --- | --- |
+| Renderer | The Unity Renderer component (e.g., MeshRenderer,) that will display the Rive content. |
+| Material Texture Assignment Mode | Controls which texture properties are set to the Rive Panel's render texture: MainTexture sets the `_MainTex` property on the material. The `TextureProperties` option lets you select multiple specific texture properties. |
+| Visibility Optimization | Determines if the RivePanel should stop rendering when the mesh is not visible to the camera. |
+| Pointer Input Mode | Controls whether the renderer accepts pointer input (Enable/Disable). |
+
+#### Properties 
+
+| Name | Description |
+| --- | --- |
+| Rive Panel | The panel being rendered to materials. |
+
+**Public Methods**
+
+| Name | Description |
+| --- | --- |
+| SetPanel(IRivePanel panel) | Assigns a new panel to render. |
+| RefreshMaterials() | Updates material references after material changes. |
+
+## Render Target Strategies
+
+Render Target Strategies control how **Rive Panels** render to textures. They determine whether panels get individual textures or share a texture atlas, and handle details like texture creation, panel arrangement, and memory management.
+
+### Simple Render Target Strategy 
+
+The `Simple Render Target Strategy` is the default rendering approach for **Rive Panels**, creating a dedicated render texture for each panel. It is automatically added to a Rive Panel if no custom strategy is provided.
+
+This one-to-one mapping between panels and textures provides straightforward memory management.
+
+<Note>
+ The component must be attached to the same GameObject as its RivePanel
+</Note>
+**Configuration**
+
+| Field | Description |
+| --- | --- |
+| Panel | The RivePanel this strategy manages (automatically set when on same GameObject). |
+| Draw Timing | When rendering occurs: `Batched` (once per frame) or `Immediate` (instant updates). |
+
+**Properties**
+
+| Name | Description |
+| --- | --- |
+| DrawTiming | Current draw timing mode. |
+
+### Atlas Render Target Strategy 
+
+The Atlas Render Target Strategy enables multiple panels to share a single texture atlas, optimizing memory usage and draw calls. 
+
+By default, it uses a simple shelf-packing algorithm to efficiently arrange panels within the atlas, automatically growing the texture as needed while respecting maximum size constraints.
+
+#### Setup 
+
+1. Create an instance: Right-click in the scene hierarchy `→ Rive → Render Target Strategies → Atlas Render Target Strategy`
+
+- Assign to panels: Drag the strategy into the `Custom Render Target Strategy` field on desired panels
+- (Optional) Configure atlas parameters like starting size and resolution limits
+
+#### Notes 
+
+- Panels sharing the same strategy instance share the same atlas texture
+- Create multiple strategy instances to group panels into different atlases
+
+<video
+  controls
+  className="w-full aspect-video"
+  src="https://ucarecdn.com/c29cc703-05c1-49c5-ba0d-4dad985b5221"
+></video>
+
+**Configuration**
+
+| Field | Description |
+| --- | --- |
+| Starting Size | Initial dimensions of the atlas texture (e.g., 1024x1024). |
+| Max Atlas Size | Maximum dimensions the atlas can grow to (e.g., 2048x2048). |
+| Max Resolution Per Panel | Maximum resolution for any single panel. Larger panels are scaled down (e.g., an 800x400 panel with max value of 512 becomes 512x256). |
+| Padding | Space between panels in the atlas to prevent texture bleeding. |
+| Draw Timing | When rendering occurs: `Batched` (once per frame) or `Immediate` (instant updates). |
+| Custom Atlas Packing Provider | Optional custom packing algorithm (defaults to shelf packing if not specified). |
+
+**Properties**
+
+| Name | Description |
+| --- | --- |
+| Packing Strategy | Current strategy used for arranging panels in the atlas. |
+| Draw Timing | Current draw timing mode. |
+
+**Public Methods**
+
+| Name | Description |
+| --- | --- |
+| Configure(Vector2Int startingSize, Vector2Int maxSize, int maxResPerPanel, int padding) | Sets up atlas parameters before initialization. |
+
+### Pooled Render Target Strategy 
+
+The **Pooled Render Target Strategy** optimizes memory usage by maintaining a pool of reusable render textures. Instead of creating a new texture for each panel or sharing a single atlas, this strategy draws panels to textures from a managed pool, recycling them as needed.
+
+This approach is particularly useful for scenes with dynamic UI elements that appear and disappear frequently. For example, in a game with popup menus or tooltips that show Rive graphics, the strategy can reuse textures as UI elements are shown and hidden, avoiding constant texture allocation and deallocation.
+
+#### Configuration 
+
+| Field | Description |
+| --- | --- |
+| Pooled Texture Size | Size of textures in the pool (all pooled textures share these dimensions). If a given Rive Panel doesn't match the texture's aspect ratio, the panel will be resized to fit within the texture while maintaining its aspect ratio. |
+| Initial Pool Size | The initial allocated size of the pool. |
+| Max Pool Size | Maximum number of textures the pool can contain. |
+| Pool Overflow Behavior | How to handle requests when pool is full: `Flexible` (create temporary textures) or `Fixed` (reject new panels). |
+| Draw Timing | When rendering occurs: `Batched` (once per frame) or `Immediate` (instant updates). |
+
+#### Properties 
+
+| Name | Description |
+| --- | --- |
+| Pool Overflow | Current overflow behavior setting. |
+| Pooled Texture Size | Current texture dimensions used by the pool.  |
+| Initial Pool Size | Current initial pool capacity. |
+| Max Pool Size | Current maximum pool size. |
+| Draw Timing | Current draw timing mode. |
+
+#### Public Methods 
+
+| Name | Description |
+| --- | --- |
+| Configure(Vector2Int textureSize, int initialSize, int maxSize, PoolOverflowBehavior behavior) | Sets up pool parameters (must be called before the first Rive Panel is registered). |

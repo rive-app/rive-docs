@@ -1,0 +1,71 @@
+---
+title: 'Playing Audio'
+description: 'To learn more on how to add audio to your Rive file, see [Audio Events](https://rive.app/community/doc/audio-events/docPynOp24Jc).'
+---
+
+<Warning>
+ On web, some browsers restrict audio from playing until the web page is interacted with. This applies to any audio, not just Rive audio.<br/>
+ The web page needs to receive some interaction (touch/click) before sound is played. This interaction can be anything on the browser and doesn't need to be a Rive specific interaction.
+</Warning> 
+## Embedded Assets
+
+Embedded assets require no additional work to play audio. However, on some platforms, additional work may be required to set up audio to mix, duck, or otherwise change more global settings for playing audio. See **Audio Settings** below.
+
+## Referenced Assets
+
+Referenced assets require a little bit more work to play audio. Audio will still automatically play, but the audio file(s) must be loaded when a Rive runtime attempts to play audio. For more information, see [Loading Assets](https://rive.app/community/doc/loading-assets/doct4wVHGPgC).
+
+<Tabs>
+    <Tab title="iOS">
+
+    ```swift IOS
+    // Load a referenced audio file, with the same name and extension as added in the editor
+    let viewModel = RiveViewModel(fileName: "my_rive_file") { asset, data, factory -> Bool in
+        guard let audioAsset = asset as? RiveAudioAsset else { 
+            return false 
+        }
+        
+        guard let url = Bundle.main.url(
+            forResource: audioAsset.uniqueName(),
+            withExtension: audioAsset.fileExtension()
+        ) else {
+            print("Failed to load asset \(asset.uniqueFilename()) from bundle.")
+            return false
+        }
+        
+        guard let data = try? Data(contentsOf: url) else {
+            print("Failed to load \(url) from bundle.")
+            return false
+        }
+                    
+        audioAsset.audio(factory.decodeAudio(data))
+        return true
+    }
+    ```
+    </Tab>
+</Tabs>
+
+    ## Audio Settings
+
+<Tabs>
+    <Tab title="iOS">
+        On iOS, playing audio will respect your `AVAudioSession` shared instance settings. For more information, see [Apple's documentation](https://developer.apple.com/documentation/avfaudio/avaudiosession) on `AVAudioSession`. Using this, you can choose to mix audio, duck audio, and more. You can update your shared instance early in your app lifecycle if you would like to ensure all Rive audio plays  with the correct settings.
+        ```swift IOS
+        // Example: Ignore the silent switch, and mix with other audio
+        let category: AVAudioSession.Category = .playback
+        let options: AVAudioSession.CategoryOptions = [.mixWithOthers]
+        AVAudioSession.sharedInstance().setCategory(category, options: options)
+        ```
+    </Tab>
+</Tabs>
+## Setting Volume
+
+An artboard is capable of setting its volume. A parent artboard will set the volume of all nested artboards; however, setting a nested artboard's volume will **not** update the parent's volume.
+
+```swift IOS
+// Set the current artboard's volume to 50%
+let viewModel = RiveViewModel(fileName: "my_rive_file")
+viewModel.riveModel?.volume = 0.5
+```
+
+

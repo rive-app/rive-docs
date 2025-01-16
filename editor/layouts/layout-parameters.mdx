@@ -1,0 +1,125 @@
+---
+title: 'Layout Parameters'
+description: ''
+---
+
+Layout parameters can broadly be grouped into one of two categories — those that affect the parent layout, and those that affect the child layouts.
+
+<Tip>In Rive, it's important to remember that layout parameters generally only affect other layout containers. This can often result in the nesting of layouts for desired results, but unlocks opportunities to blend with Rive's more freeform canvas in creative ways.</Tip>
+
+## Absolute vs Relative
+
+To control the flow of child layouts in a row, column, or grid requires the children to be relative, i.e. not have their absolute position option enabled. Use the icon in the top right of the layout inspector to toggle between an absolute and relative layout.
+
+![Image](https://ucarecdn.com/3412f52f-c283-4617-b6c5-f5af8ad1ddcc/)
+
+- **Absolute:** An absolute layout positions itself within an artboard or parent layout container. It can have 2 or more of it’s edges pinned to the container.
+- **Relative:** A relative layout has it’s position defined by the parent artboard or layout. Changing the flex properties on the parent will determine the child layout behaviour.
+
+<Tip>Switching between absolute and relative layouts is keyable.</Tip>
+
+## Scale Types
+
+A layout’s width and height can make use of 3 different scale behaviours:
+
+- **Fixed:** A fixed width or height for the layout. The defined value can be either a point or percentage value. Use the unit toggle within the fields to toggle between value types.
+- **Hug:** The width and/or height of the layout shrinks to fit its children. For example, you may want a layout to hug a text object; resizing itself based on the length of the text inside.
+- **Fill:** The width and/or height of the layout expands to fill the available space within the parent layout or artboard. The fill option switch the width/height fields to be fractional and reveals a base size field. The fractional values make it possible to control the fill behaviour between a number of children with the fill scale behaviour. For example, you may want the children to fill the available space equally, or perhaps have one child scale at a greater factor than the rest.
+
+Options to set the scale type are below the width and heigh fields in the inspector.
+
+![Image](https://ucarecdn.com/083d008d-6a87-4988-bd2f-5d14ce367217/)
+
+<Info>Hug and Fill options will only surface when applicable. For example, a layout without any children won’t surface the option to hug, whilst a layout with a relative parent has nothing it can offer to fill.</Info>
+
+## Size constraints
+
+Use the icon besides the absolute toggle to add minimum and/or maximum width and height values. As with the width and height values themselves, these can be defined as either points or percentages.
+
+![Image](https://ucarecdn.com/d6898bfa-62bf-4d4c-9769-5c68d439e03a/)
+
+## Clip
+
+The clip toggle hides any child elements within the layout that extend beyond the bounds of the layout.
+
+![Image](https://ucarecdn.com/80299f91-7525-42cc-ba64-20ca7ea7e5ad/)
+
+## Position
+
+Absolute layouts provide additional options to set their position within the artboard or parent layout. The position is defined by at least 2 pinned edges — one horizontal and one vertical, however additional edges can also be enabled.
+
+Set the desired edges to pin by selecting the markers within the inspector graphic, or via the fields below. You can hold `shift` while selecting a marker to add a second edge along the same axis. The distance values from a chosen edge can be provided as points or percentages by selecting the chosen unit type within the field.
+
+![Image](https://ucarecdn.com/987f6999-4db4-487e-a8f0-c8760b037012/)
+
+## Padding and Margin
+
+<Info>Padding and margins applied to a layout will only affect other layouts.</Info>
+
+Padding and margin can be applied symmetrically along an axis, or to individual edges. Use the edge toggle to reveal fields for each edge plus options to use point or percent values.
+
+- **Padding:** Inner space between the layout bounds and any relative layout children.
+- **Margin:** Outer space between the layout bounds and a relative parent layout or artboard.
+
+<video width="640" controls>
+  <source src="https://ucarecdn.com/a489bd85-d55b-424b-8f7a-1a1a7aab37f6/" type="video/mp4"></source>
+  Padding and Margin
+</video>
+
+## Layout children
+
+<Note>A layout’s flex parameters are only applied to other layouts contained within it. In order to generate rows, columns, and grids of content that reflow, content items must themselves be wrapped in an additional layout container.</Note>
+
+## Direction
+
+- **Row:** Lay out children along the horizontal axis.
+- **Column:** Layout children along the vertical axis.
+- **Row Reverse:** Lay out children horizontally, in reverse order.
+- **Column Reverse:** Lay out children vertically, in reverse order.
+
+![Image](https://ucarecdn.com/c64d65de-0d9e-4325-a1b3-ef7d3310c842/)
+
+## Wrap
+
+- **No Wrap:** When the content reaches the bounds of the layout, continue to extend beyond it.
+- **Wrap:** When the content reached the bounds of the layout, place the next item on below or alongside the currently row/column.
+- **Wrap Reverse:** Same as wrap, but display the content in reverse order.
+
+![Image](https://ucarecdn.com/87c797aa-bce4-4e39-b649-63bd382ffb69/)
+
+## Alignment
+
+Select the desired point on the inspector widget to align content within a layout container.
+
+![Image](https://ucarecdn.com/3018db3d-fb86-4a24-9d67-8c16ac6270bd/)
+
+## Justify
+
+Click on the current alignment position to expand the content to fill the available space. Selecting the one of the active tiles again collapses the content back down.
+
+![Image](https://ucarecdn.com/d79e6712-f751-4526-951a-0408f9fca6c0/)
+
+## Gap
+
+Spacing between content (gaps) can be set both horizontally and vertically, and as either points or percentages of the container width/height.
+
+![Image](https://ucarecdn.com/84dba879-e23b-4144-963a-3d4e5f50a144/)
+
+## Non-layout children
+
+A layout container will affect its children in one of two ways:
+
+- Set the child’s position
+- Set both the child’s position and size
+
+This behaviour is determined by the object type of the child. Objects that have both their position and size defined by a layout container include:
+
+- Text
+- Images
+- Parametric shapes (rectangles, ellipses, triangles, polygons, and stars)
+- Nested Artboards
+- Other layout containers
+
+All other objects will only have their positioned set by the layout. The upcoming N-Slicing feature will provide more advanced options to control the layout/scale behaviour of more advanced shapes and groups.
+
+Unlike in some other tools, Rive will provide an additional hierarchy item to represent the layout container of an object. Whilst this may appear verbose at first, it helps differentiate the freeform nature of Rive with the structured layout system. For example, an object within a layout container can still apply additional transforms such as position, scale, and rotation to allow it to break out of the layout. This becomes particularly powerful when coupled with constraints. Furthermore, a layout container can house multiple objects that can be placed in front of each other.

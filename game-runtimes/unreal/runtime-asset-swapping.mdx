@@ -1,0 +1,40 @@
+---
+title: 'Runtime Asset Swapping'
+description: ''
+---
+
+Rive allows you to swap font and image assets at runtime. How you swap the asset depends on the type of asset and where it is located.
+
+## Using Rive Assets 
+
+In order to swap an asset, you must first locate it in the **Rive File**. This is done using the **Get Rive Asset By Name** node. The name used for searching is the name of the asset as it appears in the **Assets** section of the Rive editor.
+
+![Image](https://ucarecdn.com/f4355191-ddf4-4356-b65c-b9858c4a45dd/)
+
+If the Rive asset is located, you then cast the return value to the type of the asset, either a **RiveFontAsset** or **RiveImageAsset**.
+
+![Image](https://ucarecdn.com/caf69759-f4f5-4b0d-9300-09107e7dfd9f/)
+
+Once cast to to the correct asset type, you load a value into the asset. Different asset types use different nodes to load data.
+
+## Image Assets
+
+Image assets can be loaded by **Texture** or by an array of bytes. The **Load Texture** node is used to load a Texture that resides in your Unreal project.
+
+<Note>
+ The texture to be loaded with a Load Texture node must have its **Mip Gen Settings** set to **NoMipMaps** and its **Compression Settings** set to **UserInterface2d (RGBA)**.
+</Note>
+
+![Image](https://ucarecdn.com/767f43eb-06c8-4d27-a144-f5fab0db13b8/)
+
+Image assets can also be loaded as an array of bytes in **png**, **webp**, or **jpg** format. This is useful if you want to load an image from a CDN, a raw file, or a location on the internet. It is up to the developer to provide the image as an array of bytes.
+
+![Image](https://ucarecdn.com/2f6b73ef-9781-416b-b2ab-870466fa04e1/)
+
+## Font Assets 
+
+Font assets can be loaded as either a **Font Face** located in your Unreal project, or an array of bytes in **otf** or **ttf** format.
+
+![Image](https://ucarecdn.com/93be7fe7-16cc-416c-aa75-0aafd94fb9e5/)
+
+![Image](https://ucarecdn.com/6ae7cc1e-6e8f-41eb-929e-0dde60b62868/)

@@ -1,0 +1,102 @@
+---
+title: 'Framer And Rive'
+description: 'Learn more about the Rive integration into Framer. '
+---
+
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/jM8DQmPw0pc?si=XmaCc2njYkqogVAh" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+## Overview
+
+Framer allows users to build functional websites fast in a low/no-code platform. Integrate Rives into Framer sites to build and control animations and interactive content without having to write custom code with[ ](https://app.outverse.com/rive/doc/getting-started/docxMZXGxnHR)[runtimes](https://app.outverse.com/rive/doc/getting-started/docxMZXGxnHR). See more below on how to get started.
+
+## Getting Started
+
+Demo of the Rive and Framer integration
+
+With the Framer integration, you get control over Rives with options such as:
+
+- Playback controls
+- Configuration options that affect the Rive layout on a canvas
+- State machine inputs
+
+### 1. Make a Share Link
+
+To start, generate a new share link in the Rive editor and copy the *Framer code* snippet from the Rive editor.
+
+![Image](https://1159711764-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-M3EXlibk6bj2FzPQW-9%2Fuploads%2F7ZGX3RytiAvH75XRzFhD%2FScreen%20Shot%202022-08-15%20at%206.26.22%20PM.png?alt=media&token=56fa8038-882a-4426-8aa9-4bc04441200c)
+
+Framer code snippet generated from the Rive editor
+
+### 2. Paste Code Snippet into Framer
+
+In your Framer project on the left-side panel, click on the *Assets* tab, and in the *Code* section, add a new Code component file.
+
+![Image](https://ucarecdn.com/7be0d865-9add-49e4-9c11-e72390f5fe8b/)
+
+Adding a Code component in Framer
+
+In the new code file, replace all of the boilerplate code with the copied Framer code snippet from Rive and save the file. You should see the preview of your Rive file playing the animation or state machine set when generating a share link in the Rive editor.
+
+![Image](https://ucarecdn.com/88d187a1-83d8-4100-a0a9-3ef3fd953a5f/)
+
+Rive Framer snippet pasted in a new component
+
+You'll now have access to embed this newly created Rive component in any of your Framer pages. Drag and drop the component into your page and size as needed.
+
+![Image](https://ucarecdn.com/6ddb1c8c-1ac7-44da-8b8f-0e9253de5086/)
+
+Adding a Rive code component to a page
+
+### 3. Control your Rive file in Framer
+
+When you drop in a Rive component, you'll notice on the properties panel (right-hand side) some new options that are specific to the Rive component. The view will likely look different for every Rive component, as some properties are dynamically generated. See more below on configuration options when it comes to controlling Rives.
+
+![Image](https://ucarecdn.com/f80052b3-bee4-4347-8da7-e1cf4b68e076/)
+
+#### Controlling Rives: Layout
+
+There are two settings for controlling how animations are rendered on the canvas display:
+
+- `Fit` - How Rive content is fitted into the view size
+- `Alignment` - How Rive content aligns with respect to view bounds
+
+Learn more about the different options here: [Layout](../layouts/layouts-overview)
+
+#### Controlling Rives: Animation Playback Control
+
+By default, Rives will autoplay the animation/state machine specified when the share link was generated. However, you have the ability to control when Rives will play and/or pause if needed. There are two playback control options:
+
+- `Playback` - Play or pause Rives in the Framer Preview/Published mode
+- `Play on Canvas` - Play or pause Rives in the Framer canvas mode
+
+#### Controlling Rives: State Machine Inputs
+
+If you generate a share link with a state machine, you get access to all of the associated state machine inputs to manipulate on the Framer page. This means you can connect state machine input values to Framer component variants via interactions, such as users clicking or hovering a button.
+
+For example, say we want to activate the switch example below to turn on when a user hovers a "Hover Me" button below the canvas. To accomplish this, we'll [create a new Framer component](https://www.framer.com/learn/component-creation/) by grouping the Rive component with the button.
+
+![Image](https://ucarecdn.com/c4628cfc-1609-4a91-a92b-872d82d51fda/)
+
+Grouped Rive and button component
+
+In this Primary variant, we keep the default state machine input `isPressed` to `false` on the Rive component in the Properties panel. Next, we'll create another variant of this group, `SwitchOn`, where `isPressed` is set to "Yes" (`true`).
+
+![Image](https://ucarecdn.com/8be626b1-c9b1-4f1b-ae24-9ad24376740a/)
+
+Adding a variant where `isPressed` is set to "Yes"
+
+Finally, we'll create a transition from the button in the `Primary` variant to the `SwitchOn` variant when a `MouseEnter` interaction occurs.
+
+![Image](https://ucarecdn.com/eec38d46-5746-495f-8d1c-6d3e689681e0/)
+
+Connecting button interactions to the SwitchOn variant
+
+This effectively connects the hover state of the button to the `true` value of the `isPressed` state machine input, and changes the Rive component's state machine accordingly.
+
+![Image](https://ucarecdn.com/d367027a-cd53-4bb8-ac68-1ab8533c197b/)
+
+Button toggling a Rive state machine input
+
+While this is one way to connect state machines to user interaction outside the Rive canvas, there are plenty of other scenarios as well. Check out Framer's [learn page](https://www.framer.com/learn/) to discover more.
+
+<Info>Note that in the example scenario above, a similar outcome could have been achieved through using [Listeners](https://app.outverse.com/rive/doc/state-machine/docwH5zPdh93) in the Rive editor, but because we want to advance a state machine from outside of the Rive canvas, we need to manipulate state machine inputs manually.</Info>

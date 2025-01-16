@@ -1,0 +1,49 @@
+---
+title: 'Text Runs'
+description: ''
+---
+
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/a4drmh2S-eg?si=VKil5WQKhIGbPxd7" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+Runs allow you break your text up into sections — typically, they're used to apply a variety of styles to a single block of text. Whilst most tools manage text runs behind the scenes, Rive exposes them for greater control when dynamically changing text at runtime. 
+
+You may want to split your text into multiple runs to apply a different style (such as font, font size, color etc.) to a certain part of your text, where you can then [update your text runs at runtime](https://rive.app/community/doc/text/docn2E6y1lXo#readupdate-text-runs-at-runtime).
+
+<Info>A Text Run may only have one Text Style applied at a time.</Info>
+
+For example, an animation welcoming a user to an app or website may greet them by their name. In the Rive Editor, you may design and animate the text to read "Welcome back, username". Defining "username" as it's own run means you can target it with the Rive Runtimes and replace it with the user's name.
+
+![Image](https://ucarecdn.com/f938e2ac-0014-4a61-95fc-4ae19ae54a3f/)
+
+Update text for a specific run
+
+---
+
+## Creating a Text Run 
+
+To create a Run, select the desired portion of text and select the 'Run from Selection' button in the Inspector. You can see Text Runs listed beneath the text object in the hierarchy.
+
+Double click or press `Enter` with the text box selected to start editing text.
+
+Toggle the 'Highlight Text Runs' option in the inspector for a visual guide of your current Text Runs. Hovering a run in the hierarchy also highlights its location within the text.
+
+![Image](https://ucarecdn.com/5daa1a60-6dad-447e-a9af-f025727aae4e/)
+
+Split text into multiple runs
+
+---
+
+## Managing Text Runs 
+
+Select a Text Run in the hierarchy for inspector options:
+
+- **Text Value:** Update the text value for the run. Key this value in animate mode.
+- **Edit Text Run:** Initiate the text editor with the run pre-selected.
+- **Merge with Next:** Combine the selected run with the next run.
+- **Merge with Previous:** Combine the selected run with the previous run.
+- **Delete text Run:** Delete the run and its contents.
+- **Style:** Assign one of the Text Styles defined on the text object. Key this value in animate mode.
+
+![Image](https://ucarecdn.com/7cc93863-1703-4541-8492-39cf066f4456/)
+
+Assign a Text Style to a Text Run

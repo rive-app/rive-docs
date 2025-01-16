@@ -1,0 +1,64 @@
+---
+title: 'Loading Assets'
+description: 'Out-of-band assets in Rive Unreal.'
+---
+
+
+See the [runtime documentation](https://rive.app/community/doc/loading-assets/doct4wVHGPgC) for more information on loading assets out-of-band.
+
+<Note>
+ Only **embedded** and **referenced** assets are supported in Rive Unreal; **hosted** assets are not currently supported.
+</Note>
+
+<Note>
+ Only **png** image assets are supported. Support for **webp** and **jpeg** is in progress.
+</Note>
+
+## Asset export options
+
+Within the Rive Editor, you can select an asset (for example, an image or font) in the **Asset Panel** and configure the export option for that asset. A Rive file can have a mixture of **embedded**, **referenced**, and **hosted** assets.
+
+![Image](https://ucarecdn.com/e716e2a5-b846-4140-b2a3-5675a1318f0b/)
+
+**Embedded** assets are included with the exported `.riv` binary file, while **referenced** assets are packaged separately and must be linked at runtime. Using **referenced** assets enables you to reuse the same asset across multiple Rive files. This reduces the size of your `.riv` file and the resources needed to run your animations that use a shared asset.
+
+### Embedded Assets
+
+Any asset marked as embedded will be included as part of the `riv` binary file and automatically loaded. You do not need to do anything to configure the asset in Unreal.
+
+### Referenced Assets 
+
+Referenced assets need to be linked at runtime. The rive-unreal package automatically handles the linking.
+
+When you import a Rive file, the plugin scans the disk to load in any referenced asset that matches the correct **Name** + **ID** combination, automatically include them, store them "raw" inside of Unreal as a special asset, and link them. In this way, multiple `riv` files can reuse the same underlying assets (fonts, images, and audio).
+
+**Let's take a look at an example**
+
+Below is an extracted Rive file. The filename is `rive_1.riv` and it uses a referenced font `inter-594377.ttf`.
+
+![Image](https://ucarecdn.com/14b577a8-6fb9-4360-a421-756e77934f78/)
+
+Here is another Rive file, named `rive_2.riv` which uses the same font.
+
+![Image](https://ucarecdn.com/afd7051b-ad61-4c17-be87-898eae995c05/)
+
+To start, drag `rive_1.riv` into Unreal:
+
+<Warning>
+ Only drag in the `riv` file. Not the assets.<br/>
+ The assets will automatically be imported from disk.
+</Warning>
+
+![Image](https://ucarecdn.com/fb796a61-17d8-47f5-9357-97a49da0e35a/)
+
+The referenced asset is imported as a `RiveAsset` and the `RiveFile` can be used as normal.
+
+Next, drag in `rive_2.riv`:
+
+![Image](https://ucarecdn.com/d151f7f7-d3d6-42e3-9119-7b263eb976ed/)
+
+Now we have two `RiveFile` assets that point to the same font asset.
+
+If a matching asset is not found when importing in Unreal (**Name** + **ID**), there is a fallback to converting and linking a file that matches only the **name**. You can optionally use this approach to have more control over asset importing, as an asset filename can be renamed in the Rive Editor.
+
+![Image](https://ucarecdn.com/69c62b2a-2a82-4422-ba5c-60df9f792574/)

@@ -1,0 +1,12 @@
+---
+title: 'Audio'
+description: ''
+---
+
+Depending on how you use Rive in Unreal, there may be additional setup required to enable audio in a Rive asset.
+
+- When dragging a **RiveFile** into your level from the Content Browser, a **RiveAudioEngine** component will be automatically created and assigned to the **RiveWidgetActor**. *No further setup is required.*
+- When adding a **RiveActor** component to a custom **Actor** blueprint, you will need to add a **RiveAudioEngine** component. The **RiveActor** will automatically detect and use this audio engine.
+- If you use **RiveTextureObject** or **RiveWidget** directly, you need to associate an audio engine with them by calling **SetAudioEngine** in the **OnRiveReady** event. The following example shows how to do this with a dynamically created **RiveWidget.**
+
+  ![Image](https://ucarecdn.com/d74ca6d0-068f-4457-a53e-f8af4b5da232/)

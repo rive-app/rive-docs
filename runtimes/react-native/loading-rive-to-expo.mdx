@@ -1,0 +1,53 @@
+---
+title: 'Loading in Rive Files'
+description: 'How to use Rive files with the Rive React Native runtime. '
+---
+
+There are two ways to include Rive files in your React Native projects:
+
+- Option 1: URL where a Rive file is hosted
+- Option 2: Add the asset to the asset bundles of the native iOS and Android projects
+
+When you render the `<Rive />` component, you must supply the `url` or `resourceName` prop respectively to the options above, or your component will fail to load.
+
+Read more below to see more on each of the options.
+
+### Option 1: URL
+
+```javascript
+<Rive
+  url="https://cdn.rive.app/animations/vehicles.riv"
+/>;
+```
+
+When using the Rive React Native runtime to load in a RIve file, one option is to reference the URL where the Rive file may be hosted (i.e AWS S3 bucket, Google Storage, etc.). This can be done via the `url` parameter when instantiating the `<Rive />` component.
+
+### Option 2: Asset Bundle
+
+```javascript
+<Rive
+  resourceName="weather_app" // weather_app.riv
+/>;
+```
+
+Another alternative to loading in a Rive file for the `<Rive />` component is to reference the name of the resource/asset in the respective `ios/` and `android/` projects.
+
+#### Adding to iOS
+
+In the `ios/` folder of your React Native project, open the `.xcodeproj` file in XCode. This will open up the native iOS project.
+
+Create a *New Group* under the root of this project and name it whatever asset folder name you'd like to give it (i.e., *Assets*). Drop your `.riv` file into this group, and when prompted by XCode, add it to the *Target* of your app. This ensures that the Rive file gets included in the bundle resources.
+
+![Image](https://ucarecdn.com/3dc3d0fd-34b8-48db-9baa-0fdf668ad76d/)
+
+#### Adding to Android 
+
+In the `android/` folder of your React Native project, open the whole folder in Android Studio. This will open up the Android project.
+
+Under the `/app/src/main/res/` directory, create a new *Android Resource Directory*, which is where you'll store Rive file assets, and when prompted to select a name for the folder and resource type, select `raw` from the resource type dropdown. Drop your `.riv` file into this new folder; this ensures that the Rive file gets included in the bundle resources.
+
+![Image](https://ucarecdn.com/f4d4f2f4-7231-43c8-881b-a3f05fbe33ae/)
+
+Adding `weather_app.riv` to the Android project
+
+Once the Rive files are added to the asset/resource bundles of the iOS and Android projects in the React Native app, you should be free to start referencing the name of the file (without the `.riv` extension) when creating the `<Rive />` component, using that `resourceName` prop.

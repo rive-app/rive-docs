@@ -1,0 +1,789 @@
+---
+title: 'State Machines'
+description: 'Playing and changing inputs in state machines'
+---
+
+For more information on designing and building state machines in Rive, please refer to: [State Machine](../editor/state-machine).
+
+Rive's state machines provide a way to combine a set of animations and manage the transition between them through a series of inputs that can be programmatically controlled. Once a state machine is instantiated and playing, transitioning states can be accomplished by changing `boolean` or `double`-value inputs, or firing trigger inputs. The effects of these will be dependent on how the state machine has been configured in the editor.
+
+## Playing state machines
+
+State machines are instantiated in much the same manner as animations: provide the state machine name to the Rive object when instantiated. Ensure that the Rive instance is set to auto-play on initialization to allow the state machine to start immediately.
+
+<Tabs>
+  <Tab title="Web">
+    #### Web
+
+    ```js
+    const r = new rive.Rive({
+        src: 'https://cdn.rive.app/animations/vehicles.riv',
+        canvas: document.getElementById('canvas'),
+        autoplay: true,
+        stateMachines: 'bumpy',
+        fit: rive.Fit.cover,
+    });
+    ```
+  </Tab>
+
+  <Tab title="React">
+    #### React
+
+    ```js
+    // State Machine require the useRive hook.
+    export default function Simple() {
+      const { RiveComponent } = useRive({
+        src: 'https://cdn.rive.app/animations/vehicles.riv',
+        stateMachines: "weather",
+        autoplay: true,
+      });
+
+      return <RiveComponent />;
+    }
+    ```
+  </Tab>
+  <Tab title="React Native">
+    #### React Native
+
+    Set `stateMachineName` on the Rive component to play a single state machine.
+
+    ```jsx
+      <Rive
+        resourceName={'skills'}
+        autoplay={true}
+        stateMachineName="Designer's Test"
+      />
+    ```
+  </Tab>
+
+  <Tab title="Flutter">
+    #### Flutter
+
+    To autoplay a state machine by default, simply set the `stateMachines` property at instantiation:
+
+    ```dart
+    RiveAnimation.network(
+        'https://cdn.rive.app/animations/vehicles.riv',
+        fit: BoxFit.cover,
+        stateMachines: ['bumpy'],
+    );
+    ```
+
+    In the above snippet, at instantiation time, the runtime will create a `StateMachineController` reference implicitly and immediately play the state machine.
+
+    If you'd like further control over the state machine in cases where you may want to prevent autoplaying the state machine, you can instead pass your own reference to a `StateMachineController` to the `RiveAnimation` widget at instantiation time with the `isActive` property set to `false`. Below is an example of what this might look like:
+
+    ```dart
+    class _ExampleState extends State<ExampleState> {
+      /// Controller for playback
+      late StateMachineController _controller;
+
+      void _onInit(Artboard artboard) {
+        var ctrl =
+          StateMachineController.fromArtboard(artboard, 'some-state-machine')!;
+        ctrl.isActive = false;
+        artboard.addController(ctrl);
+        _controller = ctrl;
+      }
+
+      @override
+      Widget build(BuildContext context) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Play/Pause Example'),
+          ),
+          body: Center(
+            child: RiveAnimation.asset('assets/example.riv', onInit: _onInit),
+          ),
+          floatingActionButton: FloatingActionButton(
+            // Play/Pause the state machine
+            onPressed: () => {
+              _controller.isActive
+                  ? _controller.isActive = false
+                  : _controller.isActive = true
+            },
+            tooltip: 'Play/Pause',
+            child: const Icon(Icons.arrow_upward),
+          ),
+        );
+      }
+    }
+    ```
+
+    As you change the `isActive` property of the `StateMachineController`, you'll see that the current state may pause advancing through the render loop. This is useful in cases where you may want to load in your Rive on screen, but delay playing until a loading sequence occurs, or some data comes back for your application.
+  </Tab>
+
+  <Tab title="iOS/macOS">
+    #### iOS/macOS
+
+    Specify a starting state machine by setting the name of the state machine via `stateMachineName` when instantiating the `RiveViewModel`.
+
+    ### SwiftUI 
+
+    ```swift
+    var stateChanger = RiveViewModel(
+        fileName: "skills",
+        stateMachineName: "Designer's Test"
+    )
+    ```
+
+    ```swift
+    class StateMachineViewController: UIViewController {
+        var viewModel = RiveViewModel(
+            fileName: "skills",
+            stateMachineName: "Designer's Test"
+        )
+        
+        override public func loadView() {
+            super.loadView()
+            
+            guard let stateMachineView = view as? StateMachineView else {
+                fatalError("Could not find StateMachineView")
+            }
+            
+            viewModel.setView(stateMachineView.riveView)
+        }
+    }
+    ```
+    </Tab>
+    <Tab title="Android">
+    #### Android
+
+    ### Via XML 
+
+    ```kotlin
+    <app.rive.runtime.kotlin.RiveAnimationView
+        android:id="@+id/simple_state_machine"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        app:riveResource="@raw/skills"
+        app:riveStateMachine="Designer's Test" />
+    ```
+
+    ### Via Kotlin
+
+    ```kotlin
+    animationView.setRiveResource(
+        R.raw.simple_state_machine,
+        autoplay = true,
+        stateMachineName = "Designer's Test"
+    )
+    ```
+
+    Additionally, you can use the same APIs from animation playback (i.e `play`, `pause`, and `stop`) to control state machine playback, as long as you set the `isStateMachine` attribute to `true`.
+
+    ```kotlin
+    animationView.play(
+        "Designer's Test",
+        Loop.AUTO,
+        Direction.AUTO,
+        isStateMachine = true
+    )
+
+    animationView.pause(
+        "Designer's Test",
+        isStateMachine = true
+    )
+
+    animationView.stop(
+        "Designer's Test",
+        isStateMachine = true
+    )
+    ```
+  </Tab>
+
+</Tabs>
+
+## Controlling state machine inputs
+
+Once the Rive file is loaded and instantiated, the state machine(s) can be queried for inputs, and these input values can be set, and in the case of triggers, fired, all programmatically.
+
+<Tabs>
+
+  <Tab title="Web">
+    ### Examples
+
+    - [Setting state machine inputs](https://codesandbox.io/p/sandbox/m6tgp9)
+
+    ### Inputs
+
+    The web runtime provides an `onLoad` callback that's run when the Rive file is loaded and ready for use. We use this callback to ensure that the state machine is instantiated when we query for inputs.
+
+    ```javascript
+    <div id="button">
+        <canvas id="canvas" width="1000" height="500"></canvas>
+    </div>
+    <script src="https://unpkg.com/@rive-app/canvas@2.10.3"></script>
+    <script>
+        const button = document.getElementById('button');
+
+        const r = new rive.Rive({
+            src: 'https://cdn.rive.app/animations/vehicles.riv',
+            canvas: document.getElementById('canvas'),
+            autoplay: true,
+            stateMachines: 'bumpy',
+            fit: rive.Fit.cover,
+            onLoad: (_) => {
+                // Get the inputs via the name of the state machine
+                const inputs = r.stateMachineInputs('bumpy');
+                // Find the input you want to set a value for, or trigger
+                const bumpTrigger = inputs.find(i => i.name === 'bump');
+                button.onclick = () => bumpTrigger.fire();
+            },
+        });
+    </script>
+    ```
+    We use the `stateMachineInputs` function on the Rive object to retrieve the inputs. Each input will have a name and type. There are three types:
+
+- `StateMachineInputType.Trigger` which has a `fire()` function
+- `StateMachineInputType.Number` which has a `value` number property where you can `get`/`set` the value
+- `StateMachineInputType.Boolean` which has a `value` boolean property where you can `get`/`set` the value
+
+```javascript
+const inputs = r.stateMachineInputs('bumpy');
+inputs.forEach(i => {
+    const inputName = i.name;
+    const inputType = i.type;
+    switch(inputType) {
+        case rive.StateMachineInputType.Trigger:
+            i.fire();
+            break;
+        case rive.StateMachineInputType.Number:
+            i.value = 42;
+            break;
+        case rive.StateMachineInputType.Boolean:
+            i.value = true;
+            break;
+    }
+});
+```
+
+### State change event callback
+
+We can set a callback to determine when the state machine changes state. `onStateChange` provides an `event` parameter that gives us the string name(s) of the current state(s):
+
+```javascript
+const r = new rive.Rive({
+    src: 'https://cdn.rive.app/animations/vehicles.riv',
+    canvas: document.getElementById('canvas'),
+    autoplay: true,
+    stateMachines: 'bumpy',
+    onStateChange: (event) => {
+        stateName.innerHTML = event.data[0];
+    },
+});
+```
+
+  </Tab>
+
+  <Tab title="React">
+    ### Example
+
+    - [Setting state machine inputs (React)](https://codesandbox.io/p/sandbox/zen-sammet-3qpys5)
+
+    ### Inputs
+
+    The react runtime provides a `useStateMachineInput` hook to make the process of retrieving a state machine input much simpler than that of the basic web runtime.
+
+    ```javascript
+    import { useRive, useStateMachineInput } from "@rive-app/react-canvas";
+
+    export default function Simple() {
+        const { rive, RiveComponent } = useRive({
+            src: "https://cdn.rive.app/animations/vehicles.riv",
+            stateMachines: "bumpy",
+            autoplay: true,
+        });
+
+        const bumpInput = useStateMachineInput(rive, "bumpy", "bump");
+
+        return (
+            <RiveComponent
+                style={{ height: "1000px" }}
+                onClick={() => bumpInput && bumpInput.fire()}
+            />
+        );
+    }
+    ```
+
+  </Tab>
+  <Tab title="React Native">
+    ### Inputs
+
+    With the React Native runtime, most methods/triggers are available on the ref of the `Rive` component, including setting input values/triggering for state machines. In this case, there is no need to acquire an instance of an input. Simply set the input state from the Rive `ref` or fire an input state.
+
+    ```javascript
+    export default function StateMachine() {
+        const riveRef = React.useRef<RiveRef>(null);
+        // Maintain the values of your state machine in React state
+        const [selectedLevel, setSelectedLevel] = useState('2');
+
+        const setLevel = (n: number) => {
+            setSelectedLevel(n.toString());
+            // No need to acquire an instance of a state machine input, just set the
+            // input state on the `riveRef` itself
+            riveRef.current?.setInputState("Designer's Test", 'Level', n);
+        };
+
+        return (
+            <SafeAreaView style={styles.safeAreaViewContainer}>
+                <ScrollView contentContainerStyle={styles.container}>
+                    <Rive
+                        resourceName={'skills'}
+                        ref={riveRef}
+                        autoplay={true}
+                        stateMachineName="Designer's Test"
+                    />
+                    <RadioButton.Group
+                        onValueChange={(newValue) => setLevel(parseInt(newValue, 10))}
+                        value={selectedLevel}
+                    >
+                        <View style={styles.radioButtonsWrapper}>
+                            <View style={styles.radioButtonWrapper}>
+                                <Text>{'Beginner'}</Text>
+                                <RadioButton value={'0'} />
+                            </View>
+                            <View style={styles.radioButtonWrapper}>
+                                <Text>{'Intermediate'}</Text>
+                                <RadioButton value={'1'} />
+                            </View>
+                            <View style={styles.radioButtonWrapper}>
+                                <Text>{'Expert'}</Text>
+                                <RadioButton value={'2'} />
+                            </View>
+                        </View>
+                    </RadioButton.Group>
+                </ScrollView>
+            </SafeAreaView>
+        );
+    }
+    ```
+    <Note>
+     See the [React Native API's](./react-native/rive-ref-methods#.setinputstate) to learn more about the parameters for `.setInputState()` and `.fireState()`
+    </Note>
+### State change event callback 
+
+We can set a callback to determine when the state machine changes.
+
+```javascript
+<Rive
+  resourceName={'skills'}
+  autoplay={true}
+  stateMachineName="Designer's Test"
+  onStateChanged={(stateMachineName, stateName) => {
+    console.log(
+      'onStateChanged: ',
+      'stateMachineName: ',
+      stateMachineName,
+      'stateName: ',
+      stateName
+    );
+  }}
+/>
+```
+  </Tab>
+
+  <Tab title="Flutter">
+    ### Inputs 
+
+    State machine controllers are used to retrieve a state machine's inputs which can then be used to interact with, and drive the state of a state machine.
+
+    State machine controllers require a reference to an artboard when being instantiated. The `RiveAnimation` widget provides a callback `onInit(Artboard artboard)` that is called when the Rive file has loaded and is initialized for playback:
+
+    ```dart
+    void _onRiveInit(Artboard artboard) {}
+
+    RiveAnimation.network(
+        'https://cdn.rive.app/animations/vehicles.riv',
+        fit: BoxFit.cover,
+        onInit: _onRiveInit,
+    );
+    ```
+
+    In the `onInit` callback, you can create an instance of a `StateMachineController` and then retrieve the inputs you're interested in by their name. Specific inputs can be retrieved using `findInput()` or all inputs with the `inputs` property.
+
+    ```dart
+    SMITrigger? _bump;
+
+    void _onRiveInit(Artboard artboard) {
+        // Get State Machine Controller for the state machine called "bumpy"
+        final controller = StateMachineController.fromArtboard(artboard, 'bumpy');
+        artboard.addController(controller!);
+        // Get a reference to the "bump" state machine input
+        _bump = controller.getTriggerInput('bump');
+    }
+    ```
+
+    In the above snippet, the `bump` input is retrieved, which is an `SMITrigger`. This type of input has a `fire()` method to activate the trigger.
+
+    ```dart
+    class SimpleStateMachine extends StatefulWidget {
+        const SimpleStateMachine({Key? key}) : super(key: key);
+
+        @override
+        _SimpleStateMachineState createState() => _SimpleStateMachineState();
+    }
+
+    class _SimpleStateMachineState extends State<SimpleStateMachine> {
+        SMITrigger? _bump;
+
+        void _onRiveInit(Artboard artboard) {
+            final controller = StateMachineController.fromArtboard(artboard, 'bumpy');
+            artboard.addController(controller!);
+            _bump = controller.getTriggerInput('bump')!;
+        }
+
+        void _hitBump() => _bump?.fire();
+
+        @override
+        Widget build(BuildContext context) {
+            return Scaffold(
+                appBar: AppBar(
+                    title: const Text('Simple Animation'),
+                ),
+                body: Center(
+                    child: GestureDetector(
+                        child: RiveAnimation.network(
+                            'https://cdn.rive.app/animations/vehicles.riv',
+                            fit: BoxFit.cover,
+                            onInit: _onRiveInit,
+                        ),
+                        onTap: _hitBump,
+                    ),
+                ),
+            );
+        }
+    }
+    ```
+In the complete example above, every time the `RiveAnimation` is tapped, it fires the `bump` input trigger and the state machine reacts appropriately.
+
+**Note**: There are two other state machine input types to be aware of as well: `SMIBool` and `SMINumber`. These both have a `value` property that can get and set the value.
+
+```javascript
+// Example state machine input declarations
+SMIBool _boolExampleInput;
+SMINumber _numberExampleInput;
+
+...
+
+// Extracting inputs from the StateMachineController
+void _onRiveInit(Artboard artboard) {
+  final controller = StateMachineController.fromArtboard(artboard, 'example');
+  artboard.addController(controller!);
+  _boolExampleInput = controller.getBoolInput('exampleBool')!;
+  _numberExampleInput = controller.getNumberInput('exampleNum')!;
+}
+
+...
+
+// Getting/setting state machine input values
+if (_boolExampleInput.value == false) {
+  _boolExampleInput.value = true;
+}
+if (_numberExampleInput.value >= 100) {
+  _numberExampleInput.value = 0;
+}
+```
+
+### State change event callback
+
+If you'd like to know which state a state machine is in, or when a state machine transitions to another state, you can provide a callback to `StateMachineController`. The callback has the name of the state machine and the name of the animation associated with the state transitioned to:
+
+```javascript
+ void _onRiveInit(Artboard artboard) {
+  final controller = StateMachineController.fromArtboard(
+    artboard,
+    'bumpy',
+    onStateChange: _onStateChange,
+  );
+  artboard.addController(controller!);
+  _bump = controller.getTriggerInput('bump');
+}
+
+void _onStateChange(
+  String stateMachineName,
+  String stateName,
+) =>
+    setState(
+      () => message = 'State Changed in $stateMachineName to $stateName',
+    );
+```
+
+
+  </Tab>
+
+  <Tab title="iOS/macOS">
+    ### Inputs 
+
+    Just like with animation playback controls, setting input values for state machines goes through the `RiveViewModel` instantiated in the View class.
+
+    `.setInput()`
+
+    - `inputName` (String) - Name of the input on a state machine to set a value for
+    - `value` (Bool, Float, or Double) - value to set for the associated `inputName`
+
+    `triggerInput()`
+
+    - `inputName` (String) - Name of the input on a state machine to trigger
+
+    ```swift
+    // Example of a number input
+    starsVM.setInput("Rating Changed", value: 5)
+
+    // Example of a boolean input
+    toggleVM.setInput("Switch Flipped", value: true)
+
+    // Example of a trigger input
+    confettiVM.triggerInput("Celebrate")
+    ```
+
+    ### State change event callbacks 
+
+    This runtime allows for delegates that can be set on the `RiveViewModel`. If provided, these delegate functions will be fired whenever a matching event is triggered to be able to hook into and listen for certain events in the Rive animation cycle.
+
+    Currently, there exist the following delegates:
+
+    - `RivePlayerDelegate` - Hook into animation and state machine lifecycle events
+      - `player`: `(loopedWithModel riveModel: RiveModel?, type: Int) {}`
+      - `player`: `(playedWithModel riveModel: RiveModel?) {}`
+      - `player`: `(pausedWithModel riveModel: RiveModel?) {}`
+      - `player`: `(stoppedWithModel riveModel: RiveModel?) {}`
+    - `RiveStateMachineDelegate` - Hook into state changes on a state machine lifecycle
+      - `stateMachine`: `(_ stateMachine: RiveStateMachineInstance, didStateChange stateName: String) {}`
+
+    You can create your own delegate or mix in with the `RiveViewModel`, implementing as many protocols as are needed. Below is an example of how to customize a RiveViewModel's implementation of the `RivePlayerDelegate`:
+
+    ```swift
+    class SimpleAnimation: RiveViewModel {
+        init() {
+            let model = RiveModel(fileName: "truck_v7", stateMachineName: "Drive")
+            super.init(model)
+        }
+        
+        override func setView(rview view: RiveView) {
+            super.setView(view)
+            rview?.playerDelegate = self
+            rview?.stateMachineDelegate = self
+        }
+
+        override func player(playedWithModel riveModel: RiveModel?) {
+            if let stateMachineName = riveModel?.stateMachine?.name() {...}
+        }
+        
+        override func player(pausedWithModel riveModel: RiveModel?) {
+            if let stateMachineName = riveModel?.stateMachine?.name() {...}
+        }
+        
+        override func player(stoppedWithModel riveModel: RiveModel?) {
+            if let stateMachineName = riveModel?.stateMachine?.name() {...}
+        }
+        
+        @objc func stateMachine(_ stateMachine: RiveStateMachineInstance, didChangeState stateName: String) {
+            var stateMachineNames: [String] = []
+            var stateMachineStates: [String] = []
+            stateMachineNames.append(stateMachine.name())
+            stateMachineStates.append(stateName)
+            ...
+        }
+    }
+    ```
+
+  </Tab>
+    <Tab title="Android">
+    ### Inputs
+
+    Just like other methods within the `rive-android` runtime, use the view to set values on a state machine input. In this case, there is no need to grab references to state machine input instances to set values.
+
+    There are 3 different methods to set input values or trigger inputs for number, boolean, and trigger inputs respectively:
+
+    - `.setNumberState(stateMachineName: String, inputName: String, value: Float)`
+    - `.setBooleanState(stateMachineName: String, inputName: String, value: Boolean)`
+    - `.fireState(stateMachineName: String, inputName: String)`
+
+    ```kotlin
+    // i.e Set input state on a number input
+    animationView.setNumberState("Designer's Test", "Level", 0f)
+
+    // i.e Set boolean state on a boolean input
+    animationView.setBooleanState("Boolean test", "foo", true)
+
+    // i.e Fire a trigger input
+    animationView.fireState("Trigger test", "fireInput");
+    ```
+
+    ### State change event callback 
+
+    To listen for state changes, when creating a `Listener` to register on your animation view, you can add the following callback, where you'll receive the name of the state machine, and the state it transitions to:
+
+    ```kotlin
+    val listener = object : Listener {
+        override fun notifyStateChanged(stateMachineName: String, stateName: String) {
+            // Do something
+        }
+    }
+    animationView.registerListener(listener)
+    ```
+
+  </Tab>
+
+</Tabs>
+
+
+## Nested Inputs
+
+It’s possible to control the inputs of nested artboards programmatically (See [Nested Artboards](../editor/fundamentals/nested-artboards)).
+
+In this example our main artboard is called **Menu**, which has a nested artboard called **Volume Molecule**, and inside that there are two instances of a nested artboard called **Volume Component**. We want to be able to control the **volume** input on each instance of the **Volume Components** at runtime.
+
+![Image](https://ucarecdn.com/2b241b74-91d1-4a7b-b18f-32c3ff94762d/)
+
+The first step is to go to the **Menu** artboard, right click **Volume Molecule** in the **Hierarchy**, and click **Export Name**. Notice that the artboard’s name is now wrapped in brackets (**\[Volume Molecule\]**), which indicates that this artboard can now be referred to in our code. 
+
+![Image](https://ucarecdn.com/2280e7c9-2e91-4cf6-89c6-b122e1b2b5e7/)
+
+Next we’ll go to the **Volume Molecule** artboard and make sure our two instances of **Volume Component** have a unique name in the **Hierarchy** (in this case we have **Volume Component** and **FX Component**).
+
+<Warning>
+ Do not use "/" in the name for your components, as that will break the search functionality at runtime.
+</Warning>
+
+Just like the previous step, we need to right click **\[Volume Component\]** and **\[FX Component\]** and click **Export Name**.
+
+![Image](https://ucarecdn.com/8ba625a6-7f9a-46fe-afaf-8e3bc562dc45/)
+
+Finally we’ll create the paths that allow us to refer to each nested artboard in our code. The path is the names of the nested artboards in the Hierarchy, separated by a "/".
+
+- Music Volume: **"Volume Molecule/Volume Component"**
+- FX Volume: **"Volume Molecule/FX Component"**
+
+If the nested artboard named **FX Component** was inside the **Menu** artboard, the path would be **”FX Component”**. If it was nested within several layers of nested artboards, the path might be ”**Artboard-Nested-Level1/Arboard-Nested-Level2/Artboard-Nested-Level3/FX Component”** and so on.
+<Tabs>
+  <Tab title="Web">
+    To set the **Volume** input for the above example:
+
+    ```javascript
+    const rive = new Rive({...});
+    ...
+    rive?.setNumberStateAtPath("volume", 80.0, "Volume Molecule/Volume Component");
+    ```
+
+    **All options:**
+    - `setNumberStateAtPath(inputName: string, value: number, path: string)`
+    - `setBooleanStateAtPath(inputName: string, value: boolean, path: string)`
+    - `fireStateAtPath(inputName: string, path: string)`
+  </Tab>
+
+  <Tab title="React">
+    To set the **Volume** input for the above example:
+
+    ```tsx
+    const rive = new Rive({...});
+    
+    rive?.setNumberStateAtPath("volume", 80.0, "Volume Molecule/Volume Component");
+    ```
+
+    **All options:**
+    - `setNumberStateAtPath(inputName: string, value: number, path: string)`
+    - `setBooleanStateAtPath(inputName: string, value: boolean, path: string)`
+    - `fireStateAtPath(inputName: string, path: string)`
+  </Tab>
+  
+  <Tab title="React Native">
+    To set the **Volume** input for the above example:
+
+    ```tsx
+    riveRef.current?.setInputStateAtPath("volume", 80.0, "Volume Molecule/Volume Component");
+    ```
+
+    **All options:**
+    - `setInputStateAtPath(inputName: string, value: boolean | number, path: string)`
+    - `fireStateAtPath(inputName: string, path: string)`
+  </Tab>
+
+
+  <Tab title="Flutter">
+    To set the **Volume** input for the above example:
+
+    ```dart
+    // Load the Rive file
+    final file = await RiveFile.asset('assets/your_rive_file.riv');
+    // Create a Rive Artboard instance
+    final artboard = file.artboardByName('ArtboardName')!.instance();
+    // Create a state machine controller
+    final controller = StateMachineController.fromArtboard(artboard, 'StateMachineName');
+    // Add the controller to the artboard
+    artboard.addController(controller!);
+
+    ...
+
+    // Get the nested input named 'volume' from the artboard
+    final volumeInput = artboard.getNumberInput('volume', 'Volume Molecule/Volume Component')!;
+    volumeInput.value = 80.0;
+    ```
+
+    **All options:**
+    - `getBoolInput(name, path)` 
+    - `getTriggerInput(name, path)`
+    - `getNumberInput(name, path)`
+  </Tab>
+
+  <Tab title="iOS / macOS">
+    To set the **Volume** input for the above example:
+
+    ```swift
+    @StateObject private var riveState = RiveViewModel(fileName: "file_name", stateMachineName: "StateMachineName")
+    ...
+    riveState.setInput("volume", value: 80.0, path: "Volume Molecule/Volume Component")
+    ```
+
+    **All options:**
+    - `setInput(_ inputName, value: value, path)` where `value` can be a `Bool`, `Double`, or `Float`
+    - `triggerInput(_ inputName, path: path)`
+  </Tab>
+
+  <Tab title="Android">
+    To set the **Volume** input for the above example:
+
+    ```kotlin
+    // `animationView` is RiveAnimationView
+    animationView.setNumberStateAtPath("volume", 80.0, "Volume Molecule/Volume Component")
+    ```
+
+    **All options on `RiveAnimationView`:**
+    - `setNumberStateAtPath(inputName: String, value: Float, path: String)`
+    - `setBooleanStateAtPath(inputName: String, value: Boolean, path: String)`
+    - `fireStateAtPath(inputName: String, path: String)`
+
+    **All options on `RiveFileController`:**
+    - `setNumberStateAtPath(inputName: String, value: Float, path: String)`
+    - `setBooleanStateAtPath(inputName: String, value: Boolean, path: String)`
+    - `fireStateAtPath(inputName: String, path: String)`
+  </Tab>
+
+  <Tab title="Unity">
+    To  
+    ![Image](https://ucarecdn.com/2ef96393-bf13-4445-950b-1626235a25eb/)  
+    set the **Volume** input from the above example:
+
+    ```csharp
+    m_file = Rive.File.Load(asset);
+    m_artboard = m_file.Artboard(0);
+    m_artboard.SetNumberInputStateAtPath("volume", 80.0f, "Volume Molecule/Volume Component");
+    ```
+
+    **All options:**
+    - `void SetNumberInputStateAtPath(string inputName, float value, string path)`
+    - `float? GetNumberInputStateAtPath(string inputName, string path)`
+    - `void SetBooleanInputStateAtPath(string inputName, bool value, string path)`
+    - `bool? GetBooleanInputStateAtPath(string inputName, string path)`
+    - `void FireInputStateAtPath(string inputName, string path)`
+  </Tab>
+
+</Tabs>
+
+
+## Rive Listeners
+
+If your Rive file has Rive Listeners ([Listeners](../editor/state-machine/listeners)) and you've configured your Rive instance with a state machine according to the steps outlined per runtime above, there is no additional configuration or options needed to enable the pointer events to be captured on the Rive instance. The event capturing is handled internally by the Rive widget/component.
+
+However, if you are going about constructing your own render loop and using low-level APIs to drive Rive content, (i.e. [Low-level API Usage](./web/low-level-api-usage)) , you may need to set up event listeners manually to capture user interaction and pass feedback down to the state machine (i.e. see setup in [JS](https://github.com/rive-app/rive-wasm/blob/master/js/src/utils/registerTouchInteractions.ts)).

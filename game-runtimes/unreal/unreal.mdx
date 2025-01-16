@@ -1,0 +1,45 @@
+---
+title: 'Unreal'
+description: 'Unreal runtime for Rive.'
+---
+
+<Note>
+ The Rive Unreal runtime is currently in **Technical Preview** for Mac and Windows versions of Unreal. We're hoping to gather feedback about the API and feature-set as we expand platform support. Please reach out to us on [Discord](https://discord.com/invite/FGjmaTr) or through our [Support Channel](https://rive.atlassian.net/servicedesk/customer/portals).
+</Note>
+<Note>
+ See '**Feature Support**' below for an updated list of Rive features in Unreal.
+</Note>
+## Rendering Support
+
+The rive-unreal runtime uses the [Rive Renderer](https://rive.app/renderer) and supports the following:
+
+- Metal on Mac
+- Metal on iOS
+- D3D11 on Windows
+- OpenGL on Android (Note: be sure to uncheck "Support Vulkan" in Project Settings.)
+
+Planned support for:
+
+- D3D12
+- Vulkan on Linux, Android, and Windows
+
+## Bug Reports 
+
+If you encounter any errors or unexpected crashes while integrating the Rive Unreal runtime, we recommend logging a detailed issue directly to the [rive-unreal](https://github.com/rive-app/rive-unreal/issues) repository.
+
+## Feature Support 
+
+The rive-unreal runtime uses the [Rive C++ runtime](https://github.com/rive-app/rive-cpp). For more details on runtime support, see the [Feature Support](../../runtimes/features-support) page. Refer to the following table for what is currently supported in the Unreal runtime.
+
+| **Feature** | **Supported** |
+| --- | --- |
+| [Animation Playback](https://app.outverse.com/rive/doc/animation-playback/docDKKxsr7ko)[​](https://app.outverse.com/rive/doc/animation-playback/docDKKxsr7ko) | ✅ |
+| [Fit & Alignment​](https://app.outverse.com/rive/doc/layout/docBl81zd1GB) | ✅ |
+| Listeners​ | ✅ |
+| [Setting State Machine Inputs​](https://rive.app/community/doc/state-machines/dociP0w7AKyI) | ✅ |
+| [Listening to Events](https://rive.app/community/doc/rive-events/docPgz0TIE4s) | ✅ |
+| [​Updating text at runtime​](https://rive.app/community/doc/text/docBQkxh5t85) | ✅ |
+| [​Out-of-band assets​](https://rive.app/community/doc/loading-assets/doc9XPuKJn51) | ✅ |
+| ​Procedural rendering​ | Coming soon |
+| PNG images | ✅ |
+| WEBP and JPEG images | Coming Soon |

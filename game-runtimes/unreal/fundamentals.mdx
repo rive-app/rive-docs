@@ -1,0 +1,118 @@
+---
+title: 'Fundamentals'
+description: ''
+---
+
+## Adding Rive files 
+
+To add a `.riv` file to an Unreal project, simply drag it into Unreal's Content Browser. Once dropped, a **Rive File**, **Rive Texture Object**, and **Widget Blueprint** asset will be automatically created. A **RiveFile** is a wrapper component configuring the Rive graphic to display, using a backing `.riv` file's data. It contains the following properties:
+
+- **Artboard name**: The [artboard](https://rive.app/community/doc/artboards/docYyi4AbIjL) to load.
+- **State machine name**: The [state machine](https://rive.app/community/doc/state-machines/docxeznG7iiK) to play.
+- **Rive fit type**: How the graphic should fit in the available sizes (see [Fit](https://rive.app/community/doc/layout/docBl81zd1GB)).
+- **Size**: The size of the underlying render target to which the graphic is drawn. The default value is equal to the artboard size, as set in the Rive editor.
+- Other texture properties.
+
+An important concept to understand is that the **RiveFile** contains the underlying **artboard** and **state machine** that the Rive runtime uses. 
+
+You can view the details of a **RiveFile** by double-clicking on it in the content browser and examining the Details pane. You can see all of the **artboards**, **state machines, triggers** and **inputs** included in the file.
+
+![Image](https://ucarecdn.com/e1a414a2-6b5c-4b44-b5df-902867b329cf/)
+
+## RiveTextureObjects 
+
+While a **RiveFile** contains the data of a Rive asset, it is the **RiveTextureObject** that handles running the animations and handling state machines. Every **RiveTextureObject** runs independently, even if created from the same **RiveFile**. When you double-click on a **RiveTextureObject** you can examine and change various values associated with that object:
+
+![Image](https://ucarecdn.com/23f34841-ad81-4388-b13b-5f0c115e5166/)
+
+Leaving the Artboard name or State Machine name blank will use the default values.
+
+<Note>
+ Note that the **size** attribute determines the width and height of the underlying render texture. A larger size improves the quality but increases the memory usage.
+</Note>
+
+<video
+  controls
+  className="w-full aspect-video"
+  src="https://ucarecdn.com/b8a68ecf-dfee-45f6-be7e-81a67d5992f8/"
+></video>
+
+## Create Rive Widget, Create Rive Texture Object, and Reimport
+
+Right-click a **RiveFile** to access common actions:
+
+![Image](https://ucarecdn.com/5c8cc8e5-751b-4f80-a8c9-10566fc7255a/)
+
+Selecting **"Spawn Rive Widget Actor"** will create an Actor in your Level. Playing the Level will display the Rive file as a UMG Widget. Alternatively, you can spawn a widget actor by dragging and dropping the **RiveFile** asset into the level. Note that the location of the actor in the scene does not affect it's display.
+
+If you need more than the default **Rive Widget** or **Rive Texture Object**, you can create them from this menu.
+You can also **Reimport** your Rive file to get updates made to the file outside of Unreal.
+
+## Create a material asset 
+
+You can easily create a material asset from a **RiveTextureObject**:
+
+- **Right-click** and select **"Create Material"**
+
+The created material asset uses the selected **RiveTextureObject** as a texture.
+
+![Image](https://ucarecdn.com/27fe9af0-7bdb-46d9-bd5c-a07fadaca1fe/)
+
+### Displaying
+
+This material can be added to a 3D mesh to be rendered in the scene, just like any other material.
+
+![Image](https://ucarecdn.com/30c746c2-42bc-4cb8-b4f0-c68c2a4d07e6/)
+
+## Adding Rive to UMG
+
+You can easily create a Widget Blueprint from a **RiveFile**:
+
+- **Right click** the **RiveFile** and select **"Create Rive Widget"**
+
+This will automatically create a Widget Blueprint using the selected **RiveFile**.
+
+Alternatively, a **Rive Widget** can be added from the **UMG** **Palette** and then selecting the underlying **RiveFile** to use as a reference. This is done in the "Rive Descriptor" section in the Details pane. Leaving the Artboard name or State Machine Name blank will cause defaults in the file to be used.
+
+<Note>
+ Be sure to click **Compile** to make the graphic visible.
+</Note>
+![Image](https://ucarecdn.com/be465fa4-8531-4258-af51-55fe05f306cf/)
+
+<Note>
+ Listeners (pointer events) are disabled in this view. This means the Rive graphic is not interactive within UMG.
+</Note>
+
+### Accessing RiveWidget in Blueprint 
+
+The **RiveWidget** can be accessed through Blueprint, if the **Is Variable** toggle is set (default is checked).
+
+![Image](https://ucarecdn.com/b7c73431-6c84-4597-aeea-75e3b76ecddb/)
+
+### Displaying 
+
+Once a Widget Blueprint is configured, you only need to add it to the Viewport. In this example we're creating a new Actor and adding the following.
+
+![Image](https://ucarecdn.com/1213cdfc-ef95-40a7-95f1-6a9fd071e764/)
+
+Once the actor is added to the game and you enter play mode the animation will function exactly as it does in the Rive Editor.
+
+See the following sections for more advanced usage.
+
+## Instancing a RiveTextureObject 
+
+If, for example, your `.riv` file contains multiple different artboards, or if you want to create unique instances of the same artboard and state machine combination, you can easily do so by instancing new **RiveTextureObject**s through the editor:
+
+- **Right-click** a **RiveTextureObject** and select **"Duplicate"**
+
+These new instances use the same underlying `.riv` file data; however they are unique instances and can be configured with the available properties, such as artboard, state machine, size, etc. Each **RiveTextureObject** instance contains a unique **artboard** and **state machine** instance that can be updated and used independently.
+
+An artboard and state machine can be instanced manually through Blueprint as well. Later sections will demonstrate how to do this.
+
+**How To Use Imported Rive Objects in Unreal**
+
+<video
+  controls
+  className="w-full aspect-video"
+  src="https://ucarecdn.com/346aeddd-db08-411d-903e-8d450b09f5bf/"
+></video>

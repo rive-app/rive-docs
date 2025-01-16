@@ -1,0 +1,175 @@
+---
+title: 'Listeners'
+description: 'Enable listeners on your Rive animation in Unity'
+---
+
+
+For more information on Rive Listeners see the [editor documentation](https://rive.app/community/doc/listeners/doceaiA9rRW1).
+
+<CardGroup col="auto">
+  <Card title="Listeners"  icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>}>
+    Listeners give designers the tools to take their State Machine one step further and define click, hover, and mouse move actions that can change inputs in the editor and at runtime without the need for a developer.
+    <br />
+    <a href="../../editor/state-machine/listeners" target="_blank"></a>
+  </Card>
+</CardGroup>
+
+<Tabs>
+    <Tab title="Components">
+
+        [Panel Renderers](https://rive.app/community/doc/components/docZxgcghXbV#panel-renderers) are responsible for passing pointer input to  **Rive Panels.**
+
+        **Requirements**
+
+        - Set the `Pointer Input Mode`  setting on any **Panel Renderer** to `Enable Pointer Input` if you want a **Rive Panel** to receive pointer events. 
+        - Add an **EventSystem** to the scene. This provides input from Unity to the Panel Renderers and allows them to support any input system in Unity (as long as it uses the EventSystem)
+        - For the **Rive Canvas Renderer**, ensure the parent Canvas has a **Graphics Raycaster** attached.
+        - For the **Rive Texture Renderer**, ensure the event camera has a **Physics Raycaster** component attached.
+
+        <Warning>
+        The GameObject with the **Rive Texture Renderer** attached must also have a **MeshCollider** attached.
+        </Warning>
+
+        ### Hit Testing
+
+        Hit testing controls how pointer events interact with **Rive Widgets** and the content behind them. You can configure this behavior using the `Hit Test Behavior` setting on your **Rive Widget**:
+
+        \- **Opaque**: The widget blocks all pointer events within its bounds, regardless of whether there's an interactive element (listener) at the pointer location. Content behind the widget won't receive any pointer events.
+
+        \- **Translucent**: The widget only blocks pointer events where there's an interactive element (listener) at the pointer location. If no listener is hit, the event passes through to content behind the widget.
+
+        \- **Transparent**: All pointer events pass through to content behind the widget, but Rive listeners still detect and respond to pointer events. This allows simultaneous interaction with both the widget and background content.
+
+        \- **None**: The widget doesn't perform any hit testing and ignores all pointer events.
+
+        This flexibility allows you to create layered interactive experiences while controlling precisely how pointer events are handled at each layer.
+
+    </Tab>
+
+    <Tab title="Low-level API">
+
+        ## Pointer Positions
+
+        In rive-unity pointer (mouse/touch) events can be passed to an artboard to enable Rive Listeners. This is accomplished by translating the pointer position to an artboard's local coordinate.
+
+        For a complete example see the **getting-started** project in the [examples repository](https://github.com/rive-app/rive-unity-examples) and open a sample scenes:
+
+        - **DrawToCameraScene**: Pointer events on a camera
+        - **DrawToCubeScene**: Pointer events on a mesh
+
+        #### Camera Hit Test
+
+        See the **DrawToCameraScene** scene in the **getting-started** project from the [example repository](https://github.com/rive-app/rive-unity-examples).
+
+        ![Image](https://ucarecdn.com/c4b499ac-b42b-4b40-a071-b34f9e82e62a/)
+
+        This code snippet demonstrates translating mouse position on the camera to an artboard.
+
+        ```csharp
+        private Artboard m_artboard;
+        private StateMachine m_stateMachine;
+
+        ...
+
+        Camera camera = gameObject.GetComponent<Camera>();
+        if (camera != null)
+        {
+            Vector3 mousePos = camera.ScreenToViewportPoint(Input.mousePosition);
+            Vector2 mouseRiveScreenPos = new Vector2(
+                mousePos.x * camera.pixelWidth,
+                (1 - mousePos.y) * camera.pixelHeight
+            );
+            if (m_artboard != null && m_lastMousePosition != mouseRiveScreenPos)
+            {
+                Vector2 local = m_artboard.LocalCoordinate(
+                    mouseRiveScreenPos,
+                    new Rect(0, 0, camera.pixelWidth, camera.pixelHeight),
+                    fit,
+                    alignment
+                );
+                m_stateMachine?.PointerMove(local);
+                m_lastMousePosition = mouseRiveScreenPos;
+            }
+            if (Input.GetMouseButtonDown(0))
+            {
+                Vector2 local = m_artboard.LocalCoordinate(
+                    mouseRiveScreenPos,
+                    new Rect(0, 0, camera.pixelWidth, camera.pixelHeight),
+                    fit,
+                    alignment
+                );
+                m_stateMachine?.PointerDown(local);
+                m_wasMouseDown = true;
+            }
+            else if (m_wasMouseDown)
+            {
+                m_wasMouseDown = false;
+                Vector2 local = m_artboard.LocalCoordinate(
+                    mouseRiveScreenPos,
+                    new Rect(0, 0, camera.pixelWidth, camera.pixelHeight),
+                    fit,
+                    alignment
+                );
+                m_stateMachine?.PointerUp(local);
+            }
+        }
+        ```
+
+        #### Mesh Hit Test
+
+        See the **DrawToCubeScene** scene in the **getting-started** project from the [example repository](https://github.com/rive-app/rive-unity-examples)
+
+        ![Image](https://ucarecdn.com/376abe7c-09b9-4234-b98f-fb8a67f24aa1/)
+
+        This code snippet demonstrates translating a [RaycastHit](https://docs.unity3d.com/ScriptReference/RaycastHit.html) on an object to an artboard's local coordinates.
+
+        <Note>
+        The **GameObject** must have a **MeshCollider** attached.
+        </Note>
+
+        ```csharp
+        void HitTesting()
+        {
+            Camera camera = Camera.main;
+
+            if (camera == null || renderTexture == null || m_artboard == null) return;
+
+            if (!Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition), out RaycastHit hit))
+                return;
+
+            Renderer rend = hit.transform.GetComponent<Renderer>();
+            MeshCollider meshCollider = hit.collider as MeshCollider;
+
+            if (rend == null || rend.sharedMaterial == null || rend.sharedMaterial.mainTexture == null || meshCollider == null)
+                return;
+
+            Vector2 pixelUV = hit.textureCoord;
+
+            pixelUV.x *= renderTexture.width;
+            pixelUV.y *= renderTexture.height;
+
+            Vector3 mousePos = camera.ScreenToViewportPoint(Input.mousePosition);
+            Vector2 mouseRiveScreenPos = new(mousePos.x * camera.pixelWidth, (1 - mousePos.y) * camera.pixelHeight);
+
+            if (m_lastMousePosition != mouseRiveScreenPos || transform.hasChanged)
+            {
+                Vector2 local = m_artboard.LocalCoordinate(pixelUV, new Rect(0, 0, renderTexture.width, renderTexture.height), fit, alignment);
+                m_stateMachine?.PointerMove(local);
+                m_lastMousePosition = mouseRiveScreenPos;
+            }
+            if (Input.GetMouseButtonDown(0))
+            {
+                Vector2 local = m_artboard.LocalCoordinate(pixelUV, new Rect(0, 0, renderTexture.width, renderTexture.height), fit, alignment);
+                m_stateMachine?.PointerDown(local);
+                m_wasMouseDown = true;
+            }
+            else if (m_wasMouseDown)
+            {
+                m_wasMouseDown = false; Vector2 local = m_artboard.LocalCoordinate(mouseRiveScreenPos, new Rect(0, 0, renderTexture.width, renderTexture.height), fit, alignment);
+                m_stateMachine?.PointerUp(local);
+            }
+        }
+        ```
+
+    </Tab>
+</Tabs>

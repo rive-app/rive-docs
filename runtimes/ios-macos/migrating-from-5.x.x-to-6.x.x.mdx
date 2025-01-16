@@ -1,0 +1,19 @@
+---
+title: 'Migrating from 5.x.x to 6.x.x'
+description: 'Migrating guide from &lt; 6.x'
+---
+
+
+<Warning>
+ Contains a breaking change
+</Warning>
+
+## Rive Renderer
+
+## RendererType
+
+`riveRenderer` is now the new default renderer type, and `skiaRenderer` has been removed. If you were previously explicitly setting the renderer type to Skia, then you will have to [specify a new renderer](https://rive.app/community/doc/overview/docD20dU9Rod#specifying-a-renderer), or use the new default Rive Renderer (our recommendation).
+
+## Package Size
+
+Rive's iOS runtime is now \~57% smaller, at \~3.3mb, compared to \~7.6mb prior to v6.0.0.

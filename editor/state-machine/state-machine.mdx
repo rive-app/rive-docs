@@ -1,0 +1,50 @@
+---
+title: 'State Machine'
+description: ''
+---
+
+Add intelligence to your animations
+
+## State Machine Overview 
+
+State Machines are a visual way to connect animations together and define the logic that drives the transitions. They allow you to build interactive motion graphics that are ready to be implemented in your product, app, game, or website.
+
+State machines create a new level of collaboration between designers and developers, allowing both teams to iterate deep in the development process without the need for a complicated handoff. 
+
+<iframe width="100%" height="400" src="https://www.youtube.com/embed/r17OBczdK4c?si=CV137Ej2mP8K0PMS" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+Using the State Machine requires designers and animators to think more like a developer but in a straightforward, visual way.
+
+Every artboard has at least one State Machine by default, but you can create as many as you’d like. To create a new state machine, hit the plus button in the Animations List and select the State Machine option.
+
+### Anatomy of a State Machine 
+
+A basic state machine will consist of a Graph, [States](./states), [Transitions](./transitions), [Inputs](./inputs) and [Layers](./layers). We’ll explore each of these pieces and more throughout this section.
+
+The Graph is the space in which you’ll be adding States and connecting Transitions. It appears in place of the Timeline when a state machine is selected in the animations list.
+
+State Machine Graph
+
+![Image](https://ucarecdn.com/307461c0-2006-4fdf-bdc3-61875d40f422/)
+
+States are simply timeline animations that can play in your state machine. Typically, these will represent some state that your animated content is in. For example, a button will typically have an Idle state (the button is stationary), a Hovered state (what the button looks like when it is hovered), and a Clicked state (what the button looks like when it’s been clicked).
+
+![Image](https://ucarecdn.com/ca93f148-a38c-4eac-a166-8399065315c2/)
+
+Preview of States
+
+Once we have defined the States of our content, we can tie them together with transitions to create a logical path that our State Machine can take through these different timelines. We’re creating a map that our State Machine can use to get from one animation to the next.
+
+![Image](https://ucarecdn.com/cf0f53e3-abc9-43a9-b43a-e18483fe2613/)
+
+Creating Transitions
+
+Inputs are the contract between designers and developers. As designers, we use them as rules for our transitions to occur. For example, we could have a boolean called isHovered. That boolean controls the transition between our idle and hovered state. When the boolean is true, the state machine is in the hovered state, and when it is false, the state machine is in the Idle state. Developers tie into these inputs at runtime and define actions that control the state machines inputs I.E. defining hit areas that can change the isHovered boolean.
+
+![Image](https://ucarecdn.com/40789635-ca9e-4c95-970d-1040d66664f7/)
+
+Adding Inputs and Conditions
+
+Lastly, all state machines will have at least one Layer. Because only a single animation can play on a given layer, we have the ability to add multiple layers if we want to mix different animations, or add additional interactions. For example, this state machine has multiple layers, each one with the logic to control one of the buttons in this menu.
+
+![Image](https://ucarecdn.com/9b454ffc-1e08-495c-a4b7-b6ba71a7cbd2/)

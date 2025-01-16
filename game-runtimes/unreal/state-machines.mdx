@@ -1,0 +1,95 @@
+---
+title: 'State Machines'
+description: 'Interact with the Rive State Machine in Unreal.'
+---
+
+
+For more information on Rive State Machines see the respective [runtime](https://app.outverse.com/rive/doc/state-machines/docxeznG7iiK) and [editor](https://app.outverse.com/rive/doc/state-machine/docwH5zPdh93) documentation.
+
+## Overview
+
+To select a state machine, double-click the **RiveTextureObject** asset and enter a state machine name. Leaving the name blank will use the default state machine.
+
+![Image](https://ucarecdn.com/199aa4b2-e87a-435e-8bcf-dfa8f3edfc1c/)
+
+<Note>
+ A Rive file may contain many artboards, and an artboard may contain many state machines.
+</Note>
+## Setting Inputs
+
+A Rive state machine can have the following input types:
+
+- a **boolean** that can be set to true or false.
+- a **number** that can be set to any value.
+- a **trigger** that is a boolean set to true for one frame.
+
+The available inputs can be viewed in the Rive Editor when selecting a state machine, for example:
+
+![Image](https://ucarecdn.com/8d480bb7-f471-4130-acb5-9b90ad2aed4a/)
+
+In the example above:`effectsVolume` is a **number**, `continueAvailable` is a **boolean**, and `back` is a **trigger**.
+
+<Note>
+ An **Input** is accessed by its string name from an **Artboard** (retrieved from a **RiveFile)**.
+</Note>
+### Boolean Input
+
+To update a boolean value call `Set Bool Value` on the artboard.
+
+In the example below, we're setting the boolean input, named `isOpen`, equal to a local variable `Is Open`.
+
+![Image](https://ucarecdn.com/102d3616-45dd-41b8-a3eb-d2af71dfa54d/)
+
+To read a boolean value call `Get Bool Value` on the artboard, and get the return value.
+
+![Image](https://ucarecdn.com/8f9616c7-1d72-4a67-b2a1-ae60aea52fa8/)
+
+### Number Input
+
+To update a number value call `Set Number Value` on the artboard.
+
+In the example below, we're setting the number input, named `health`, equal to a local variable `Health`.
+
+![Image](https://ucarecdn.com/0a398356-bb41-4bae-815f-3c0011786eda/)
+
+To read a number value call `Get Number Value` on the artboard, and get the return value.
+
+![Image](https://ucarecdn.com/3bfd0671-e6a1-445a-927b-2e311d8b4308/)
+
+### Trigger Input
+
+To fire a trigger, call `Fire Trigger` on the artboard.
+
+In the example below, we're firing the trigger named `openMenu`.
+
+![Image](https://ucarecdn.com/986c4ea0-2f2c-47e7-91a0-2858e9bee42f/)
+
+### Nested Inputs
+
+You can call these functions on nested inputs by using the node equivalents that end in "at Path". See the [Nested Artboards ](https://rive.app/community/doc/nested-artboards/docL5SnBgUng)documentation for more details on using nested artboards.
+
+![Image](https://ucarecdn.com/5ac579c6-7d8f-4875-a54f-7716e95f1098/)
+
+## Example
+
+Let's take a look at an example. The video below shows a Rive file with a simple state machine containing one number input, named `numExpression`.
+
+<video
+  controls
+  className="w-full aspect-video"
+  src="https://ucarecdn.com/1b7e2073-8fc4-4ae5-b8f0-c7e3a6d68923/"
+></video>
+
+This number input switches out the active playing animation, and the state machine blends between the different animations as they transition.
+
+From a runtime  we can set the `numExpression` through Blueprint to toggle the correct expression for the Robot.
+
+<video
+  controls
+  className="w-full aspect-video"
+  src="https://ucarecdn.com/e1d5226b-ad09-4f41-8352-6d7b369eb641/"
+></video>
+
+In this example, the number input is set when the corresponding number key is pressed:
+
+![Image](https://ucarecdn.com/eb1c728c-0451-4ecf-9f2f-0832a598c568/)
