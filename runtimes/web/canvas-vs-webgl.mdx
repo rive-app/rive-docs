@@ -18,7 +18,7 @@ npm install @rive-app/canvas
 An easy-to-use high-level Rive API using a backing [CanvasRenderingContext2D](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API) renderer. This lets Rive use the browser's native high-level vector graphics renderer. Some benefits of this package:
 
 - Small download size without the bloat of a separate renderer dependency
-- Support for [Rive Text](https://app.outverse.com/rive/doc/text-overview/docSfhykWoWu)
+- Support for [Rive Text](/editor/text/)
 - Great for displaying many animated canvases concurrently on the screen. This is ideal for when you want to render lists or grids of Rive animations on the screen, as there is no context limit by the browser (as opposed to WebGL)
 - Support for simple vector graphics animations and raster
 - Requests the Web Assembly (WASM) backing dependency for you
@@ -36,7 +36,7 @@ A smaller package than that of `@rive-app/canvas` with the same API and backing 
 
 This solution will be preferable if you **do not** have a need for the following features below:
 
-- [Rive Text](https://app.outverse.com/rive/doc/text-overview/docSfhykWoWu)
+- [Rive Text](/editor/text/)
   - If your Rive file may include Rive Text components, rendering the graphic should not cause any app errors, or cease to render. Rive Text will just not appear within the graphic
   - You can still make use of text within your graphic by importing text externally as SVG
 
@@ -81,7 +81,7 @@ If you're planning on displaying Rive content in a list/grid or many times on th
  It is recommended to set the `useOffscreenRenderer: true` property in the Rive parameters when creating a `new Rive({...})` object, especially when rendering multiple Rive objects on the page.
 </Note>
 
-For more information about the Rive Renderer, see the [Choose a Renderer](https://help.rive.app/runtimes/renderer) section.
+For more information about the Rive Renderer, see the [Choose a Renderer](../choose-a-renderer/) section.
 
 ### @rive-app/webgl2-advanced
 <Note>
@@ -101,7 +101,7 @@ A low-level Rive API using a WebGL2 context. It has the same benefits as the reg
 
 This package will be the best way to take advantage of the Rive Renderer's performance, being able to draw a large number of Rive graphics to one canvas.
 
-For more information about the Rive Renderer, see the [Choose a Renderer](https://help.rive.app/runtimes/renderer) section.
+For more information about the Rive Renderer, see the [Choose a Renderer](../choose-a-renderer/) section.
 
 ### @rive-app/canvas-advanced 
 
@@ -127,7 +127,7 @@ A smaller package than that of `@rive-app/canvas-advanced` with the same API and
 
 This solution will be preferable if you **do not** have a need for the following features below:
 
-- [Rive Text](https://app.outverse.com/rive/doc/text-overview/docSfhykWoWu)
+- [Rive Text](/editor/text/)
   - If your Rive file may include Rive Text components, rendering the graphic should not cause any app errors, or cease to render. Rive Text will just not appear within the graphic
   - You can still make use of text within your graphic by importing text externally as SVG
 
