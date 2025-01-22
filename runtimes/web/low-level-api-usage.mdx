@@ -216,7 +216,7 @@ After advancing the artboard, call the `save()` API on the rendering context to 
 2. The bounds of the canvas space to draw to
 3. The bounds of the Rive content to draw within that space
 
-[See here](https://help.rive.app/runtimes/layout) for options for `Fit` and `Alignment`. For the latter two parameters, provide an axis-aligned bounding box (AABB). See the snippet below for an example of the `align()` API.
+[See here](/runtimes/layout) for options for `Fit` and `Alignment`. For the latter two parameters, provide an axis-aligned bounding box (AABB). See the snippet below for an example of the `align()` API.
 
 Finally, after calling the `align()` API, pass the renderer to the artboard via the `draw()` method to draw the artboard on the canvas, then end with a call to the `restore()` API on the renderer to restore the saved state of the canvas.
 
@@ -314,7 +314,7 @@ The high-level JS runtime APIs are built with the low-level APIs specified above
 
 - Ease of playback control with APIs such as `.play()`, `.pause()`, `.stop()`, etc.
 - Callbacks such as `onStateChange`, `onLoad`, etc. that would allow you to hook into specific Rive lifecycle events
-- Hooking up gesture events to[ ](https://app.outverse.com/rive/doc/listeners/doceaiA9rRW1)[Rive Listeners](https://app.outverse.com/rive/doc/listeners/doceaiA9rRW1)
+- Hooking up gesture events to [Rive Listeners](/editor/state-machine/listeners)
 
 When using Rive’s advanced JS APIs to customize how you use Rive, you will have to set up some of these affordances yourself. Take a look at how the [high-level Rive API is built here](https://github.com/rive-app/rive-wasm/blob/master/js/src/rive.ts) to get a sense of how to replicate some of these high-level affordances should you need these.
 
