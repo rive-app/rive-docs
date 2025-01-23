@@ -435,7 +435,7 @@ Sets the text value of the text run component (from the hierarchy of your `.riv`
 
 `resolveAnimationFrame(): void`
 
-You only need to use this function if you are using Rive's [low-level APIs](https://app.outverse.com/rive/doc/low-level-api-usage/doctAfBY6v3P)[ ](https://app.outverse.com/rive/doc/low-level-api-usage/doctAfBY6v3P)to build the render loop manually and are integrating Rive into your existing `requestAnimationFrame()` loop
+You only need to use this function if you are using Rive's [low-level APIs](./low-level-api-usage) to build the render loop manually and are integrating Rive into your existing `requestAnimationFrame()` loop
 
 Resolves deferred drawing commands with the renderer. You must call this at the end of your render loop if you decide to use your own `requestAnimationFrame()` loop and are adding Rive graphics into it. Otherwise, if you are using Rive's wrapped `rAF` loop (i.e., `rive.requestAnimatimationFrame()` ), you do not need to call this method, as Rive will worry about resolving any rendering calls related to Rive graphics.
 

@@ -26,7 +26,7 @@ Follow the steps below for a quick start on integrating Rive into your React app
 The Rive React runtime allows for two main options based on which backing renderer you need.
 
 - **(Recommended)** `@rive-app/react-canvas` - Wraps the `@rive-app/canvas` dependency. Unless you specifically need a `WebGL` backing renderer, we recommend you use this dependency when using Rive in your apps for quick and fast usage.
-- `@rive-app/react-canvas-lite` - Similar to `@rive-app/react-canvas`, but[ ](https://app.outverse.com/rive/doc/canvas-vs-webgl/docanjXoQ1uT)[smaller](https://app.outverse.com/rive/doc/canvas-vs-webgl/docanjXoQ1uT). This is recommended if the Rive graphic does not use [Rive Text](https://app.outverse.com/rive/doc/text-overview/docSfhykWoWu)
+- `@rive-app/react-canvas-lite` - Similar to `@rive-app/react-canvas`, but [smaller](../web/canvas-vs-webgl). This is recommended if the Rive graphic does not use [Rive Text](/editor/text/)
 - `@rive-app/react-webgl` - Wraps the `@rive-app/webgl` dependency. In the future, we may have advanced rendering features that are only supported by using `WebGL`. At the moment, however, due to the size of the dependency (with Skia), we do not recommend it unless you have specific needs here. We are currently working on improving the performance and size with the [Rive Renderer](https://rive.app/renderer).
 - `@rive-app/react-webgl2` - Wraps the `@rive-app/webgl2` dependency. It uses the Rive Renderer with a WebGL2 context and has a much smaller build size than `rive-app/react-webgl`. In a future major release, this package may be deprecated, and `@rive-app/react-webgl` will make use of the Rive Renderer completely, without an added Skia dependency. 
 
@@ -53,7 +53,7 @@ export const Simple = () => (
 );
 ```
 
-See [Parameters and Return Values](../react/parameters-and-return-values)[ ](https://app.outverse.com/rive/doc/parameters-and-return-values/docJlDMNulDh)for more on the parameters and return values of the `<Rive />` component.
+See [Parameters and Return Values](../react/parameters-and-return-values) for more on the parameters and return values of the `<Rive />` component.
 
 ### 2b. Using the useRive hook 
 
