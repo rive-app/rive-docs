@@ -15,71 +15,72 @@ See our [quick start example](https://zapp.run/edit/rive-car-wash-zf160614f170?e
 
 Follow the steps below for a quick start on integrating Rive into your Flutter apps.
 
-### 1. Add the Rive package dependency
+<Steps>
+  <Step title="Add the Rive package dependency">
+    Check out Rive's [pub.dev](https://pub.dev/packages/rive) page to get the latest version.
 
-Check out Rive's [pub.dev](https://pub.dev/packages/rive) page to get the latest version.
+    ```json
+    # pubspec.yaml
+    dependencies:
+      rive: 0.13.14
+    ```
+  </Step>
+  <Step title="Import the Rive package">
+    Import the Rive runtime library in the file you're looking to integrate Rive animations into.
 
-```json
-# pubspec.yaml
-dependencies:
-  rive: 0.13.14
-```
+    ```javascript
+    import 'package:rive/rive.dart';
+    ```
+  </Step>
+  <Step title="Add a RiveAnimation widget">
 
-### 2. Import the Rive package 
+    There are a few different methods to integrating Rive Animations into your apps easily:
 
-Import the Rive runtime library in the file you're looking to integrate Rive animations into.
+    #### Via URL 
 
-```javascript
-import 'package:rive/rive.dart';
-```
+    ```javascript
+    RiveAnimation.network(
+      'https://cdn.rive.app/animations/vehicles.riv',
+    )
+    ```
 
-### 3. Add a RiveAnimation widget 
+    #### Via Asset Bundle 
 
-There are a few different methods to integrating Rive Animations into your apps easily:
+    Make sure you add the Rive file to your asset bundle and reference it in `pubspec.yaml`
 
-#### Via URL 
+    ```javascript
+    RiveAnimation.asset(
+      'assets/vehicles.riv',
+    )
+    ```
 
-```javascript
-RiveAnimation.network(
-  'https://cdn.rive.app/animations/vehicles.riv',
-)
-```
+    In `pubspec.yaml`:
 
-#### Via Asset Bundle 
+    ```yaml
+    ...
 
-Make sure you add the Rive file to your asset bundle and reference it in `pubspec.yaml`
+    # To add assets to your application, add an assets section, like this:
+    assets:
+        - assets/vehicles.riv
+    ```
 
-```javascript
-RiveAnimation.asset(
-  'assets/vehicles.riv',
-)
-```
+    Via Relative Path
 
-In `pubspec.yaml`:
+    ```javascript
+    RiveAnimation.file('path/to/local/file.riv')
+    ```
 
-```yaml
-...
+    #### Via Direct 
 
-# To add assets to your application, add an assets section, like this:
-assets:
-    - assets/vehicles.riv
-```
+    If you use the same Rive file multiple times in your application, you may want to create a single `RiveFile` instance for that `.riv`, and feed it directly to `RiveAnimation` so that the Rive file is only loaded once.
 
-Via Relative Path
+    ```javascript
+    final riveFile = await RiveFile.asset('assets/truck.riv');
 
-```javascript
-RiveAnimation.file('path/to/local/file.riv')
-```
-
-#### Via Direct 
-
-If you use the same Rive file multiple times in your application, you may want to create a single `RiveFile` instance for that `.riv`, and feed it directly to `RiveAnimation` so that the Rive file is only loaded once.
-
-```javascript
-final riveFile = await RiveFile.asset('assets/truck.riv');
-
-RiveAnimation.direct(riveFile)
-```
+    RiveAnimation.direct(riveFile)
+    ```
+  </Step>
+</Steps>
 
 ## Complete example 
 
@@ -113,7 +114,9 @@ See subsequent runtime pages to learn how to control animation playback, state m
 </Note>
 ## Resources
 
-Github: [https://github.com/rive-app/rive-flutter](https://github.com/rive-app/rive-flutter) API Docs: [https://pub.dev/documentation/rive/latest/](https://pub.dev/documentation/rive/latest/)[ ](https://pub.dev/documentation/rive/latest/)
+GitHub: [https://github.com/rive-app/rive-flutter](https://github.com/rive-app/rive-flutter)
+
+API Docs: [https://pub.dev/documentation/rive/latest/](https://pub.dev/documentation/rive/latest/)
 
 Examples:
 
