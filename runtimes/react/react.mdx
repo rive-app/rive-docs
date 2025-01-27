@@ -21,82 +21,81 @@ See our [quick start example](https://codesandbox.io/p/sandbox/rive-quick-start-
 
 Follow the steps below for a quick start on integrating Rive into your React app.
 
-### 1. Install the dependency
+<Steps>
+  <Step title="Install the dependency">
+    The Rive React runtime allows for two main options based on which backing renderer you need.
 
-The Rive React runtime allows for two main options based on which backing renderer you need.
+    - **(Recommended)** `@rive-app/react-canvas` - Wraps the `@rive-app/canvas` dependency. Unless you specifically need a `WebGL` backing renderer, we recommend you use this dependency when using Rive in your apps for quick and fast usage.
+    - `@rive-app/react-canvas-lite` - Similar to `@rive-app/react-canvas`, but [smaller](../web/canvas-vs-webgl). This is recommended if the Rive graphic does not use [Rive Text](/editor/text/)
+    - `@rive-app/react-webgl` - Wraps the `@rive-app/webgl` dependency. In the future, we may have advanced rendering features that are only supported by using `WebGL`. At the moment, however, due to the size of the dependency (with Skia), we do not recommend it unless you have specific needs here. We are currently working on improving the performance and size with the [Rive Renderer](https://rive.app/renderer).
+    - `@rive-app/react-webgl2` - Wraps the `@rive-app/webgl2` dependency. It uses the Rive Renderer with a WebGL2 context and has a much smaller build size than `rive-app/react-webgl`. In a future major release, this package may be deprecated, and `@rive-app/react-webgl` will make use of the Rive Renderer completely, without an added Skia dependency. 
 
-- **(Recommended)** `@rive-app/react-canvas` - Wraps the `@rive-app/canvas` dependency. Unless you specifically need a `WebGL` backing renderer, we recommend you use this dependency when using Rive in your apps for quick and fast usage.
-- `@rive-app/react-canvas-lite` - Similar to `@rive-app/react-canvas`, but [smaller](../web/canvas-vs-webgl). This is recommended if the Rive graphic does not use [Rive Text](/editor/text/)
-- `@rive-app/react-webgl` - Wraps the `@rive-app/webgl` dependency. In the future, we may have advanced rendering features that are only supported by using `WebGL`. At the moment, however, due to the size of the dependency (with Skia), we do not recommend it unless you have specific needs here. We are currently working on improving the performance and size with the [Rive Renderer](https://rive.app/renderer).
-- `@rive-app/react-webgl2` - Wraps the `@rive-app/webgl2` dependency. It uses the Rive Renderer with a WebGL2 context and has a much smaller build size than `rive-app/react-webgl`. In a future major release, this package may be deprecated, and `@rive-app/react-webgl` will make use of the Rive Renderer completely, without an added Skia dependency. 
+    <Note>
+    To take advantage of trying out the Rive Renderer with react-webgl2 , you should [enable the draft](https://www.wikihow.tech/Enable-WebGL-Draft-Extensions-in-Google-Chrome) `WEBGL_shader_pixel_local_storage` Chrome Extension (by adding WebGL Draft Extensions), otherwise, Rive will fall back to an MSAA solution (also with WebGL2) on browsers without the extension support. Current work is underway with major browsers to support this extension by default in consumer's browsers.
+    </Note>
 
-<Note>
- To take advantage of trying out the Rive Renderer with react-webgl2 , you should [enable the draft](https://www.wikihow.tech/Enable-WebGL-Draft-Extensions-in-Google-Chrome) `WEBGL_shader_pixel_local_storage` Chrome Extension (by adding WebGL Draft Extensions), otherwise, Rive will fall back to an MSAA solution (also with WebGL2) on browsers without the extension support. Current work is underway with major browsers to support this extension by default in consumer's browsers.
-</Note>
+    ```bash
+    npm i --save @rive-app/react-canvas
+    ```
+  </Step>
+  <Step title="Render the Rive component">
+    Rive React provides a basic component as its default import for displaying simple animations with a few props you can set such as artboard and layout. Include the code below in your React project to test out an example Rive animation.
 
-```bash
-npm i --save @rive-app/react-canvas
-```
+    ```javascript
+    import Rive from '@rive-app/react-canvas';
 
-### 2a. Render the Rive component
+    export const Simple = () => (
+      <Rive
+        src="https://cdn.rive.app/animations/vehicles.riv"
+        stateMachines="bumpy"
+      />
+    );
+    ```
 
-Rive React provides a basic component as its default import for displaying simple animations with a few props you can set such as artboard and layout. Include the code below in your React project to test out an example Rive animation.
+    See [Parameters and Return Values](../react/parameters-and-return-values) for more on the parameters and return values of the `<Rive />` component.
+  </Step>
+  <Step title="Using the useRive hook">
+    In many cases, you may not only need the React component to render your animation but also the `rive` object instance that controls it as well. The Rive object instance allows you to tap into APIs for:
 
-```javascript
-import Rive from '@rive-app/react-canvas';
+    - Setting Rive Text values dynamically
+    - Subscribing to Rive Events with your own callbacks
+    - Controlling animation playback (i.e. pause and play)
+    - ... and [much more](https://github.com/rive-app/rive-wasm)
 
-export const Simple = () => (
-  <Rive
-    src="https://cdn.rive.app/animations/vehicles.riv"
-    stateMachines="bumpy"
-  />
-);
-```
+    The `useRive` hook returns both this `rive` instance, as well as the React component that mounts the underlying `<canvas>` element that Rive will draw onto.
 
-See [Parameters and Return Values](../react/parameters-and-return-values) for more on the parameters and return values of the `<Rive />` component.
+    ```javascript
+    import { useRive } from '@rive-app/react-canvas';
 
-### 2b. Using the useRive hook 
+    export default function Simple() {
+      const { rive, RiveComponent } = useRive({
+        src: 'https://cdn.rive.app/animations/vehicles.riv',
+        stateMachines: "bumpy",
+        autoplay: false,
+      });
 
-In many cases, you may not only need the React component to render your animation but also the `rive` object instance that controls it as well. The Rive object instance allows you to tap into APIs for:
+      return (
+        <RiveComponent
+          onMouseEnter={() => rive && rive.play()}
+          onMouseLeave={() => rive && rive.pause()}
+        />
+      );
+    }
+    ```
 
-- Setting Rive Text values dynamically
-- Subscribing to Rive Events with your own callbacks
-- Controlling animation playback (i.e. pause and play)
-- ... and [much more](https://github.com/rive-app/rive-wasm)
+    <Note>
+    **Note:** Rive will not instantiate until the `<RiveCopmonent />` is rendered out, as the underlying `<canvas>` element needs to be present in the DOM. 
+    </Note> 
 
-The `useRive` hook returns both this `rive` instance, as well as the React component that mounts the underlying `<canvas>` element that Rive will draw onto.
+    Also, keep in mind that the canvas size depends on the container it's placed within. Initially, this is 0x0. Either pass a `className` to `RiveComponent` or wrap `RiveComponent` with an appropriately sized container.
 
-```javascript
-import { useRive } from '@rive-app/react-canvas';
+    See [here](./parameters-and-return-values) for more on the parameters and return values of `useRive`.
 
-export default function Simple() {
-  const { rive, RiveComponent } = useRive({
-    src: 'https://cdn.rive.app/animations/vehicles.riv',
-    stateMachines: "bumpy",
-    autoplay: false,
-  });
+    Additionally, explore subsequent runtime pages to learn how to control animation playback, state machines, and more.
+  </Step>
+</Steps>
 
-  return (
-    <RiveComponent
-      onMouseEnter={() => rive && rive.play()}
-      onMouseLeave={() => rive && rive.pause()}
-    />
-  );
-}
-```
-
-<Note>
- **Note:** Rive will not instantiate until the `<RiveCopmonent />` is rendered out, as the underlying `<canvas>` element needs to be present in the DOM. 
-<br/>
-</Note> 
-
-Also, keep in mind that the canvas size depends on the container it's placed within. Initially, this is 0x0. Either pass a `className` to `RiveComponent` or wrap `RiveComponent` with an appropriately sized container.
-
-See [here](./parameters-and-return-values) for more on the parameters and return values of `useRive`.
-
-Additionally, explore subsequent runtime pages to learn how to control animation playback, state machines, and more.
-
-#### Rendering Considerations with useRive
+## Rendering Considerations with useRive
 
 At this time, we highly recommend isolating your usage of `useRive` to its own wrapper component if you plan on conditionally rendering the `<RiveComponent />` returned from the `useRive` hook. This is due to Rive being instanced when the component is mounted and the rendering context associated with a specific underlying `<canvas>` element. When React tries to unmount/re-render, you may end up with the animation restarting or not displaying when a new `<canvas>` is mounted. 
 
