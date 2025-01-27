@@ -1,9 +1,7 @@
 ---
 title: 'IK Constraint'
-description: ''
+description: 'Learn how to use Inverse Kinematics in Rive.'
 ---
-
-Learn how to use Inverse Kinematics in Rive.
 
 ## About Inverse Kinematics (IK) 
 
@@ -25,31 +23,30 @@ There are many applications for this technique, but some of the more common exam
 
 To use IK, you need a bone chain and a target. The target can be any object, though in most cases you'll want to use a group with its [Style set to Target](/editor/fundamentals/groups#group-style).
 
-### 1. Create a bone chain and a target 
+<Steps>
+    <Step title="Create a bone chain and a target">
+        Use the **B** shortcut to create a [bone chain](/editor/manipulating-shapes/bones#how-to-create-bones). Then use the **G** shortcut to create a [group](/editor/fundamentals/groups). Set the group's Style option in the Inspector to Target.
 
-Use the **B** shortcut to create a [bone chain](/editor/manipulating-shapes/bones#how-to-create-bones). Then use the **G** shortcut to create a [group](/editor/fundamentals/groups). Set the group's Style option in the Inspector to Target.
+        ![Image](https://ucarecdn.com/efde9d84-1364-4cf7-b7a4-16c4834f14f9/)
 
-![Image](https://ucarecdn.com/efde9d84-1364-4cf7-b7a4-16c4834f14f9/)
+        Use the B and G shortcuts to activate the Bone and Group tools
+    </Step>
+    <Step title="Add an IK constraint">
+        Select the last bone you want to affect and add an IK constraint using the Constraints section of the Inspector.
 
-Use the B and G shortcuts to activate the Bone and Group tools
+        ![Image](https://ucarecdn.com/9b320235-1cfb-4a11-9e02-f64d2149cf11/)
+    </Step>
+    <Step title="Select a target">
+        Open the constraint fly-out menu and use the target button to select the empty group created in step 1.
 
-### 2. Add an IK constraint 
+        ![Image](https://ucarecdn.com/9646ddc3-b452-41a8-894f-635ccd12df09/)
+    </Step>
+    <Step title="Test the IK system">
+        Move the target group to test the system is working.
 
-Select the last bone you want to affect and add an IK constraint using the Constraints section of the Inspector.
-
-![Image](https://ucarecdn.com/9b320235-1cfb-4a11-9e02-f64d2149cf11/)
-
-### 3. Select a target 
-
-Open the constraint fly-out menu and use the target button to select the empty group created in step 1.
-
-![Image](https://ucarecdn.com/9646ddc3-b452-41a8-894f-635ccd12df09/)
-
-### 4. Test the IK system 
-
-Move the target group to test the system is working.
-
-![Image](https://ucarecdn.com/d646176c-f782-4b04-acf2-2c69ae495e36/)
+        ![Image](https://ucarecdn.com/d646176c-f782-4b04-acf2-2c69ae495e36/)
+    </Step>
+</Steps>
 
 ## Bone Count 
 
