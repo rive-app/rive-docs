@@ -12,84 +12,84 @@ The easiest way to integrate Rive animations and state machines into your applic
 
 If you want to load in the `.riv` file from the `rootBundle`, you'll need to import the data yourself. The main pattern here is:
 
-1. Load in the bytes of the `.riv` file
-2. Use the `RiveFile` class to parse the data and get a reference to the file
-3. Create a reference to the Artboard you want to display, from that file
-4. (Optional) Associate controllers to an Artboard (i.e `StateMachineController`)
-5. Render the `Rive` widget with the artboard reference
+<Steps>
+  <Step title="Load in the bytes of the `.riv` file"></Step>
+  <Step title="Use the `RiveFile` class to parse the data and get a reference to the file"></Step>
+  <Step title="Create a reference to the Artboard you want to display, from that file"></Step>
+  <Step title="(Optional) Associate controllers to an Artboard (i.e `StateMachineController`)"></Step>
+  <Step title="Render the `Rive` widget with the artboard reference"></Step>
+</Steps>
 
-#### 1. Load in the bytes from .riv
+<Steps>
+  <Step title="Load in the bytes from .riv">
+    ```
+    rootBundle.load('assets/new_file.riv').then(
+      (data) async {
+        ...
+      }
+    );
+    ```
+  </Step>
+  <Step title="Use RiveFile to parse bytes">
+    ```
+    (data) async {
+        // Load the RiveFile from the binary data.
+        final file = RiveFile.import(data);
+    },
+    ```
+  </Step>
+  <Step title="Create an Artboard reference">
+    ```
+    // The artboard is the root of the animation and gets drawn in the
+    // Rive widget
+    final riveArtboard = file.mainArtboard;
+    ```
+  </Step>
+  <Step title="Associate controllers to an Artboard">
+    If you're looking to just play a specific animation:
 
-```
-rootBundle.load('assets/new_file.riv').then(
-  (data) async {
-    ...
-  }
-);
-```
+    ```javascript
+    var controller =
+      StateMachineController.fromArtboard(riveArtboard, 'SomeStateMachineName');
+    if (controller != null) {
+      riveArtboard.addController(controller);
+    }
+    ```
 
-**2. Use RiveFile to parse bytes**
+    If you're looking to play a state machine:
 
-```
-(data) async {
-    // Load the RiveFile from the binary data.
-    final file = RiveFile.import(data);
-},
-```
+    ```javascript
+    var controller =
+      StateMachineController.fromArtboard(riveArtboard, 'SomeStateMachineName');
+    if (controller != null) {
+      riveArtboard.addController(controller);
+    }
+    ```
+  </Step>
+  <Step title="Render the Rive widget">
+    ```javascript
+    Widget build(BuildContext context) {
+      return Center(
+        child: riveArtboard == null
+          ? const SizedBox()
+          : SizedBox(
+              width: 250,
+              height: 250,
+              child: Rive(
+                artboard: riveArtboard!.instance(),
+              ),
+            )
+      );
+    }
+    ```
 
-**3. Create an Artboard reference**
+    <Note>
+    **Important**: Note above that when connecting the Artboard to the `Rive` widget, you will need to call `.instance()` on it. This will allow any nested artboards to render within the canvas space appropriately
+    </Note>
+  </Step>
+</Steps>
 
-```
-// The artboard is the root of the animation and gets drawn in the
-// Rive widget
-final riveArtboard = file.mainArtboard;
-```
-
-#### 4. Associate controllers to an Artboard 
-
-If you're looking to just play a specific animation:
-
-```javascript
-var controller =
-  StateMachineController.fromArtboard(riveArtboard, 'SomeStateMachineName');
-if (controller != null) {
-  riveArtboard.addController(controller);
-}
-```
-
-If you're looking to play a state machine:
-
-```javascript
-var controller =
-  StateMachineController.fromArtboard(riveArtboard, 'SomeStateMachineName');
-if (controller != null) {
-  riveArtboard.addController(controller);
-}
-```
-
-**5. Render the Rive widget**
-
-```javascript
-Widget build(BuildContext context) {
-  return Center(
-    child: riveArtboard == null
-      ? const SizedBox()
-      : SizedBox(
-          width: 250,
-          height: 250,
-          child: Rive(
-            artboard: riveArtboard!.instance(),
-          ),
-        )
-  );
-}
-```
-
-<Note>
- **Important**: Note above that when connecting the Artboard to the `Rive` widget, you will need to call `.instance()` on it. This will allow any nested artboards to render within the canvas space appropriately
-</Note>
-
-#### Complete Example 
+### Complete Example 
 
 Altogether, this pattern might look like the following snippet below:
 
