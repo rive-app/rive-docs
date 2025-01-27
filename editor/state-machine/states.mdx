@@ -11,17 +11,13 @@ There are a few types of states that you’ll end up using as you work with the 
 
 The Default States are the states that, by default, are added to every State Machine.
 
-![Image](https://ucarecdn.com/42815967-dd47-4da1-ba8a-4fc12f64d972/)
-
-Default States
+![Default States](https://ucarecdn.com/42815967-dd47-4da1-ba8a-4fc12f64d972/)
 
 ### Entry State 
 
 The Entry State is the state that your State Machine will start from. You’ll notice that by default, your state machine will already have an animation attached to the Entry State, but you can change this animation at any time. Note that you can connect multiple animations to the Entry State if you need I.E. you want to build a switch that can start in either the on or off state.
 
-![Image](https://ucarecdn.com/9d359af8-f3c3-4d57-8f88-7ba8dcad4847/)
-
-Using the Entry state
+![Using the Entry state](https://ucarecdn.com/9d359af8-f3c3-4d57-8f88-7ba8dcad4847/)
 
 ### Exit State 
 
@@ -31,9 +27,7 @@ The Exit State tells the State Machine layer to stop playing. This niche state h
 
 Unlike normal states, states connected to the Any State can be played at any time, regardless of which state your state machine is in. Any States are great to use when you want to create an array of states that can be activated at any time, such as changing the skin of a character.
 
-![Image](https://ucarecdn.com/6c4401fc-1b7c-4748-901d-a6e237f57e51/)
-
-Rating system using the Any state
+![Rating system using the Any state](https://ucarecdn.com/6c4401fc-1b7c-4748-901d-a6e237f57e51/)
 
 ## Animation States 
 
@@ -41,9 +35,7 @@ Animation states include all states other than the default states added to a Sta
 
 To add a State to the Graph, you can drag and drop an animation from the Animations List directly onto the Graph. Notice that this will create a Single Animation state. You can change the state type using the inspector.
 
-![Image](https://ucarecdn.com/f99e2294-1915-4449-8632-71227dc4f87f/)
-
-Drop and drop State onto the Graph
+![Drop and drop State onto the Graph](https://ucarecdn.com/f99e2294-1915-4449-8632-71227dc4f87f/)
 
 Additionally, you can right-click on the graph and create a blank state of any type with no associated timelines.
 
@@ -67,9 +59,7 @@ There are two types of blend states; 1D and Direct Blend states.
 
 A 1D Blend State allows us to mix multiple timelines together with a single numerical input. This state works by ramping up one animation and ramping down the other while you increase or decrease a number input. Note that this mixing is not linear, but is additive and could give you unexpected results.
 
-![Image](https://ucarecdn.com/875b9ed6-41c7-4023-aaad-f38d2042dca7/)
-
-Health bar using Blend state
+![Health bar using Blend state](https://ucarecdn.com/875b9ed6-41c7-4023-aaad-f38d2042dca7/)
 
 **Configuring a 1D Blend State:**
 
@@ -81,21 +71,15 @@ Timelines for health bar
 
 After adding a 1D Blend State to the graph, use the Inspector to configure the state.
 
-![Image](https://ucarecdn.com/266c2c6d-6719-4b65-b06a-b1ca35d2eb86/)
-
-Add Blend state
+![Add Blend state](https://ucarecdn.com/266c2c6d-6719-4b65-b06a-b1ca35d2eb86/)
 
 First, add the number input you want to drive the blend using the dropdown. If you haven’t created one yet, you’ll notice that nothing appears here.
 
-![Image](https://ucarecdn.com/baf39e65-5bf1-44ed-bd2e-b0f0afa24ded/)
-
-Create and add number input to Blend state
+![Create and add number input to Blend state](https://ucarecdn.com/baf39e65-5bf1-44ed-bd2e-b0f0afa24ded/)
 
 The plus button that appears below the number input allows you to add timelines to your blend state. Use the dropdown to assign a specific timeline. Note that you can add as many timelines as you’d like.
 
-![Image](https://ucarecdn.com/fe5d4505-8290-4be9-b0d6-58f13d1df553/)
-
-Add timelines to the Blend state
+![Add timelines to the Blend state](https://ucarecdn.com/fe5d4505-8290-4be9-b0d6-58f13d1df553/)
 
 Next, you need to define a numerical range that your blend state will work between. This particular blend works between 0 and 100.
 
@@ -103,25 +87,19 @@ Next, you need to define a numerical range that your blend state will work betwe
 
 Notice that once you define the range, a graphic appears above the input dropdown, visually representing how your animations will mix. When the state machine is active, as you increase or decrease your input within the defined range, you’ll see a visual representation move across that graph, showing you the mix of your timelines.
 
-![Image](https://ucarecdn.com/44a40cb9-90d9-4aca-920f-6042cc52340f/)
-
-Blend State in action
+![Blend State in action](https://ucarecdn.com/44a40cb9-90d9-4aca-920f-6042cc52340f/)
 
 #### Additive Blend state:
 
 An Additive Blend state allows you to blend together multiple timelines using multiple number inputs. This allows us to create unique poses and facial positions by mixing multiple animations together. While working with an Additive Blend, you’ll either be mixing an animation by value or input. Read more below.
 
-![Image](https://ucarecdn.com/71cf4345-b728-47a4-946c-e08de2eb86dd/)
-
-Using Additive Blend for facial animations
+![Using Additive Blend for facial animations](https://ucarecdn.com/71cf4345-b728-47a4-946c-e08de2eb86dd/)
 
 **Value vs Input blend**
 
 When adding animations to an Additive blend state, you’ll be prompted to either add a Blend by Value animation or a Blend by Input animation.
 
-![Image](https://ucarecdn.com/8e2c7380-85cf-4e41-8dd8-82e98f34d1bd/)
-
-Adding timeline to Additive Blend
+![Adding timeline to Additive Blend](https://ucarecdn.com/8e2c7380-85cf-4e41-8dd8-82e98f34d1bd/)
 
 A Blend by Value timeline can be thought of as the baseline animation, or default pose. This value is not tied to an input, so it can’t be used to control the state machine. Instead, this value describes its mix weighting.
 
@@ -135,25 +113,19 @@ When you select a state on the State Machine Graph, you’ll have a number of op
 
 The top three icons allow you to change the type of state. You can select from single animation, 1D blend, and Additive blend.
 
-![Image](https://ucarecdn.com/185c56c3-4d69-4526-95c9-62af59675f18/)
-
-Convert state type
+![Convert state type](https://ucarecdn.com/185c56c3-4d69-4526-95c9-62af59675f18/)
 
 **Change animation**
 
 You can use the dropdown to change which animation is assigned to the current state.
 
-![Image](https://ucarecdn.com/e8a8e540-b5ed-4947-b2cc-45ba793f0ea0/)
-
-Changing animation on a state
+![Changing animation on a state](https://ucarecdn.com/e8a8e540-b5ed-4947-b2cc-45ba793f0ea0/)
 
 **Speed**
 
 You can alter the playback speed of a state by changing this value. Note that you can play animations forward with a positive value, and backward with a negative value.
 
-![Image](https://ucarecdn.com/5ada4e3d-bbba-412d-8bc3-6b4417717e16/)
-
-Change animation speed
+![Change animation speed](https://ucarecdn.com/5ada4e3d-bbba-412d-8bc3-6b4417717e16/)
 
 **Transitions**
 
