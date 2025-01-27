@@ -322,11 +322,13 @@ class TilemapPainterDemo extends rive.RenderTexturePainter {
 
 The important bits can be broken down into seven steps:
 
-1. Create an AABBTree, with a generic **SceneObject** type. This is used to store information about all of the scene objects and to efficiently query for objects that are within a provided AABB space.
-2. Create all the tile objects, which store information about the tile, artboard and position for easy reference. This could be any object that stores the needed information to render your scene.
-3. Add all the objects to the AABBTree using the `createProxy` method. This takes in an AABB and a SceneObject.
-4. Create a view transform (Mat2D) that represents the visible area of the world (camera) - depending on the camera zoom and translation.
-5. Create an AABB that represents the camera's view according to the window size. This is used to determine which tiles are visible on screen.
-6. Query the AABB Tree to find all the objects who's bounds intersect with the `cameraAABB`. These will be the tiles that are visible on screen. Once you have these, you can draw them to the renderer.
+<Steps>
+  <Step>Create an AABBTree, with a generic **SceneObject** type. This is used to store information about all of the scene objects and to efficiently query for objects that are within a provided AABB space.</Step>
+  <Step>Create all the tile objects, which store information about the tile, artboard and position for easy reference. This could be any object that stores the needed information to render your scene.</Step>
+  <Step>Add all the objects to the AABBTree using the `createProxy` method. This takes in an AABB and a SceneObject.</Step>
+  <Step>Create a view transform (Mat2D) that represents the visible area of the world (camera) - depending on the camera zoom and translation.</Step>
+  <Step>Create an AABB that represents the camera's view according to the window size. This is used to determine which tiles are visible on screen.</Step>
+  <Step>Query the AABB Tree to find all the objects who's bounds intersect with the `cameraAABB`. These will be the tiles that are visible on screen. Once you have these, you can draw them to the renderer.</Step>
+</Steps>
 
 Running the above code you'll see a print that indicates how many tiles are currently visible on screen. This will print a different result if you resize the window, zoom in or out, or moving the camera's translation around. Try updating the `cameraZoom` and `cameraTranslation` and performing a hot reload. Or add [keyboard and mouse interactions](/rive-gamekit/tutorials/adding-keyboard-and-mouse-interaction) to move the camera.
