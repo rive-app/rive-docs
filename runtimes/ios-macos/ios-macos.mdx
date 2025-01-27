@@ -31,90 +31,91 @@ Open the `Example-iOS` app in XCode and be sure to select the `Preview (iOS)` or
 
 Follow the steps below for a quick start on integrating Rive into your iOS/macOS app.
 
-### 1. Install the dependency
+<Steps>
+    <Step title="Install the dependency">
+        #### Via Cocoapods
 
-#### Via Cocoapods
+        Add the following to your Podspec file:
 
-Add the following to your Podspec file:
+        ```bash
+        pod 'RiveRuntime'
+        ```
 
-```bash
-  pod 'RiveRuntime'
-```
+        #### Via Swift Package Manager 
 
-#### Via Swift Package Manager 
+        To install via Swift Package Manager, in the package finder in Xcode, search for `rive-ios` or the full Github path: `https://github.com/rive-app/rive-ios`
+    </Step>
+    <Step title="Importing Rive">
+        Add the following to the top of your file where you utilize the Rive runtime:
 
-To install via Swift Package Manager, in the package finder in Xcode, search for `rive-ios` or the full Github path: `https://github.com/rive-app/rive-ios`
+        ```bash
+        import RiveRuntime
+        ```
+    </Step>
+    <Step title="v2 Runtime Usage">
 
-### 2. Importing Rive 
+        In Rive iOS runtimes of versions 2.x.x or later, the primary object you'll use is a `RiveViewModel`. It is responsible for creating and interacting with Rive assets.
 
-Add the following to the top of your file where you utilize the Rive runtime:
+        #### SwiftUI
 
-```bash
-import RiveRuntime
-```
+        **Set up RiveViewModel w/ View**
 
-### 3. v2 Runtime Usage
+        ```javascript
+        struct AnimationView: View {
+            var body: some View {
+                RiveViewModel(fileName: "cool_rive_animation").view()
+            }
+        }
+        ```
 
-In Rive iOS runtimes of versions 2.x.x or later, the primary object you'll use is a `RiveViewModel`. It is responsible for creating and interacting with Rive assets.
+        In the above example, you reference the name of a `.riv` asset bundled into your application, but you can also load in a `.riv` file hosted on a remote URL like so:
 
-#### 3a. SwiftUI
+        ```javascript
+        struct AnimationView: View {
+            var body: some View {
+                RiveViewModel(
+                    webURL: "https://cdn.rive.app/animations/off_road_car_v7.riv"
+                ).view()
+            }
+        }
+        ```
 
-**Set up RiveViewModel w/ View**
+        #### UIKit - Storyboard
 
-```javascript
-struct AnimationView: View {
-    var body: some View {
-        RiveViewModel(fileName: "cool_rive_animation").view()
-    }
-}
-```
+        #### Set up RiveViewModel w/ Controller formatted on a Storyboard
 
-In the above example, you reference the name of a `.riv` asset bundled into your application, but you can also load in a `.riv` file hosted on a remote URL like so:
+        The simplest way of adding Rive to a controller using Storyboards is to make a `RiveViewModel`, and set its view to be the `RiveView` you made in the Storyboard.
 
-```javascript
-struct AnimationView: View {
-    var body: some View {
-        RiveViewModel(
-            webURL: "https://cdn.rive.app/animations/off_road_car_v7.riv"
-        ).view()
-    }
-}
-```
+        ```javascript
+        class AnimationViewController: UIViewController {
+            @IBOutlet weak var riveView: RiveView!
+            var simpleVM = RiveViewModel(fileName: "cool_rive_animation")
 
-#### 3b. UIKit - Storyboard
+            override public func viewDidLoad() {
+                simpleVM.setView(riveView)
+            }
+        }
+        ```
 
-#### Set up RiveViewModel w/ Controller formatted on a Storyboard
+        #### UIKit - Programmatic 
 
-The simplest way of adding Rive to a controller using Storyboards is to make a `RiveViewModel`, and set its view to be the `RiveView` you made in the Storyboard.
+        #### Set up RiveViewModel w/ Controller from scratch in code
 
-```javascript
-class AnimationViewController: UIViewController {
-    @IBOutlet weak var riveView: RiveView!
-    var simpleVM = RiveViewModel(fileName: "cool_rive_animation")
+        You can also add Rive to a controller purely with code by making the `RiveViewModel`, telling it to create a fresh `RiveView` and then adding it to the view hierarchy.
 
-    override public func viewDidLoad() {
-        simpleVM.setView(riveView)
-    }
-}
-```
-
-#### 3c. UIKit - Programmatic 
-
-#### Set up RiveViewModel w/ Controller from scratch in code
-
-You can also add Rive to a controller purely with code by making the `RiveViewModel`, telling it to create a fresh `RiveView` and then adding it to the view hierarchy.
-
-```javascript
-class AnimationViewController: UIViewController {
-    var simpleVM = RiveViewModel(fileName: "cool_rive_animation")
-    
-    override func viewWillAppear(_ animated: Bool) {
-        let riveView = simpleVM.createRiveView()
-        view.addSubview(riveView)
-        riveView.frame = view.bounds
-    }
-}
-```
+        ```javascript
+        class AnimationViewController: UIViewController {
+            var simpleVM = RiveViewModel(fileName: "cool_rive_animation")
+            
+            override func viewWillAppear(_ animated: Bool) {
+                let riveView = simpleVM.createRiveView()
+                view.addSubview(riveView)
+                riveView.frame = view.bounds
+            }
+        }
+        ```
+    </Step>
+</Steps>
 
 See subsequent runtime pages to learn how to control animation playback, state machines, and more.
 
