@@ -1,23 +1,7 @@
-# Mintlify Starter Kit
+# Rive Docs
 
+Welcome to the official repository for Rive's documentation, available at [https://rive.app/docs](https://rive.app/docs).
 
-`
-### Development
+## Contributing
 
-Install the [Mintlify CLI](https://www.npmjs.com/package/mintlify) to preview the documentation changes locally. To install, use the following command.
-
-```
-npm i -g mintlify
-```
-
-Run the following command at the root of your documentation (where mint.json is)
-
-```
-mintlify dev
-```
-### Testing
-- use the command to check for broken links
-
-```bash
-  mintlify broken-links
-```
+We welcome any and all external contributions. For more information, see [CONTRIBUTING.md](./CONTRIBUTING.md).
