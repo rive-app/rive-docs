@@ -10,7 +10,7 @@ Before creating your pull request, make sure to [fork](https://docs.github.com/e
 
 Commit messages should follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification.
 
-When selecting a type, select one that is applicable to the changes you made. Since this is repository for documentation, it's likely that you'll use `docs` consistently.
+When selecting a type, select one that is applicable to the changes you made. Since this is a repository for documentation, it's likely that you'll use `docs` consistently.
 
 ### Types
 
