@@ -3,7 +3,7 @@ title: 'Components'
 description: ''
 ---
 
-The Rive Unity package includes components to help you integrate Rive into your project quickly and easily. These components are a high-level abstraction over the [low-level API](https://rive.app/community/doc/fundamentals/docRiDeDEKyX), handling rendering and pointer input, and providing a unified way of working with Rive across render pipelines.
+The Rive Unity package includes components to help you integrate Rive into your project quickly and easily. These components are a high-level abstraction over the [low-level API](./fundamentals), handling rendering and pointer input, and providing a unified way of working with Rive across render pipelines.
 
 We recommend working with these components unless you have specific rendering needs or need more control over where Rive fits into your graphics pipeline, in which case you can use the low-level API.
 
@@ -18,7 +18,7 @@ The panel renders multiple widgets to a single render texture, which means you d
 Create an instance: Right-click in the scene hierarchy `→ Rive → Rive Panel` 
 
 <Warning>
- A Rive Panel simply handles drawing the graphics to a texture. You'll need to use the Rive Panel **with** a [Panel Renderer](https://rive.app/community/doc/components/docZxgcghXbV#panel-renderers) to display the texture.
+ A Rive Panel simply handles drawing the graphics to a texture. You'll need to use the Rive Panel **with** a [Panel Renderer](./components#panel-renderers) to display the texture.
 </Warning>
 
 **Configuration**
@@ -71,7 +71,7 @@ Create an instance: Right-click in the scene hierarchy `→ Rive → Widgets →
 | Artboard Name | The name of the artboard to load from the Rive file. |
 | State Machine Name | The name of the state machine to load from the selected artboard. |
 | Hit Test Behaviour | How pointer events are handled (Opaque, Translucent, Transparent, None). |
-| Fit | How the artboard should fit within the widget's bounds. See the [Fit docs](https://rive.app/community/doc/layout/docBl81zd1GB#fit) for more details about the available options. |
+| Fit | How the artboard should fit within the widget's bounds. See the [Fit docs](/runtimes/layout#fit) for more details about the available options. |
 | Alignment | How to align the artboard within the widget's bounds |
 | Layout Scale Factor | Scale multiplier used when in Layout fit mode. |
 | Layout Scaling Mode | How the widget scales in Layout mode ( `ReferenceArtboardSize` ,  `ConstantPhysicalSize` and `ConstantPixelSize`). |
