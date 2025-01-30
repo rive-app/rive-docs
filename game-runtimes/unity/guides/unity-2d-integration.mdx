@@ -90,8 +90,6 @@ Shader "Custom/SpriteTextureOverride"
 }
 ```
 
-
-
 To implement this solution:
 
 1. Create a new shader file in your project and paste the above code
@@ -100,11 +98,10 @@ To implement this solution:
 
 3. Assign the material to your SpriteRenderer
 
-4. Use RiveTextureRenderer to set the OverrideTexture property with your Rive RenderTexture
+4. Use **RiveTextureRenderer** to set the `OverrideTexture` property with your Rive RenderTexture
 
 <Warning>
   When using the custom shader approach with SpriteRenderers, pointer input is not automatically supported. This is because SpriteRenderers and SpriteColliders do not provide `textureCoords` like Quads and MeshColliders do.&#x20;
-
 
 
   If you need pointer input support, consider using the recommended Quad approach with RiveTextureRenderer instead.
