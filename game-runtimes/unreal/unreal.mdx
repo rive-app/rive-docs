@@ -4,42 +4,46 @@ description: 'Unreal runtime for Rive.'
 ---
 
 <Note>
- The Rive Unreal runtime is currently in **Technical Preview** for Mac and Windows versions of Unreal. We're hoping to gather feedback about the API and feature-set as we expand platform support. Please reach out to us on [Discord](https://discord.com/invite/FGjmaTr) or through our [Support Channel](https://rive.atlassian.net/servicedesk/customer/portals).
+  The Rive Unreal runtime is currently in **Technical Preview** for Mac and Windows versions of Unreal. We're hoping to gather feedback about the API and feature-set as we expand platform support. Please reach out to us on [Discord](https://discord.com/invite/FGjmaTr) or through our [Support Channel](https://rive.atlassian.net/servicedesk/customer/portals).
 </Note>
+
 <Note>
- See '**Feature Support**' below for an updated list of Rive features in Unreal.
+  See '**Feature Support**' below for an updated list of Rive features in Unreal.
 </Note>
+
 ## Rendering Support
 
 The rive-unreal runtime uses the [Rive Renderer](https://rive.app/renderer) and supports the following:
 
-- Metal on Mac
-- Metal on iOS
-- D3D11 on Windows
-- OpenGL on Android (Note: be sure to uncheck "Support Vulkan" in Project Settings.)
+* Metal on Mac
+
+* Metal on iOS
+
+* D3D11 and DX3D12 on Windows
+
+* OpenGL on Android (Note: be sure to uncheck "Support Vulkan" in Project Settings.)
 
 Planned support for:
 
-- D3D12
-- Vulkan on Linux, Android, and Windows
+* Vulkan on Linux, Android, and Windows
 
-## Bug Reports 
+## Bug Reports
 
 If you encounter any errors or unexpected crashes while integrating the Rive Unreal runtime, we recommend logging a detailed issue directly to the [rive-unreal](https://github.com/rive-app/rive-unreal/issues) repository.
 
-## Feature Support 
+## Feature Support
 
 The rive-unreal runtime uses the [Rive C++ runtime](https://github.com/rive-app/rive-cpp). For more details on runtime support, see the [Feature Support](../../runtimes/features-support) page. Refer to the following table for what is currently supported in the Unreal runtime.
 
-| **Feature** | **Supported** |
-| --- | --- |
-| [Animation Playback](./getting-started) | ✅ |
-| [Fit & Alignment​](/runtimes/layout) | ✅ |
-| Listeners​ | ✅ |
-| [Setting State Machine Inputs​](./state-machines#setting-inputs) | ✅ |
-| [Listening to Events](./rive-events) | ✅ |
-| [​Updating text at runtime​](./text#update-rive-text-in-unreal) | ✅ |
-| [​Out-of-band assets​](./loading-assets) | ✅ |
-| ​Procedural rendering​ | Coming soon |
-| PNG images | ✅ |
-| WEBP and JPEG images | Coming Soon |
+| **Feature**                                                      | **Supported** |
+| ---------------------------------------------------------------- | ------------- |
+| [Animation Playback](./getting-started)                          | ✅             |
+| [Fit & Alignment​](/runtimes/layout)                             | ✅             |
+| Listeners​                                                       | ✅             |
+| [Setting State Machine Inputs​](./state-machines#setting-inputs) | ✅             |
+| [Listening to Events](./rive-events)                             | ✅             |
+| [​Updating text at runtime​](./text#update-rive-text-in-unreal)  | ✅             |
+| [​Out-of-band assets​](./loading-assets)                         | ✅             |
+| ​Procedural rendering​                                           | Coming soon   |
+| PNG images                                                       | ✅             |
+| WEBP and JPEG images                                             | Coming Soon   |
