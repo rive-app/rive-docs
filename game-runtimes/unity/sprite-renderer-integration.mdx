@@ -28,12 +28,10 @@ While Rive works well with Unity overall, **Sprite Renderers** don't [natively h
 <Warning>
   When using the custom shader approach with SpriteRenderers, pointer input is not automatically supported. This is because SpriteRenderers and SpriteColliders do not provide `textureCoords` like Quads and MeshColliders do.&#x20;
 
-
-
   If you need pointer input support, consider using the recommended Quad approach with RiveTextureRenderer instead.
 </Warning>
 
-If you need to maintain sort order when mixing Rive content with **Sprite Renderers**, you can reference the following custom shader as a starting point:
+If you need to maintain sort order when mixing Rive graphics with **Sprite Renderers**, you can reference the following custom shader as a starting point:
 
 ```
 Shader "Custom/SpriteTextureOverride"
@@ -98,7 +96,7 @@ Shader "Custom/SpriteTextureOverride"
 }
 ```
 
-To implement this solution:
+To implement this:
 
 1. Create a new shader file in your project and paste the above code
 
