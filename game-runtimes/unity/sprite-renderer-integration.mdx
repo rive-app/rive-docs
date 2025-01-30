@@ -1,13 +1,13 @@
 ---
-description: "Description of your new file."
 title: "Using Rive with Unity 2D"
+description: "Description of your new file."
 ---
 
 Rive renders to a **Render Texture** in Unity, making it compatible with Unity features that support Render Textures. This approach provides flexibility but requires specific considerations when working with Unity's 2D rendering pipeline.
 
 ## Working with Sprite Renderers
 
-While Rive works well with Unity overall, **Sprite Renderers** don't natively handle Render Textures optimally. There are two main approaches to address this:
+While Rive works well with Unity overall, **Sprite Renderers** don't natively handle Render Textures optimally. There are two main approaches to work around this:
 
 1. **Using Rive Texture Renderer with Quads (Recommended)**
 
@@ -102,7 +102,6 @@ To implement this solution:
 
 <Warning>
   When using the custom shader approach with SpriteRenderers, pointer input is not automatically supported. This is because SpriteRenderers and SpriteColliders do not provide `textureCoords` like Quads and MeshColliders do.&#x20;
-
 
   If you need pointer input support, consider using the recommended Quad approach with RiveTextureRenderer instead.
 </Warning>
