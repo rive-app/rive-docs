@@ -7,7 +7,7 @@ Rive renders to a **Render Texture** in Unity, making it compatible with Unity f
 
 ## Working with Sprite Renderers
 
-While Rive works well with Unity overall, **Sprite Renderers** don't natively handle Render Textures optimally. There are two main approaches to work around this:
+While Rive works well with Unity overall, **Sprite Renderers** don't [natively handle Render Textures optimally](https://discussions.unity.com/t/how-to-apply-a-render-texture-from-a-camera-to-a-sprite-for-an-object-with-sprite-renderer/257199). There are two main approaches to work around this:
 
 1. **Using Rive Texture Renderer with Quads (Recommended)**
 
@@ -25,7 +25,15 @@ While Rive works well with Unity overall, **Sprite Renderers** don't natively ha
 
    * Requires a custom shader implementation
 
-If you need to maintain sort order when mixing Rive content with **Sprite Renderers**, you can use the following custom shader:
+<Warning>
+  When using the custom shader approach with SpriteRenderers, pointer input is not automatically supported. This is because SpriteRenderers and SpriteColliders do not provide `textureCoords` like Quads and MeshColliders do.&#x20;
+
+
+
+  If you need pointer input support, consider using the recommended Quad approach with RiveTextureRenderer instead.
+</Warning>
+
+If you need to maintain sort order when mixing Rive content with **Sprite Renderers**, you can reference the following custom shader as a starting point:
 
 ```
 Shader "Custom/SpriteTextureOverride"
@@ -100,8 +108,4 @@ To implement this solution:
 
 4. Use **Rive Texture Renderer** to set the `OverrideTexture` property with your Render Texture
 
-<Warning>
-  When using the custom shader approach with SpriteRenderers, pointer input is not automatically supported. This is because SpriteRenderers and SpriteColliders do not provide `textureCoords` like Quads and MeshColliders do.&#x20;
-
-  If you need pointer input support, consider using the recommended Quad approach with RiveTextureRenderer instead.
-</Warning>
+![Setting the OverrideTexture property with a Rive Texture Renderer](/unity-spriterenderer-override-texture-property.jpg)
