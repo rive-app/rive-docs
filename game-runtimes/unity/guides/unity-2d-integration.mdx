@@ -3,21 +3,21 @@ description: "Description of your new file."
 title: "Using Rive with Unity 2D"
 ---
 
-Rive renders to a RenderTexture in Unity, making it compatible with Unity features that support RenderTextures. This approach provides flexibility but requires specific considerations when working with Unity's 2D rendering pipeline.
+Rive renders to a **Render Texture** in Unity, making it compatible with Unity features that support Render Textures. This approach provides flexibility but requires specific considerations when working with Unity's 2D rendering pipeline.
 
-## Working with SpriteRenderers
+## Working with Sprite Renderers
 
-While Rive works well with Unity overall, **SpriteRenderers** don't natively handle RenderTextures optimally. There are two main approaches to address this:
+While Rive works well with Unity overall, **Sprite Renderers** don't natively handle Render Textures optimally. There are two main approaches to address this:
 
-1. **Using RiveTextureRenderer with Quads (Recommended)**
+1. **Using Rive Texture Renderer with Quads (Recommended)**
 
-   * Render Rive animations to a Quad using the RiveTextureRenderer component
+   * Render Rive graphics to a Quad using the **Rive Texture Renderer** component
 
    * Does not require a shader workaround
 
    * Works the same in 2D and 3D
 
-2. **Custom Shader Solution for SpriteRenderers**
+2. **Custom Shader Solution for Sprite Renderers**
 
    * Useful when you need to maintain precise sorting order with other sprites
 
@@ -25,7 +25,7 @@ While Rive works well with Unity overall, **SpriteRenderers** don't natively han
 
    * Requires a custom shader implementation
 
-If you need to maintain sort order when mixing Rive content with SpriteRenderers, you can use the following custom shader:
+If you need to maintain sort order when mixing Rive content with **Sprite Renderers**, you can use the following custom shader:
 
 ```
 Shader "Custom/SpriteTextureOverride"
@@ -96,9 +96,9 @@ To implement this solution:
 
 2. Create a new material using this shader
 
-3. Assign the material to your SpriteRenderer
+3. Assign the material to your **Sprite Renderer**
 
-4. Use **RiveTextureRenderer** to set the `OverrideTexture` property with your Rive RenderTexture
+4. Use **Rive Texture Renderer** to set the `OverrideTexture` property with your Render Texture
 
 <Warning>
   When using the custom shader approach with SpriteRenderers, pointer input is not automatically supported. This is because SpriteRenderers and SpriteColliders do not provide `textureCoords` like Quads and MeshColliders do.&#x20;
