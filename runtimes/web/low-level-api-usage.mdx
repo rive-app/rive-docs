@@ -19,16 +19,21 @@ See a simple game example [here](https://codesandbox.io/s/rive-canvas-advanced-a
 
 Here's the basic render workflow using the low-level API to render Rives:
 
-1. Load the Rive Web Assembly (WASM) file, which contains the module with lower-level APIs
-2. Load the Rive file in
-3. Create instances for Artboards, LinearAnimations, and StateMachines
-4. Build the render loop function to manipulate the instances created above
-   1. Advance any animation instances and apply it
-   2. Advance any state machine instances
-   3. Advance the artboard
-   4. Render the updated artboard on the canvas
-   5. Request the next animation frame
-5. Clean-up created instances when finished
+<Steps>
+  <Step title="Load the Rive Web Assembly (WASM) file, which contains the module with lower-level APIs"></Step>
+  <Step title="Load the Rive file in"></Step>
+  <Step title="Create instances for Artboards, LinearAnimations, and StateMachines"></Step>
+  <Step title="Build the render loop function to manipulate the instances created above">
+    <Steps>
+      <Step title="Advance any animation instances and apply it"></Step>
+      <Step title="Advance any state machine instances"></Step>
+      <Step title="Advance the artboard"></Step>
+      <Step title="Render the updated artboard on the canvas"></Step>
+      <Step title="Request the next animation frame"></Step>
+    </Steps>
+  </Step>
+  <Step title="Clean-up created instances when finished"></Step>
+</Steps>
 
 ## Getting Started
 

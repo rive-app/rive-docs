@@ -149,10 +149,12 @@ fn setup_animation(
 }
 ```
 
-1. Create a new `Image` and `resize` it to be the same aspect ratio as your Rive artboard. Note that an Artboard my have clipping disabled and elements could be drawn outside of the bounds. In that case you'd want to size the Image to take up the drawable area.
-2. Spawn a new `SpriteBundle` providing the image as a texture.
-3. Create a `StateMachine`, optionally provide the `handle` (state machine name) and `artboard_handle` (artboard name).
-4. Spawn a new `SceneTarget`, optionally provide the `sprite` argument which enables mouse inputs to pass to the scene. This is only relevant for **State Machine** animations as **Linear Animations** cannot interact with Rive listeners.
+<Steps>
+<Step>Create a new `Image` and `resize` it to be the same aspect ratio as your Rive artboard. Note that an Artboard my have clipping disabled and elements could be drawn outside of the bounds. In that case you'd want to size the Image to take up the drawable area.</Step>
+<Step>Spawn a new `SpriteBundle` providing the image as a texture.</Step>
+<Step>Create a `StateMachine`, optionally provide the `handle` (state machine name) and `artboard_handle` (artboard name).</Step>
+<Step>Spawn a new `SceneTarget`, optionally provide the `sprite` argument which enables mouse inputs to pass to the scene. This is only relevant for **State Machine** animations as **Linear Animations** cannot interact with Rive listeners.</Step>
+</Steps>
 
 #### 3D Scene
 

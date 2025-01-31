@@ -32,125 +32,123 @@ Follow the steps below to integrate Rive into your web app.
     See [Canvas vs WebGL](./canvas-vs-webgl) for guidance on which package is the correct choice for your use case. 
 </Note>
 
-
-1. Install the dependency
-<Warning> 
-We recommend always using the [latest version](https://www.npmjs.com/package/@rive-app/canvas). The versions listed below and in the examples may differ from the latest.
-</Warning>
-
-
-<Tabs>
-  <Tab title="Script Tag">
-
-    ```html 
-    // Add the following script tag to your web page to get the latest version:
+<Steps>
+  <Step title="Install the dependency">
+    <Warning> 
+    We recommend always using the [latest version](https://www.npmjs.com/package/@rive-app/canvas). The versions listed below and in the examples may differ from the latest.
+    </Warning>
 
 
-    <script src="https://unpkg.com/@rive-app/canvas"></script>
+    <Tabs>
+      <Tab title="Script Tag">
 
-    // You can also pin to a specific version (See [here](https://www.npmjs.com/package/@rive-app/canvas) for the latest):
+        ```html 
+        // Add the following script tag to your web page to get the latest version:
 
 
-    <script src="https://unpkg.com/@rive-app/canvas@2.24.0"></script>
+        <script src="https://unpkg.com/@rive-app/canvas"></script>
 
-    // This will make a global `rive` object available, allowing you to access the Rive API via the `rive` entry point:
+        // You can also pin to a specific version (See [here](https://www.npmjs.com/package/@rive-app/canvas) for the latest):
 
-    new rive.Rive({});
+
+        <script src="https://unpkg.com/@rive-app/canvas@2.24.0"></script>
+
+        // This will make a global `rive` object available, allowing you to access the Rive API via the `rive` entry point:
+
+        new rive.Rive({});
+        ```
+      </Tab>
+      <Tab title="Package Manager">
+
+        ```bash npm
+        npm install @rive-app/canvas
+        ```
+
+        ```bash pnpm
+        pnpm add @rive-app/canvas
+        ```
+
+        ```bash yarn
+        yarn add @rive-app/canvas
+        ```
+
+        ```bash bun
+        bun add @rive-app/canvas
+        ```
+
+        ```javascript Importing
+        // Import the entire module under the global identifier `rive`
+        import * as rive from "@rive-app/canvas";
+
+        // Alternatively, import only the specific parts you need
+        import { Rive } from "@rive-app/canvas";
+
+        ```
+      </Tab>
+    </Tabs>
+
+
+    <Note> 
+    Not using [Rive Text](/editor/text/) and [Rive Audio](/editor/events/audio-events)? Consider using [@rive-app/canvas-lite](./canvas-vs-webgl#rive-app-canvas-lite) which is a smaller package variant.
+    </Note>
+  </Step>
+  <Step title="Create a Canvas">
+    Add a canvas element to your HTML where you want the Rive graphic to be displayed:
+
+    ```json
+    <canvas id="canvas" width="500" height="500"></canvas>
     ```
-  </Tab>
-  <Tab title="Package Manager">
+  </Step>
+  <Step title="Create a Rive instance">
+    To create a new instance of a Rive object, provide the following properties:
 
-    ```bash npm
-    npm install @rive-app/canvas
+    - `src`: A string representing the URL of the hosted `.riv` file (as shown in the example below) or the path to the public asset `.riv` file. For more details, refer to [Rive Parameters](./rive-parameters) on how to properly use this property.
+    - `artboard` - (Optional) A string representing the artboard you want to display. If not supplied the default is selected.
+    - `stateMachines` - A string representing the name of the state machine you wish to play.
+    - `canvas` - The canvas element where the animation will be rendered.
+    - `autoplay` - A boolean indicating whether the animation should play automatically.
+
+    ```javascript
+    <script>
+        const r = new rive.Rive({
+            src: "https://cdn.rive.app/animations/vehicles.riv",
+            // OR the path to a discoverable and public Rive asset
+            // src: '/public/example.riv',
+            canvas: document.getElementById("canvas"),
+            autoplay: true,
+            // artboard: "Arboard", // Optional. If not supplied the default is selected
+            stateMachines: "bumpy",
+            onLoad: () => {
+              r.resizeDrawingSurfaceToCanvas();
+            },
+        });
+    </script>
     ```
 
-    ```bash pnpm
-    pnpm add @rive-app/canvas
-    ```
 
-    ```bash yarn
-    yarn add @rive-app/canvas
-    ```
+    <Note> 
+    The `resizeDrawingSurfaceToCanvas` method ensures that the Rive animation is correctly scaled to fit the dimensions of the specified canvas element. By default, the canvas rendering surface might not match the exact size of the `<canvas>` element defined in your HTML, which can lead to blurry or incorrectly scaled graphics, especially on high-DPI or retina displays.
 
-    ```bash bun
-    bun add @rive-app/canvas
-    ```
+    Calling this method adjusts the internal drawing surface so that the animation is rendered with crisp detail, matching the pixel density of the canvas. This is particularly important when:
 
-    ```javascript Importing
-    // Import the entire module under the global identifier `rive`
-    import * as rive from "@rive-app/canvas";
+    - The size of the canvas changes dynamically (e.g., if it is resized due to responsive layouts).
+    - You want to ensure the animation remains sharp, regardless of device or screen resolution.
+    <br/>
+    **Best practices:**
 
-    // Alternatively, import only the specific parts you need
-    import { Rive } from "@rive-app/canvas";
+    - **Call after load**: It's recommended to call `resizeDrawingSurfaceToCanvas` inside the `onLoad` callback to ensure that the Rive asset has been fully loaded before adjusting the drawing surface. This prevents any rendering issues.
+    - **Handling window resize**: If your canvas size changes during the user's interaction (such as when resizing the browser window), you should also listen for window resize events and call `resizeDrawingSurfaceToCanvas` to re-adjust the rendering surface:
 
-    ```
-  </Tab>
-</Tabs>
-
-
-<Note> 
-Not using [Rive Text](/editor/text/) and [Rive Audio](/editor/events/audio-events)? Consider using [@rive-app/canvas-lite](./canvas-vs-webgl#rive-app-canvas-lite) which is a smaller package variant.
-</Note>
-
-
-## 2. Create a Canvas
-
-Add a canvas element to your HTML where you want the Rive graphic to be displayed:
-
-```json
-<canvas id="canvas" width="500" height="500"></canvas>
-```
-
-## 3. Create a Rive instance
-
-To create a new instance of a Rive object, provide the following properties:
-
-- `src`: A string representing the URL of the hosted `.riv` file (as shown in the example below) or the path to the public asset `.riv` file. For more details, refer to [Rive Parameters](./rive-parameters) on how to properly use this property.
-- `artboard` - (Optional) A string representing the artboard you want to display. If not supplied the default is selected.
-- `stateMachines` - A string representing the name of the state machine you wish to play.
-- `canvas` - The canvas element where the animation will be rendered.
-- `autoplay` - A boolean indicating whether the animation should play automatically.
-
-```javascript
-<script>
-    const r = new rive.Rive({
-        src: "https://cdn.rive.app/animations/vehicles.riv",
-        // OR the path to a discoverable and public Rive asset
-        // src: '/public/example.riv',
-        canvas: document.getElementById("canvas"),
-        autoplay: true,
-        // artboard: "Arboard", // Optional. If not supplied the default is selected
-        stateMachines: "bumpy",
-        onLoad: () => {
-          r.resizeDrawingSurfaceToCanvas();
-        },
+    ```javascript
+    window.addEventListener("resize", () => {
+        r.resizeDrawingSurfaceToCanvas();
     });
-</script>
-```
+    ```
 
-
-<Note> 
-The `resizeDrawingSurfaceToCanvas` method ensures that the Rive animation is correctly scaled to fit the dimensions of the specified canvas element. By default, the canvas rendering surface might not match the exact size of the `<canvas>` element defined in your HTML, which can lead to blurry or incorrectly scaled graphics, especially on high-DPI or retina displays.
-
- Calling this method adjusts the internal drawing surface so that the animation is rendered with crisp detail, matching the pixel density of the canvas. This is particularly important when:
-
- - The size of the canvas changes dynamically (e.g., if it is resized due to responsive layouts).
- - You want to ensure the animation remains sharp, regardless of device or screen resolution.
- <br/>
- **Best practices:**
-
- - **Call after load**: It's recommended to call `resizeDrawingSurfaceToCanvas` inside the `onLoad` callback to ensure that the Rive asset has been fully loaded before adjusting the drawing surface. This prevents any rendering issues.
- - **Handling window resize**: If your canvas size changes during the user's interaction (such as when resizing the browser window), you should also listen for window resize events and call `resizeDrawingSurfaceToCanvas` to re-adjust the rendering surface:
-
- ```javascript
- window.addEventListener("resize", () => {
-     r.resizeDrawingSurfaceToCanvas();
- });
- ```
-
- This way, the Rive animation will continue to look sharp and correctly scaled as the canvas size changes.
-</Note>
-
+    This way, the Rive animation will continue to look sharp and correctly scaled as the canvas size changes.
+    </Note>
+  </Step>
+</Steps>
 
 ### Complete example
 
