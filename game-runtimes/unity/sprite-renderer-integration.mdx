@@ -1,13 +1,13 @@
 ---
 title: "Using Rive with Unity 2D"
-description: "Description of your new file."
+description: ''
 ---
 
 Rive renders to a **Render Texture** in Unity, making it compatible with Unity features that support Render Textures. This approach provides flexibility but requires specific considerations when working with Unity's 2D rendering pipeline.
 
 ## Working with Sprite Renderers
 
-While Rive works well with Unity overall, **Sprite Renderers** don't [natively handle Render Textures optimally](https://discussions.unity.com/t/how-to-apply-a-render-texture-from-a-camera-to-a-sprite-for-an-object-with-sprite-renderer/257199). There are two main approaches to work around this:
+While Rive works well with Unity overall, **Sprite Renderers** don't [natively handle Render Textures optimally](https://discussions.unity.com/t/how-to-apply-a-render-texture-from-a-camera-to-a-sprite-for-an-object-with-sprite-renderer/257199). There are two ways to work around this:
 
 1. **Using Rive Texture Renderer with Quads (Recommended)**
 
@@ -106,4 +106,4 @@ To implement this:
 
 4. Use **Rive Texture Renderer** to set the `OverrideTexture` property with your Render Texture
 
-![Setting the OverrideTexture property with a Rive Texture Renderer](/unity-spriterenderer-override-texture-property.jpg)
+![Setting the OverrideTexture property with a Rive Texture Renderer](/images/unity/spriterenderer-override-texture-property.jpg)
