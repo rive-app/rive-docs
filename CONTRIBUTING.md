@@ -6,6 +6,24 @@ Welcome to the official repository for Rive's documentation, available at [https
 
 Before creating your pull request, make sure to [fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) the [rive-app/rive-docs](https://github.com/rive-app/rive-docs) repository, and branch off of `main`.
 
+## Images
+
+When adding images, add them to the `images` folder, in a subdirectory similar to the file structure for documentation. 
+
+When naming images, use a descriptive name relative to the functionality you are documenting.
+
+When embedding images, make sure to add descriptive [alt-text](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#images).
+
+### Example Image Directories:
+
+- All runtimes: `images/runtimes/my-image.jpg`
+- All game runtimes: `images/game-runtimes/my-image.jpg`
+- iOS: `images/runtimes/ios/my-image.jpg`
+- Android: `images/runtimes/android/my-image.jpg`
+- Web: `images/runtimes/web/my-image.jpg`
+- Unity: `images/game-runtimes/unity/my-image.jpg`
+- Unreal: `images/game-runtimes/unreal/my-image.jpg`
+
 ## Making Commits
 
 Commit messages should follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification.
