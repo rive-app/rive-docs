@@ -88,12 +88,12 @@ Under most circumstances a `.riv` file should load quickly and managing the `Riv
 
         // Custom Wrapper component to display the Rive animation
         const RiveAnimation = ({ riveFile }) => {
-        const { RiveComponent } = useRive({
-            riveFile,
-            autoplay: true
-        });
+            const { RiveComponent } = useRive({
+                riveFile: riveFile,
+                autoplay: true
+            });
 
-        return <RiveComponent/>;
+            return <RiveComponent/>;
         };
 
         function App() {
@@ -102,6 +102,10 @@ Under most circumstances a `.riv` file should load quickly and managing the `Riv
         });
 
         const [instanceCount] = useState(5); // Number of RiveAnimation components to render
+
+        if (status === 'idle') {
+            return <div>Idle...</div>;
+        }
 
         if (status === 'loading') {
             return <div>Loading...</div>;
