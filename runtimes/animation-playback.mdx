@@ -47,15 +47,6 @@ When a Rive object is instantiated, the artboard to use can be specified. If no 
     ```
   </Tab>
 
-  <Tab title="Angular">
-    ```html
-    <canvas riv="vehicles" width="500" height="500" artboard="Truck">
-    </canvas>
-    ```
-
-    *If no artboard name is provided, the default artboard is used.*
-  </Tab>
-
   <Tab title="React Native">
     ```javascript
     export default function App() {
@@ -162,21 +153,6 @@ Starting animations can also be chosen when Rive is instantiated. The first anim
 
       return <RiveComponent />;
     }
-    ```
-  </Tab>
-
-  <Tab title="Angular">
-    ```html
-    <!-- Play the curves animation -->
-    <canvas riv="vehicles" width="500" height="500">
-      <riv-animation name="curves" play></riv-animation>
-    </canvas>
-
-    <!-- Play and mix both the idle and curves animations -->
-    <canvas riv="vehicles" width="500" height="500">
-      <riv-animation name="idle" play></riv-animation>
-      <riv-animation name="curves" play></riv-animation>
-    </canvas>
     ```
   </Tab>
 
@@ -424,54 +400,6 @@ export default function App() {
 ```
   </Tab>
 
-  <Tab title="Angular">
-
-      ### Simple manipulation
-
-      You can apply simple manipulation on the `riv-animation` directive:
-
-      ```html
-      <canvas riv="vehicles" width="500" height="500">
-        <riv-animation name="curves" [play]="playing" speed="0.5"></riv-animation>
-      </canvas>
-
-      <button (click)="playing = !playing">Toggle Player</button>
-      ```
-
-      *If*  `speed` *is negative, the animation goes in reverse.*
-
-      ### Advance manipulation
-
-      For more advances manipulations you can use the `riv-player` directive:
-
-      ```html
-      <canvas riv="vehicles" width="500" height="500">
-        <riv-player #player="rivPlayer" name="curves" [time]="time" mode="one-shot"></riv-player>
-      </canvas>
-
-      <input type="range" step="0.1"
-        (input)="time = $event.target.value"
-        [min]="player.startTime"
-        [max]="player.endTime"
-      />
-      ```
-
-      - The `time` input will let you specify a moment in ms in the animation.
-      - The `mode` input will force the mode "one-shot", "loop" or "ping-pong" (if undefined, default mode is used).
-
-      ### Manipulate nodes
-
-      You can select a specific node in the animation with the `riv-node`, `riv-bone` & `riv-root-bone` directives :
-
-      ```html
-      <canvas riv="vehicles" (mouseover)="position = $event.x">
-        <riv-node name="wheel" [x]="position" scaleX="0.5"></riv-node>
-      </canvas>
-      ```
-
-      *If the property of the node is updated by the animation, the animation wins.*
-
-  </Tab>
   <Tab title="React Native">
       #### Invoking Playback Controls
 
@@ -507,137 +435,136 @@ export default function App() {
   </Tab>
 
 
-    <Tab title="Flutter">
-      Flutter handles things a little differently compared to the other runtimes due to its reactive nature.
+  <Tab title="Flutter">
+    Flutter handles things a little differently compared to the other runtimes due to its reactive nature.
 
-      Every animation and state machine in Flutter has an underlying controller that manages the state of each animation. When you pass a list of animation names to the RiveAnimation widget, it creates and manages controllers for each.
+    Every animation and state machine in Flutter has an underlying controller that manages the state of each animation. When you pass a list of animation names to the RiveAnimation widget, it creates and manages controllers for each.
 
-      In order to access controls for animations, you'll need to instantiate a RiveAnimationController for each animation and pass the controller to the RiveAnimation widget instead of its name. You can mix and match passing in controllers and names, but avoid passing in both for the same animation.
+    In order to access controls for animations, you'll need to instantiate a RiveAnimationController for each animation and pass the controller to the RiveAnimation widget instead of its name. You can mix and match passing in controllers and names, but avoid passing in both for the same animation.
 
-      There are a number of controllers provided in the runtime that perform certain tasks. We'll cover these as they become relevant.
-          
-      #### Manually controlling a looping animation
+    There are a number of controllers provided in the runtime that perform certain tasks. We'll cover these as they become relevant.
+        
+    #### Manually controlling a looping animation
 
 
-      [SimpleAnimation](https://pub.dev/documentation/rive/latest/rive/SimpleAnimation-class.html) is a basic controller that provides simple playback control of a single animation. With this controller, you can play, pause, and reset animations.
+    [SimpleAnimation](https://pub.dev/documentation/rive/latest/rive/SimpleAnimation-class.html) is a basic controller that provides simple playback control of a single animation. With this controller, you can play, pause, and reset animations.
 
-      In the following example, the `isActive` property of `SimpleAnimation` is used to play and pause a single animation.
+    In the following example, the `isActive` property of `SimpleAnimation` is used to play and pause a single animation.
 
-      ```dart
-      import 'package:flutter/material.dart';
-      import 'package:rive/rive.dart';
+    ```dart
+    import 'package:flutter/material.dart';
+    import 'package:rive/rive.dart';
 
-      class PlayPauseAnimation extends StatefulWidget {
-        const PlayPauseAnimation({Key? key}) : super(key: key);
+    class PlayPauseAnimation extends StatefulWidget {
+      const PlayPauseAnimation({Key? key}) : super(key: key);
 
-        @override
-        _PlayPauseAnimationState createState() => _PlayPauseAnimationState();
+      @override
+      _PlayPauseAnimationState createState() => _PlayPauseAnimationState();
+    }
+
+    class _PlayPauseAnimationState extends State<PlayPauseAnimation> {
+      /// Controller for playback
+      late RiveAnimationController _controller;
+
+      /// Toggles between play and pause animation states
+      void _togglePlay() =>
+          setState(() => _controller.isActive = !_controller.isActive);
+
+      /// Tracks if the animation is playing by whether controller is running
+      bool get isPlaying => _controller.isActive;
+
+      @override
+      void initState() {
+        super.initState();
+        _controller = SimpleAnimation('idle');
       }
 
-      class _PlayPauseAnimationState extends State<PlayPauseAnimation> {
-        /// Controller for playback
-        late RiveAnimationController _controller;
-
-        /// Toggles between play and pause animation states
-        void _togglePlay() =>
-            setState(() => _controller.isActive = !_controller.isActive);
-
-        /// Tracks if the animation is playing by whether controller is running
-        bool get isPlaying => _controller.isActive;
-
-        @override
-        void initState() {
-          super.initState();
-          _controller = SimpleAnimation('idle');
-        }
-
-        @override
-        Widget build(BuildContext context) {
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text('Animation Example'),
+      @override
+      Widget build(BuildContext context) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Animation Example'),
+          ),
+          body: Center(
+            child: RiveAnimation.network(
+              'https://cdn.rive.app/animations/vehicles.riv',
+              controllers: [_controller],
+              // Update the play state when the widget's initialized
+              onInit: () => setState(() {}),
             ),
-            body: Center(
-              child: RiveAnimation.network(
-                'https://cdn.rive.app/animations/vehicles.riv',
-                controllers: [_controller],
-                // Update the play state when the widget's initialized
-                onInit: () => setState(() {}),
-              ),
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: _togglePlay,
+            tooltip: isPlaying ? 'Pause' : 'Play',
+            child: Icon(
+              isPlaying ? Icons.pause : Icons.play_arrow,
             ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: _togglePlay,
-              tooltip: isPlaying ? 'Pause' : 'Play',
-              child: Icon(
-                isPlaying ? Icons.pause : Icons.play_arrow,
-              ),
-            ),
-          );
-        }
+          ),
+        );
       }
-      ```
+    }
+    ```
 
-      ### Repeatedly playing a one-shot animation
+    ### Repeatedly playing a one-shot animation
 
-      One-shot animations do not loop. [OneShotAnimation](https://pub.dev/documentation/rive/latest/rive/OneShotAnimation-class.html) is a controller that will automatically stop and reset a one-shot animation when it has played through so it can be repeatedly played as required.
+    One-shot animations do not loop. [OneShotAnimation](https://pub.dev/documentation/rive/latest/rive/OneShotAnimation-class.html) is a controller that will automatically stop and reset a one-shot animation when it has played through so it can be repeatedly played as required.
 
-      The controller also provides two callbacks: `onStart` and `onStop` that will fire when the animation starts and stops playing respectively.
+    The controller also provides two callbacks: `onStart` and `onStop` that will fire when the animation starts and stops playing respectively.
 
-      The example below demonstrates mixing animation names with controllers. The `idle` and `curves` animations are managed by the runtime and their looping animations will play continuously. `bounce` is a one-shot and is triggered when the button is tapped. The runtime will then play the `bounce` animation, mixing it cleanly with the looping animations.
+    The example below demonstrates mixing animation names with controllers. The `idle` and `curves` animations are managed by the runtime and their looping animations will play continuously. `bounce` is a one-shot and is triggered when the button is tapped. The runtime will then play the `bounce` animation, mixing it cleanly with the looping animations.
 
-      ```dart
-      import 'package:flutter/material.dart';
-      import 'package:rive/rive.dart';
+    ```dart
+    import 'package:flutter/material.dart';
+    import 'package:rive/rive.dart';
 
-      class PlayOneShotAnimation extends StatefulWidget {
-        const PlayOneShotAnimation({Key? key}) : super(key: key);
+    class PlayOneShotAnimation extends StatefulWidget {
+      const PlayOneShotAnimation({Key? key}) : super(key: key);
 
-        @override
-        _PlayOneShotAnimationState createState() => _PlayOneShotAnimationState();
+      @override
+      _PlayOneShotAnimationState createState() => _PlayOneShotAnimationState();
+    }
+
+    class _PlayOneShotAnimationState extends State<PlayOneShotAnimation> {
+      /// Controller for playback
+      late RiveAnimationController _controller;
+
+      /// Is the animation currently playing?
+      bool _isPlaying = false;
+
+      @override
+      void initState() {
+        super.initState();
+        _controller = OneShotAnimation(
+          'bounce',
+          autoplay: false,
+          onStop: () => setState(() => _isPlaying = false),
+          onStart: () => setState(() => _isPlaying = true),
+        );
       }
 
-      class _PlayOneShotAnimationState extends State<PlayOneShotAnimation> {
-        /// Controller for playback
-        late RiveAnimationController _controller;
-
-        /// Is the animation currently playing?
-        bool _isPlaying = false;
-
-        @override
-        void initState() {
-          super.initState();
-          _controller = OneShotAnimation(
-            'bounce',
-            autoplay: false,
-            onStop: () => setState(() => _isPlaying = false),
-            onStart: () => setState(() => _isPlaying = true),
-          );
-        }
-
-        @override
-        Widget build(BuildContext context) {
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text('One-Shot Example'),
+      @override
+      Widget build(BuildContext context) {
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('One-Shot Example'),
+          ),
+          body: Center(
+            child: RiveAnimation.network(
+              'https://cdn.rive.app/animations/vehicles.riv',
+              animations: const ['idle', 'curves'],
+              controllers: [_controller],
             ),
-            body: Center(
-              child: RiveAnimation.network(
-                'https://cdn.rive.app/animations/vehicles.riv',
-                animations: const ['idle', 'curves'],
-                controllers: [_controller],
-              ),
-            ),
-            floatingActionButton: FloatingActionButton(
-              // disable the button while playing the animation
-              onPressed: () => _isPlaying ? null : _controller.isActive = true,
-              tooltip: 'Play',
-              child: const Icon(Icons.arrow_upward),
-            ),
-          );
-        }
+          ),
+          floatingActionButton: FloatingActionButton(
+            // disable the button while playing the animation
+            onPressed: () => _isPlaying ? null : _controller.isActive = true,
+            tooltip: 'Play',
+            child: const Icon(Icons.arrow_upward),
+          ),
+        );
       }
-      ```
-
+    }
+    ```
   </Tab>
 
   <Tab title="iOS/macOS">
