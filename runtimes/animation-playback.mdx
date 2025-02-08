@@ -74,7 +74,7 @@ When a Rive object is instantiated, the artboard to use can be specified. If no 
     struct AnimationView: View {
         var body: some View {
             RiveViewModel(
-                fileName: "dancing_banana", 
+                fileName: "dancing_banana",
                 artboardName: "Banana"
             ).view()
         }
@@ -90,7 +90,7 @@ When a Rive object is instantiated, the artboard to use can be specified. If no 
             fileName: "dancing_banana",
             artboardName: "Banana",
         )
-        
+
         override func viewDidLoad() {
             bananaVM.setView(riveView)
         }
@@ -104,7 +104,7 @@ When a Rive object is instantiated, the artboard to use can be specified. If no 
     <app.rive.runtime.kotlin.RiveAnimationView
         app:riveAutoPlay="true"
         app:riveArtboard="Square"
-        app:riveResource="@raw/artboard_animations" /> 
+        app:riveResource="@raw/artboard_animations" />
     ```
 
     ### Via Kotlin
@@ -116,7 +116,7 @@ When a Rive object is instantiated, the artboard to use can be specified. If no 
     )
     ```
   </Tab>
-  
+
 </Tabs>
 
 ## Choosing starting animations
@@ -194,12 +194,12 @@ Starting animations can also be chosen when Rive is instantiated. The first anim
   <Tab title="iOS/macOS">
     By default, `RiveViewModel` will automatically play the animation or state machine you've given it.
 
-    ### SwiftUI 
+    ### SwiftUI
     ```javascript
     struct AnimationView: View {
         var body: some View {
             RiveViewModel(
-                fileName: "dancing_banana", 
+                fileName: "dancing_banana",
                 animationName: "Charleston",
                 artboardName: "Banana"
             ).view()
@@ -207,7 +207,7 @@ Starting animations can also be chosen when Rive is instantiated. The first anim
     }
     ```
 
-    ### UIKit 
+    ### UIKit
     ```swift
     class AnimationViewController: UIViewController {
         @IBOutlet weak var riveView: RiveView!
@@ -217,7 +217,7 @@ Starting animations can also be chosen when Rive is instantiated. The first anim
             animationName: "Charleston",
             artboardName: "Banana"
         )
-        
+
         override func viewDidLoad() {
             bananaVM.setView(riveView)
         }
@@ -248,14 +248,14 @@ Starting animations can also be chosen when Rive is instantiated. The first anim
     ```
   </Tab>
 </Tabs>
-## Controlling playback 
+## Controlling playback
 
 Playback of each animation and state machine can be separately controlled. You can play and pause playback using the `play` , `pause` and `stop` methods, either passing in the names of the animations you want to affect or passing in nothing which will affect all instanced animations.
 
 <Tabs>
 
   <Tab title="Web">
-          
+
       #### Invoking Playback Controls
 
       With the web runtime, you can provide callback functions to receive notification when certain animation events have occurred:
@@ -322,7 +322,7 @@ Playback of each animation and state machine can be separately controlled. You c
 
 Very similarly to Web, you can pass in Rive params and callbacks for certain animation events. See the Web tab for some examples of callbacks you can set. Additionally, you can use the `rive` object returned from the `useRive` hook to invoke playback controls.
 
-See the example below here: [https://codesandbox.io/s/animation-playback-controls-rive-react-7yo76i](https://codesandbox.io/s/animation-playback-controls-rive-react-7yo76i)
+See the example below here: [https://codesandbox.io/p/sandbox/adoring-sea-n7m59f](https://codesandbox.io/p/sandbox/adoring-sea-n7m59f)
 
 ```javascript
 import { useState } from "react";
@@ -414,7 +414,7 @@ export default function App() {
         const handlePlayPress = () => {
           riveRef?.current?.play();
         };
-        
+
         const handlePausePress = () => {
           riveRef?.current?.pause();
         };
@@ -443,7 +443,7 @@ export default function App() {
     In order to access controls for animations, you'll need to instantiate a RiveAnimationController for each animation and pass the controller to the RiveAnimation widget instead of its name. You can mix and match passing in controllers and names, but avoid passing in both for the same animation.
 
     There are a number of controllers provided in the runtime that perform certain tasks. We'll cover these as they become relevant.
-        
+
     #### Manually controlling a looping animation
 
 
@@ -593,7 +593,7 @@ export default function App() {
     - `stop()`
     - `reset()`
 
-### Play 
+### Play
 
 If you set autoplay to false you can play the active animation or state machine very simply.
 
@@ -632,7 +632,7 @@ class ToggleViewModel: RiveViewModel {
   private let onAnimation: String = "On"
   private let offAnimation: String = "Off"
   private let startAnimation: String = "StartOff"
-  
+
   var action: ((Bool) -> Void)? = nil
   var isOn = false {
       didSet {
@@ -641,11 +641,11 @@ class ToggleViewModel: RiveViewModel {
           action?(isOn)
       }
   }
-  
+
   init() {
       super.init(fileName: "toggle", animationName: startAnimation, fit: .cover)
   }
-  
+
   func view(_ action: ((Bool) -> Void)? = nil) -> some View {
       self.action = action
       return super.view().frame(width: 100, height: 50, alignment: .center)
@@ -679,7 +679,7 @@ class ToggleViewModel: RiveViewModel {
     After setting the Rive Resource with your animation view, you can invoke animation playback control methods.
 
     Along with programmatically playing an animation, you can also choose the loop mode and direction of the animation as additional parameters as needed. You can additionally pause or stop an animation as well.
-    
+
     ```kotlin
     // Play one animation
     animationView.play("rollaround")
@@ -696,7 +696,7 @@ class ToggleViewModel: RiveViewModel {
 
     #### Animation Event Listeners
 
-    The Rive Android runtime also allows listener registration. Check out the events section in the  
+    The Rive Android runtime also allows listener registration. Check out the events section in the
     [rive player](https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/AndroidPlayerActivity.kt) for an example of how this works.
 
     ```kotlin
@@ -732,7 +732,7 @@ class ToggleViewModel: RiveViewModel {
     animationView.registerListener(listener)
     ```
 
-    Check out this Activity example:  
+    Check out this Activity example:
     [LoopModeActivity.kt](https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/LoopModeActivity.kt)
 
   </Tab>

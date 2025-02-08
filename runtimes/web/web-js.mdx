@@ -5,7 +5,7 @@ description: 'JavaScript/WASM runtime for Rive.'
 
 import Interaction from "/snippets/runtimes/animation-control-and-interaction.mdx"
 
-## Overview 
+## Overview
 
 This guide documents how to get started using the Rive web runtime library. The runtime is open source and available in this [GitHub repository](https://github.com/rive-app/rive-wasm). This library has a high-level JavaScript API (with TypeScript support) and a low-level API to load in Web Assembly (WASM) and control the rendering loop yourself. This runtime allows you to:
 
@@ -14,27 +14,27 @@ This guide documents how to get started using the Rive web runtime library. The 
 - Support advanced use cases by controlling the render loop (web-based game engines)
 
 ## Quick Start
-See our [quick start example](https://codesandbox.io/p/sandbox/rive-quick-start-js-forked-95ctsk?layout=%257B%2522sidebarPanel%2522%253A%2522EXPLORER%2522%252C%2522rootPanelGroup%2522%253A%257B%2522direction%2522%253A%2522horizontal%2522%252C%2522contentType%2522%253A%2522UNKNOWN%2522%252C%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522id%2522%253A%2522ROOT_LAYOUT%2522%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522contentType%2522%253A%2522UNKNOWN%2522%252C%2522direction%2522%253A%2522vertical%2522%252C%2522id%2522%253A%2522cm0cil09k00073b6iv1ejuur6%2522%252C%2522sizes%2522%253A%255B100%255D%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522contentType%2522%253A%2522EDITOR%2522%252C%2522direction%2522%253A%2522horizontal%2522%252C%2522id%2522%253A%2522EDITOR%2522%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL%2522%252C%2522contentType%2522%253A%2522EDITOR%2522%252C%2522id%2522%253A%2522cm0cil09k00033b6ikh7soopm%2522%257D%255D%257D%252C%257B%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522contentType%2522%253A%2522SHELLS%2522%252C%2522direction%2522%253A%2522horizontal%2522%252C%2522id%2522%253A%2522SHELLS%2522%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL%2522%252C%2522contentType%2522%253A%2522SHELLS%2522%252C%2522id%2522%253A%2522cm0cil09k00043b6iunl8mzfv%2522%257D%255D%257D%255D%257D%252C%257B%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522contentType%2522%253A%2522DEVTOOLS%2522%252C%2522direction%2522%253A%2522vertical%2522%252C%2522id%2522%253A%2522DEVTOOLS%2522%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL%2522%252C%2522contentType%2522%253A%2522DEVTOOLS%2522%252C%2522id%2522%253A%2522cm0cil09k00063b6i00s5g6ph%2522%257D%255D%257D%255D%252C%2522sizes%2522%253A%255B50%252C50%255D%257D%252C%2522tabbedPanels%2522%253A%257B%2522cm0cil09k00033b6ikh7soopm%2522%253A%257B%2522tabs%2522%253A%255B%257B%2522id%2522%253A%2522cm0cil09k00023b6ig0rr427m%2522%252C%2522mode%2522%253A%2522permanent%2522%252C%2522type%2522%253A%2522FILE%2522%252C%2522filepath%2522%253A%2522%252Fsrc%252Findex.html%2522%252C%2522state%2522%253A%2522IDLE%2522%257D%252C%257B%2522id%2522%253A%2522cm0nwqywg00ha3b6ik477m0sa%2522%252C%2522mode%2522%253A%2522permanent%2522%252C%2522type%2522%253A%2522FILE%2522%252C%2522initialSelections%2522%253A%255B%257B%2522startLineNumber%2522%253A89%252C%2522startColumn%2522%253A1%252C%2522endLineNumber%2522%253A108%252C%2522endColumn%2522%253A2%257D%255D%252C%2522filepath%2522%253A%2522%252Fsrc%252Findex.mjs%2522%252C%2522state%2522%253A%2522IDLE%2522%257D%255D%252C%2522id%2522%253A%2522cm0cil09k00033b6ikh7soopm%2522%252C%2522activeTabId%2522%253A%2522cm0nwqywg00ha3b6ik477m0sa%2522%257D%252C%2522cm0cil09k00063b6i00s5g6ph%2522%253A%257B%2522id%2522%253A%2522cm0cil09k00063b6i00s5g6ph%2522%252C%2522activeTabId%2522%253A%2522cm0nwzrmt001v3b6i36d3eupe%2522%252C%2522tabs%2522%253A%255B%257B%2522id%2522%253A%2522cm0cil09k00053b6iih3l7rxf%2522%252C%2522mode%2522%253A%2522permanent%2522%252C%2522type%2522%253A%2522UNASSIGNED_PORT%2522%252C%2522port%2522%253A0%257D%252C%257B%2522type%2522%253A%2522SANDBOX_INFO%2522%252C%2522isCloud%2522%253Afalse%252C%2522id%2522%253A%2522cm0nwzdgp000k3b6i1bwmm5bi%2522%252C%2522mode%2522%253A%2522permanent%2522%257D%252C%257B%2522type%2522%253A%2522UNASSIGNED_PORT%2522%252C%2522port%2522%253A0%252C%2522id%2522%253A%2522cm0nwzrmt001v3b6i36d3eupe%2522%252C%2522mode%2522%253A%2522permanent%2522%257D%255D%257D%252C%2522cm0cil09k00043b6iunl8mzfv%2522%253A%257B%2522tabs%2522%253A%255B%255D%252C%2522id%2522%253A%2522cm0cil09k00043b6iunl8mzfv%2522%257D%257D%252C%2522showDevtools%2522%253Atrue%252C%2522showShells%2522%253Afalse%252C%2522showSidebar%2522%253Atrue%252C%2522sidebarPanelSize%2522%253A15%257D).
+See our [quick start example](https://codesandbox.io/p/sandbox/rive-quick-start-js-xmwcm6).
 
 <Note>
     This example only demonstrates loading a .riv file resource in various ways and creating a Rive instance. The other sections detail more advanced use cases.
 </Note>
 
-<iframe height="600" width= "100%" scrolling="no" src="https://codesandbox.io/p/sandbox/rive-quick-start-js-forked-95ctsk?layout=%257B%2522sidebarPanel%2522%253A%2522EXPLORER%2522%252C%2522rootPanelGroup%2522%253A%257B%2522direction%2522%253A%2522horizontal%2522%252C%2522contentType%2522%253A%2522UNKNOWN%2522%252C%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522id%2522%253A%2522ROOT_LAYOUT%2522%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522contentType%2522%253A%2522UNKNOWN%2522%252C%2522direction%2522%253A%2522vertical%2522%252C%2522id%2522%253A%2522cm0cil09k00073b6iv1ejuur6%2522%252C%2522sizes%2522%253A%255B100%255D%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522contentType%2522%253A%2522EDITOR%2522%252C%2522direction%2522%253A%2522horizontal%2522%252C%2522id%2522%253A%2522EDITOR%2522%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL%2522%252C%2522contentType%2522%253A%2522EDITOR%2522%252C%2522id%2522%253A%2522cm0cil09k00033b6ikh7soopm%2522%257D%255D%257D%252C%257B%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522contentType%2522%253A%2522SHELLS%2522%252C%2522direction%2522%253A%2522horizontal%2522%252C%2522id%2522%253A%2522SHELLS%2522%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL%2522%252C%2522contentType%2522%253A%2522SHELLS%2522%252C%2522id%2522%253A%2522cm0cil09k00043b6iunl8mzfv%2522%257D%255D%257D%255D%257D%252C%257B%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522contentType%2522%253A%2522DEVTOOLS%2522%252C%2522direction%2522%253A%2522vertical%2522%252C%2522id%2522%253A%2522DEVTOOLS%2522%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL%2522%252C%2522contentType%2522%253A%2522DEVTOOLS%2522%252C%2522id%2522%253A%2522cm0cil09k00063b6i00s5g6ph%2522%257D%255D%257D%255D%252C%2522sizes%2522%253A%255B50%252C50%255D%257D%252C%2522tabbedPanels%2522%253A%257B%2522cm0cil09k00033b6ikh7soopm%2522%253A%257B%2522tabs%2522%253A%255B%257B%2522id%2522%253A%2522cm0cil09k00023b6ig0rr427m%2522%252C%2522mode%2522%253A%2522permanent%2522%252C%2522type%2522%253A%2522FILE%2522%252C%2522filepath%2522%253A%2522%252Fsrc%252Findex.html%2522%252C%2522state%2522%253A%2522IDLE%2522%257D%252C%257B%2522id%2522%253A%2522cm0nwqywg00ha3b6ik477m0sa%2522%252C%2522mode%2522%253A%2522permanent%2522%252C%2522type%2522%253A%2522FILE%2522%252C%2522initialSelections%2522%253A%255B%257B%2522startLineNumber%2522%253A89%252C%2522startColumn%2522%253A1%252C%2522endLineNumber%2522%253A108%252C%2522endColumn%2522%253A2%257D%255D%252C%2522filepath%2522%253A%2522%252Fsrc%252Findex.mjs%2522%252C%2522state%2522%253A%2522IDLE%2522%257D%255D%252C%2522id%2522%253A%2522cm0cil09k00033b6ikh7soopm%2522%252C%2522activeTabId%2522%253A%2522cm0nwqywg00ha3b6ik477m0sa%2522%257D%252C%2522cm0cil09k00063b6i00s5g6ph%2522%253A%257B%2522id%2522%253A%2522cm0cil09k00063b6i00s5g6ph%2522%252C%2522activeTabId%2522%253A%2522cm0nwzrmt001v3b6i36d3eupe%2522%252C%2522tabs%2522%253A%255B%257B%2522id%2522%253A%2522cm0cil09k00053b6iih3l7rxf%2522%252C%2522mode%2522%253A%2522permanent%2522%252C%2522type%2522%253A%2522UNASSIGNED_PORT%2522%252C%2522port%2522%253A0%257D%252C%257B%2522type%2522%253A%2522SANDBOX_INFO%2522%252C%2522isCloud%2522%253Afalse%252C%2522id%2522%253A%2522cm0nwzdgp000k3b6i1bwmm5bi%2522%252C%2522mode%2522%253A%2522permanent%2522%257D%252C%257B%2522type%2522%253A%2522UNASSIGNED_PORT%2522%252C%2522port%2522%253A0%252C%2522id%2522%253A%2522cm0nwzrmt001v3b6i36d3eupe%2522%252C%2522mode%2522%253A%2522permanent%2522%257D%255D%257D%252C%2522cm0cil09k00043b6iunl8mzfv%2522%253A%257B%2522tabs%2522%253A%255B%255D%252C%2522id%2522%253A%2522cm0cil09k00043b6iunl8mzfv%2522%257D%257D%252C%2522showDevtools%2522%253Atrue%252C%2522showShells%2522%253Afalse%252C%2522showSidebar%2522%253Atrue%252C%2522sidebarPanelSize%2522%253A15%257D" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true"> </iframe>
+<iframe height="600" width= "100%" scrolling="no" src="https://codesandbox.io/p/sandbox/rive-quick-start-js-xmwcm6" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true"> </iframe>
 
 ## Getting started
 
 Follow the steps below to integrate Rive into your web app.
 
-<Note> 
+<Note>
     The following instructions describe using the `@rive-app/canvas` package. Rive provides web-based packages like WebGL, Canvas, and Lite versions.<br/>
 
-    See [Canvas vs WebGL](./canvas-vs-webgl) for guidance on which package is the correct choice for your use case. 
+    See [Canvas vs WebGL](./canvas-vs-webgl) for guidance on which package is the correct choice for your use case.
 </Note>
 
 <Steps>
   <Step title="Install the dependency">
-    <Warning> 
+    <Warning>
     We recommend always using the [latest version](https://www.npmjs.com/package/@rive-app/canvas). The versions listed below and in the examples may differ from the latest.
     </Warning>
 
@@ -42,7 +42,7 @@ Follow the steps below to integrate Rive into your web app.
     <Tabs>
       <Tab title="Script Tag">
 
-        ```html 
+        ```html
         // Add the following script tag to your web page to get the latest version:
 
 
@@ -88,7 +88,7 @@ Follow the steps below to integrate Rive into your web app.
     </Tabs>
 
 
-    <Note> 
+    <Note>
     Not using [Rive Text](/editor/text/) and [Rive Audio](/editor/events/audio-events)? Consider using [@rive-app/canvas-lite](./canvas-vs-webgl#rive-app-canvas-lite) which is a smaller package variant.
     </Note>
   </Step>
@@ -126,7 +126,7 @@ Follow the steps below to integrate Rive into your web app.
     ```
 
 
-    <Note> 
+    <Note>
     The `resizeDrawingSurfaceToCanvas` method ensures that the Rive animation is correctly scaled to fit the dimensions of the specified canvas element. By default, the canvas rendering surface might not match the exact size of the `<canvas>` element defined in your HTML, which can lead to blurry or incorrectly scaled graphics, especially on high-DPI or retina displays.
 
     Calling this method adjusts the internal drawing surface so that the animation is rendered with crisp detail, matching the pixel density of the canvas. This is particularly important when:
@@ -185,7 +185,7 @@ Bringing it all together, here's how to load a Rive graphic in a single HTML fil
 
 ### Loading Rive files
 
-[See this example](https://codesandbox.io/p/sandbox/rive-quick-start-js-forked-95ctsk?layout=%257B%2522sidebarPanel%2522%253A%2522EXPLORER%2522%252C%2522rootPanelGroup%2522%253A%257B%2522direction%2522%253A%2522horizontal%2522%252C%2522contentType%2522%253A%2522UNKNOWN%2522%252C%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522id%2522%253A%2522ROOT_LAYOUT%2522%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522contentType%2522%253A%2522UNKNOWN%2522%252C%2522direction%2522%253A%2522vertical%2522%252C%2522id%2522%253A%2522cm0cil09k00073b6iv1ejuur6%2522%252C%2522sizes%2522%253A%255B100%255D%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522contentType%2522%253A%2522EDITOR%2522%252C%2522direction%2522%253A%2522horizontal%2522%252C%2522id%2522%253A%2522EDITOR%2522%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL%2522%252C%2522contentType%2522%253A%2522EDITOR%2522%252C%2522id%2522%253A%2522cm0cil09k00033b6ikh7soopm%2522%257D%255D%257D%252C%257B%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522contentType%2522%253A%2522SHELLS%2522%252C%2522direction%2522%253A%2522horizontal%2522%252C%2522id%2522%253A%2522SHELLS%2522%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL%2522%252C%2522contentType%2522%253A%2522SHELLS%2522%252C%2522id%2522%253A%2522cm0cil09k00043b6iunl8mzfv%2522%257D%255D%257D%255D%257D%252C%257B%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522contentType%2522%253A%2522DEVTOOLS%2522%252C%2522direction%2522%253A%2522vertical%2522%252C%2522id%2522%253A%2522DEVTOOLS%2522%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL%2522%252C%2522contentType%2522%253A%2522DEVTOOLS%2522%252C%2522id%2522%253A%2522cm0cil09k00063b6i00s5g6ph%2522%257D%255D%257D%255D%252C%2522sizes%2522%253A%255B50%252C50%255D%257D%252C%2522tabbedPanels%2522%253A%257B%2522cm0cil09k00033b6ikh7soopm%2522%253A%257B%2522tabs%2522%253A%255B%257B%2522id%2522%253A%2522cm0cil09k00023b6ig0rr427m%2522%252C%2522mode%2522%253A%2522permanent%2522%252C%2522type%2522%253A%2522FILE%2522%252C%2522filepath%2522%253A%2522%252Fsrc%252Findex.html%2522%252C%2522state%2522%253A%2522IDLE%2522%257D%252C%257B%2522id%2522%253A%2522cm0nwqywg00ha3b6ik477m0sa%2522%252C%2522mode%2522%253A%2522permanent%2522%252C%2522type%2522%253A%2522FILE%2522%252C%2522initialSelections%2522%253A%255B%257B%2522startLineNumber%2522%253A89%252C%2522startColumn%2522%253A1%252C%2522endLineNumber%2522%253A108%252C%2522endColumn%2522%253A2%257D%255D%252C%2522filepath%2522%253A%2522%252Fsrc%252Findex.mjs%2522%252C%2522state%2522%253A%2522IDLE%2522%257D%255D%252C%2522id%2522%253A%2522cm0cil09k00033b6ikh7soopm%2522%252C%2522activeTabId%2522%253A%2522cm0nwqywg00ha3b6ik477m0sa%2522%257D%252C%2522cm0cil09k00063b6i00s5g6ph%2522%253A%257B%2522id%2522%253A%2522cm0cil09k00063b6i00s5g6ph%2522%252C%2522activeTabId%2522%253A%2522cm0nwzrmt001v3b6i36d3eupe%2522%252C%2522tabs%2522%253A%255B%257B%2522id%2522%253A%2522cm0cil09k00053b6iih3l7rxf%2522%252C%2522mode%2522%253A%2522permanent%2522%252C%2522type%2522%253A%2522UNASSIGNED_PORT%2522%252C%2522port%2522%253A0%257D%252C%257B%2522type%2522%253A%2522SANDBOX_INFO%2522%252C%2522isCloud%2522%253Afalse%252C%2522id%2522%253A%2522cm0nwzdgp000k3b6i1bwmm5bi%2522%252C%2522mode%2522%253A%2522permanent%2522%257D%252C%257B%2522type%2522%253A%2522UNASSIGNED_PORT%2522%252C%2522port%2522%253A0%252C%2522id%2522%253A%2522cm0nwzrmt001v3b6i36d3eupe%2522%252C%2522mode%2522%253A%2522permanent%2522%257D%255D%257D%252C%2522cm0cil09k00043b6iunl8mzfv%2522%253A%257B%2522tabs%2522%253A%255B%255D%252C%2522id%2522%253A%2522cm0cil09k00043b6iunl8mzfv%2522%257D%257D%252C%2522showDevtools%2522%253Atrue%252C%2522showShells%2522%253Afalse%252C%2522showSidebar%2522%253Atrue%252C%2522sidebarPanelSize%2522%253A15%257D) for the different ways to load in a .riv file, the options are:
+[See this example](https://codesandbox.io/p/sandbox/rive-quick-start-js-xmwcm6) for the different ways to load in a .riv file, the options are:
 
 1. **Hosted URL**: Use a string representing the URL where the `.riv` file is hosted. Set this as the `src` attribute when creating a new Rive instance.
 2. **Static Assets in the bundle**: Provide a string with the path to a publicly accessible `.riv` file within your web project. Handle `.riv` files just like any other static asset (e.g., images or fonts) in your project.
@@ -245,7 +245,7 @@ More in-depth Rive web documentation and advanced use cases.
 # Examples
 
 - [Basic gallery app](https://github.com/rive-app/rive-wasm/tree/master/js/examples/_frameworks/parcel_example_canvas)
-- [Tracking mouse cursor](https://codesandbox.io/p/sandbox/mouse-tracking-on-viewport-gxn16i)
-- [Simple skinning](https://codesandbox.io/p/sandbox/rive-sm-workshop-demo-bare-demo2-ivv1pj)
-- [Connecting to page scroll](https://codesandbox.io/p/sandbox/rive-scroll-example-9llgpp)
-- [Playing state machine only when scrolled into the user's viewport](https://codesandbox.io/p/sandbox/play-rive-when-scrolled-into-view-szxz9c)
+- [Tracking mouse cursor](https://codesandbox.io/p/sandbox/tracking-mouse-cursor-n38gdd)
+- [Simple skinning](https://codesandbox.io/p/sandbox/simple-skinning-example-96xnwn)
+- [Connecting to page scroll](https://codesandbox.io/p/sandbox/rive-page-scroll-h4msqw)
+- [Playing state machine only when scrolled into the user's viewport](https://codesandbox.io/p/sandbox/rive-wait-for-scroll-into-view-y9wg8d)

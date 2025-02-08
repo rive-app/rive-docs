@@ -13,7 +13,7 @@ While the JS runtime offers a high-level API that allows for integrating Rives i
 - Smaller dependency size
 - ...and more!
 
-See a simple game example [here](https://codesandbox.io/s/rive-canvas-advanced-api-centaur-example-exh2os).
+See a simple game example [here](https://codesandbox.io/p/sandbox/rive-canvas-advanced-api-centaur-example-q6snxp).
 
 ## Premise
 
@@ -119,7 +119,7 @@ The great thing here is if you want to display multiple artboards or even copies
 
 Beyond instancing the relevant pieces for the render loop, you can also extract references to nodes, targets, and bones within the drawing hierarchy. This is useful if you need to track any transform property values on a given node for any calculations or even to get world-space or parent transforms (i.e., tracking the x, y-coordinate, or rotation value of a node over the lifetime of an animation). See some of the examples at the bottom of the guide to see this in action.
 
-### Constructing the Render Loop 
+### Constructing the Render Loop
 
 You may be familiar with constructing a render loop using `requestAnimationFrame` (rAF) to build animations frame-by-frame in between the browser's repaint cycle. If not, check out [this guide](https://developer.mozilla.org/en-US/docs/Games/Anatomy#building_a_main_loop_in_javascript) as a starting point for building a render loop.
 
@@ -250,8 +250,8 @@ function renderLoop(time) {
   renderer.align(
     rive.Fit.contain,
     rive.Alignment.center,
-    {	
-      minX: 0,	
+    {
+      minX: 0,
       minY: 0,
       maxX: canvas.width,
       maxY: canvas.height
@@ -269,7 +269,7 @@ rive.requestAnimationFrame(renderLoop);
 
 At this point, you should be able to render Rive on the canvas!
 
-### Cleaning Up Instances 
+### Cleaning Up Instances
 
 For each of the created CPP instances, you’ll want to delete them when you are finished so that you don’t have any memory leaks in your application. Unfortunately, this is a manual operation as we cannot yet rely on the new finalizer API in browsers to be called for garbage collection. Call the `.delete()` API on any instances created from the Rive runtime when they are no longer needed. An example is shown below:
 
@@ -303,13 +303,13 @@ stateMachine.delete();
 
 See below for links to examples demonstrating the use of low-level JS APIs:
 
-- [Simple use of @rive-app/canvas-advanced](https://codesandbox.io/s/rive-canvas-advanced-api-basketball-rgted8)
-- [Simple use of @rive-app/webgl-advanced](https://codesandbox.io/s/rive-webgl-advanced-api-basketball-fwtmdb)
-- [Out of band assets (fonts) @rive-app/canvas-advanced](https://codesandbox.io/p/sandbox/friendly-khayyam-w3d9fd?layout=%257B%2522sidebarPanel%2522%253A%2522EXPLORER%2522%252C%2522rootPanelGroup%2522%253A%257B%2522direction%2522%253A%2522horizontal%2522%252C%2522contentType%2522%253A%2522UNKNOWN%2522%252C%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522id%2522%253A%2522ROOT_LAYOUT%2522%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522contentType%2522%253A%2522UNKNOWN%2522%252C%2522direction%2522%253A%2522vertical%2522%252C%2522id%2522%253A%2522cm0cou61400063b6ira695zmh%2522%252C%2522sizes%2522%253A%255B100%255D%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522contentType%2522%253A%2522EDITOR%2522%252C%2522direction%2522%253A%2522horizontal%2522%252C%2522id%2522%253A%2522EDITOR%2522%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL%2522%252C%2522contentType%2522%253A%2522EDITOR%2522%252C%2522id%2522%253A%2522cm0cou61400023b6i02r2kr1y%2522%257D%255D%257D%252C%257B%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522contentType%2522%253A%2522SHELLS%2522%252C%2522direction%2522%253A%2522horizontal%2522%252C%2522id%2522%253A%2522SHELLS%2522%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL%2522%252C%2522contentType%2522%253A%2522SHELLS%2522%252C%2522id%2522%253A%2522cm0cou61400033b6i1izal3vh%2522%257D%255D%257D%255D%257D%252C%257B%2522type%2522%253A%2522PANEL_GROUP%2522%252C%2522contentType%2522%253A%2522DEVTOOLS%2522%252C%2522direction%2522%253A%2522vertical%2522%252C%2522id%2522%253A%2522DEVTOOLS%2522%252C%2522panels%2522%253A%255B%257B%2522type%2522%253A%2522PANEL%2522%252C%2522contentType%2522%253A%2522DEVTOOLS%2522%252C%2522id%2522%253A%2522cm0cou61400053b6i1lmphdj8%2522%257D%255D%257D%255D%252C%2522sizes%2522%253A%255B50%252C50%255D%257D%252C%2522tabbedPanels%2522%253A%257B%2522cm0cou61400023b6i02r2kr1y%2522%253A%257B%2522tabs%2522%253A%255B%257B%2522id%2522%253A%2522cm0cou61300013b6i155bv5bl%2522%252C%2522mode%2522%253A%2522permanent%2522%252C%2522type%2522%253A%2522FILE%2522%252C%2522filepath%2522%253A%2522%252Fsrc%252Findex.ts%2522%252C%2522state%2522%253A%2522IDLE%2522%257D%255D%252C%2522id%2522%253A%2522cm0cou61400023b6i02r2kr1y%2522%252C%2522activeTabId%2522%253A%2522cm0cou61300013b6i155bv5bl%2522%257D%252C%2522cm0cou61400053b6i1lmphdj8%2522%253A%257B%2522id%2522%253A%2522cm0cou61400053b6i1lmphdj8%2522%252C%2522activeTabId%2522%253A%2522cm0z39sq400uy3b6ii5qaagic%2522%252C%2522tabs%2522%253A%255B%257B%2522id%2522%253A%2522cm0cou61400043b6iarkccomy%2522%252C%2522mode%2522%253A%2522permanent%2522%252C%2522type%2522%253A%2522UNASSIGNED_PORT%2522%252C%2522port%2522%253A0%257D%252C%257B%2522type%2522%253A%2522UNASSIGNED_PORT%2522%252C%2522port%2522%253A0%252C%2522id%2522%253A%2522cm0coub1i000p3b6iajg4byw7%2522%252C%2522mode%2522%253A%2522permanent%2522%257D%252C%257B%2522type%2522%253A%2522SANDBOX_INFO%2522%252C%2522isCloud%2522%253Afalse%252C%2522id%2522%253A%2522cm0z39sq400uy3b6ii5qaagic%2522%252C%2522mode%2522%253A%2522permanent%2522%257D%255D%257D%252C%2522cm0cou61400033b6i1izal3vh%2522%253A%257B%2522tabs%2522%253A%255B%255D%252C%2522id%2522%253A%2522cm0cou61400033b6i1izal3vh%2522%257D%257D%252C%2522showDevtools%2522%253Atrue%252C%2522showShells%2522%253Afalse%252C%2522showSidebar%2522%253Atrue%252C%2522sidebarPanelSize%2522%253A15%257D)
-- [A volume knob state machine](https://codesandbox.io/s/rive-volume-knob-draft-xykywk)
-- [Centaur apple game](https://codesandbox.io/s/rive-canvas-advanced-api-centaur-example-exh2os)
+- [Simple use of @rive-app/canvas-advanced](https://codesandbox.io/p/sandbox/smoosh-microservice-s6dz3m)
+- [Simple use of @rive-app/webgl-advanced](https://codesandbox.io/p/sandbox/rive-webgl-advanced-57lczl)
+- [Out of band assets (fonts) @rive-app/canvas-advanced](https://codesandbox.io/p/sandbox/rive-canvas-advanced-out-of-band-assets-fonts-3q4zzy)
+- [A volume knob state machine](https://codesandbox.io/p/sandbox/rive-volume-knob-draft-j8qchy)
+- [Centaur apple game](https://codesandbox.io/p/sandbox/rive-canvas-advanced-api-centaur-example-q6snxp)
 
-## API References 
+## API References
 
 See our [types file](https://github.com/rive-app/rive-wasm/blob/master/js/src/rive_advanced.mjs.d.ts) for the advanced API to understand the API signatures and return types.
 
@@ -323,7 +323,7 @@ The high-level JS runtime APIs are built with the low-level APIs specified above
 
 When using Rive’s advanced JS APIs to customize how you use Rive, you will have to set up some of these affordances yourself. Take a look at how the [high-level Rive API is built here](https://github.com/rive-app/rive-wasm/blob/master/js/src/rive.ts) to get a sense of how to replicate some of these high-level affordances should you need these.
 
-## Integrating Rive into Existing rAF Loop 
+## Integrating Rive into Existing rAF Loop
 
 If you're looking to add Rive to your existing render loop (the JS API `requestAniationFrame()`) and do not want to use the Rive-wrapped `requestAnimationFrame()` API, you can do so with an extra API call at the end of your render loop. Call the `rive.resolveAnimationFrame()` API at the end of the render loop before calling `requestAnimationFrame()` again.
 
