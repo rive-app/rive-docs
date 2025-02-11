@@ -35,7 +35,7 @@ Compression involves reducing the file size by employing various algorithms to d
 
 ### Importing Lottie Files
 
-Although Rive does offer a Lottie converter for easy export of `.riv` files, you will discover that re-implementing the graphics and animations directly in Rive can result in much smaller file sizes.
+While Rive provides a Lottie converter for easy .riv file export, recreating graphics and animations directly in Rive often results in significantly smaller file sizes. If you're importing a Lottie file, you can further reduce the .riv file size by converting images from PNG to WebP and choosing to export only the necessary glyphs for font files. Additionally, you can [load assets out of band](out-of-band-assets) to reuse fonts and images across multiple .riv files, optimizing storage.
 
 Working directly in Rive is generally preferable as it allows for file optimization based on your animation requirements. For instance, using bones and constraints to create rigs will result in fewer keys in the animation compared to converting directly from Lottie.
 
