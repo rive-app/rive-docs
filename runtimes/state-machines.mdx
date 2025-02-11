@@ -118,7 +118,7 @@ State machines are instantiated in much the same manner as animations: provide t
 
     Specify a starting state machine by setting the name of the state machine via `stateMachineName` when instantiating the `RiveViewModel`.
 
-    ### SwiftUI 
+    ### SwiftUI
 
     ```swift
     var stateChanger = RiveViewModel(
@@ -133,14 +133,14 @@ State machines are instantiated in much the same manner as animations: provide t
             fileName: "skills",
             stateMachineName: "Designer's Test"
         )
-        
+
         override public func loadView() {
             super.loadView()
-            
+
             guard let stateMachineView = view as? StateMachineView else {
                 fatalError("Could not find StateMachineView")
             }
-            
+
             viewModel.setView(stateMachineView.riveView)
         }
     }
@@ -149,7 +149,7 @@ State machines are instantiated in much the same manner as animations: provide t
     <Tab title="Android">
     #### Android
 
-    ### Via XML 
+    ### Via XML
 
     ```kotlin
     <app.rive.runtime.kotlin.RiveAnimationView
@@ -203,7 +203,7 @@ Once the Rive file is loaded and instantiated, the state machine(s) can be queri
   <Tab title="Web">
     ### Examples
 
-    - [Setting state machine inputs](https://codesandbox.io/p/sandbox/m6tgp9)
+    - [Setting state machine inputs](https://codesandbox.io/p/sandbox/rive-state-machine-inputs-js-forked-s6gfjg)
 
     ### Inputs
 
@@ -279,7 +279,7 @@ const r = new rive.Rive({
   <Tab title="React">
     ### Example
 
-    - [Setting state machine inputs (React)](https://codesandbox.io/p/sandbox/zen-sammet-3qpys5)
+    - [Setting state machine inputs (React)](https://codesandbox.io/p/sandbox/rive-state-machine-inputs-react-forked-k6gglh)
 
     ### Inputs
 
@@ -361,7 +361,7 @@ const r = new rive.Rive({
     <Note>
      See the [React Native API's](./react-native/rive-ref-methods#.setinputstate) to learn more about the parameters for `.setInputState()` and `.fireState()`
     </Note>
-### State change event callback 
+### State change event callback
 
 We can set a callback to determine when the state machine changes.
 
@@ -384,7 +384,7 @@ We can set a callback to determine when the state machine changes.
   </Tab>
 
   <Tab title="Flutter">
-    ### Inputs 
+    ### Inputs
 
     State machine controllers are used to retrieve a state machine's inputs which can then be used to interact with, and drive the state of a state machine.
 
@@ -513,7 +513,7 @@ void _onStateChange(
   </Tab>
 
   <Tab title="iOS/macOS">
-    ### Inputs 
+    ### Inputs
 
     Just like with animation playback controls, setting input values for state machines goes through the `RiveViewModel` instantiated in the View class.
 
@@ -537,7 +537,7 @@ void _onStateChange(
     confettiVM.triggerInput("Celebrate")
     ```
 
-    ### State change event callbacks 
+    ### State change event callbacks
 
     This runtime allows for delegates that can be set on the `RiveViewModel`. If provided, these delegate functions will be fired whenever a matching event is triggered to be able to hook into and listen for certain events in the Rive animation cycle.
 
@@ -559,7 +559,7 @@ void _onStateChange(
             let model = RiveModel(fileName: "truck_v7", stateMachineName: "Drive")
             super.init(model)
         }
-        
+
         override func setView(rview view: RiveView) {
             super.setView(view)
             rview?.playerDelegate = self
@@ -569,15 +569,15 @@ void _onStateChange(
         override func player(playedWithModel riveModel: RiveModel?) {
             if let stateMachineName = riveModel?.stateMachine?.name() {...}
         }
-        
+
         override func player(pausedWithModel riveModel: RiveModel?) {
             if let stateMachineName = riveModel?.stateMachine?.name() {...}
         }
-        
+
         override func player(stoppedWithModel riveModel: RiveModel?) {
             if let stateMachineName = riveModel?.stateMachine?.name() {...}
         }
-        
+
         @objc func stateMachine(_ stateMachine: RiveStateMachineInstance, didChangeState stateName: String) {
             var stateMachineNames: [String] = []
             var stateMachineStates: [String] = []
@@ -611,7 +611,7 @@ void _onStateChange(
     animationView.fireState("Trigger test", "fireInput");
     ```
 
-    ### State change event callback 
+    ### State change event callback
 
     To listen for state changes, when creating a `Listener` to register on your animation view, you can add the following callback, where you'll receive the name of the state machine, and the state it transitions to:
 
@@ -678,7 +678,7 @@ If the nested artboard named **FX Component** was inside the **Menu** artboard, 
 
     ```tsx
     const rive = new Rive({...});
-    
+
     rive?.setNumberStateAtPath("volume", 80.0, "Volume Molecule/Volume Component");
     ```
 
@@ -687,7 +687,7 @@ If the nested artboard named **FX Component** was inside the **Menu** artboard, 
     - `setBooleanStateAtPath(inputName: string, value: boolean, path: string)`
     - `fireStateAtPath(inputName: string, path: string)`
   </Tab>
-  
+
   <Tab title="React Native">
     To set the **Volume** input for the above example:
 
@@ -722,7 +722,7 @@ If the nested artboard named **FX Component** was inside the **Menu** artboard, 
     ```
 
     **All options:**
-    - `getBoolInput(name, path)` 
+    - `getBoolInput(name, path)`
     - `getTriggerInput(name, path)`
     - `getNumberInput(name, path)`
   </Tab>
@@ -761,8 +761,8 @@ If the nested artboard named **FX Component** was inside the **Menu** artboard, 
   </Tab>
 
   <Tab title="Unity">
-    To  
-    ![Image](https://ucarecdn.com/2ef96393-bf13-4445-950b-1626235a25eb/)  
+    To
+    ![Image](https://ucarecdn.com/2ef96393-bf13-4445-950b-1626235a25eb/)
     set the **Volume** input from the above example:
 
     ```csharp

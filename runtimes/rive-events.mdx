@@ -26,18 +26,18 @@ Let's use a 5-star rater Rive example to set any text supplied with events and o
 
 <Tabs>
     <Tab title="Web">
-        ### Examples 
+        ### Examples
 
-        - [Star rating example](https://codesandbox.io/s/rive-events-js-wsgcqd?file=/src/index.mjs)
-        - [Neostream example (Chrome only)](https://codesandbox.io/p/sandbox/neostream-rive-events-js-2f6sny?file=%2Fsrc%2Findex.mjs) (This example does not make use of the new [Audio Events ](../editor/events/audio-events)feature)
+        - [Star rating example](https://codesandbox.io/p/sandbox/rive-events-js-forked-gkwjqr)
+        - [Neostream example (Chrome only)](https://codesandbox.io/p/sandbox/neostream-rive-events-js-forked-g7t3xl) (This example does not make use of the new [Audio Events ](../editor/events/audio-events)feature)
 
-        ### High-level API usage 
+        ### High-level API usage
 
-        #### Adding an Event Listener 
+        #### Adding an Event Listener
 
         Similar to the `addEventListener()` / `removeEventListener()` API for DOM elements, you'll use the Rive instance's `on()` / `off()` API to subscribe to Rive events. Simply supply the RiveEvent enum and a callback for the runtime to call at the appropriate moment any Rive event gets detected.
 
-        #### Example Usage 
+        #### Example Usage
 
         ```javascript
         import { Rive, EventType, RiveEventType } from '@rive-app/canvas'
@@ -73,7 +73,7 @@ Let's use a 5-star rater Rive example to set any text supplied with events and o
         // r.off(EventType.RiveEvent, onRiveEventReceived);
         ```
 
-        ### Low-level API usage 
+        ### Low-level API usage
 
         When using the low-level APIs (i.e. `@rive-app/canvas-advanced`), you'll need to catch Rive events reported during the render loop yourself via your created state machine instance (see docs on [Low-level API Usage](./web/low-level-api-usage)). To achieve this, before advancing the state machine:
 
@@ -111,19 +111,19 @@ Let's use a 5-star rater Rive example to set any text supplied with events and o
     </Tab>
 
     <Tab title="React">
-    
+
         ### Examples
 
-        - [Star rating example](https://codesandbox.io/s/rive-events-react-2pk8qk?file=/src/App.js:399-470)
+        - [Star rating example](https://codesandbox.io/p/sandbox/rive-events-react-forked-ct9k2z)
 
-        ### Adding an Event Listener 
+        ### Adding an Event Listener
 
         Similar to the `addEventListener()` / `removeEventListener()` API for DOM elements, you'll use the Rive instance's `on()` / `off()` API to subscribe to Rive events from the `rive` object returned from the `useRive` hook. Simply supply the RiveEvent enum and a callback for the runtime to call at the appropriate moment any Rive event gets detected.
 
         <Note>
          **Note:** You must use the `useRive()` hook to subscribe to Rive events
         </Note>
-        #### Example Usage 
+        #### Example Usage
 
         ```javascript
         import { useRive, EventType, RiveEventType } from '@rive-app/canvas';
@@ -137,7 +137,7 @@ Let's use a 5-star rater Rive example to set any text supplied with events and o
             // automaticallyHandleEvents: true, // Automatically handle OpenUrl events
             stateMachines: "State Machine 1",
         });
-        
+
         const onRiveEventReceived = (riveEvent) => {
             const eventData = riveEvent.data;
             const eventProperties = eventData.properties;
@@ -152,7 +152,7 @@ Let's use a 5-star rater Rive example to set any text supplied with events and o
             window.location.href = data.url;
             }
         };
-        
+
         // Wait until the rive object is instantiated before adding the Rive
         // event listener
         useEffect(() => {
@@ -160,7 +160,7 @@ Let's use a 5-star rater Rive example to set any text supplied with events and o
             rive.on(EventType.RiveEvent, onRiveEventReceived);
             }
         }, [rive]);
-        
+
         return (
             <RiveComponent />
         );
@@ -170,7 +170,7 @@ Let's use a 5-star rater Rive example to set any text supplied with events and o
 
     <Tab title="React Native">
 
-        ### Adding a Rive Event Listener 
+        ### Adding a Rive Event Listener
 
         Similar to other callback functions you can provide on the `<Rive>` component, such as `onPlay` or `onStateChange`, you can now provide an `onRiveEventReceived` callback which will be invoked any time a Rive Event gets reported during the render loop.
 
@@ -212,7 +212,7 @@ Let's use a 5-star rater Rive example to set any text supplied with events and o
                     if (eventProperties?.message) {
                     setEventMessage(eventProperties.message as string);
                     }
-                    
+
                     // If an event has an accompanying URL, open it
                     if ('url' in event) {
                     Linking.openURL((event as RiveOpenUrlEvent).url || '');
@@ -230,7 +230,7 @@ Let's use a 5-star rater Rive example to set any text supplied with events and o
 
     <Tab title="Flutter">
 
-        ### Adding an Event Listener 
+        ### Adding an Event Listener
 
         After creating a `StateMachineController` instance, you'll use the `addEventListener` / `removeEventListener` API and provide a callback to subscribe to Rive events.
 
@@ -273,7 +273,7 @@ Let's use a 5-star rater Rive example to set any text supplied with events and o
         )
         ```
 
-        #### Example Usage - Star Rating 
+        #### Example Usage - Star Rating
 
         This example demonstrates how to retrieve custom properties set on a Rive event and update a Flutter UI component.
 
@@ -353,7 +353,7 @@ Let's use a 5-star rater Rive example to set any text supplied with events and o
         }
         ```
 
-        #### Example Usage - Open a URL 
+        #### Example Usage - Open a URL
 
         A common action you may want to do is open a URL from a Rive Event. For that Rive provides a custom event type `RiveOpenURLEvent`.
 
@@ -428,7 +428,7 @@ Let's use a 5-star rater Rive example to set any text supplied with events and o
 
     <Tab title="iOS/macOS">
 
-        ### Subscribing to Events via State Machine Delegate 
+        ### Subscribing to Events via State Machine Delegate
 
         To subscribe to Rive events, implement the `onRiveEventReceived` protocol from `StateMachineDelegate`.
 
@@ -513,7 +513,7 @@ Let's use a 5-star rater Rive example to set any text supplied with events and o
 
     <Tab title="Android">
 
-        ### Adding an Event Listener 
+        ### Adding an Event Listener
 
         Use the `addEventListener` and `removeEventListener` on `RiveAnimationView` to subscribe/unsubscribe a`RiveFileController.RiveEventListener`.
 
@@ -561,7 +561,7 @@ Let's use a 5-star rater Rive example to set any text supplied with events and o
         <Note>
          The Rive Android Runtime is executed on a separate thread. Any UI updates that are triggered from a Rive event will need to be manually marked to run on the UI thread using `runOnUiThread`. See examples below.
         </Note>
-        ### Opening a URL 
+        ### Opening a URL
 
         <Note>
          Events of type `OpenUrlRiveEvent` will not automatically open links. The code needs to be added manually in your project.
@@ -592,7 +592,7 @@ Let's use a 5-star rater Rive example to set any text supplied with events and o
 
         You can also access `event.target` to get the target destination of the URL, as set in the editor.
 
-        ### Example 
+        ### Example
 
         The following demonstrates how to update UI in response to some Rive event (named "StarRating") that contains a custom number property (named "Rating"). Note the `runOnUiThread`:
 
