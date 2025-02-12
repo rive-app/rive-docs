@@ -2,194 +2,220 @@ As our Rive editor grows to support more features and toolsets in making Rive as
 
 We may include notes on migrating to newer versions if a new feature warrants recent API changes.
 
-## Feathers
+## Features
 
-| **Runtime** | **Version** |
-| --- | --- |
-| (Web) `@rive-app/canvas` and `@rive-app/webgl` | ✅ `>= 2.26.0` |
-| React | ✅ `>= 4.18.0` |
-| React Native | Not yet supported |
-| Flutter | Not yet supported |
-| iOS/macOS | ✅ `>= 6.6.0` |
-| Android | Coming Soon |
-| C++ | ✅  Supported |
-| Unity | ✅ `>= 0.3.3-canary.72` |
-| Unreal | Coming Soon |
+To add support for nested inputs and nested events, bump the appropriate versions noted below to support this new feature.
+
+<Accordion title="Runtime Support">
+    | **Runtime** | **Version** |
+    | --- | --- |
+    | (Web) `@rive-app/canvas` and `@rive-app/webgl` | ✅ `>= 2.26.0` |
+    | React | ✅ `>= 4.18.0` |
+    | React Native | Not yet supported |
+    | Flutter | Not yet supported |
+    | iOS/macOS | ✅ `>= 6.6.0` |
+    | Android | Coming Soon |
+    | C++ | ✅  Supported |
+    | Unity | ✅ `>= 0.3.3-canary.72` |
+    | Unreal | Coming Soon |
+</Accordion>
 
 ## N-Slicing 
 
 To add support for N-Slicing, bump the appropriate versions noted below to support this new feature. See [N-Slicing](../editor/layouts/n-slicing) for more information.
 
-| **Runtime** | **Version** |
-| --- | --- |
-| (Web) `@rive-app/canvas` and `@rive-app/webgl` | ✅ `>= 2.23.11` |
-| React | ✅ `>= 4.16.7` |
-| React Native | ✅ `>= 8.2.0` |
-| Flutter | Not yet supported |
-| iOS/macOS | ✅ `>= 6.4.0` |
-| Android | ✅ `>= 9.12.0` |
-| C++ | ✅  Supported |
-| Unity | ✅ `>= 0.2.2-canary.22` |
-| Unreal | ✅ `>= 0.2.2` |
+<Accordion title="Runtime Support">
+    | **Runtime** | **Version** |
+    | --- | --- |
+    | (Web) `@rive-app/canvas` and `@rive-app/webgl` | ✅ `>= 2.23.11` |
+    | React | ✅ `>= 4.16.7` |
+    | React Native | ✅ `>= 8.2.0` |
+    | Flutter | Not yet supported |
+    | iOS/macOS | ✅ `>= 6.4.0` |
+    | Android | ✅ `>= 9.12.0` |
+    | C++ | ✅  Supported |
+    | Unity | ✅ `>= 0.2.2-canary.22` |
+    | Unreal | ✅ `>= 0.2.2` |
+</Accordion>
 
 ## Layout
 
 To add support for responsive layouts, bump the appropriate versions noted below to support this new feature. This feature allows Rive to automatically update the artboard size as the underlying view/canvas/widget/texture size changes. See [Layout](../editor/layouts/layouts-overview) for more information.
 
-| **Runtime** | **Version** |  |
-| --- | --- | --- |
-| (Web) `@rive-app/canvas` and `@rive-app/webgl` | ✅ `>= 2.23.3` |  |
-| React | ✅ `>= 4.16.0` |  |
-| React Native | ✅ `>= 8.1.0` |  |
-| Flutter | Not yet supported |  |
-| iOS/macOS | ✅ `>= 6.3.0` |  |
-| Android | ✅ `>= 9.10.0` |  |
-| C++ | ✅  Supported |  |
-| Unity | ✅ `>= 0.2.1` |  |
-| Unreal | ✅ `>= 0.2.3` | ✅ `>= 0.2.1` |
+<Accordion title="Runtime Support">
+    | **Runtime** | **Version** |  |
+    | --- | --- | --- |
+    | (Web) `@rive-app/canvas` and `@rive-app/webgl` | ✅ `>= 2.23.3` |  |
+    | React | ✅ `>= 4.16.0` |  |
+    | React Native | ✅ `>= 8.1.0` |  |
+    | Flutter | Not yet supported |  |
+    | iOS/macOS | ✅ `>= 6.3.0` |  |
+    | Android | ✅ `>= 9.10.0` |  |
+    | C++ | ✅  Supported |  |
+    | Unity | ✅ `>= 0.2.1` |  |
+    | Unreal | ✅ `>= 0.2.3` | ✅ `>= 0.2.1` |
+</Accordion>
 
 ## Fallback Fonts
 
 To add support for fallback fonts, bump the appropriate versions noted below to support this new feature. This feature allows Rive to use a fallback font if a glyph is not available. A default font is automatically chosen, or you can optionally configure the desired fallback font based on various options. See [Fallback Fonts](/runtimes/text#fallback-fonts).
 
-| **Runtime** | **Version** |
-| --- | --- |
-| (Web) `@rive-app/canvas` and `@rive-app/webgl` | Not yet supported |
-| React | Not yet supported |
-| React Native | Coming soon |
-| Flutter | Not yet supported |
-| iOS/macOS | ✅ `>= 6.1.0` |
-| Android | ✅ `>= 9.7.0` |
-| C++ | ✅  Supported |
-| Unity | Not supported |
-| Unreal | Not Supported |
+<Accordion title="Runtime Support">
+    | **Runtime** | **Version** |
+    | --- | --- |
+    | (Web) `@rive-app/canvas` and `@rive-app/webgl` | Not yet supported |
+    | React | Not yet supported |
+    | React Native | Coming soon |
+    | Flutter | Not yet supported |
+    | iOS/macOS | ✅ `>= 6.1.0` |
+    | Android | ✅ `>= 9.7.0` |
+    | C++ | ✅  Supported |
+    | Unity | Not supported |
+    | Unreal | Not Supported |
+</Accordion>
 
 ## Nested Text 
 
 To add support for setting nested text, bump the appropriate versions noted below to support this new feature. This feature enables setting text on nested artboards (components), see [Nested Text](/runtimes/text#read-update-nested-text-runs-at-runtime).
 
-| **Runtime** | **Version** |  |
-| --- | --- | --- |
-| (Web) `@rive-app/canvas` and `@rive-app/webgl` | ✅ `>= 2.21.0` |  |
-| React | ✅ `>= 4.14.0` |  |
-| React Native | ✅ `>= 5.8.2` |  |
-| Flutter | ✅ `>= 0.13.7` |  |
-| iOS/macOS | ✅ `>= 6.1.0` |  |
-| Android | ✅ `>= 9.8.0` |  |
-| C++ | ✅  Supported |  |
-| Unity | ✅  Supported |  |
-| Unreal | ✅ `>= 0.1.14` | ✅  Supported |
+<Accordion title="Runtime Support">
+    | **Runtime** | **Version** |  |
+    | --- | --- | --- |
+    | (Web) `@rive-app/canvas` and `@rive-app/webgl` | ✅ `>= 2.21.0` |  |
+    | React | ✅ `>= 4.14.0` |  |
+    | React Native | ✅ `>= 5.8.2` |  |
+    | Flutter | ✅ `>= 0.13.7` |  |
+    | iOS/macOS | ✅ `>= 6.1.0` |  |
+    | Android | ✅ `>= 9.8.0` |  |
+    | C++ | ✅  Supported |  |
+    | Unity | ✅  Supported |  |
+    | Unreal | ✅ `>= 0.1.14` | ✅  Supported |
+</Accordion>
 
 ## Nested Inputs
 
 To add support for setting nested inputs, bump the appropriate versions noted below to support this new feature. This feature enables setting inputs on nested artboards (components), see [Nested Inputs.](/runtimes/state-machines#nested-inputs)
 
-| **Runtime** | **Version** |
-| --- | --- |
-| (Web) `@rive-app/canvas` and `@rive-app/webgl` | ✅ `>= 2.17.3` |
-| React | ✅ `>= 4.11.3` |
-| React Native | ✅ `>= 7.2.0` |
-| Flutter | ✅ `>= 0.13.7` |
-| iOS/macOS | ✅ `>= 5.13.2` |
-| Android | ✅ `>= 9.4.2` |
-| C++ | ✅  Supported |
-| Unity | ✅ `>= 0.1.174` |
-| Unreal | ✅ Supported |
+<Accordion title="Runtime Support">
+    | **Runtime** | **Version** |
+    | --- | --- |
+    | (Web) `@rive-app/canvas` and `@rive-app/webgl` | ✅ `>= 2.17.3` |
+    | React | ✅ `>= 4.11.3` |
+    | React Native | ✅ `>= 7.2.0` |
+    | Flutter | ✅ `>= 0.13.7` |
+    | iOS/macOS | ✅ `>= 5.13.2` |
+    | Android | ✅ `>= 9.4.2` |
+    | C++ | ✅  Supported |
+    | Unity | ✅ `>= 0.1.174` |
+    | Unreal | ✅ Supported |
+</Accordion>
 
 ## Randomization 
 
 To add support for Randomization, bump the appropriate versions noted below to support this new feature. This feature enables randomizing transitions between animations and customizing the probability.
 
-| **Runtime** | **Version** |
-| --- | --- |
-| (Web) `@rive-app/canvas` and `@rive-app/webgl` | ✅ `>= 2.15.6` |
-| React | ✅ `>= 4.9.5` |
-| React Native | ✅ `>= 7.0.3` |
-| Flutter | ✅ `>= 0.13.4` |
-| iOS/macOS | ✅ `>= 5.11.5` |
-| Android | ✅ `>= 9.3.5` |
-| C++ | ✅  Supported |
-| Unity | ✅  Supported |
-| Unreal | ✅  Supported |
+<Accordion title="Runtime Support">
+    | **Runtime** | **Version** |
+    | --- | --- |
+    | (Web) `@rive-app/canvas` and `@rive-app/webgl` | ✅ `>= 2.15.6` |
+    | React | ✅ `>= 4.9.5` |
+    | React Native | ✅ `>= 7.0.3` |
+    | Flutter | ✅ `>= 0.13.4` |
+    | iOS/macOS | ✅ `>= 5.11.5` |
+    | Android | ✅ `>= 9.3.5` |
+    | C++ | ✅  Supported |
+    | Unity | ✅  Supported |
+    | Unreal | ✅  Supported |
+</Accordion>
 
 ## Rive Audio 
 
 To add support for Rive Audio, bump the appropriate versions noted below to support this new feature. For more information, see [Rive Events](./rive-events) and [Audio Events](../editor/events/audio-events).
 
-| **Runtime** | **Version** |
-| --- | --- |
-| (Web) `@rive-app/canvas` and `@rive-app/webgl` | ✅ `>= 2.15.6` |
-| React | ✅ `>= 4.9.5` |
-| React Native | ✅ `>= 7.0.3` |
-| Flutter | ✅ `>= 0.13.4` |
-| iOS/macOS | ✅ `>= 5.11.5` |
-| Android | ✅ `>= 9.3.5` |
-| C++ | ✅  Supported |
-| Unity | ✅  Supported |
-| Unreal | ✅  Supported |
+<Accordion title="Runtime Support">
+    | **Runtime** | **Version** |
+    | --- | --- |
+    | (Web) `@rive-app/canvas` and `@rive-app/webgl` | ✅ `>= 2.15.6` |
+    | React | ✅ `>= 4.9.5` |
+    | React Native | ✅ `>= 7.0.3` |
+    | Flutter | ✅ `>= 0.13.4` |
+    | iOS/macOS | ✅ `>= 5.11.5` |
+    | Android | ✅ `>= 9.3.5` |
+    | C++ | ✅  Supported |
+    | Unity | ✅  Supported |
+    | Unreal | ✅  Supported |
+</Accordion>
 
 ## Nested Inputs and Nested Events
 
 To add support for nested inputs and nested events, bump the appropriate versions noted below to support this new feature. For more information, see [Nested Artboards](../editor/fundamentals/nested-artboards).
 
-| **Runtime** | **Version** |
-| --- | --- |
-| (Web) `@rive-app/canvas` and `@rive-app/webgl` | ✅ `>= 2.7.0` |
-| React | ✅ `>= 4.5.0` |
-| React Native | ✅ `>= 6.2.0` |
-| Flutter | ✅ `>= 0.12.3` |
-| iOS/macOS | ✅ `>= 5.6.0` |
-| Android | ✅ `>= 8.7.0` |
-| C++ | ✅  Supported |
-| Unity | ✅  Supported |
+<Accordion title="Runtime Support">
+    | **Runtime** | **Version** |
+    | --- | --- |
+    | (Web) `@rive-app/canvas` and `@rive-app/webgl` | ✅ `>= 2.7.0` |
+    | React | ✅ `>= 4.5.0` |
+    | React Native | ✅ `>= 6.2.0` |
+    | Flutter | ✅ `>= 0.12.3` |
+    | iOS/macOS | ✅ `>= 5.6.0` |
+    | Android | ✅ `>= 8.7.0` |
+    | C++ | ✅  Supported |
+    | Unity | ✅  Supported |
+</Accordion>
 
 ## Out-of-band Assets 
 
 To load assets dynamically, instead of embedded in the `riv` file, bump the appropriate versions noted below to support this new feature. For runtime specific information, see [Loading Assets](./loading-assets).
 
-| **Runtime** | **Version** |
-| --- | --- |
-| (Web) `@rive-app/canvas` and `@rive-app/webgl` | ✅ `>= 2.7.0` |
-| React | ✅ `>= 4.5.0` |
-| React Native | `>= 8.4.0` |
-| Flutter | ✅ `>= 0.12.0` |
-| iOS/macOS | ✅ `>= 5.7.0` |
-| Android | ✅ `>= 8.6.1` |
-| C++ | ✅ Supported |
-| Unity | ✅  Supported |
-| Unreal | ✅ `>= 0.1.14` |
+<Accordion title="Runtime Support">
+    | **Runtime** | **Version** |
+    | --- | --- |
+    | (Web) `@rive-app/canvas` and `@rive-app/webgl` | ✅ `>= 2.7.0` |
+    | React | ✅ `>= 4.5.0` |
+    | React Native | `>= 8.4.0` |
+    | Flutter | ✅ `>= 0.12.0` |
+    | iOS/macOS | ✅ `>= 5.7.0` |
+    | Android | ✅ `>= 8.6.1` |
+    | C++ | ✅ Supported |
+    | Unity | ✅  Supported |
+    | Unreal | ✅ `>= 0.1.14` |
+</Accordion>
 
 ## Rive Events Support
 
 To receive reported Rive Events at runtime, bump to the appropriate versions noted below to support this new feature. For runtime specific information, see [Rive Events](./rive-events).
 
-| **Runtime** | **Version** |
-| --- | --- |
-| (Web) `@rive-app/canvas` and `@rive-app/webgl` | ✅ `>= 2.4.3` |
-| React | ✅ `>= 4.3.3` |
-| React Native | ✅ `>= 6.1.0` |
-| Flutter | ✅ `>= 0.11.17` |
-| iOS/macOS | ✅ `>= 5.3.1` |
-| Android | ✅ `>= 8.4.0` |
-| C++ | ✅  Supported |
-| Unity | ✅  Supported |
-| Unreal | ✅  Supported |
+<Accordion title="Runtime Support">
+    | **Runtime** | **Version** |
+    | --- | --- |
+    | (Web) `@rive-app/canvas` and `@rive-app/webgl` | ✅ `>= 2.4.3` |
+    | React | ✅ `>= 4.3.3` |
+    | React Native | ✅ `>= 6.1.0` |
+    | Flutter | ✅ `>= 0.11.17` |
+    | iOS/macOS | ✅ `>= 5.3.1` |
+    | Android | ✅ `>= 8.4.0` |
+    | C++ | ✅  Supported |
+    | Unity | ✅  Supported |
+    | Unreal | ✅  Supported |
+</Accordion>
 
 ## Text Support
 
 To take advantage of basic Text support at runtime, bump to the appropriate versions noted below to support this new feature. For runtime specific information, see [Text](./text).
 
-| **Runtime** | **Version** |
-| --- | --- |
-| (Web) `@rive-app/canvas` and `@rive-app/webgl` | ✅ `>= 2.1.3` |
-| React | ✅ `>= 4.1.3` |
-| React Native | ✅ `>= 6.0.3` |
-| Flutter | ✅ `>= 0.11.14` |
-| iOS/macOS | ✅ `>= 5.1.5` |
-| Android | ✅ `>= 8.1.3` |
-| C++ | ✅ Supported |
-| Unity | ✅  Supported |
-| Unreal | ✅  Supported |
+<Accordion title="Runtime Support">
+    | **Runtime** | **Version** |
+    | --- | --- |
+    | (Web) `@rive-app/canvas` and `@rive-app/webgl` | ✅ `>= 2.1.3` |
+    | React | ✅ `>= 4.1.3` |
+    | React Native | ✅ `>= 6.0.3` |
+    | Flutter | ✅ `>= 0.11.14` |
+    | iOS/macOS | ✅ `>= 5.1.5` |
+    | Android | ✅ `>= 8.1.3` |
+    | C++ | ✅ Supported |
+    | Unity | ✅  Supported |
+    | Unreal | ✅  Supported |
+</Accordion>
 
 Note that we will proactively update the above versions as additional APIs on runtimes expose ways to dynamically set text (high and low-level), among other related features.
 
@@ -197,114 +223,127 @@ Note that we will proactively update the above versions as additional APIs on ru
 
 To take advantage of follow path at runtime, bump to the appropriate versions noted below to support this new feature.
 
-| **Runtime** | **Version** |
-| --- | --- |
-| (Web) `@rive-app/canvas` and `@rive-app/webgl` | ✅ `>= 1.2.4` |
-| React | ✅ `>= 3.0.55` |
-| React Native | ✅ `>= 5.0.0` |
-| Flutter | ✅ `>= 0.11.6` |
-| iOS/macOS | ✅ `>= 4.0.5` |
-| Android | ✅ `>= 6.0.1` |
-| C++ | ✅ Supported |
-| Unity | ✅  Supported |
-| Unreal | ✅  Supported |
+<Accordion title="Runtime Support">
+    | **Runtime** | **Version** |
+    | --- | --- |
+    | (Web) `@rive-app/canvas` and `@rive-app/webgl` | ✅ `>= 1.2.4` |
+    | React | ✅ `>= 3.0.55` |
+    | React Native | ✅ `>= 5.0.0` |
+    | Flutter | ✅ `>= 0.11.6` |
+    | iOS/macOS | ✅ `>= 4.0.5` |
+    | Android | ✅ `>= 6.0.1` |
+    | C++ | ✅ Supported |
+    | Unity | ✅  Supported |
+    | Unreal | ✅  Supported |
+</Accordion>
 
 ## Interpolation on States Support
 
 To take advantage of Interpolation on States at runtime, bump to the appropriate versions noted below to support this new feature.
 
-| **Runtime** | **Version** |
-| --- | --- |
-| (Web) `@rive-app/canvas` and `@rive-app/webgl` | ✅ `>= 1.2.1` |
-| React | ✅ `>= 3.0.54` |
-| React Native | ✅ `>= 4.1.2` |
-| Flutter | ✅ `>= 0.11.4` |
-| iOS/macOS | ✅ `>= 4.0.4` |
-| Android | ✅ `>= 5.1.5` |
-| C++ | ✅ Supported |
-| Unity | ✅  Supported |
-| Unreal | ✅  Supported |
+<Accordion title="Runtime Support">
+    | **Runtime** | **Version** |
+    | --- | --- |
+    | (Web) `@rive-app/canvas` and `@rive-app/webgl` | ✅ `>= 1.2.1` |
+    | React | ✅ `>= 3.0.54` |
+    | React Native | ✅ `>= 4.1.2` |
+    | Flutter | ✅ `>= 0.11.4` |
+    | iOS/macOS | ✅ `>= 4.0.4` |
+    | Android | ✅ `>= 5.1.5` |
+    | C++ | ✅ Supported |
+    | Unity | ✅  Supported |
+    | Unreal | ✅  Supported |
+</Accordion>
 
 ## Joystick Support
 
 To allow any Joystick configuration from the editor to reflect at runtime, bump to the appropriate versions noted below to support this new feature.
 
-| **Runtime** | **Version** |
-| --- | --- |
-| (Web) `@rive-app/canvas` and `@rive-app/webgl` | ✅ `>= 1.1.9` |
-| React | ✅ `>= 3.0.49` |
-| React Native | ✅ `>= 4.1.0` |
-| Flutter | ✅ `>= 0.11.1` |
-| iOS | ✅ `>= 4.0.1` |
-| Android | ✅ `>= 5.0.0` |
-| C++ | ✅ Supported |
-| Unity | ✅  Supported |
-| Unreal | ✅  Supported |
+<Accordion title="Runtime Support">
+    | **Runtime** | **Version** |
+    | --- | --- |
+    | (Web) `@rive-app/canvas` and `@rive-app/webgl` | ✅ `>= 1.1.9` |
+    | React | ✅ `>= 3.0.49` |
+    | React Native | ✅ `>= 4.1.0` |
+    | Flutter | ✅ `>= 0.11.1` |
+    | iOS | ✅ `>= 4.0.1` |
+    | Android | ✅ `>= 5.0.0` |
+    | C++ | ✅ Supported |
+    | Unity | ✅  Supported |
+    | Unreal | ✅  Supported |
+</Accordion>
 
 ## Solo Support 
 
 To take advantage of Solos at runtime, bump to the appropriate versions noted below to support this new feature.
 
-| **Runtime** | **Version** |
-| --- | --- |
-| (Web) `@rive-app/canvas` and `@rive-app/webgl` | ✅ `>= 1.1.2` |
-| React | ✅ `>= 3.0.42` |
-| React Native | ✅ `>= 4.0.4` |
-| Flutter | ✅ `>= 0.10.4` |
-| iOS | ✅ `>= 3.1.9` |
-| Android | ✅ `>= 4.4.0` |
-| C++ | ✅ Supported |
-| Unity | ✅  Supported |
-| Unreal | ✅  Supported |
+<Accordion title="Runtime Support">
+    | **Runtime** | **Version** |
+    | --- | --- |
+    | (Web) `@rive-app/canvas` and `@rive-app/webgl` | ✅ `>= 1.1.2` |
+    | React | ✅ `>= 3.0.42` |
+    | React Native | ✅ `>= 4.0.4` |
+    | Flutter | ✅ `>= 0.10.4` |
+    | iOS | ✅ `>= 3.1.9` |
+    | Android | ✅ `>= 4.4.0` |
+    | C++ | ✅ Supported |
+    | Unity | ✅  Supported |
+    | Unreal | ✅  Supported |
+</Accordion>
 
 ## Speed on States Support
 
 If you set speed values on states in the state machine, bump to the appropriate versions noted below for the runtime being used to support this new feature.
-
-| **Runtime** | **Version** |
-| --- | --- |
-| (Web) `@rive-app/canvas` | ✅ `>= 1.0.102` |
-| (Web) `@rive-app/webgl` | ✅ `>= 1.0.98` |
-| React | ✅ `>= 3.0.38` |
-| React Native | ✅ `>= 4.0.1` |
-| Flutter | ✅ `>= 0.10.3` |
-| iOS | ✅ `>= 3.1.7` |
-| Android | ✅ `>= 4.2.7` |
-| C++ | ✅ Supported |
-| Unity | ✅  Supported |
-| Unreal | ✅  Supported |
+<Accordion title="Runtime Support">
+    | **Runtime** | **Version** |
+    | --- | --- |
+    | (Web) `@rive-app/canvas` | ✅ `>= 1.0.102` |
+    | (Web) `@rive-app/webgl` | ✅ `>= 1.0.98` |
+    | React | ✅ `>= 3.0.38` |
+    | React Native | ✅ `>= 4.0.1` |
+    | Flutter | ✅ `>= 0.10.3` |
+    | iOS | ✅ `>= 3.1.7` |
+    | Android | ✅ `>= 4.2.7` |
+    | C++ | ✅ Supported |
+    | Unity | ✅  Supported |
+    | Unreal | ✅  Supported |
+</Accordion>
 
 ## Graph Editor Support 
 
 If you use the timeline graph editor in the Rive editor and export a `.riv` file for runtime usage, bump to the appropriate versions noted below for the runtime being used to support this new feature.
 
-| **Runtime** | **Version** |
-| --- | --- |
-| (Web) `@rive-app/canvas` | ✅ `>= 1.0.97` |
-| (Web) `@rive-app/webgl` | ✅ `>= 1.0.93` |
-| React | ✅ `>= 3.0.34` |
-| React Native | ✅ `>= 4.0.1` |
-| Flutter | ✅ `>= 0.10.0` |
-| iOS | ✅ `>= 3.1.3` |
-| Android | ✅ `>= 4.2.2` |
-| C++ | ✅ Supported |
-| Unity | ✅  Supported |
-| Unreal | ✅  Supported |
+<Accordion title="Runtime Support">
+    | **Runtime** | **Version** |
+    | --- | --- |
+    | (Web) `@rive-app/canvas` | ✅ `>= 1.0.97` |
+    | (Web) `@rive-app/webgl` | ✅ `>= 1.0.93` |
+    | React | ✅ `>= 3.0.34` |
+    | React Native | ✅ `>= 4.0.1` |
+    | Flutter | ✅ `>= 0.10.0` |
+    | iOS | ✅ `>= 3.1.3` |
+    | Android | ✅ `>= 4.2.2` |
+    | C++ | ✅ Supported |
+    | Unity | ✅  Supported |
+    | Unreal | ✅  Supported |
+</Accordion>
 
 ## Listeners Support 
 
-| **Runtime** | **Version** |
-| --- | --- |
-| (Web) `@rive-app/canvas` | ✅ `>= 1.0.65` |
-| (Web) `@rive-app/webgl` | ✅ `>= 1.0.62` |
-| React | ✅ `>= 3.0.6` |
-| React Native | ✅ `>= 3.0.38` |
-| Flutter | ✅ `>= 0.9.0` |
-| iOS | ✅ `>= 2.0.21` |
-| Android | ✅ `>= 3.0.8` |
-| C++ | ✅ Supported |
-| Unity | ✅  Supported |
-| Unreal | ✅  Supported |
+<Accordion title="Runtime Support">
+    | **Runtime** | **Version** |
+    | --- | --- |
+    | (Web) `@rive-app/canvas` | ✅ `>= 1.0.65` |
+    | (Web) `@rive-app/webgl` | ✅ `>= 1.0.62` |
+    | React | ✅ `>= 3.0.6` |
+    | React Native | ✅ `>= 3.0.38` |
+    | Flutter | ✅ `>= 0.9.0` |
+    | iOS | ✅ `>= 2.0.21` |
+    | Android | ✅ `>= 3.0.8` |
+    | C++ | ✅ Supported |
+    | Unity | ✅  Supported |
+    | Unreal | ✅  Supported |
+</Accordion>
 
 **Notes**
 
@@ -316,18 +355,20 @@ No extra code is needed to support listeners, and you do not need to invoke list
 
 ## Mesh Deformation Support 
 
-| **Runtime** | **Version** |
-| --- | --- |
-| (Web) `@rive-app/canvas` | ✅ `>= 1.0.47` |
-| (Web) `@rive-app/webgl` | ✅ `>= 1.0.44` |
-| React | ✅ `>= 3.0.1` |
-| React Native | ✅ `>= 2.1.37` |
-| Flutter | ✅ `>= 0.8.4` |
-| iOS | ✅ `>= 1.0.18` |
-| Android | ✅ `>= 2.0.24` |
-| C++ | ✅ Supported |
-| Unity | ✅  Supported |
-| Unreal | ✅  Supported |
+<Accordion title="Runtime Support">
+    | **Runtime** | **Version** |
+    | --- | --- |
+    | (Web) `@rive-app/canvas` | ✅ `>= 1.0.47` |
+    | (Web) `@rive-app/webgl` | ✅ `>= 1.0.44` |
+    | React | ✅ `>= 3.0.1` |
+    | React Native | ✅ `>= 2.1.37` |
+    | Flutter | ✅ `>= 0.8.4` |
+    | iOS | ✅ `>= 1.0.18` |
+    | Android | ✅ `>= 2.0.24` |
+    | C++ | ✅ Supported |
+    | Unity | ✅  Supported |
+    | Unreal | ✅  Supported |
+</Accordion>
 
 **Notes**
 
@@ -340,18 +381,20 @@ No extra code is needed to support listeners, and you do not need to invoke list
 
 ## Raster Asset Support
 
-| **Runtime** | **Version** |
-| --- | --- |
-| \*\*(Web) `@rive-app/canvas` | ✅ `>= 1.0.2` |
-| \*\*(Web) `@rive-app/webgl` | ✅ `>= 1.0.2` |
-| \*\*React | ✅ `>= 0.0.28` |
-| React Native | ✅ `>= 2.1.36` |
-| Flutter | ✅ `>= 0.8.1` |
-| iOS | ✅ `>= 1.0.1` |
-| Android | ✅ `>= 2.0.5` |
-| C++ | ✅  Supported |
-| Unity | ✅  Supported |
-| Unreal | ✅  Supported |
+<Accordion title="Runtime Support">
+    | **Runtime** | **Version** |
+    | --- | --- |
+    | \*\*(Web) `@rive-app/canvas` | ✅ `>= 1.0.2` |
+    | \*\*(Web) `@rive-app/webgl` | ✅ `>= 1.0.2` |
+    | \*\*React | ✅ `>= 0.0.28` |
+    | React Native | ✅ `>= 2.1.36` |
+    | Flutter | ✅ `>= 0.8.1` |
+    | iOS | ✅ `>= 1.0.1` |
+    | Android | ✅ `>= 2.0.5` |
+    | C++ | ✅  Supported |
+    | Unity | ✅  Supported |
+    | Unreal | ✅  Supported |
+</Accordion>
 
 **Notes**
 
