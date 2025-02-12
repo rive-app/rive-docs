@@ -289,16 +289,16 @@
                 ]
               },
               {
-                "group": "iOS/macOS",
+                "group": "Apple",
                 "pages": [
-                  "runtimes/ios-macos/ios-macos",
-                  "runtimes/ios-macos/migrating-from-1.x.x-to-2.x.x",
-                  "runtimes/ios-macos/migrating-from-2.x.x-to-3.x.x",
-                  "runtimes/ios-macos/migrating-from-3.x.x-to-4.x.x",
-                  "runtimes/ios-macos/migrating-from-4.x.x-to-5.x.x",
-                  "runtimes/ios-macos/migrating-from-5.x.x-to-6.x.x",
-                  "runtimes/ios-macos/faq",
-                  "runtimes/ios-macos/resource-usage"
+                  "runtimes/apple/apple",
+                  "runtimes/apple/migrating-from-1.x.x-to-2.x.x",
+                  "runtimes/apple/migrating-from-2.x.x-to-3.x.x",
+                  "runtimes/apple/migrating-from-3.x.x-to-4.x.x",
+                  "runtimes/apple/migrating-from-4.x.x-to-5.x.x",
+                  "runtimes/apple/migrating-from-5.x.x-to-6.x.x",
+                  "runtimes/apple/faq",
+                  "runtimes/apple/resource-usage"
                 ]
               },
               {
@@ -460,6 +460,14 @@
     {
       "source": "/game-runtimes/features-support",
       "destination": "/feature-support"
+    },
+    {
+      "source": "/runtimes/ios-macos/ios-macos",
+      "destination": "/runtimes/apple/apple"
+    },
+    {
+      "source": "/runtimes/ios-macos/:slug*",
+      "destination": "/runtimes/apple/:slug*"
     }
   ]
 }
