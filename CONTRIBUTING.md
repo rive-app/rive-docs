@@ -44,7 +44,7 @@ Below are some suggestions for a Conventional Commit message scope to use when w
 
 - `editor`: Changes that apply to the editor as a whole.
 - `runtimes`: Changes that apply to (most) runtimes as a whole.
-- `ios`: Changes that apply to the iOS runtime.
+- `ios`: Changes that apply to the Apple runtimes.
 - `android`: Changes that apply to the Android runtime.
 - `game-runtimes`: Changes that apply to (most) game runtimes as a whole.
 - `unity`: Changes that apply to the Unity runtime.

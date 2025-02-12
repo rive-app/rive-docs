@@ -16,7 +16,7 @@ Embedded assets require no additional work to play audio. However, on some platf
 Referenced assets require a little bit more work to play audio. Audio will still automatically play, but the audio file(s) must be loaded when a Rive runtime attempts to play audio. For more information, see [Loading Assets](./loading-assets).
 
 <Tabs>
-    <Tab title="iOS">
+    <Tab title="Apple">
 
     ```swift IOS
     // Load a referenced audio file, with the same name and extension as added in the editor
@@ -48,7 +48,7 @@ Referenced assets require a little bit more work to play audio. Audio will still
     ## Audio Settings
 
 <Tabs>
-    <Tab title="iOS">
+    <Tab title="Apple">
         On iOS, playing audio will respect your `AVAudioSession` shared instance settings. For more information, see [Apple's documentation](https://developer.apple.com/documentation/avfaudio/avaudiosession) on `AVAudioSession`. Using this, you can choose to mix audio, duck audio, and more. You can update your shared instance early in your app lifecycle if you would like to ensure all Rive audio plays  with the correct settings.
         ```swift IOS
         // Example: Ignore the silent switch, and mix with other audio
