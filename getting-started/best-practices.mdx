@@ -31,11 +31,11 @@ Compression involves reducing the file size by employing various algorithms to d
 
 - If you’re importing assets for reference only, ensure they are deleted before exporting the .riv file to ensure the asset doesn’t get bundled in.
 - Depending on your target device/platform, it may make sense to have multiple different raster assets. For example, use smaller images when targeting mobile vs. desktop.
-- See our docs on [Loading Assets](../runtimes/loading-assets), to dynamically load in assets at runtime, instead of embedding the files in the exported `.riv` binary.
+- See our docs on [Loading Assets](/runtimes/loading-assets), to dynamically load in assets at runtime, instead of embedding the files in the exported `.riv` binary.
 
 ### Importing Lottie Files
 
-While Rive provides a Lottie converter for easy .riv file export, recreating graphics and animations directly in Rive often results in significantly smaller file sizes. If you're importing a Lottie file, you can further reduce the .riv file size by converting images from PNG to WebP and choosing to export only the necessary glyphs for font files. Additionally, you can [load assets out of band](out-of-band-assets) to reuse fonts and images across multiple .riv files, optimizing storage.
+While Rive provides a Lottie converter for easy .riv file export, recreating graphics and animations directly in Rive often results in significantly smaller file sizes. If you're importing a Lottie file, you can further reduce the .riv file size by converting images from PNG to WebP and choosing to export only the necessary glyphs for font files. Additionally, you can [load assets out of band](#out-of-band-assets) to reuse fonts and images across multiple .riv files, optimizing storage.
 
 Working directly in Rive is generally preferable as it allows for file optimization based on your animation requirements. For instance, using bones and constraints to create rigs will result in fewer keys in the animation compared to converting directly from Lottie.
 
@@ -47,7 +47,7 @@ Scenarios: Icons, buttons, graphics that only animate based on user interaction,
 
 ### Using Solos
 
-A [Solo](../editor/manipulating-shapes/solos) is similar to a group but with the added ability to toggle the rendering of nested objects. It functions like a radio button, deactivating other objects on the same level.
+A [Solo](/editor/manipulating-shapes/solos) is similar to a group but with the added ability to toggle the rendering of nested objects. It functions like a radio button, deactivating other objects on the same level.
 
 One common use case for Solos is creating different skins for a character that can be easily toggled on and off. Using Solos is much faster than individually animating the opacity of each object. Additionally, it allows the editor and runtimes to optimize your animation by not computing/rendering the deactivated Solos.
 
@@ -61,7 +61,7 @@ See below for some techniques to employ when using Rive runtimes in application 
 
 ### Out-of-band Assets
 
-See our documentation on [Loading Assets](../runtimes/loading-assets). This feature allows you to dynamically load and replace assets (such as fonts, images, and audio) at runtime through code and provide the resources to your Rive graphic. This has the following benefits:
+See our documentation on [Loading Assets](/runtimes/loading-assets). This feature allows you to dynamically load and replace assets (such as fonts, images, and audio) at runtime through code and provide the resources to your Rive graphic. This has the following benefits:
 
 - Reduces the exported `.riv` binary size.
 - Assets can be reused across multiple Rive files or other areas of your application.
