@@ -11,24 +11,67 @@ Scrolling comes to Rive in the form of two new constraints; one to add touch-bas
 
 ## Content Scrolling
 
-To add scrolling to a Layout Component, select the Layout Component that defines the content region to be scrolled, use the add action within the constraint inspector to add a scroll content constraint.
+To create a content scroll region, set up a hierarchy that includes:
+- Scroll view - the Layout that defines the area that is the scroll region
+- Scroll content - the Layout that contains the items to be scrolled (this is the Layout you will apply the Scroll Constraint to). The scroll amount will be determined by the size of this Layout. Typically you want to set this Layout to hug (or fixed)
+- Scroll items - the Layout items to be scrolled
+
+![Image](/images/editor/scroll-content-hierarchy.png)
+
+Select your Scroll content Layout and use the add action within the constraint inspector to add a Scroll Content constraint.
 
 ![Image](https://ucarecdn.com/1ee7adc4-4698-4f6d-a0e7-8ec73f53c492/)
 
-Once added, use the options fly-out to adjust the scroll direction and physics.
+Once added, use the options fly-out to adjust the Scroll content properties.
 
-![Image](https://ucarecdn.com/7facc36a-7677-41f4-be65-74df00a0cbe9/)
+![Image](/images/editor/scroll-content-properties.png)
 
-Switch to animate mode and start playback of a State Machine to preview the applied scroll constraint.
+#### Direction
+
+**Vertical** - Only scrolls in the vertical direction
+
+**Horizontal** - Only scrolls in the horizontal direction
+
+**All** - Scrolls in both directions
+
+#### Scroll Percent X/Y (Animatable)
+
+This property allows you to set the percentage scroll of the content where 0% is scrolled to the top/left and 100% is scrolled to the bottom/right. This property works when the content is set to scroll in one or all directions and can be keyed on the timeline
+
+#### Scroll Index (Animatable)
+
+This property allows you to set the 0 based index of the Scroll item to scroll to. This only works when scroll is set to either Vertical or Horizontal and can be keyed on the timeline.
+
+<Tip>Scroll Percent and Scroll Index both control the offset within the Scroll content area. As such, you should only set one or the other because there will be contention when both are set at the same time. For example, you should only key one of these values on a given frame in your timeline.</Tip>
+
+<Tip>In order to use Scroll Percent and Scroll Index together with physical scroll dragging, you should create an empty "reset" timeline/state which you should transition to as soon as the scroll area is interacted with. One way to do this is to add a Mouse down listener to the Scroll View.</Tip>
+
+#### Physics
+
+**Elastic** - An iOS style scroll with deceleration and rubber banding at the edges
+
+**Clamped** - A basic drag and drop with no physics
+
+#### Snap
+
+When enabled, the scroll content will always settle with a whole item at the top/left of the scroll area.
+
+Once you have applied your desired properties, switch to animate mode and start playback of a State Machine to preview the applied scroll constraint. You should be able to click/drag/release within the Scroll view area to manually control the scroll.
 
 ---
 
 ## Creating a Scroll Bar
 
+To create a content bar, set up a hierarchy that includes:
+- Scroll Bar - the Layout that defines the area that is the scroll bar and track
+- Scroll Thumb - the Layout that defines the draggable scroll thumb
+
+![Image](/images/editor/scroll-bar-hierarchy.png)
+
 To create a scroll bar, select a Layout Component acting as the scroll bar thumb. From the constraints inspector, add a Scroll Bar Thumb constraint.
 
 ![Image](https://ucarecdn.com/0c295a18-6d04-471d-ba86-c74e4988c4a9/)
 
-Use the target button within the options panel to connect a scrolling Layout Component.
+Use the target button within the options panel to connect a scrolling Layout. As described in the Scrolling Content section above, this should be the Layout that your Scroll Constraint was applied to.
 
 ![Image](https://ucarecdn.com/2f05011a-cf88-41b5-9a96-ae4712d500d9/)
