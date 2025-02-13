@@ -1,15 +1,23 @@
-As our Rive editor grows to support more features and toolsets in making Rive assets, sometimes our runtimes need to be updated to support these updates. These editor additions may or may not introduce an API change or feature. You may need to update the runtime version to support these features. Check below to see if a feature your Rive asset takes advantage of is supported at runtime yet or not. We generally recommend you are on the latest version of the runtimes to take advantage of follow-on bug fixes and new features. 
+As our Rive editor grows to support more features and toolsets in making Rive assets, sometimes our runtimes need to be updated to support these updates. These editor additions may or may not introduce an API change or feature.
+
+Check below to see if a feature your Rive asset takes advantage of is supported at runtime yet or not. We generally recommend you are on the latest version of the runtimes to take advantage of follow-on bug fixes and new features. 
 
 We may include notes on migrating to newer versions if a new feature warrants recent API changes.
 
 <AccordionGroup>
     <Accordion title="Feathers">
+        <Warning>
+        This feature is only supported with the Rive Renderer. See our documentation on [choosing a renderer](/runtimes/choose-a-renderer/).
+        </Warning>
+
         To add support for feathers, bump the appropriate versions noted below to support this new feature.
 
         | **Runtime** | **Version** |
         | --- | --- |
-        | (Web) `@rive-app/canvas` and `@rive-app/webgl` | ✅ `>= 2.26.0` |
-        | React | ✅ `>= 4.18.0` |
+        | Web (`@rive-app/webgl2` | ✅ `>= 2.26.0`) |
+        | Web (`@rive-app/canvas` and `@rive-app/webgl`) | Not supported |
+        | React (`@rive-app/react-webgl2`)| ✅ `>= 4.18.0` |
+        | React (`@rive-app/react-canvas` and `@rive-app/react-webgl`)| Not supported |
         | React Native | Not yet supported |
         | Flutter | Not yet supported |
         | iOS/macOS | ✅ `>= 6.6.0` |
