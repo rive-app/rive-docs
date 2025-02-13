@@ -59,6 +59,56 @@ By default, any animation added to a nested artboard starts with a mix value of 
 
 To ensure the correct animation is playing, ensure that you key the mix value for the desired animation to 100%, and all other animations have a mix of 0%.
 
+## Nested Artboard Modes
+
+Nested Artboards can be set to use one of 3 modes which will behave differently based on their contents and the context in which they are used. The Leaf and Layout modes are typically used when the parent artboard needs to layout its contents responsively.
+
+### Node
+
+This is the default mode and is used in non-responsive scenarios. Its contents will always appear scaled (via the Scale property).
+
+### Leaf
+
+![Image](/images/editor/nested-artboard-leaf-properties.png)
+
+Leaf mode will result in the Nested Artboard always being positioned and resized relative to its containing Layout or Artboard. This can be useful if the Nested Artboard contains elements that need to resize to its container, but don't contain Layouts themselves.
+
+#### Leaf Fit
+
+The Fit type determines how the Nested Artboard Leaf will scale within it's allotted area.
+
+- **Fill (Default)**: Content will fill the available view. If the aspect ratios differ, then the Rive content will be stretched.
+- **Contain**: Content will be contained within the view, preserving the aspect ratio. If the ratios differ, then a portion of the view will be unused.
+- **Cover**: Rive will cover the view, preserving the aspect ratio. If the content has a different ratio to the view, then the content will be clipped.
+- **Fit Width**: Content will fill to the width of the view. This may result in clipping or unfilled view space.
+- **Fit Height**: Content will fill to the height of the view. This may result in clipping or unfilled view space.
+- **None**: Content will render to the original size of its artboard, which may result in clipping or unfilled view space.
+- **Scale Down**: Content is scaled down to the size of the view, preserving the aspect ratio. This is equivalent to **Contain** when the content is larger than the canvas. If the canvas is larger, then **ScaleDown** will not scale up.
+
+#### Leaf Alignment
+
+The Alignment type determines how the contents are aligned within the allotted area. Alignment is set in a 3x3 grid fashion: **Center (Default)**, **Bottom Left**, **Bottom Center**, **Bottom Right**, **Left Center**, **Right Center**, **Top Left**, **Top Center**, **Top Right**.
+
+#### Leaf Alignment Position X/Y
+
+Leaf Alignment Position is a numerical representation of Alignment and can be used in cases where the 9 Alignment options are not desirable. Values can be represented in the following ways: X = -1 (Left), 0 (Center), 1 (Right) and Y = -1 (Top), 0 (Center), 1 (Bottom). Non-integer values can also be used in order to align in various ways, for example, X = 0.5 will position the content half way between Center and Right.
+
+### Layout
+
+![Image](/images/editor/nested-artboard-layout-properties.png)
+
+Layout mode is used when your Nested Artboard contains Layouts that need to remain responsive as the size of its parent changes. This is the only mode where Nested Artboard contents are not scaled, rather the artboard size changes in order to reflow the Nested Artboard's contents.
+
+#### Layout Scale Type
+
+- **Fixed** - A fixed width or height for the layout. The defined value can be either a point or percentage value. Use the unit toggle within the fields to toggle between value types.
+- **Hug** - The width and/or height of the layout shrinks to fit its children. This is useful if your Nested Artboard contains Text or other objects that need to determine the Nested Artboard's size.
+- **Fill** - The width and/or height of the layout expands to fill the available space within the parent layout or artboard.
+
+#### Layout Size
+
+When set to Fixed, the width and height of the Nested Artboard can be set to either Pixel or Percent values. This is different than the Scale property which changes the Nested Artboard's scale. Typically Scale should not be used when Layout mode is selected.
+
 ## Exposing Inputs and Events 
 
 If you intend to use a Nested Artboard as a component, you should expose inputs that the main artboard can see. This allows you to control Nested Artboards with Other Nested Artboards using a main State Machine.
