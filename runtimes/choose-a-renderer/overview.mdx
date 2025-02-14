@@ -18,8 +18,8 @@ The table below outlines the available, and default, renderers for Rive's runtim
 | Runtime | Default Renderer | Options |
 | --- | --- | --- |
 | Android | Skia | Rive / Skia / Canvas |
-| iOS | Rive | Rive / Core Graphics / Skia (deprecated in v6.0.0) |
-| React Native | Skia | See iOS and Android |
+| Apple | Rive | Rive / Core Graphics / Skia (deprecated in v6.0.0) |
+| React Native | Skia | See Apple and Android |
 | Web (Canvas) | Canvas2D | Canvas2D |
 | Web (WebGL) | Skia | Skia |
 | Web (WebGL2) | Rive | Rive |
@@ -27,7 +27,7 @@ The table below outlines the available, and default, renderers for Rive's runtim
 
 ### Note on Rendering in Flutter 
 
-Starting in Flutter `v3.10`, [Impeller](https://docs.flutter.dev/perf/impeller) has replaced [Skia](https://skia.org/) to become the default renderer for apps on the iOS platform and may continue to be the default on future platforms over time. As such, there is a possibility of rendering and [performance](https://github.com/flutter/flutter/issues/134432) discrepancies when using the Rive Flutter runtime with platforms that use the Impeller renderer that may not have surfaced before. If you encounter any visual or performance errors at runtime compared to expected behavior in the Rive editor, we recommend trying the following steps to triage:
+Starting in Flutter `v3.10`, [Impeller](https://docs.flutter.dev/perf/impeller) has replaced [Skia](https://skia.org/) to become the default renderer for apps on iOS platforms and may continue to be the default on future platforms over time. As such, there is a possibility of rendering and [performance](https://github.com/flutter/flutter/issues/134432) discrepancies when using the Rive Flutter runtime with platforms that use the Impeller renderer that may not have surfaced before. If you encounter any visual or performance errors at runtime compared to expected behavior in the Rive editor, we recommend trying the following steps to triage:
 
 1. Try running the Flutter app with the `--no-enable-impeller` flag to use the Skia renderer. If the visual discrepancy does not show when using Skia, it may be a rendering bug on Impeller. However, before raising a bug with the Flutter team, try the second point below👇
 
@@ -40,29 +40,27 @@ flutter run --no-enable-impeller
 
 ## Rive Renderer
 
-The [Rive Renderer](https://rive.app/renderer) is now available on Android and iOS. See [Specifying a Renderer](#specifying-a-renderer) to set it as your preferred renderer.
+The [Rive Renderer](https://rive.app/renderer) is now available on Android and Apple runtimes. See [Specifying a Renderer](#specifying-a-renderer) to set it as your preferred renderer.
 
 While it's ready for testing and your feedback is highly valued during this phase, we advise exercising caution before considering it for production builds. You may encounter compatibility issues with certain devices. Please reach out to us on Discord or through our Support Channel.
 
 Your collaboration helps us refine and enhance the Rive Renderer to make it more robust and reliable for broader applications. Thank you for being a part of this exciting journey!
 
 <Note>
- By default, Android will use the current Skia renderer, and iOS will use the Rive Renderer (as of v6.0.0).
+ By default, Android will use the current Skia renderer, and Apple runtimes will use the Rive Renderer (as of v6.0.0).
 </Note>
 
 <Tabs>
 
-    <Tab title="iOS/macOS">
+    <Tab title="Apple">
         
         ## Starting Version 
 
-        The Rive Renderer was introduced in the iOS runtime starting at **v5.3.2**, however, we recommend installing the latest version of the dependency to get the latest updates. See the [CHANGELOG](https://github.com/rive-app/rive-ios/blob/main/CHANGELOG.md) for details on the latest versions. Starting in v6.0.0, Rive Renderer is used as the default on iOS / macOS.
-
-        Also note that at this time, only Apple Silicon-based Mac machines will support the Rive Renderer in macOS applications.
+        The Rive Renderer was made the default renderer in Apple runtimes as the starting at **v6.0.0**, however, we recommend installing the latest version of the dependency to get the latest updates. See the [CHANGELOG](https://github.com/rive-app/rive-ios/blob/main/CHANGELOG.md) for details on the latest versions.
 
         ### Performance 
 
-        The Rive Renderer will shine best on iOS in memory usage as an animation plays out, in comparison to previous default renderers.
+        The Rive Renderer will shine best on Apple runtimes in memory usage as an animation plays out, in comparison to previous default renderers.
 
         With UIKit, you'll be able to see the best performance differences by drawing multiple times on a single `RiveView`, rather than creating multiple instances of `RiveView`s, or multiple `RiveViewModel`s.
 
@@ -107,10 +105,10 @@ Your collaboration helps us refine and enhance the Rive Renderer to make it more
 
         Options:
 
-        - **iOS**: `Skia` (default), `Rive`, and `CoreGraphics`
+        - **Apple**: `Rive` (default), and `CoreGraphics`
         - **Android**: `Skia` (default), `Rive`, and `Canvas`
 
-        In the future, `Rive` will be the default for both iOS and Android.
+        In the future, `Rive` will be the default for both Apple runtimes and Android.
 
         See the **iOS / mac OS** and **Android** sections for additional information on renderers and fallbacks.
     </Tab>
@@ -124,7 +122,7 @@ See below for runtime instructions to enable a specific renderer.
 
 <Tabs>
 
-    <Tab title="iOS / macOS">
+    <Tab title="Apple">
 
         ## Getting Started 
 
