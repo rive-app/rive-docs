@@ -18,7 +18,7 @@ When embedding images, make sure to add descriptive [alt-text](https://docs.gith
 
 - All runtimes: `images/runtimes/my-image.jpg`
 - All game runtimes: `images/game-runtimes/my-image.jpg`
-- iOS: `images/runtimes/ios/my-image.jpg`
+- iOS: `images/runtimes/apple/my-image.jpg`
 - Android: `images/runtimes/android/my-image.jpg`
 - Web: `images/runtimes/web/my-image.jpg`
 - Unity: `images/game-runtimes/unity/my-image.jpg`
