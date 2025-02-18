@@ -677,9 +677,13 @@ If the nested artboard named **FX Component** was inside the **Menu** artboard, 
     To set the **Volume** input for the above example:
 
     ```tsx
-    const rive = new Rive({...});
+    const {rive, RiveComponent} = useRive({...});
 
-    rive?.setNumberStateAtPath("volume", 80.0, "Volume Molecule/Volume Component");
+    useEffect(() => {
+      if (rive) {
+        rive?.setNumberStateAtPath("volume", 80.0, "Volume Molecule/Volume Component");
+      }
+    }, [rive]);
     ```
 
     **All options:**
