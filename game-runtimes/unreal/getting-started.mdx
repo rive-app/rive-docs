@@ -33,9 +33,13 @@ Specific platform dependencies and build tools are needed to compile the Rive pl
 
 * Install *UE 5.3.2 or above* - [Epic Games Launcher.](https://store.epicgames.com/en-US/download)
 
-* Ensure that *5.3.2 or above* is set as the current version:![Image](https://ucarecdn.com/c75a2b18-7208-4b28-bfef-a998a9a0bf08/)
+* Ensure that *5.3.2 or above* is set as the current version:
 
-* Ensure **Engine Source** is checked from the **Options** launcher shown above:![Image](https://ucarecdn.com/50bf5981-f34a-43cd-b149-09a84bb8b49b/)
+  ![Image](https://ucarecdn.com/c75a2b18-7208-4b28-bfef-a998a9a0bf08/)
+
+* Ensure **Engine Source** is checked from the **Options** launcher shown above:
+
+  ![Image](https://ucarecdn.com/50bf5981-f34a-43cd-b149-09a84bb8b49b/)
 
 <Note>
   Work is underway to support newer (and older) versions of Unreal. If you require a specific version of Unreal to be supported, please reach out to us on our [support channel](https://rive.atlassian.net/servicedesk/customer/portals).
@@ -61,7 +65,16 @@ The plugin should work on M-Series chips and Intel. *Please* [file an issue on G
 
 2. Follow [these instructions](https://dev.epicgames.com/documentation/en-us/unreal-engine/setting-up-visual-studio-development-environment-for-cplusplus-projects-in-unreal-engine?application_version=5.3) for setting up Visual Studio for Unreal development.
 
-3. Ensure your project [RHI is set to DirectX 11:](https://dev.epicgames.com/community/learning/tutorials/aqV9/render-hardware-interface-rhi)![Image](https://ucarecdn.com/67796611-16cd-43f6-ae84-1990a793dcb0/)
+3. Set your project [RHI](https://dev.epicgames.com/community/learning/tutorials/aqV9/render-hardware-interface-rhi):
+
+   ![Image](https://ucarecdn.com/67796611-16cd-43f6-ae84-1990a793dcb0/)
+
+   In order to set DirectX 12, enable RHI in Rive settings:
+
+
+
+
+   ![](/images/rhi_settings.png)
 
 **Debug steps**:
 
@@ -95,7 +108,9 @@ To quickly experiment with rive-unreal, take a look at our [demos project](https
 
 3. Extract the project and run **ShowDemo.uproject.**
 
-4. Wait a bit until a popup appears, asking to build missing modules. Select **yes.** Note that the names of the modules may differ from the image below. ![Image](https://ucarecdn.com/4cf3df6f-9ce6-47d5-8368-8c51f3c7d995/)
+4. Wait a bit until a popup appears, asking to build missing modules. Select **yes.** Note that the names of the modules may differ from the image below.&#x20;
+
+   ![Image](https://ucarecdn.com/4cf3df6f-9ce6-47d5-8368-8c51f3c7d995/)
 
 5. It may take a while to open the project the first time and appear as if nothing is happening. It shouldn't take longer than a few minutes.
 
@@ -127,7 +142,9 @@ To quickly experiment with rive-unreal, take a look at our [demos project](https
 
 6. It may take a while to open the project the first time and appear as if nothing is happening. It shouldn't take longer than a few minutes.
 
-7. Once the project is open, ensure that the Rive plugin is enabled: **Settings->Plugins** and search for **Rive.**![Image](https://ucarecdn.com/1e6d9667-d43b-4948-abd1-7735c25cbecb/)
+7. Once the project is open, ensure that the Rive plugin is enabled: **Settings->Plugins** and search for **Rive.**
+
+   ![Image](https://ucarecdn.com/1e6d9667-d43b-4948-abd1-7735c25cbecb/)
 
 Now you can add Rive content!
 
