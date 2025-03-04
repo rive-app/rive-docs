@@ -97,6 +97,8 @@ Additionally, a binding may be marked as "Bind Once". This means that the initia
 
 An enum represents a fixed set of options, similar to a drop-down. Use this property type to constrain the available values to a known, unchanging set.
 
+Enum properties can be either a "system" enum, in which case they represent a fixed set of options in the editor, such as the "Horizontal Align" options, or a "user defined" enum, in which case they can represent any fixed set of options applicable to your use case.
+
 ### Converter
 
 A converter is a general purpose way of transforming a binding's value when it is applied. These transformations might involve changing its type. For instance, the "Convert to String" converter can be used to convert a numerical binding to text, so that an object's X position could be applied to a text run.
