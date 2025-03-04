@@ -43,6 +43,8 @@ Inputs must be used as-is where data-bound properties can be converted, either b
 
 View model properties also support both polling and listening APIs for developers, whereas inputs only support polling. This means that engineers can more naturally react to changes in data.
 
+View model properties can also be used in two features currently used by inputs, that being blended states (both Blend 1D and Blend Additive) as the mix parameter and as the receiver for listeners, e.g. setting a value on a mouse click or tap.
+
 ### Events
 
 The counterpart to inputs, events were the primary way for engineers to receive "outputs" from designs. Data binding is a much richer channel for engineers to observe values from the Rive design.
