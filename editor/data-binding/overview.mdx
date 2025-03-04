@@ -12,50 +12,35 @@ Data binding is a powerful way to create reactive connections between editor ele
 - Bind the X-position of an animated object so that it can be followed with an offset by another object
 - Listen for a click event on two buttons to increment and decrement a counter
 
+# Intro Videos
+
+The following series of videos introduce data binding as a guided walk through the editor, which will help solidify the below concepts.
+
+### Introduction
+<YouTube id="eqaxhkroDXk" />
+
+### View Models
+<YouTube id="WSkg8kgTR20" />
+
+### Number Properties
+<YouTube id="Czw9oNtSX6Q" />
+
+### String Properties
+<YouTube id="qJRrSmz-W48" />
+
+### Color Properties
+<YouTube id="TSEiU1zpSL0" />
+
+### Binding State Machine Conditions
+<YouTube id="VJ9jk0RLc-s" />
+
 # Why Use Data Binding?
 
-Data binding allows more reactivity in your Rive designs, while also shifting more logic into the Rive file and out of code. You will need to decide whether a piece of logic lives in code or data binding for your given use case, but one consideration is that any data binding logic will be universal across runtimes, rather than needing separate re-implementations.
+Data binding decouples design and code by introducing intermediate data that both sides can bind to. This forms the "contract" between designers and developers. Once this contract is in place, both sides can iterate independently, speeding your ability to deliver new features and experiment with what's possible.
 
-## Comparing to Existing Features
+Within the editor, data binding allows for more reactivity in your designs. You can establish relationships between objects and ensure that certain invariants hold true, no matter the state of the artboard. The data binding system will ensure that these relationships are always up to date as animations and calls from code change the values.
 
-Data binding fills some of the same roles as existing features in Rive. In general, it is considered a more powerful alternative to both inputs and events, and we recommend you adopt it for most use cases going forward. However, that does not mean that you need to retrofit existing files - these features will be supported for quite some time yet. Additionally, there is some overlap with constraints.
-
-### Type Support
-View model properties can represent more types of data compared to inputs and events. See below for a comparison.
-
-|                        | Inputs | Events | View Model Properties |
-|------------------------|--------|--------|-----------------------|
-| Floating point numbers | ✅     | ✅     | ✅                     |
-| Booleans               | ✅     | ✅     | ✅                     |
-| Triggers               | ✅     | ❌     | ✅                     |
-| Strings                | ❌     | ✅     | ✅                     |
-| Enumerations           | ❌     | ❌     | ✅                     |
-| Colors                 | ❌     | ❌     | ✅                     |
-| Nesting                | ❌     | ❌     | ✅                     |
-
-### State Machine Inputs
-
-Before data binding, state machine inputs were the primary way for engineers to affect designs. They formed the "input" side of the contract with design. View model properties are a more flexible system. 
-
-Inputs can only be used to drive state machine transitions, where data binding can be used to drive most editor elements in Rive.
-
-Inputs must be used as-is where data-bound properties can be converted, either before being used by developers or before being applied to editor elements.
-
-View model properties also support both polling and listening APIs for developers, whereas inputs only support polling. This means that engineers can more naturally react to changes in data.
-
-View model properties can also be used in two features currently used by inputs, that being blended states (both Blend 1D and Blend Additive) as the mix parameter and as the receiver for listeners, e.g. setting a value on a mouse click or tap.
-
-### Events
-
-The counterpart to inputs, events were the primary way for engineers to receive "outputs" from designs. Data binding is a much richer channel for engineers to observe values from the Rive design.
-
-Events can only be triggered by timelines, state machine transitions, or listeners. By comparison, data bound properties can be changed from any number of sources.
-
-Events can have fixed properties that fire the same value every time they are triggered. By comparison, view model inputs can carry new data each time they change, triggering a developer's listener with the new value.
-
-### Constraints
-
-Constraints allow for a specific kind of binding between two objects, such as Translation for position. This constraint is optimized for that use case, with built in options for local/world space conversion, a strength parameter, minimum and maximum values, etc. For use cases where this is all you need, this is likely to be the more concise option. By comparison, for example, data binding the X and Y positions can be used for a broader range of output behavior, though it may require some setup with converters to achieve.
+It also offers the opportunity to shift more logic into the Rive file and out of code. You will need to decide whether a piece of logic lives in code or data binding for your given use case, but one consideration is that any data binding logic will be universal across runtimes, rather than needing separate re-implementations.
 
 # Glossary
 
@@ -109,24 +94,43 @@ Enum properties can be either a "system" enum, in which case they represent a fi
 
 A converter is a general purpose way of transforming a binding's value when it is applied. These transformations might involve changing its type. For instance, the "Convert to String" converter can be used to convert a numerical binding to text, so that an object's X position could be applied to a text run.
 
-# Intro Videos
+# Comparing to Existing Features
 
-The following series of videos introduce data binding as a guided walk through the editor, which will help solidify the above concepts.
+Data binding fills some of the same roles as existing features in Rive. In general, it is considered a more powerful alternative to both inputs and events, and we recommend you adopt it for most use cases going forward. However, that does not mean that you need to retrofit existing files - these features will be supported for quite some time yet. Additionally, there is some overlap with constraints.
 
-### Introduction
-<YouTube id="eqaxhkroDXk" />
+### Type Support
+View model properties can represent more types of data compared to inputs and events. See below for a comparison.
 
-### View Models
-<YouTube id="WSkg8kgTR20" />
+|                        | Inputs | Events | View Model Properties |
+|------------------------|--------|--------|-----------------------|
+| Floating point numbers | ✅     | ✅     | ✅                     |
+| Booleans               | ✅     | ✅     | ✅                     |
+| Triggers               | ✅     | ❌     | ✅                     |
+| Strings                | ❌     | ✅     | ✅                     |
+| Enumerations           | ❌     | ❌     | ✅                     |
+| Colors                 | ❌     | ❌     | ✅                     |
+| Nesting                | ❌     | ❌     | ✅                     |
 
-### Number Properties
-<YouTube id="Czw9oNtSX6Q" />
+### State Machine Inputs
 
-### String Properties
-<YouTube id="qJRrSmz-W48" />
+Before data binding, state machine inputs were the primary way for engineers to affect designs. They formed the "input" side of the contract with design. View model properties are a more flexible system. 
 
-### Color Properties
-<YouTube id="TSEiU1zpSL0" />
+Inputs can only be used to drive state machine transitions, where data binding can be used to drive most editor elements in Rive.
 
-### Binding State Machine Conditions
-<YouTube id="VJ9jk0RLc-s" />
+Inputs must be used as-is where data-bound properties can be converted, either before being used by developers or before being applied to editor elements.
+
+View model properties also support both polling and listening APIs for developers, whereas inputs only support polling. This means that engineers can more naturally react to changes in data.
+
+View model properties can also be used in two features currently used by inputs, that being blended states (both Blend 1D and Blend Additive) as the mix parameter and as the receiver for listeners, e.g. setting a value on a mouse click or tap.
+
+### Events
+
+The counterpart to inputs, events were the primary way for engineers to receive "outputs" from designs. Data binding is a much richer channel for engineers to observe values from the Rive design.
+
+Events can only be triggered by timelines, state machine transitions, or listeners. By comparison, data bound properties can be changed from any number of sources.
+
+Events can have fixed properties that fire the same value every time they are triggered. By comparison, view model inputs can carry new data each time they change, triggering a developer's listener with the new value.
+
+### Constraints
+
+Constraints allow for a specific kind of binding between two objects, such as Translation for position. This constraint is optimized for that use case, with built in options for local/world space conversion, a strength parameter, minimum and maximum values, etc. For use cases where this is all you need, this is likely to be the more concise option. By comparison, for example, data binding the X and Y positions can be used for a broader range of output behavior, though it may require some setup with converters to achieve.
