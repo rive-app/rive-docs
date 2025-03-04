@@ -51,8 +51,6 @@ private void OnDestroy()
 }
 ```
 
-
-
 #### Overload With Fallback
 
 An overload of `Rive.File.Load()` includes a `fallbackToAssignedAssets` parameter.&#x20;
@@ -116,3 +114,16 @@ When working with runtime asset swapping, we recommend following these best prac
    * Call `Unload()` on your assets when they're no longer needed
 
    * Call `Dispose()` on the Rive file when you're done with it
+
+
+
+## Creating Out-of-Band Assets Dynamically
+
+If you have an asset—such as an image, font, or audio file—that isn't in your Unity project at build time (for example, if you're loading bytes from a CDN), you can create an out-of-band asset at runtime using the `OutOfBandAsset.Create<T>()` method.  Here, the `bytes` parameter should be the raw file data for the asset.
+
+This works for fonts, images, and audio, as long as you use the appropriate type (`FontOutOfBandAsset`, `ImageOutOfBandAsset`, or `AudioOutOfBandAsset`).
+
+```
+byte[] imageBytes = /* fetched from a CDN or elsewhere */;
+var myImageAsset = OutOfBandAsset.Create<ImageOutOfBandAsset>(imageBytes);
+```
