@@ -41,14 +41,14 @@ If you’ve decided that the low-level JS APIs are what you need for your app, r
 
 ### Loading in WASM
 
-The first step to setting up the low-level Rive APIs is to load in the Rive WASM file from either the `@rive-app/canvas-advanced` or `@rive-app/webgl-advanced` libraries (by default, we recommend `@rive-app/canvas-advanced` for a smaller dependency, unless you need to use WebGL). When the WASM file is loaded into your app, you'll gain access to necessary APIs such as the renderer for canvas/WebGL, along with relevant JS classes generated from underlying CPP bindings via [rive-cpp](https://github.com/rive-app/rive-cpp), the core c++ runtime used as the base for several other Rive runtimes. You'll use these classes to construct your rendering scene in the canvas below.
+The first step to setting up the low-level Rive APIs is to load in the Rive WASM file from either the `@rive-app/canvas-advanced` or `@rive-app/webgl2-advanced` libraries (by default, we recommend `@rive-app/canvas-advanced` for a smaller dependency, unless you need to use WebGL2). When the WASM file is loaded into your app, you'll gain access to necessary APIs such as the renderer for canvas/WebGL, along with relevant JS classes generated from underlying CPP bindings via [rive-cpp](https://github.com/rive-app/rive-cpp), the core c++ runtime used as the base for several other Rive runtimes. You'll use these classes to construct your rendering scene in the canvas below.
 
 You can load the Rive WASM file via [unpkg](https://unpkg.com/) (hosts our NPM modules for the JS runtimes), which will make a network call to the CDN, or you can choose to host the WASM file on your own servers. With `unpkg`, the URL will look something like this:
 
-https://unpkg.com/@rive-app/canvas-advanced@2.17.3/rive.wasm
+https://unpkg.com/@rive-app/canvas-advanced@2.26.1/rive.wasm
 
 <Note>
- You'll want to ensure that the version at the end of @rive-app/canvas-advanced@ or @rive-app/webgl-advanced@ matches the version of the dependency you installed in your app. For example, if you installed @rive-app/canvas-advanced@2.17.3 in package.json, the Rive WASM file you request from unpkg would be https://unpkg.com/@rive-app/canvas-advanced@2.17.3/rive.wasm.
+ You'll want to ensure that the version at the end of @rive-app/canvas-advanced@ or @rive-app/webgl2-advanced@ matches the version of the dependency you installed in your app. For example, if you installed @rive-app/canvas-advanced@2.26.1 in package.json, the Rive WASM file you request from unpkg would be https://unpkg.com/@rive-app/canvas-advanced@2.26.1/rive.wasm.
 <br/>
  See [Preloading WASM](./preloading-wasm) to preload WASM.
 </Note>
@@ -60,7 +60,7 @@ import RiveCanvas from '@rive-app/canvas-advanced';
 
 async function main() {
   const rive = await RiveCanvas({
-    locateFile: (_) => '<https://unpkg.com/@rive-app/canvas-advanced@2.17.3/rive.wasm>'
+    locateFile: (_) => '<https://unpkg.com/@rive-app/canvas-advanced@2.26.1/rive.wasm>'
   });
 }
 main();
@@ -68,7 +68,7 @@ main();
 
 ### Creating the Renderer
 
-Once the WASM is loaded in, the next step is to create the renderer with the `makeRenderer()` API and pass in the canvas element on which Rive should render. The renderer draws Rive onto the `<canvas>` element with a rendering context. If you're using `@rive-app/canvas-advanced`, it will create a Canvas2D rendering context. If you're using `@rive-app/webgl-advanced`, it will create a WebGL rendering context.
+Once the WASM is loaded in, the next step is to create the renderer with the `makeRenderer()` API and pass in the canvas element on which Rive should render. The renderer draws Rive onto the `<canvas>` element with a rendering context. If you're using `@rive-app/canvas-advanced`, it will create a Canvas2D rendering context. If you're using `@rive-app/webgl2-advanced`, it will create a WebGL rendering context.
 
 ```javascript
 const canvas = document.getElementById('your-canvas-element');
@@ -226,7 +226,7 @@ After advancing the artboard, call the `save()` API on the rendering context to 
 Finally, after calling the `align()` API, pass the renderer to the artboard via the `draw()` method to draw the artboard on the canvas, then end with a call to the `restore()` API on the renderer to restore the saved state of the canvas.
 
 <Note>
- If you're using `@rive-app/webgl-advanced`, you will need to add an additional call on the renderer to `flush()` to empty different buffer commands.
+ If you're using `@rive-app/webgl2-advanced`, you will need to add an additional call on the renderer to `flush()` to empty different buffer commands.
 </Note>
 The last thing to do is to call on Rive's `requestAnimationFrame` with this callback to queue up the next callback for the next frame.
 
@@ -304,7 +304,7 @@ stateMachine.delete();
 See below for links to examples demonstrating the use of low-level JS APIs:
 
 - [Simple use of @rive-app/canvas-advanced](https://codesandbox.io/p/sandbox/smoosh-microservice-s6dz3m)
-- [Simple use of @rive-app/webgl-advanced](https://codesandbox.io/p/sandbox/rive-webgl-advanced-57lczl)
+- [Simple use of @rive-app/webgl2-advanced](https://codesandbox.io/p/sandbox/rive-webgl-advanced-57lczl)
 - [Out of band assets (fonts) @rive-app/canvas-advanced](https://codesandbox.io/p/sandbox/rive-canvas-advanced-out-of-band-assets-fonts-3q4zzy)
 - [A volume knob state machine](https://codesandbox.io/p/sandbox/rive-volume-knob-draft-j8qchy)
 - [Centaur apple game](https://codesandbox.io/p/sandbox/rive-canvas-advanced-api-centaur-example-q6snxp)
