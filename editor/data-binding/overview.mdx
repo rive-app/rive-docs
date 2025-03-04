@@ -64,7 +64,7 @@ A view model instance is the living version of a view model with actual values. 
 
 You may create as many instances as you'd like from a given view model. Each can be given a unique name associated with what those values represent. Each can have different initial values for its properties, representing a design-time configuration. For example, if you had a menu with three buttons with icons: 🏠 Home, 👤 Profile, and ❓ About, you might have a single artboard representing the menu item, but three view model instances, each with the menu item's label and associated icon, that can be applied to that artboard to configure the buttons.
 
-Artboards are assigned an instance in order to have populate the data bindings. Changing which instance is applied will change the initial state of the properties and all associated bound elements.
+Artboards are assigned an instance to populate the data bindings. Changing which instance is applied will change the initial state of the properties and all associated bound elements.
 
 In order for an instance to be visible to developers, it must be marked as Exported. Otherwise, it is considered internal to the file. One reason you may want to keep it internal is if you only use the instance to test your design when it is configured with a given set of values, including edge cases.
 
