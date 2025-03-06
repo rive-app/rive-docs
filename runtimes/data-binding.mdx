@@ -155,7 +155,7 @@ Enums are string typed. The Rive file contains a list of enums. Each enum in tur
 
 # Nested Property Paths
 
-View models can have properties of type view model, allowing for arbitrary nesting. We need a way to access properties on nested view models. This is done through a path parameter, which is similar to a URI in that it is a forward slash delimited list of property names ending in the name of the property of interest.
+View models can have properties of type view model, allowing for arbitrary nesting. We could chain property calls on each instance starting from the root until we get to the property of interest. Alternatively we can do this through a path parameter, which is similar to a URI in that it is a forward slash delimited list of property names ending in the name of the property of interest.
 
 <Tabs>
     <Tab title="Android">
@@ -163,7 +163,13 @@ View models can have properties of type view model, allowing for arbitrary nesti
         val vm = view.controller.file?.getViewModelByName("My View Model")!!
         val vmi = vm.createInstanceFromName("My Instance")
 
-        val nestedNumber = vmi.getNumberProperty("My Nested View Model/My Nested Number")
+        val nestedNumberByChain = vmi
+            .getInstanceProperty("My Nested View Model")
+            .getInstanceProperty("My Second Nested VM")
+            .getNumberProperty("My Nested Number")
+
+        val nestedNumberByPath = vmi
+            .getNumberProperty("My Nested View Model/My Second Nested VM/My Nested Number")
         ```
     </Tab>
 </Tabs>
