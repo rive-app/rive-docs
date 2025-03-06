@@ -17,9 +17,9 @@ The table below outlines the available, and default, renderers for Rive's runtim
 
 | Runtime | Default Renderer | Options |
 | --- | --- | --- |
-| Android | Skia | Rive / Skia / Canvas |
+| Android | Rive | Rive / Canvas / Skia (deprecated in v10.0.0) |
 | Apple | Rive | Rive / Core Graphics / Skia (deprecated in v6.0.0) |
-| React Native | Skia | See Apple and Android |
+| React Native | Rive | See Apple and Android |
 | Web (Canvas) | Canvas2D | Canvas2D |
 | Web (WebGL) | Skia | Skia |
 | Web (WebGL2) | Rive | Rive |
@@ -46,17 +46,13 @@ While it's ready for testing and your feedback is highly valued during this phas
 
 Your collaboration helps us refine and enhance the Rive Renderer to make it more robust and reliable for broader applications. Thank you for being a part of this exciting journey!
 
-<Note>
- By default, Android will use the current Skia renderer, and Apple runtimes will use the Rive Renderer (as of v6.0.0).
-</Note>
-
 <Tabs>
 
     <Tab title="Apple">
         
         ## Starting Version 
 
-        The Rive Renderer was made the default renderer in Apple runtimes as the starting at **v6.0.0**, however, we recommend installing the latest version of the dependency to get the latest updates. See the [CHANGELOG](https://github.com/rive-app/rive-ios/blob/main/CHANGELOG.md) for details on the latest versions.
+        The Rive Renderer was made the default renderer in Apple runtimes starting at **v6.0.0**, however, we recommend installing the latest version of the dependency to get the latest updates. See the [CHANGELOG](https://github.com/rive-app/rive-ios/blob/main/CHANGELOG.md) for details on the latest versions.
 
         ### Performance 
 
@@ -71,7 +67,7 @@ Your collaboration helps us refine and enhance the Rive Renderer to make it more
 
         ## Starting Version 
 
-        The Rive Renderer was introduced in the Android runtime starting at **v8.5.0**, however, we recommend installing the latest version of the dependency to get the latest updates. See the [CHANGELOG](https://github.com/rive-app/rive-android/blob/master/CHANGELOG.md) for details on the latest versions.
+        The Rive Renderer was made the default in the Android runtime starting at **v10.0.0**, however, we recommend installing the latest version of the dependency to get the latest updates. See the [CHANGELOG](https://github.com/rive-app/rive-android/blob/master/CHANGELOG.md) for details on the latest versions.
     </Tab>
 
     <Tab title="Web(JS)">
@@ -106,9 +102,7 @@ Your collaboration helps us refine and enhance the Rive Renderer to make it more
         Options:
 
         - **Apple**: `Rive` (default), and `CoreGraphics`
-        - **Android**: `Skia` (default), `Rive`, and `Canvas`
-
-        In the future, `Rive` will be the default for both Apple runtimes and Android.
+        - **Android**: `Rive` (default), `Canvas`
 
         See the **Apple** and **Android** sections for additional information on renderers and fallbacks.
     </Tab>
@@ -219,7 +213,7 @@ See below for runtime instructions to enable a specific renderer.
 
         ## Getting Started 
 
-        Options: `Rive / Skia (default)`
+        Options: `Rive (default) / Skia (deprecated in v9.0.0) / Canvas`
 
         Specify the renderer target in XML:
 
@@ -249,12 +243,15 @@ See below for runtime instructions to enable a specific renderer.
 
         For React Native, the default renderer needs to be set for both **iOS** and **Android**, using `RiveRenderer.defaultRenderer` and passing in an Enum for `RiveRendererIOS` and `RiveRendererAndroid`.
 
+        - iOS options: `Rive (default) / CoreGraphics`
+        - Android options: `Rive / Canvas`
+
         ```javascript
         export default function Main() {
         useEffect(() => {
             RiveRenderer.defaultRenderer(
             RiveRendererIOS.Rive,
-            RiveRendererAndroid.Skia
+            RiveRendererAndroid.Rive
             );
         }, []);
 
