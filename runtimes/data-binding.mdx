@@ -1,0 +1,169 @@
+---
+title: 'Data Binding'
+description: 'Connect your code to bound editor elements using View Models'
+---
+
+<Warning>Data Binding is in early access and is not yet available for production</Warning>
+
+# Overview
+
+Before engaging with the runtime data binding APIs, it is important to familiarize yourself with the core concepts presented in the [Overview](/editor/data-binding/overview).
+
+# View Models
+
+View models describe a set of properties, but cannot themselves be used to get or set values - that is the role of view model instances.
+
+To begin, we need to get a reference to a particular view model. This can be done either by index or by name, and is done from the Rive file.
+
+<Tabs>
+    <Tab title="Android">
+        ```kotlin
+        // `view` of type RiveAnimationView
+        view.setRiveResource(R.raw.my_rive_file)
+        val file = view.controller.file!!
+
+        // Get reference by name
+        val vm = file.getViewModelByName("My View Model")!!
+
+        // Get reference by index
+        for (i in 0 until file.viewModelCount) {
+            val vm = file.getViewModelByIndex(i)
+        }
+        ```
+    </Tab>
+</Tabs>
+
+Once we have a reference to a view model, it can be used to create an instance. When creating an instance, you have four options:
+
+1. Create an blank instance - Fill the properties of the created instance with default values as follows:
+
+    | Type              | Value           |
+    |-------------------|-----------------|
+    | Number            | 0               |
+    | String            | Empty string    |
+    | Boolean           | False           |
+    | Color             | #00000000     |
+    | Trigger           | Untriggered     |
+    | Enum              | The first value |
+    | Nested view model | Null            |
+
+2. Create the default instance - Use the instance labelled "Default" in the editor. Usually this is the one a designer intends as the primary one to be used at runtime.
+
+3. Create by index - Using the order returned when iterating over all available instances. Useful when creating multiple instances by iteration.
+
+4. Create by name - Use the editor's instance name. Useful when creating a specific instance.
+
+<Tabs>
+    <Tab title="Android">
+        ```kotlin
+        val vm = view.controller.file?.getViewModelByName("My VM")!!
+
+        // Create blank
+        val vmiBlank = vm.createBlankInstance()
+
+        // Create default
+        val vmiDefault = vm.createDefaultInstance()
+
+        // Create by index
+        for (i in 0 until vm.instanceCount) {
+            val vmiIndexed = vm.createInstanceFromIndex(i)
+        }
+
+        // Create by name
+        val vmiNamed = vm.createInstanceFromName("My Instance")
+        ```
+    </Tab>
+</Tabs>
+
+# View Model Instances
+
+Once you've used your view model to create an instance, that instance can be assigned to an artboard. This establishes the bindings set up at edit time.
+
+<Note>The initial values of the instance are not applied to their bound elements until the artboard is advanced.</Note>
+
+<Tabs>
+    <Tab title="Android">
+        ```kotlin
+        view.setRiveResource(
+            R.raw.my_rive_file,
+            artboardName = "My Artboard",
+        )
+
+        val vm = view.controller.file?.getViewModelByName("My View Model")!!
+        val vmi = vm.createInstanceFromName("My Instance")
+
+        // Apply the instance to the artboard
+        view.controller.activeArtboard?.setViewModel(vmi)
+        ```
+    </Tab>
+</Tabs>
+
+# Properties
+
+Properties descriptors can be inspected on a view model to discover at runtime which are available. These are not the mutable properties themselves though - once again those are on instances. These descriptors have a type and name.
+
+<Tabs>
+    <Tab title="Android">
+        ```kotlin
+        val vm = view.controller.file?.getViewModelByName("My View Model")!!
+
+        // A list of properties
+        val properties = vm.properties
+        assertContains(
+            properties,
+            ViewModel.Property(ViewModel.PropertyDataType.NUMBER, "My Number Property")
+        )
+        ```
+    </Tab>
+</Tabs>
+
+View model instances have mutable properties. References to these properties can be retrieved by name. They have get, set, and observe operations. Getting or observing the value will retrieve the latest value set on that properties binding, as of the last artboard advance. Setting the value will update the value and all of its bound elements. Note that trigger properties can only be set.
+
+<Note>After setting a property's value, the changes will not apply to their bound elements until the artboard is advanced.</Note>
+
+<Tabs>
+    <Tab title="Android">
+        ```kotlin
+        val vm = view.controller.file?.getViewModelByName("My View Model")!!
+        val vmi = vm.createInstanceFromName("My Instance")
+
+        val numberProperty = vmi.getNumberProperty("My Number Property")
+        // Get
+        val myPropertyValue = numberProperty.value
+        // Set
+        myProperty.value = 10f
+        ```
+    </Tab>
+</Tabs>
+
+# Enums
+
+Enums properties come in two flavors: system and user-defined. In practice, you will not need to worry about the distinction, but just be aware that system enums are always available in all Rive files, representing options from the editor's dropdowns, where user-defined enums are those defined by a designer in the editor.
+
+Enums are string typed. The Rive file contains a list of enums. Each enum in turn has a name and a list of strings.
+
+<Tabs>
+    <Tab title="Android">
+        ```kotlin
+        val enums = view.controller.file?.enums!!
+
+        val firstEnumName = enums[0].name
+        val firstEnumFirstValue = enums[0].values[0]
+        ```
+    </Tab>
+</Tabs>
+
+# Nested Property Paths
+
+View models can have properties of type view model, allowing for arbitrary nesting. We need a way to access properties on nested view models. This is done through a path parameter, which is similar to a URI in that it is a forward slash delimited list of property names ending in the name of the property of interest.
+
+<Tabs>
+    <Tab title="Android">
+        ```kotlin
+        val vm = view.controller.file?.getViewModelByName("My View Model")!!
+        val vmi = vm.createInstanceFromName("My Instance")
+
+        val nestedNumber = vmi.getNumberProperty("My Nested View Model/My Nested Number")
+        ```
+    </Tab>
+</Tabs>
