@@ -1,0 +1,20 @@
+---
+title: 'Migration Guide'
+description: 'This document provides a step-by-step guide to help you migrate from a previous version to the latest version of the Rive React Native runtime.'
+---
+
+## Migrating from 8.x.x to 9.x.x
+
+This release updates the underlying [Rive Android](https://github.com/rive-app/rive-android) runtime from v9.x.x to v10.x.x, which includes the following changes:
+- The [Rive Renderer](https://rive.app/blog/rive-renderer-now-open-source-and-available-on-all-platforms) is now the default renderer on Android. For iOS, the Rive Renderer was already the default. 
+- Removal of the Skia renderer for Android. For iOS Skia was removed in v8.0.0
+- Support for Feathering
+- Smaller APK sizes and improved performance on Android
+
+### Breaking Changes
+
+With the removal of the Skia renderer, the `Skia` option has been removed from the `RiveRendererAndroid` enum.
+
+This change is only relevant if you are manually specifying the renderer in your code. For more details, refer to [Choosing a Renderer](/runtimes/choose-a-renderer/overview).
+
+No other API changes are required.
