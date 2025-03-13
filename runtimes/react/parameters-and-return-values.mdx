@@ -5,7 +5,7 @@ description: 'Rive React API.'
 
 ## Hooks
 
-### useRive 
+### useRive
 
 The `useRive` hook is the recommended way to hook into the Rive runtime for full control, especially when using the Rive State Machine. See below for parameters to pass in and the return values.
 
@@ -14,7 +14,7 @@ The `useRive` hook is the recommended way to hook into the Rive runtime for full
 - `riveParams` - See below for a set of parameters passed to the `Rive` object at instantiation from the Web runtime. `null` and `undefined` can be passed to conditionally display the .riv file
 - `opts` - *(Optional)* See below for a set of options specific to `rive-react`
 
-#### Parameters 
+#### Parameters
 
 **UseRiveParameters**
 
@@ -28,7 +28,7 @@ Most of these parameters come from the underlying web runtime configuration item
 
 - `useDevicePixelRatio` - *(optional)* If `true`, the hook will scale the resolution of the animation based on the [devicePixelRatio](https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio). Defaults to `true`. NOTE: Requires the `setContainerRef` ref callback to be passed to an element wrapping a canvas element. If you use the `RiveComponent`, then this will happen automatically
 - `fitCanvasToArtboardHeight` - *(optional)* If `true`, then the canvas will resize based on the height of the artboard. Defaults to `false`
-- `useOffscreenRenderer` - *(optional)* If `true`, the Rive instance will share (or create if one does not exist) an offscreen `WebGL` context. This allows you to display multiple Rive animations on one screen to work around some browser limitations regarding multiple concurrent WebGL contexts. If `false`, each Rive instance will have its own dedicated `WebGL` context and you may need to be cautious of the browser limitations just mentioned. We recommend **not** changing this default prop, so you don't have to manage WebGL contexts. Destroying a React component does not guarantee the browser cleans up the WebGL context that was created when the canvas was mounted. Only relevant when using `@rive-app/react-webgl`. Defaults to `true`
+- `useOffscreenRenderer` - *(optional)* If `true`, the Rive instance will share (or create if one does not exist) an offscreen `WebGL` context. This allows you to display multiple Rive animations on one screen to work around some browser limitations regarding multiple concurrent WebGL contexts. If `false`, each Rive instance will have its own dedicated `WebGL` context and you may need to be cautious of the browser limitations just mentioned. We recommend **not** changing this default prop, so you don't have to manage WebGL contexts. Destroying a React component does not guarantee the browser cleans up the WebGL context that was created when the canvas was mounted. Only relevant when using `@rive-app/react-webgl2`. Defaults to `true`
 
 #### Return Values
 
@@ -104,9 +104,9 @@ The `useRiveFile` hook is designed for initializing and managing a `RiveFile` in
 
 The main benefit of this hook is that it allows you to create a `RiveFile` instance that you can reuse across components without needing to fetch it again from the `src` URL or reload it from the `buffer`. This improves performance by eliminating redundant network requests and loading times, especially when creating multiple Rive instances from the same source. Unlike passing the `buffer` and `src` parameters to the `useRive` hook directly—which still requires parsing under the hood to create the `RiveFile` object—this hook returns an already parsed `RiveFile` object, including any loaded assets.
 
-`useRiveFile(params: UseRiveFileParameters): RiveFileState` 
+`useRiveFile(params: UseRiveFileParameters): RiveFileState`
 
-#### Parameters 
+#### Parameters
 
 **UseRiveFileParameters**
 
@@ -130,6 +130,6 @@ The main benefit of this hook is that it allows you to create a `RiveFile` insta
 
 The `RiveComponent` default export and the `RiveComponent` returned from the `useRive` hook are both to be rendered in the JSX of a component. As noted previously, all attributes and event handlers that can be passed to a `canvas` element can also be passed to the `Rive` component and used in the same manner.
 
-One thing to note is that `style`/`className` props set on the component will be passed onto the containing `<div>` element, rather than the underlying `<canvas>` itself. The reason for this is that the containing `<div>` element handles resizing and layout for you, and thus, all styles should be passed onto this element. 
+One thing to note is that `style`/`className` props set on the component will be passed onto the containing `<div>` element, rather than the underlying `<canvas>` itself. The reason for this is that the containing `<div>` element handles resizing and layout for you, and thus, all styles should be passed onto this element.
 
 The `<canvas>` element will still receive any other props passed into the component, such as `aria-*` attributes, `role`'s, etc. You can also set children content inside the component for fallback scenarios where the `<canvas>` element cannot be shown.

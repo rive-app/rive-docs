@@ -45,7 +45,7 @@ export interface RiveParameters {
 - `artboard?` - *(optional)* Name of the artboard to use.
 - `animations?` - *(optional)* Name or list of names of animations to play.
 
-<Note> 
+<Note>
  Currently, Rive will play the first timeline animation it finds if no `stateMachines` or `animations` parameter is provided, however, in a future major version of `rive-wasm`, the default will be to play the first state machine it finds.
 </Note>
 
@@ -60,7 +60,7 @@ export interface RiveParameters {
 
 - `layout?` - *(optional)* Layout object to define how animations are displayed on the canvas.
 - `autoplay?` - *(optional)* If true, the animation will automatically start playing when loaded. Defaults to false.
-- `useOffscreenRenderer?` - *(optional)* Boolean flag to determine whether to use a shared offscreen WebGL context rather than create its own WebGL context for this instance of Rive. This is only relevant for the `@rive-app/webgl` package. If you are displaying multiple Rive animations, it is highly encouraged to set this flag to `true`. Defaults to `false`.
+- `useOffscreenRenderer?` - *(optional)* Boolean flag to determine whether to use a shared offscreen WebGL context rather than create its own WebGL context for this instance of Rive. This is only relevant for the `@rive-app/webgl2` package. If you are displaying multiple Rive animations, it is highly encouraged to set this flag to `true`. Defaults to `false`.
 - `enableRiveAssetCDN?` - *(optional)* Allow the runtime to automatically load assets hosted in Rive's CDN. Enabled by default.
 - `shouldDisableRiveListeners?` - *(optional)* Boolean flag to disable setting up Rive Listeners on the `<canvas>` element, thus preventing any event listeners from being set up on the element.
   - **Note:** Rive Listeners by default are not set up on a `<canvas>` element if there is no playing state machine, or a state machine without any Rive Listeners set up on the state machine
@@ -204,7 +204,7 @@ export enum EventType {
   Play = "play", // When Rive plays an entity or resumes the render loop
   Pause = "pause", // When Rive pauses the render loop and playing entity
   Stop = "stop", // When Rive stops the render loop and playing entity
-  Loop = "loop", // (Singular animations only) When Rive loops an animation 
+  Loop = "loop", // (Singular animations only) When Rive loops an animation
   Advance = "advance", // When Rive advances the animation in a frame
   StateChange = "statechange", // When a Rive state change is detected
   RiveEvent = "riveevent", // When a Rive Event gets reported
@@ -287,7 +287,7 @@ This effectively removes all event listening subscriptions for a single particul
 
 Scrubs through (a) linear timeline animation(s) by a specified amount of seconds.
 
-<Note> 
+<Note>
 Note: This will not do anything if you are playing through a state machine. This only applies if you are using instantiated animations through the `animations` property.
 </Note>
 ### cleanup()
@@ -296,7 +296,7 @@ Note: This will not do anything if you are playing through a state machine. This
 
 This API is **important** to call, as it will stop the animation render loop, and clean up all created instances for the Rive file, artboard, linear timeline animation(s), state machine, and the renderer. The reason it's important to delete these instances is because these entities hold generated C++ references through WASM behind-the-scenes, and therefore will not automatically get garbage collected like normal JS objects, and must be "cleaned up" manually, to prevent memory leaks. Once you are done with the Rive instance (i.e., a state machine has finished running, a user is navigating off the page, etc.), call `.cleanup()` to ensure all underlying memory allocated is freed up.
 
-<Note> 
+<Note>
 If you want to present a different Artboard from the same Rive file dynamically, you can call `cleanupInstances()` which will only delete the Artboard, animation, and state machine instances (but not the Rive file or renderer object, which you can still reuse).
 </Note>
 
@@ -355,7 +355,7 @@ This sets the layout bounds to the current canvas size. You may want to call thi
 
 This resets the `<canvas>` width and height properties to render at its current bounding rect size (CSS `height` and `width` properties) with the browser's `devicePixelRatio` in mind. This prevents blurry output on high-dpi screens (i.e., a `<canvas>` that is 500x500 on the page may render with an internal area size of 1000x1000 while still maintaining its original canvas size). This calls `resizeToCanvas()` implicitly. It's recommended to call this in the `onLoad` callback.
 
-<Note> 
+<Note>
 In a future major version of this runtime, this API may be called internally on initialization by default, with an option to opt-out if you have specific `width` and `height` properties you want to set on the canvas
 </Note>
 ```typescript
@@ -397,7 +397,7 @@ const riveInstance = new rive.Rive({
   canvas: document.getElementById('canvas'),
   autoplay: true,
   stateMachines: 'bumpy',
-  onLoad: () => {  
+  onLoad: () => {
     // Get the inputs via the name of the state machine
     const inputs = riveInstance.stateMachineInputs('bumpy');
     // Find the input you want to set a value for, or trigger
@@ -452,7 +452,7 @@ function draw(time) {
   lastTime = time;
 
   renderer.clear();
-  
+
   if (artboard) {
     if (stateMachine) {
       stateMachine.advance(elapsedSeconds);
@@ -508,7 +508,7 @@ const riveInstance = new rive.Rive({
   canvas: document.getElementById('canvas'),
   autoplay: true,
   stateMachines: 'bumpy',
-  onLoad: () => {  
+  onLoad: () => {
     // Log the contents of the Rive file
     console.log(riveInstance.contents);
   },

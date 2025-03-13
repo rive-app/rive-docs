@@ -41,7 +41,7 @@ If you’ve decided that the low-level JS APIs are what you need for your app, r
 
 ### Loading in WASM
 
-The first step to setting up the low-level Rive APIs is to load in the Rive WASM file from either the `@rive-app/canvas-advanced` or `@rive-app/webgl2-advanced` libraries (by default, we recommend `@rive-app/canvas-advanced` for a smaller dependency, unless you need to use WebGL2). When the WASM file is loaded into your app, you'll gain access to necessary APIs such as the renderer for canvas/WebGL, along with relevant JS classes generated from underlying CPP bindings via [rive-cpp](https://github.com/rive-app/rive-cpp), the core c++ runtime used as the base for several other Rive runtimes. You'll use these classes to construct your rendering scene in the canvas below.
+The first step to setting up the low-level Rive APIs is to load in the Rive WASM file from either the `@rive-app/canvas-advanced` or `@rive-app/webgl2-advanced` libraries (by default, we recommend `@rive-app/canvas-advanced` for a smaller dependency, unless you need to use WebGL). When the WASM file is loaded into your app, you'll gain access to necessary APIs such as the renderer for canvas/WebGL, along with relevant JS classes generated from underlying CPP bindings via [rive-cpp](https://github.com/rive-app/rive-cpp), the core c++ runtime used as the base for several other Rive runtimes. You'll use these classes to construct your rendering scene in the canvas below.
 
 You can load the Rive WASM file via [unpkg](https://unpkg.com/) (hosts our NPM modules for the JS runtimes), which will make a network call to the CDN, or you can choose to host the WASM file on your own servers. With `unpkg`, the URL will look something like this:
 
