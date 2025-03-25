@@ -1,17 +1,16 @@
 ---
-title: 'State Machines'
-description: ''
+title: "State Machines"
 ---
 
-Interact with the Rive State Machine in Unity. 
+Interact with the Rive State Machine in Unity.
 
 For more information on Rive State Machines see the respective [runtime](/runtimes/state-machines) and [editor](/editor/state-machine) documentation.
 
-<CardGroup col="2">
-  <Card title="State Machines" href="/runtimes/state-machines/" icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>}>
+<CardGroup cols={2}>
+  <Card title="State Machines" icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>} href="/runtimes/state-machines/">
     (Runtime) Rive's state machines provide a way to combine a set of animations and manage the transition between them through a series of inputs that can be programmatically controlled.
   </Card>
-  <Card title="State Machines" href="/editor/state-machine/" icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>}>
+  <Card title="State Machines" icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>} href="/editor/state-machine/">
     (Editor) State Machines are a visual way to connect animations together and define the logic that drives the transitions.
   </Card>
 </CardGroup>
@@ -19,46 +18,64 @@ For more information on Rive State Machines see the respective [runtime](/runtim
 ## Overview
 
 A StateMachine contains [Inputs](/editor/state-machine/inputs) and [Events](/runtimes/rive-events) and advances (plays) an animation.
+
 <Tabs>
-    <Tab title="Components">
-        A **Rive Widget** automatically loads and advances the state machine from [your artboard configuration settings](./fundamentals#artboards). Here's how you can access the loaded state machine in your scripts:**
+  <Tab title="Components">
+    A **Rive Widget** automatically loads and advances the state machine from [your artboard configuration settings](./fundamentals#artboards). Here's how you can access the loaded state machine in your scripts:\*\*
 
-        ```csharp
-        [SerializeField] private RiveWidget m_riveWidget; 
-
-        ...
-
-        if (m_riveWidget.Status == WidgetStatus.Loaded)
+    ```csharp
+    [SerializeField] private RiveWidget m_riveWidget; 
+    
+    ...
+    
+     void OnEnable()
         {
-        StateMachine m_stateMachine = m_riveWidget.StateMachine;
+            m_riveWidget.OnWidgetStatusChanged += OnWidgetStatusChanged;
+            m_riveWidget.OnRiveEventReported += OnRiveEventReported;
         }
-        ```
-
-    </Tab>
-
-    <Tab title="Low-level API">
-        State Machines are instantiated from an Arboard instance:
-
-        ```csharp
-        private StateMachine m_stateMachine;
-
-        ...
-
-        m_stateMachine = m_artboard?.StateMachine(); // default state machine
-        m_stateMachine = m_artboard?.StateMachine(0); // state machine at index
-        m_stateMachine = m_artboard?.StateMachine("Name"); // state machine with name
-        ```
-
-        The state machine is played by calling `advance` and passing in the delta time:
-
-        ```csharp
-        private void Update()
+    
+        private void OnWidgetStatusChanged()
         {
-            m_stateMachine?.Advance(Time.deltaTime);
+    // Wait for the widget to load before accessing the state machine.
+          if (m_riveWidget.Status == WidgetStatus.Loaded)
+    {
+    StateMachine m_stateMachine = m_riveWidget.StateMachine;
+    }
         }
-        ```
-    </Tab>
+    
+    
+        void OnDisable()
+        {
+            m_riveWidget.OnWidgetStatusChanged -= OnWidgetStatusChanged;
+    
+            m_riveWidget.OnRiveEventReported -= OnRiveEventReported;
+        }
+    ```
+  </Tab>
+  <Tab title="Low-level API">
+    State Machines are instantiated from an Arboard instance:
+
+    ```csharp
+    private StateMachine m_stateMachine;
+    
+    ...
+    
+    m_stateMachine = m_artboard?.StateMachine(); // default state machine
+    m_stateMachine = m_artboard?.StateMachine(0); // state machine at index
+    m_stateMachine = m_artboard?.StateMachine("Name"); // state machine with name
+    ```
+
+    The state machine is played by calling `advance` and passing in the delta time:
+
+    ```csharp
+    private void Update()
+    {
+        m_stateMachine?.Advance(Time.deltaTime);
+    }
+    ```
+  </Tab>
 </Tabs>
+
 ## Accessing Inputs
 
 There are three input types, each extends `SMIInput` (State Machine Input):
@@ -69,7 +86,7 @@ There are three input types, each extends `SMIInput` (State Machine Input):
 
 State machine inputs can be accessed in a number of different ways.
 
-#### Access by name 
+#### Access by name
 
 Retrieve a state machine input by name and type.
 
@@ -112,7 +129,7 @@ Debug.Log(m_stateMachine.InputCount());
 SMIInput input = m_stateMachine.Input(1);
 ```
 
-#### Access all inputs 
+#### Access all inputs
 
 Retrieve a list of all `SMIInputs`:
 
@@ -141,8 +158,7 @@ foreach (var input in inputs)
 }
 ```
 
-
-## Accessing Nested Inputs 
+## Accessing Nested Inputs
 
 For more information about accessing inputs in nested artboards, check out this [example](/runtimes/state-machines#nested-inputs).
 
