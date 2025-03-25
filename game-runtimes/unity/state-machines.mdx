@@ -28,25 +28,25 @@ A StateMachine contains [Inputs](/editor/state-machine/inputs) and [Events](/run
     
     ...
     
-     void OnEnable()
-        {
-            m_riveWidget.OnWidgetStatusChanged += OnWidgetStatusChanged;
-        }
-    
-        private void OnWidgetStatusChanged()
-        {
-    // Wait for the Rive Widget to load before accessing the state machine.
-          if (m_riveWidget.Status == WidgetStatus.Loaded)
+    void OnEnable()
     {
-    StateMachine m_stateMachine = m_riveWidget.StateMachine;
+        m_riveWidget.OnWidgetStatusChanged += OnWidgetStatusChanged;
     }
-        }
     
-    
-        void OnDisable()
+    private void OnWidgetStatusChanged()
+    {
+        // Wait for the Rive Widget to load before accessing the state machine.
+        if (m_riveWidget.Status == WidgetStatus.Loaded)
         {
-            m_riveWidget.OnWidgetStatusChanged -= OnWidgetStatusChanged;
+            StateMachine m_stateMachine = m_riveWidget.StateMachine;
         }
+    }
+    
+    
+    void OnDisable()
+    {
+        m_riveWidget.OnWidgetStatusChanged -= OnWidgetStatusChanged;
+    }
     ```
   </Tab>
   <Tab title="Low-level API">
