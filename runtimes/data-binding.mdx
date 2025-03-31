@@ -82,9 +82,11 @@ Once we have a reference to a view model, it can be used to create an instance. 
 
 # View Model Instances
 
-Once you've used your view model to create an instance, that instance can be assigned to an artboard. This establishes the bindings set up at edit time.
+Once you've used your view model to create an instance, that instance can be assigned to a state machine or artboard. This establishes the bindings set up at edit time.
 
-<Note>The initial values of the instance are not applied to their bound elements until the state machine advances.</Note>
+It is preferred to assign to a state machine, as this will automatically apply the instance to the artboard as well. Only assign to an artboard if you are not using a state machine, i.e. your file is static or uses linear animations.
+
+<Note>The initial values of the instance are not applied to their bound elements until the state machine or artboard advances.</Note>
 
 <Tabs>
     <Tab title="Android">
@@ -97,8 +99,11 @@ Once you've used your view model to create an instance, that instance can be ass
         val vm = view.controller.file?.getViewModelByName("My View Model")!!
         val vmi = vm.createInstanceFromName("My Instance")
 
-        // Apply the instance to the artboard
-        view.controller.activeArtboard?.setViewModel(vmi)
+        // Apply the instance to the state machine (preferred)
+        view.controller.stateMachines.first().viewModelInstance = vmi
+
+        // Alternatively, apply the instance to the artboard
+        view.controller.activeArtboard?.viewModelInstance = vmi
         ```
     </Tab>
 </Tabs>
@@ -122,9 +127,9 @@ Property descriptors can be inspected on a view model to discover at runtime whi
     </Tab>
 </Tabs>
 
-View model instances have mutable properties. References to these properties can be retrieved by name. They have get, set, and observe operations. Getting or observing the value will retrieve the latest value set on that properties binding, as of the last state machine advance. Setting the value will update the value and all of its bound elements. Note that trigger properties do not have a get operation - only set and observe.
+View model instances have mutable properties. References to these properties can be retrieved by name. They have get, set, and observe operations. Getting or observing the value will retrieve the latest value set on that properties binding, as of the last state machine or artboard advance. Setting the value will update the value and all of its bound elements. Note that trigger properties do not have a get operation - only set and observe.
 
-<Note>After setting a property's value, the changes will not apply to their bound elements until the state machine advances.</Note>
+<Note>After setting a property's value, the changes will not apply to their bound elements until the state machine or artboard advances.</Note>
 
 <Tabs>
     <Tab title="Android">
