@@ -15,7 +15,7 @@ Before engaging with the runtime data binding APIs, it is important to familiari
 
 View models describe a set of properties, but cannot themselves be used to get or set values - that is the role of view model instances.
 
-To begin, we need to get a reference to a particular view model. This can be done either by index or by name, and is done from the Rive file.
+To begin, we need to get a reference to a particular view model. This can be done either by index, by name, or the default for a given artboard, and is done from the Rive file. The default option refers to the view model assigned to an artboard by the dropdown in the editor.
 
 <Tabs>
     <Tab title="Android">
@@ -31,6 +31,9 @@ To begin, we need to get a reference to a particular view model. This can be don
         for (i in 0 until file.viewModelCount) {
             val vm = file.getViewModelByIndex(i)
         }
+
+        // Get reference to the default view model
+        val defaultVM = file.defaultViewModelForArtboard(view.controller.activeArtboard!!)
         ```
     </Tab>
 </Tabs>
