@@ -98,7 +98,7 @@ Once we have a reference to a view model, it can be used to create an instance. 
     </Tab>
     <Tab title="Android">
         ```kotlin
-        val vm = view.controller.file?.getViewModelByName("My VM")!!
+        val vm = view.controller.file?.getViewModelByName("My View Model")!!
 
         // Create blank
         val vmiBlank = vm.createBlankInstance()
@@ -214,9 +214,9 @@ View model instances have mutable properties. References to these properties can
 
         val numberProperty = vmi.getNumberProperty("My Number Property")
         // Get
-        val myPropertyValue = numberProperty.value
+        val numberValue = numberProperty.value
         // Set
-        myProperty.value = 10f
+        numberProperty.value = 10f
         ```
     </Tab>
 </Tabs>
