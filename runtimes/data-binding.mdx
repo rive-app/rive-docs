@@ -23,18 +23,19 @@ To begin, we need to get a reference to a particular view model. This can be don
     const rive = new rive.Rive({
         src: "my_rive_file.riv",
         canvas: document.getElementById("canvas"),
+        onLoad: () => {
+            // Get reference by name
+            const namedVM = rive.viewModelByName("My View Model");
+
+            // Get reference by index
+            for (let i = 0; i < rive.viewModelCount(); i++) {
+                const indexedVM = rive.viewModelByIndex(i);
+            }
+
+            // Get reference to the default view model
+            const defaultVM = rive.defaultViewModel();
+        }
     });
-
-    // Get reference by name
-    const namedVM = rive.viewModelByName("My View Model");
-
-    // Get reference by index
-    for (let i = 0; i < rive.viewModelCount(); i++) {
-        const indexedVM = rive.viewModelByIndex(i);
-    }
-
-    // Get reference to the default view model
-    const defaultVM = rive.defaultViewModel();
     ```
     </Tab>
     <Tab title="Android">
@@ -80,22 +81,25 @@ Once we have a reference to a view model, it can be used to create an instance. 
 <Tabs>
     <Tab title="Web">
     ```typescript
-    const rive = new rive.Rive({...});
-    const vm = rive.viewModelByName("My View Model");
+    const rive = new rive.Rive({
+        onLoad: () => {
+            const vm = rive.viewModelByName("My View Model");
 
-    // Create blank
-    const vmiBlank = vm.instance();
+            // Create blank
+            const vmiBlank = vm.instance();
 
-    // Create default
-    const vmiDefault = vm.defaultInstance();
+            // Create default
+            const vmiDefault = vm.defaultInstance();
 
-    // Create by index
-    for (let i = 0; i < vm.instanceCount; i++) {
-        const vmiIndexed = vm.instance(i);
-    }
+            // Create by index
+            for (let i = 0; i < vm.instanceCount; i++) {
+                const vmiIndexed = vm.instance(i);
+            }
 
-    // Create by name
-    const vmiNamed = vmvm.instanceByName("My Instance");
+            // Create by name
+            const vmiNamed = vmvm.instanceByName("My Instance");
+        }
+    });
     ```
     </Tab>
     <Tab title="Android">
@@ -130,12 +134,15 @@ It is preferred to assign to a state machine, as this will automatically apply t
 <Tabs>
     <Tab title="Web">
     ```typescript
-    const rive = new rive.Rive({...});
-    const vm = rive.viewModelByName("My View Model");
-    const vmi = vm.instanceByName("My Instance");
+    const rive = new rive.Rive({
+        onLoad: () => {
+            const vm = rive.viewModelByName("My View Model");
+            const vmi = vm.instanceByName("My Instance");
 
-    // Apply the instance to the state machine and artboard
-    rive.bindViewModelInstance(vmi);
+            // Apply the instance to the state machine and artboard
+            rive.bindViewModelInstance(vmi);
+        }        
+    });
     ```
     </Tab>
     <Tab title="Android">
@@ -163,7 +170,7 @@ Alternatively, you may prefer to use auto-binding. This will automatically bind 
 
 <Tabs>
     <Tab title="Web">
-    ```typescript
+    ```typescript {4}
     const rive = new rive.Rive({
         src: "my_rive_file.riv",
         canvas: document.getElementById("canvas"),
@@ -172,7 +179,7 @@ Alternatively, you may prefer to use auto-binding. This will automatically bind 
     ```
     </Tab>
     <Tab title="Android">
-        ```kotlin
+        ```kotlin {3}
         view.setRiveResource(
             R.raw.my_rive_file,
             autoBind = true,
@@ -188,13 +195,16 @@ Property descriptors can be inspected on a view model to discover at runtime whi
 <Tabs>
     <Tab title="Web">
     ```typescript
-    const rive = new rive.Rive({...});
-    const vm = rive.viewModelByName("My View Model");
-    const vmi = vm.instanceByName("My Instance");
+    const rive = new rive.Rive({
+        onLoad: () => {
+            const vm = rive.viewModelByName("My View Model");
+            const vmi = vm.instanceByName("My Instance");
 
-    // A list of properties
-    const properties = vm.properties;
-    console.log(properties);
+            // A list of properties
+            const properties = vm.properties;
+            console.log(properties);
+        }         
+    });
     ```
     </Tab>
     <Tab title="Android">
@@ -218,18 +228,21 @@ View model instances have mutable properties. References to these properties can
 <Tabs>
     <Tab title="Web">
     ```typescript
-    const rive = new rive.Rive({...});
-    const vm = rive.viewModelByName("My View Model");
-    const vmi = vm.instanceByName("My Instance");
+    const rive = new rive.Rive({
+        onLoad: () => {
+            const vm = rive.viewModelByName("My View Model");
+            const vmi = vm.instanceByName("My Instance");
 
-    const numberProperty = vmi.number("My Number Property");
-    // Get
-    const numberValue = numberProperty.value();
-    // Set
-    numberProperty.value(10);
-    // Observe
-    numberProperty.on((event) => {
-        console.log(event.data);
+            const numberProperty = vmi.number("My Number Property");
+            // Get
+            const numberValue = numberProperty.value();
+            // Set
+            numberProperty.value(10);
+            // Observe
+            numberProperty.on((event) => {
+                console.log(event.data);
+            });
+        }             
     });
     ```
     </Tab>
@@ -264,10 +277,13 @@ Enums are string typed. The Rive file contains a list of enums. Each enum in tur
 <Tabs>
     <Tab title="Web">
     ```typescript
-    const rive = new rive.Rive({...});
-    const enums = rive.enums();
+    const rive = new rive.Rive({
+        onLoad: () => {
+            const enums = rive.enums();
 
-    console.log(enums);
+            console.log(enums);
+        }           
+    });
     ```
     </Tab>
     <Tab title="Android">
@@ -287,16 +303,19 @@ View models can have properties of type view model, allowing for arbitrary nesti
 <Tabs>
     <Tab title="Web">
     ```typescript
-    const rive = new rive.Rive({...});
-    const vm = rive.viewModelByName("My View Model");
-    const vmi = vm.instanceByName("My Instance");
+    const rive = new rive.Rive({
+        onLoad: () => {
+            const vm = rive.viewModelByName("My View Model");
+            const vmi = vm.instanceByName("My Instance");
 
-    const nestedNumberByChain = vmi
-        .viewModel("My Nested View Model")
-        .viewModel("My Second Nested VM")
-        .number("My Nested Number");
+            const nestedNumberByChain = vmi
+                .viewModel("My Nested View Model")
+                .viewModel("My Second Nested VM")
+                .number("My Nested Number");
 
-    const nestedNumberByPath = vmi.number("My Nested View Model/My Second Nested VM/My Nested Number");
+            const nestedNumberByPath = vmi.number("My Nested View Model/My Second Nested VM/My Nested Number");
+        }           
+    });
     ```
     </Tab>
     <Tab title="Android">
