@@ -1,0 +1,116 @@
+---
+title: 'Rive Native'
+description: 'A Flutter runtime that integrates the Rive Renderer and the core Rive C++ runtime.'
+---
+
+import NoteOnFeatureSupport from "/snippets/runtimes/rendering-feature-support.mdx"
+
+<NoteOnFeatureSupport/>
+
+[Rive Native](https://pub.dev/packages/rive_native) is a new runtime that enables you to display and interact with Rive graphics in your Flutter app, powered by the [Rive Renderer](https://rive.app/renderer).
+
+## Rive Native vs Rive
+
+`rive_native` does not replace the current [Rive Flutter runtime](https://pub.dev/packages/rive) (`rive`). Instead, we are working on integrating `rive_native` into the `rive` package. You can use `rive_native` independently if desired, and the API will remain largely consistent between `rive_native` and `rive`. However, the `rive` package may expose additional APIs or functionality in the future.
+
+We encourage you to start using `rive_native` today and share your feedback with us.
+
+### Key Differences Between `rive_native` and `rive`
+
+
+- **C++ Runtime Integration**:  
+  `rive_native` is built on Rive's [C++ runtime](https://github.com/rive-app/rive-runtime) via FFI, replacing the Dart implementation. This ensures a consistent experience across platforms and the Rive Editor, while unlocking performance improvements and new features exclusive to the C++ runtime, such as:  
+  - [Responsive Layouts](/editor/layouts/)  
+  - [Scrolling](/editor/layouts/scrolling)  
+  - [N-Slicing](/editor/layouts/n-slicing)  
+  - Feathering  
+
+- **Rive Renderer Support**:  
+  `rive_native` introduces the [Rive Renderer](https://rive.app/renderer) to Flutter. While you can still use the Flutter-based renderer (Dart/Impeller), the Rive Renderer is recommended for performance-critical use cases. Some features, like Feathering, are only supported with the Rive Renderer. For more details, see our [Feature Support page](/feature-support).
+
+---
+
+## Getting Started
+
+`rive_native` is not yet publicly available on GitHub but will be soon. For now, you can pull the source code and example by running:
+
+```bash
+dart pub unpack rive_native # Unpack the package source code and example app
+cd rive_native/example      # Navigate to the example folder
+flutter create .            # Create the platform folders
+flutter pub get             # Fetch dependencies
+flutter run                 # Run the example app
+```
+
+A higher-level declarative API is under development to simplify working with Rive graphics in Flutter.
+
+For an example implementation, see the `rive_player.dart` file in `rive_native/example/rive_player.dart`.
+
+---
+
+## Platform Support
+
+| Platform | Flutter Renderer | Rive Renderer |
+|----------|------------------|---------------|
+| iOS      | ✅               | ✅             |
+| Android  | ✅               | ✅             |
+| macOS    | ✅               | ✅             |
+| Windows  | ✅               | ✅             |
+| Linux    | ❌               | ❌             |
+| Web      | ✅               | ✅             |
+
+> **Note**: Android support is currently limited to `arm` and `arm64` architectures.
+
+---
+
+## Feature Support
+
+The following runtime features are supported by `rive_native`:
+
+| Feature                          | Support |
+|----------------------------------|---------|
+| Set State Machine Inputs         | ✅       |
+| Set State Machine Nested Inputs  | ✅       |
+| Updating Text Runs               | ✅       |
+| Updating Nested Text Runs        | ✅       |
+| Responsive Layouts               | ✅       |
+| Rive Audio                       | ✅       |
+| Out-of-Band Assets               | ✅       |
+| Rive Events                      | ✅       |
+
+---
+
+## Troubleshooting
+
+The required native libraries should be automatically downloaded during the build step (`flutter run` or `flutter build`). If you encounter issues, try the following:
+
+1. Run `flutter clean`
+2. Run `flutter pub get`
+3. Run `flutter run`
+
+Alternatively, you can manually run the `rive_native` setup script. In the root of your Flutter app, execute:
+
+```bash
+dart run rive_native:setup --verbose --clean --platform macos
+```
+
+This will clean the `rive_native` setup and download the platform-specific libraries specified with the `--platform` flag. Refer to the **Platform Support** section above for details.
+
+---
+
+## Building `rive_native`
+
+By default, prebuilt native libraries are downloaded and used. If you prefer to build the libraries yourself, use the `--build` flag with the setup script:
+
+```bash
+flutter clean # Important
+dart run rive_native:setup --verbose --clean --build --platform macos
+```
+
+> **Note**: Building the libraries requires specific tooling on your machine. Additional documentation will be provided soon.
+
+---
+
+## Testing
+
+Shared libraries are included in the download/build process. If you encounter issues using `rive_native` in your tests, please reach out to us for assistance.
