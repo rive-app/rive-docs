@@ -157,6 +157,30 @@ It is preferred to assign to a state machine, as this will automatically apply t
     </Tab>
 </Tabs>
 
+### Auto-Binding
+
+Alternatively, you may prefer to use auto-binding. This will automatically bind the default view model of the artboard using the default instance to both the state machine and the artboard. This is useful when your design only has one configuration.
+
+<Tabs>
+    <Tab title="Web">
+    ```typescript
+    const rive = new rive.Rive({
+        src: "my_rive_file.riv",
+        canvas: document.getElementById("canvas"),
+        autoBind: true,
+    });
+    ```
+    </Tab>
+    <Tab title="Android">
+        ```kotlin
+        view.setRiveResource(
+            R.raw.my_rive_file,
+            autoBind = true,
+        )
+        ```
+    </Tab>
+</Tabs>
+
 # Properties
 
 Property descriptors can be inspected on a view model to discover at runtime which are available. These are not the mutable properties themselves though - once again those are on instances. These descriptors have a type and name.
