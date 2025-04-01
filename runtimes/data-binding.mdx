@@ -243,6 +243,14 @@ View model instances have mutable properties. References to these properties can
         val numberValue = numberProperty.value
         // Set
         numberProperty.value = 10f
+        // Observe
+        lifecycleScope.launch {
+            numberProperty.collect { value ->
+                Log.i("MyActivity", "Value: $value")
+            }
+        }
+        // Or collect in Compose
+        val numberValue by numberProperty.collectAsState()
         ```
     </Tab>
 </Tabs>
