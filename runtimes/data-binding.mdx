@@ -29,7 +29,9 @@ To begin, we need to get a reference to a particular view model. This can be don
     const namedVM = rive.viewModelByName("My View Model");
 
     // Get reference by index
-    const indexedVM = rive.viewModelByIndex(0);
+    for (let i = 0; i < rive.viewModelCount(); i++) {
+        const indexedVM = rive.viewModelByIndex(i);
+    }
 
     // Get reference to the default view model
     const defaultVM = rive.defaultViewModel();
@@ -46,7 +48,7 @@ To begin, we need to get a reference to a particular view model. This can be don
 
         // Get reference by index
         for (i in 0 until file.viewModelCount) {
-            val vm = file.getViewModelByIndex(i)
+            val indexedVM = file.getViewModelByIndex(i)
         }
 
         // Get reference to the default view model
