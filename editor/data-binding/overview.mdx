@@ -5,9 +5,12 @@ description: 'Connect editor elements to data and code using View Models'
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
-import EarlyAccess from '/snippets/early-access-feature.mdx'
+import { EarlyAccess } from '/snippets/early-access-feature.mdx'
 
-<EarlyAccess />
+
+<EarlyAccess featureName="Data Binding">
+  As data binding continues to develop additional features, we suggest you continue to refer to this page for changes.
+</EarlyAccess>
 
 # What is Data Binding?
 
@@ -76,7 +79,7 @@ These exported instances can then be assigned to an artboard at runtime by devel
 
 ### Binding
 
-A binding is an association between a property and an editor element. For instance, you might have a property named "Name" bound to an text run's text value.
+A binding is an association between a property and an editor element. For instance, you might have a property named "Name" bound to a text run's text value.
 
 Bindings can be source to target, target to source, or bidirectional. In this case, "source" means the property, and "target" means the editor element.
 
@@ -118,6 +121,8 @@ View model properties can represent more types of data compared to inputs and ev
 | Enumerations           | ❌     | ❌     | ✅                     |
 | Colors                 | ❌     | ❌     | ✅                     |
 | Nesting                | ❌     | ❌     | ✅                     |
+| Lists                  | ❌     | ❌     | 🚧 Coming soon         |
+| Images                 | ❌     | ❌     | 🚧 Coming soon         |
 
 ### State Machine Inputs
 
@@ -154,3 +159,11 @@ There are a few use cases related to nesting where you may want to consider upda
 - "Bubbling" nested events
 
 These three use cases are unified by view model instances, where nested artboards can pull from top-level viewmodels. This simplifies the developer interop, as the structure, naming, and nesting of the file's artboards can change without breaking the code's reference to the data.
+
+# Runtime APIs
+
+To continue reading about how to interact with data binding in code, see the [Runtime Overview](/runtimes/data-binding) page.
+
+<Card title="Data Binding Runtime Overview" href="/runtimes/data-binding" icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" d="M7.31 7.111 2.406 5.15l4.61-1.844.328-.126a2.3 2.3 0 0 1 1.647 0l.33.126L13.93 5.15 9.024 7.112c-.55.22-1.163.22-1.712 0"></path><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="m2.405 10.911 4.906 1.963c.55.22 1.162.22 1.712 0l4.906-1.963M2.405 8.031 7.31 9.992c.55.22 1.162.22 1.712 0l4.906-1.963M2.405 5.15 7.31 7.111c.55.22 1.162.22 1.712 0l4.906-1.962-4.61-1.844-.329-.126a2.3 2.3 0 0 0-1.647 0l-.329.126z"></path></svg>}>
+  A dive into using data binding at runtime.
+</Card>
