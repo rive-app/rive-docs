@@ -243,7 +243,9 @@ Property descriptors can be inspected on a view model to discover at runtime whi
     </Tab>
 </Tabs>
 
-View model instances have mutable properties. References to these properties can be retrieved by name. They have get, set, and observe operations. Getting or observing the value will retrieve the latest value set on that properties binding, as of the last state machine or artboard advance. Setting the value will update the value and all of its bound elements. Note that trigger properties do not have a get operation - only set and observe.
+View model instances have mutable properties. References to these properties can be retrieved by name. They have get, set, and observe operations. Getting or observing the value will retrieve the latest value set on that properties binding, as of the last state machine or artboard advance. Setting the value will update the value and all of its bound elements.
+
+<Note>Trigger properties do not have a get operation - only set and observe.</Note>
 
 <Note>After setting a property's value, the changes will not apply to their bound elements until the state machine or artboard advances.</Note>
 
