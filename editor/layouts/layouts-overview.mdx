@@ -1,84 +1,79 @@
 ---
-title: 'Layouts Overview'
+title: 'Overview'
 sidebarTitle: 'Overview'
 description: 'Layouts allow you to build responsive UI components in Rive. Make your designs fit, fill, or reflow content based on the space available.'
 ---
+
+import { YouTube } from '/snippets/youtube.mdx'
 
 Leverage Rive's layout system to accommodate a variety of use cases:
 
 - Pin items to chosen edges of a parent artboard or container.
 - Create buttons and labels that adapt to the size of the text.
-- Build lists and grids of content that reflow, animate, and scroll (scrolling coming soon).
+- Build lists and grids of content that reflow, animate, and scroll.
 - Combine and nest layouts to develop entire interfaces
 
 You can use these techniques to create all kinds of production-ready buttons, lists, and menus that can fluidly resize to fit any device size or orientation. Rive graphics aren’t mockups or prototypes, they’re functional graphics that can change state and be connected to real data — and because Rive runs anywhere, you can re-use the same responsive graphics on mobile apps, game engines, websites, custom devices, and more.
 
----
-
-## Getting Started with Layouts
-
-There are a number of ways to start adding layouts to your designs.
-
-### Layout Tools
-
-A selection of new layout options have been added to the arrangement tools:
-
-![Image](https://ucarecdn.com/53f42ad0-4045-41c4-bcfe-90a40ad0dc1d/)
-
-- **Layout:** A basic layout container. Select the tool and drag on an artboard to create the layout. The layout is absolute positioned to the top and left edges by default. Items contained within the bounds of the newly created layout will automatically become children of it. Hold `command` / `control` while dragging the layout to prevent existing items from being moved into the layout.
-
-  <video width="700" controls>
-    <source src="https://ucarecdn.com/994d9855-4783-478f-a808-e5f8e57511af/" type="video/mp4"></source>
-    Layout
-  </video>
-
-- **Row/Column:** The Row and Column tools are variants of the base Layout tool, but include an initial set of children laid out in the respective direction. You can use both the number keys or the up/down keys to define the number of children while dragging your row or column onto the stage.
-
-  <video width="700" controls>
-    <source src="https://ucarecdn.com/e6fb26b0-a322-4715-8764-f484b99fd70a/" type="video/mp4"></source>
-    Row/Column
-  </video>
-
-### Wrap in Layout
-
-Instead of starting with an empty layout container, you may prefer to wrap existing items into a layout. There are a number of ways to wrap an active selection in a layout:
-
-- Right click on the stage or the hierarchy to surface the context menu. Select `Wrap in` &gt; `Layout`. 
-
-  <video width="700" controls>
-    <source src="https://ucarecdn.com/8dc09645-bb6b-4572-a519-5f655d39e114/" type="video/mp4"></source>
-    Wrap in
-  </video>
-
-
-- Alternatively, you can use the `Layout selection` button in the inspector.
-
-  <video width="700" controls>
-    <source src="https://ucarecdn.com/cca29ef7-5762-40a7-bfb2-0b1ac9da5ee8/" type="video/mp4"></source>
-    Layout selection
-  </video>
-
-
-- Use the `shift` + `L` shortcut.
-
-  <video width="700" controls>
-    <source src="https://ucarecdn.com/fc768d5a-33bf-4ce5-88fe-c40257263bc2/" type="video/mp4"></source>
-    `shift` + `L` shortcut
-  </video>
-
-
-- Use the Layout tool to draw a layout over items on the stage. By default, items contained within the dragged layout will become absolutely positioned children. You can prevent the behaviour by holding the `command`/ `control` modifier while dragging your layout onto the stage.
-
-  <video width="700" controls>
-    <source src="https://ucarecdn.com/072cfb34-e8e1-4083-95a0-e9944a776817/" type="video/mp4"></source>
-    Layout tool
-  </video>
+<Note>Check out the [Layouts playlist](https://www.youtube.com/playlist?list=PLujDTZWVDSsGvor80PkjHaZ3hNNo6s_ef) on Rive's YouTube channel for additional Layout related tutorials</Note>
 
 ---
 
-## Quickstart Video
+## Introduction
 
-  <video width="700" controls>
-    <source src="https://ucarecdn.com/1e3d193c-16c8-4a0d-b1d5-48a7ced3b8b5/" type="video/mp4"></source>
-    Quickstart Video
-  </video>
+Prior to the addition of Layouts in Rive, all objects on an Artboard were positioned in a freeform way, with few rules limiting this (one exception being [Constraints](/editor/constraints/constraints-overview)). Layouts provide a rules based way to position and size your content using Rows and Columns.
+
+<Tip>A Layout is a container whose position and size is bound by rules (relative to its parent Layout or children). When Rive objects (text, shapes, paths, groups, images, nested artboards, and even joysticks or bones) are placed in a Layout, they inherit the positioning rules of the Layout (**participate in the Layout**), but they can also act independently within the Layout container if desired. This allows for added freedom if you need to animate an object within a Layout.</Tip>
+
+<Tip>Layouts only affect the position of other Layouts. For example, if you want to have a Row Layout, you would have a parent Layout set to a direction of Row, and all of its Layout children will be laid out in a row (and have things like their parent's padding, gap, alignment, etc. applied to their positions).</Tip>
+
+---
+
+## Layout Parents and Children
+
+In order to create more complex UI that responds to the screen or browser size, it is important to understand that Layouts can be placed inside other Layouts. We refer to the outer Layout as the parent and the inner Layout as the child. The Layout children are typically positioned relative to their Layout parent (similar to how [Groups](/editor/fundamentals/groups) work). In addition, the parent can either be sized to the children ([Hug](editor/layouts/layout-parameters#scale-types)) or the children can size to their parent ([Fill](editor/layouts/layout-parameters#scale-types)). Here is an example to help visualize how these relationships work.
+
+In the image below we will focus on the regions contained by the dashed lines. The outer green dashed line is the outermost Layout, which is set to Layout it's children in a single Column. In the second row of that Column, the red dashed line is a child Layout containing the Battery indicators for various devices. This Layout is defined as a Row. This Layout has 4 child Layouts (blue dashed) set to evenly Fill the width of their parent (so that when the parent resizes, the child Layouts also resize, each to Fill 25% of the available space). Each of those 4 Layouts are set to Column and have 2 child Layouts (pink dashed) containing a trim path with a visualization of battery remaining and percentage label. By creating these simple parent-child Layouts, we can create infinitely responsive content with Rive!
+
+![Image](/images/editor/layout-visualized.png)
+
+---
+
+## Absolute vs Relative Layouts
+
+Layouts can exist within Rive's freeform transform space, which means that you can draw a Layout to the Artboard and position it as you would any other Rive object. This type of Layout is referred to as **Absolute** (positioned absolutely).
+
+On the other hand, when you want a Layout to participate in the flow of its parent layout, this is referred to as **Relative** (positioned relative to its parent). The position of Relative Layouts are determined by their parent via many parameters such as Row/Column, alignment, padding, gap, etc.
+
+Use the icon in the top right of the layout inspector to toggle between an absolute and relative layout.
+
+![Image](https://ucarecdn.com/3412f52f-c283-4617-b6c5-f5af8ad1ddcc/)
+
+---
+
+## Layouts and other Rive objects
+
+A Layout container will affect its children in one of two ways:
+
+- Set the child’s position
+- Set both the child’s position and size
+
+This behaviour is determined by the object type of the child. Objects that have both their position and size defined by a Layout container include:
+
+- Text
+- Images
+- Parametric shapes (rectangles, ellipses, triangles, polygons, and stars)
+- Nested Artboards (Leaf & Layout mode)
+- Other Layouts
+
+All other objects will only have their positioned set by the layout. The [N-Slicing](/editor/layouts/n-slicing) feature provides more advanced options to control the layout/scale behaviour of more advanced shapes and groups.
+
+Unlike in some other tools, Rive will provide an additional hierarchy item to represent the Layout container of an object. This helps differentiate the freeform nature of Rive with the structured Layout system. For example, an object within a Layout container can still apply additional transforms such as position, scale, and rotation to allow it to break out of the Layout. This becomes particularly powerful when coupled with constraints. Furthermore, a Layout container can house multiple objects that can be placed in front of each other.
+
+---
+
+## A Simple use case: Building a Responsive Button
+
+This tutorial shows how you can build a responsive button from scratch.
+
+<YouTube id="dx63jfWJtLQ" />
