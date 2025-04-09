@@ -370,6 +370,29 @@ View model instances have mutable properties. References to these properties can
         val numberValue by numberProperty.collectAsState()
         ```
     </Tab>
+    <Tab title="Apple">
+        ```swift
+        let riveViewModel = RiveViewModel(...)
+        guard let instance = riveViewModel.riveModel?.riveFile.viewModelNamed("...")?.createDefaultInstance() else { return }
+        
+        // An example of getting a string property
+        let stringProperty = instance.stringProperty(fromPath: "...")
+        // Updating its value
+        stringProperty?.value = "Hello, Rive"
+        // Subscribing to value changes
+        let listener = stringProperty?.addListener { value in
+            print(value)
+        }
+        // Unsubscribing from value changes
+        stringProperty?.removeListener(listener)
+
+        // You can also update and listen without storing a strong reference
+        instance.stringProperty(fromPath: "...").value = "Hello again, Rive"
+
+        // Other properties are similar (value setter / getter), such as number, boolean, etc.
+        // Triggers can additionally be listened to for when they are triggered
+        ```
+    </Tab>
 </Tabs>
 
 # Enums
