@@ -252,6 +252,18 @@ Alternatively, you may prefer to use auto-binding. This will automatically bind 
         )
         ```
     </Tab>
+    <Tab title="Apple">
+        ```swift
+        let riveViewModel = RiveViewModel(...)
+        riveViewModel.riveModel?.enableAutoBind { instance in
+            // Store a reference to `instance` to later access properties
+            // The instance may change as state machines and artboards change
+        }
+
+        // If you'd like to disable autoBind after enabling…
+        riveViewModel.riveModel?.disableAutoBind()
+        ```
+    </Tab>
 </Tabs>
 
 # Properties
