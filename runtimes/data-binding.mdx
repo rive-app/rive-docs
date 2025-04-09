@@ -67,7 +67,7 @@ To begin, we need to get a reference to a particular view model. This can be don
     <Tab title="Apple">
         ```swift
         let riveViewModel = RiveViewModel(...)
-        guard let file = viewModel.riveModel?.riveFile else { return }
+        guard let file = riveViewModel.riveModel?.riveFile else { return }
 
         // Data binding view model by name
         let viewModelByName = file.viewModelNamed("...")
@@ -148,6 +148,28 @@ Once we have a reference to a view model, it can be used to create an instance. 
         // Create by name
         val vmiNamed = vm.createInstanceFromName("My Instance")
         ```
+    </Tab>
+    <Tab title="Apple">
+    ```swift
+        let riveViewModel = RiveViewModel(...)
+        guard let file = riveViewModel.riveModel?.riveFile, let viewModel = file.viewModelNamed("...") else { return }
+        
+        // Create blank
+        let blankInstance = viewModel.createInstance()
+
+        // Create default
+        let defaultInstance = viewModel.createDefaultInstance()
+
+        // Create by index
+        for index in 0..<viewModel.instanceCount {
+            let instanceByIndex = viewModel.createInstance(fromIndex: index)
+        }
+
+        // Create by name
+        for name in viewModel.instanceNames {
+            let instanceByName = viewModel.createInstance(fromName: name)
+        }
+    ```
     </Tab>
 </Tabs>
 
