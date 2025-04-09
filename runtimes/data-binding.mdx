@@ -311,6 +311,16 @@ Property descriptors can be inspected on a view model to discover at runtime whi
         )
         ```
     </Tab>
+    <Tab title="Apple">
+        ```swift
+        let riveViewModel = RiveViewModel(...)
+        guard let viewModel = riveViewModel.riveModel?.file.viewModelNamed(...) else { return }
+        for property in viewModel.properties {
+            print(property.type) // String, number, boolean, etc
+            print(property.name) // The name of the property within the view model
+        }
+        ```
+    </Tab>
 </Tabs>
 
 View model instances have mutable properties. References to these properties can be retrieved by name. They have get, set, and observe operations. Getting or observing the value will retrieve the latest value set on that properties binding, as of the last state machine or artboard advance. Setting the value will update the value and all of its bound elements.
