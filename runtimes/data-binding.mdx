@@ -459,4 +459,17 @@ View models can have properties of type view model, allowing for arbitrary nesti
             .getNumberProperty("My Nested View Model/My Second Nested VM/My Nested Number")
         ```
     </Tab>
+    <Tab title="Apple">
+        ```swift
+        let riveViewModel = RiveViewModel(...)
+        guard let instance = riveViewModel.riveModel?.riveFile.viewModelNamed("...")?.createDefaultInstance() else { return }
+
+        let nestedNumberByChain = instance
+                                    .viewModelInstanceProperty(fromPath: "Nested View Model")
+                                    .viewModelInstanceProperty(fromPath: "Another Nested View Model")
+                                    .numberProperty(fromPath: "Nested View Model/Another Nested View Model")
+
+        let nestedNumberByPath = instance.numberProperty(fromPath: "Nested View Model/Another Nested View Model")
+        ```
+    </Tab>
 </Tabs>
