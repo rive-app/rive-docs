@@ -152,7 +152,9 @@ Once we have a reference to a view model, it can be used to create an instance. 
     <Tab title="Apple">
     ```swift
         let riveViewModel = RiveViewModel(...)
-        guard let file = riveViewModel.riveModel?.riveFile, let viewModel = file.viewModelNamed("...") else { return }
+        guard let file = riveViewModel.riveModel?.riveFile,
+            let viewModel = file.viewModelNamed("...")
+            else { return }
         
         // Create blank
         let blankInstance = viewModel.createInstance()
@@ -208,6 +210,22 @@ It is preferred to assign to a state machine, as this will automatically apply t
 
         // Alternatively, apply the instance to the artboard
         view.controller.activeArtboard?.viewModelInstance = vmi
+        ```
+    </Tab>
+    <Tab title="Apple">
+        ```swift
+        let riveViewModel = RiveViewModel(...)
+        guard let artboard = riveViewModel.riveModel?.artboard,
+            let instance = riveViewModel.riveModel?.riveFile.defaultViewModel(for: artboard).createDefaultInstance()
+            else { return }
+        if let stateMachine = riveViewModel.riveModel?.stateMachine {
+            // Apply the instance to the state machine (preferred)
+            // Applying to a state machine will automatically bind to its artboard
+            stateMachine.bind(viewModelInstance: instance)
+        } else {
+            // Alternatively, apply the instance to the artboard
+            artboard.bind(viewModelInstance: instance)
+        }
         ```
     </Tab>
 </Tabs>
