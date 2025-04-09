@@ -1,18 +1,17 @@
 ---
-title: 'Getting Started'
-description: 'Adding Rive to your Unreal project.'
+title: "Getting Started"
+description: "Adding Rive to your Unreal project."
 ---
 
 <Note>
-  The rive-unreal package is currently in **Technical Preview** for macOS and Windows. It currently supports **Unreal 5.3 (Rive plugin pre-0.2.3) and 5.4.** Unreal Engine 5.5 support is coming soon.
+  The rive-unreal package is currently in **Beta** for macOS and Windows. It currently supports **Unreal 5.3, 5.4 and 5.5.**
 </Note>
 
 <Tip>
   Helpful hint: To avoid issues with compiling the Rive modules, it's best to either:
 
-  1. Create a C++ project instead of a Blueprint project, OR&#x20;
-
-  2. Immediately add a C++ class to the project after creation (and BEFORE adding the Rive plugin).
+  1. Create a C\+\+ project instead of a Blueprint project, OR 
+  2. Immediately add a C\+\+ class to the project after creation (and BEFORE adding the Rive plugin).
 </Tip>
 
 **Getting Started Best Practices**
@@ -29,11 +28,9 @@ Specific platform dependencies and build tools are needed to compile the Rive pl
 
 ### Unreal Version
 
-* Install *UE 5.3.2 or above* - [Epic Games Launcher.](https://store.epicgames.com/en-US/download)
-
-* Ensure that *5.3.2 or above* is set as the current version:![Image](https://ucarecdn.com/c75a2b18-7208-4b28-bfef-a998a9a0bf08/)
-
-* Ensure **Engine Source** is checked from the **Options** launcher shown above:![Image](https://ucarecdn.com/50bf5981-f34a-43cd-b149-09a84bb8b49b/)
+- Install _UE 5.3.2 or above_ - [Epic Games Launcher.](https://store.epicgames.com/en-US/download)
+- Ensure that _5.3.2 or above_ is set as the current version:![Image](https://ucarecdn.com/c75a2b18-7208-4b28-bfef-a998a9a0bf08/)
+- Ensure **Engine Source** is checked from the **Options** launcher shown above:![Image](https://ucarecdn.com/50bf5981-f34a-43cd-b149-09a84bb8b49b/)
 
 <Note>
   Work is underway to support newer (and older) versions of Unreal. If you require a specific version of Unreal to be supported, please reach out to us on our [support channel](https://rive.atlassian.net/servicedesk/customer/portals).
@@ -41,11 +38,11 @@ Specific platform dependencies and build tools are needed to compile the Rive pl
 
 ### MacOS
 
-The plugin should work on M-Series chips and Intel. *Please* [file an issue on Github](https://github.com/rive-app/rive-unreal/issues) *if you're encountering difficulties and share you environment details.*
+The plugin should work on M-Series chips and Intel. _Please_ [file an issue on Github](https://github.com/rive-app/rive-unreal/issues) _if you're encountering difficulties and share you environment details._
 
 **Steps:**
 
-* [Install XCode ](https://developer.apple.com/xcode/)for MacOS.
+- [Install XCode ](https://developer.apple.com/xcode/)for MacOS.
 
 ### Windows
 
@@ -56,29 +53,22 @@ The plugin should work on M-Series chips and Intel. *Please* [file an issue on G
 **Steps:**
 
 1. [Install Visual Studio](https://visualstudio.microsoft.com/) for Windows.
-
 2. Follow [these instructions](https://dev.epicgames.com/documentation/en-us/unreal-engine/setting-up-visual-studio-development-environment-for-cplusplus-projects-in-unreal-engine?application_version=5.3) for setting up Visual Studio for Unreal development.
-
 3. Ensure your project [RHI is set to DirectX 11:](https://dev.epicgames.com/community/learning/tutorials/aqV9/render-hardware-interface-rhi)![Image](https://ucarecdn.com/67796611-16cd-43f6-ae84-1990a793dcb0/)
 
 **Debug steps**:
 
 Follow these additional steps if you're encountering issues building.
 
-* For the **Visual Studio Installer** within the **Game development with C++** section, be sure to also check:
-
-  * Unreal Engine installer
-
-  * Unreal Engine Test Adapter
-
-  * Unreal Engine uproject support (Preview)
-
-* Ensure Visual Studio and toolchains are updated to the latest versions.
-
-* Ensure you're using a supported version of MSVC. You may run into Windows Toolchain issues, for example:
+- For the **Visual Studio Installer** within the **Game development with C\+\+** section, be sure to also check:
+  - Unreal Engine installer
+  - Unreal Engine Test Adapter
+  - Unreal Engine uproject support (Preview)
+- Ensure Visual Studio and toolchains are updated to the latest versions.
+- Ensure you're using a supported version of MSVC. You may run into Windows Toolchain issues, for example:
 
 <Note>
-  *"UnrealBuildTool has banned the MSVC 14.39.33519-14.39.99999 toolchains due to compiler issues. Please install a different toolchain such as 14.38.33130 by opening the generated solution and installing recommended components or from the Visual Studio installer.*
+  _"UnrealBuildTool has banned the MSVC 14.39.33519-14.39.99999 toolchains due to compiler issues. Please install a different toolchain such as 14.38.33130 by opening the generated solution and installing recommended components or from the Visual Studio installer._
 </Note>
 
 ## Demo Project
@@ -88,22 +78,16 @@ To quickly experiment with rive-unreal, take a look at our [demos project](https
 **Follow these steps:**
 
 1. Ensure you've completed the steps outlined in **Build requirements** above.
-
 2. Download the latest project from the Github.
-
 3. Extract the project and run **ShowDemo.uproject.**
-
 4. Wait a bit until a popup appears, asking to build missing modules. Select **yes.** Note that the names of the modules may differ from the image below. ![Image](https://ucarecdn.com/4cf3df6f-9ce6-47d5-8368-8c51f3c7d995/)
-
 5. It may take a while to open the project the first time and appear as if nothing is happening. It shouldn't take longer than a few minutes.
-
 6. Play the **MainMenu** level (`/Content/Levels/MainMenu/LV_MainMenu.umap`).
 
 **Debug steps**:
 
-* See the debug steps in **Build requirements.**
-
-* If you encounter difficulties compiling, please [report the issue on our Github.](https://github.com/rive-app/rive-unreal/issues)
+- See the debug steps in **Build requirements.**
+- If you encounter difficulties compiling, please [report the issue on our Github.](https://github.com/rive-app/rive-unreal/issues)
 
 ## Add Rive to an existing project
 
@@ -114,28 +98,20 @@ To quickly experiment with rive-unreal, take a look at our [demos project](https
 **Steps:**
 
 1. Ensure you've completed the steps outlined in **Build requirements** above. Shut down the Unreal Editor if it is open.
-
 2. Download the latest version of the plugin from the Github [releases tab](https://github.com/rive-app/rive-unreal/releases) (named with a version number like **Rive-X.Y.Z.zip**)
-
 3. Extract the zip and copy the content to your Unreal project in the file system folder `Your-Project-Name/Plugins/Rive/`
-
-4. Open your project *.uproject* file.
-
+4. Open your project _.uproject_ file.
 5. Wait a bit until a popup appears, asking to build missing modules. Select **yes.**
-
 6. It may take a while to open the project the first time and appear as if nothing is happening. It shouldn't take longer than a few minutes.
+7. Once the project is open, ensure that the Rive plugin is enabled: **Settings-\>Plugins** and search for **Rive.**![Image](https://ucarecdn.com/1e6d9667-d43b-4948-abd1-7735c25cbecb/)
 
-7. Once the project is open, ensure that the Rive plugin is enabled: **Settings->Plugins** and search for **Rive.**![Image](https://ucarecdn.com/1e6d9667-d43b-4948-abd1-7735c25cbecb/)
-
-Now you can add Rive content!
+Now you can add Rive content\!
 
 **Debug steps**:
 
-* See the debug steps in **Build requirements.**
-
-* For Windows, ensure the RHI is set to **DirectX 11.**
-
-* If you encounter difficulties compiling, please [report the issue on our Github.](https://github.com/rive-app/rive-unreal/issues)
+- See the debug steps in **Build requirements.**
+- For Windows, ensure the RHI is set to **DirectX 11.**
+- If you encounter difficulties compiling, please [report the issue on our Github.](https://github.com/rive-app/rive-unreal/issues)
 
 ## Adding a Rive file to Unreal
 
