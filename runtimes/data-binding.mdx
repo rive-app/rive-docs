@@ -64,6 +64,24 @@ To begin, we need to get a reference to a particular view model. This can be don
         val defaultVM = file.defaultViewModelForArtboard(view.controller.activeArtboard!!)
         ```
     </Tab>
+    <Tab title="Apple">
+        ```swift
+        let riveViewModel = RiveViewModel(...)
+        guard let file = viewModel.riveModel?.riveFile else { return }
+
+        // Data binding view model by name
+        let viewModelByName = file.viewModelNamed("...")
+
+        // Data binding view model by index
+        for index in 0..<file.viewModelCount {
+            let viewModelByIndex = file.viewModel(at: index)
+        }
+
+        // Default data binding view model for an artboard
+        guard let artboard = riveViewModel.riveModel?.artboard else { return }
+        let viewModelForArtboard = file.viewModel(for: artboard)
+        ```
+    </Tab>
 </Tabs>
 
 # View Model Instances
