@@ -46,6 +46,24 @@ To begin, we need to get a reference to a particular view model. This can be don
     });
     ```
     </Tab>
+    <Tab title="Apple">
+        ```swift
+        let riveViewModel = RiveViewModel(...)
+        let file = riveViewModel.riveModel!.riveFile
+
+        // Data binding view model by name
+        let viewModelByName = file.viewModelNamed("...")
+
+        // Data binding view model by index
+        for index in 0..<file.viewModelCount {
+            let viewModelByIndex = file.viewModel(at: index)
+        }
+
+        // Default data binding view model for an artboard
+        let artboard = riveViewModel.riveModel!.artboard
+        let viewModelForArtboard = file.viewModel(for: artboard)
+        ```
+    </Tab>
     <Tab title="Android">
         ```kotlin
         // `view` of type RiveAnimationView
@@ -62,24 +80,6 @@ To begin, we need to get a reference to a particular view model. This can be don
 
         // Get reference to the default view model
         val defaultVM = file.defaultViewModelForArtboard(view.controller.activeArtboard!!)
-        ```
-    </Tab>
-    <Tab title="Apple">
-        ```swift
-        let riveViewModel = RiveViewModel(...)
-        guard let file = riveViewModel.riveModel?.riveFile else { return }
-
-        // Data binding view model by name
-        let viewModelByName = file.viewModelNamed("...")
-
-        // Data binding view model by index
-        for index in 0..<file.viewModelCount {
-            let viewModelByIndex = file.viewModel(at: index)
-        }
-
-        // Default data binding view model for an artboard
-        guard let artboard = riveViewModel.riveModel?.artboard else { return }
-        let viewModelForArtboard = file.viewModel(for: artboard)
         ```
     </Tab>
 </Tabs>
@@ -130,6 +130,28 @@ Once we have a reference to a view model, it can be used to create an instance. 
     });
     ```
     </Tab>
+    <Tab title="Apple">
+    ```swift
+        let riveViewModel = RiveViewModel(...)
+        let viewModel = riveViewModel.riveModel!.riveFile.viewModelNamed("...")!
+        
+        // Create blank
+        let blankInstance = viewModel.createInstance()
+
+        // Create default
+        let defaultInstance = viewModel.createDefaultInstance()
+
+        // Create by index
+        for index in 0..<viewModel.instanceCount {
+            let instanceByIndex = viewModel.createInstance(fromIndex: index)
+        }
+
+        // Create by name
+        for name in viewModel.instanceNames {
+            let instanceByName = viewModel.createInstance(fromName: name)
+        }
+    ```
+    </Tab>
     <Tab title="Android">
         ```kotlin
         val vm = view.controller.file?.getViewModelByName("My View Model")!!
@@ -148,30 +170,6 @@ Once we have a reference to a view model, it can be used to create an instance. 
         // Create by name
         val vmiNamed = vm.createInstanceFromName("My Instance")
         ```
-    </Tab>
-    <Tab title="Apple">
-    ```swift
-        let riveViewModel = RiveViewModel(...)
-        guard let file = riveViewModel.riveModel?.riveFile,
-            let viewModel = file.viewModelNamed("...")
-            else { return }
-        
-        // Create blank
-        let blankInstance = viewModel.createInstance()
-
-        // Create default
-        let defaultInstance = viewModel.createDefaultInstance()
-
-        // Create by index
-        for index in 0..<viewModel.instanceCount {
-            let instanceByIndex = viewModel.createInstance(fromIndex: index)
-        }
-
-        // Create by name
-        for name in viewModel.instanceNames {
-            let instanceByName = viewModel.createInstance(fromName: name)
-        }
-    ```
     </Tab>
 </Tabs>
 
@@ -195,6 +193,20 @@ It is preferred to assign to a state machine, as this will automatically apply t
     });
     ```
     </Tab>
+    <Tab title="Apple">
+        ```swift
+        let riveViewModel = RiveViewModel(...)
+        let artboard = riveViewModel.riveModel!.artboard,
+        let instance = riveViewModel.riveModel!.riveFile.defaultViewModel(for: artboard).createDefaultInstance()!
+
+        // Apply the instance to the state machine (preferred)
+        // Applying to a state machine will automatically bind to its artboard
+        riveViewModel.riveModel!.stateMachine.bind(instance) 
+            
+        // Alternatively, apply the instance to the artboard
+        artboard.bind(viewModelInstance: instance)
+        ```
+    </Tab>
     <Tab title="Android">
         ```kotlin
         view.setRiveResource(
@@ -210,22 +222,6 @@ It is preferred to assign to a state machine, as this will automatically apply t
 
         // Alternatively, apply the instance to the artboard
         view.controller.activeArtboard?.viewModelInstance = vmi
-        ```
-    </Tab>
-    <Tab title="Apple">
-        ```swift
-        let riveViewModel = RiveViewModel(...)
-        guard let artboard = riveViewModel.riveModel?.artboard,
-            let instance = riveViewModel.riveModel?.riveFile.defaultViewModel(for: artboard).createDefaultInstance()
-            else { return }
-        if let stateMachine = riveViewModel.riveModel?.stateMachine {
-            // Apply the instance to the state machine (preferred)
-            // Applying to a state machine will automatically bind to its artboard
-            stateMachine.bind(viewModelInstance: instance)
-        } else {
-            // Alternatively, apply the instance to the artboard
-            artboard.bind(viewModelInstance: instance)
-        }
         ```
     </Tab>
 </Tabs>
@@ -244,24 +240,24 @@ Alternatively, you may prefer to use auto-binding. This will automatically bind 
     });
     ```
     </Tab>
+        <Tab title="Apple">
+        ```swift
+        let riveViewModel = RiveViewModel(...)
+        riveViewModel.riveModel.enableAutoBind { instance in
+            // Store a reference to `instance` to later access properties
+            // The instance may change as state machines and artboards change
+        }
+
+        // If you'd like to disable autoBind after enabling…
+        riveViewModel.riveModel!.disableAutoBind()
+        ```
+    </Tab>
     <Tab title="Android">
         ```kotlin {3}
         view.setRiveResource(
             R.raw.my_rive_file,
             autoBind = true,
         )
-        ```
-    </Tab>
-    <Tab title="Apple">
-        ```swift
-        let riveViewModel = RiveViewModel(...)
-        riveViewModel.riveModel?.enableAutoBind { instance in
-            // Store a reference to `instance` to later access properties
-            // The instance may change as state machines and artboards change
-        }
-
-        // If you'd like to disable autoBind after enabling…
-        riveViewModel.riveModel?.disableAutoBind()
         ```
     </Tab>
 </Tabs>
@@ -299,6 +295,16 @@ Property descriptors can be inspected on a view model to discover at runtime whi
     });
     ```
     </Tab>
+    <Tab title="Apple">
+        ```swift
+        let riveViewModel = RiveViewModel(...)
+        let viewModel = riveViewModel.riveModel!.file.viewModelNamed(...)!
+        for property in viewModel.properties {
+            print(property.type) // String, number, boolean, etc
+            print(property.name) // The name of the property within the view model
+        }
+        ```
+    </Tab>
     <Tab title="Android">
         ```kotlin
         val vm = view.controller.file?.getViewModelByName("My View Model")!!
@@ -309,16 +315,6 @@ Property descriptors can be inspected on a view model to discover at runtime whi
             properties,
             ViewModel.Property(ViewModel.PropertyDataType.NUMBER, "My Number Property")
         )
-        ```
-    </Tab>
-    <Tab title="Apple">
-        ```swift
-        let riveViewModel = RiveViewModel(...)
-        guard let viewModel = riveViewModel.riveModel?.file.viewModelNamed(...) else { return }
-        for property in viewModel.properties {
-            print(property.type) // String, number, boolean, etc
-            print(property.name) // The name of the property within the view model
-        }
         ```
     </Tab>
 </Tabs>
@@ -350,6 +346,31 @@ View model instances have mutable properties. References to these properties can
     });
     ```
     </Tab>
+    <Tab title="Apple">
+        ```swift
+        let riveViewModel = RiveViewModel(...)
+        let instance = riveViewModel.riveModel!.riveFile.viewModelNamed("...")!.createDefaultInstance()!
+        
+        // An example of getting a string property
+        let stringProperty = instance.stringProperty(fromPath: "...")!
+        // Updating its value
+        stringProperty.value = "Hello, Rive"
+        // Get its value
+        print(stringProperty.value)
+        // Subscribing to value changes
+        let listener = stringProperty.addListener { value in
+            print(value)
+        }
+        // Unsubscribing from value changes
+        stringProperty.removeListener(listener)
+
+        // You can also update and listen without storing a strong reference
+        instance.stringProperty(fromPath: "...").value = "Hello again, Rive"
+
+        // Other properties are similar (value setter / getter), such as number, boolean, etc.
+        // Triggers can additionally be listened to for when they are triggered
+        ```
+    </Tab>
     <Tab title="Android">
         ```kotlin
         val vm = view.controller.file?.getViewModelByName("My View Model")!!
@@ -368,29 +389,6 @@ View model instances have mutable properties. References to these properties can
         }
         // Or collect in Compose
         val numberValue by numberProperty.collectAsState()
-        ```
-    </Tab>
-    <Tab title="Apple">
-        ```swift
-        let riveViewModel = RiveViewModel(...)
-        guard let instance = riveViewModel.riveModel?.riveFile.viewModelNamed("...")?.createDefaultInstance() else { return }
-        
-        // An example of getting a string property
-        let stringProperty = instance.stringProperty(fromPath: "...")
-        // Updating its value
-        stringProperty?.value = "Hello, Rive"
-        // Subscribing to value changes
-        let listener = stringProperty?.addListener { value in
-            print(value)
-        }
-        // Unsubscribing from value changes
-        stringProperty?.removeListener(listener)
-
-        // You can also update and listen without storing a strong reference
-        instance.stringProperty(fromPath: "...").value = "Hello again, Rive"
-
-        // Other properties are similar (value setter / getter), such as number, boolean, etc.
-        // Triggers can additionally be listened to for when they are triggered
         ```
     </Tab>
 </Tabs>
@@ -445,6 +443,19 @@ View models can have properties of type view model, allowing for arbitrary nesti
     });
     ```
     </Tab>
+    <Tab title="Apple">
+        ```swift
+        let riveViewModel = RiveViewModel(...)
+        let instance = riveViewModel.riveModel!.riveFile.viewModelNamed("...")!.createDefaultInstance()!
+
+        let nestedNumberByChain = instance
+                                    .viewModelInstanceProperty(fromPath: "Nested View Model")
+                                    .viewModelInstanceProperty(fromPath: "Another Nested View Model")
+                                    .numberProperty(fromPath: "Number")
+
+        let nestedNumberByPath = instance.numberProperty(fromPath: "Nested View Model/Another Nested View Model/Number")
+        ```
+    </Tab>
     <Tab title="Android">
         ```kotlin
         val vm = view.controller.file?.getViewModelByName("My View Model")!!
@@ -457,19 +468,6 @@ View models can have properties of type view model, allowing for arbitrary nesti
 
         val nestedNumberByPath = vmi
             .getNumberProperty("My Nested View Model/My Second Nested VM/My Nested Number")
-        ```
-    </Tab>
-    <Tab title="Apple">
-        ```swift
-        let riveViewModel = RiveViewModel(...)
-        guard let instance = riveViewModel.riveModel?.riveFile.viewModelNamed("...")?.createDefaultInstance() else { return }
-
-        let nestedNumberByChain = instance
-                                    .viewModelInstanceProperty(fromPath: "Nested View Model")
-                                    .viewModelInstanceProperty(fromPath: "Another Nested View Model")
-                                    .numberProperty(fromPath: "Nested View Model/Another Nested View Model")
-
-        let nestedNumberByPath = instance.numberProperty(fromPath: "Nested View Model/Another Nested View Model")
         ```
     </Tab>
 </Tabs>
