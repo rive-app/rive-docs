@@ -64,6 +64,30 @@ To begin, we need to get a reference to a particular view model. This can be don
         val defaultVM = file.defaultViewModelForArtboard(view.controller.activeArtboard!!)
         ```
     </Tab>
+    <Tab title="Flutter">
+        ```dart
+        // Get reference to the File and Artboard
+        final file = await File.asset(
+            'assets/my_file.riv',
+            riveFactory: Factory.rive,
+        );
+        final artboard = file!.defaultArtboard()!;
+
+        // Get reference by name
+        file.viewModelByName("My View Model");
+
+        // Get reference by index
+        for (var i = 0; i < file.viewModelCount; i++) {
+            final indexedVM = file.viewModelByIndex(i);
+        }
+
+        // Get reference to the default view model for an artboard
+        final defaultVM = file.defaultArtboardViewModel(artboard);
+
+        // Dispose the view model
+        viewModel.dispose();
+        ```
+    </Tab>      
 </Tabs>
 
 # View Model Instances
@@ -131,6 +155,28 @@ Once we have a reference to a view model, it can be used to create an instance. 
         val vmiNamed = vm.createInstanceFromName("My Instance")
         ```
     </Tab>
+    <Tab title="Flutter">
+        ```dart
+        final vm = file.viewModelByName("My View Model")!;
+
+        // Create blank
+        final vmiBlank = vm.createInstance();
+
+        // Create default
+        final vmiDefault = vm.createDefaultInstance();
+
+        // Create by index
+        for (int i = 0; i < vm.instanceCount; i++) {
+        final vmiIndexed = vm.createInstanceFromIndex(i);
+        }
+
+        // Create by name
+        final vmiNamed = vm.createInstanceFromName("My Instance");
+
+        // Dispose the view model instance
+        viewModelInstance.dispose();        
+        ```
+    </Tab>    
 </Tabs>
 
 The created instance can then be assigned to a state machine or artboard. This establishes the bindings set up at edit time.
@@ -170,6 +216,26 @@ It is preferred to assign to a state machine, as this will automatically apply t
         view.controller.activeArtboard?.viewModelInstance = vmi
         ```
     </Tab>
+    <Tab title="Flutter">
+        ```dart
+        final file = await File.asset(
+        'assets/my_file.riv',
+        riveFactory: Factory.rive,
+        );
+
+        final artboard = file!.defaultArtboard();
+        final stateMachine = artboard!.defaultStateMachine()!;
+
+        final vm = file.defaultArtboardViewModel(artboard)!;
+        final vmi = vm.createDefaultInstance()!;
+
+        // Bind to the state machine. This automatically binds to the artboard as well.
+        stateMachine.bindViewModelInstance(vmi);
+
+        // If you're not using a state machine, bind to the artboard
+        artboard.bindViewModelInstance(vmi);        
+        ```
+    </Tab>      
 </Tabs>
 
 ### Auto-Binding
@@ -194,6 +260,13 @@ Alternatively, you may prefer to use auto-binding. This will automatically bind 
         )
         ```
     </Tab>
+    <Tab title="Flutter">
+        <Info>
+        Flutter (rive_native) does not support auto-binding at this time. Higher level widgets will expose this functionality in the future.
+
+        See the `RivePlayer.dart` file in the example app for a demo of how this will be presented.
+      </Info>   
+    </Tab>      
 </Tabs>
 
 # Properties
@@ -241,6 +314,9 @@ Property descriptors can be inspected on a view model to discover at runtime whi
         )
         ```
     </Tab>
+    <Tab title="Flutter">
+        <Info>Flutter (rive_native) does not yet support `viewModel.properties`.</Info>
+    </Tab>      
 </Tabs>
 
 View model instances have mutable properties. References to these properties can be retrieved by name. They have get, set, and observe operations. Getting or observing the value will retrieve the latest value set on that properties binding, as of the last state machine or artboard advance. Setting the value will update the value and all of its bound elements.
@@ -290,6 +366,36 @@ View model instances have mutable properties. References to these properties can
         val numberValue by numberProperty.collectAsState()
         ```
     </Tab>
+    <Tab title="Flutter">
+        ```dart
+        final vm = file.defaultArtboardViewModel(artboard)!;
+        final vmi = vm.createDefaultInstance()!;
+
+        final numberProperty = vmi.number("My Number Property")!;
+        // Get
+        final numberValue = numberProperty.value;
+
+        // Set
+        numberProperty.value = 10;
+
+        // Observe
+        void onNumberChange(double value) {
+        print("Number changed to: $value");
+        }
+
+        numberProperty.addListener(onNumberChange);
+
+        // Remove listener when done
+        numberProperty.removeListener(onNumberChange);
+
+        // Alternatively, clear all listeners
+        numberProperty.clearListeners();
+
+        // Dispose of the property to clear up resources.
+        // This will call `clearListeners` internally.
+        numberProperty.dispose();        
+        ```
+    </Tab>      
 </Tabs>
 
 # Enums
@@ -318,6 +424,9 @@ Enums are string typed. The Rive file contains a list of enums. Each enum in tur
         val firstEnumFirstValue = enums[0].values[0]
         ```
     </Tab>
+    <Tab title="Flutter">
+        <Info>Flutter (rive_native) does not yet support `file.enums`.</Info>
+    </Tab>      
 </Tabs>
 
 # Nested Property Paths
@@ -356,4 +465,17 @@ View models can have properties of type view model, allowing for arbitrary nesti
             .getNumberProperty("My Nested View Model/My Second Nested VM/My Nested Number")
         ```
     </Tab>
+    <Tab title="Flutter">
+        ```dart
+        final vm = file.viewModelByName("My View Model")!;
+        final vmi = vm.createInstanceFromName("My Instance")!;
+
+        final nestedNumberByChain = vmi
+            .viewModel("My Nested View Model")!
+            .viewModel("My Second Nested VM")!
+            .number("My Nested Number");
+
+        final nestedNumberByPath = vmi.number("My Nested View Model/My Second Nested VM/My Nested Number");        
+        ```
+    </Tab>      
 </Tabs>
