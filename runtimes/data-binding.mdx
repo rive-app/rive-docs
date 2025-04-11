@@ -167,11 +167,11 @@ Once we have a reference to a view model, it can be used to create an instance. 
 
         // Create by index
         for (int i = 0; i < vm.instanceCount; i++) {
-        final vmiIndexed = vm.createInstanceFromIndex(i);
+        final vmiIndexed = vm.createInstanceByIndex(i);
         }
 
         // Create by name
-        final vmiNamed = vm.createInstanceFromName("My Instance");
+        final vmiNamed = vm.createInstanceByName("My Instance");
 
         // Dispose the view model instance
         viewModelInstance.dispose();        
@@ -468,7 +468,7 @@ View models can have properties of type view model, allowing for arbitrary nesti
     <Tab title="Flutter">
         ```dart
         final vm = file.viewModelByName("My View Model")!;
-        final vmi = vm.createInstanceFromName("My Instance")!;
+        final vmi = vm.createInstanceByName("My Instance")!;
 
         final nestedNumberByChain = vmi
             .viewModel("My Nested View Model")!
