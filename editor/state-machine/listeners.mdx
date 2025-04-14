@@ -1,6 +1,5 @@
 ---
-title: 'Listeners'
-description: ''
+title: "Listeners"
 ---
 
 Listeners give designers the tools to take their State Machine one step further and define click, hover, and mouse move actions that can change inputs in the editor and at runtime without the need for a developer.
@@ -41,6 +40,16 @@ Alternatively, you can select hit the target button with the listener selected a
 
 ![Manually add target](https://ucarecdn.com/02b7c53d-d2b7-458f-a7ff-9073f211bf41/)
 
+**Opaque Target**
+
+By default, target areas do not respect the draw order established in the Hierarchy; This allows target areas to detect actions, no matter where they are in that order. While this is useful in many scenarios, overlapping target areas can cause multiple listeners to fire at the same time.
+
+![Clean Shot2025 04 10at17 04 06 Gi](/images/CleanShot2025-04-10at17.04.06.gif)
+
+The Opaque Target option gives us the ability to prevent user actions from affecting targets below the Listener target.
+
+![Clean Shot2025 04 10at17 04 57 Gi](/images/CleanShot2025-04-10at17.04.57.gif)
+
 **Considerations**
 
 You have the ability to set most objects as the target of a Listener but the target will work differently depending on the type of object you target. For example, targeting any shape or group will create a hit box, but targeting an Artboard or Nested Artboard will listen for any events coming from those Artboards.
@@ -71,7 +80,7 @@ There are seven different listener actions.
 
 **Listen For Event** - This action is hidden unless you are targeting an Artboard or Nested artboard. If an Artboard has multiple Events, you can use the dropdown to select the specific Event you want to listen for.
 
-### Listener Action 
+### Listener Action
 
 A listener actions is what the listener does when the defined user interaction happens within the target area. There are three types of Listener Actions; Input change, Report Event, and Align target. To add a Listener action, click the plus button next to the User Action dropdown. Keep in mind that you can add as many Listener Actions as you’d like.
 
