@@ -319,6 +319,8 @@ Property descriptors can be inspected on a view model to discover at runtime whi
     </Tab>
 </Tabs>
 
+### Mutable Properties
+
 View model instances have mutable properties. References to these properties can be retrieved by name. They have get, set, and observe operations. Getting or observing the value will retrieve the latest value set on that properties binding, as of the last state machine or artboard advance. Setting the value will update the value and all of its bound elements.
 
 <Note>Trigger properties do not have a get operation - only set and observe.</Note>
@@ -351,24 +353,62 @@ View model instances have mutable properties. References to these properties can
         let riveViewModel = RiveViewModel(...)
         let instance = riveViewModel.riveModel!.riveFile.viewModelNamed("...")!.createDefaultInstance()!
         
-        // An example of getting a string property
+        // Strings
         let stringProperty = instance.stringProperty(fromPath: "...")!
         // Updating its value
         stringProperty.value = "Hello, Rive"
         // Get its value
         print(stringProperty.value)
-        // Subscribing to value changes
-        let listener = stringProperty.addListener { value in
-            print(value)
-        }
-        // Unsubscribing from value changes
-        stringProperty.removeListener(listener)
 
-        // You can also update and listen without storing a strong reference
+        // You can also set and get values without storing a strong reference
         instance.stringProperty(fromPath: "...").value = "Hello again, Rive"
 
-        // Other properties are similar (value setter / getter), such as number, boolean, etc.
-        // Triggers can additionally be listened to for when they are triggered
+        // Numbers
+        let numberProperty = instance.numberProperty(fromPath: "...")!
+        // Updating its value
+        numberProperty.value = 1337
+        // Get its value
+        print(numberProperty.value)
+
+        // You can also set and get values without storing a strong reference
+        instance.numberProperty(fromPath: "...").value = 1337
+
+        // Booleans
+        let booleanProperty = instance.booleanProperty(fromPath: "...")!
+        // Updating its value
+        booleanProperty.value = true
+        // Get its value
+        print(booleanProperty.value)
+
+        // You can also set and get values without storing a strong reference
+        instance.booleanProperty(fromPath: "...").value = true
+
+        // Colors
+        let colorProperty = instance.colorProperty(fromPath: "...")!
+        // Updating its value, which is a UIColor/NSColor, so all static helpers apply.
+        colorProperty.value = .red
+        // Get its value
+        print(colorProperty.value)
+
+        // You can also set and get values without storing a strong reference
+        instance.colorProperty(fromPath: "...").value = .red
+
+        // Enums
+        let enumProperty = instance.enumProperty(fromPath: "...")!
+        // Updating its value
+        enumProperty.value = "Foo"
+        // Get its value
+        print(enumProperty.value)
+        // Print all possible values
+        print(enumProperty.values)
+
+        // You can also set and get values without storing a strong reference
+        instance.enumProperty(fromPath: "...").value = "Foo"
+
+        // Trigger
+        let triggerProperty = instance.triggerProperty(fromPath: "...")!
+        // Fire the trigger
+        triggerProperty.trigger()
         ```
     </Tab>
     <Tab title="Android">
@@ -381,14 +421,6 @@ View model instances have mutable properties. References to these properties can
         val numberValue = numberProperty.value
         // Set
         numberProperty.value = 10f
-        // Observe
-        lifecycleScope.launch {
-            numberProperty.collect { value ->
-                Log.i("MyActivity", "Value: $value")
-            }
-        }
-        // Or collect in Compose
-        val numberValue by numberProperty.collectAsState()
         ```
     </Tab>
 </Tabs>
@@ -468,6 +500,51 @@ View models can have properties of type view model, allowing for arbitrary nesti
 
         val nestedNumberByPath = vmi
             .getNumberProperty("My Nested View Model/My Second Nested VM/My Nested Number")
+        ```
+    </Tab>
+</Tabs>
+
+# Listeners
+
+Listeners are a way of adding observability to your data binding properties. Using listeners, you will be notified when your property changes are applied by a state machine, whether a new value has been explicitly set or if the state machine itself has caused a change. Adding a listener to trigger properties is a new way to notify you that some event has occurred.
+
+<Tabs>
+    <Tab title="Apple">
+        ```swift
+        let riveViewModel = RiveViewModel(...)
+        let instance = riveViewModel.riveModel!.riveFile.viewModelNamed("...")!.createDefaultInstance()!
+        
+        // Get the string property
+        let stringProperty = instance.stringProperty(fromPath: "...")!
+        
+        // Add a listener
+        let listener = stringProperty.addListener { newValue in
+            print(newValue)
+        }
+        
+        // Remove a listener, where listener is the return value of addListener
+        stringProperty.removeListener(listener)
+
+        // Trigger properties can also be listened to for when they are triggered
+        instance.triggerProperty(fromPath: "...")!.addListener { 
+            print("Triggered!")
+        }
+        ```
+    </Tab>
+    <Tab title="Android">
+        ```kotlin
+        val vm = view.controller.file?.getViewModelByName("My View Model")!!
+        val vmi = vm.createInstanceFromName("My Instance")
+
+        val numberProperty = vmi.getNumberProperty("My Number Property")
+        // Observe
+        lifecycleScope.launch {
+            numberProperty.collect { value ->
+                Log.i("MyActivity", "Value: $value")
+            }
+        }
+        // Or collect in Compose
+        val numberValue by numberProperty.collectAsState()
         ```
     </Tab>
 </Tabs>
