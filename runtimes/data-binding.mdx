@@ -84,7 +84,7 @@ To begin, we need to get a reference to a particular view model. This can be don
         // Get reference to the default view model for an artboard
         final defaultVM = file.defaultArtboardViewModel(artboard);
 
-        // Dispose the view model
+        // Dispose the view model when you're no longer using it
         viewModel.dispose();
         ```
     </Tab>      
@@ -396,7 +396,7 @@ View model instances have mutable properties. References to these properties can
         // Alternatively, clear all listeners
         numberProperty.clearListeners();
 
-        // Dispose of the property to clear up resources.
+        // Dispose of the property to clear up resources when you're no longer using it
         // This will call `clearListeners()` internally.
         numberProperty.dispose();        
         ```
