@@ -315,7 +315,13 @@ Property descriptors can be inspected on a view model to discover at runtime whi
         ```
     </Tab>
     <Tab title="Flutter">
-        <Info>Flutter (rive_native) does not yet support `viewModel.properties`.</Info>
+        ```dart
+        // Accesss on a ViewModel object
+        print("Properties: ${viewModel.properties}");
+
+        // Access on a ViewModelInstance object
+        print("Properties: ${viewModelInstance.properties}");
+        ```
     </Tab>      
 </Tabs>
 
@@ -380,9 +386,8 @@ View model instances have mutable properties. References to these properties can
 
         // Observe
         void onNumberChange(double value) {
-        print("Number changed to: $value");
+            print("Number changed to: $value");
         }
-
         numberProperty.addListener(onNumberChange);
 
         // Remove listener when done
@@ -392,7 +397,7 @@ View model instances have mutable properties. References to these properties can
         numberProperty.clearListeners();
 
         // Dispose of the property to clear up resources.
-        // This will call `clearListeners` internally.
+        // This will call `clearListeners()` internally.
         numberProperty.dispose();        
         ```
     </Tab>      
@@ -425,7 +430,10 @@ Enums are string typed. The Rive file contains a list of enums. Each enum in tur
         ```
     </Tab>
     <Tab title="Flutter">
-        <Info>Flutter (rive_native) does not yet support `file.enums`.</Info>
+        ```dart
+        // Accesss on a File object
+        print("Data enums: ${file.enums}");
+        ```
     </Tab>      
 </Tabs>
 
