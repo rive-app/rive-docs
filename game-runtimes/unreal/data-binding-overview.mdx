@@ -4,7 +4,7 @@ description: "Unreal Data Binding Fundamentals"
 ---
 
 <Note>
-  If you're unfamiliar with Rive's databinding, please see [Data Binding](runtimes/data-binding) to get an understanding of the fundamental concepts.
+  If you're unfamiliar with Rive's Data Binding feature, please see [Data Binding](runtimes/data-binding) to get an understanding of the fundamental concepts.
 </Note>
 
 ## 🔧 Data Binding Overview
@@ -24,8 +24,8 @@ The Rive Unreal Plugin integrates the Rive ViewModel architecture into Unreal En
   - `URiveViewModelInstanceTrigger`
   - Nested ViewModels: `URiveViewModelInstance`
 - **Binding Targets**: Instances can be bound to:
-  - `URiveArtboard` – sets the data context for a Rive artboard.
-  - `FRiveStateMachine` – synchronizes ViewModel data with state machine inputs and outputs. Currently, binding to a `URiveArtboard` automatically binds to the state machine.
+  - `URiveArtboard` – sets the data context for a Rive artboard and it's associated state machine.
+  - `FRiveStateMachine` – synchronizes ViewModel data with state machine inputs and outputs and binds it to the state machine's artboard.
 
 ### 🔄 Lifecycle
 
@@ -47,7 +47,8 @@ The Rive Unreal Plugin integrates the Rive ViewModel architecture into Unreal En
 4. **Interact with Properties** (e.g. trigger a state or update text):
 
    ```cpp
-   Instance->SetStringPropertyValue("Username", "RiveUser"); Instance->FireTriggerProperty("Login"); 
+   Instance->SetStringPropertyValue("Username", "RiveUser");
+   Instance->FireTriggerProperty("Login"); 
    ```
 5. **Respond to Changes**:
 
@@ -58,5 +59,5 @@ The Rive Unreal Plugin integrates the Rive ViewModel architecture into Unreal En
 ### ⚙️ Architecture Highlights
 
 - Properties and ViewModel Instances expose **typed getters/setters** in both C\+\+ and Blueprints.
-- ViewModelInstances can contain **nested ViewModels**.
+- ViewModelInstances can contain **nested ViewModel instances**.
 - Callbacks are **tracked and invoked safely** via `HandleCallbacks()` (called per-frame by `URiveArtboard::AdvanceStateMachine()`).

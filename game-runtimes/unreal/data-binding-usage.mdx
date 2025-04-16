@@ -13,7 +13,7 @@ Obtain a ViewModel from a `.riv` file:
 URiveViewModel* ViewModel = RiveFile->GetViewModelByName(TEXT("PlayerData"));
 ```
 
-You can also get ViewModels by index or enumerate all ViewModel names using `GetPropertyNames()`.
+You can also get ViewModels by index or enumerate all ViewModel names using `GetInstanceNames()`.
 
 ### 2. **Create a ViewModel Instance**
 
@@ -43,14 +43,14 @@ Bind the ViewModel instance to a `URiveArtboard` to establish data context:
 Artboard->SetViewModelInstance(Instance);
 ```
 
-This propagates the instance to both the artboard and its `FRiveStateMachine`, ensuring synchronized behavior.\
+This propagates the instance to both the artboard and its `FRiveStateMachine` , ensuring synchronized behavior. Likewise, setting the ViewModel instance on a state machine sets it on the state machine's artboard.\
 \
 These operations can also be performed using Blueprints:\
 ![Databindinginit Pn](/images/unreal/databindinginit.png)
 
 ### 4. **Access or Modify Properties via the ViewModel Instance**
 
-`URiveViewModelInstance`exposes strongly-typed accessors:
+`URiveViewModelInstance`  exposes strongly-typed accessors:
 
 #### ✅ Boolean
 
