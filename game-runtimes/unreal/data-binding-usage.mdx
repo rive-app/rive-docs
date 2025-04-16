@@ -48,9 +48,9 @@ This propagates the instance to both the artboard and its `FRiveStateMachine`, e
 These operations can also be performed using Blueprints:\
 ![image.png](/image.png)
 
-### 4. **Access or Modify Properties**
+### 4. **Access or Modify Properties via the ViewModel Instance**
 
-Use strongly-typed accessors on `URiveViewModelInstance`:
+`URiveViewModelInstance`exposes strongly-typed accessors:
 
 #### ✅ Boolean
 
@@ -100,7 +100,83 @@ Instance->FireTriggerProperty("OnDamage");
 URiveViewModelInstance* WeaponInstance = Instance->GetNestedInstanceByName("Weapon");
 ```
 
-### 5. **Respond to Property Changes**
+### 5. 🧪 Using Accessors on Property Objects
+
+Each `URiveViewModelInstanceValue` subclass exposes `GetValue()` and `SetValue()` (or equivalents), enabling direct manipulation. This is especially useful if you want to cache a property for later use.
+
+### ✅ Boolean
+
+```cpp
+URiveViewModelInstanceBoolean* BoolProp = Instance->GetBooleanProperty("IsReady");
+
+if (BoolProp)
+{
+    BoolProp->SetValue(true);
+    bool bValue = BoolProp->GetValue();
+}
+```
+
+### 🔢 Number
+
+```cpp
+URiveViewModelInstanceNumber* HealthProp = Instance->GetNumberProperty("Health");
+
+if (HealthProp)
+{
+    float Old = HealthProp->GetValue();
+    HealthProp->SetValue(Old - 10.f);
+}
+```
+
+### 📝 String
+
+```cpp
+URiveViewModelInstanceString* NameProp = Instance->GetStringProperty("DisplayName");
+
+if (NameProp)
+{
+    NameProp->SetValue(TEXT("RiveBot"));
+    FString Value = NameProp->GetValue();
+}
+```
+
+### 🎨 Color
+
+```cpp
+URiveViewModelInstanceColor* ColorProp = Instance->GetColorProperty("PrimaryColor");
+
+if (ColorProp)
+{
+    ColorProp->SetColor(FColor::Green);
+    FColor Current = ColorProp->GetColor();
+}
+```
+
+### 🧩 Enum
+
+```cpp
+URiveViewModelInstanceEnum* RankProp = Instance->GetEnumProperty("Rank");
+
+if (RankProp)
+{
+    TArray<FString> Options = RankProp->GetValues();
+    RankProp->SetValue(TEXT("Gold"));
+    FString Selected = RankProp->GetValue();
+}
+```
+
+### 🚀 Trigger
+
+```cpp
+URiveViewModelInstanceTrigger* JumpProp = Instance->GetTriggerProperty("Jump");
+
+if (JumpProp)
+{
+    JumpProp->Trigger(); // Fires the trigger
+}
+```
+
+### **5. Respond to Property Changes**
 
 Each property value subclass (e.g. `URiveViewModelInstanceString`) supports change detection.
 
