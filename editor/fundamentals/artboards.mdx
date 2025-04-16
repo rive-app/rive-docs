@@ -1,25 +1,25 @@
 ---
-title: 'Artboards'
-description: ''
+title: "Artboards"
+description: "Artboards are the foundation of a file."
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
 
 ![Image](https://ucarecdn.com/08009032-ec6a-4552-b672-438f7ba243e4/)
 
-Artboards are the foundation of your composition across both design and animate mode. They act as the root of every hierarchy and allow you to define the dimensions and background color of a scene. You can create an infinite amount of artboards on the [Stage](../interface-overview/stage), but each Rive file has at least one artboard. 
+Artboards are the foundation of your composition across both design and animate mode. They act as the root of every hierarchy and allow you to define a scene's dimensions and background color. You can create infinite artboards on the [Stage](../interface-overview/stage), but each Rive file has at least one artboard.
 
 To learn more about Artboards, watch our video on Artboards or read more below.
 
 <YouTube id="AitX3lthC3I" />
 
-## ​Active artboard 
+## ​Active artboard
 
 ![Image](https://ucarecdn.com/d148310d-f507-466e-bd6d-900ec31c3c06/)
 
 The active artboard is represented with a dot next to its name on the stage. You can activate an artboard by clicking on it or any of its children within the stage. Note that sections of the editor will only surface content associated with the active artboard. For instance, only the active artboard's hierarchy is displayed in the tree. Similarly, only animations referenced to the active artboard will surface within the timeline.
 
-## Default State Machine 
+## Default State Machine
 
 The default state machine is the state machine that will be played when using the play button in the Toolbar. In addition to setting the default state machine, this also sets the default artboard that a developer will see when using this file outside of Rive.
 
@@ -35,12 +35,70 @@ You can quickly play the selected state machine from Design Mode by holding shif
 
 ![Image](https://ucarecdn.com/e85e23b2-87e0-4e83-8f48-ec4593b8dab1/)
 
-Before creating any graphics, you'll first need to create an artboard. You'll be prompted to create your first artboard when you create a new file.
+Before creating any graphics, you'll first need to create an artboard. There are two ways to create an artboard.
 
-​Select the Artboard tool from the Artboard menu within the toolbar or use the A shortcut to create additional artboards. Click and drag to define the bounds. You can always adjust the size and position by selecting the artboard in the [Hierarchy](../interface-overview/hierarchy) to surface its properties in the [Inspector](../interface-overview/inspector).
+In a new file, you'll find options on the stage to define an artboards dimentions, then a button to create a new artboard.
+
+Alternitively, you can use the​ Artboard tool which is found in the Artboard menu, or by using the shotcut A. With the tool active, click and drag to define the bounds. You can always adjust the size and position by selecting the artboard in the [Hierarchy](../interface-overview/hierarchy) to surface its properties in the [Inspector](../interface-overview/inspector).
 
 ## Artboard properties
 
 ![Image](https://ucarecdn.com/de29816e-6556-4e05-8def-5f1663b51f80/)
 
-Every artboard has various properties that can be changed in the [Inspector](../interface-overview/inspector). Some of the attributes that can be changed include an artboard's position on the [Stage](../interface-overview/stage), its size, fill color, and the origin point.
+Every artboard has various properties that can be changed in the [Inspector](../interface-overview/inspector). Some of the attributes that can be changed include an artboard's position on the [Stage](../interface-overview/stage), its size, layout properties, fill color, origin point, and render presets.
+
+## **Position**
+
+The position of the artboard on the stage is controlled by the position properties of the artboard. Th
+
+## Size and Size Type
+
+By default, artboards are set to a fixed size with that size being determined by the Width and Height properties.
+
+**Link Icon**
+
+Like other properties where the link icon is found, it can be used to lock the current ratio of the size properties.
+
+**Size Type**
+
+There are two sizing modes an artboard can have; Fixed, and Hug. These can be changed by using the dropdown under both the Width and Height properties.
+
+As the name suggests, the Fixed type allows you to define and animate the artboards size properties.
+
+The Hug type will let the artboard automatically size its height, width, or both to fit it's children. Not that this option is only avaiable if the artboard has at least one child layout object.
+
+## Origin
+
+The origin of an artboard determines the point from which all objects associate with the artboard will be measured. By default, the origin of an artboard is X:0%, Y:0%. These valuse place the origin at the top left of the artboard.
+
+As you increase the value of either the X or Y, that shifts the origin point to the right (on the X), and down (on the Y).
+
+You won't typically be changing the origin of an artboard, but if you plan on changing the origin, it's best done before any animation work is done. Chaning the origin after animation keys are added can cause objects to appear out of position due to the origin shifting to a new position.
+
+**Nested Arboard Origin**
+
+It's important to remember that a nested artboard shares the origin of its source artboard. If you plan to do things like scale or rotate the nested artboard, changing the origin will help make that process easier.
+
+If you forget to change the origin after adding animations, you can always add the nested artboard to a group, which will give you the same level of control.
+
+## Layout Settings
+
+Since an Artboard is the root object that all other objects are added, Artboards allow you to add and adjust it's layout properties. Read more about layouts [here](https://rive.app/docs/editor/layouts/layouts-overview).
+
+Note that these properties only take effect when one or more layouts have been added to the artboard.
+
+## Fill and Stroke
+
+Like other objects in Rive, Artboards can have one or more fills or strokes added to it. The process of adding and customizing fills and strokes is the same for both artboards and objects in the hierarchy. 
+
+Read more about fills and strokes [here](https://rive.app/docs/editor/fundamentals/fill-and-stroke).
+
+## Render Presets
+
+Selecting an artboard allows you to create Render Presets that can be used to render out static graphics such as PNGs, and SVGs, as well as video and motion files like PNG sequences, and MP4s. 
+
+Read more about creating render presets [here](https://rive.app/docs/editor/exporting/exporting-for-video-and-static-design).
+
+## Selected Colors
+
+When an artboard is selected, you can see, target, and adjust all colors associated with every object on the artboard.
