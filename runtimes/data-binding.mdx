@@ -9,6 +9,14 @@ import { EarlyAccess } from '/snippets/early-access-feature.mdx'
   As data binding continues to develop additional features, we suggest you continue to refer to this page for changes.
 </EarlyAccess>
 
+export const DataBindingReact = () => {
+  return (
+    <Info>
+    Hooks for data binding will soon be available in the Rive React package. In the meantime, you can use the Web API in React. Check back here for updates.
+    </Info>
+  );
+};
+
 # Overview
 
 Before engaging with the runtime data binding APIs, it is important to familiarize yourself with the core concepts presented in the [Overview](/editor/data-binding/overview).
@@ -36,6 +44,7 @@ To begin, we need to get a reference to a particular view model. This can be don
         }
     });
     ````
+    Once Rive is loaded, you can access the view models using the following methods:
     ```typescript
     // Get reference by name
     const namedVM = rive.viewModelByName("My View Model");
@@ -55,6 +64,9 @@ To begin, we need to get a reference to a particular view model. This can be don
     const indexedVM = file.viewModelByIndex(0);
     const defaultVM = file.defaultArtboardViewModel(artboard);
     ```
+    </Tab>
+    <Tab title="React">
+        <DataBindingReact></DataBindingReact>
     </Tab>
     <Tab title="Apple">
         ```swift
@@ -158,6 +170,9 @@ Once we have a reference to a view model, it can be used to create an instance. 
     const vmiNamed = viewModel.instanceByName("My Instance");
     ```
     </Tab>
+    <Tab title="React">
+        <DataBindingReact></DataBindingReact>
+    </Tab>    
     <Tab title="Apple">
     ```swift
         let riveViewModel = RiveViewModel(...)
@@ -244,6 +259,9 @@ It is preferred to assign to a state machine, as this will automatically apply t
     });
     ```
     </Tab>
+    <Tab title="React">
+        <DataBindingReact></DataBindingReact>
+    </Tab>    
     <Tab title="Apple">
         ```swift
         let riveViewModel = RiveViewModel(...)
@@ -315,7 +333,10 @@ Alternatively, you may prefer to use auto-binding. This will automatically bind 
     });
     ```
     </Tab>
-        <Tab title="Apple">
+    <Tab title="React">
+        <DataBindingReact></DataBindingReact>
+    </Tab>    
+    <Tab title="Apple">
         ```swift
         let riveViewModel = RiveViewModel(...)
         riveViewModel.riveModel.enableAutoBind { instance in
@@ -370,6 +391,9 @@ Property descriptors can be inspected on a view model to discover at runtime whi
     console.log(properties);
     ```
     </Tab>
+    <Tab title="React">
+        <DataBindingReact></DataBindingReact>
+    </Tab>    
     <Tab title="Apple">
         ```swift
         let riveViewModel = RiveViewModel(...)
@@ -424,14 +448,13 @@ View model instances have mutable properties. References to these properties can
             const numberValue = numberProperty.value();
             // Set
             numberProperty.value(10);
-            // Observe
-            numberProperty.on((event) => {
-                console.log(event.data);
-            });
         }             
     });
     ```
     </Tab>
+    <Tab title="React">
+        <DataBindingReact></DataBindingReact>
+    </Tab>    
     <Tab title="Apple">
         ```swift
         let riveViewModel = RiveViewModel(...)
@@ -514,6 +537,37 @@ View model instances have mutable properties. References to these properties can
 You can observe changes over time to property values, either by using listeners or a platform equivalent method. Once observed, you will be notified when the property changes are applied by a state machine advance, whether that is a new value that has been explicitly set or if the value was updated as a result of a binding. Observing trigger properties is an alternative method to receive events from the editor, as compared to [Rive Events](/runtimes/rive-events).
 
 <Tabs>
+    <Tab title="Web">
+    Adding an observer to a property is done by calling the `on` method on the property.
+    ```typescript
+    public on(callback: EventCallback)
+    ```
+
+    The observer can be removed by calling the `off` method on the property and passing the callback function. Alternatively, you can call `off()` without any arguments to remove all observers.
+    ```typescript
+    public off(callback?: EventCallback)
+    ```
+    Example:
+    ```typescript
+    const rive = new rive.Rive({
+        autoBind: true,
+        onLoad: () => {
+            // Access the current instance that was auto-bound
+            let vmi = rive.viewModelInstance;
+            const numberProperty = vmi.number("My Number Property");
+            // Observe
+            numberProperty.on((event) => {
+                console.log(event.data);
+            });
+            // Remove all listener when done
+            numberProperty.off();
+        }             
+    });
+    ```
+    </Tab>
+    <Tab title="React">
+        <DataBindingReact></DataBindingReact>
+    </Tab>        
     <Tab title="Apple">
         ```swift
         let riveViewModel = RiveViewModel(...)
@@ -601,6 +655,9 @@ Enums are string typed. The Rive file contains a list of enums. Each enum in tur
     });
     ```
     </Tab>
+    <Tab title="React">
+        <DataBindingReact></DataBindingReact>
+    </Tab>    
     <Tab title="Android">
         ```kotlin
         val enums = view.controller.file?.enums!!
@@ -640,6 +697,9 @@ View models can have properties of type view model, allowing for arbitrary nesti
     });
     ```
     </Tab>
+    <Tab title="React">
+        <DataBindingReact></DataBindingReact>
+    </Tab>    
     <Tab title="Apple">
         ```swift
         let riveViewModel = RiveViewModel(...)
