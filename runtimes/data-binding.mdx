@@ -425,6 +425,51 @@ View model instances have mutable properties. References to these properties can
     </Tab>
 </Tabs>
 
+#### Observability
+
+You can observe changes over time to property values, either by using listeners or a platform equivalent method. Once observed, you will be notified when the property changes are applied by a state machine advance, whether that is a new value that has been explicitly set or if the value was updated as a result of a binding. Observing trigger properties is an alternative method to receive events from the editor, as compared to [Rive Events](/runtimes/rive-events).
+
+<Tabs>
+    <Tab title="Apple">
+        ```swift
+        let riveViewModel = RiveViewModel(...)
+        let instance = riveViewModel.riveModel!.riveFile.viewModelNamed("...")!.createDefaultInstance()!
+        
+        // Get the string property
+        let stringProperty = instance.stringProperty(fromPath: "...")!
+        
+        // Add a listener
+        let listener = stringProperty.addListener { newValue in
+            print(newValue)
+        }
+        
+        // Remove a listener, where listener is the return value of addListener
+        stringProperty.removeListener(listener)
+
+        // Trigger properties can also be listened to for when they are triggered
+        instance.triggerProperty(fromPath: "...")!.addListener { 
+            print("Triggered!")
+        }
+        ```
+    </Tab>
+    <Tab title="Android">
+        ```kotlin
+        val vm = view.controller.file?.getViewModelByName("My View Model")!!
+        val vmi = vm.createInstanceFromName("My Instance")
+
+        val numberProperty = vmi.getNumberProperty("My Number Property")
+        // Observe
+        lifecycleScope.launch {
+            numberProperty.collect { value ->
+                Log.i("MyActivity", "Value: $value")
+            }
+        }
+        // Or collect in Compose
+        val numberValue by numberProperty.collectAsState()
+        ```
+    </Tab>
+</Tabs>
+
 # Enums
 
 Enums properties come in two flavors: system and user-defined. In practice, you will not need to worry about the distinction, but just be aware that system enums are available in any Rive file that binds to an editor-defined enum set, representing options from the editor's dropdowns, where user-defined enums are those defined by a designer in the editor.
@@ -500,51 +545,6 @@ View models can have properties of type view model, allowing for arbitrary nesti
 
         val nestedNumberByPath = vmi
             .getNumberProperty("My Nested View Model/My Second Nested VM/My Nested Number")
-        ```
-    </Tab>
-</Tabs>
-
-# Observability
-
-You can observe changes over time to property values, either by using listeners or a platform equivalent method. Once observed, you will be notified when the property changes are applied by a state machine advance, whether that is a new value that has been explicitly set or if the value was updated as a result of a binding. Observing trigger properties is an alternative method to receive events from the editor, as compared to [Rive Events](/runtimes/rive-events).
-
-<Tabs>
-    <Tab title="Apple">
-        ```swift
-        let riveViewModel = RiveViewModel(...)
-        let instance = riveViewModel.riveModel!.riveFile.viewModelNamed("...")!.createDefaultInstance()!
-        
-        // Get the string property
-        let stringProperty = instance.stringProperty(fromPath: "...")!
-        
-        // Add a listener
-        let listener = stringProperty.addListener { newValue in
-            print(newValue)
-        }
-        
-        // Remove a listener, where listener is the return value of addListener
-        stringProperty.removeListener(listener)
-
-        // Trigger properties can also be listened to for when they are triggered
-        instance.triggerProperty(fromPath: "...")!.addListener { 
-            print("Triggered!")
-        }
-        ```
-    </Tab>
-    <Tab title="Android">
-        ```kotlin
-        val vm = view.controller.file?.getViewModelByName("My View Model")!!
-        val vmi = vm.createInstanceFromName("My Instance")
-
-        val numberProperty = vmi.getNumberProperty("My Number Property")
-        // Observe
-        lifecycleScope.launch {
-            numberProperty.collect { value ->
-                Log.i("MyActivity", "Value: $value")
-            }
-        }
-        // Or collect in Compose
-        val numberValue by numberProperty.collectAsState()
         ```
     </Tab>
 </Tabs>
