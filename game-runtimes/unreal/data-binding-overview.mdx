@@ -25,7 +25,7 @@ The Rive Unreal Plugin integrates the Rive ViewModel architecture into Unreal En
   - Nested ViewModels: `URiveViewModelInstance`
 - **Binding Targets**: Instances can be bound to:
   - `URiveArtboard` – sets the data context for a Rive artboard.
-  - `FRiveStateMachine` – synchronizes ViewModel data with state machine inputs and outputs. Currently, binding to a `URiveArtboard` automatically bind to the state machine.
+  - `FRiveStateMachine` – synchronizes ViewModel data with state machine inputs and outputs. Currently, binding to a `URiveArtboard` automatically binds to the state machine.
 
 ### 🔄 Lifecycle
 
@@ -57,6 +57,6 @@ The Rive Unreal Plugin integrates the Rive ViewModel architecture into Unreal En
 
 ### ⚙️ Architecture Highlights
 
-- Property wrappers expose **typed getters/setters** in both C\+\+ and Blueprints.
+- Properties and ViewModel Instances expose **typed getters/setters** in both C\+\+ and Blueprints.
 - ViewModelInstances can contain **nested ViewModels**.
 - Callbacks are **tracked and invoked safely** via `HandleCallbacks()` (called per-frame by `URiveArtboard::AdvanceStateMachine()`).
