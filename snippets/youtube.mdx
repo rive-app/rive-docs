@@ -1,5 +1,7 @@
-export const YouTube = ({ id }) => {
-  const videoSrc = `https://www.youtube.com/embed/${id}`;
+export const YouTube = ({ id, timestamp }) => {
+    const videoSrc = timestamp
+    ? `https://www.youtube.com/embed/${id}?start=${timestamp}`
+    : `https://www.youtube.com/embed/${id}`;
 
   return (
     <iframe
