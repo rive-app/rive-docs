@@ -1,0 +1,129 @@
+---
+title: "Data Binding Usage"
+description: "Binding Rive Data to Unreal"
+---
+
+This guide covers the usage of the ViewModel system in Unreal, which allows binding and synchronizing data between Unreal gameplay logic and Rive animations using a runtime ViewModelInstance.
+
+### 1. **Load the ViewModel**
+
+Obtain a ViewModel from a `.riv` file:
+
+```
+URiveViewModel* ViewModel = RiveFile->GetViewModelByName(TEXT("PlayerData"));
+```
+
+You can also get ViewModels by index or enumerate all ViewModel names using `GetPropertyNames()`.
+
+### 2. **Create a ViewModel Instance**
+
+Create an instance of the ViewModel to hold runtime property values:
+
+```
+URiveViewModelInstance* Instance = ViewModel->CreateInstance();
+```
+
+You can also create a default predefined instance:
+
+```
+URiveViewModelInstance* Default = ViewModel->CreateDefaultInstance();
+```
+
+Or create a specific one by name:
+
+```
+URiveViewModelInstance* Instance = ViewModel->CreateInstanceFromName(TEXT("MyInstance"));
+```
+
+### 3. **Bind the Instance to an Artboard**
+
+Bind the ViewModel instance to a `URiveArtboard` to establish data context:
+
+```
+Artboard->SetViewModelInstance(Instance);
+```
+
+This propagates the instance to both the artboard and its `FRiveStateMachine`, ensuring synchronized behavior.
+
+### 4. **Access or Modify Properties**
+
+Use strongly-typed accessors on `URiveViewModelInstance`:
+
+#### ✅ Boolean
+
+```
+Instance->SetBooleanPropertyValue("IsAlive", true);
+bool bIsAlive = Instance->GetBooleanPropertyValue("IsAlive");
+```
+
+#### 🔢 Number
+
+```
+Instance->SetNumberPropertyValue("Health", 95.0f);
+float CurrentHealth = Instance->GetNumberPropertyValue("Health");
+```
+
+#### 📝 String
+
+```
+Instance->SetStringPropertyValue("Username", TEXT("PlayerOne"));
+FString Name = Instance->GetStringPropertyValue("Username");
+```
+
+#### 🎨 Color
+
+```
+Instance->SetColorPropertyValue("Background", FColor::Cyan);
+FColor Color = Instance->GetColorPropertyValue("Background");
+```
+
+#### 🧩 Enum
+
+```
+Instance->SetEnumPropertyValue("Team", TEXT("Blue"));
+FString SelectedTeam = Instance->GetEnumPropertyValue("Team");
+TArray<FString> ValidValues = Instance->GetEnumPropertyValues("Team");
+```
+
+#### 🚀 Trigger
+
+```
+Instance->FireTriggerProperty("OnDamage");
+```
+
+#### 📦 Nested ViewModels
+
+```
+URiveViewModelInstance* WeaponInstance = Instance->GetNestedInstanceByName("Weapon");
+```
+
+### 5. **Respond to Property Changes**
+
+Each property value subclass (e.g. `URiveViewModelInstanceString`) supports change detection.
+
+```cpp
+URiveViewModelInstanceString* NameProp = Instance->GetStringProperty("Username");
+
+FOnValueChangedDelegate OnChanged;
+OnChanged.BindLambda([] {
+    UE_LOG(LogTemp, Log, TEXT("Username updated!"));
+});
+
+NameProp->BindToValueChange(OnChanged);
+```
+
+Unbind when needed:
+
+```
+NameProp->UnbindFromValueChange(OnChanged);
+```
+
+Or clear all bindings:
+
+```cpp
+NameProp->UnbindAllFromValueChange();
+```
+
+These methods are also exposed to **Blueprints**, allowing UI widgets to react to value changes seamlessly.
+
+### 
