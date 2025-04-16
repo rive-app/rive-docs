@@ -1,11 +1,9 @@
 ---
-title: 'Common Use Cases'
-description: ''
+title: "Common Use Cases"
 ---
 
-
 <Note>
- The Unreal plugin is in Technical Preview and may change.
+  The Unreal plugin is in alpha and may change.
 </Note>
 
 ## Using the OnRiveReady Event
@@ -23,19 +21,29 @@ The blueprint below shows how to bind to the **OnRiveReady** event of a **RiveWi
 Rive files have both inputs and triggers that can be called via Blueprints, which in turn can be called by triggers in the Unreal Sequencer. The Rive and Unreal terminology collides a bit here, so I’ll try to be as clear as possible.
 
 <Steps>
-<Step title="In sequencer, add your RiveActor as a track."></Step>
-<Step title="Move the timeline head to the location where you want to trigger an input or Rive trigger."></Step>
-<Step title="Add a key."></Step>
-<Step title="Right-click the key, select Properties and select “Create New Endpoint”. This will create a Blueprint node that will trigger whatever Blueprint action you like, including Rive actions."></Step>
-<Step title="Open the Blueprint (double-click on Event) and add a Rive Set Bool Value node (be sure to uncheck “Context Sensitive” in the search box."></Step>
-<Step title="The Rive Set Value nodes require an artboard as an input which can be derived from the Sequencer Event node. Add a Rive Get Artboard node and drag the target from the Sequencer Event node. A conversion node will be automatically added."></Step>
-<Step title="Ensure the Blueprint’s “Call In Editor” box is checked."></Step>
+  <Step title="In sequencer, add your RiveActor as a track.">
+    
+  </Step>
+  <Step title="Move the timeline head to the location where you want to trigger an input or Rive trigger.">
+    
+  </Step>
+  <Step title="Add a key.">
+    
+  </Step>
+  <Step title="Right-click the key, select Properties and select “Create New Endpoint”. This will create a Blueprint node that will trigger whatever Blueprint action you like, including Rive actions.">
+    
+  </Step>
+  <Step title="Open the Blueprint (double-click on Event) and add a Rive Set Bool Value node (be sure to uncheck “Context Sensitive” in the search box.">
+    
+  </Step>
+  <Step title="The Rive Set Value nodes require an artboard as an input which can be derived from the Sequencer Event node. Add a Rive Get Artboard node and drag the target from the Sequencer Event node. A conversion node will be automatically added.">
+    
+  </Step>
+  <Step title="Ensure the Blueprint’s “Call In Editor” box is checked.">
+    
+  </Step>
 </Steps>
 
 In the example video below, I have a Rive file that has a Boolean input called “Processing” which kicks off a looping animation.
 
-<video
-  controls
-  className="w-full aspect-video"
-  src="https://ucarecdn.com/22a368aa-5110-4b79-afa8-e244a3500e24/"
-></video>
+<video controls className="w-full aspect-video" src="https://ucarecdn.com/22a368aa-5110-4b79-afa8-e244a3500e24/" />
