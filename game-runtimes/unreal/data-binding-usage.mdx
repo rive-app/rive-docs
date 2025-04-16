@@ -9,7 +9,7 @@ This guide covers the usage of the ViewModel system in Unreal, which allows bind
 
 Obtain a ViewModel from a `.riv` file:
 
-```
+```cpp
 URiveViewModel* ViewModel = RiveFile->GetViewModelByName(TEXT("PlayerData"));
 ```
 
@@ -19,19 +19,19 @@ You can also get ViewModels by index or enumerate all ViewModel names using `Get
 
 Create an instance of the ViewModel to hold runtime property values:
 
-```
+```cpp
 URiveViewModelInstance* Instance = ViewModel->CreateInstance();
 ```
 
 You can also create a default predefined instance:
 
-```
+```cpp
 URiveViewModelInstance* Default = ViewModel->CreateDefaultInstance();
 ```
 
 Or create a specific one by name:
 
-```
+```cpp
 URiveViewModelInstance* Instance = ViewModel->CreateInstanceFromName(TEXT("MyInstance"));
 ```
 
@@ -39,14 +39,14 @@ URiveViewModelInstance* Instance = ViewModel->CreateInstanceFromName(TEXT("MyIns
 
 Bind the ViewModel instance to a `URiveArtboard` to establish data context:
 
-```
+```cpp
 Artboard->SetViewModelInstance(Instance);
 ```
 
 This propagates the instance to both the artboard and its `FRiveStateMachine`, ensuring synchronized behavior.\
 \
 These operations can also be performed using Blueprints:\
-![image.png](/image.png)
+![Databindinginit Pn](/images/unreal/databindinginit.png)
 
 ### 4. **Access or Modify Properties via the ViewModel Instance**
 
@@ -54,35 +54,35 @@ These operations can also be performed using Blueprints:\
 
 #### ✅ Boolean
 
-```
+```cpp
 Instance->SetBooleanPropertyValue("IsAlive", true);
 bool bIsAlive = Instance->GetBooleanPropertyValue("IsAlive");
 ```
 
 #### 🔢 Number
 
-```
+```cpp
 Instance->SetNumberPropertyValue("Health", 95.0f);
 float CurrentHealth = Instance->GetNumberPropertyValue("Health");
 ```
 
 #### 📝 String
 
-```
+```cpp
 Instance->SetStringPropertyValue("Username", TEXT("PlayerOne"));
 FString Name = Instance->GetStringPropertyValue("Username");
 ```
 
 #### 🎨 Color
 
-```
+```cpp
 Instance->SetColorPropertyValue("Background", FColor::Cyan);
 FColor Color = Instance->GetColorPropertyValue("Background");
 ```
 
 #### 🧩 Enum
 
-```
+```cpp
 Instance->SetEnumPropertyValue("Team", TEXT("Blue"));
 FString SelectedTeam = Instance->GetEnumPropertyValue("Team");
 TArray<FString> ValidValues = Instance->GetEnumPropertyValues("Team");
@@ -90,13 +90,13 @@ TArray<FString> ValidValues = Instance->GetEnumPropertyValues("Team");
 
 #### 🚀 Trigger
 
-```
+```cpp
 Instance->FireTriggerProperty("OnDamage");
 ```
 
 #### 📦 Nested ViewModels
 
-```
+```cpp
 URiveViewModelInstance* WeaponInstance = Instance->GetNestedInstanceByName("Weapon");
 ```
 
@@ -205,6 +205,6 @@ NameProp->UnbindAllFromValueChange();
 
 These methods are also exposed to **Blueprints**, allowing UI widgets to react to value changes seamlessly.
 
-![image.png](/image.png)
+![Bindtoonchange Pn](/images/unreal/bindtoonchange.png)
 
 ### 
