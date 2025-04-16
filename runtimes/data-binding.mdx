@@ -1,6 +1,6 @@
 ---
-title: 'Data Binding'
-description: 'Connect your code to bound editor elements using View Models'
+title: "Data Binding"
+description: "Connect your code to bound editor elements using View Models"
 ---
 
 import { EarlyAccess } from '/snippets/early-access-feature.mdx'
@@ -13,11 +13,13 @@ import { EarlyAccess } from '/snippets/early-access-feature.mdx'
 
 Before engaging with the runtime data binding APIs, it is important to familiarize yourself with the core concepts presented in the [Overview](/editor/data-binding/overview).
 
-<Card title="Data Binding Concepts" href="/editor/data-binding/overview"  icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" d="M7.31 7.111 2.406 5.15l4.61-1.844.328-.126a2.3 2.3 0 0 1 1.647 0l.33.126L13.93 5.15 9.024 7.112c-.55.22-1.163.22-1.712 0"></path><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="m2.405 10.911 4.906 1.963c.55.22 1.162.22 1.712 0l4.906-1.963M2.405 8.031 7.31 9.992c.55.22 1.162.22 1.712 0l4.906-1.963M2.405 5.15 7.31 7.111c.55.22 1.162.22 1.712 0l4.906-1.962-4.61-1.844-.329-.126a2.3 2.3 0 0 0-1.647 0l-.329.126z"></path></svg>}>
-    An overview of core data binding concepts.
+<Card title="Data Binding Concepts" icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" d="M7.31 7.111 2.406 5.15l4.61-1.844.328-.126a2.3 2.3 0 0 1 1.647 0l.33.126L13.93 5.15 9.024 7.112c-.55.22-1.163.22-1.712 0"></path><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="m2.405 10.911 4.906 1.963c.55.22 1.162.22 1.712 0l4.906-1.963M2.405 8.031 7.31 9.992c.55.22 1.162.22 1.712 0l4.906-1.963M2.405 5.15 7.31 7.111c.55.22 1.162.22 1.712 0l4.906-1.962-4.61-1.844-.329-.126a2.3 2.3 0 0 0-1.647 0l-.329.126z"></path></svg>} href="/editor/data-binding/overview">
+  An overview of core data binding concepts.
 </Card>
 
-<Note>Only the web runtime is released at this time. The Android APIs are provided as a preview.</Note>
+<Note>
+  Only the web runtime is released at this time. The Android APIs are provided as a preview.
+</Note>
 
 # View Models
 
@@ -26,96 +28,98 @@ View models describe a set of properties, but cannot themselves be used to get o
 To begin, we need to get a reference to a particular view model. This can be done either by index, by name, or the default for a given artboard, and is done from the Rive file. The default option refers to the view model assigned to an artboard by the dropdown in the editor.
 
 <Tabs>
-    <Tab title="Web">
+  <Tab title="Web">
     Access a View Model from the created Rive object in the `onLoad` callback:
-    
+
     ```typescript
     const rive = new rive.Rive({
         onLoad: () => {
             // The Rive object is now loaded and ready to use.
         }
     });
-    ````
+    ```
+
     ```typescript
     // Get reference by name
     const namedVM = rive.viewModelByName("My View Model");
-
+    
     // Get reference by index
     for (let i = 0; i < rive.viewModelCount(); i++) {
         const indexedVM = rive.viewModelByIndex(i);
     }
-
+    
     // Get reference to the default view model
     const defaultVM = rive.defaultViewModel();
     ```
 
     Alternatively, if you have access to the underlying Rive File object you can access the above methods on the file.
+
     ```typescript
     const namedVM = file.viewModelByName("My View Model");
     const indexedVM = file.viewModelByIndex(0);
     const defaultVM = file.defaultArtboardViewModel(artboard);
     ```
-    </Tab>
-    <Tab title="Apple">
-        ```swift
-        let riveViewModel = RiveViewModel(...)
-        let file = riveViewModel.riveModel!.riveFile
-
-        // Data binding view model by name
-        let viewModelByName = file.viewModelNamed("...")
-
-        // Data binding view model by index
-        for index in 0..<file.viewModelCount {
-            let viewModelByIndex = file.viewModel(at: index)
-        }
-
-        // Default data binding view model for an artboard
-        let artboard = riveViewModel.riveModel!.artboard
-        let viewModelForArtboard = file.viewModel(for: artboard)
-        ```
-    </Tab>
-    <Tab title="Android">
-        ```kotlin
-        // `view` of type RiveAnimationView
-        view.setRiveResource(R.raw.my_rive_file)
-        val file = view.controller.file!!
-
-        // Get reference by name
-        val vm = file.getViewModelByName("My View Model")
-
-        // Get reference by index
-        for (i in 0 until file.viewModelCount) {
-            val indexedVM = file.getViewModelByIndex(i)
-        }
-
-        // Get reference to the default view model
-        val defaultVM = file.defaultViewModelForArtboard(view.controller.activeArtboard!!)
-        ```
-    </Tab>
-    <Tab title="Flutter">
-        ```dart
-        // Get reference to the File and Artboard
-        final file = await File.asset(
-            'assets/my_file.riv',
-            riveFactory: Factory.rive,
-        );
-        final artboard = file!.defaultArtboard()!;
-
-        // Get reference by name
-        file.viewModelByName("My View Model");
-
-        // Get reference by index
-        for (var i = 0; i < file.viewModelCount; i++) {
-            final indexedVM = file.viewModelByIndex(i);
-        }
-
-        // Get reference to the default view model for an artboard
-        final defaultVM = file.defaultArtboardViewModel(artboard);
-
-        // Dispose the view model when you're no longer using it
-        viewModel.dispose();
-        ```
-    </Tab>      
+  </Tab>
+  <Tab title="Apple">
+    ```swift
+    let riveViewModel = RiveViewModel(...)
+    let file = riveViewModel.riveModel!.riveFile
+    
+    // Data binding view model by name
+    let viewModelByName = file.viewModelNamed("...")
+    
+    // Data binding view model by index
+    for index in 0..<file.viewModelCount {
+        let viewModelByIndex = file.viewModel(at: index)
+    }
+    
+    // Default data binding view model for an artboard
+    let artboard = riveViewModel.riveModel!.artboard
+    let viewModelForArtboard = file.viewModel(for: artboard)
+    ```
+  </Tab>
+  <Tab title="Android">
+    ```kotlin
+    // `view` of type RiveAnimationView
+    view.setRiveResource(R.raw.my_rive_file)
+    val file = view.controller.file!!
+    
+    // Get reference by name
+    val vm = file.getViewModelByName("My View Model")
+    
+    // Get reference by index
+    for (i in 0 until file.viewModelCount) {
+        val indexedVM = file.getViewModelByIndex(i)
+    }
+    
+    // Get reference to the default view model
+    val defaultVM = file.defaultViewModelForArtboard(view.controller.activeArtboard!!)
+    ```
+  </Tab>
+  <Tab title="Flutter">
+    ```dart
+    // Get reference to the File and Artboard
+    final file = await File.asset(
+        'assets/my_file.riv',
+        riveFactory: Factory.rive,
+    );
+    final artboard = file!.defaultArtboard()!;
+    
+    // Get reference by name
+    file.viewModelByName("My View Model");
+    
+    // Get reference by index
+    for (var i = 0; i < file.viewModelCount; i++) {
+        final indexedVM = file.viewModelByIndex(i);
+    }
+    
+    // Get reference to the default view model for an artboard
+    final defaultVM = file.defaultArtboardViewModel(artboard);
+    
+    // Dispose the view model when you're no longer using it
+    viewModel.dispose();
+    ```
+  </Tab>
 </Tabs>
 
 # View Model Instances
@@ -124,177 +128,176 @@ Once we have a reference to a view model, it can be used to create an instance. 
 
 1. Create a blank instance - Fill the properties of the created instance with default values as follows:
 
-    | Type              | Value           |
-    |-------------------|-----------------|
-    | Number            | 0               |
-    | String            | Empty string    |
-    | Boolean           | False           |
-    | Color             | #000000FF       |
-    | Trigger           | Untriggered     |
-    | Enum              | The first value |
-    | Nested view model | Null            |
-
+   | Type              | Value           |
+   | ----------------- | --------------- |
+   | Number            | 0               |
+   | String            | Empty string    |
+   | Boolean           | False           |
+   | Color             | #000000FF       |
+   | Trigger           | Untriggered     |
+   | Enum              | The first value |
+   | Nested view model | Null            |
 2. Create the default instance - Use the instance labelled "Default" in the editor. Usually this is the one a designer intends as the primary one to be used at runtime.
-
 3. Create by index - Using the order returned when iterating over all available instances. Useful when creating multiple instances by iteration.
-
 4. Create by name - Use the editor's instance name. Useful when creating a specific instance.
 
 <Tabs>
-    <Tab title="Web">
+  <Tab title="Web">
     ```typescript
     // Create a blank instance from a view model (ViewModel)
     const vmiBlank = viewModel.instance();
-
+    
     // Create a default instance from a view model (ViewModel)
     const vmiDefault = viewModel.defaultInstance();
-
+    
     // Create an instance by index from a view model (ViewModel)
     for (let i = 0; i < viewModel.instanceCount; i++) {
         const vmiIndexed = viewModel.instanceByIndex(i);
     }
-
+    
     // Create an instace by name from a view model (ViewModel)
     const vmiNamed = viewModel.instanceByName("My Instance");
     ```
-    </Tab>
-    <Tab title="Apple">
+  </Tab>
+  <Tab title="Apple">
     ```swift
         let riveViewModel = RiveViewModel(...)
         let viewModel = riveViewModel.riveModel!.riveFile.viewModelNamed("...")!
         
         // Create blank
         let blankInstance = viewModel.createInstance()
-
+    
         // Create default
         let defaultInstance = viewModel.createDefaultInstance()
-
+    
         // Create by index
         for index in 0..<viewModel.instanceCount {
             let instanceByIndex = viewModel.createInstance(fromIndex: index)
         }
-
+    
         // Create by name
         for name in viewModel.instanceNames {
             let instanceByName = viewModel.createInstance(fromName: name)
         }
     ```
-    </Tab>
-    <Tab title="Android">
-        ```kotlin
-        val vm = view.controller.file?.getViewModelByName("My View Model")!!
-
-        // Create blank
-        val vmiBlank = vm.createBlankInstance()
-
-        // Create default
-        val vmiDefault = vm.createDefaultInstance()
-
-        // Create by index
-        for (i in 0 until vm.instanceCount) {
-            val vmiIndexed = vm.createInstanceFromIndex(i)
-        }
-
-        // Create by name
-        val vmiNamed = vm.createInstanceFromName("My Instance")
-        ```
-    </Tab>
-    <Tab title="Flutter">
-        ```dart
-        final vm = file.viewModelByName("My View Model")!;
-
-        // Create blank
-        final vmiBlank = vm.createInstance();
-
-        // Create default
-        final vmiDefault = vm.createDefaultInstance();
-
-        // Create by index
-        for (int i = 0; i < vm.instanceCount; i++) {
-        final vmiIndexed = vm.createInstanceByIndex(i);
-        }
-
-        // Create by name
-        final vmiNamed = vm.createInstanceByName("My Instance");
-
-        // Dispose the view model instance
-        viewModelInstance.dispose();        
-        ```
-    </Tab>    
+  </Tab>
+  <Tab title="Android">
+    ```kotlin
+    val vm = view.controller.file?.getViewModelByName("My View Model")!!
+    
+    // Create blank
+    val vmiBlank = vm.createBlankInstance()
+    
+    // Create default
+    val vmiDefault = vm.createDefaultInstance()
+    
+    // Create by index
+    for (i in 0 until vm.instanceCount) {
+        val vmiIndexed = vm.createInstanceFromIndex(i)
+    }
+    
+    // Create by name
+    val vmiNamed = vm.createInstanceFromName("My Instance")
+    ```
+  </Tab>
+  <Tab title="Flutter">
+    ```dart
+    final vm = file.viewModelByName("My View Model")!;
+    
+    // Create blank
+    final vmiBlank = vm.createInstance();
+    
+    // Create default
+    final vmiDefault = vm.createDefaultInstance();
+    
+    // Create by index
+    for (int i = 0; i < vm.instanceCount; i++) {
+    final vmiIndexed = vm.createInstanceByIndex(i);
+    }
+    
+    // Create by name
+    final vmiNamed = vm.createInstanceByName("My Instance");
+    
+    // Dispose the view model instance
+    viewModelInstance.dispose();        
+    ```
+  </Tab>
 </Tabs>
 
 The created instance can then be assigned to a state machine or artboard. This establishes the bindings set up at edit time.
 
 It is preferred to assign to a state machine, as this will automatically apply the instance to the artboard as well. Only assign to an artboard if you are not using a state machine, i.e. your file is static or uses linear animations.
 
-<Note>The initial values of the instance are not applied to their bound elements until the state machine or artboard advances.</Note>
+<Note>
+  The initial values of the instance are not applied to their bound elements until the state machine or artboard advances.
+</Note>
 
 <Tabs>
-    <Tab title="Web">
+  <Tab title="Web">
     ```typescript
     const rive = new rive.Rive({
         autoBind: false, // This should be set to false (default)
         onLoad: () => {
             const vm = rive.viewModelByName("My View Model");
             const vmi = vm.instanceByName("My Instance");
-
+    
             // Manually bind by applying the instance to the state machine and artboard
             rive.bindViewModelInstance(vmi);
         }        
     });
     ```
-    </Tab>
-    <Tab title="Apple">
-        ```swift
-        let riveViewModel = RiveViewModel(...)
-        let artboard = riveViewModel.riveModel!.artboard,
-        let instance = riveViewModel.riveModel!.riveFile.defaultViewModel(for: artboard).createDefaultInstance()!
-
-        // Apply the instance to the state machine (preferred)
-        // Applying to a state machine will automatically bind to its artboard
-        riveViewModel.riveModel!.stateMachine.bind(instance) 
-            
-        // Alternatively, apply the instance to the artboard
-        artboard.bind(viewModelInstance: instance)
-        ```
-    </Tab>
-    <Tab title="Android">
-        ```kotlin
-        view.setRiveResource(
-            R.raw.my_rive_file,
-            artboardName = "My Artboard",
-        )
-
-        val vm = view.controller.file?.getViewModelByName("My View Model")!!
-        val vmi = vm.createInstanceFromName("My Instance")
-
-        // Apply the instance to the state machine (preferred)
-        view.controller.stateMachines.first().viewModelInstance = vmi
-
-        // Alternatively, apply the instance to the artboard
-        view.controller.activeArtboard?.viewModelInstance = vmi
-        ```
-    </Tab>
-    <Tab title="Flutter">
-        ```dart
-        final file = await File.asset(
-        'assets/my_file.riv',
-        riveFactory: Factory.rive,
-        );
-
-        final artboard = file!.defaultArtboard();
-        final stateMachine = artboard!.defaultStateMachine()!;
-
-        final vm = file.defaultArtboardViewModel(artboard)!;
-        final vmi = vm.createDefaultInstance()!;
-
-        // Bind to the state machine. This automatically binds to the artboard as well.
-        stateMachine.bindViewModelInstance(vmi);
-
-        // If you're not using a state machine, bind to the artboard
-        artboard.bindViewModelInstance(vmi);        
-        ```
-    </Tab>      
+  </Tab>
+  <Tab title="Apple">
+    ```swift
+    let riveViewModel = RiveViewModel(...)
+    let artboard = riveViewModel.riveModel!.artboard,
+    let instance = riveViewModel.riveModel!.riveFile.defaultViewModel(for: artboard).createDefaultInstance()!
+    
+    // Apply the instance to the state machine (preferred)
+    // Applying to a state machine will automatically bind to its artboard
+    riveViewModel.riveModel!.stateMachine.bind(instance) 
+        
+    // Alternatively, apply the instance to the artboard
+    artboard.bind(viewModelInstance: instance)
+    ```
+  </Tab>
+  <Tab title="Android">
+    ```kotlin
+    view.setRiveResource(
+        R.raw.my_rive_file,
+        artboardName = "My Artboard",
+    )
+    
+    val vm = view.controller.file?.getViewModelByName("My View Model")!!
+    val vmi = vm.createInstanceFromName("My Instance")
+    
+    // Apply the instance to the state machine (preferred)
+    view.controller.stateMachines.first().viewModelInstance = vmi
+    
+    // Alternatively, apply the instance to the artboard
+    view.controller.activeArtboard?.viewModelInstance = vmi
+    ```
+  </Tab>
+  <Tab title="Flutter">
+    ```dart
+    final file = await File.asset(
+    'assets/my_file.riv',
+    riveFactory: Factory.rive,
+    );
+    
+    final artboard = file!.defaultArtboard();
+    final stateMachine = artboard!.defaultStateMachine()!;
+    
+    final vm = file.defaultArtboardViewModel(artboard)!;
+    final vmi = vm.createDefaultInstance()!;
+    
+    // Bind to the state machine. This automatically binds to the artboard as well.
+    stateMachine.bindViewModelInstance(vmi);
+    
+    // If you're not using a state machine, bind to the artboard
+    artboard.bindViewModelInstance(vmi);        
+    ```
+  </Tab>
 </Tabs>
 
 ### Auto-Binding
@@ -302,7 +305,7 @@ It is preferred to assign to a state machine, as this will automatically apply t
 Alternatively, you may prefer to use auto-binding. This will automatically bind the default view model of the artboard using the default instance to both the state machine and the artboard. The default view model is the one selected on the artboard in the editor dropdown. The default instance is the one marked "Default" in the editor.
 
 <Tabs>
-    <Tab title="Web">
+  <Tab title="Web">
     ```typescript {4}
     const rive = new rive.Rive({
         src: "my_rive_file.riv",
@@ -314,105 +317,109 @@ Alternatively, you may prefer to use auto-binding. This will automatically bind 
         }
     });
     ```
-    </Tab>
-        <Tab title="Apple">
-        ```swift
-        let riveViewModel = RiveViewModel(...)
-        riveViewModel.riveModel.enableAutoBind { instance in
-            // Store a reference to `instance` to later access properties
-            // The instance may change as state machines and artboards change
-        }
+  </Tab>
+  <Tab title="Apple">
+    ```swift
+    let riveViewModel = RiveViewModel(...)
+    riveViewModel.riveModel.enableAutoBind { instance in
+        // Store a reference to `instance` to later access properties
+        // The instance may change as state machines and artboards change
+    }
+    
+    // If you'd like to disable autoBind after enabling…
+    riveViewModel.riveModel!.disableAutoBind()
+    ```
+  </Tab>
+  <Tab title="Android">
+    ```kotlin {3}
+    view.setRiveResource(
+        R.raw.my_rive_file,
+        autoBind = true,
+    )
+    ```
+  </Tab>
+  <Tab title="Flutter">
+    <Info>
+      Flutter (rive_native) does not support auto-binding at this time. Higher level widgets will expose this functionality in the future.
 
-        // If you'd like to disable autoBind after enabling…
-        riveViewModel.riveModel!.disableAutoBind()
-        ```
-    </Tab>
-    <Tab title="Android">
-        ```kotlin {3}
-        view.setRiveResource(
-            R.raw.my_rive_file,
-            autoBind = true,
-        )
-        ```
-    </Tab>
-    <Tab title="Flutter">
-        <Info>
-        Flutter (rive_native) does not support auto-binding at this time. Higher level widgets will expose this functionality in the future.
-
-        See the `RivePlayer.dart` file in the example app for a demo of how this will be presented.
-      </Info>   
-    </Tab>      
+      See the `RivePlayer.dart` file in the example app for a demo of how this will be presented.
+    </Info>
+  </Tab>
 </Tabs>
 
 # Properties
 
 A property is a value that can be read, set, or observed on a view model instance. Properties can be of the following types:
 
-| Type                   | Supported             |
-|------------------------|-----------------------|
-| Floating point numbers | ✅                     |
-| Booleans               | ✅                     |
-| Triggers               | ✅                     |
-| Strings                | ✅                     |
-| Enumerations           | ✅                     |
-| Colors                 | ✅                     |
-| Nesting                | ✅                     |
-| Lists                  | 🚧 Coming soon         |
-| Images                 | 🚧 Coming soon         |
+| Type                   | Supported      |
+| ---------------------- | -------------- |
+| Floating point numbers | ✅              |
+| Booleans               | ✅              |
+| Triggers               | ✅              |
+| Strings                | ✅              |
+| Enumerations           | ✅              |
+| Colors                 | ✅              |
+| Nesting                | ✅              |
+| Lists                  | 🚧 Coming soon |
+| Images                 | 🚧 Coming soon |
 
 Property descriptors can be inspected on a view model to discover at runtime which are available. These are not the mutable properties themselves though - once again those are on instances. These descriptors have a type and name.
 
 <Tabs>
-    <Tab title="Web">
+  <Tab title="Web">
     ```typescript
     // A list of properties on a view model (ViewModel)
     const properties = viewModel.properties;
     console.log(properties);
     ```
-    </Tab>
-    <Tab title="Apple">
-        ```swift
-        let riveViewModel = RiveViewModel(...)
-        let viewModel = riveViewModel.riveModel!.file.viewModelNamed(...)!
-        for property in viewModel.properties {
-            print(property.type) // String, number, boolean, etc
-            print(property.name) // The name of the property within the view model
-        }
-        ```
-    </Tab>
-    <Tab title="Android">
-        ```kotlin
-        val vm = view.controller.file?.getViewModelByName("My View Model")!!
-
-        // A list of properties
-        val properties = vm.properties
-        assertContains(
-            properties,
-            ViewModel.Property(ViewModel.PropertyDataType.NUMBER, "My Number Property")
-        )
-        ```
-    </Tab>
-    <Tab title="Flutter">
-        ```dart
-        // Accesss on a ViewModel object
-        print("Properties: ${viewModel.properties}");
-
-        // Access on a ViewModelInstance object
-        print("Properties: ${viewModelInstance.properties}");
-        ```
-    </Tab>      
+  </Tab>
+  <Tab title="Apple">
+    ```swift
+    let riveViewModel = RiveViewModel(...)
+    let viewModel = riveViewModel.riveModel!.file.viewModelNamed(...)!
+    for property in viewModel.properties {
+        print(property.type) // String, number, boolean, etc
+        print(property.name) // The name of the property within the view model
+    }
+    ```
+  </Tab>
+  <Tab title="Android">
+    ```kotlin
+    val vm = view.controller.file?.getViewModelByName("My View Model")!!
+    
+    // A list of properties
+    val properties = vm.properties
+    assertContains(
+        properties,
+        ViewModel.Property(ViewModel.PropertyDataType.NUMBER, "My Number Property")
+    )
+    ```
+  </Tab>
+  <Tab title="Flutter">
+    ```dart
+    // Accesss on a ViewModel object
+    print("Properties: ${viewModel.properties}");
+    
+    // Access on a ViewModelInstance object
+    print("Properties: ${viewModelInstance.properties}");
+    ```
+  </Tab>
 </Tabs>
 
 ### Mutable Properties
 
 View model instances have mutable properties. References to these properties can be retrieved by name. They have get, set, and observe operations. Getting or observing the value will retrieve the latest value set on that properties binding, as of the last state machine or artboard advance. Setting the value will update the value and all of its bound elements.
 
-<Note>Trigger properties do not have a get operation - only set and observe.</Note>
+<Note>
+  Trigger properties do not have a get operation - only set and observe.
+</Note>
 
-<Note>After setting a property's value, the changes will not apply to their bound elements until the state machine or artboard advances.</Note>
+<Note>
+  After setting a property's value, the changes will not apply to their bound elements until the state machine or artboard advances.
+</Note>
 
 <Tabs>
-    <Tab title="Web">
+  <Tab title="Web">
     ```typescript
     const rive = new rive.Rive({
         autoBind: true,
@@ -431,82 +438,82 @@ View model instances have mutable properties. References to these properties can
         }             
     });
     ```
-    </Tab>
-    <Tab title="Apple">
-        ```swift
-        let riveViewModel = RiveViewModel(...)
-        let instance = riveViewModel.riveModel!.riveFile.viewModelNamed("...")!.createDefaultInstance()!
-        
-        // Strings
-        let stringProperty = instance.stringProperty(fromPath: "...")!
-        // Updating its value
-        stringProperty.value = "Hello, Rive"
-        // Get its value
-        print(stringProperty.value)
-
-        // You can also set and get values without storing a strong reference
-        instance.stringProperty(fromPath: "...").value = "Hello again, Rive"
-
-        // Numbers
-        let numberProperty = instance.numberProperty(fromPath: "...")!
-        // Updating its value
-        numberProperty.value = 1337
-        // Get its value
-        print(numberProperty.value)
-
-        // You can also set and get values without storing a strong reference
-        instance.numberProperty(fromPath: "...").value = 1337
-
-        // Booleans
-        let booleanProperty = instance.booleanProperty(fromPath: "...")!
-        // Updating its value
-        booleanProperty.value = true
-        // Get its value
-        print(booleanProperty.value)
-
-        // You can also set and get values without storing a strong reference
-        instance.booleanProperty(fromPath: "...").value = true
-
-        // Colors
-        let colorProperty = instance.colorProperty(fromPath: "...")!
-        // Updating its value, which is a UIColor/NSColor, so all static helpers apply.
-        colorProperty.value = .red
-        // Get its value
-        print(colorProperty.value)
-
-        // You can also set and get values without storing a strong reference
-        instance.colorProperty(fromPath: "...").value = .red
-
-        // Enums
-        let enumProperty = instance.enumProperty(fromPath: "...")!
-        // Updating its value
-        enumProperty.value = "Foo"
-        // Get its value
-        print(enumProperty.value)
-        // Print all possible values
-        print(enumProperty.values)
-
-        // You can also set and get values without storing a strong reference
-        instance.enumProperty(fromPath: "...").value = "Foo"
-
-        // Trigger
-        let triggerProperty = instance.triggerProperty(fromPath: "...")!
-        // Fire the trigger
-        triggerProperty.trigger()
-        ```
-    </Tab>
-    <Tab title="Android">
-        ```kotlin
-        val vm = view.controller.file?.getViewModelByName("My View Model")!!
-        val vmi = vm.createInstanceFromName("My Instance")
-
-        val numberProperty = vmi.getNumberProperty("My Number Property")
-        // Get
-        val numberValue = numberProperty.value
-        // Set
-        numberProperty.value = 10f
-        ```
-    </Tab>
+  </Tab>
+  <Tab title="Apple">
+    ```swift
+    let riveViewModel = RiveViewModel(...)
+    let instance = riveViewModel.riveModel!.riveFile.viewModelNamed("...")!.createDefaultInstance()!
+    
+    // Strings
+    let stringProperty = instance.stringProperty(fromPath: "...")!
+    // Updating its value
+    stringProperty.value = "Hello, Rive"
+    // Get its value
+    print(stringProperty.value)
+    
+    // You can also set and get values without storing a strong reference
+    instance.stringProperty(fromPath: "...").value = "Hello again, Rive"
+    
+    // Numbers
+    let numberProperty = instance.numberProperty(fromPath: "...")!
+    // Updating its value
+    numberProperty.value = 1337
+    // Get its value
+    print(numberProperty.value)
+    
+    // You can also set and get values without storing a strong reference
+    instance.numberProperty(fromPath: "...").value = 1337
+    
+    // Booleans
+    let booleanProperty = instance.booleanProperty(fromPath: "...")!
+    // Updating its value
+    booleanProperty.value = true
+    // Get its value
+    print(booleanProperty.value)
+    
+    // You can also set and get values without storing a strong reference
+    instance.booleanProperty(fromPath: "...").value = true
+    
+    // Colors
+    let colorProperty = instance.colorProperty(fromPath: "...")!
+    // Updating its value, which is a UIColor/NSColor, so all static helpers apply.
+    colorProperty.value = .red
+    // Get its value
+    print(colorProperty.value)
+    
+    // You can also set and get values without storing a strong reference
+    instance.colorProperty(fromPath: "...").value = .red
+    
+    // Enums
+    let enumProperty = instance.enumProperty(fromPath: "...")!
+    // Updating its value
+    enumProperty.value = "Foo"
+    // Get its value
+    print(enumProperty.value)
+    // Print all possible values
+    print(enumProperty.values)
+    
+    // You can also set and get values without storing a strong reference
+    instance.enumProperty(fromPath: "...").value = "Foo"
+    
+    // Trigger
+    let triggerProperty = instance.triggerProperty(fromPath: "...")!
+    // Fire the trigger
+    triggerProperty.trigger()
+    ```
+  </Tab>
+  <Tab title="Android">
+    ```kotlin
+    val vm = view.controller.file?.getViewModelByName("My View Model")!!
+    val vmi = vm.createInstanceFromName("My Instance")
+    
+    val numberProperty = vmi.getNumberProperty("My Number Property")
+    // Get
+    val numberValue = numberProperty.value
+    // Set
+    numberProperty.value = 10f
+    ```
+  </Tab>
 </Tabs>
 
 #### Observability
@@ -514,73 +521,73 @@ View model instances have mutable properties. References to these properties can
 You can observe changes over time to property values, either by using listeners or a platform equivalent method. Once observed, you will be notified when the property changes are applied by a state machine advance, whether that is a new value that has been explicitly set or if the value was updated as a result of a binding. Observing trigger properties is an alternative method to receive events from the editor, as compared to [Rive Events](/runtimes/rive-events).
 
 <Tabs>
-    <Tab title="Apple">
-        ```swift
-        let riveViewModel = RiveViewModel(...)
-        let instance = riveViewModel.riveModel!.riveFile.viewModelNamed("...")!.createDefaultInstance()!
-        
-        // Get the string property
-        let stringProperty = instance.stringProperty(fromPath: "...")!
-        
-        // Add a listener
-        let listener = stringProperty.addListener { newValue in
-            print(newValue)
+  <Tab title="Apple">
+    ```swift
+    let riveViewModel = RiveViewModel(...)
+    let instance = riveViewModel.riveModel!.riveFile.viewModelNamed("...")!.createDefaultInstance()!
+    
+    // Get the string property
+    let stringProperty = instance.stringProperty(fromPath: "...")!
+    
+    // Add a listener
+    let listener = stringProperty.addListener { newValue in
+        print(newValue)
+    }
+    
+    // Remove a listener, where listener is the return value of addListener
+    stringProperty.removeListener(listener)
+    
+    // Trigger properties can also be listened to for when they are triggered
+    instance.triggerProperty(fromPath: "...")!.addListener { 
+        print("Triggered!")
+    }
+    ```
+  </Tab>
+  <Tab title="Android">
+    ```kotlin
+    val vm = view.controller.file?.getViewModelByName("My View Model")!!
+    val vmi = vm.createInstanceFromName("My Instance")
+    
+    val numberProperty = vmi.getNumberProperty("My Number Property")
+    // Observe
+    lifecycleScope.launch {
+        numberProperty.collect { value ->
+            Log.i("MyActivity", "Value: $value")
         }
-        
-        // Remove a listener, where listener is the return value of addListener
-        stringProperty.removeListener(listener)
-
-        // Trigger properties can also be listened to for when they are triggered
-        instance.triggerProperty(fromPath: "...")!.addListener { 
-            print("Triggered!")
-        }
-        ```
-    </Tab>
-    <Tab title="Android">
-        ```kotlin
-        val vm = view.controller.file?.getViewModelByName("My View Model")!!
-        val vmi = vm.createInstanceFromName("My Instance")
-
-        val numberProperty = vmi.getNumberProperty("My Number Property")
-        // Observe
-        lifecycleScope.launch {
-            numberProperty.collect { value ->
-                Log.i("MyActivity", "Value: $value")
-            }
-        }
-        // Or collect in Compose
-        val numberValue by numberProperty.collectAsState()
-        ```
-    </Tab>
-    <Tab title="Flutter">
-        ```dart
-        final vm = file.defaultArtboardViewModel(artboard)!;
-        final vmi = vm.createDefaultInstance()!;
-
-        final numberProperty = vmi.number("My Number Property")!;
-        // Get
-        final numberValue = numberProperty.value;
-
-        // Set
-        numberProperty.value = 10;
-
-        // Observe
-        void onNumberChange(double value) {
-            print("Number changed to: $value");
-        }
-        numberProperty.addListener(onNumberChange);
-
-        // Remove listener when done
-        numberProperty.removeListener(onNumberChange);
-
-        // Alternatively, clear all listeners
-        numberProperty.clearListeners();
-
-        // Dispose of the property to clear up resources when you're no longer using it
-        // This will call `clearListeners()` internally.
-        numberProperty.dispose();        
-        ```
-    </Tab>      
+    }
+    // Or collect in Compose
+    val numberValue by numberProperty.collectAsState()
+    ```
+  </Tab>
+  <Tab title="Flutter">
+    ```dart
+    final vm = file.defaultArtboardViewModel(artboard)!;
+    final vmi = vm.createDefaultInstance()!;
+    
+    final numberProperty = vmi.number("My Number Property")!;
+    // Get
+    final numberValue = numberProperty.value;
+    
+    // Set
+    numberProperty.value = 10;
+    
+    // Observe
+    void onNumberChange(double value) {
+        print("Number changed to: $value");
+    }
+    numberProperty.addListener(onNumberChange);
+    
+    // Remove listener when done
+    numberProperty.removeListener(onNumberChange);
+    
+    // Alternatively, clear all listeners
+    numberProperty.clearListeners();
+    
+    // Dispose of the property to clear up resources when you're no longer using it
+    // This will call `clearListeners()` internally.
+    numberProperty.dispose();        
+    ```
+  </Tab>
 </Tabs>
 
 # Enums
@@ -590,31 +597,31 @@ Enums properties come in two flavors: system and user-defined. In practice, you 
 Enums are string typed. The Rive file contains a list of enums. Each enum in turn has a name and a list of strings.
 
 <Tabs>
-    <Tab title="Web">
+  <Tab title="Web">
     ```typescript
     const rive = new rive.Rive({
         onLoad: () => {
             const enums = rive.enums();
-
+    
             console.log(enums);
         }           
     });
     ```
-    </Tab>
-    <Tab title="Android">
-        ```kotlin
-        val enums = view.controller.file?.enums!!
-
-        val firstEnumName = enums[0].name
-        val firstEnumFirstValue = enums[0].values[0]
-        ```
-    </Tab>
-    <Tab title="Flutter">
-        ```dart
-        // Accesss on a File object
-        print("Data enums: ${file.enums}");
-        ```
-    </Tab>      
+  </Tab>
+  <Tab title="Android">
+    ```kotlin
+    val enums = view.controller.file?.enums!!
+    
+    val firstEnumName = enums[0].name
+    val firstEnumFirstValue = enums[0].values[0]
+    ```
+  </Tab>
+  <Tab title="Flutter">
+    ```dart
+    // Accesss on a File object
+    print("Data enums: ${file.enums}");
+    ```
+  </Tab>
 </Tabs>
 
 # Nested Property Paths
@@ -622,62 +629,62 @@ Enums are string typed. The Rive file contains a list of enums. Each enum in tur
 View models can have properties of type view model, allowing for arbitrary nesting. We could chain property calls on each instance starting from the root until we get to the property of interest. Alternatively we can do this through a path parameter, which is similar to a URI in that it is a forward slash delimited list of property names ending in the name of the property of interest.
 
 <Tabs>
-    <Tab title="Web">
+  <Tab title="Web">
     ```typescript
     const rive = new rive.Rive({
         autoBind: true,
         onLoad: () => {
             // Access the current instance that was auto-bound
             let vmi = rive.viewModelInstance;
-
+    
             const nestedNumberByChain = vmi
                 .viewModel("My Nested View Model")
                 .viewModel("My Second Nested VM")
                 .number("My Nested Number");
-
+    
             const nestedNumberByPath = vmi.number("My Nested View Model/My Second Nested VM/My Nested Number");
         }           
     });
     ```
-    </Tab>
-    <Tab title="Apple">
-        ```swift
-        let riveViewModel = RiveViewModel(...)
-        let instance = riveViewModel.riveModel!.riveFile.viewModelNamed("...")!.createDefaultInstance()!
-
-        let nestedNumberByChain = instance
-                                    .viewModelInstanceProperty(fromPath: "Nested View Model")
-                                    .viewModelInstanceProperty(fromPath: "Another Nested View Model")
-                                    .numberProperty(fromPath: "Number")
-
-        let nestedNumberByPath = instance.numberProperty(fromPath: "Nested View Model/Another Nested View Model/Number")
-        ```
-    </Tab>
-    <Tab title="Android">
-        ```kotlin
-        val vm = view.controller.file?.getViewModelByName("My View Model")!!
-        val vmi = vm.createInstanceFromName("My Instance")
-
-        val nestedNumberByChain = vmi
-            .getInstanceProperty("My Nested View Model")
-            .getInstanceProperty("My Second Nested VM")
-            .getNumberProperty("My Nested Number")
-
-        val nestedNumberByPath = vmi
-            .getNumberProperty("My Nested View Model/My Second Nested VM/My Nested Number")
-        ```
-    </Tab>
-    <Tab title="Flutter">
-        ```dart
-        final vm = file.viewModelByName("My View Model")!;
-        final vmi = vm.createInstanceByName("My Instance")!;
-
-        final nestedNumberByChain = vmi
-            .viewModel("My Nested View Model")!
-            .viewModel("My Second Nested VM")!
-            .number("My Nested Number");
-
-        final nestedNumberByPath = vmi.number("My Nested View Model/My Second Nested VM/My Nested Number");        
-        ```
-    </Tab>      
+  </Tab>
+  <Tab title="Apple">
+    ```swift
+    let riveViewModel = RiveViewModel(...)
+    let instance = riveViewModel.riveModel!.riveFile.viewModelNamed("...")!.createDefaultInstance()!
+    
+    let nestedNumberByChain = instance
+                                .viewModelInstanceProperty(fromPath: "Nested View Model")
+                                .viewModelInstanceProperty(fromPath: "Another Nested View Model")
+                                .numberProperty(fromPath: "Number")
+    
+    let nestedNumberByPath = instance.numberProperty(fromPath: "Nested View Model/Another Nested View Model/Number")
+    ```
+  </Tab>
+  <Tab title="Android">
+    ```kotlin
+    val vm = view.controller.file?.getViewModelByName("My View Model")!!
+    val vmi = vm.createInstanceFromName("My Instance")
+    
+    val nestedNumberByChain = vmi
+        .getInstanceProperty("My Nested View Model")
+        .getInstanceProperty("My Second Nested VM")
+        .getNumberProperty("My Nested Number")
+    
+    val nestedNumberByPath = vmi
+        .getNumberProperty("My Nested View Model/My Second Nested VM/My Nested Number")
+    ```
+  </Tab>
+  <Tab title="Flutter">
+    ```dart
+    final vm = file.viewModelByName("My View Model")!;
+    final vmi = vm.createInstanceByName("My Instance")!;
+    
+    final nestedNumberByChain = vmi
+        .viewModel("My Nested View Model")!
+        .viewModel("My Second Nested VM")!
+        .number("My Nested Number");
+    
+    final nestedNumberByPath = vmi.number("My Nested View Model/My Second Nested VM/My Nested Number");        
+    ```
+  </Tab>
 </Tabs>
