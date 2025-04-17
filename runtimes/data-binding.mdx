@@ -121,6 +121,44 @@ To begin, we need to get a reference to a particular view model. This can be don
         // Dispose the view model when you're no longer using it
         viewModel.dispose();
         ```
+    </Tab>
+    <Tab title="Unity">
+        <Note>
+        These APIs are only needed when the `Data Binding Mode` on the RiveWidget is set to `Manual`. 
+        
+        Otherwise, you can configure view model binding directly in the Unity Inspector under the Data section.
+        </Note>
+        ```csharp
+        private void OnEnable()
+        {
+            riveWidget.OnWidgetStatusChanged += HandleWidgetStatusChanged;
+        }
+
+        private void OnDisable()
+        {
+            riveWidget.OnWidgetStatusChanged -= HandleWidgetStatusChanged;
+        }
+
+        private void HandleWidgetStatusChanged()
+        {
+            if (riveWidget.Status == WidgetStatus.Loaded)
+            {
+                File file = riveWidget.File;
+
+                // Get reference by name
+                ViewModel viewModel = file.GetViewModelByName("My View Model");
+
+                // Get reference by index
+                for (int i = 0; i < file.ViewModelCount; i++)
+                {
+                    ViewModel indexedVM = file.GetViewModelAtIndex(i);
+                }
+
+                // Get reference to the default view model for an artboard
+                ViewModel defaultVM = riveWidget.Artboard.ViewModel;
+            }
+        }
+        ```
     </Tab>      
 </Tabs>
 
@@ -229,6 +267,48 @@ Once we have a reference to a view model, it can be used to create an instance. 
         // Dispose the view model instance
         viewModelInstance.dispose();        
         ```
+    </Tab>
+    <Tab title="Unity">
+        <Note>
+        These APIs are only needed when the `Data Binding Mode` on the RiveWidget is set to `Manual`. 
+        
+        Otherwise, you can configure view model binding directly in the Unity Inspector under the Data section.
+        </Note>
+        ```csharp
+        private void OnEnable()
+        {
+            riveWidget.OnWidgetStatusChanged += HandleWidgetStatusChanged;
+        }
+
+        private void OnDisable()
+        {
+            riveWidget.OnWidgetStatusChanged -= HandleWidgetStatusChanged;
+        }
+
+        private void HandleWidgetStatusChanged()
+        {
+            if (riveWidget.Status == WidgetStatus.Loaded)
+            {
+                // From a ViewModel reference
+                ViewModel vm = riveWidget.File.GetViewModelByName("My View Model");
+                
+                // Create blank
+                ViewModelInstance vmiBlank = vm.CreateInstance();
+                
+                // Create default
+                ViewModelInstance vmiDefault = vm.CreateDefaultInstance();
+                
+                // Create by index
+                for (int i = 0; i < vm.InstanceCount; i++)
+                {
+                    ViewModelInstance vmiIndexed = vm.CreateInstanceAt(i);
+                }
+                
+                // Create by name
+                ViewModelInstance vmiNamed = vm.CreateInstanceByName("My Instance");
+            }
+        }
+        ```
     </Tab>    
 </Tabs>
 
@@ -306,6 +386,42 @@ It is preferred to assign to a state machine, as this will automatically apply t
         // If you're not using a state machine, bind to the artboard
         artboard.bindViewModelInstance(vmi);        
         ```
+    </Tab>
+    <Tab title="Unity">
+        ```csharp
+        // Access the RiveWidget component
+        
+        // Using the Unity Inspector
+        // 1. Select your RiveWidget in the Inspector
+        // 2. In the "Data" section, set the Data Binding Mode:
+        //    - Auto Bind Default: Automatically binds the default view model instance
+        //    - Auto Bind Selected: Uses a specific instance you select in the dropdown
+        //    - Manual: Requires you to manually set up binding in code
+        
+        // Or programmatically if set to Manual or if using the low-level API
+        private void OnEnable()
+        {
+            riveWidget.OnWidgetStatusChanged += HandleWidgetStatusChanged;
+        }
+
+        private void OnDisable()
+        {
+            riveWidget.OnWidgetStatusChanged -= HandleWidgetStatusChanged;
+        }
+
+        private void HandleWidgetStatusChanged()
+        {
+            if (riveWidget.Status == WidgetStatus.Loaded)
+            {
+                ViewModel vm = riveWidget.Artboard.ViewModel;
+                ViewModelInstance vmi = vm.CreateDefaultInstance();
+                
+                // Applying to a state machine will automatically bind to its artboard
+                riveWidget.StateMachine.BindViewModelInstance(vmi);
+            }
+        }
+    
+        ```
     </Tab>      
 </Tabs>
 
@@ -356,6 +472,34 @@ Alternatively, you may prefer to use auto-binding. This will automatically bind 
 
         See the `RivePlayer.dart` file in the example app for a demo of how this will be presented.
       </Info>   
+    </Tab>
+    <Tab title="Unity">
+        **Rive Widget** provides both visual and programmatic ways to configure auto-binding. In the Inspector, you can easily set up binding through the Data Binding Mode dropdown:
+        
+        ![Data Binding Mode dropdown in Unity Inspector showing Auto Bind options](/images/unity/widget-db-binding-mode-dropdown.jpg)
+
+        To enable auto-binding programmatically, use the following APIs:
+
+        ```csharp
+  
+        // Before the widget is loaded:
+
+        // Option 1: Auto bind the default instance
+        riveWidget.BindingMode = DataBindingMode.AutoBindDefault;
+        
+        // Option 2: Auto bind a specific instance by name
+        riveWidget.BindingMode = DataBindingMode.AutoBindSelected;
+        riveWidget.ViewModelInstanceName = "My Instance";
+        
+        // Load the Rive file after setting the binding mode
+        riveWidget.Load(riveFile, artboardName, stateMachineName);
+        
+        ...
+        // Access the current instance that was auto-bound
+        ViewModelInstance boundInstance = riveWidget.StateMachine.ViewModelInstance;
+
+
+        ```
     </Tab>      
 </Tabs>
 
@@ -417,6 +561,18 @@ Property descriptors can be inspected on a view model to discover at runtime whi
 
         // Access on a ViewModelInstance object
         print("Properties: ${viewModelInstance.properties}");
+        ```
+    </Tab>
+    <Tab title="Unity">
+        ```csharp
+        var vm = riveWidget.File.GetViewModelByName("My View Model");
+        
+        // A list of properties
+        var properties = vm.Properties;
+        foreach (var prop in properties)
+        {
+            Debug.Log($"Property: {prop.Name}, Type: {prop.Type}");
+        }
         ```
     </Tab>      
 </Tabs>
@@ -524,6 +680,103 @@ View model instances have mutable properties. References to these properties can
         numberProperty.value = 10f
         ```
     </Tab>
+    <Tab title="Flutter">
+        ```dart
+        final vm = file.defaultArtboardViewModel(artboard)!;
+        final vmi = vm.createDefaultInstance()!;
+
+        final numberProperty = vmi.number("My Number Property")!;
+        // Get
+        final numberValue = numberProperty.value;
+
+        // Set
+        numberProperty.value = 10;
+
+        // Observe
+        void onNumberChange(double value) {
+            print("Number changed to: $value");
+        }
+        numberProperty.addListener(onNumberChange);
+
+        // Remove listener when done
+        numberProperty.removeListener(onNumberChange);
+
+        // Alternatively, clear all listeners
+        numberProperty.clearListeners();
+
+        // Dispose of the property to clear up resources when you're no longer using it
+        // This will call `clearListeners()` internally.
+        numberProperty.dispose();        
+        ```
+    </Tab>
+    <Tab title="Unity">
+        ```csharp
+        private void OnEnable()
+        {
+            riveWidget.OnWidgetStatusChanged += HandleWidgetStatusChanged;
+        }
+
+        private void OnDisable()
+        {
+            riveWidget.OnWidgetStatusChanged -= HandleWidgetStatusChanged;
+        }
+
+        private void HandleWidgetStatusChanged()
+        {
+            // Check if the widget is loaded before accessing the view model instance
+            if (riveWidget.Status == WidgetStatus.Loaded)
+            {
+                ViewModelInstance viewModelInstance = riveWidget.StateMachine.ViewModelInstance;
+                
+             //==========================================================================
+            // STRING PROPERTIES
+            //==========================================================================
+                ViewModelInstanceStringProperty stringProperty = viewModelInstance.GetStringProperty("title");
+                Debug.Log($"String value: {stringProperty.Value}");
+                stringProperty.Value = "New Text";
+                
+            //==========================================================================
+            // NUMBER PROPERTIES
+            //==========================================================================
+                ViewModelInstanceNumberProperty numberProperty = viewModelInstance.GetNumberProperty("count");
+                Debug.Log($"Number value: {numberProperty.Value}");
+                numberProperty.Value = 42.5f;
+                
+            //==========================================================================
+            // BOOLEAN PROPERTIES
+            //==========================================================================
+                ViewModelInstanceBooleanProperty boolProperty = viewModelInstance.GetBooleanProperty("isActive");
+                Debug.Log($"Boolean value: {boolProperty.Value}");
+                boolProperty.Value = true;
+                
+            //==========================================================================
+            // COLOR PROPERTIES
+            //==========================================================================
+                ViewModelInstanceColorProperty colorProperty = viewModelInstance.GetColorProperty("backgroundColor");
+                // Using Unity Color (float values 0-1)
+                Color currentColor = colorProperty.Value;
+                colorProperty.Value = new UnityEngine.Color(1, 0, 0, 1); // Red color
+                // Or using Color32 (byte values 0-255)
+                Color32 currentColor32 = colorProperty.Value32;
+                colorProperty.Value32 = new Color32(0, 255, 0, 255); // Green color
+                
+            //==========================================================================
+            // ENUM PROPERTIES
+            //==========================================================================
+                ViewModelInstanceEnumProperty enumProperty = viewModelInstance.GetEnumProperty("category");
+                Debug.Log($"Enum current value: {enumProperty.Value}");
+                Debug.Log($"Enum available values: {string.Join(", ", enumProperty.EnumValues)}");
+                enumProperty.Value = "option_name";
+                
+            //==========================================================================
+            // TRIGGER PROPERTIES
+            //==========================================================================
+                ViewModelInstanceTriggerProperty triggerProperty = viewModelInstance.GetTriggerProperty("onSubmit");
+                triggerProperty.Trigger(); // Fire the trigger
+            }
+        }
+        ```
+    </Tab>      
 </Tabs>
 
 #### Observability
@@ -628,6 +881,96 @@ You can observe changes over time to property values, either by using listeners 
         // This will call `clearListeners()` internally.
         numberProperty.dispose();        
         ```
+    </Tab>
+    <Tab title="Unity">
+        ```csharp
+        private ViewModelInstanceNumberProperty numberProperty;
+        private ViewModelInstanceStringProperty stringProperty;
+        private ViewModelInstanceBooleanProperty boolProperty;
+        private ViewModelInstanceColorProperty colorProperty;
+        private ViewModelInstanceEnumProperty enumProperty;
+        private ViewModelInstanceTriggerProperty triggerProperty;
+        
+        private void OnEnable()
+        {
+            riveWidget.OnWidgetStatusChanged += HandleWidgetStatusChanged;
+        }
+        
+        private void OnDisable()
+        {
+            riveWidget.OnWidgetStatusChanged -= HandleWidgetStatusChanged;
+        }
+        
+        private void HandleWidgetStatusChanged()
+        {
+            if (riveWidget.Status == WidgetStatus.Loaded)
+            {
+                ViewModelInstance viewModelInstance = riveWidget.StateMachine.ViewModelInstance;
+                
+                // Add listeners to properties
+                numberProperty = viewModelInstance.GetNumberProperty("count");
+                numberProperty.OnValueChanged += OnNumberPropertyChanged;
+                
+                stringProperty = viewModelInstance.GetStringProperty("title");
+                stringProperty.OnValueChanged += OnStringPropertyChanged;
+                
+                boolProperty = viewModelInstance.GetBooleanProperty("isActive");
+                boolProperty.OnValueChanged += OnBoolPropertyChanged;
+                
+                colorProperty = viewModelInstance.GetColorProperty("backgroundColor");
+                colorProperty.OnValueChanged += OnColorPropertyChanged;
+                
+                enumProperty = viewModelInstance.GetEnumProperty("category");
+                enumProperty.OnValueChanged += OnEnumPropertyChanged;
+                
+                triggerProperty = viewModelInstance.GetTriggerProperty("onSubmit");
+                triggerProperty.OnValueChanged += OnTriggerPropertyFired;
+                
+             
+            }
+        }
+        
+        private void OnNumberPropertyChanged()
+        {
+            Debug.Log($"Number changed to: {numberProperty.Value}");
+        }
+        
+        private void OnStringPropertyChanged()
+        {
+            Debug.Log($"String changed to: {stringProperty.Value}");
+        }
+        
+        private void OnBoolPropertyChanged()
+        {
+            Debug.Log($"Boolean changed to: {boolProperty.Value}");
+        }
+        
+        private void OnColorPropertyChanged()
+        {
+            Debug.Log($"Color changed to: {ColorUtility.ToHtmlStringRGBA(colorProperty.Value)}");
+        }
+        
+        private void OnEnumPropertyChanged()
+        {
+            Debug.Log($"Enum changed to: {enumProperty.Value}");
+        }
+        
+        private void OnTriggerPropertyFired()
+        {
+            Debug.Log("Trigger fired!");
+        }
+
+        private void OnDestroy()
+        {
+            // You should remove listeners when no longer needed,
+            numberProperty.OnValueChanged -= OnNumberPropertyChanged;
+            stringProperty.OnValueChanged -= OnStringPropertyChanged;
+            boolProperty.OnValueChanged -= OnBoolPropertyChanged;
+            colorProperty.OnValueChanged -= OnColorPropertyChanged;
+            enumProperty.OnValueChanged -= OnEnumPropertyChanged;
+            triggerProperty.OnValueChanged -= OnTriggerPropertyFired;
+        }
+        ```
     </Tab>      
 </Tabs>
 
@@ -664,6 +1007,31 @@ Enums are string typed. The Rive file contains a list of enums. Each enum in tur
         ```dart
         // Accesss on a File object
         print("Data enums: ${file.enums}");
+        ```
+    </Tab>
+    <Tab title="Unity">
+        ```csharp
+     
+            var viewModelInstance = riveWidget.StateMachine.ViewModelInstance;
+            
+            // Accessing enums from the file
+            var enums = riveWidget.File.ViewModelEnums;
+            foreach (var enumType in enums)
+            {
+                Debug.Log($"Enum: {enumType.Name}");
+                foreach (var value in enumType.Values)
+                {
+                    Debug.Log($" - Value: {value}");
+                }
+            }
+
+            ...
+            // Using enum properties
+            var enumProperty = viewModelInstance.GetEnumProperty("category");
+            Debug.Log($"Current value: {enumProperty.Value}");
+            Debug.Log($"Available values: {string.Join(", ", enumProperty.EnumValues)}");
+            enumProperty.Value = enumProperty.EnumValues[0]; // Set to first value
+        
         ```
     </Tab>      
 </Tabs>
@@ -732,6 +1100,26 @@ View models can have properties of type view model, allowing for arbitrary nesti
             .number("My Nested Number");
 
         final nestedNumberByPath = vmi.number("My Nested View Model/My Second Nested VM/My Nested Number");        
+        ```
+    </Tab>
+    <Tab title="Unity">
+        ```csharp
+        if (riveWidget.Status == WidgetStatus.Loaded)
+        {
+            var viewModelInstance = riveWidget.StateMachine.ViewModelInstance;
+            
+            // Accessing nested view models using chaining
+            var nestedNumberByChain = viewModelInstance
+                .GetViewModelInstanceProperty("My Nested View Model")
+                .GetViewModelInstanceProperty("My Second Nested VM")
+                .GetNumberProperty("My Nested Number");
+            
+            // Accessing nested properties using path notation
+            var nestedNumberByPath = viewModelInstance
+                .GetNumberProperty("My Nested View Model/My Second Nested VM/My Nested Number");
+            
+       
+        }
         ```
     </Tab>      
 </Tabs>
