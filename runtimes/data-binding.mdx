@@ -474,13 +474,16 @@ Alternatively, you may prefer to use auto-binding. This will automatically bind 
       </Info>   
     </Tab>
     <Tab title="Unity">
-        ```csharp
-        // Enable auto-binding through the Inspector:
-        // 1. Select your RiveWidget in the Inspector
-        // 2. In the "Data" section, set Data Binding Mode to "Auto Bind Default" or "Auto Bind Selected"
-        // 3. If using "Auto Bind Selected", choose the instance from the dropdown
+        **Rive Widget** provides both visual and programmatic ways to configure auto-binding. In the Inspector, you can easily set up binding through the Data Binding Mode dropdown:
         
-        // Or programmatically before the widget is loaded:
+        ![Data Binding Mode dropdown in Unity Inspector showing Auto Bind options](/images/unity/widget-db-binding-mode-dropdown.jpg)
+
+        To enable auto-binding programmatically, use the following APIs:
+
+        ```csharp
+  
+        // Before the widget is loaded:
+
         // Option 1: Auto bind the default instance
         riveWidget.BindingMode = DataBindingMode.AutoBindDefault;
         
