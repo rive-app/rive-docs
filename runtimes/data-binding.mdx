@@ -155,7 +155,7 @@ To begin, we need to get a reference to a particular view model. This can be don
                 }
 
                 // Get reference to the default view model for an artboard
-                ViewModel defaultVM = riveWidget.Artboard.ViewModel;
+                ViewModel defaultVM = riveWidget.Artboard.DefaultViewModel;
             }
         }
         ```
@@ -413,7 +413,7 @@ It is preferred to assign to a state machine, as this will automatically apply t
         {
             if (riveWidget.Status == WidgetStatus.Loaded)
             {
-                ViewModel vm = riveWidget.Artboard.ViewModel;
+                ViewModel vm = riveWidget.Artboard.DefaultViewModel;
                 ViewModelInstance vmi = vm.CreateDefaultInstance();
                 
                 // Applying to a state machine will automatically bind to its artboard
