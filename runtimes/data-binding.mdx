@@ -924,35 +924,35 @@ You can observe changes over time to property values, either by using listeners 
                 enumProperty.OnValueChanged += OnEnumPropertyChanged;
                 
                 triggerProperty = viewModelInstance.GetTriggerProperty("onSubmit");
-                triggerProperty.OnValueChanged += OnTriggerPropertyFired;
+                triggerProperty.OnTriggered += OnTriggerPropertyFired;
                 
              
             }
         }
         
-        private void OnNumberPropertyChanged()
+        private void OnNumberPropertyChanged(float newValue)
         {
-            Debug.Log($"Number changed to: {numberProperty.Value}");
+            Debug.Log($"Number changed to: {newValue}");
         }
         
-        private void OnStringPropertyChanged()
+        private void OnStringPropertyChanged(string newValue)
         {
-            Debug.Log($"String changed to: {stringProperty.Value}");
+            Debug.Log($"String changed to: {newValue}");
         }
         
-        private void OnBoolPropertyChanged()
+        private void OnBoolPropertyChanged(bool newValue)
         {
-            Debug.Log($"Boolean changed to: {boolProperty.Value}");
+            Debug.Log($"Boolean changed to: {newValue}");
         }
         
-        private void OnColorPropertyChanged()
+        private void OnColorPropertyChanged(UnityEngine.Color newValue)
         {
-            Debug.Log($"Color changed to: {ColorUtility.ToHtmlStringRGBA(colorProperty.Value)}");
+            Debug.Log($"Color changed to: {ColorUtility.ToHtmlStringRGBA(newValue)}");
         }
         
-        private void OnEnumPropertyChanged()
+        private void OnEnumPropertyChanged(string newValue)
         {
-            Debug.Log($"Enum changed to: {enumProperty.Value}");
+            Debug.Log($"Enum changed to: {newValue}");
         }
         
         private void OnTriggerPropertyFired()
@@ -968,7 +968,7 @@ You can observe changes over time to property values, either by using listeners 
             boolProperty.OnValueChanged -= OnBoolPropertyChanged;
             colorProperty.OnValueChanged -= OnColorPropertyChanged;
             enumProperty.OnValueChanged -= OnEnumPropertyChanged;
-            triggerProperty.OnValueChanged -= OnTriggerPropertyFired;
+            triggerProperty.OnTriggered -= OnTriggerPropertyFired;
         }
         ```
     </Tab>      
