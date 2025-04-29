@@ -595,9 +595,9 @@ View model instances have mutable properties. References to these properties can
             let vmi = rive.viewModelInstance;
             const numberProperty = vmi.number("My Number Property");
             // Get
-            const numberValue = numberProperty.value();
+            const numberValue = numberProperty.value;
             // Set
-            numberProperty.value(10);
+            numberProperty.value = 10;
         }             
     });
     ```
