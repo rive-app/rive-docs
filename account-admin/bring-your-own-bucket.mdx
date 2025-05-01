@@ -1,0 +1,117 @@
+---
+title: "Bring Your Own S3 Bucket"
+description: "Configure your own AWS S3 bucket to work with Rive"
+---
+
+**Note:** This feature is available exclusively to Enterprise plan customers. If you're interested in upgrading to unlock this capability, [contact us](https://rive.app/enterprise).
+
+## What is a Custom S3 Bucket?
+
+A custom S3 bucket allows Enterprise customers to store their Rive file and asset data in their own AWS environment instead of Rive's default storage. This premium feature gives you greater control over your data, allowing you to:
+
+- Apply your organization's security and compliance policies
+- Keep data within your existing AWS infrastructure
+- Integrate with your existing backup and disaster recovery processes
+- Monitor and audit all access to your bucket using CloudTrail
+
+If you have existing data in Rive that you would like migrated to your custom S3 bucket after upgrading to Enterprise, our team can help coordinate the migration process.
+
+## Configuration
+
+<Steps>
+  <Step title="Create an S3 bucket in your AWS Account">
+    Follow the [AWS documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html) to create a new S3 bucket:
+    
+    - Choose a unique name for your bucket <br />
+      **Note:** Use that name in place of `BUCKET_NAME` for the rest of this document
+    - Configure basic bucket settings
+      - Block public access
+      - You can choose to leave everything as default or you can decide to enable or customize:
+        - versioning (disabled by default)
+        - encryption - by default buckets and new objects are encrypted by Amazon's S3 managed keys (SSE-S3) which uses AES256
+        - tags
+  </Step>
+
+  <Step title="Create an IAM Policy">
+    - In the AWS Console, under IAM / Policies click on _"Create policy"_
+    - Select the _"JSON"_ Policy Editor view and paste the following:
+
+    ```json
+    {
+      "Statement": [
+        {
+          "Action": [
+            "s3:GetObject",
+            "s3:PutObject",
+            "s3:DeleteObject",
+            "s3:ListBucket",
+            "s3:GetBucketLocation",
+            "s3:AbortMultipartUpload",
+            "s3:ListBucketMultipartUploads",
+            "s3:ListMultipartUploadParts"
+          ],
+          "Effect": "Allow",
+          "Resource": [
+            "arn:aws:s3:::BUCKET_NAME",
+            "arn:aws:s3:::BUCKET_NAME/*"
+            ]
+        }
+      ],
+      "Version": "2012-10-17"
+    }
+    ```
+
+  </Step>
+
+  <Step title="Create a new IAM Role">
+    - In the AWS Console, under IAM / Roles click on _"Create role"_
+    - Under _"Trusted entity type"_ pick _"Custom trust policy"_
+    - In the JSON editor that appears paste the following:
+
+    ```json
+    {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Principal": {
+            "AWS": "REQUEST_FROM_RIVE"
+          },
+          "Action": "sts:AssumeRole"
+        }
+      ]
+    }
+    ```
+
+    **Note:** You will need to request the appropriate value to replace `REQUEST_FROM_RIVE` from your Rive representative
+
+    - Hit _"Next"_ to go to the _"Add permissions"_ section
+    - Under _"Permission policies"_ search for the IAM Policy you just created and select it
+    - Click _"Next"_ to go to _"Name, review, and create"_
+    - Choose a name, review the trust policy and the permissions, and click _"Create role"_
+    - Open the Role you just created and make note of the ARN
+
+  </Step>
+
+  <Step title="Provide Information to Rive">
+    Share the following information with your Rive representative:
+
+    - **Region**: Region of the S3 Bucket
+    - **Bucket Name**: Name of the Bucket
+    - **Role ARN**: ARN of the role you created
+
+  </Step>
+</Steps>
+
+After providing all the above to your Rive representative, our team will configure your account to use your custom S3 bucket.
+
+You'll receive a confirmation once everything is set up, at which point all your Rive resources will automatically be stored in your own S3 bucket.
+
+## Troubleshooting
+
+If you encounter issues with your S3 bucket configuration:
+
+- Verify the IAM Role has the correct trust relationship (using the value provided by Rive)
+- Ensure the IAM Policy has the necessary S3 permissions
+- Check that your bucket is in the same region you provided to Rive
+- Contact your Rive representative for additional assistance
