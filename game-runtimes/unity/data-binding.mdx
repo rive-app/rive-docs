@@ -7,6 +7,9 @@ description: 'Binding Rive Data to Unity and vice versa'
 
 Data binding allows you to establish connections between your Unity code and your Rive graphics. This creates a two-way reactive system where changes in your code affect the Rive design, and changes in the design can trigger responses in your code.
 
+
+<Tabs>
+  <Tab title="Component API (Recommended)">
 ## Auto Binding in the Inspector
 
 The simplest way to use data binding is through the Unity Inspector. The **Rive Widget** component includes a **Data Binding Mode** setting that offers three options:
@@ -107,33 +110,33 @@ public class DataBindingExample : MonoBehaviour
             //==========================================================================
             triggerProperty = viewModelInstance.GetTriggerProperty("onSubmit");
             triggerProperty.Trigger(); // Fire the trigger
-            triggerProperty.OnValueChanged += OnTriggerPropertyFired;
+            triggerProperty.OnTriggered += OnTriggerPropertyFired;
         }
     }
 
-    private void OnNumberPropertyChanged()
+    private void OnNumberPropertyChanged(float newValue)
     {
-        Debug.Log($"Number changed to: {numberProperty.Value}");
+        Debug.Log($"Number changed to: {newValue}");
     }
 
-    private void OnStringPropertyChanged()
+    private void OnStringPropertyChanged(string newValue)
     {
-        Debug.Log($"String changed to: {stringProperty.Value}");
+        Debug.Log($"String changed to: {newValue}");
     }
 
-    private void OnBoolPropertyChanged()
+    private void OnBoolPropertyChanged(bool newValue)
     {
-        Debug.Log($"Boolean changed to: {boolProperty.Value}");
+        Debug.Log($"Boolean changed to: {newValue}");
     }
 
-    private void OnColorPropertyChanged()
+    private void OnColorPropertyChanged(UnityEngine.Color newValue)
     {
-        Debug.Log($"Color changed to: {ColorUtility.ToHtmlStringRGBA(colorProperty.Value)}");
+        Debug.Log($"Color changed to: {ColorUtility.ToHtmlStringRGBA(newValue)}");
     }
 
-    private void OnEnumPropertyChanged()
+    private void OnEnumPropertyChanged(string newValue)
     {
-        Debug.Log($"Enum changed to: {enumProperty.Value}");
+        Debug.Log($"Enum changed to: {newValue}");
     }
 
     private void OnTriggerPropertyFired()
@@ -149,10 +152,25 @@ public class DataBindingExample : MonoBehaviour
         if (boolProperty != null) boolProperty.OnValueChanged -= OnBoolPropertyChanged;
         if (colorProperty != null) colorProperty.OnValueChanged -= OnColorPropertyChanged;
         if (enumProperty != null) enumProperty.OnValueChanged -= OnEnumPropertyChanged;
-        if (triggerProperty != null) triggerProperty.OnValueChanged -= OnTriggerPropertyFired;
+        if (triggerProperty != null) triggerProperty.OnTriggered -= OnTriggerPropertyFired;
     }
     
 }
 ```
 
+Explore the **RewardsDataBinding** scene in the [getting-started example project](https://github.com/rive-app/rive-unity-examples) for a practical implementation in Unity.
+
+</Tab>
+<Tab title="Low-level API">
+ If you choose to use the low-level API to control the render loop, you'll need to manually set up data binding in your scripts. 
+ 
+ For reference, check this [RiveScreen example](https://github.com/rive-app/rive-unity/blob/main/examples/basic/Assets/GameRuntime/RiveScreen.cs) that demonstrates one way to implement auto binding in a custom render loop.  
+
+<Note>
+Using the low-level API requires additional implementation effort and understanding of the Rive runtime. Unless you have a specific need to setup a custom render loop, we recommend using the Component API.
+</Note>
+</Tab>
+</Tabs>
+
 For a deeper understanding of data binding concepts and more advanced usage, see the [Data Binding documentation](/runtimes/data-binding).
+
