@@ -21,13 +21,13 @@ An important concept to understand is that the **RiveFile** contains the underly
 
 You can view the details of a **RiveFile** by double-clicking on it in the content browser and examining the Details pane. You can see all of the **artboards**, **state machines, triggers** and **inputs** included in the file.
 
-![Image](https://ucarecdn.com/e1a414a2-6b5c-4b44-b5df-902867b329cf/)
+![Image](/images/game-runtimes/unreal/e1a414a2-6b5c-4b44-b5df-902867b329cf.webp)
 
 ## RiveTextureObjects
 
 While a **RiveFile** contains the data of a Rive asset, it is the **RiveTextureObject** that handles running the animations and handling state machines. Every **RiveTextureObject** runs independently, even if created from the same **RiveFile**. When you double-click on a **RiveTextureObject** you can examine and change various values associated with that object:
 
-![Image](https://ucarecdn.com/23f34841-ad81-4388-b13b-5f0c115e5166/)
+![Image](/images/game-runtimes/unreal/23f34841-ad81-4388-b13b-5f0c115e5166.webp)
 
 Leaving the Artboard name or State Machine name blank will use the default values.
 
@@ -41,7 +41,7 @@ Leaving the Artboard name or State Machine name blank will use the default value
 
 Right-click a **RiveFile** to access common actions:
 
-![Image](https://ucarecdn.com/5c8cc8e5-751b-4f80-a8c9-10566fc7255a/)
+![Image](/images/game-runtimes/unreal/5c8cc8e5-751b-4f80-a8c9-10566fc7255a.webp)
 
 Selecting **"Spawn Rive Widget Actor"** will create an Actor in your Level. Playing the Level will display the Rive file as a UMG Widget. Alternatively, you can spawn a widget actor by dragging and dropping the **RiveFile** asset into the level. Note that the location of the actor in the scene does not affect it's display.
 
@@ -56,13 +56,13 @@ You can easily create a material asset from a **RiveTextureObject**:
 
 The created material asset uses the selected **RiveTextureObject** as a texture.
 
-![Image](https://ucarecdn.com/27fe9af0-7bdb-46d9-bd5c-a07fadaca1fe/)
+![Image](/images/game-runtimes/unreal/27fe9af0-7bdb-46d9-bd5c-a07fadaca1fe.webp)
 
 ### Displaying
 
 This material can be added to a 3D mesh to be rendered in the scene, just like any other material.
 
-![Image](https://ucarecdn.com/30c746c2-42bc-4cb8-b4f0-c68c2a4d07e6/)
+![Image](/images/game-runtimes/unreal/30c746c2-42bc-4cb8-b4f0-c68c2a4d07e6.webp)
 
 ## Adding Rive to UMG
 
@@ -78,7 +78,7 @@ Alternatively, a **Rive Widget** can be added from the **UMG** **Palette** and t
   Be sure to click **Compile** to make the graphic visible.
 </Note>
 
-![Image](https://ucarecdn.com/be465fa4-8531-4258-af51-55fe05f306cf/)
+![Image](/images/game-runtimes/unreal/be465fa4-8531-4258-af51-55fe05f306cf.webp)
 
 <Note>
   Listeners (pointer events) are disabled in this view. This means the Rive graphic is not interactive within UMG.
@@ -88,13 +88,13 @@ Alternatively, a **Rive Widget** can be added from the **UMG** **Palette** and t
 
 The **RiveWidget** can be accessed through Blueprint, if the **Is Variable** toggle is set (default is checked).
 
-![Image](https://ucarecdn.com/b7c73431-6c84-4597-aeea-75e3b76ecddb/)
+![Image](/images/game-runtimes/unreal/b7c73431-6c84-4597-aeea-75e3b76ecddb.webp)
 
 ### Displaying
 
 Once a Widget Blueprint is configured, you only need to add it to the Viewport. In this example we're creating a new Actor and adding the following.
 
-![Image](https://ucarecdn.com/1213cdfc-ef95-40a7-95f1-6a9fd071e764/)
+![Image](/images/game-runtimes/unreal/1213cdfc-ef95-40a7-95f1-6a9fd071e764.webp)
 
 Once the actor is added to the game and you enter play mode the animation will function exactly as it does in the Rive Editor.
 
