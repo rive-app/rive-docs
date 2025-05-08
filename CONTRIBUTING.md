@@ -8,7 +8,7 @@ Before creating your pull request, make sure to [fork](https://docs.github.com/e
 
 ## Images
 
-When adding images, add them to the `images` folder, in a subdirectory similar to the file structure for documentation. 
+When adding images, add them to the `images` folder, in a subdirectory similar to the file structure for documentation.
 
 When naming images, use a descriptive name relative to the functionality you are documenting.
 
@@ -40,7 +40,7 @@ Below are some suggestions for a Conventional Commit message type to use when wr
 
 ### Scopes
 
-Below are some suggestions for a Conventional Commit message scope to use when writing your commmit message.
+Below are some suggestions for a Conventional Commit message scope to use when writing your commit message.
 
 - `editor`: Changes that apply to the editor as a whole.
 - `runtimes`: Changes that apply to (most) runtimes as a whole.
