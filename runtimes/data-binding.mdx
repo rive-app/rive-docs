@@ -808,7 +808,7 @@ View model instances have mutable properties. References to these properties can
         - `useViewModelInstanceEnum`: Read/write enum properties with available values
         - `useViewModelInstanceTrigger`: Fire trigger events with optional callbacks
         
-        These hooks return the current `value` and a function to update it (`setValue`, `setRgb`, `trigger`). The `value` will be null if the property is not found or provided with an invalid viewModelInstance.
+        These hooks return the current `value` and a function to update it (`setValue`, `setRgb`, `trigger`). The `value` will be null if the property is not found or if the hook is provided with an invalid viewModelInstance.
 
 
         ```typescript
