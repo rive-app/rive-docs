@@ -1,6 +1,6 @@
 ---
 title: 'Lists'
-description: 'Use DataBinding to generate lists at runtime'
+description: 'Use Data Binding to generate lists at runtime'
 ---
 
 <Note>Lists are currently available in <a href="https://rive.app/blog/early-access-to-unreleased-features" target="_blank" rel="noopener noreferrer">Early Access</a> as a feature in the Rive Editor. Further performance enhancements as well as Runtime APIs will be available when released to the general public.</Note>
@@ -29,16 +29,16 @@ Once the Artboard List is added to your hierarchy, you can select it and see its
 
 ![Image](/images/editor/artboard-list-property.png)
 
-The next step is to bind data to it using DataBinding. This will determine the content and number of items in your List. There are 2 ways to generate List content:
+The next step is to bind data to it using Data Binding. This will determine the content and number of items in your List. There are 2 ways to generate List content:
 
 - Using the View Model List property
 - Using a View Model Number property together with a Number to List converter
 
 ## View Model List Property
 
-<Note>Before continuing, it's important to understand the fundamentals of DataBinding, in particular, what a View Model is, how to create one and how to bind it to an object's properties. Learn more in the [DataBinding Overview](/editor/data-binding/overview).</Note>
+<Note>Before continuing, it's important to understand the fundamentals of Data Binding, in particular, what a View Model is, how to create one and how to bind it to an object's properties. Learn more in the [Data Binding Overview](/editor/data-binding/overview).</Note>
 
-A View Model List is a property that can contain N items which each represent a View Model instance. In order to be used in a List, the View Model must be bound to an Artboard.
+A View Model List is a property that can contain a dynamic number of items which each represent a View Model instance. In order to be used in a List, the View Model must be bound to an Artboard.
 
 To Create a View Model List and bind it to an Artboard List:
 
@@ -55,13 +55,13 @@ To Create a View Model List and bind it to an Artboard List:
 9. After adding your List items, go back to the Hierarchy tab, select the Artboard List, and from the Artboard List property dropdown, select the ViewModel List property you created above. 
 10. Run the state machine and you should see your list items. Remember that the layout will be determined by the Artboard List's parent, so modify the parent's settings in order to tweak your List's layout
 
-<Note>Rive's runtimes will provide APIs to modify the List and List items at runtime (for example, adding or removing items), however this is not yet available in Early Access.</Note>
+<Warning>Rive's runtimes will provide APIs to modify the List and List items at runtime (for example, adding or removing items), however this is not yet available in Early Access.</Warning>
 
 ## View Model Number with Converter
 
-The second way to populate your list is by specifying the number of items you want in your list along with the ViewModel (Artboard) you want to instance. This can be done using a View Model Number property in combination with the new Number to List converter.
+The second way to populate your list is by specifying the number of items you want in your List along with the ViewModel (Artboard) you want to instance. This can be done using a View Model Number property in combination with the new Number to List converter.
 
-To Create a View Model Number and converter and bind it to an Artboard List:
+To Create a View Model Number to List converter and bind it to an Artboard List:
 
 1. Navigate to the Data tab in the Editor
 2. Click the + button beside View Models to create a View Model (this will represent your List item)
