@@ -88,6 +88,8 @@ This can be added to your item's View Model by clicking the + button and selecti
 
 This property can then be bound to an object's properties and used directly (for example, to change the position of an object based on the index), used together with a converter (to display the index value as a string) or used as a condition in a state machine (to provide different behavior depending on the item's index).
 
+<Info>When using item index with the [List property](/editor/data-binding/lists#view-model-list-property) and list items, be aware that if more than 1 list item is bound to the same View Model instance, they will share the same index value</Info>
+
 ## Lists & Scrolling
 
 If you add your Artboard List as a child of a Layout, your List items will behave as children of its parent's Layout. This means things like direction, wrapping, padding, gap, alignment, etc. are all dictated by the parent Layout's properties.
