@@ -30,7 +30,7 @@ Follow the steps below to integrate Rive into your web app.
 <Note>
     The following instructions describe using the `@rive-app/canvas` package. Rive provides web-based packages like WebGL, Canvas, and Lite versions.<br/>
 
-    See [Canvas vs WebGL](./canvas-vs-webgl) for guidance on which package is the correct choice for your use case.
+    See [Canvas vs WebGL](/runtimes/web/canvas-vs-webgl) for guidance on which package is the correct choice for your use case.
 </Note>
 
 <Steps>
@@ -90,7 +90,7 @@ Follow the steps below to integrate Rive into your web app.
 
 
     <Note>
-    Not using [Rive Text](/editor/text/) and [Rive Audio](/editor/events/audio-events)? Consider using [@rive-app/canvas-lite](./canvas-vs-webgl#rive-app-canvas-lite) which is a smaller package variant.
+    Not using [Rive Text](/editor/text/) and [Rive Audio](/editor/events/audio-events)? Consider using [@rive-app/canvas-lite](/runtimes/web/canvas-vs-webgl#rive-app-canvas-lite) which is a smaller package variant.
     </Note>
   </Step>
   <Step title="Create a Canvas">
@@ -103,7 +103,7 @@ Follow the steps below to integrate Rive into your web app.
   <Step title="Create a Rive instance">
     To create a new instance of a Rive object, provide the following properties:
 
-    - `src`: A string representing the URL of the hosted `.riv` file (as shown in the example below) or the path to the public asset `.riv` file. For more details, refer to [Rive Parameters](./rive-parameters) on how to properly use this property.
+    - `src`: A string representing the URL of the hosted `.riv` file (as shown in the example below) or the path to the public asset `.riv` file. For more details, refer to [Rive Parameters](/runtimes/web/rive-parameters) on how to properly use this property.
     - `artboard` - (Optional) A string representing the artboard you want to display. If not supplied the default is selected.
     - `stateMachines` - A string representing the name of the state machine you wish to play.
     - `canvas` - The canvas element where the animation will be rendered.
@@ -191,9 +191,9 @@ Bringing it all together, here's how to load a Rive graphic in a single HTML fil
 1. **Hosted URL**: Use a string representing the URL where the `.riv` file is hosted. Set this as the `src` attribute when creating a new Rive instance.
 2. **Static Assets in the bundle**: Provide a string with the path to a publicly accessible `.riv` file within your web project. Handle `.riv` files just like any other static asset (e.g., images or fonts) in your project.
 3. **Fetching a file**: Instead of using the `src` attribute, use the `buffer` attribute to load an `ArrayBuffer` when fetching a file. This is useful when reusing the same `.riv` file across multiple Rive instances, allowing you to load it only once.
-4. **Reusing a Loaded File**: Use the `rivFile` parameter to reuse a previously loaded Rive runtime file object, avoiding the need to fetch it again via the `src` URL or reload it from the `buffer`. This can significantly improve performance by eliminating redundant network requests and loading times, especially when creating multiple Rive instances from the same source. Unlike the `src` and `buffer` parameters, which require parsing under the hood to create a runtime file object, the `riveFile` parameter uses an already parsed object, including any loaded assets. See [Caching a Rive File](../caching-a-rive-file).
+4. **Reusing a Loaded File**: Use the `rivFile` parameter to reuse a previously loaded Rive runtime file object, avoiding the need to fetch it again via the `src` URL or reload it from the `buffer`. This can significantly improve performance by eliminating redundant network requests and loading times, especially when creating multiple Rive instances from the same source. Unlike the `src` and `buffer` parameters, which require parsing under the hood to create a runtime file object, the `riveFile` parameter uses an already parsed object, including any loaded assets. See [Caching a Rive File](/runtimes/caching-a-rive-file).
 
-For more details, refer to the [Rive Parameters](./rive-parameters) section on the `src` property.
+For more details, refer to the [Rive Parameters](/runtimes/web/rive-parameters) section on the `src` property.
 
 ## 4. Clean up Rive
 
@@ -238,7 +238,7 @@ More in-depth Rive web documentation and advanced use cases.
   <Card title="Preloading WASM" href="./preloading-wasm" icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>}>
     Instructions on how to preload and self-host the rive WASM library.
   </Card>
-  <Card title="Low-level API Usage" href="./low-level-api-usage" icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>}>
+  <Card title="Low-level API Usage" href="/runtimes/web/low-level-api-usage" icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>}>
     Control the Rive render loop and layout, and draw multiple artboards to the same canvas.
   </Card>
 </CardGroup>

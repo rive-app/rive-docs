@@ -23,7 +23,7 @@ And then export the name: **right-click** and select **Export name**
 
 ![Image](https://ucarecdn.com/b729291c-f915-4ce0-b2fa-f6d6a742141c/)
 
-You can identify an exported component if it's surrounded by square brackets. This makes it possible for the run to be "discoverable" at runtime by its name. For more information, see [Exporting for Runtime](../editor/exporting/exporting-for-runtime).
+You can identify an exported component if it's surrounded by square brackets. This makes it possible for the run to be "discoverable" at runtime by its name. For more information, see [Exporting for Runtime](/editor/exporting/exporting-for-runtime).
 
 <Warning>
  **If the name is not set manually in the editor the name will not be part of the exported *.riv* (to reduce file size).**
@@ -227,7 +227,7 @@ You can identify an exported component if it's surrounded by square brackets. Th
         )
         ```
 
-        Or get a reference to the artboard by calling: `riveFile.mainArtboard`, see [Alternative Widget Setup](./flutter/alternative-widget-setup).
+        Or get a reference to the artboard by calling: `riveFile.mainArtboard`, see [Alternative Widget Setup](/runtimes/flutter/alternative-widget-setup).
 
     </Tab>
 
@@ -493,7 +493,7 @@ The path is then: `ArtboardWithUniqueName/ButtonWithUniqueName`
 
         ### Reading Text
 
-        Similar to [reading text from a text run within a parent artboard](./text#reading-text), you can set the value of a text run within a nested artboard using the following API:
+        Similar to [reading text from a text run within a parent artboard](/runtimes/text#reading-text), you can set the value of a text run within a nested artboard using the following API:
 
         ```swift
         open func getTextRunValue(_ textRunName: String, path: String) -> String?
@@ -501,7 +501,7 @@ The path is then: `ArtboardWithUniqueName/ButtonWithUniqueName`
 
         ### Setting Text
 
-        Additionally, similar to [setting text within a parent artboard](./text#setting-text), you can read the value of a text run within a nested artboard using the following API:
+        Additionally, similar to [setting text within a parent artboard](/runtimes/text#setting-text), you can read the value of a text run within a nested artboard using the following API:
 
         ```swift
         open func setTextRunValue(_ textRunName: String, textValue: String, path: String) throws
