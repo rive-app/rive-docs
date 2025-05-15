@@ -3,7 +3,13 @@ title: 'Inputs'
 description: ''
 ---
 
-Inputs are the contract between designers and developers. As Designers, we use Inputs as a way to control the transitions in our state machine by assigning them as conditions. Developers tie into the inputs at runtime and define conditions through code that can change those inputs. 
+<Warning>
+  We strongly recommend controlling your Rive file through [Data Binding](../data-binding), rather than Inputs. Not only is Data Binding more powerful, it's easier to [control via code at runtime](../../runtimes/data-binding).
+
+  Data Binding includes all the functionality of Inputs, as well as the ability to control colors, enums, and strings.
+</Warning>
+
+Inputs are the contract between designers and developers. As Designers, we use Inputs as a way to control the transitions in our state machine by assigning them as conditions. Developers tie into the inputs at runtime and define conditions through code that can change those inputs.
 
 ### Creating a new Input
 
@@ -25,7 +31,7 @@ A boolean can hold either a true or false value.
 
 Booleans are useful when we want to make assets like switches, or check for more complex logic like a match 3 game.
 
-### Trigger 
+### Trigger
 
 Triggers are similar to booleans, but can only become true for a short time.
 
