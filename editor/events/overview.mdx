@@ -16,7 +16,7 @@ To create an Event, use the Events tool located in the Toolbar. Once the tool is
 
 You'll notice that the Event is displayed on the artboard and in the Hierarchy.
 
-## Configuring an Event 
+## Configuring an Event
 
 Once we've added an event, we need to configure the Event using the Inspector.
 
@@ -36,7 +36,7 @@ The Type dropdown allows you to change the Event type between General and URL.
 
 ![Image](https://ucarecdn.com/9621c007-de2e-428c-95d7-837615a37caa/)
 
-### Properties 
+### Properties
 
 Properties allow us to define extra information being passed to the Runtimes. For example, you may want to pass in the name of an audio file to play when the event is reported at runtime, or perhaps some other metadata for data analytics purposes.
 
@@ -48,7 +48,7 @@ First, we want to change the name of our property to something identifiable. Nex
 
 ![Rename and select input](https://ucarecdn.com/73d05fb1-7c9c-4c9c-a17c-51781ef30d0e/)
 
-### URL 
+### URL
 
 When an `Open URL` Event is selected, we have additional configuration options.
 
@@ -69,11 +69,11 @@ The Target tells the user's browser where this URL should open. We have a few op
 
 <Info>At this time, by default, Rive will not open URLs when this type of event is reported in share links or Marketplace posts due to security considerations. However, this may change in the future</Info>
 
-## Signaling an Event 
+## Signaling an Event
 
 We can signal an event in three ways: via the timeline, on a state, or on a transition.
 
-### Timeline 
+### Timeline
 
 Signaling an event through the timeline allows us to control the precise moment a piece of code will fire, like a sound effect.
 
@@ -83,7 +83,7 @@ First, select the timeline you want to add the event to. Next, use the Report Ev
 
 Additionally, you can key a property to let the runtimes know that a particular boolean, number, or string property has a new value.
 
-### Transition & State 
+### Transition & State
 
 You can report an event on a Transition or a State. We typically do this to signal at runtime contextual information about what is happening in the State Machine. For example, if we want to have some element appear at the end of our Transition, we would want to use an event tied to a Transition to signal this.
 
@@ -93,6 +93,6 @@ To report an event, select either the desired State or Transition and use the pl
 
 The dropdown allows us to select any Event we've defined. Now that we've selected the Event, we can decide whether it is signaled at the start or end of the Transition or State.
 
-## Events at Runtime 
+## Events at Runtime
 
-For more information on how to listen for Events at runtime, check out the [Rive Events](../../runtimes/rive-events) section.
+For more information on how to listen for Events at runtime, check out the [Rive Events](/runtimes/rive-events) section.

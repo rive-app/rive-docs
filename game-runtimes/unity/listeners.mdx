@@ -14,11 +14,11 @@ For more information on Rive Listeners see the [editor documentation](/editor/st
 <Tabs>
     <Tab title="Components">
 
-        [Panel Renderers](./components#panel-renderers) are responsible for passing pointer input to  **Rive Panels.**
+        [Panel Renderers](/game-runtimes/unity/components#panel-renderers) are responsible for passing pointer input to  **Rive Panels.**
 
         **Requirements**
 
-        - Set the `Pointer Input Mode`  setting on any **Panel Renderer** to `Enable Pointer Input` if you want a **Rive Panel** to receive pointer events. 
+        - Set the `Pointer Input Mode`  setting on any **Panel Renderer** to `Enable Pointer Input` if you want a **Rive Panel** to receive pointer events.
         - Add an **EventSystem** to the scene. This provides input from Unity to the Panel Renderers and allows them to support any input system in Unity (as long as it uses the EventSystem)
         - For the **Rive Canvas Renderer**, ensure the parent Canvas has a **Graphics Raycaster** attached.
         - For the **Rive Texture Renderer**, ensure the event camera has a **Physics Raycaster** component attached.

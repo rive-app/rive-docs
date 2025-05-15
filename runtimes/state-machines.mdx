@@ -3,7 +3,7 @@ title: 'State Machines'
 description: 'Playing and changing inputs in state machines'
 ---
 
-For more information on designing and building state machines in Rive, please refer to: [State Machine](../editor/state-machine).
+For more information on designing and building state machines in Rive, please refer to: [State Machine](/editor/state-machine).
 
 Rive's state machines provide a way to combine a set of animations and manage the transition between them through a series of inputs that can be programmatically controlled. Once a state machine is instantiated and playing, transitioning states can be accomplished by changing `boolean` or `double`-value inputs, or firing trigger inputs. The effects of these will be dependent on how the state machine has been configured in the editor.
 
@@ -363,7 +363,7 @@ const r = new rive.Rive({
     }
     ```
     <Note>
-     See the [React Native API's](./react-native/rive-ref-methods#.setinputstate) to learn more about the parameters for `.setInputState()` and `.fireState()`
+     See the [React Native API's](/runtimes/react-native/rive-ref-methods#.setinputstate) to learn more about the parameters for `.setInputState()` and `.fireState()`
     </Note>
 ### State change event callback
 
@@ -806,6 +806,6 @@ artboard.setNumberInput("volume", value: 90.0, path: "Volume Molecule/FX Compone
 
 ## Rive Listeners
 
-If your Rive file has Rive Listeners ([Listeners](../editor/state-machine/listeners)) and you've configured your Rive instance with a state machine according to the steps outlined per runtime above, there is no additional configuration or options needed to enable the pointer events to be captured on the Rive instance. The event capturing is handled internally by the Rive widget/component.
+If your Rive file has Rive Listeners ([Listeners](/editor/state-machine/listeners)) and you've configured your Rive instance with a state machine according to the steps outlined per runtime above, there is no additional configuration or options needed to enable the pointer events to be captured on the Rive instance. The event capturing is handled internally by the Rive widget/component.
 
-However, if you are going about constructing your own render loop and using low-level APIs to drive Rive content, (i.e. [Low-level API Usage](./web/low-level-api-usage)) , you may need to set up event listeners manually to capture user interaction and pass feedback down to the state machine (i.e. see setup in [JS](https://github.com/rive-app/rive-wasm/blob/master/js/src/utils/registerTouchInteractions.ts)).
+However, if you are going about constructing your own render loop and using low-level APIs to drive Rive content, (i.e. [Low-level API Usage](/runtimes/web/low-level-api-usage)) , you may need to set up event listeners manually to capture user interaction and pass feedback down to the state machine (i.e. see setup in [JS](https://github.com/rive-app/rive-wasm/blob/master/js/src/utils/registerTouchInteractions.ts)).

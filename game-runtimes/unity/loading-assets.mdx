@@ -5,7 +5,7 @@ description: 'Out-of-band assets in Rive Unity.'
 
 See the runtime documentation for more information on loading assets out-of-band.
 
-- [Loading Assets](../../runtimes/loading-assets)
+- [Loading Assets](/runtimes/loading-assets)
   - Loading and replacing assets dynamically at runtime.
 
 <Note>
@@ -16,7 +16,7 @@ See the runtime documentation for more information on loading assets out-of-band
  Only **png** and **jpeg** image assets are supported. Support for **webp** is in progress.
 </Note>
 
-## Asset export options 
+## Asset export options
 
 Within the Rive Editor, you can select an asset (for example, an image or font) in the **Asset Panel** and configure the export option for that asset. A Rive file can have a mixture of **embedded**, **referenced**, and **hosted** assets.
 
@@ -32,7 +32,7 @@ Any asset marked as embedded will automatically be loaded, and you do not need t
 
 By selecting the riv file you'll get information on the file's assets in the **Unity Inspector**. The example image above shows an embedded font called "Roboto Flex" with a size of 1MB.
 
-### Referenced Assets 
+### Referenced Assets
 
 Referenced assets need to be linked at runtime. The rive-unity package automatically handles the linking by attempting to find assets within the same directory that match the correct **Name** + **ID** combination. If an asset that matches the criteria is discovered, that asset is automatically converted to a Rive asset and linked.
 
@@ -40,7 +40,7 @@ Referenced assets need to be linked at runtime. The rive-unity package automatic
  For an asset to be discoverable and linked, the riv file and asset must be in the same Unity directory.
 </Note>
 
-#### Let's take a look at an example 
+#### Let's take a look at an example
 
 When exporting your runtime file from the Rive Editor, the `.riv` file and referenced assets are exported in a zip.
 

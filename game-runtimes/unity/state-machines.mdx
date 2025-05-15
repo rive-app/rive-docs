@@ -21,18 +21,18 @@ A StateMachine contains [Inputs](/editor/state-machine/inputs) and [Events](/run
 
 <Tabs>
   <Tab title="Components">
-    A **Rive Widget** automatically loads and advances the state machine from [your artboard configuration settings](./fundamentals#artboards). Here's how you can access the loaded state machine in your scripts:\*\*
+    A **Rive Widget** automatically loads and advances the state machine from [your artboard configuration settings](/game-runtimes/unity/fundamentals#artboards). Here's how you can access the loaded state machine in your scripts:\*\*
 
     ```csharp
-    [SerializeField] private RiveWidget m_riveWidget; 
-    
+    [SerializeField] private RiveWidget m_riveWidget;
+
     ...
-    
+
     void OnEnable()
     {
         m_riveWidget.OnWidgetStatusChanged += OnWidgetStatusChanged;
     }
-    
+
     private void OnWidgetStatusChanged()
     {
         // Wait for the Rive Widget to load before accessing the state machine.
@@ -41,8 +41,8 @@ A StateMachine contains [Inputs](/editor/state-machine/inputs) and [Events](/run
             StateMachine m_stateMachine = m_riveWidget.StateMachine;
         }
     }
-    
-    
+
+
     void OnDisable()
     {
         m_riveWidget.OnWidgetStatusChanged -= OnWidgetStatusChanged;
@@ -54,9 +54,9 @@ A StateMachine contains [Inputs](/editor/state-machine/inputs) and [Events](/run
 
     ```csharp
     private StateMachine m_stateMachine;
-    
+
     ...
-    
+
     m_stateMachine = m_artboard?.StateMachine(); // default state machine
     m_stateMachine = m_artboard?.StateMachine(0); // state machine at index
     m_stateMachine = m_artboard?.StateMachine("Name"); // state machine with name
