@@ -1,7 +1,11 @@
 ---
 title: 'Animation Playback'
-description: 'Playing and pausing animations.'
+description: 'Playing and pausing animations (legacy)'
 ---
+
+<Info>
+  We strongly recommend controlling your animation(s) at runtime with a [State Machine](/runtimes/state-machines), rather than controlling them individually.
+</Info>
 
 Rive lets you specify what artboard to use, what animations and state machines to mix and play and control the play/pause state of each animation.
 
@@ -403,7 +407,7 @@ export default function App() {
   <Tab title="React Native">
       #### Invoking Playback Controls
 
-      To trigger animation playback controls, set a `ref` on the Rive component rendered. Once the `ref` is populated, you can trigger functions such as `play`, `pause`, etc. See the `ref` method docs for React Native [Rive Ref Methods](./react-native/rive-ref-methods).
+      To trigger animation playback controls, set a `ref` on the Rive component rendered. Once the `ref` is populated, you can trigger functions such as `play`, `pause`, etc. See the `ref` method docs for React Native [Rive Ref Methods](/runtimes/react-native/rive-ref-methods).
 
       ```javascript
       import Rive, { RiveRef } from 'rive-react-native'
