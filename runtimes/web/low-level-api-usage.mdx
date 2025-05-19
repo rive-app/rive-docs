@@ -50,7 +50,7 @@ https://unpkg.com/@rive-app/canvas-advanced@2.26.1/rive.wasm
 <Note>
  You'll want to ensure that the version at the end of @rive-app/canvas-advanced@ or @rive-app/webgl2-advanced@ matches the version of the dependency you installed in your app. For example, if you installed @rive-app/canvas-advanced@2.26.1 in package.json, the Rive WASM file you request from unpkg would be https://unpkg.com/@rive-app/canvas-advanced@2.26.1/rive.wasm.
 <br/>
- See [Preloading WASM](./preloading-wasm) to preload WASM.
+ See [Preloading WASM](/runtimes/web/preloading-wasm) to preload WASM.
 </Note>
 
 To start, import the default module from the library and then call it with an object where you only need to set a single parameter, `locateFile`, which is a function that returns the URI of the WASM file. This can be either the `unpkg` URL or the URI to your self-hosted version of it. Simply `await` for the call to resolve, and then you'll get a reference to the low-level Rive runtime APIs.
@@ -327,4 +327,4 @@ When using Rive’s advanced JS APIs to customize how you use Rive, you will hav
 
 If you're looking to add Rive to your existing render loop (the JS API `requestAniationFrame()`) and do not want to use the Rive-wrapped `requestAnimationFrame()` API, you can do so with an extra API call at the end of your render loop. Call the `rive.resolveAnimationFrame()` API at the end of the render loop before calling `requestAnimationFrame()` again.
 
-See more on usage in the [Rive Parameters](./rive-parameters) doc.
+See more on usage in the [Rive Parameters](/runtimes/web/rive-parameters) doc.
