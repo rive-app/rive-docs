@@ -12,7 +12,7 @@ export interface RiveParameters {
   canvas: HTMLCanvasElement | OffscreenCanvas, // required
   src?: string, // one of src or buffer is required
   buffer?: ArrayBuffer, // one of src or buffer is required
-  file?: rc.File,
+  riveFile?: RiveFile,
   artboard?: string,
   animations?: string | string[],
   stateMachines?: string | string[],
@@ -41,7 +41,7 @@ export interface RiveParameters {
     - Alternatively, with ES6, you may import the `.riv` file as a data URI. Depending on your bundle loader, you may need to use a plugin (i.e `url-loader` for Webpack) to properly parse and load in `.riv` files as a data URI string. See [this project](https://github.com/zplata/rive-nextjs/blob/main/next.config.js#L8) as a basic example on how to set this up
   - Path to public asset - This is a string path to the`.riv` public asset if bundled in your application. Note that this is **not** a relative path to the asset from wherever the current JS file is in. Treat the `.riv` as any other asset bundled in your application, such as an image or font. If your JS is compiled and run at the root of your web application, you must specify the path from the root to the location of the asset. For example, if your asset is in `/public/foo.riv`, and your JS is run from the root at `/`, you would specify: `src: '/public/foo.riv'` in this property.
 - `buffer?` - *(optional)* ArrayBuffer containing the raw bytes from a .riv file. One of `src` or `buffer` must be provided.
-- `file?` - *(optional)* Lets you reuse a previously loaded Rive runtime file object without needing to fetch it again from the `src` URL or reload it from the `buffer`. This can improve performance by eliminating redundant network requests and loading times, especially when creating multiple Rive instances from the same source. Unlike the `buffer` and `src` parameters, which still require parsing under the hood to create a runtime file object, the file parameter uses an already parsed object, including any loaded assets.
+- `riveFile?` - *(optional)* Lets you reuse a previously loaded Rive runtime file object without needing to fetch it again from the `src` URL or reload it from the `buffer`. This can improve performance by eliminating redundant network requests and loading times, especially when creating multiple Rive instances from the same source. Unlike the `buffer` and `src` parameters, which still require parsing under the hood to create a runtime file object, the file parameter uses an already parsed object, including any loaded assets.
 - `artboard?` - *(optional)* Name of the artboard to use.
 - `animations?` - *(optional)* Name or list of names of animations to play.
 
