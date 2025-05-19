@@ -24,6 +24,19 @@ When embedding images, make sure to add descriptive [alt-text](https://docs.gith
 - Unity: `images/game-runtimes/unity/my-image.jpg`
 - Unreal: `images/game-runtimes/unreal/my-image.jpg`
 
+
+### Links:
+
+When adding links to another page within the documentation, make sure the url is relative to the root.
+
+```js
+// Don't
+[Hierarchy](../editor/interface-overview/hierarchy)
+
+// Do
+[Hierarchy](/editor/interface-overview/hierarchy)
+```
+
 ## Making Commits
 
 Commit messages should follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification.
