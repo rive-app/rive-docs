@@ -11,7 +11,7 @@ import { EarlyAccess } from '/snippets/early-access-feature.mdx'
 
 ## Getting started
 
-You can connect the Rive Editor to AI tools through MCP (Model Context Protocol). The first set of tools are designed let AI handle repetitive tasks, like creating complex View Models, State Machines with hundreds of states/layers, Layouts, Shapes, and more.
+You can connect the Rive Editor to AI tools through MCP (Model Context Protocol). The first set of tools are designed to let AI handle repetitive tasks, like creating complex View Models, State Machines with hundreds of states/layers, Layouts, Shapes, and more.
 
 <Note>
    This initial iteration works with a limited number of AI tools, specifically those supporting MCP. We recommend using Cursor for now, but the list will expand.
@@ -34,14 +34,15 @@ You can connect the Rive Editor to AI tools through MCP (Model Context Protocol)
   {
     "mcpServers": {
         "rive": {
-            "url": "http://localhost:8080/sse"
+            "url": "http://localhost:9791/sse"
         }
     }
   }
   ```
   </Step>
   <Step title="Configure MCP">
-    Open Terminal and type the following commands:
+    If you have hidden files and folders enabled in Finder, move `mcp.json` to the `.cursor` folder in your home directory.
+    Otherwise, you can use Terminal. Open Terminal.app and run the following commands:
     ```bash
     # In a standard Cursor installation
     cp /path/to/mcp.json ~/.cursor
