@@ -1,6 +1,5 @@
 ---
-title: 'Fill and Stroke'
-description: ''
+title: "Fill and Stroke"
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
@@ -9,7 +8,17 @@ import { YouTube } from '/snippets/youtube.mdx'
 
 ## Fill
 
-The Fill section of the Inspector allows you to add and modify the fill properties of the currently selected object. You can create as many fills as you like. 
+The Fill and Stroke section of the Inspector allows you to add and modify the Fill and Stroke properties of the currently selected object. You can create as many fills or strokes as you'd like.
+
+**Create a new Fill**
+
+To create a fill, select a shape, then use the plus button under the Fill section of the Inspector. Be sure to select Fill from the new menu. You'll be able to tell that a layer is a fill by looking at the color selector on the left side. If
+
+**Reorder Fills**
+
+The order in which fills are organized in the fill determine their render order with fills on top being rendered in the front and fills at the bottom being rendered at the back. 
+
+This order can be changed at any time my clicking and d
 
 ### Fill type
 
@@ -29,8 +38,9 @@ You can apply different fill types to shapes. These include:
 
 The Fill Rule determines how overlapping paths in a shape will be filled:
 
-- **Non-Zero** fills the entire shape, including any overlapping paths.
-- **Even-Odd** does not fill the holes in overlapping paths.
+- **Non-Zero** assigns a \+1 value to clockwise paths and a -1 value to counter clock wise paths. Areas that equal a value other than 0 will be filled.
+- **Even-Odd** assignes a \+1 value to clockwise paths and a -1 value to counter clock wise paths. Areas that equal an even value will be filled while odd values wont be.
+- **Clockwise **a Fill Rule exlusive to Rive. This fill rule enables manual subtraction of paths which can be found in edit vertices mode. This fill rule is also required for shapes where you'd like to enable vector feathering.
 
 ## Stroke
 
@@ -42,7 +52,7 @@ You can apply different stroke types to shapes. These include:
 - **Linear gradient**
 - **Radial gradient**
 
-### Cap 
+### Cap
 
 ![Image](https://ucarecdn.com/a0c30a2d-7905-43d0-b20e-2f61fc171f66/)
 
@@ -52,7 +62,7 @@ The Cap option determines how the endpoints of strokes with open paths should be
 - **Round** The ends of a stroke are rounded. On a zero-length path, the stroke is a full circle.
 - **Square** The ends of a stroke are squared off and extend beyond the end vertices. On a zero-length path, the stroke is a square.
 
-### Join 
+### Join
 
 ![Image](https://ucarecdn.com/2e3a2738-486f-4484-9b80-04dd21eb0adf/)
 
