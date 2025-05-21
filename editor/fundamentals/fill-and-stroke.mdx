@@ -6,31 +6,55 @@ import { YouTube } from '/snippets/youtube.mdx'
 
 <YouTube id="H2sJZhZplig" />
 
-## Fill
+# Fill
 
 The Fill and Stroke section of the Inspector allows you to add and modify the Fill and Stroke properties of the currently selected object. You can create as many fills or strokes as you'd like.
 
-**Create a new Fill**
+### **Create a new Fill**
 
-To create a fill, select a shape, then use the plus button under the Fill section of the Inspector. Be sure to select Fill from the new menu. You'll be able to tell that a layer is a fill by looking at the color selector on the left side. If
+To create a fill, select a shape, then use the plus button under the Fill section of the Inspector. Be sure to select Fill from the new menu. You'll be able to tell that a layer is a fill by looking at the color selector on the left side. Fills have the selected color fill the box.
 
-**Reorder Fills**
+### **Changing Fill color**
 
-The order in which fills are organized in the fill determine their render order with fills on top being rendered in the front and fills at the bottom being rendered at the back. 
+To change the color of a Fill, select the color box on the left side of the Fill layer.
 
-This order can be changed at any time my clicking and d
+With the color box open, you can either click and drag within the
 
-### Fill type
+### **Changing Fill Type**
 
-![Image](https://1159711764-files.gitbook.io/~/files/v0/b/gitbook-legacy-files/o/assets%2F-M3EXlibk6bj2FzPQW-9%2F-MHL68Kx0IUmmRYmksSl%2F-MHL6ShQMVE7JQhlbYWm%2Ffill_type.gif?alt=media&token=9c1c57ce-8ba6-4167-9e57-0feedb919d9e)
+When a new shape is created, by defualt the shape will have a solid fill. When a new fill is added, by default the fill type is set to linear. We often need to change the fill type between the different types. This can be done by selecting the color box.
 
-You can apply different fill types to shapes. These include:
+Once the Fill has been opened, you'll find the Fill Selector dropdown in the top of the option box.
+
+The different fills that can be selected are:
 
 - **Solid**
-- **Linear gradient**
-- **Radial gradient**
+- **Linear Gradient**
+- **Radial Gradient**
 
-### Fill rule
+### **Change Fill Order**
+
+The order in which fills are organized in the fill determine their render order with fills on top being rendered in the front and fills at the bottom being rendered at the back.
+
+This order can be changed at any time my clicking and dragging on an empty area within the layer. 
+
+### **Fill Properties**
+
+Each Fill has its own properties which can be edited and keyed on the timeline. Some of these properties can be found by using the fill option button.
+
+**Fill Name - **You can edit the name of a fill using this property.
+
+**Blend - **This option can be used to change the Blend Mode of an individual Fill. By default, this mode will be set to inherit, which inherits the blend mode from the shape layer.
+
+**Fill Rule - ** This option can be used to change the fill rule for the Fill. This must be set to clock-wise if you want the fill to be feathered.
+
+**Feather - **This option can be toggled to feather the chosen Fill. Read more about Feathering below.
+
+### **Deleting and hiding a Fill**
+
+Often times we'll need to delete or hide a particular Fill. This can be done by selecting the shape, then using the eye icon to hide the Fill, or the minus icon to delete the fill.
+
+### Fill Rule
 
 <YouTube id="3GUh1Rl6hgY" />
 
@@ -40,11 +64,13 @@ The Fill Rule determines how overlapping paths in a shape will be filled:
 
 - **Non-Zero** assigns a \+1 value to clockwise paths and a -1 value to counter clock wise paths. Areas that equal a value other than 0 will be filled.
 - **Even-Odd** assignes a \+1 value to clockwise paths and a -1 value to counter clock wise paths. Areas that equal an even value will be filled while odd values wont be.
-- **Clockwise **a Fill Rule exlusive to Rive. This fill rule enables manual subtraction of paths which can be found in edit vertices mode. This fill rule is also required for shapes where you'd like to enable vector feathering.
+- **Clockwise** a Fill Rule exlusive to Rive. This fill rule enables manual subtraction of paths which can be found in edit vertices mode. This fill rule is also required for shapes where you'd like to enable vector feathering.
 
 ## Stroke
 
-![Image](https://ucarecdn.com/00f919af-6428-4644-b31e-1468ed8d2700/)
+Strokes are added the same way Fills are added to a Shape Layer.
+
+Use the plus button in the Fills and Strokes section of the Inspector. Be sure to choose the Stroke option.
 
 You can apply different stroke types to shapes. These include:
 
