@@ -1,0 +1,123 @@
+---
+title: 'Artboards'
+description: 'Selecting an artboard at runtime'
+---
+
+For more information on creating Artboards in Rive, please refer to: [Artboards](/editor/fundamentals/artboards).
+
+## Selecting an artboard
+
+You can specify which artboard to display when instantiating your Rive instance. If you don't specify an artboard, it will display the [default artboard](/editor/fundamentals/artboards#default-state-machine) as defined in the Rive Editor. If no default artboard is set, the first artboard in the file will be played.
+
+<Tabs>
+  <Tab title="Web">
+
+    ```js
+    const r = new rive.Rive({
+        src: 'https://cdn.rive.app/animations/vehicles.riv',
+        canvas: document.getElementById('canvas'),
+        autoplay: true,
+        artboard: 'vehicles',
+        stateMachines: 'bumpy',
+    });
+    ```
+  </Tab>
+
+  <Tab title="React">
+    ```js
+    export default function Simple() {
+      const { RiveComponent } = useRive({
+        src: 'https://cdn.rive.app/animations/vehicles.riv',
+        stateMachines: "bumpy",
+        artboard: 'vehicles',
+        autoplay: true,
+      });
+
+      return <RiveComponent />;
+    }
+    ```
+  </Tab>
+  <Tab title="React Native">
+    ```jsx
+      <Rive
+        resourceName={'vehicles'}
+        autoplay={true}
+        artboardName="vehicles"
+        stateMachineName="bumpy"
+      />
+    ```
+  </Tab>
+
+  <Tab title="Flutter">
+
+  ```dart
+    RiveAnimation.network(
+        'https://cdn.rive.app/animations/vehicles.riv',
+        fit: BoxFit.cover,
+        stateMachines: ['bumpy'],
+        artboard: 'vehicles',
+    );
+    ```
+  </Tab>
+
+  <Tab title="Apple">
+
+    ### SwiftUI
+
+    ```swift
+    var stateChanger = RiveViewModel(
+        fileName: "skills",
+        stateMachineName: "Designer's Test",
+        artboardName: "Square"
+    )
+    ```
+
+    ```swift
+    class StateMachineViewController: UIViewController {
+        var viewModel = RiveViewModel(
+            fileName: "skills",
+            stateMachineName: "Designer's Test",
+            artboardName: "Square"
+        )
+
+        override public func loadView() {
+            super.loadView()
+
+            guard let stateMachineView = view as? StateMachineView else {
+                fatalError("Could not find StateMachineView")
+            }
+
+            viewModel.setView(stateMachineView.riveView)
+        }
+    }
+    ```
+    </Tab>
+    <Tab title="Android">
+
+    ### Via XML
+
+    ```kotlin
+    <app.rive.runtime.kotlin.RiveAnimationView
+        android:id="@+id/simple_state_machine"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        app:riveResource="@raw/skills"
+        app:riveArtboard="Square"
+        app:riveStateMachine="Designer's Test" />
+    ```
+
+    ### Via Kotlin
+
+    ```kotlin
+    animationView.setRiveResource(
+        R.raw.simple_state_machine,
+        autoplay = true,
+        stateMachineName = "Designer's Test"
+        artboardName = "Square"
+    )
+    ```
+  </Tab>
+
+</Tabs>
+
+
