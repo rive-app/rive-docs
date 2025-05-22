@@ -53,17 +53,17 @@ To delete a color stopper, select the stopper you'd like to delete, then hit the
 
 The order in which fills are organized in the fill determine their render order with fills on top being rendered in the front and fills at the bottom being rendered at the back.
 
-This order can be changed at any time my clicking and dragging on an empty area within the layer. 
+This order can be changed at any time my clicking and dragging on an empty area within the layer.
 
 ### **Fill Properties**
 
 Each Fill has its own properties which can be edited and keyed on the timeline. Some of these properties can be found by using the fill option button.
 
-**Fill Name - **You can edit the name of a fill using this property.
+**Fill Name -** You can edit the name of a fill using this property.
 
-**Blend - **This option can be used to change the Blend Mode of an individual Fill. By default, this mode will be set to inherit, which inherits the blend mode from the shape layer.
+**Blend -** This option can be used to change the Blend Mode of an individual Fill. By default, this mode will be set to inherit, which inherits the blend mode from the shape layer.
 
-**Fill Rule - ** This option can be used to change the fill rule for the Fill. This must be set to clock-wise if you want the fill to be feathered.
+**Fill Rule -**  This option can be used to change the fill rule for the Fill. This must be set to clock-wise if you want the fill to be feathered.
 
 **Feather - **This option can be toggled to feather the chosen Fill. Read more about Feathering below.
 
@@ -74,8 +74,6 @@ Often times we'll need to delete or hide a particular Fill. This can be done by 
 ### Fill Rule
 
 <YouTube id="3GUh1Rl6hgY" />
-
-![Image](https://ucarecdn.com/51b65c3e-5e39-4710-bbec-78f15d766e67/)
 
 The Fill Rule determines how overlapping paths in a shape will be filled:
 
@@ -89,28 +87,68 @@ The Fill Rule determines how overlapping paths in a shape will be filled:
 
 To create a Stroke, select a shape, then use the plus button under the Fill and Stroke section of the Inspector. Be sure to select Stroke from the new menu. You'll be able to tell that a layer is a Stroke by looking at the color box on the left side. Strokes are represented by an outlined box.
 
-You can apply different stroke types to shapes. These include:
+### **Changing stroke color (solid)**
+
+To change the color of a Stroke, select the color box on the left side of the Stroke layer. This will open the Color Picker. From there, you can use the various sliders to choose which color you'd like for the Stroke.
+
+### **Changing Stroke type**
+
+By default, strokes are set to a solid color, but various stroke types are avaiable from the Color Picker menu.
+
+The different strokes that can be selected are:
 
 - **Solid**
-- **Linear gradient**
-- **Radial gradient**
+- **Linear Gradient**
+- **Radial Gradient**
 
-### Cap
+### **Changing Stroke color (Gradient)**
 
-![Image](https://ucarecdn.com/a0c30a2d-7905-43d0-b20e-2f61fc171f66/)
+To change the color of a Stroke, select the color box on the left side of the Stroke layer. This will open the Color Picker.
 
-The Cap option determines how the endpoints of strokes with open paths should be rendered.
+When a gradient is selected, you'll notice a new bar appear above the color picker. This repersents the color of the gradient at different points.
+
+By default, a gradient has two points.
+
+**Changing the color of a stopper**
+
+To change the color of a particular color stopper, start by selecting the stopper you'd like to change.
+
+Next, use the various sliders to choose which color that stopper should be.
+
+**Adding and removing stoppers**
+
+To add a new color stopper, click any space along the long that isn't currently occupied by another stopper. This will generate an additional color stopper.
+
+To delete a color stopper, select the stopper you'd like to delete, then hit the Delete or Backspace key.
+
+Stroke Properties
+
+### **Deleting and hiding a Stroke**
+
+Often times we'll need to delete or hide a particular Stroke. This can be done by selecting the shape, then using the eye icon to hide the Stroke, or the minus icon to delete the Stroke.
+
+### Stroke Properties
+
+Each Stroke has its own properties which can be edited and keyed on the timeline. Some of these properties can be found by using the fill option button.
+
+**Stroke Name -** You can edit the name of a Stroke using this property.
+
+**Blend -** This option can be used to change the Blend Mode of an individual Stroke. By default, this mode will be set to inherit, which inherits the blend mode from the shape layer.
+
+**Cap **- This option changes the end cap of a Stroke. Read more about the different Caps below.
 
 - **Butt** The end of the stroke is a straight line and does not extend beyond the end vertices. On a zero-length path, the stroke will not be rendered at all.
 - **Round** The ends of a stroke are rounded. On a zero-length path, the stroke is a full circle.
 - **Square** The ends of a stroke are squared off and extend beyond the end vertices. On a zero-length path, the stroke is a square.
 
-### Join
-
-![Image](https://ucarecdn.com/2e3a2738-486f-4484-9b80-04dd21eb0adf/)
-
-The Join option determines how the corners of paths should be rendered.
+**Join** - This option changes how the corners of a Stroke are rendered. Read more about the different Join options below.
 
 - **Round** creates a rounded corner.
 - **Bevel** creates a beveled corner.
 - **Miter** creates a mitered corner.
+
+**Apply Transformations -** The Apply Transformations toggle determines whether the shape layers scale will affect the thickness of the stroke. When this is toggled off, the thickness of the stroke will stay the same regardless of scale.
+
+**Feather - **This option can be toggled to feather the chosen Fill. Read more about Feathering below.
+
+**Stroke Type** - 
