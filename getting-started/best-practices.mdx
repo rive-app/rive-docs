@@ -11,33 +11,55 @@ Rive is built to efficiently play interactive graphics in the editor and at runt
 
 See below for some techniques to employ in the Rive editor to keep Rive performant:
 
-### Raster Assets
+### Asset Optimizations
 
-Raster assets could have a significant impact on runtime memory and file size.
+Image, audio, and font assets are often the biggest source of bloat in .riv files. Unoptimized assets increase download size and must be loaded into memory, which can lead to slowdowns—especially on lower-end devices.
 
-When using images, you should strike a balance between image quality, image dimension, and file size. Considerations include resizing images to fit the desired display area and choosing an appropriate compression level to reduce file size while maintaining acceptable visual quality.
+<Info>Only asssets used in artboards will be compiled for runtime. Items in the Assets panel that aren't used in an artboard will not increase the size of your .riv file.</Info>
 
-**Image Size/Dimension**
+#### Fonts
+
+Font files often include thousands of glyphs you may not need, such as Greek letters, mathematical operators, and icons. To reduce the size of the exported font or .riv file, [select which glyphs to include](/editor/text/fonts#glyph-%2F-script-selection).
+
+#### Raster Image Sizes & Dimensions
 
 It is crucial to ensure that the size of an image asset is appropriate for its usage. For instance, avoid using an image with large dimensions (e.g., 8192 x 7022) when it will be displayed in a small section of your artboard (e.g., sized 100 x 100).
 
 Using large images can quickly consume device memory. This is particularly true on mobile devices where applications are more memory-constrained. Even if these images are compressed, their dimensions will still impact the amount of application memory used.
 
-#### Compression
+If you have a very large image and only part of it will be visible at any given time (ie; a scrolling background), consider breaking the image into smaller chunks or mixing raster and recreating part of it as a vector.
+
+##### **Image Dimensions for WebGL runtimes**
+
+For WebGL runtimes, image memory is allocated in powers of two. A 512×512 image fits efficiently, but a 513×513 image will use the memory of a 1024×1024 texture—quadrupling the memory usage for just one extra pixel per side.
+
+#### Raster Image Compression
 
 Compression involves reducing the file size by employing various algorithms to discard some image data. You can compress images directly from the Rive editor, which means you maintain the original image but compress the images for runtime use. If the asset is embedded in the animation, this will reduce the file size of the exported riv.
 
-#### Other Considerations
+For the smallest image file size and best performance, we recommend exporting assets using the WebP Format.
 
-- If you’re importing assets for reference only, ensure they are deleted before exporting the .riv file to ensure the asset doesn’t get bundled in.
-- Depending on your target device/platform, it may make sense to have multiple different raster assets. For example, use smaller images when targeting mobile vs. desktop.
-- See our docs on [Loading Assets](/runtimes/loading-assets), to dynamically load in assets at runtime, instead of embedding the files in the exported `.riv` binary.
+#### Vector Images
+
+Be efficient with the number of vertices in your vector image. While a few extra vertices won’t have much of an impact, thousands might. Be especially careful when importing vectors that were generated with AI, converted from raster images, or were created in drawing apps.
 
 ### Importing Lottie Files
 
 While Rive provides a Lottie converter for easy .riv file export, recreating graphics and animations directly in Rive often results in significantly smaller file sizes. If you're importing a Lottie file, you can further reduce the .riv file size by converting images from PNG to WebP and choosing to export only the necessary glyphs for font files. Additionally, you can [load assets out of band](#out-of-band-assets) to reuse fonts and images across multiple .riv files, optimizing storage.
 
 Working directly in Rive is generally preferable as it allows for file optimization based on your animation requirements. For instance, using bones and constraints to create rigs will result in fewer keys in the animation compared to converting directly from Lottie.
+
+### Artboard Considerations
+
+#### Clipped Artboards
+
+Clipping artboards is generally fine, but if you're experiencing performance issues, it's worth minimizing their use. Clipping can be computationally expensive, as the renderer must evaluate every object—including nested artboards—to determine pixel visibility. Instead, consider applying clips to specific objects or groups within the artboard.
+
+You can also safely remove the clip from the main artboard itself, since nothing outside the Rive instance will be rendered at runtime.
+
+#### Unused Artboards
+
+Unused artboards are still included in the compiled .riv file. While they don't significantly impact file size, it's best practice to remove any artboards that aren't used in your animation to keep your project clean and efficient.
 
 ### Idle Animations
 
@@ -66,10 +88,15 @@ See our documentation on [Loading Assets](/runtimes/loading-assets). This featur
 - Reduces the exported `.riv` binary size.
 - Assets can be reused across multiple Rive files or other areas of your application.
 - Assets can be preloaded and cached to be more readily available before displaying a Rive graphic.
+- Assets can be swapped based on the users’ screen size and resolution, like in this [web JS example](https://codesandbox.io/p/sandbox/cool-dewdney-hlk5xl).
+
+### Caching your .riv
+
+If you’re going to use the same Rive file in multiple places throughout your page or app, it’s possible to [cache the .riv](/runtimes/caching-a-rive-file) so that your users only download it once.
 
 ### Pausing Programmatically
 
-There are several cases where you may want to pause a running animation/state machine configured with Rive programmatically. By pausing the Rive graphic at runtime, you may notice that Rive’s impact on the application has negligible resource consumption (i.e., CPU).
+There are several cases where you may want to pause a state machine configured with Rive programmatically. By pausing the Rive graphic at runtime, you may notice that Rive’s impact on the application has negligible resource consumption (i.e., CPU).
 
 1. Rive graphic is offscreen
 
