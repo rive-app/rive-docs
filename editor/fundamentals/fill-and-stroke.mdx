@@ -149,10 +149,39 @@ Each Stroke has its own properties which can be edited and keyed on the timeline
 
 **Apply Transformations -** The Apply Transformations toggle determines whether the shape layers scale will affect the thickness of the stroke. When this is toggled off, the thickness of the stroke will stay the same regardless of scale.
 
-**Feather -**This option can be toggled to feather the chosen stroke. Read more about Feathering below.
+**Feather -** This option can be toggled to feather the chosen stroke. Read more about Feathering below.
 
 **Stroke Type** - At the bottom of the Stroke Options Panel, you'll find options to change your stroke between a solid, trim, dashed stroke.
 
 - **Solid - ** Renders the stroke as a solid stroke. This is the default stroke type for each new stroke created.
-- **Trim - ** Lets you animate the start, end, and offset of a line segment. Read more here.
-- **Dashed**
+- **Trim -**  Lets you animate the start, end, and offset of a line segment. Read more here.
+- **Dashed - **Lets you create dashed strokes with animateable property like the length of the dashed segment and offest.  Read more here.
+
+# Vector Feathering
+
+Vector feathering is a new way to feather both Fills and Strokes. Vector Feathering is a technique we invented at Rive that can soften the edge of vector paths without the typical performance impact of traditional blur effects. 
+
+### **Enabling Vector Feathering**
+
+There are two main ways to enable vector feathering on any Stroke of Fill.
+
+- **Feather Icon -** The feathering icon can be used on any Fill or Stroke layer to enable vector feathering.
+- **Feather Toggle -** The feather toggle can be found in the Fill / Stroke options panel.
+
+### Feathering Options
+
+Feathers can be customized in a number of ways. The Feathering options can be found in the options panel once Feathering has been enabled on a Fill or Stroke.
+
+**Direction** - This option lets you choose which direction the path will feather as you increase the feather amount.
+
+- Outter - This option creates a feather that will feather outward from the path.
+- Inner - This option creates a feather that will feather inward from the path.
+
+**Amount** - This option lets you increase or decrease the amount of feather applied.
+
+**Space **- Determines how the feathered fill or stroke will apply transforms from the parent if any offset is present on the feather.
+
+- World - Transforms will be applied from the world transform. Feather will now act as a drop shadow.
+- Local - Transforms will be applied from the local transform. This mode will have the feather work with transforms as you'd expect.
+
+**Offset** - The Offset properties let you move the feather away from the path by increasing or decreasing the X and Y numbers.
