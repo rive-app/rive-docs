@@ -59,7 +59,7 @@ In most cases you can safely remove the clip from the main artboard itself, sinc
 
 #### Unused Artboards
 
-Unused artboards are still included in the compiled .riv file. While they don't significantly impact file size, it's best practice to remove any artboards that aren't used in your animation to keep your project clean and efficient.
+Unused artboards are still included in the compiled .riv file and are parsed when the file is first loaded. This can lead to unnecessary memory usage and performance overhead, especially if the unused artboards contain complex animations or large assets. To keep your file lean and efficient, it's best practice to remove any artboards that aren't actively being used.
 
 ### Idle Animations
 
