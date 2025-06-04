@@ -55,7 +55,7 @@ Working directly in Rive is generally preferable as it allows for file optimizat
 
 Clipping artboards is generally fine, but if you're experiencing performance issues, it's worth minimizing their use. Clipping can be computationally expensive, as the renderer must evaluate every object—including nested artboards—to determine pixel visibility. Instead, consider applying clips to specific objects or groups within the artboard.
 
-You can also safely remove the clip from the main artboard itself, since nothing outside the Rive instance will be rendered at runtime.
+In most cases you can safely remove the clip from the main artboard itself, since nothing outside the Rive instance will be rendered at runtime.
 
 #### Unused Artboards
 
