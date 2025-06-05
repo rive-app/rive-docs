@@ -51,7 +51,7 @@ Working directly in Rive is generally preferable as it allows for file optimizat
 
 ### Layer Blend Modes for Web
 
-Blend modes are particularly expensive on the web due to limitations in how WebGL handles framebuffer access. To apply a blend mode, Rive must copy rendered pixels into a separate texture before compositing, which introduces significant performance and memory overhead.
+Blend modes are particularly expensive on the web because WebGL doesn’t expose mechanisms for accessing the framebuffer. To apply a blend mode, Rive must copy rendered pixels into a separate texture before compositing, which introduces significant performance and memory overhead.
 
 While there are efforts underway to improve this through new WebGL capabilities, these solutions are still pending broader support. Until then, it’s best to use blend modes sparingly in web projects to ensure optimal performance.
 
