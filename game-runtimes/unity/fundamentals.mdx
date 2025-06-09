@@ -5,13 +5,13 @@ description: ''
 
 ## Adding Rive Assets
 
-To add a `.riv` file to a Unity project, simply drag it into the Project Window. Once dropped, a **Rive Asset** will be automatically created. 
+To add a `.riv` file to a Unity project, simply drag it into the Project Window. Once dropped, a **Rive Asset** will be automatically created.
 
 Now you can display the Rive Asset within a **Rive Panel** and **Rive Widget** or create a custom script using the low-level API to display the graphic.
 
 ## File
 
-A `Rive.File` contains Artboards, StateMachines, and Animations. 
+A `Rive.File` contains Artboards, StateMachines, and Animations.
 
 <Note>
  If you're working with the Rive Panel and Rive Widgets components, the Rive Widget will automatically handle loading the underlying Rive File from the assigned Asset.<br/>
@@ -62,7 +62,7 @@ private void Start()
 }
 ```
 
-#### 3. From a Byte Array 
+#### 3. From a Byte Array
 
 If you have the raw bytes of a `.riv` file, you can load it directly from a byte array. This method provides flexibility if you're loading the file data from a custom source or dynamically (e.g. from a CDN-stored file):
 
@@ -84,7 +84,7 @@ private void Start()
 
 ## Artboards
 
- [Artboards](../../editor/fundamentals/artboards) contain [State Machines](../../editor/state-machine/state-machine) and Animations. 
+ [Artboards](/editor/fundamentals/artboards) contain [State Machines](/editor/state-machine/state-machine) and Animations.
 
 <Tabs>
     <Tab title="Components">
@@ -113,7 +113,7 @@ private void Start()
 
 ## State Machines
 
-A StateMachine contains Inputs and Events, for more information see Unity [State Machines](../../editor/state-machine/state-machine) and [Rive Events](../../runtimes/rive-events/).
+A StateMachine contains Inputs and Events, for more information see Unity [State Machines](/editor/state-machine/state-machine) and [Rive Events](/runtimes/rive-events/).
 
 <Tabs>
     <Tab title="Components">
@@ -154,7 +154,7 @@ A StateMachine contains Inputs and Events, for more information see Unity [State
 
 ## Rendering
 
-In Unity, Rive renders to a [RenderTexture](https://docs.unity3d.com/ScriptReference/RenderTexture.html) that you can display in your Scene by attaching to a [Material](https://docs.unity3d.com/ScriptReference/Material.html) or anywhere else you would use a Render Texture within your project. 
+In Unity, Rive renders to a [RenderTexture](https://docs.unity3d.com/ScriptReference/RenderTexture.html) that you can display in your Scene by attaching to a [Material](https://docs.unity3d.com/ScriptReference/Material.html) or anywhere else you would use a Render Texture within your project.
 
 <Tabs>
 
@@ -166,7 +166,7 @@ In Unity, Rive renders to a [RenderTexture](https://docs.unity3d.com/ScriptRefer
 
         To display a **Rive Panel** on a GameObject's mesh, use the **Rive Texture Renderer.**
     </Tab>
-    
+
     <Tab title="Low-level API">
 
         Layout and draw commands are managed through the `Rive.Renderer`.
@@ -175,7 +175,7 @@ In Unity, Rive renders to a [RenderTexture](https://docs.unity3d.com/ScriptRefer
 
         The following is a basic example script behaviour to render a given Rive asset to the provided `renderTexture`. The animation is played by calling `.Advance()` on the State Machine.
 
-        See [Animation Playback](../../runtimes/animation-playback)for more general information on playing animations and state machines at runtime.
+        See [Animation Playback](/runtimes/animation-playback)for more general information on playing animations and state machines at runtime.
 
         ```csharp
         using System.Collections;

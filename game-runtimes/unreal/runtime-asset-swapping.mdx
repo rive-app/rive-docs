@@ -1,11 +1,10 @@
 ---
-title: 'Runtime Asset Swapping'
-description: ''
+title: "Runtime Asset Swapping"
 ---
 
 Rive allows you to swap font and image assets at runtime. How you swap the asset depends on the type of asset and where it is located.
 
-## Using Rive Assets 
+## Using Rive Assets
 
 In order to swap an asset, you must first locate it in the **Rive File**. This is done using the **Get Rive Asset By Name** node. The name used for searching is the name of the asset as it appears in the **Assets** section of the Rive editor.
 
@@ -22,7 +21,7 @@ Once cast to to the correct asset type, you load a value into the asset. Differe
 Image assets can be loaded by **Texture** or by an array of bytes. The **Load Texture** node is used to load a Texture that resides in your Unreal project.
 
 <Note>
- The texture to be loaded with a Load Texture node must have its **Mip Gen Settings** set to **NoMipMaps** and its **Compression Settings** set to **UserInterface2d (RGBA)**.
+  The texture to be loaded with a Load Texture node must have its **Mip Gen Settings** set to **NoMipMaps** and its **Compression Settings** set to **UserInterface2d (RGBA)**.
 </Note>
 
 ![Image](/images/game-runtimes/unreal/767f43eb-06c8-4d27-a144-f5fab0db13b8.webp)
@@ -31,10 +30,14 @@ Image assets can also be loaded as an array of bytes in **png**, **webp**, or **
 
 ![Image](/images/game-runtimes/unreal/2f6b73ef-9781-416b-b2ab-870466fa04e1.webp)
 
-## Font Assets 
+## Font Assets
 
 Font assets can be loaded as either a **Font Face** located in your Unreal project, or an array of bytes in **otf** or **ttf** format.
 
 ![Image](/images/game-runtimes/unreal/93be7fe7-16cc-416c-aa75-0aafd94fb9e5.webp)
+
+<Note>
+  The FontFace to be loaded must have its **Loading Policy** set to **Inline**.
+</Note>
 
 ![Image](/images/game-runtimes/unreal/6ae7cc1e-6e8f-41eb-929e-0dde60b62868.webp)

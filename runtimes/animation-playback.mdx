@@ -1,9 +1,13 @@
 ---
 title: 'Animation Playback'
-description: 'Playing and pausing animations.'
+description: 'Playing and pausing animations (legacy)'
 ---
 
-Rive lets you specify what artboard to use, what animations and state machines to mix and play and control the play/pause state of each animation.
+<Info>
+  We strongly recommend controlling your animation(s) at runtime with a [State Machine](/runtimes/state-machines), rather than controlling them individually.
+</Info>
+
+Rive lets you specify what animations and state machines to mix and play and control the play/pause state of each animation.
 
 The term *animations* may collectively refer to both animations and state machines. In this section, we explore how to deal with specific animation playback, rather than state machines.
 
@@ -11,113 +15,6 @@ The term *animations* may collectively refer to both animations and state machin
  If you are trying to coordinate multiple animations' playback at runtime, consider using a state machine instead to do this for you!
 </Note>
 
-## Choosing an artboard
-
-When a Rive object is instantiated, the artboard to use can be specified. If no artboard is given, the default artboard is used. Only one artboard can be used at a time.
-
-<Tabs>
-
-  <Tab title="Web">
-    ```javascript
-    new rive.Rive({
-        src: 'https://cdn.rive.app/animations/vehicles.riv',
-        canvas: document.getElementById('canvas'),
-        artboard: 'Truck',
-        autoplay: true
-    });
-    ```
-  </Tab>
-
-  <Tab title="React">
-    ```javascript
-    export const Simple = () => (
-      <Rive src="https://cdn.rive.app/animations/vehicles.riv" artboard="Truck" />
-    );
-
-    // With `useRive` Hook:
-    export default function Simple() {
-      const { RiveComponent } = useRive({
-          src: 'https://cdn.rive.app/animations/vehicles.riv',
-          artboard: 'Truck',
-          autoplay: true,
-      });
-
-      return <RiveComponent />;
-    }
-    ```
-  </Tab>
-
-  <Tab title="React Native">
-    ```javascript
-    export default function App() {
-      return (
-        <View>
-          <Rive resourceName="truck_v7" artboardName="Jeep" autoplay />
-        </View>
-      );
-    }
-    ```
-  </Tab>
-
-  <Tab title="Flutter">
-    ```dart
-    RiveAnimation.network(
-        'https://cdn.rive.app/animations/vehicles.riv',
-        artboard: 'Truck'
-    );
-    ```
-  </Tab>
-
-  <Tab title="Apple">
-    #### SwiftUI
-    ```swift
-    struct AnimationView: View {
-        var body: some View {
-            RiveViewModel(
-                fileName: "dancing_banana",
-                artboardName: "Banana"
-            ).view()
-        }
-    }
-    ```
-
-    #### UIKit
-    ```swift
-    class AnimationViewController: UIViewController {
-        @IBOutlet weak var riveView: RiveView!
-
-        var bananaVM = RiveViewModel(
-            fileName: "dancing_banana",
-            artboardName: "Banana",
-        )
-
-        override func viewDidLoad() {
-            bananaVM.setView(riveView)
-        }
-    }
-    ```
-  </Tab>
-
-  <Tab title="Android">
-    ### Via XML
-    ```xml
-    <app.rive.runtime.kotlin.RiveAnimationView
-        app:riveAutoPlay="true"
-        app:riveArtboard="Square"
-        app:riveResource="@raw/artboard_animations" />
-    ```
-
-    ### Via Kotlin
-    ```kotlin
-    animationView.setRiveResource(
-        R.raw.artboard_animations,
-        artboardName = "Square",
-        autoplay = true
-    )
-    ```
-  </Tab>
-
-</Tabs>
 
 ## Choosing starting animations
 
@@ -403,7 +300,7 @@ export default function App() {
   <Tab title="React Native">
       #### Invoking Playback Controls
 
-      To trigger animation playback controls, set a `ref` on the Rive component rendered. Once the `ref` is populated, you can trigger functions such as `play`, `pause`, etc. See the `ref` method docs for React Native [Rive Ref Methods](./react-native/rive-ref-methods).
+      To trigger animation playback controls, set a `ref` on the Rive component rendered. Once the `ref` is populated, you can trigger functions such as `play`, `pause`, etc. See the `ref` method docs for React Native [Rive Ref Methods](/runtimes/react-native/rive-ref-methods).
 
       ```javascript
       import Rive, { RiveRef } from 'rive-react-native'

@@ -7,7 +7,7 @@ import { YouTube } from '/snippets/youtube.mdx'
 
 <YouTube id="20aS5ZOkNpI" />
 
-When you transform objects, their children inherit the same transformations. The location where these transformations happen (sometimes called the origin, anchor point, or pivot) affects how your objects animate. 
+When you transform objects, their children inherit the same transformations. The location where these transformations happen (sometimes called the origin, anchor point, or pivot) affects how your objects animate.
 
 For example, manipulating the scale of a group creates different results if the scale originates in the center or the bottom.
 
@@ -17,9 +17,9 @@ Scaling from the center or the bottom of a group
 
 You need to reposition the parent group to change the point of origin for these transformations. However, moving a parent causes all the children to move with it. The Freeze feature makes it possible to achieve this without having to rework the hierarchy structure.
 
-## Freeze 
+## Freeze
 
-The Freeze feature allows you to move any parent object (groups, shapes, bones) without affecting the position of its children. Activate Freeze in the [Transform Tools menu](../interface-overview/toolbar) or use the `Y` shortcut.
+The Freeze feature allows you to move any parent object (groups, shapes, bones) without affecting the position of its children. Activate Freeze in the [Transform Tools menu](/editor/interface-overview/toolbar) or use the `Y` shortcut.
 
 ![Image](/images/editor/fundamentals/d841e0b7-7a01-4c32-9c7b-dadd97c5d3d7.webp)
 
@@ -33,7 +33,7 @@ Repositioning a parent without moving the children
 
 Be sure to turn off Freeze by pressing `Y` again.
 
-## Origin 
+## Origin
 
 Procedural objects (like artboards and procedural paths) have an origin property. The origin of a procedural path determines where its properties originate from. For example, changing the width of a rectangle with its origin in the middle (50% X and 50% Y) causes it to grow from its center.
 

@@ -1,0 +1,14 @@
+export const EarlyAccess = ({ featureName, children }) => {
+  return (
+    <Warning>
+      {featureName} is in <a href="https://rive.app/blog/early-access-to-unreleased-features" target="_blank" rel="noopener noreferrer">Early Access</a> and is not yet available for production.
+
+      {children && (
+        <>
+          <br />
+          {children}
+        </>
+      )}
+    </Warning>
+  );
+}; 
