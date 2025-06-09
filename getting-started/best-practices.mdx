@@ -49,17 +49,23 @@ While Rive provides a Lottie converter for easy .riv file export, recreating gra
 
 Working directly in Rive is generally preferable as it allows for file optimization based on your animation requirements. For instance, using bones and constraints to create rigs will result in fewer keys in the animation compared to converting directly from Lottie.
 
+### Layer Blend Modes for Web
+
+Blend modes are particularly expensive on the web because WebGL doesn’t expose mechanisms for accessing the framebuffer. To apply a blend mode, Rive must copy rendered pixels into a separate texture before compositing, which introduces significant performance and memory overhead.
+
+While there are efforts underway to improve this through new WebGL capabilities, these solutions are still pending broader support. Until then, it’s best to use blend modes sparingly in web projects to ensure optimal performance.
+
 ### Artboard Considerations
 
 #### Clipped Artboards
 
 Clipping artboards is generally fine, but if you're experiencing performance issues, it's worth minimizing their use. Clipping can be computationally expensive, as the renderer must evaluate every object—including nested artboards—to determine pixel visibility. Instead, consider applying clips to specific objects or groups within the artboard.
 
-You can also safely remove the clip from the main artboard itself, since nothing outside the Rive instance will be rendered at runtime.
+In most cases you can safely remove the clip from the main artboard itself, since nothing outside the Rive instance will be rendered at runtime.
 
 #### Unused Artboards
 
-Unused artboards are still included in the compiled .riv file. While they don't significantly impact file size, it's best practice to remove any artboards that aren't used in your animation to keep your project clean and efficient.
+Unused artboards are still included in the compiled .riv file and are parsed when the file is first loaded. This can lead to unnecessary memory usage and performance overhead, especially if the unused artboards contain complex animations or large assets. To keep your file lean and efficient, it's best practice to remove any artboards that aren't actively being used.
 
 ### Idle Animations
 
@@ -92,7 +98,7 @@ See our documentation on [Loading Assets](/runtimes/loading-assets). This featur
 
 ### Caching your .riv
 
-If you’re going to use the same Rive file in multiple places throughout your page or app, it’s possible to [cache the .riv](/runtimes/caching-a-rive-file) so that your users only download it once.
+If you're using the same Rive file in multiple places across your page or app, you can [cache the .riv](/runtimes/caching-a-rive-file) file to improve performance. The key benefit of caching is that the file only needs to be parsed and decoded once. Creating new artboard instances from a cached, already-decoded file is significantly faster than decoding the file each time before instantiating an artboard.
 
 ### Pausing Programmatically
 
