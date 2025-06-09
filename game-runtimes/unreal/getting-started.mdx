@@ -3,8 +3,12 @@ title: "Getting Started"
 description: "Adding Rive to your Unreal project."
 ---
 
+<Warning>
+  We’re rewriting our Unreal Engine integration to deliver significantly better performance, and it’s already showing a 4x speed boost. To focus on this effort, we’re temporarily pausing support and no longer recommending the current version of the Rive Unreal plugin, which was released as an experimental preview. More details [here](https://community.rive.app/c/announcements/rive-x-unreal).
+</Warning>
+
 <Note>
-  The rive-unreal package is currently in **Alpha** for macOS and Windows. It currently supports **Unreal 5.3, 5.4 and 5.5.**
+  The rive-unreal package is currently in **Alpha** for macOS and Windows. It currently supports **Unreal 5.3, 5.4, and 5.5.**
 </Note>
 
 <Tip>
@@ -33,22 +37,18 @@ Specific platform dependencies and build tools are needed to compile the Rive pl
 - Ensure **Engine Source** is checked from the **Options** launcher shown above:![Image](https://ucarecdn.com/50bf5981-f34a-43cd-b149-09a84bb8b49b/)
 
 <Note>
-  Work is underway to support newer (and older) versions of Unreal. If you require a specific version of Unreal to be supported, please reach out to us on our [support channel](https://rive.atlassian.net/servicedesk/customer/portals).
+  Work is underway to support newer (and older) versions of Unreal. If you require a specific version of Unreal to be supported, please reach out to us on our [support channel](https://community.rive.app/c/support/).
 </Note>
 
 ### MacOS
 
-The plugin should work on M-Series chips and Intel. _Please_ [file an issue on Github](https://github.com/rive-app/rive-unreal/issues) _if you're encountering difficulties and share you environment details._
+The plugin is designed to work on both M-Series chips and Intel. _Please_ [file an issue on Github](https://github.com/rive-app/rive-unreal/issues) _if you're encountering difficulties and share you environment details._
 
 **Steps:**
 
 - [Install XCode ](https://developer.apple.com/xcode/)for MacOS.
 
 ### Windows
-
-<Note>
-  At the moment Rive-Unreal supports DX11 and DX12 on Windows. Vulkan support is in progress.
-</Note>
 
 **Steps:**
 
@@ -100,7 +100,7 @@ To quickly experiment with rive-unreal, take a look at our [demos project](https
 2. Download the latest version of the plugin from the Github [releases tab](https://github.com/rive-app/rive-unreal/releases) (named with a version number like **Rive-X.Y.Z.zip**)
 3. Extract the zip and copy the content to your Unreal project in the file system folder `Your-Project-Name/Plugins/Rive/`
 4. Open your project _.uproject_ file.
-5. Wait a bit until a popup appears, asking to build missing modules. Select **yes.**
+5. Wait a bit until a popup appears, asking to build missing modules. Select **Yes.**
 6. It may take a while to open the project the first time and appear as if nothing is happening. It shouldn't take longer than a few minutes.
 7. Once the project is open, ensure that the Rive plugin is enabled: **Settings-\>Plugins** and search for **Rive.**![Image](https://ucarecdn.com/1e6d9667-d43b-4948-abd1-7735c25cbecb/)
 
@@ -116,6 +116,6 @@ Now you can add Rive content\!
 
 See our documentation on [Exporting](/editor/exporting/exporting-for-runtime) real-time content.
 
-Once you have a `.riv` file, you can simply drag it into the Unreal asset panel, which will automatically create a **RiveFile** object, a Rive**TextureObject**, and a **Widget Blueprint**. On our [Marketplace](https://rive.app/marketplace), you can find Rive content that can be remixed and used in your project. 
+Once you have a `.riv` file, you can simply drag it into the Unreal Content Browser, which will automatically create a **RiveFile** object, a **RiveTextureObject**, and a **Widget Blueprint**. On our [Marketplace](https://rive.app/marketplace), you can find Rive content that can be remixed and used in your project. 
 
 See the following sections on using the **RiveFile** object.

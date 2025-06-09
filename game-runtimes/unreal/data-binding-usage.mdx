@@ -3,6 +3,7 @@ title: "Data Binding Usage"
 description: "Binding Rive Data to Unreal"
 ---
 
+
 This guide covers the usage of the ViewModel system in Unreal, which allows binding and synchronizing data between Unreal gameplay logic and Rive animations using a runtime ViewModelInstance.
 
 ### 1. **Load the ViewModel**
@@ -50,7 +51,7 @@ These operations can also be performed using Blueprints:\
 
 ### 4. **Access or Modify Properties via the ViewModel Instance**
 
-`URiveViewModelInstance`  exposes strongly-typed accessors:
+`URiveViewModelInstance`  exposes strongly-typed helper accessors to change and read values without needing to access the underlying porperties:
 
 #### ✅ Boolean
 
@@ -99,6 +100,10 @@ Instance->FireTriggerProperty("OnDamage");
 ```cpp
 URiveViewModelInstance* WeaponInstance = Instance->GetNestedInstanceByName("Weapon");
 ```
+
+These accessors are exposed to **Blueprints**, allowing you to get and set property values through the owning **ViewModel** instance:
+
+![Vm Accessorrs Pn](/images/unreal/vm_accessorrs.png)
 
 ### 5. 🧪 Using Accessors on Property Objects
 
@@ -175,6 +180,10 @@ if (JumpProp)
     JumpProp->Trigger(); // Fires the trigger
 }
 ```
+
+These accessors are exposed to **Blueprints**, allowing you to get and set values on properties directly:
+
+![Setpropertyvalue Pn](/images/unreal/setpropertyvalue.png)
 
 ### **5. Respond to Property Changes**
 
