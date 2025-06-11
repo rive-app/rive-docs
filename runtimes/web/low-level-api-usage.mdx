@@ -226,7 +226,7 @@ After advancing the artboard, call the `save()` API on the rendering context to 
 Finally, after calling the `align()` API, pass the renderer to the artboard via the `draw()` method to draw the artboard on the canvas, then end with a call to the `restore()` API on the renderer to restore the saved state of the canvas.
 
 <Note>
- If you're using `@rive-app/webgl2-advanced`, you will need to add an additional call on the renderer to `flush()` to empty different buffer commands.
+ If you're using `@rive-app/webgl2-advanced`, you will need to call `renderer.flush()` to empty different buffer commands.
 </Note>
 The last thing to do is to call on Rive's `requestAnimationFrame` with this callback to queue up the next callback for the next frame.
 
