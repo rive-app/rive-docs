@@ -15,6 +15,8 @@ Listeners let designers create interactive behaviors—like clicks, hovers, and 
   If you have an object selected when creating a listener, it will automatically be designated as the target.
 </Info>
 
+![Clean Shot2025 06 12at14 46 58 Gi](/images/CleanShot2025-06-12at14.46.58.gif)
+
 With the new listener selected, you’ll see its options displayed in a new panel at the bottom of the State Machine Graph and to the right of the Graph.
 
 # Elements of a Listener
@@ -33,6 +35,10 @@ It's usually best to use shapes as targets—for example, an ellipse or rectangl
 
 To select a target, click the Target icon and choose an object from the artboard or the Hierarchy panel.
 
+![Clean Shot2025 06 12at14 52 27 Gi](/images/CleanShot2025-06-12at14.52.27.gif)
+
+Note that having an object selected when you create a listener will automatically assign the selected object as the target of the listener.
+
 **Listening to Events on Nested Artboards**
 
 <Info>
@@ -45,9 +51,15 @@ Setting an Artboard or Nested Artboard as the target allows you to listen for Ev
 
 The Opaque Target option determines whether or not pointer events will pass through the hit area, potentially triggering multiple Listeners at once.
 
+![Clean Shot2025 06 12at15 11 08 Gi](/images/CleanShot2025-06-12at15.11.08.gif)
+
 # User Action
 
-User Actions are the interactions the listener is listening for. Available actions include:
+User Actions are the interactions the listener is listening for. The drop-down menu below the Target button allows you to change which User Action the Listener checks for.
+
+![Clean Shot2025 06 12at15 14 19 Gi](/images/CleanShot2025-06-12at15.14.19.gif)
+
+Available actions include:
 
 **Pointer Down** – Mouse down or finger press.
 
@@ -67,7 +79,9 @@ User Actions are the interactions the listener is listening for. Available actio
 
 A Listener Action defines what happens when the user interaction occurs.
 
-To add a Listener Action, click the plus icon next to the User Action dropdown. You can add multiple actions to a single listener.
+To add a Listener Action, click the plus icon in the panel below the State Machine Graph. You can add multiple actions to a single listener.
+
+![Clean Shot2025 06 12at15 16 20 Gi](/images/CleanShot2025-06-12at15.16.20.gif)
 
 ## **View Model Change**
 
@@ -77,9 +91,9 @@ Updates values within your View Model Instance. This is the preferred way to com
 
 The View Model Dropdown lets you select which View Model Property you want the Listener to change. 
 
-Note that listeners can change the properties of any View Model in the file.
+![Clean Shot2025 06 12at15 18 21 Gi](/images/CleanShot2025-06-12at15.18.21.gif)
 
-If you select a property that is assigned to a view model instance, you'll be given a seperate dropdown which lets you select the instance you'd like to change.
+Note that listeners can change the properties of any View Model in the file, even if it isn't assigned to the Artboard.
 
 ### **Value vs Property**
 
@@ -89,13 +103,22 @@ Once you've selected which property you'd like the Listener to modify, you can s
 
 If you select Value, you can use the input field to change the specific value you'd like the property set to. The value type changes depending on the property.
 
+![Clean Shot2025 06 12at15 24 51 Gi](/images/CleanShot2025-06-12at15.24.51.gif)
+
 **View Model Property**
 
-Selecting a property will set the View Model Property in the listener equal to another. Note that we can set the View Model Property to be equal to itself.
+Selecting a property will set the View Model Property in the listener equal to another.
+
+![Clean Shot2025 06 12at15 31 06 Gi](/images/CleanShot2025-06-12at15.31.06.gif)
+
+Note that we can set the View Model Property to be equal to itself.
 
 **Adding a Converter**
 
-If we choose to set a View Model Property equal to another View Model Property, the converter icon appears to the right of the View Model Property. This lets us apply a converter to a property.\
+If we choose to set a View Model Property equal to another View Model Property, the converter icon appears to the right of the View Model Property. This lets us apply a converter to a property.
+
+![Clean Shot2025 06 12at15 37 13 Gi](/images/CleanShot2025-06-12at15.37.13.gif)
+
 \
 For example, we can set Number to Number, but attach an add one converter. Every time this listener fires, we can increase our Number property by one.
 
@@ -108,7 +131,8 @@ Fires an event each time the user action is triggered. This is the default optio
 The Align Target action positions a target object to follow the pointer when the specified user action occurs within the listener area.
 
 Use the Target Picker to select the object you want to align.
-Enable Preserve Offset to maintain the original distance between the object and the pointer at the time the action was triggered. When unchecked, the object will align directly to the pointer’s center.
+
+ Enable Preserve Offset to maintain the original distance between the object and the pointer when the action was triggered. When unchecked, the object will align directly to the pointer’s center.
 
 <YouTube id="ISt4z1t7BJQ" />
 
