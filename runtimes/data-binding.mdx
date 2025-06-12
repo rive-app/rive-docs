@@ -1392,7 +1392,71 @@ You can observe changes over time to property values, either by using listeners 
     </Tab>
 </Tabs>
 
-# Enums
+### Images
+
+Image properties let you bind image assets directly, replacing the legacy asset loader system and referenced assets. Create image assets by decoding image data through a Rive factory, then set them the value of image properties.
+
+<Tabs>
+    <Tab title="Apple">
+        <Note>On iOS, you do not have to directly reference a factory to create an image asset. Instead, you can use new `RiveImageAsset` initializers.</Note>
+
+        ```swift
+        // Create a RiveImageAsset from data
+        let data = Data(...)
+        var image = RiveImageAsset(data: data)! // This can return nil if the data is not a valid image
+
+        // Or, create a RiveImageAsset from a UIImage
+        image = RiveImageAsset(image: UIImage(named: "my_image")!, format: .png)! // This can return nil if the image is not a valid jpg or png image
+
+        let imageProperty = viewModelInstance.imageProperty(fromPath: "image")!
+
+        // Once you have your data binding view model instance, you can set the image property value
+        imageProperty.setValue(image)
+
+        // You can also pass nil to clear the image
+        imageProperty.setValue(nil)
+        ```
+    </Tab>
+</Tabs>
+
+### Lists
+
+List properties enable you to work with a dynamic set of view model instances at runtime. A list property can contain a mix of different view model types. With list properties, you can:
+- Add a new view model instance (optionally at an index)
+- Remove an existing view model instance (optionally by index)
+- Swap two view model instances by index
+- Get the size of a list
+
+For more information on list properties, see the [Data Binding List Property](/editor/data-binding/lists#view-model-list-property) editor documentation.
+
+<Tabs>
+    <Tab title="Apple">
+    ```swift
+    let listProperty = viewModelInstance.listProperty(fromPath: "list")!
+
+    // Create a new view model instance and add it to the end of the list
+    let firstInstance = viewModel.createInstanceByName("First Instance")!
+    listProperty.add(firstInstance)
+    
+    // Create a new view model instance and add it to the beginning of the list
+    let secondInstance = myViewModel.createInstanceByName("Second Instance")!
+    listProperty.add(secondInstance, atIndex: 0)
+
+    // Swap the first and second instances
+    listProperty.swapInstance(atIndex: 0, withInstanceAtIndex: 1)
+
+    // Remove both instances
+    listProperty.removeInstance(secondInstance)
+    listProperty.removeInstance(atIndex: 0)
+
+    // Get and print the size of the list
+    print(listProperty.size) // Prints 0
+    ```
+    </Tab>
+</Tabs>
+
+
+### Enums
 
 Enums properties come in two flavors: system and user-defined. In practice, you will not need to worry about the distinction, but just be aware that system enums are available in any Rive file that binds to an editor-defined enum set, representing options from the editor's dropdowns, where user-defined enums are those defined by a designer in the editor.
 
