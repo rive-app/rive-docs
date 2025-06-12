@@ -1394,12 +1394,10 @@ You can observe changes over time to property values, either by using listeners 
 
 ### Images
 
-Image properties let you bind image assets directly, replacing the legacy asset loader system and referenced assets. Create image assets by decoding image data through a Rive factory, then set them the value of image properties.
+Image properties let you set and replace images at runtime, where each image is managed separately. For example, you can make an avatar creator and dynamically change the avatar's features, such as a hat, by setting the value of a view model's image property. You can add further customization by having additional image properties for features like hair, eyes, and more.
 
 <Tabs>
     <Tab title="Apple">
-        <Note>On iOS, you do not have to directly reference a factory to create an image asset. Instead, you can use new `RiveImageAsset` initializers.</Note>
-
         ```swift
         // Create a RiveImageAsset from data
         let data = Data(...)
@@ -1421,7 +1419,11 @@ Image properties let you bind image assets directly, replacing the legacy asset 
 
 ### Lists
 
-List properties enable you to work with a dynamic set of view model instances at runtime. A list property can contain a mix of different view model types. With list properties, you can:
+List properties let you manage a dynamic set of view model instances at runtime. For example, you can build a TODO app where users can add and remove tasks in a scrollable Layout.
+
+A single list property can include different view model types, with each view model tied to its own Nested Artboard, making it easy to popular a list with a varity of Nested Artboards.
+
+With list properties, you can:
 - Add a new view model instance (optionally at an index)
 - Remove an existing view model instance (optionally by index)
 - Swap two view model instances by index
