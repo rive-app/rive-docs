@@ -15,7 +15,7 @@ Listeners let designers create interactive behaviors—like clicks, hovers, and 
   If you have an object selected when creating a listener, it will automatically be designated as the target.
 </Info>
 
-With the new listener selected, you’ll see its options displayed in a new panel at the bottom of the State Machine Graph.
+With the new listener selected, you’ll see its options displayed in a new panel at the bottom of the State Machine Graph and to the right of the Graph.
 
 # Elements of a Listener
 
@@ -69,11 +69,11 @@ A Listener Action defines what happens when the user interaction occurs.
 
 To add a Listener Action, click the plus icon next to the User Action dropdown. You can add multiple actions to a single listener.
 
-**View Model Change**
+## **View Model Change**
 
 Updates values within your View Model Instance. This is the preferred way to communicate from your Rive file to your runtime code. By default, listeners are set to View Model Change, unless an artboard or nested artboard is the target of the Listener.
 
-**View Model Drop Down**
+### **View Model Drop Down**
 
 The View Model Dropdown lets you select which View Model Property you want the Listener to change. 
 
@@ -81,23 +81,29 @@ Note that listeners can change the properties of any View Model in the file.
 
 If you select a property that is assigned to a view model instance, you'll be given a seperate dropdown which lets you select the instance you'd like to change.
 
-**Value vs Property**
+### **Value vs Property**
 
 Once you've selected which property you'd like the Listener to modify, you can set it to a specific Value or to equal a different view model property.
 
-**Setting a Value**
+**Value**
 
-If you select Value, you can use the input field to change the specific value you'd like the property set to. This changes depending on the property.
+If you select Value, you can use the input field to change the specific value you'd like the property set to. The value type changes depending on the property.
 
 **View Model Property**
 
 Selecting a property will set the View Model Property in the listener equal to another. Note that we can set the View Model Property to be equal to itself.
 
-**Report Event**
+**Adding a Converter**
+
+If we choose to set a View Model Property equal to another View Model Property, the converter icon appears to the right of the View Model Property. This lets us apply a converter to a property.\
+\
+For example, we can set Number to Number, but attach an add one converter. Every time this listener fires, we can increase our Number property by one.
+
+### **Report Event**
 
 Fires an event each time the user action is triggered. This is the default option when an artboard or nested artboard is the target of a listener.
 
-**Align Target**
+### **Align Target**
 
 The Align Target action positions a target object to follow the pointer when the specified user action occurs within the listener area.
 
@@ -106,9 +112,9 @@ Enable Preserve Offset to maintain the original distance between the object and 
 
 <YouTube id="ISt4z1t7BJQ" />
 
-**Input Change**
+### **Input Change**
 
 Allows the listener to change a defined input—such as toggling a boolean, firing a trigger, or setting a number input to a specific value.
 
-
+\
 This is useful for creating interactive behaviors like hover states or click effects directly on the Artboard.
