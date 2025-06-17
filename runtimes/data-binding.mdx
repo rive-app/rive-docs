@@ -774,134 +774,9 @@ Property descriptors can be inspected on a view model to discover at runtime whi
     </Tab>
 </Tabs>
 
-### Nested Property Paths
+References to these properties can be retrieved by name or path. Mutable properties have getters, setters, and observe operations for their values, while other properties (except nested view models) only have observe operations. Getting or observing the value will retrieve the latest value set on that properties binding, as of the last state machine or artboard advance. Setting the value will update the value and all of its bound elements.
 
-View models can have properties of type view model, allowing for arbitrary nesting. We could chain property calls on each instance starting from the root until we get to the property of interest. Alternatively we can do this through a path parameter, which is similar to a URI in that it is a forward slash delimited list of property names ending in the name of the property of interest.
-
-<Tabs>
-    <Tab title="Web">
-    ```typescript
-    const rive = new rive.Rive({
-        autoBind: true,
-        onLoad: () => {
-            // Access the current instance that was auto-bound
-            let vmi = rive.viewModelInstance;
-
-            const nestedNumberByChain = vmi
-                .viewModel("My Nested View Model")
-                .viewModel("My Second Nested VM")
-                .number("My Nested Number");
-
-            const nestedNumberByPath = vmi.number("My Nested View Model/My Second Nested VM/My Nested Number");
-        }
-    });
-    ```
-    </Tab>
-    <Tab title="React">
-        Access nested properties by providing the full path (separated by `/`) as the first argument to the property hooks.
-
-        ```typescript
-        import { useViewModelInstanceString, useViewModelInstanceNumber } from '@rive-app/react-webgl2';
-
-        // Accessing 'settings/theme/name' (String)
-        const { value: themeName, setValue: setThemeName } = useViewModelInstanceString(
-            'settings/theme/name',
-            viewModelInstance
-        );
-
-        // Accessing 'settings/volume' (Number)
-        const { value: volume, setValue: setVolume } = useViewModelInstanceNumber(
-            'settings/volume',
-            viewModelInstance
-        );
-
-        console.log('Current theme:', themeName);
-        // setThemeName('Dark Mode');
-        // setVolume(80);
-        ```
-    </Tab>
-    <Tab title="Apple">
-        ```swift
-        let riveViewModel = RiveViewModel(...)
-        let instance = riveViewModel.riveModel!.riveFile.viewModelNamed("...")!.createDefaultInstance()!
-
-        let nestedNumberByChain = instance
-                                    .viewModelInstanceProperty(fromPath: "Nested View Model")
-                                    .viewModelInstanceProperty(fromPath: "Another Nested View Model")
-                                    .numberProperty(fromPath: "Number")
-
-        let nestedNumberByPath = instance.numberProperty(fromPath: "Nested View Model/Another Nested View Model/Number")
-        ```
-    </Tab>
-    <Tab title="Android">
-        ```kotlin
-        val vm = view.controller.file?.getViewModelByName("My View Model")!!
-        val vmi = vm.createInstanceFromName("My Instance")
-
-        val nestedNumberByChain = vmi
-            .getInstanceProperty("My Nested View Model")
-            .getInstanceProperty("My Second Nested VM")
-            .getNumberProperty("My Nested Number")
-
-        val nestedNumberByPath = vmi
-            .getNumberProperty("My Nested View Model/My Second Nested VM/My Nested Number")
-        ```
-    </Tab>
-    <Tab title="Flutter">
-        ```dart
-        final vm = file.viewModelByName("My View Model")!;
-        final vmi = vm.createInstanceByName("My Instance")!;
-
-        final nestedNumberByChain = vmi
-            .viewModel("My Nested View Model")!
-            .viewModel("My Second Nested VM")!
-            .number("My Nested Number");
-
-        final nestedNumberByPath = vmi.number("My Nested View Model/My Second Nested VM/My Nested Number");
-        ```
-    </Tab>
-    <Tab title="Unity">
-        ```csharp
-        if (riveWidget.Status == WidgetStatus.Loaded)
-        {
-            var viewModelInstance = riveWidget.StateMachine.ViewModelInstance;
-
-            // Accessing nested view models using chaining
-            var nestedNumberByChain = viewModelInstance
-                .GetViewModelInstanceProperty("My Nested View Model")
-                .GetViewModelInstanceProperty("My Second Nested VM")
-                .GetNumberProperty("My Nested Number");
-
-            // Accessing nested properties using path notation
-            var nestedNumberByPath = viewModelInstance
-                .GetNumberProperty("My Nested View Model/My Second Nested VM/My Nested Number");
-
-
-        }
-        ```
-    </Tab>
-     <Tab title="React Native">
-        <Warning>
-        React Native does not support accessing nested properties using the chain notation.
-        But you can access nested properties using the path notation.
-        </Warning>
-        ```js
-        const [setRiveRef, riveRef] = useRive();
-        const nestedNumberByPath = useRiveNumber(riveRef, 'My Nested View Model/My Second Nested VM/My Nested Number');
-        useEffect(() => {
-            if (nestedNumberByPath) {
-                nestedNumberByPath.setValue(10);
-            }
-        }, [nestedNumberByPath]);
-        ```
-    </Tab>
-</Tabs>
-
-### Mutable Properties
-
-View model instances have mutable properties. References to these properties can be retrieved by name. They have get, set, and observe operations. Getting or observing the value will retrieve the latest value set on that properties binding, as of the last state machine or artboard advance. Setting the value will update the value and all of its bound elements.
-
-<Note>Trigger properties do not have a get operation - only set and observe.</Note>
+<Note>Trigger properties do not have a get or set operation - only trigger and observe.</Note>
 
 <Note>After setting a property's value, the changes will not apply to their bound elements until the state machine or artboard advances.</Note>
 
@@ -1272,7 +1147,130 @@ View model instances have mutable properties. References to these properties can
 
 </Tabs>
 
-#### Observability
+### Nested Property Paths
+
+View models can have properties of type view model, allowing for arbitrary nesting. We could chain property calls on each instance starting from the root until we get to the property of interest. Alternatively we can do this through a path parameter, which is similar to a URI in that it is a forward slash delimited list of property names ending in the name of the property of interest.
+
+<Tabs>
+    <Tab title="Web">
+    ```typescript
+    const rive = new rive.Rive({
+        autoBind: true,
+        onLoad: () => {
+            // Access the current instance that was auto-bound
+            let vmi = rive.viewModelInstance;
+
+            const nestedNumberByChain = vmi
+                .viewModel("My Nested View Model")
+                .viewModel("My Second Nested VM")
+                .number("My Nested Number");
+
+            const nestedNumberByPath = vmi.number("My Nested View Model/My Second Nested VM/My Nested Number");
+        }
+    });
+    ```
+    </Tab>
+    <Tab title="React">
+        Access nested properties by providing the full path (separated by `/`) as the first argument to the property hooks.
+
+        ```typescript
+        import { useViewModelInstanceString, useViewModelInstanceNumber } from '@rive-app/react-webgl2';
+
+        // Accessing 'settings/theme/name' (String)
+        const { value: themeName, setValue: setThemeName } = useViewModelInstanceString(
+            'settings/theme/name',
+            viewModelInstance
+        );
+
+        // Accessing 'settings/volume' (Number)
+        const { value: volume, setValue: setVolume } = useViewModelInstanceNumber(
+            'settings/volume',
+            viewModelInstance
+        );
+
+        console.log('Current theme:', themeName);
+        // setThemeName('Dark Mode');
+        // setVolume(80);
+        ```
+    </Tab>
+    <Tab title="Apple">
+        ```swift
+        let riveViewModel = RiveViewModel(...)
+        let instance = riveViewModel.riveModel!.riveFile.viewModelNamed("...")!.createDefaultInstance()!
+
+        let nestedNumberByChain = instance
+                                    .viewModelInstanceProperty(fromPath: "Nested View Model")
+                                    .viewModelInstanceProperty(fromPath: "Another Nested View Model")
+                                    .numberProperty(fromPath: "Number")
+
+        let nestedNumberByPath = instance.numberProperty(fromPath: "Nested View Model/Another Nested View Model/Number")
+        ```
+    </Tab>
+    <Tab title="Android">
+        ```kotlin
+        val vm = view.controller.file?.getViewModelByName("My View Model")!!
+        val vmi = vm.createInstanceFromName("My Instance")
+
+        val nestedNumberByChain = vmi
+            .getInstanceProperty("My Nested View Model")
+            .getInstanceProperty("My Second Nested VM")
+            .getNumberProperty("My Nested Number")
+
+        val nestedNumberByPath = vmi
+            .getNumberProperty("My Nested View Model/My Second Nested VM/My Nested Number")
+        ```
+    </Tab>
+    <Tab title="Flutter">
+        ```dart
+        final vm = file.viewModelByName("My View Model")!;
+        final vmi = vm.createInstanceByName("My Instance")!;
+
+        final nestedNumberByChain = vmi
+            .viewModel("My Nested View Model")!
+            .viewModel("My Second Nested VM")!
+            .number("My Nested Number");
+
+        final nestedNumberByPath = vmi.number("My Nested View Model/My Second Nested VM/My Nested Number");
+        ```
+    </Tab>
+    <Tab title="Unity">
+        ```csharp
+        if (riveWidget.Status == WidgetStatus.Loaded)
+        {
+            var viewModelInstance = riveWidget.StateMachine.ViewModelInstance;
+
+            // Accessing nested view models using chaining
+            var nestedNumberByChain = viewModelInstance
+                .GetViewModelInstanceProperty("My Nested View Model")
+                .GetViewModelInstanceProperty("My Second Nested VM")
+                .GetNumberProperty("My Nested Number");
+
+            // Accessing nested properties using path notation
+            var nestedNumberByPath = viewModelInstance
+                .GetNumberProperty("My Nested View Model/My Second Nested VM/My Nested Number");
+
+
+        }
+        ```
+    </Tab>
+     <Tab title="React Native">
+        <Warning>
+        React Native does not support accessing nested properties using the chain notation.
+        But you can access nested properties using the path notation.
+        </Warning>
+        ```js
+        const [setRiveRef, riveRef] = useRive();
+        const nestedNumberByPath = useRiveNumber(riveRef, 'My Nested View Model/My Second Nested VM/My Nested Number');
+        useEffect(() => {
+            if (nestedNumberByPath) {
+                nestedNumberByPath.setValue(10);
+            }
+        }, [nestedNumberByPath]);
+        ```
+    </Tab>
+</Tabs>
+
+### Observability
 
 You can observe changes over time to property values, either by using listeners or a platform equivalent method. Once observed, you will be notified when the property changes are applied by a state machine advance, whether that is a new value that has been explicitly set or if the value was updated as a result of a binding. Observing trigger properties is an alternative method to receive events from the editor, as compared to [Rive Events](/runtimes/rive-events).
 
