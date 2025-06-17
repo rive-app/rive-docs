@@ -774,7 +774,9 @@ Property descriptors can be inspected on a view model to discover at runtime whi
     </Tab>
 </Tabs>
 
-References to these properties can be retrieved by name or path. Mutable properties have getters, setters, and observe operations for their values, while other properties (except nested view models) only have observe operations. Getting or observing the value will retrieve the latest value set on that properties binding, as of the last state machine or artboard advance. Setting the value will update the value and all of its bound elements.
+References to these properties can be retrieved by name or path.
+
+Some properties are mutable and have getters, setters, and observer operations for their values. Getting or observing the value will retrieve the latest value set on that property's binding, as of the last state machine or artboard advance. Setting the value will update the value and all of its bound elements.
 
 <Note>Trigger properties do not have a get or set operation - only trigger and observe.</Note>
 
