@@ -29,9 +29,13 @@ Using large images can quickly consume device memory. This is particularly true 
 
 If you have a very large image and only part of it will be visible at any given time (ie; a scrolling background), consider breaking the image into smaller chunks or mixing raster and recreating part of it as a vector.
 
+![Image](/images/getting-started/best-practices/breaking-up-raster-images.webp)
+
 ##### **Image Dimensions for WebGL runtimes**
 
 For WebGL runtimes, image memory is allocated in powers of two. A 512×512 image fits efficiently, but a 513×513 image will use the memory of a 1024×1024 texture—quadrupling the memory usage for just one extra pixel per side.
+
+![Image](/images/getting-started/best-practices/webgl2-image-memory-usage.webp)
 
 #### Raster Image Compression
 
