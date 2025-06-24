@@ -107,4 +107,12 @@ Note that this mixing only affects animations that share properties.
 
 ## Remap
 
-An animation set to the remap type 
+An animation set to the remap type gives you direct control of the time value of an animation.
+
+**Time** - The time value is a keyable property that allows you to remap the time of an animation. This allows you to extend, shrink, or do something completely different with a nested animation.
+
+**Mix** - The Mix value controls how the animation mixes with any other animation on the Artboard. Mix values set to 100 take priority over every other animation.
+
+When multiple animations have a value set to 100, the animation on top of the list takes priority over those below it.
+
+Note that this mixing only affects animations that share properties.
