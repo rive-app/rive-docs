@@ -58,60 +58,83 @@ State machines are instantiated by providing a state machine name to the Rive ob
   </Tab>
 
   <Tab title="Flutter">
-    #### Flutter
+  
+    There are a number of ways to play/select a state machine in Flutter.
 
-    To autoplay a state machine by default, simply set the `stateMachines` property at instantiation:
+    #### When using `RiveWidgetController` (recommended)
 
+    When you create a `RiveWidgetController` it will use the default state machine, or you can specify a state machine by name or index.
+    
     ```dart
-    RiveAnimation.network(
-        'https://cdn.rive.app/animations/vehicles.riv',
-        fit: BoxFit.cover,
-        stateMachines: ['bumpy'],
+    // Default state machine
+    var controller = RiveWidgetController(riveFile);
+    // By name
+    controller = RiveWidgetController(
+      riveFile,
+      stateMachineSelector: StateMachineSelector.byName("State Machine 1"),
+    );
+    // By index
+    controller = RiveWidgetController(
+      riveFile,
+      stateMachineSelector: StateMachineSelector.byIndex(0),
     );
     ```
 
-    In the above snippet, at instantiation time, the runtime will create a `StateMachineController` reference implicitly and immediately play the state machine.
-
-    If you'd like further control over the state machine in cases where you may want to prevent autoplaying the state machine, you can instead pass your own reference to a `StateMachineController` to the `RiveAnimation` widget at instantiation time with the `isActive` property set to `false`. Below is an example of what this might look like:
+    Passing this controller to a `RiveWidget` will automatically play the state machine.
 
     ```dart
-    class _ExampleState extends State<ExampleState> {
-      /// Controller for playback
-      late StateMachineController _controller;
-
-      void _onInit(Artboard artboard) {
-        var ctrl =
-          StateMachineController.fromArtboard(artboard, 'some-state-machine')!;
-        ctrl.isActive = false;
-        artboard.addController(ctrl);
-        _controller = ctrl;
-      }
-
-      @override
-      Widget build(BuildContext context) {
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text('Play/Pause Example'),
-          ),
-          body: Center(
-            child: RiveAnimation.asset('assets/example.riv', onInit: _onInit),
-          ),
-          floatingActionButton: FloatingActionButton(
-            // Play/Pause the state machine
-            onPressed: () => {
-              _controller.isActive
-                  ? _controller.isActive = false
-                  : _controller.isActive = true
-            },
-            tooltip: 'Play/Pause',
-            child: const Icon(Icons.arrow_upward),
-          ),
-        );
-      }
+    @override
+    Widget build(BuildContext context) {
+      return RiveWidget(controller: controller);
     }
     ```
+  
+    You can mark the controller as `active` to play/pause the state machine (advancing and drawing):
 
-    As you change the `isActive` property of the `StateMachineController`, you'll see that the current state may pause advancing through the render loop. This is useful in cases where you may want to load in your Rive on screen, but delay playing until a loading sequence occurs, or some data comes back for your application.
+    ```dart
+    final controller = RiveWidgetController(riveFile);
+    controller.active = false;
+    ```
+
+    The `StateMachineSelector` can also be passed to `RiveWidgetBuilder` to specify which state machine to use:
+    
+    ```dart
+    return RiveWidgetBuilder(
+      fileLoader: fileLoader,
+      stateMachineSelector: StateMachineSelector.byIndex(0),
+      builder: (context, state) => switch (state) {
+        /// ...
+      },
+    );
+    ```
+
+    #### When using `StateMachinePainter`
+
+    When using `StateMachinePainter`, you can specify the state machine to use by passing an optional name.
+    ```dart
+    // Default state machine
+    final painter = rive.StateMachinePainter(withStateMachine: _withStateMachine);
+    // By name
+    painter = rive.StateMachinePainter(
+      withStateMachine: _withStateMachine,
+      stateMachineName: 'State Machine 1  ',
+    );    
+    ```
+
+    #### Creating a state machine directly
+
+    Create the state machine directly from an `Artboard`:
+
+    ```dart
+    final artboard = riveFile.defaultArtboard()!;
+    // Default state machine
+    var stateMachine = artboard.defaultStateMachine();
+    // By name
+    stateMachine = artboard.stateMachine('State Machine 1');
+    // By index
+    stateMachine = artboard.stateMachineAt(0);
+    ```    
+
   </Tab>
 
   <Tab title="Apple">
@@ -234,29 +257,7 @@ We can set a callback to determine when the state machine changes.
 ```
   </Tab>
   <Tab title="Flutter">
-If you'd like to know which state a state machine is in, or when a state machine transitions to another state, you can provide a callback to `StateMachineController`. The callback has the name of the state machine and the name of the animation associated with the state transitioned to:
-
-```javascript
- void _onRiveInit(Artboard artboard) {
-  final controller = StateMachineController.fromArtboard(
-    artboard,
-    'bumpy',
-    onStateChange: _onStateChange,
-  );
-  artboard.addController(controller!);
-  _bump = controller.getTriggerInput('bump');
-}
-
-void _onStateChange(
-  String stateMachineName,
-  String stateName,
-) =>
-    setState(
-      () => message = 'State Changed in $stateMachineName to $stateName',
-    );
-```
-
-
+  Not supported. This is a legacy feature and we strongly recommend using [Data Binding](/runtimes/data-binding) or [Events](/runtimes/rive-events) instead.
   </Tab>
   <Tab title="Apple">
 This runtime allows for delegates that can be set on the `RiveViewModel`. If provided, these delegate functions will be fired whenever a matching event is triggered to be able to hook into and listen for certain events in the Rive animation cycle.

@@ -206,33 +206,26 @@ You can identify an exported component if it's surrounded by square brackets. Th
     </Tab>
 
     <Tab title="Flutter">
+        Get/set the text run value on an `Artboard` instance.
 
-        Find the `TextValueRun` component with a given **name** on a Rive `Artboard` and update the text value.
+        <Tip>
+        We recommend using [Data Binding](/editor/data-binding/overview) instead to update text at runtime.
+        </Tip>
 
-        To make this more convenient you can create an extension.
+        ```dart Get/Set Text Run Value
+        final controller = RiveWidgetController(riveFile);
+        final artboard = controller.artboard;
 
-        ```dart
-        extension _TextExtension on Artboard {
-        TextValueRun? textRun(String name) => component<TextValueRun>(name);
-        }
+        // Get a text run value
+        artboard.getText(value)
+        // Optional path parameter to get a text run value at a nested artboard level
+        artboard.getText(value, path: path)
+
+        // Set a text run value
+        artboard.setText(value)
+        // Optional path parameter to set a text run value at a nested artboard level
+        artboard.setText(value, path: path)
         ```
-
-        Get a reference to the `Artboard`, find the text run named *"MyRun"*, and update the text value:
-
-        ```dart
-        RiveAnimation.asset(
-        'assets/hello_world_text.riv',
-        animations: const ['Timeline 1'],
-        onInit: (artboard) {
-            final textRun = artboard.textRun('MyRun')!; // find text run named "MyRun"
-            print('Run text used to be ${textRun.text}');
-            textRun.text = 'Hi Flutter Runtime!';
-        },
-        )
-        ```
-
-        Or get a reference to the artboard by calling: `riveFile.mainArtboard`, see [Alternative Widget Setup](/runtimes/flutter/alternative-widget-setup).
-
     </Tab>
 
     <Tab title="Apple">
@@ -493,6 +486,25 @@ The path is then: `ArtboardWithUniqueName/ButtonWithUniqueName`
         ```
     </Tab>
 
+    <Tab title="Flutter">
+        Get/set a nested text run value on an `Artboard` instance.
+
+        <Tip>
+        We recommend using [Data Binding](/editor/data-binding/overview) instead to update text at runtime.
+        </Tip>
+
+        ```dart Get/Set Text Run Value
+        final controller = RiveWidgetController(riveFile);
+        final artboard = controller.artboard;
+
+        //Use the path parameter to get a text run value at a nested artboard level
+        artboard.getText(value, path: path)
+
+        // Use the path parameter to set a text run value at a nested artboard level
+        artboard.setText(value, path: path)
+        ```
+    </Tab>
+
     <Tab title="Apple">
 
         ### Reading Text
@@ -597,10 +609,13 @@ The path is then: `ArtboardWithUniqueName/ButtonWithUniqueName`
 
 ### Semantics for Accessibility
 
+<Tip>
+We recommend using [Data Binding](/editor/data-binding/overview) instead as you'll be able to do a two way text binding.
+</Tip>
+
 As Rive Text does not make use of the underlying platform text APIs, additional steps need to be taken to ensure it can be read by screen readers.
 
 The following code snippets provide guidance on how to add semantic labels to your Rive animations. Please see the respective platform/SDKs developer documentation for additional information regarding accessibility concerns.
-
 
 <Tabs>
     <Tab title="Flutter">
@@ -609,28 +624,17 @@ The following code snippets provide guidance on how to add semantic labels to yo
         ```
         ...
 
-        String semanticLabel = '';
+        final controller = RiveWidgetController(riveFile);
+        final textValue = controller.artboard.getText('some_text_run_name').value;
+        String semanticLabel = textValue;
 
         ...
 
         Semantics(
-        label: semanticLabel,
-        child: RiveAnimation.asset(
-            'assets/hello_world_text.riv',
-            animations: const ['Timeline 1'],
-            onInit: (artboard) {
-            final run = artboard.component<TextValueRun>("MyRun");
-            setState(() {
-                // Calling setState is needed to ensure the Semantics widget
-                // rebuilds with the new value.
-                semanticLabel = run?.text ?? "";
-            });
-            },
-        ),
+            label: semanticLabel,
+            child: RiveWidget(controller: controller);
         ),
         ```
-
-        Or you can read the `.riv` file yourself and instance the artboard, see Alternative Widget Setup.
     </Tab>
 
     <Tab title="Web (JS)">

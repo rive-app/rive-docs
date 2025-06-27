@@ -56,12 +56,42 @@ Only one artboard can be used at a time.
   </Tab>
 
   <Tab title="Flutter">
-    ```dart
-    RiveAnimation.network(
-        'https://cdn.rive.app/animations/vehicles.riv',
-        artboard: 'Truck'
-    );
-    ```
+  Manually create an artboard:
+
+  ```dart
+  // Default artboard
+  final artboard = riveFile.defaultArtboard();
+  // Artboard named
+  final artboard = riveFile.artboard('Truck');
+  // Artboard at index
+  final artboard = riveFile.artboardAt(0);
+  ```
+
+  Specify the artboard to use in `RiveWidgetController` or `RiveWidgetBuilder`:
+
+  ```dart
+  // Default artboard
+  final artboardSelector = ArtboardSelector.byDefault();
+  // Artboard named
+  final artboardSelector = ArtboardSelector.byName('Truck');
+  // Artboard at index
+  final artboardSelector = ArtboardSelector.byIndex(0);
+
+  // Pass to RiveWidgetController
+  final controller = RiveWidgetController(
+    riveFile,
+    artboardSelector: artboardSelector,
+  );
+
+  // Pass to RiveWidgetBuilder
+  return RiveWidgetBuilder(
+    fileLoader: fileLoader,
+    artboardSelector: ArtboardSelector.byName('Main'),
+    builder: (context, state) {
+      // return a widget
+    },
+  );  
+  ```
   </Tab>
 
   <Tab title="Apple">

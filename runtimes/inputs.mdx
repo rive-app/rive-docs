@@ -167,108 +167,40 @@ inputs.forEach(i => {
   </Tab>
 
   <Tab title="Flutter">
-    ### Inputs
 
-    State machine controllers are used to retrieve a state machine's inputs which can then be used to interact with, and drive the state of a state machine.
+  Inputs are retrieved from a `StateMachine` instance.
 
-    State machine controllers require a reference to an artboard when being instantiated. The `RiveAnimation` widget provides a callback `onInit(Artboard artboard)` that is called when the Rive file has loaded and is initialized for playback:
+  Access the state machine directly from the `RiveWidgetController`:
 
-    ```dart
-    void _onRiveInit(Artboard artboard) {}
+  ```dart
+  final riveController = RiveWidgetController(riveFile);
+  final stateMachine = riveController.stateMachine;
 
-    RiveAnimation.network(
-        'https://cdn.rive.app/animations/vehicles.riv',
-        fit: BoxFit.cover,
-        onInit: _onRiveInit,
-    );
-    ```
+  final myTrigger = stateMachine.trigger('myTrigger');
+  final myBool = stateMachine.boolean('myBool');
+  final myNumber = stateMachine.number('myNumber');
+  ```
 
-    In the `onInit` callback, you can create an instance of a `StateMachineController` and then retrieve the inputs you're interested in by their name. Specific inputs can be retrieved using `findInput()` or all inputs with the `inputs` property.
+  Interact with the inputs:
+  
+  ```dart
+  myTrigger.fire(); // Trigger input
+  myBool.value = true; // Set boolean input
+  myNumber.value = 42.0; // Set number input
+  ```
 
-    ```dart
-    SMITrigger? _bump;
+  When you're done with the inputs, dispose them:
+  ```dart
+  myTrigger.dispose();
+  myBool.dispose();
+  myNumber.dispose();
+  ```
 
-    void _onRiveInit(Artboard artboard) {
-        // Get State Machine Controller for the state machine called "bumpy"
-        final controller = StateMachineController.fromArtboard(artboard, 'bumpy');
-        artboard.addController(controller!);
-        // Get a reference to the "bump" state machine input
-        _bump = controller.getTriggerInput('bump');
-    }
-    ```
+  The State Machine is owned by the controller. When you dispose the controller, the state machine will also be disposed.
 
-    In the above snippet, the `bump` input is retrieved, which is an `SMITrigger`. This type of input has a `fire()` method to activate the trigger.
-
-    ```dart
-    class SimpleStateMachine extends StatefulWidget {
-        const SimpleStateMachine({Key? key}) : super(key: key);
-
-        @override
-        _SimpleStateMachineState createState() => _SimpleStateMachineState();
-    }
-
-    class _SimpleStateMachineState extends State<SimpleStateMachine> {
-        SMITrigger? _bump;
-
-        void _onRiveInit(Artboard artboard) {
-            final controller = StateMachineController.fromArtboard(artboard, 'bumpy');
-            artboard.addController(controller!);
-            _bump = controller.getTriggerInput('bump')!;
-        }
-
-        void _hitBump() => _bump?.fire();
-
-        @override
-        Widget build(BuildContext context) {
-            return Scaffold(
-                appBar: AppBar(
-                    title: const Text('Simple Animation'),
-                ),
-                body: Center(
-                    child: GestureDetector(
-                        child: RiveAnimation.network(
-                            'https://cdn.rive.app/animations/vehicles.riv',
-                            fit: BoxFit.cover,
-                            onInit: _onRiveInit,
-                        ),
-                        onTap: _hitBump,
-                    ),
-                ),
-            );
-        }
-    }
-    ```
-In the complete example above, every time the `RiveAnimation` is tapped, it fires the `bump` input trigger and the state machine reacts appropriately.
-
-**Note**: There are two other state machine input types to be aware of as well: `SMIBool` and `SMINumber`. These both have a `value` property that can get and set the value.
-
-```javascript
-// Example state machine input declarations
-SMIBool _boolExampleInput;
-SMINumber _numberExampleInput;
-
-...
-
-// Extracting inputs from the StateMachineController
-void _onRiveInit(Artboard artboard) {
-  final controller = StateMachineController.fromArtboard(artboard, 'example');
-  artboard.addController(controller!);
-  _boolExampleInput = controller.getBoolInput('exampleBool')!;
-  _numberExampleInput = controller.getNumberInput('exampleNum')!;
-}
-
-...
-
-// Getting/setting state machine input values
-if (_boolExampleInput.value == false) {
-  _boolExampleInput.value = true;
-}
-if (_numberExampleInput.value >= 100) {
-  _numberExampleInput.value = 0;
-}
-```
-
-
+  ```dart
+  controller.dispose(); 
+  ```
   </Tab>
 
   <Tab title="Apple">
@@ -409,26 +341,17 @@ If you load in the **Menu** artboard at runtime, and want to get/set an input on
     To set the **Volume** input for the above example:
 
     ```dart
-    // Load the Rive file
-    final file = await RiveFile.asset('assets/your_rive_file.riv');
-    // Create a Rive Artboard instance
-    final artboard = file.artboardByName('ArtboardName')!.instance();
-    // Create a state machine controller
-    final controller = StateMachineController.fromArtboard(artboard, 'StateMachineName');
-    // Add the controller to the artboard
-    artboard.addController(controller!);
-
-    ...
-
-    // Get the nested input named 'volume' from the artboard
-    final volumeInput = artboard.getNumberInput('volume', 'Volume Molecule/Volume Component')!;
+    // Get the nested input named 'volume' from the state machine
+    final controller = RiveWidgetController(riveFile);
+    final stateMachine = controller.stateMachine;
+    final volumeInput = stateMachine.number('volume', path: 'Volume Molecule/Volume Component')!;
     volumeInput.value = 80.0;
     ```
 
     **All options:**
-    - `getBoolInput(name, path)`
-    - `getTriggerInput(name, path)`
-    - `getNumberInput(name, path)`
+    - `number(name, path: 'path/to/input')`
+    - `bool(name, path: 'path/to/input')`
+    - `trigger(name, path: 'path/to/input')`
   </Tab>
 
   <Tab title="Apple">
