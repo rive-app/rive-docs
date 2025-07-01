@@ -704,8 +704,8 @@ A property is a value that can be read, set, or observed on a view model instanc
 | Enumerations           | ✅                     |
 | Colors                 | ✅                     |
 | Nesting                | ✅                     |
-| Lists                  | 🚧 Coming soon         |
-| Images                 | 🚧 Coming soon         |
+| Lists                  | ✅ Early Access        |
+| Images                 | ✅ Early Access        |
 
 Property descriptors can be inspected on a view model to discover at runtime which are available. These are not the mutable properties themselves though - once again those are on instances. These descriptors have a type and name.
 
@@ -1539,12 +1539,31 @@ Image properties let you set and replace raster images at runtime, with each ins
         imageProperty.setValue(nil)
         ```
     </Tab>
+    <Tab title="Flutter">
+        ```dart
+        // Access the image property by path on a ViewModelInstance object
+        final imageProperty = viewModelInstance.image('my_image')!; // image property named "my_image"
+        
+        // Create a RenderImage
+        final renderImage = await Factory.rive.decodeImage(bytes); // use `Factory.flutter` if you're using the Flutter renderer
+        
+        // If the image is valid, update the image property value
+        if (renderImage != null) {
+            imageProperty.value = renderImage;
+        }
+
+        // You can also set the image property to null to clear it
+        imageProperty.value = null;
+        ```
+    </Tab>    
 </Tabs>
 
 ### Lists
 
 <EarlyAccessFeature featureName="List property support"/>
 List properties let you manage a dynamic set of view model instances at runtime. For example, you can build a TODO app where users can add and remove tasks in a scrollable Layout.
+
+See the [Editor section](/editor/data-binding/lists) on creating data bound lists.
 
 A single list property can include different view model types, with each view model tied to its own Nested Artboard, making it easy to populate a list with a varity of Nested Artboards.
 
@@ -1580,6 +1599,80 @@ For more information on list properties, see the [Data Binding List Property](/e
     print(listProperty.size) // Prints 0
     ```
     </Tab>
+    <Tab title="Flutter">
+        The list API in Flutter is designed to be similar to the [List](https://api.dart.dev/dart-core/List-class.html) class in Dart. It doesn't contain the full API spec of that class, but it does provide the most commonly used methods.
+
+        <Warning>
+        Working with lists can result in errors ([`RangeError`](https://api.flutter.dev/flutter/dart-core/RangeError-class.html)) being thrown if you try to access an index that is out of bounds, or perform other list operations that are not permitted. Similar to the Dart List API.
+        </Warning>
+
+        Access a list property by path on a `ViewModelInstance` object:
+
+        ```dart Access a List property
+        final todosProperty = viewModelInstance.list('todos')!; // list property named "todos"
+        print(todosProperty.length); // print the length of the list
+        ```
+
+        To add an item you first need to create an instance of the view model that you want to add to the list:
+
+        ```dart Create a blank view model instance
+        final todoItemVM = riveFile.viewModelByName("TodoItem")!;
+        final todoItemInstance = todoItemVM.createInstance()!;
+        ```
+
+        You can also create an instance from an existing instance (as exported in the Rive Editor), using:
+        - `createDefaultInstance()`
+        - `createInstanceByName('exercise')`
+        - `createInstanceByIndex(0)`.        
+
+        Then add the instance to the list:
+
+        ```dart Add an instance to the list
+        todosProperty.add(todoItemInstance);
+        ```
+
+        To remove a particular instance from the list, you can use the `remove` method:
+
+        ```dart Remove an instance from the list
+        todosProperty.remove(todoItemInstance);
+        ```
+
+        Other operations:
+
+        ```dart List operations
+        // Remove at index
+        todosProperty.removeAt(0); // can throw
+
+        // Insert at index
+        todosProperty.insert(0, todoItemInstance); // can throw
+
+        // Swap
+        todosProperty.swap(0, 1); // can throw
+
+        // First
+        ViewModelInstance todo = todosProperty.first(); // can throw
+
+        // Last
+        ViewModelInstance todo = todosProperty.last(); // can throw
+
+        // First or null
+        ViewModelInstance? todo todosProperty.firstOrNull(); // will return null if the list is empty
+
+        // Last or null
+        ViewModelInstance? todosProperty.lastOrNull(); // will return null if the list is empty
+
+        // Access/set directly by index
+        final instance = todosProperty[0]; // can throw
+        todosProperty[0] = todoItemInstance; // can throw
+
+        // Instance at index
+        todosProperty.instanceAt(2); // can throw
+
+        // Length
+        todosProperty.length;
+        ```
+
+    </Tab>    
 </Tabs>
 
 
