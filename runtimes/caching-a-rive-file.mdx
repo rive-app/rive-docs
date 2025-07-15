@@ -11,71 +11,27 @@ Under most circumstances a `.riv` file should load quickly and managing the `Riv
 
 
     <Tab title="Flutter">
-        
-        The following is a basic example to illustrate how to preload a Rive file, and pass the data directly to the `RiveAnimation.direct()` constructor: 
+        In Flutter, you are responsible for managing the lifecycle of a Rive file. You can create a `File` object directly, or use the `FileLoader` convenience class with `RiveWidgetBuilder`. In both cases, you must call `dispose()` on the object when it's no longer needed to free up memory.
 
-        ```javascript
-        class PreloadRive extends StatefulWidget {
-        const PreloadRive({super.key});
+        <Tip>
+        To optimize memory usage, reuse the same `File` object across multiple `RiveWidget` instances if they use the same `.riv` file. This ensures the file is loaded only once and shared in memory.
+        </Tip>
 
-        @override
-        State<PreloadRive> createState() => _PreloadRiveState();
-        }
-
-        class _PreloadRiveState extends State<PreloadRive> {
-        RiveFile? _file; // You can maintain this reference to have a cached version
-
-        @override
-        void initState() {
-            super.initState();
-            preload();
-        }
-
-        Future<void> preload() async {
-            rootBundle.load('assets/little_machine.riv').then(
-            (data) async {
-                // Load the RiveFile from the binary data.
-                setState(() {
-                _file = RiveFile.import(data);
-                });
-            },
-            );
-        }
-
-        @override
-        Widget build(BuildContext context) {
-            return (_file == null)
-                ? const SizedBox.shrink()
-                : RiveAnimation.direct(_file!);
-        }
-        }
-        ```
-
-        ### Other Considerations
+        <Warning>
+        After a `File` is disposed, it cannot be used again. To use the same `.riv` file, create a new `File` object.
+        </Warning>
 
         #### Managing State 
 
-        How the `RiveFile` is kept alive in state and shared to other widgets is up to you and your preferred state management solution. One approach can be to wait for the Rive file to load in `main`, or during the startup screen, and using the [Provider](https://pub.dev/packages/provider) package to expose the data to the whole application.
-
-        Or if the animation is only needed in a nested section of your application, then it might be preferable to delay loading the animation until necessary.
+        How you keep the Rive `File` alive and share it with widgets depends on your state management approach. For global access, load the file in `main` or during app startup, and expose it using a package like [Provider](https://pub.dev/packages/provider). If the file is only needed in a specific part of your app, consider loading the file only when required.
 
         #### Memory
 
-        By managing the RiveFile yourself you can have finer control over the memory used in your application. This will be especially beneficial if the same Rive file is being used in multiple parts of your application, or used simultaneously in multiple `RiveAnimation` widgets.
-
-        You can make use of Flutter DevTools’ [memory tooling](https://docs.flutter.dev/tools/devtools/memory#memory-view-guide) for additional investigation if needed or desired.
+        Managing the file yourself gives you fine-grained control over memory usage, especially when the same Rive file is used in multiple places or simultaneously in several widgets. Use [Flutter DevTools memory tooling](https://docs.flutter.dev/tools/devtools/memory#memory-view-guide) to monitor and optimize memory if needed.
 
         #### Network Assets 
 
-        The easiest way to load a Rive animation over the Internet is by using `RiveAnimation.network(url)`. However, similar considerations apply to a network asset regarding memory and sharing a Rive file across multiple widgets/pages.
-
-        The following can be used to load a Rive file over the network :
-
-        ```javascript
-        final riveFile = await RiveFile.network('YOUR:URL');
-        ```
-
-        The reference can then be kept alive in memory and the `riveFile` can be passed to `RiveAnimation.direct`.
+        To load a Rive file from the Internet, use `File.url('YOUR:URL')`. For network assets, cache the file in memory to avoid repeated downloads and unnecessary decoding of the file.
     </Tab>
 
     <Tab title="React">

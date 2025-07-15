@@ -218,155 +218,63 @@ See below for documentation on how to handle loading in assets at runtime for yo
 
         ### Using the Asset Handler API
 
-        When instantiating a `RiveFile`, add an `assetLoader` callback property to the list of parameters. This callback will be called for every asset the runtime detects from the `.riv` file on load, and will be responsible for either handling the load of an asset at runtime or passing on the responsibility and giving the runtime a chance to load it otherwise.
+        When instantiating a `File`, add an `assetLoader` callback to the list of parameters. This callback will be called for every asset the runtime detects from the `.riv` file on load, and will be responsible for either handling the load of an asset at runtime or passing on the responsibility and giving the runtime a chance to load it otherwise.
 
-        An instance where you may want to handle loading an asset is if an asset in the file is marked as **Referenced**, and you need to provide an actual asset to render for the graphic, as Rive does not embed it in the `.riv` and thus cannot load it.
+        ```dart Font Asset Example
+        final fontFile = await File.asset(
+            'assets/acqua_text_out_of_band.riv',
+            riveFactory: Factory.rive,
+            assetLoader: (asset, bytes) {
+                // Replace font assets that are not embedded in the rive file
+                if (asset is FontAsset && bytes == null) {
+                    final urls = [
+                        'https://cdn.rive.app/runtime/flutter/IndieFlower-Regular.ttf',
+                        'https://cdn.rive.app/runtime/flutter/comic-neue.ttf',
+                        'https://cdn.rive.app/runtime/flutter/inter.ttf',
+                        'https://cdn.rive.app/runtime/flutter/inter-tight.ttf',
+                        'https://cdn.rive.app/runtime/flutter/josefin-sans.ttf',
+                        'https://cdn.rive.app/runtime/flutter/send-flowers.ttf',
+                    ];
 
-        An instance where you may want to give the runtime a chance to load the asset is if the asset in the file is marked as **Hosted**, and want to pass the responsibility of loading it to the runtime (which will call into a Rive CDN to do so).
-
-        ```dart
-        final riveAsset = await RiveFile.asset(
-            'assets/acqua_text.riv',
-            assetLoader: CallbackAssetLoader(
-                (asset, bytes) async {
-                if (asset is FontAsset) {
-                    asset.font = _fontCache[Random().nextInt(_fontCache.length)];
-                    _fontAssets.add(asset);
-                    return true;
+                    // pick a random url from the list of fonts
+                    http.get(Uri.parse(urls[Random().nextInt(urls.length)])).then((res) {
+                        if (mounted) {
+                            asset.decode(
+                                Uint8List.view(res.bodyBytes.buffer),
+                            );
+                            setState(() {
+                                // force rebuild in case the Rive graphic is no longer advancing
+                            });
+                        }
+                    });
+                    return true; // Tell the runtime not to load the asset automatically
+                } else {
+                    // Tell the runtime to proceed with loading the asset if it exists
+                    return false;
                 }
-                return false;
-                },
-            ),
-            );
+            },
+        );
         ```
 
         Your provided callback will be passed an `asset` and `bytes`.
 
         - `asset` - Reference to a `FileAsset` object. You can grab a number of properties from this object, such as the name, asset type, and more. You'll also use this to set a new Rive specific asset for dynamically loaded content. Types: `FontAsset`, `ImageAsset`, and `AudioAsset`.
-        - `bytes` - Array of bytes for the asset (if possible, such as if it's an embedded asset)
-
-        **Important**: Note that the return value is a `boolean`, which is where you need to return `true` if you intend on handling and loading in an asset yourself, or `false` if you do not want to handle asset loading for that given asset yourself, and attempt to have the runtime try to load the asset.
+        - `bytes` - Array of bytes for the asset (if it's available as an embedded asset)
 
         **Example Usage**
+        - See the Rive Flutter example app that shows how to pre-cache fonts and images, and dynamically swap them out at runtime.
 
-        Load and cache a collection of fonts. Here we demonstrate loading from Rive's CDN, but you can load these font files any way you desire.
+        <Info>
+        **Important**: Note that the return value is a `boolean`, which is where you need to return:
+        -  `true` if you intend on handling and loading in an asset yourself
+        - or `false` if you do not want to handle asset loading for that given asset yourself, and attempt to have the runtime try to load the asset
+        </Info>
 
-        ```dart
-        // Load a random font asset by using a decodeFont API to feed to a
-        // setFont API on the asset provided in assetLoader
-        /// Create a local cache of random fonts
-        Future<void> _warmUpCache() async {
-            final futures = <Future>[];
+        <Warning>
+        Once the `File` is disposed, the `FileAsset` will no longer be valid and would be dangerous to use.
+        </Warning>
 
-            loadFont(url) async {
-            final res = await http.get(Uri.parse(url));
-            final body = Uint8List.view(res.bodyBytes.buffer);
-            final font = await FontAsset.parseBytes(body);
-
-            if (font != null) {
-                _fontCache.add(font);
-            }
-            }
-
-            for (var url in [
-            'https://cdn.rive.app/runtime/flutter/IndieFlower-Regular.ttf',
-            'https://cdn.rive.app/runtime/flutter/comic-neue.ttf',
-            'https://cdn.rive.app/runtime/flutter/inter.ttf',
-            'https://cdn.rive.app/runtime/flutter/inter-tight.ttf',
-            'https://cdn.rive.app/runtime/flutter/josefin-sans.ttf',
-            'https://cdn.rive.app/runtime/flutter/send-flowers.ttf',
-            ]) {
-            futures.add(loadFont(url));
-            }
-
-            await Future.wait(futures);
-        }
-        ```
-
-        Swap out the font dynamically:
-
-        ```dart
-        class RiveRandomCachedFont extends StatefulWidget {
-        const RiveRandomCachedFont({
-            Key? key,
-            required this.fontCache,
-        }) : super(key: key);
-
-        final List fontCache;
-
-        @override
-        State<_RiveRandomCachedFont> createState() => RiveRandomCachedFontState();
-        }
-
-        class RiveRandomCachedFontState extends State<RiveRandomCachedFont> {
-        List get _fontCache => widget.fontCache;
-
-        @override
-        void initState() {
-            super.initState();
-            _loadRiveFile();
-        }
-
-        RiveFile? _riveFontSampleFile;
-        final List<FontAsset?> _fontAssets = [];
-
-        Future<void> _loadRiveFile() async {
-
-            final riveAsset = await RiveFile.asset(
-            'assets/acua_text.riv',
-            // Provide an asset loader and manage the font assets manually.
-            assetLoader: CallbackAssetLoader(
-                (asset, bytes) async {
-                if (asset is FontAsset) {
-                    asset.font = _fontCache[Random().nextInt(_fontCache.length)];
-                    _fontAssets.add(asset);
-                    return true;
-                }
-                return false;
-                },
-            ),
-            );
-
-            setState(() {
-            // Keep a reference to the font asset, to swap out the font at any point.
-            _riveFontSampleFile = riveAsset;
-            });
-        }
-
-        @override
-        Widget build(BuildContext context) {
-            if (_riveFontSampleFile == null) {
-            return const Center(child: CircularProgressIndicator());
-            }
-
-            return Column(
-            children: [
-                Expanded(
-                child: RiveAnimation.direct(
-                    _riveFontSampleFile!, // Pass in the Rive file
-                    stateMachines: const ['State Machine 1'],
-                    fit: BoxFit.cover,
-                ),
-                ),
-                Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                    onPressed: () {
-                    for (var element in _fontAssets) {
-                        element?.font = _fontCache[Random().nextInt(_fontCache.length)];
-                    }
-                    },
-                    child: const Text('Random font asset'),
-                ),
-                ),
-            ],
-            );
-        }
-        }
-        ```
     </Tab>
-
-
     <Tab title="Apple">
 
         ### Examples

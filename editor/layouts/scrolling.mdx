@@ -60,6 +60,22 @@ Once you have applied your desired properties, switch to animate mode and start 
 
 ---
 
+## List Scrolling
+
+In order to scroll Lists, use the same setup as described above in Content Scrolling, but rather than adding multiple Scroll items to the Scroll content layout, you can add a single List. See [Databinding Lists](/editor/data-binding/lists) for more information.
+
+There are some additional properties that apply when scrolling Lists. These will only be enabled once a List has been added to the Scroll content.
+
+#### Virtualize
+
+When enabled, the List will only generate Artboard components for the items currently in the Content view area. This improves performance when scrolling lists containing a large number of items. Note that virtualization can only be applied in one direction (either vertical or horizontal, not both).
+
+#### Carousel
+
+When enabled, the List will scroll endlessly in either direction. In order to use Carousel mode, Virtualize must be enabled.
+
+---
+
 ## Creating a Scroll Bar
 
 To create a content bar, set up a hierarchy that includes:
