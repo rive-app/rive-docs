@@ -117,7 +117,25 @@ For more Editor information and how to configure your graphic see [Layouts Overv
   </Tab>
 
   <Tab title="Flutter">
-    Coming soon! This feature depends on an upcoming new Rive Flutter runtime—stay tuned for updates.
+    Pass the `Fit.layout` to the `RiveWidget` widget. This will automatically scale and resize the artboard to match the widget size.
+    You can also set the `layoutScaleFactor` to control the scale of the artboard. This is useful for adjusting the size of the artboard when using `Fit.layout`.
+
+    ```dart
+    return RiveWidget(
+      controller: controller,
+      fit: Fit.layout,
+      layoutScaleFactor: 2.0, // Optional: 2x scale of the layout,
+    );
+    ```
+    
+
+    Alternatively, you can also set the `fit` and `layoutScaleFactor` properties directly on any `RivePainter`, such as the `RiveWidgetController`:
+
+    ```dart
+    final controller = RiveWidgetController(riveFile);
+    controller.fit = Fit.layout;
+    controller.layoutScaleFactor = 2.0; // Optional: 2x scale of the layout
+    ```
   </Tab>
 
   <Tab title="Apple">
@@ -291,26 +309,23 @@ If the graphic doesn’t use Rive’s Layout feature, you can configure the layo
   </Tab>
 
     <Tab title="Flutter">
-    <Warning>
-     The current Rive Flutter runtime does not support `Fit.Layout`. The next major release will support this which will be a breaking change.
-    </Warning>
-    The fit and alignment options behave like their counterparts in Flutter (see `BoxFit` and `Size` as examples).
-
-    Bounds options are absent; Flutter's layout engine and options are the preferred way to handle positioning Rive content.
+    Pass the `Fit` and `Alignment` to the `RiveWidget` widget.
 
     ```dart
-    // Fill the canvas, cropping Rive if necessary
-    var widget = const RiveAnimation.network(
-      'https://cdn.rive.app/animations/vehicles.riv',
-      fit: BoxFit.cover,
+    return RiveWidget(
+      controller: controller,
+      fit: Fit.contain,
+      alignment: Alignment.center,
     );
+    ```
+    
 
-    // Fit to the width and align to the top of the canvas
-    widget = const RiveAnimation.network(
-      'https://cdn.rive.app/animations/vehicles.riv',
-      fit: BoxFit.fitWidth,
-      alignment: Alignment.topCenter,
-    );
+    Alternatively, you can also the set `fit` and `alignment` properties directly on any `RivePainter`, such as the `RiveWidgetController`:
+
+    ```dart
+    final controller = RiveWidgetController(riveFile);
+    controller.fit = Fit.contain;
+    controller.alignment = Alignment.center;
     ```
   </Tab>
 
