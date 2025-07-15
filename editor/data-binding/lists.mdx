@@ -3,12 +3,6 @@ title: 'Lists'
 description: 'Use Data Binding to generate lists at runtime'
 ---
 
-import { EarlyAccessFeature } from '/snippets/early-access-feature.mdx'
-
-<EarlyAccessFeature featureName="Data Binding Lists">
-  Further performance enhancements as well as Runtime APIs will be available when released to the general public.
-</EarlyAccessFeature>
-
 A List is a way to display a set of items that are dynamically generated based on bound data values that you set up in your View Models. This allows you to build Rive files that can change in real time based on updates to those values. You can use Lists to create:
 
 - Menus with a dynamic amount of options
@@ -72,7 +66,7 @@ After adding your List items, go back to the Hierarchy tab, select the Artboard 
 
 Run the state machine and you should see your list items. Remember that the layout will be determined by the Artboard List's parent, so modify the parent's settings in order to tweak your List's layout
 
-<Warning>Rive's runtimes will provide APIs to modify the List and List items at runtime (for example, adding or removing items), however this is not yet available in Early Access.</Warning>
+<Note>Rive's runtimes provide [APIs to modify the List and List items at runtime](/runtimes/data-binding#lists) (for example, adding or removing items).</Note>
 
 ## View Model Number with Converter
 
@@ -125,3 +119,5 @@ This property can then be bound to an object's properties and used directly (for
 If you add your Artboard List as a child of a Layout, your List items will behave as children of its parent's Layout. This means things like direction, wrapping, padding, gap, alignment, etc. are all dictated by the parent Layout's properties.
 
 In addition, if you have applied a [Scroll Constraint](/editor/layouts/scrolling) to the parent Layout, the List items will have the ability to scroll out of the box without any additional setup.
+
+There are additional Scroll properties that can be applied when scrolling Lists. See [List Scrolling](/editor/layouts/scrolling#list-scrolling) for more details.
