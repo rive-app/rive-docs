@@ -1552,6 +1552,57 @@ Image properties let you set and replace raster images at runtime, with each ins
         });        
         ```
     </Tab>
+        <Tab title="React">
+        Use the `useViewModelInstanceImage` hook to set image properties on view model instances.
+
+        ```typescript
+        import { useRive, useViewModel, useViewModelInstance, useViewModelInstanceImage } from '@rive-app/react-webgl2';
+
+        const { rive, RiveComponent } = useRive({
+            src: 'your_file.riv',
+            artboard: 'MyArtboard',
+            stateMachine: 'MyStateMachine',
+            autoBind: false,
+            // ... other options
+        });
+
+        const viewModel = useViewModel(rive, { name: 'MyViewModel' });
+        const viewModelInstance = useViewModelInstance(viewModel, { rive });
+
+        // Get the image property setter
+        const { setValue: setImage } = useViewModelInstanceImage(
+            'profileImage', // Property path
+            viewModelInstance
+        );
+
+        // Load and set a random image
+        const loadRandomImage = async () => {
+            if (!setImage) return;
+
+            try {
+                const imageUrl = 'https://picsum.photos/300/500';
+                const response = await fetch(imageUrl);
+                const imageBuffer = await response.arrayBuffer();
+                
+                // Decode the image from the response
+                const decodedImage = await decodeImage(new Uint8Array(imageBuffer));
+                setImage(decodedImage);
+                
+                // Clean up the decoded image
+                decodedImage.unref();
+            } catch (error) {
+                console.error('Failed to load image:', error);
+            }
+        };
+
+        // Clear the image
+        const clearImage = () => {
+            if (setImage) {
+                setImage(null);
+            }
+        };
+        ```
+    </Tab>
     <Tab title="Apple">
         ```swift
         // Create a RiveImageAsset from data
@@ -1587,11 +1638,6 @@ Image properties let you set and replace raster images at runtime, with each ins
         imageProperty.value = null;
         ```
     </Tab>
-    <Tab title="React Native">
-        <Warning>
-        The image data binding API in React Native is not yet available, and will likely only be supported in an upcoming rewrite of the package.
-        </Warning>
-    </Tab>
     <Tab title="Unity">
         ```csharp
         [SerializeField] private ImageOutOfBandAsset m_lightImageAsset;
@@ -1602,8 +1648,6 @@ Image properties let you set and replace raster images at runtime, with each ins
 
         private void OnEnable()
         {
-            m_lightImageAsset.Load();
-            m_darkImageAsset.Load();
             riveWidget.OnWidgetStatusChanged += HandleWidgetStatusChanged;
         }
 
@@ -1616,6 +1660,8 @@ Image properties let you set and replace raster images at runtime, with each ins
         {
             if (riveWidget.Status == WidgetStatus.Loaded)
             {
+                m_lightImageAsset.Load();
+                m_darkImageAsset.Load();
                 ViewModelInstance viewModelInstance = riveWidget.StateMachine.ViewModelInstance;
 
                 // Get the image property by name
@@ -1659,13 +1705,19 @@ Image properties let you set and replace raster images at runtime, with each ins
         {
             m_lightImageAsset.Unload();
             m_darkImageAsset.Unload();
-            // Remove the event listener when the object is destroyed
+            
+            // Remove the event listener
             if (imageProperty != null)
             {
                 imageProperty.OnValueChanged -= OnImageChanged;
             }
         }
         ```
+    </Tab>
+    <Tab title="React Native">
+        <Warning>
+        The image data binding API in React Native is not yet available, and will likely only be supported in an upcoming rewrite of the package.
+        </Warning>
     </Tab>     
 </Tabs>
 
@@ -1719,6 +1771,83 @@ For more information on list properties, see the [Data Binding List Property](/e
                 list.removeInstanceAt(0);
             }
         });
+        ```
+    </Tab>
+        <Tab title="React">
+        Use the `useViewModelInstanceList` hook to manage list properties on view model instances.
+
+        ```typescript
+        import { useRive, useViewModel, useViewModelInstance, useViewModelInstanceList } from '@rive-app/react-webgl2';
+
+        const { rive, RiveComponent } = useRive({
+            src: 'your_file.riv',
+            artboard: 'MyArtboard',
+            stateMachine: 'MyStateMachine',
+            autoBind: false,
+            // ... other options
+        });
+
+        const viewModel = useViewModel(rive, { name: 'MyViewModel' });
+        const viewModelInstance = useViewModelInstance(viewModel, { rive });
+
+        // Get the list property with manipulation functions
+        const {
+            length,
+            addInstance,
+            addInstanceAt,
+            removeInstance,
+            removeInstanceAt,
+            getInstanceAt,
+            swap
+        } = useViewModelInstanceList('todos', viewModelInstance);
+
+        // Add a new todo item
+        const handleAddItem = () => {
+            const todoItemViewModel = rive?.viewModelByName?.('TodoItem');
+            if (todoItemViewModel) {
+                const newTodoItem = todoItemViewModel.instance?.();
+                if (newTodoItem) {
+                    // Set some initial values
+                    newTodoItem.string('description').value = 'Buy groceries';
+                    addInstance(newTodoItem);
+                }
+            }
+        };
+
+        // Insert item at specific index
+        const handleInsertItem = () => {
+            const todoItemViewModel = rive?.viewModelByName?.('TodoItem');
+            if (todoItemViewModel) {
+                const newTodoItem = todoItemViewModel.instance?.();
+                if (newTodoItem) {
+                    addInstanceAt(newTodoItem, 0); // Insert at beginning
+                }
+            }
+        };
+
+        // Remove first item by instance
+        const handleRemoveFirst = () => {
+            const firstInstance = getInstanceAt(0);
+            if (firstInstance) {
+                removeInstance(firstInstance);
+            }
+        };
+
+        // Remove item by index
+        const handleRemoveAt = () => {
+            if (length > 0) {
+                removeInstanceAt(0);
+            }
+        };
+
+        // Swap two items
+        const handleSwap = () => {
+            if (length >= 2) {
+                swap(0, 1);
+            }
+        };
+
+        console.log(`List has ${length} items`);
         ```
     </Tab>
     <Tab title="Apple">
@@ -1916,6 +2045,55 @@ Artboard properties allows you to swap out entire nested artboards (components) 
     Supported. Documentation coming soon.
     </Info>
     </Tab> 
+        <Tab title="React">
+        Use the `useViewModelInstanceArtboard` hook to set artboard properties on view model instances.
+
+        ```typescript
+        import { useRive, useViewModel, useViewModelInstance, useViewModelInstanceArtboard } from '@rive-app/react-webgl2';
+
+        const { rive, RiveComponent } = useRive({
+            src: 'your_file.riv',
+            artboard: 'MyArtboard',
+            stateMachine: 'MyStateMachine',
+            autoBind: true,
+            // ... other options
+        });
+
+        // Get artboard property setters
+        const { setValue: setArtboard1 } = useViewModelInstanceArtboard(
+            'artboard_1', // Property path
+            rive?.viewModelInstance
+        );
+
+        const { setValue: setArtboard2 } = useViewModelInstanceArtboard(
+            'artboard_2', // Property path
+            rive?.viewModelInstance
+        );
+
+        // Assign different artboards from the same file
+        const handleSetBlueArtboard = () => {
+            if (rive) {
+                const blueArtboard = rive.getArtboard('ArtboardBlue');
+                setArtboard1(blueArtboard);
+            }
+        };
+
+        const handleSetRedArtboard = () => {
+            if (rive) {
+                const redArtboard = rive.getArtboard('ArtboardRed');
+                setArtboard2(redArtboard);
+            }
+        };
+
+        const handleSetGreenArtboard = () => {
+            if (rive) {
+                const greenArtboard = rive.getArtboard('ArtboardGreen');
+                setArtboard1(greenArtboard);
+            }
+        };
+
+        ```
+    </Tab>
     <Tab title="Flutter">
     <Info>
     Supported. Documentation coming soon.
