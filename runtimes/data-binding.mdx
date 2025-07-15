@@ -4,7 +4,6 @@ description: 'Connect your code to bound editor elements using View Models'
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
-import { EarlyAccessFeature } from '/snippets/early-access-feature.mdx'
 
 export const DataBindingReact = () => {
   return (
@@ -1516,11 +1515,43 @@ You can observe changes over time to property values, either by using listeners 
 
 ### Images
 
-<EarlyAccessFeature featureName="Image property support"/>
-
 Image properties let you set and replace raster images at runtime, with each instance of the image managed independently. For example, you could build an avatar creator and dynamically update features — like swapping out a hat — by setting a view model's image property.
 
 <Tabs>
+    <Tab title="Web">
+        ```js
+        const randomImageAsset = (imageProperty) => {
+            fetch("https://picsum.photos/300/500").then(async (res) => {
+                // Decode the image from the response. This object is used to set the image property.
+                const image = await rive.decodeImage(
+                    new Uint8Array(await res.arrayBuffer())
+                );
+                imageProperty.value = image;
+                // Rive will automatically clean this up. But it's good practice to dispose this manually
+                // after you have already set the decoded image. Don't call `unref` if you intend
+                // to use the decoded asset again.
+                image.unref();
+            });
+        };
+
+        const rive = new rive.Rive({
+            autoBind: true,
+            onLoad: () => {
+                // Access the current instance that was auto-bound
+                let vmi = rive.viewModelInstance;
+
+                // Get the image property by name
+                var imageProperty = vmi.image("bound_image");
+
+                // Load random image
+                randomImageAsset(imageProperty);
+
+                // Clear the image to render nothing
+                imageProperty.value = null;
+            }
+        });        
+        ```
+    </Tab>
     <Tab title="Apple">
         ```swift
         // Create a RiveImageAsset from data
@@ -1555,12 +1586,16 @@ Image properties let you set and replace raster images at runtime, with each ins
         // You can also set the image property to null to clear it
         imageProperty.value = null;
         ```
+    </Tab>
+    <Tab title="React Native">
+        <Warning>
+        The image data binding API in React Native is not yet available, and will likely only be supported in an upcoming rewrite of the package.
+        </Warning>
     </Tab>    
 </Tabs>
 
 ### Lists
 
-<EarlyAccessFeature featureName="List property support"/>
 List properties let you manage a dynamic set of view model instances at runtime. For example, you can build a TODO app where users can add and remove tasks in a scrollable Layout.
 
 See the [Editor section](/editor/data-binding/lists) on creating data bound lists.
@@ -1576,6 +1611,41 @@ With list properties, you can:
 For more information on list properties, see the [Data Binding List Property](/editor/data-binding/lists#view-model-list-property) editor documentation.
 
 <Tabs>
+    <Tab title="Web">
+        ```javascript
+        const rive = new rive.Rive({
+            autoBind: true,
+            onLoad: () => {
+                // Access the current instance that was auto-bound
+                let vmi = rive.viewModelInstance;
+
+                // Get the list property by name
+                var list = vmi.list("todos");
+                console.log("length: ", list.length);
+
+                // Get the view model
+                var todoItemVM = riveInstance.viewModelByName("TodoItem");
+
+                // Create a blank instance from the view model.
+                // Do this for each new item you want to add.
+                var myTodo = todoItemVM.instance();
+                myTodo.string("description").value = "Buy groceries";
+
+                // Add the newly created instance to the list
+                list.addInstance(myTodo);
+
+                // Remove a specific instance from the list
+                list.removeInstance(myTodo);
+
+                // Swap two instances in the list at index 0 and 1
+                list.swap(0, 1);
+
+                // Remove instance at index 0
+                list.removeInstanceAt(0);
+            }
+        });
+        ```
+    </Tab>
     <Tab title="Apple">
     ```swift
     let listProperty = viewModelInstance.listProperty(fromPath: "list")!
@@ -1671,10 +1741,38 @@ For more information on list properties, see the [Data Binding List Property](/e
         // Length
         todosProperty.length;
         ```
-
-    </Tab>    
+    </Tab> 
+    <Tab title="React Native">
+        <Warning>
+        The lists data binding API in React Native is not yet available, and will likely only be supported in an upcoming rewrite of the package.
+        </Warning>
+    </Tab>       
 </Tabs>
 
+### Artboards
+
+Artboard properties allows you to swap out entire nested artboards (components) at runtime. This is useful for creating modular components that can be reused across different designs or applications, for example:
+- Creating a skinning system that supports a large number of variations, such as a character creator where you can swap out different body parts, clothing, and accessories.
+- Creating a complex scene that is a composition of various artboards loaded from various different Rive files (drawn to a single canvas/texture/widget).
+- Reducing the size (complexity) of a single Rive file by breaking it up into smaller components that can be loaded on demand and swapped in and out as needed.
+
+<Tabs>
+    <Tab title="Web">
+    <Info>
+    Supported. Documentation coming soon.
+    </Info>
+    </Tab> 
+    <Tab title="Flutter">
+    <Info>
+    Supported. Documentation coming soon.
+    </Info>
+    </Tab> 
+    <Tab title="React Native">
+        <Warning>
+        The artboards data binding API in React Native is not yet available, and will likely only be supported in an upcoming rewrite of the package.
+        </Warning>
+    </Tab>       
+</Tabs>
 
 ### Enums
 
