@@ -1552,6 +1552,57 @@ Image properties let you set and replace raster images at runtime, with each ins
         });        
         ```
     </Tab>
+        <Tab title="React">
+        Use the `useViewModelInstanceImage` hook to set image properties on view model instances.
+
+        ```typescript
+        import { useRive, useViewModel, useViewModelInstance, useViewModelInstanceImage } from '@rive-app/react-webgl2';
+
+        const { rive, RiveComponent } = useRive({
+            src: 'your_file.riv',
+            artboard: 'MyArtboard',
+            stateMachine: 'MyStateMachine',
+            autoBind: false,
+            // ... other options
+        });
+
+        const viewModel = useViewModel(rive, { name: 'MyViewModel' });
+        const viewModelInstance = useViewModelInstance(viewModel, { rive });
+
+        // Get the image property setter
+        const { setValue: setImage } = useViewModelInstanceImage(
+            'profileImage', // Property path
+            viewModelInstance
+        );
+
+        // Load and set a random image
+        const loadRandomImage = async () => {
+            if (!setImage) return;
+
+            try {
+                const imageUrl = 'https://picsum.photos/300/500';
+                const response = await fetch(imageUrl);
+                const imageBuffer = await response.arrayBuffer();
+                
+                // Decode the image from the response
+                const decodedImage = await decodeImage(new Uint8Array(imageBuffer));
+                setImage(decodedImage);
+                
+                // Clean up the decoded image
+                decodedImage.unref();
+            } catch (error) {
+                console.error('Failed to load image:', error);
+            }
+        };
+
+        // Clear the image
+        const clearImage = () => {
+            if (setImage) {
+                setImage(null);
+            }
+        };
+        ```
+    </Tab>
     <Tab title="Apple">
         ```swift
         // Create a RiveImageAsset from data
@@ -1587,11 +1638,87 @@ Image properties let you set and replace raster images at runtime, with each ins
         imageProperty.value = null;
         ```
     </Tab>
+    <Tab title="Unity">
+        ```csharp
+        [SerializeField] private ImageOutOfBandAsset m_lightImageAsset;
+        [SerializeField] private ImageOutOfBandAsset m_darkImageAsset;
+        
+        private ViewModelInstanceImageProperty imageProperty;
+        private bool isDarkMode = false;
+
+        private void OnEnable()
+        {
+            riveWidget.OnWidgetStatusChanged += HandleWidgetStatusChanged;
+        }
+
+        private void OnDisable()
+        {
+            riveWidget.OnWidgetStatusChanged -= HandleWidgetStatusChanged;
+        }
+
+        private void HandleWidgetStatusChanged()
+        {
+            if (riveWidget.Status == WidgetStatus.Loaded)
+            {
+                m_lightImageAsset.Load();
+                m_darkImageAsset.Load();
+                ViewModelInstance viewModelInstance = riveWidget.StateMachine.ViewModelInstance;
+
+                // Get the image property by name
+                imageProperty = viewModelInstance.GetImageProperty("profileImage");
+                // or alternatively:
+                // imageProperty = viewModelInstance.GetProperty<ViewModelInstanceImageProperty>("profileImage");
+
+                // Set up change callback
+                imageProperty.OnValueChanged += OnImageChanged;
+
+                // Set initial image (light mode)
+                imageProperty.SetImage(m_lightImageAsset);
+            }
+        }
+
+        private void OnImageChanged(ImageOutOfBandAsset newImage)
+        {
+            Debug.Log("Image updated!");
+        }
+
+        // Example method to toggle between light and dark mode images
+        public void ToggleTheme()
+        {
+            if (imageProperty != null)
+            {
+                isDarkMode = !isDarkMode;
+                imageProperty.SetImage(isDarkMode ? m_darkImageAsset : m_lightImageAsset);
+            }
+        }
+
+        // Example method to clear the image
+        public void ClearImage()
+        {
+            if (imageProperty != null)
+            {
+                imageProperty.SetImage(null);
+            }
+        }
+
+        private void OnDestroy()
+        {
+            m_lightImageAsset.Unload();
+            m_darkImageAsset.Unload();
+            
+            // Remove the event listener
+            if (imageProperty != null)
+            {
+                imageProperty.OnValueChanged -= OnImageChanged;
+            }
+        }
+        ```
+    </Tab>
     <Tab title="React Native">
         <Warning>
         The image data binding API in React Native is not yet available, and will likely only be supported in an upcoming rewrite of the package.
         </Warning>
-    </Tab>    
+    </Tab>     
 </Tabs>
 
 ### Lists
@@ -1644,6 +1771,83 @@ For more information on list properties, see the [Data Binding List Property](/e
                 list.removeInstanceAt(0);
             }
         });
+        ```
+    </Tab>
+        <Tab title="React">
+        Use the `useViewModelInstanceList` hook to manage list properties on view model instances.
+
+        ```typescript
+        import { useRive, useViewModel, useViewModelInstance, useViewModelInstanceList } from '@rive-app/react-webgl2';
+
+        const { rive, RiveComponent } = useRive({
+            src: 'your_file.riv',
+            artboard: 'MyArtboard',
+            stateMachine: 'MyStateMachine',
+            autoBind: false,
+            // ... other options
+        });
+
+        const viewModel = useViewModel(rive, { name: 'MyViewModel' });
+        const viewModelInstance = useViewModelInstance(viewModel, { rive });
+
+        // Get the list property with manipulation functions
+        const {
+            length,
+            addInstance,
+            addInstanceAt,
+            removeInstance,
+            removeInstanceAt,
+            getInstanceAt,
+            swap
+        } = useViewModelInstanceList('todos', viewModelInstance);
+
+        // Add a new todo item
+        const handleAddItem = () => {
+            const todoItemViewModel = rive?.viewModelByName?.('TodoItem');
+            if (todoItemViewModel) {
+                const newTodoItem = todoItemViewModel.instance?.();
+                if (newTodoItem) {
+                    // Set some initial values
+                    newTodoItem.string('description').value = 'Buy groceries';
+                    addInstance(newTodoItem);
+                }
+            }
+        };
+
+        // Insert item at specific index
+        const handleInsertItem = () => {
+            const todoItemViewModel = rive?.viewModelByName?.('TodoItem');
+            if (todoItemViewModel) {
+                const newTodoItem = todoItemViewModel.instance?.();
+                if (newTodoItem) {
+                    addInstanceAt(newTodoItem, 0); // Insert at beginning
+                }
+            }
+        };
+
+        // Remove first item by instance
+        const handleRemoveFirst = () => {
+            const firstInstance = getInstanceAt(0);
+            if (firstInstance) {
+                removeInstance(firstInstance);
+            }
+        };
+
+        // Remove item by index
+        const handleRemoveAt = () => {
+            if (length > 0) {
+                removeInstanceAt(0);
+            }
+        };
+
+        // Swap two items
+        const handleSwap = () => {
+            if (length >= 2) {
+                swap(0, 1);
+            }
+        };
+
+        console.log(`List has ${length} items`);
         ```
     </Tab>
     <Tab title="Apple">
@@ -1741,7 +1945,86 @@ For more information on list properties, see the [Data Binding List Property](/e
         // Length
         todosProperty.length;
         ```
-    </Tab> 
+    </Tab>
+    <Tab title="Unity">
+        ```csharp
+        private ViewModelInstanceListProperty listProperty;
+
+        private void OnEnable()
+        {
+            riveWidget.OnWidgetStatusChanged += HandleWidgetStatusChanged;
+        }
+
+        private void OnDisable()
+        {
+            riveWidget.OnWidgetStatusChanged -= HandleWidgetStatusChanged;
+        }
+
+        private void HandleWidgetStatusChanged()
+        {
+            if (riveWidget.Status == WidgetStatus.Loaded)
+            {
+                ViewModelInstance viewModelInstance = riveWidget.StateMachine.ViewModelInstance;
+
+                // Get the list property by name
+                listProperty = viewModelInstance.GetListProperty("todos");
+                // or alternatively:
+                // var listProperty = viewModelInstance.GetProperty<ViewModelInstanceListProperty>("todos");
+
+                Debug.Log($"List count: {listProperty.Count}");
+
+                // Set up change callback
+                listProperty.OnChanged += OnListChanged;
+
+                // Get the view model for creating new instances
+                var todoItemVM = riveWidget.File.GetViewModelByName("TodoItem");
+
+                // Create a blank instance from the view model
+                var newTodo = todoItemVM.CreateInstance();
+                newTodo.GetStringProperty("description").Value = "Buy groceries";
+
+                // Add the newly created instance to the list
+                listProperty.Add(newTodo);
+
+                // Insert an instance at a specific index
+                var anotherTodo = todoItemVM.CreateInstance();
+                listProperty.Insert(anotherTodo, 0); // Insert at beginning
+
+                // Access items by index
+                for (int i = 0; i < listProperty.Count; i++)
+                {
+                    var item = listProperty.GetInstanceAt(i);
+                    Debug.Log($"Item {i}: {item}");
+                }
+
+                // Remove a specific instance from the list
+                listProperty.Remove(newTodo);
+
+                // Remove instance at index
+                listProperty.RemoveAt(0);
+
+                // Swap two instances in the list at index 0 and 1
+                if (listProperty.Count > 1)
+                {
+                    listProperty.Swap(0, 1);
+                }
+            }
+        }
+
+        private void OnListChanged()
+        {
+            Debug.Log("List updated!");
+        }
+
+        private void OnDestroy()
+        {
+            if (listProperty != null)
+            {
+                listProperty.OnChanged -= OnListChanged;
+            }
+        }
+        ```
+    </Tab>
     <Tab title="React Native">
         <Warning>
         The lists data binding API in React Native is not yet available, and will likely only be supported in an upcoming rewrite of the package.
@@ -1762,11 +2045,146 @@ Artboard properties allows you to swap out entire nested artboards (components) 
     Supported. Documentation coming soon.
     </Info>
     </Tab> 
+        <Tab title="React">
+        Use the `useViewModelInstanceArtboard` hook to set artboard properties on view model instances.
+
+        ```typescript
+        import { useRive, useViewModel, useViewModelInstance, useViewModelInstanceArtboard } from '@rive-app/react-webgl2';
+
+        const { rive, RiveComponent } = useRive({
+            src: 'your_file.riv',
+            artboard: 'MyArtboard',
+            stateMachine: 'MyStateMachine',
+            autoBind: true,
+            // ... other options
+        });
+
+        // Get artboard property setters
+        const { setValue: setArtboard1 } = useViewModelInstanceArtboard(
+            'artboard_1', // Property path
+            rive?.viewModelInstance
+        );
+
+        const { setValue: setArtboard2 } = useViewModelInstanceArtboard(
+            'artboard_2', // Property path
+            rive?.viewModelInstance
+        );
+
+        // Assign different artboards from the same file
+        const handleSetBlueArtboard = () => {
+            if (rive) {
+                const blueArtboard = rive.getArtboard('ArtboardBlue');
+                setArtboard1(blueArtboard);
+            }
+        };
+
+        const handleSetRedArtboard = () => {
+            if (rive) {
+                const redArtboard = rive.getArtboard('ArtboardRed');
+                setArtboard2(redArtboard);
+            }
+        };
+
+        const handleSetGreenArtboard = () => {
+            if (rive) {
+                const greenArtboard = rive.getArtboard('ArtboardGreen');
+                setArtboard1(greenArtboard);
+            }
+        };
+
+        ```
+    </Tab>
     <Tab title="Flutter">
     <Info>
     Supported. Documentation coming soon.
     </Info>
-    </Tab> 
+    </Tab>
+    <Tab title="Unity">
+        Artboard properties work with the `BindableArtboard` class, which is different from the regular `Artboard` class in the package. 
+        
+        `BindableArtboard` is a runtime wrapper for interacting with artboards through data binding. These instances reference existing artboards in your file, so no additional setup is required in the Rive Editor.
+
+        ```csharp
+        [SerializeField] private Asset m_externalRiveAsset;
+        
+        private ViewModelInstanceArtboardProperty artboardProperty;
+        private File externalFile;
+
+        private void OnEnable()
+        {
+            riveWidget.OnWidgetStatusChanged += HandleWidgetStatusChanged;
+        }
+
+        private void OnDisable()
+        {
+            riveWidget.OnWidgetStatusChanged -= HandleWidgetStatusChanged;
+        }
+
+        private void HandleWidgetStatusChanged()
+        {
+            if (riveWidget.Status == WidgetStatus.Loaded)
+            {
+                ViewModelInstance viewModelInstance = riveWidget.StateMachine.ViewModelInstance;
+
+                // Get the artboard property by name
+                artboardProperty = viewModelInstance.GetArtboardProperty("artboard_1");
+                // or alternatively:
+                // artboardProperty = viewModelInstance.GetProperty<ViewModelInstanceArtboardProperty>("artboard_1");
+
+                // Set up change callback
+                artboardProperty.OnValueChanged += OnArtboardChanged;
+
+                // Set artboard from same file. 
+                var blueArtboard = riveWidget.File.BindableArtboard("ArtboardBlue");
+                artboardProperty.Value = blueArtboard;
+
+                // Load external file if needed
+                if (m_externalRiveAsset != null)
+                {
+                    externalFile = File.Load(m_externalRiveAsset);
+                }
+            }
+        }
+
+        private void OnArtboardChanged(BindableArtboard artboard)
+        {
+            Debug.Log($"Artboard changed to: {artboard?.Name}");
+        }
+
+        // Example method to assign a different artboard from the same file
+        public void SwitchToRedArtboard()
+        {
+            if (artboardProperty != null)
+            {
+                var redArtboard = riveWidget.File.BindableArtboard("ArtboardRed");
+                artboardProperty.Value = redArtboard;
+            }
+        }
+
+        // Example method to assign an artboard from a different file
+        // This is useful for creating modular components that can be reused across different Rive files.
+        public void SwitchToExternalArtboard()
+        {
+            if (artboardProperty != null && externalFile != null)
+            {
+                var externalArtboard = externalFile.BindableArtboard("SomeArtboard");
+                artboardProperty.Value = externalArtboard;
+            }
+        }
+
+        private void OnDestroy()
+        {
+            // Clean up external file
+            externalFile?.Dispose();
+            
+            // Remove the event listener
+            if (artboardProperty != null)
+            {
+                artboardProperty.OnValueChanged -= OnArtboardChanged;
+            }
+        }
+        ```
+    </Tab>
     <Tab title="React Native">
         <Warning>
         The artboards data binding API in React Native is not yet available, and will likely only be supported in an upcoming rewrite of the package.
