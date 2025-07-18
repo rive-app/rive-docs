@@ -3,10 +3,12 @@ title: 'Loading in Rive Files'
 description: 'How to use Rive files with the Rive React Native runtime. '
 ---
 
-There are two ways to include Rive files in your React Native projects:
+There are several ways to include Rive files in your React Native projects:
 
 - Option 1: URL where a Rive file is hosted
 - Option 2: Add the asset to the asset bundles of the native iOS and Android projects
+- Option 3: Add the asset to the asset bundles in an Expo project using `expo-asset`
+- Option 4: Source prop and require
 
 When you render the `<Rive />` component, you must supply the `url` or `resourceName` prop respectively to the options above, or your component will fail to load.
 
@@ -20,7 +22,7 @@ Read more below to see more on each of the options.
 />;
 ```
 
-When using the Rive React Native runtime to load in a RIve file, one option is to reference the URL where the Rive file may be hosted (i.e AWS S3 bucket, Google Storage, etc.). This can be done via the `url` parameter when instantiating the `<Rive />` component.
+When using the Rive React Native runtime to load in a Rive file, one option is to reference the URL where the Rive file may be hosted (i.e AWS S3 bucket, Google Storage, etc.). This can be done via the `url` parameter when instantiating the `<Rive />` component.
 
 ### Option 2: Asset Bundle
 
@@ -51,3 +53,46 @@ Under the `/app/src/main/res/` directory, create a new *Android Resource Directo
 Adding `weather_app.riv` to the Android project
 
 Once the Rive files are added to the asset/resource bundles of the iOS and Android projects in the React Native app, you should be free to start referencing the name of the file (without the `.riv` extension) when creating the `<Rive />` component, using that `resourceName` prop.
+
+### Option 3: Using expo-asset with Expo CNG
+
+```javascript
+<Rive
+  resourceName="weather_app" // weather_app.riv
+/>;
+```
+
+If you're using Expo SDK 53 or later and want to take advantage of [Expo CNG (Continuous Native Generation)](https://docs.expo.dev/workflow/continuous-native-generation/), you can use the [expo-asset plugin](https://docs.expo.dev/versions/latest/sdk/asset/) to bundle your `.riv` files into your native builds.
+
+In your `app.json` or `app.config.js`, add the `expo-asset` plugin and specify your `.riv` files or asset directories:
+
+```json
+{
+  "expo": {
+    "plugins": [
+      [
+        "expo-asset",
+        {
+          "assets": ["path/to/file.riv", "path/to/directory"]
+        }
+      ]
+    ]
+  }
+}
+```
+
+Then run `npx expo prebuild` to get your Rive files bundled into your development builds before restarting your project.
+
+If you're using an earlier version of Expo, you can find an alternative approach in [this Github Issue](https://github.com/rive-app/rive-react-native/issues/185).
+
+### Option 4: Source Prop with Require
+
+```javascript
+<Rive
+  source={require('./flying_car.riv')}
+/>;
+```
+
+If you prefer to keep your Rive files in the same folder as your component code, you can use the `source` prop with `require()` to load the Rive file by referencing its path.
+An additional advantage of this method is that during development, the file is served by the Metro development server, allowing you to update it without rebuilding your app.
+When you build your app, the file is automatically bundled into the app’s assets.
