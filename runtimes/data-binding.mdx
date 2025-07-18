@@ -1435,28 +1435,105 @@ With list properties, you can:
 For more information on list properties, see the [Data Binding List Property](/editor/data-binding/lists#view-model-list-property) editor documentation.
 
 <Tabs>
+    <Tab title="Web">
+        ```typescript
+        // Get menu list
+        const vmi = riveInstance.viewModelInstance;
+        const list = vmi.list("menu");
+
+        // Get listItem View Model
+        const listItemVM = riveInstance.viewModelByName("listItem");
+
+        // adds the instance to the end of the list
+        newMenuItem = listItemVM.instance();
+        newMenuItem.string("label").value = newItemLabel.value;
+        list.addInstance(newMenuItem);
+        // adds the instance at a specific index
+        list.addInstanceAt(newMenuItem, 0)
+
+        // Swap list items by indexes
+        list.swap(0, 2);
+
+        // Delete a list item by index
+        list.removeInstanceAt(deleteIndex.value);
+
+        // Get the list item at a specific index
+        const instanceToDelete =list.instanceAt(2);
+
+        // Delete a list item by reference
+        list.removeInstance(instanceToDelete);
+        ```
+
+        Check out the [live code example](https://codesandbox.io/p/sandbox/suspicious-hertz-2lg4m8?file=%2Fsrc%2Findex.mjs) on CodeSandbox.
+    </Tab>
+    <Tab title="React">
+        ```typescript
+        const {
+            length,
+            addInstance,
+            addInstanceAt,
+            removeInstance,
+            removeInstanceAt,
+            getInstanceAt,
+            swap,
+        } = useViewModelInstanceList("menu", mainViewModelInstance);
+
+        // Get menu list
+        const vmi = riveInstance.viewModelInstance;
+        const list = vmi.list("menu");
+
+        // Current number of items in the list
+        console.log("List length:", length);
+
+        // Define the view model for the list item
+        const listItemViewModel = useViewModel(rive, { name: "listItem" });
+
+        // adds the instance to the end of the list
+        const newMenuItemVmi = listItemViewModel.instance();
+        newMenuItemVmi.string("label").value = "New Label";
+        addInstance(newMenuItemVmi);
+        // adds the instance at a specific index
+        addInstanceAt(newMenuItemVmi, 2);
+
+        // Get the view model instance at a specific index
+        const instanceToRemove = getInstanceAt(index);
+
+        // Remove an item based on its view model instance
+        removeInstance(instanceToRemove);
+
+        // Remove an item at a specific index
+        removeInstanceAt(2);
+
+        // Swap the position of two items based on their indexes
+        swap(0, 2);
+
+
+        ```
+
+        Check out the [live code example](https://codesandbox.io/p/sandbox/rive-react-data-binding-lists-4msh9z?file=%2Fsrc%2FApp.tsx) on CodeSandbox.
+    </Tab>
     <Tab title="Apple">
-    ```swift
-    let listProperty = viewModelInstance.listProperty(fromPath: "list")!
+        ```swift
+        let listProperty = viewModelInstance.listProperty(fromPath: "list")!
 
-    // Create a new view model instance and add it to the end of the list
-    let firstInstance = viewModel.createInstanceByName("First Instance")!
-    listProperty.add(firstInstance)
-    
-    // Create a new view model instance and add it to the beginning of the list
-    let secondInstance = myViewModel.createInstanceByName("Second Instance")!
-    listProperty.add(secondInstance, atIndex: 0)
+        // Create a new view model instance and add it to the end of the list
+        let firstInstance = viewModel.createInstanceByName("First Instance")!
+        listProperty.add(firstInstance)
 
-    // Swap the first and second instances
-    listProperty.swapInstance(atIndex: 0, withInstanceAtIndex: 1)
+        // Create a new view model instance and add it to the beginning of the list
+        let secondInstance = myViewModel.createInstanceByName("Second Instance")!
+        listProperty.add(secondInstance, atIndex: 0)
 
-    // Remove both instances
-    listProperty.removeInstance(secondInstance)
-    listProperty.removeInstance(atIndex: 0)
+        // Swap the first and second instances
+        listProperty.swapInstance(atIndex: 0, withInstanceAtIndex: 1)
 
-    // Get and print the size of the list
-    print(listProperty.size) // Prints 0
-    ```
+        // Remove both instances
+        listProperty.removeInstance(secondInstance)
+        listProperty.removeInstance(atIndex: 0)
+
+        // Get and print the size of the list
+        print(listProperty.size) // Prints 0
+        ```
     </Tab>
 </Tabs>
 
