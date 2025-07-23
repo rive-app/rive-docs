@@ -3,110 +3,115 @@ title: 'Adding Rive to Expo'
 description: 'Rive React Native Expo. '
 ---
 
-To enable your Expo application to run Rive animations you'll need to include the native Android and iOS libraries.
+To use Rive with Expo, you'll need to install the `rive-react-native` package.
 
-To achieve this you can make use of [development builds](https://docs.expo.dev/develop/development-builds/introduction/) or by [generating the native projects with prebuild](https://docs.expo.dev/workflow/customizing/#generate-native-projects-with-prebuild). A development build can be seen as your own version of the Expo Go client that includes custom native libraries. We suggest reading [Expo's documentation](https://docs.expo.dev/workflow/customizing/#generate-native-projects-with-prebuild) for more information.
+Because this package contains custom native code, it's not compatible with Expo Go. Instead, you'll need to use a development build, which gives you full access to native modules.
 
-### Setup
+> **Note:**
+> Development builds are the [recommended setup for production apps](https://github.com/expo/fyi/blob/main/expo-go-usage.md).
 
-This guide will demonstrate how you can make use of prebuild to generate the required native code.
+This guide will walk you through integrating Rive into your Expo project, including installing dependencies, configuring your build, and testing your animations.
 
-Start by creating a new expo app (or use an existing project):
+## Initial Setup
+
+If you don’t already have a project, create a new Expo app:
 
 ```bash
 npx create-expo-app MyRiveApp
 ```
 
-Add the Rive React Native package:
+Install the Expo development client:
+
+```bash
+npx expo install expo-dev-client
+```
+
+Then install the Rive package:
 
 ```bash
 npx expo install rive-react-native
 ```
 
-Add a Rive animation to a view:
+## iOS Minimum Version
 
-```javascript
-import Rive from 'rive-react-native';
-import { StyleSheet, Text, View } from 'react-native';
+Rive for iOS requires a minimum deployment target of `14.0`.
 
-function RiveDemo() {
-  return <Rive
-      url="https://public.rive.app/community/runtime-files/2195-4346-avatar-pack-use-case.riv"
-      artboardName="Avatar 1"
-      stateMachineName="avatar"
-      style={{width: 400, height: 400}}
-  />;
+If you’re using Expo SDK 52 or later, you can skip this step as `14.0` is already the default.
+
+If you're using an older SDK, you’ll need to update your iOS deployment target manually or via configuration.
+
+### Option 1: Using `expo-build-properties` (Recommended)
+
+[Continuous Native Generation (CNG)](https://docs.expo.dev/workflow/continuous-native-generation/) simplifies app maintenance and configuration by automatically generating your iOS and Android native projects using [Prebuild](https://docs.expo.dev/workflow/continuous-native-generation/#usage).
+
+If you're using CNG, you can set the minimum iOS deployment target directly in your `app.json` or `app.config.js`:
+
+```json
+{
+  "expo": {
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "deploymentTarget": "14.0"
+          }
+        }
+      ]
+    ]
+  }
 }
-
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <RiveDemo />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 ```
 
-> Running `npx expo start` will not work as Expo Go does not include the native libraries needed to run Rive. If you were to run this command you'll see the following error: `Invariant Violation: requireNativeComponent: "RiveReactNativeView" was not found in the UIManager.`
+### Option 2: Manual Configuration
 
-Before running your app, you first need to generate the iOS and Android native projects to take ownership of them. You can do this by running `npx expo prebuild`, or `npx expo run:[ios|android]` (which will run `prebuild` automatically).
+If you’re not using Prebuild, update the target directly in your `ios/Podfile`:
 
-- `npx expo run:android` requires Android Studio and the Android SDK to be installed. See the [setup environment guide](https://reactnative.dev/docs/environment-setup).
-- `npx expo run:ios` requires Xcode (macOS only) installed on your computer. See the [setup environment guide](https://reactnative.dev/docs/environment-setup).
-
-Generate the build folders for both Android and iOS:
-
-```bash
-npx expo prebuild
-```
-
-You'll be prompted to enter an **Android package** and **iOS Bundle Identifier**.
-
-This command will generate `android` and `ios` build folders in your project directory. These projects allow you to configure your iOS and Android application as you would for a traditional native application.
-
-<Note>
-You may get the following error: `Something went wrong running pod install in the ios directory.`
-<br/>
- Which is likely due to the minimum target iOS version not being high enough.
-</Note>
-
-Ensure that your apps minimum iOS version is at least `14.0` (this is the minimum version that Rive iOS supports). Open `ios/Podfile` and look for the `platform :ios` version. It should look something like this:
-
-```bash
-platform :ios, podfile_properties['ios.deploymentTarget'] || '13.0'
-```
-
-Change `13.0` to `14.0`:
-
-```bash
+```ruby
 platform :ios, podfile_properties['ios.deploymentTarget'] || '14.0'
 ```
 
-You can now run on iOS:
+## Creating a Development Build
+
+To run your app with the Rive runtime, you’ll need to create a development build.
+
+Since there are several ways to do this, refer to the [Expo development builds guide](https://docs.expo.dev/develop/development-builds/create-a-build/) to choose the method that best suits your needs.
+
+## Running Your App
+
+Once you've created a development build and installed it on your device or simulator, start your app with:
 
 ```bash
-# Build your native iOS project
-npx expo run:ios
+npx expo start
 ```
 
-and Android:
+You can use the following component to test Rive:
 
-```bash
-# Build your native Android project
-npx expo run:android
+```js
+import { View } from 'react-native';
+import Rive from 'rive-react-native';
+
+export default function RiveDemo() {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Rive
+        url="https://public.rive.app/community/runtime-files/2195-4346-avatar-pack-use-case.riv"
+        artboardName="Avatar 1"
+        stateMachineName="avatar"
+        style={{ width: 400, height: 400 }}
+      />
+    </View>
+  );
+}
 ```
 
-### Local Assets
+> **Note:**
+> If you encounter this error:
+> `Invariant Violation: requireNativeComponent: "RiveReactNativeView" was not found in the UIManager`,
+> it usually means the app is running in **Expo Go**. Press `s` in your terminal and select the development build instead.
 
-The example above demonstrates how to load a `riv` file as a network asset. To load files from the asset bundle they need to be included in Android Studio and XCode as assets, see [Loading in Rive Files](/runtimes/react-native/loading-rive-to-expo).
+## Adding Local Assets
 
-You can also see [this Github Issue](https://github.com/rive-app/rive-react-native/issues/185) for an alternative approach to load assets.
+The example above loads a `.riv` file from a remote URL.
+To use local `.riv` files, they must be bundled into your native build.
+See [Loading in Rive Files](loading-rive-to-expo) for instructions on working with local assets.
