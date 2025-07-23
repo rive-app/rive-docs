@@ -1549,7 +1549,7 @@ Image properties let you set and replace raster images at runtime, with each ins
                 // Clear the image to render nothing
                 imageProperty.value = null;
             }
-        });        
+        });
         ```
     </Tab>
         <Tab title="React">
@@ -1583,11 +1583,11 @@ Image properties let you set and replace raster images at runtime, with each ins
                 const imageUrl = 'https://picsum.photos/300/500';
                 const response = await fetch(imageUrl);
                 const imageBuffer = await response.arrayBuffer();
-                
+
                 // Decode the image from the response
                 const decodedImage = await decodeImage(new Uint8Array(imageBuffer));
                 setImage(decodedImage);
-                
+
                 // Clean up the decoded image
                 decodedImage.unref();
             } catch (error) {
@@ -1625,10 +1625,10 @@ Image properties let you set and replace raster images at runtime, with each ins
         ```dart
         // Access the image property by path on a ViewModelInstance object
         final imageProperty = viewModelInstance.image('my_image')!; // image property named "my_image"
-        
+
         // Create a RenderImage
         final renderImage = await Factory.rive.decodeImage(bytes); // use `Factory.flutter` if you're using the Flutter renderer
-        
+
         // If the image is valid, update the image property value
         if (renderImage != null) {
             imageProperty.value = renderImage;
@@ -1642,7 +1642,7 @@ Image properties let you set and replace raster images at runtime, with each ins
         ```csharp
         [SerializeField] private ImageOutOfBandAsset m_lightImageAsset;
         [SerializeField] private ImageOutOfBandAsset m_darkImageAsset;
-        
+
         private ViewModelInstanceImageProperty imageProperty;
         private bool isDarkMode = false;
 
@@ -1705,7 +1705,7 @@ Image properties let you set and replace raster images at runtime, with each ins
         {
             m_lightImageAsset.Unload();
             m_darkImageAsset.Unload();
-            
+
             // Remove the event listener
             if (imageProperty != null)
             {
@@ -1718,7 +1718,7 @@ Image properties let you set and replace raster images at runtime, with each ins
         <Warning>
         The image data binding API in React Native is not yet available, and will likely only be supported in an upcoming rewrite of the package.
         </Warning>
-    </Tab>     
+    </Tab>
 </Tabs>
 
 ### Lists
@@ -1739,6 +1739,11 @@ For more information on list properties, see the [Data Binding List Property](/e
 
 <Tabs>
     <Tab title="Web">
+
+         **Examples**
+
+        - [Controlling lists with JS](https://codesandbox.io/p/sandbox/suspicious-hertz-2lg4m8?file=%2Fsrc%2Findex.mjs)
+
         ```javascript
         const rive = new rive.Rive({
             autoBind: true,
@@ -1775,6 +1780,10 @@ For more information on list properties, see the [Data Binding List Property](/e
     </Tab>
         <Tab title="React">
         Use the `useViewModelInstanceList` hook to manage list properties on view model instances.
+
+         **Examples**
+
+        - [Controlling lists with React](https://codesandbox.io/p/sandbox/rive-react-data-binding-lists-4msh9z?file=%2Fsrc%2FApp.tsx)
 
         ```typescript
         import { useRive, useViewModel, useViewModelInstance, useViewModelInstanceList } from '@rive-app/react-webgl2';
@@ -1849,6 +1858,7 @@ For more information on list properties, see the [Data Binding List Property](/e
 
         console.log(`List has ${length} items`);
         ```
+
     </Tab>
     <Tab title="Apple">
     ```swift
@@ -1857,7 +1867,7 @@ For more information on list properties, see the [Data Binding List Property](/e
     // Create a new view model instance and add it to the end of the list
     let firstInstance = viewModel.createInstanceByName("First Instance")!
     listProperty.add(firstInstance)
-    
+
     // Create a new view model instance and add it to the beginning of the list
     let secondInstance = myViewModel.createInstanceByName("Second Instance")!
     listProperty.add(secondInstance, atIndex: 0)
@@ -1872,6 +1882,8 @@ For more information on list properties, see the [Data Binding List Property](/e
     // Get and print the size of the list
     print(listProperty.size) // Prints 0
     ```
+
+
     </Tab>
     <Tab title="Flutter">
         The list API in Flutter is designed to be similar to the [List](https://api.dart.dev/dart-core/List-class.html) class in Dart. It doesn't contain the full API spec of that class, but it does provide the most commonly used methods.
@@ -1897,7 +1909,7 @@ For more information on list properties, see the [Data Binding List Property](/e
         You can also create an instance from an existing instance (as exported in the Rive Editor), using:
         - `createDefaultInstance()`
         - `createInstanceByName('exercise')`
-        - `createInstanceByIndex(0)`.        
+        - `createInstanceByIndex(0)`.
 
         Then add the instance to the list:
 
@@ -2029,7 +2041,7 @@ For more information on list properties, see the [Data Binding List Property](/e
         <Warning>
         The lists data binding API in React Native is not yet available, and will likely only be supported in an upcoming rewrite of the package.
         </Warning>
-    </Tab>       
+    </Tab>
 </Tabs>
 
 ### Artboards
@@ -2044,7 +2056,7 @@ Artboard properties allows you to swap out entire nested artboards (components) 
     <Info>
     Supported. Documentation coming soon.
     </Info>
-    </Tab> 
+    </Tab>
         <Tab title="React">
         Use the `useViewModelInstanceArtboard` hook to set artboard properties on view model instances.
 
@@ -2100,13 +2112,13 @@ Artboard properties allows you to swap out entire nested artboards (components) 
     </Info>
     </Tab>
     <Tab title="Unity">
-        Artboard properties work with the `BindableArtboard` class, which is different from the regular `Artboard` class in the package. 
-        
+        Artboard properties work with the `BindableArtboard` class, which is different from the regular `Artboard` class in the package.
+
         `BindableArtboard` is a runtime wrapper for interacting with artboards through data binding. These instances reference existing artboards in your file, so no additional setup is required in the Rive Editor.
 
         ```csharp
         [SerializeField] private Asset m_externalRiveAsset;
-        
+
         private ViewModelInstanceArtboardProperty artboardProperty;
         private File externalFile;
 
@@ -2134,7 +2146,7 @@ Artboard properties allows you to swap out entire nested artboards (components) 
                 // Set up change callback
                 artboardProperty.OnValueChanged += OnArtboardChanged;
 
-                // Set artboard from same file. 
+                // Set artboard from same file.
                 var blueArtboard = riveWidget.File.BindableArtboard("ArtboardBlue");
                 artboardProperty.Value = blueArtboard;
 
@@ -2176,7 +2188,7 @@ Artboard properties allows you to swap out entire nested artboards (components) 
         {
             // Clean up external file
             externalFile?.Dispose();
-            
+
             // Remove the event listener
             if (artboardProperty != null)
             {
@@ -2189,7 +2201,7 @@ Artboard properties allows you to swap out entire nested artboards (components) 
         <Warning>
         The artboards data binding API in React Native is not yet available, and will likely only be supported in an upcoming rewrite of the package.
         </Warning>
-    </Tab>       
+    </Tab>
 </Tabs>
 
 ### Enums
