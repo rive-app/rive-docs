@@ -2106,6 +2106,25 @@ Artboard properties allows you to swap out entire nested artboards (components) 
 
         ```
     </Tab>
+    <Tab title="Apple">
+    Use the `artboardProperty` method on a `RiveDataBindingViewModel.Instance` object to get the artboard property.
+
+    Then use the `setValue` method on the artboard property object to set the new artboard value.
+
+    `setValue` accepts a `RiveBindableArtboard` object, which is a wrapper for an artboard that can be used to set the artboard property value.
+
+    You can get a `RiveBindableArtboard` object by using the `bindableArtboard` methods on a `RiveFile` object.
+
+    ```swift
+    let artboardProperty = instance.artboardProperty(fromPath: "Artboard")!
+
+    let components = RiveFile(...)
+    let bindableArtboard = components.bindableArtboard(at: 0)!
+    let bindableArtboard2 = components.bindableArtboard(withName: "...")!
+
+    artboardProperty.setValue(bindableArtboard)
+    ```
+    </Tab>
     <Tab title="Flutter">
     <Info>
     Supported. Documentation coming soon.
