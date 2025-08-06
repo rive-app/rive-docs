@@ -13,19 +13,15 @@ For more Editor information and how to configure your graphic see [Layouts Overv
  The **Alignment** property will not have an effect when the using a **Fit** of type **Layout**.
 </Note>
 
-<Warning>
- Check the [Feature Support](/feature-support) page to see if this feature is already supported for your runtime.
-</Warning>
-
 <Tabs>
   <Tab title="Web">
     **Examples**
 
-    - [Layout JS example](https://codesandbox.io/p/devbox/rive-responsive-layout-js-forked-m77nlw?layout=%7B%22sidebarPanel%22%3A%22EXPLORER%22%2C%22rootPanelGroup%22%3A%7B%22direction%22%3A%22horizontal%22%2C%22contentType%22%3A%22UNKNOWN%22%2C%22type%22%3A%22PANEL_GROUP%22%2C%22id%22%3A%22ROOT_LAYOUT%22%2C%22panels%22%3A%5B%7B%22type%22%3A%22PANEL_GROUP%22%2C%22contentType%22%3A%22UNKNOWN%22%2C%22direction%22%3A%22vertical%22%2C%22id%22%3A%22cm0cil09k00073b6iv1ejuur6%22%2C%22sizes%22%3A%5B100%5D%2C%22panels%22%3A%5B%7B%22type%22%3A%22PANEL_GROUP%22%2C%22contentType%22%3A%22EDITOR%22%2C%22direction%22%3A%22horizontal%22%2C%22id%22%3A%22EDITOR%22%2C%22panels%22%3A%5B%7B%22type%22%3A%22PANEL%22%2C%22contentType%22%3A%22EDITOR%22%2C%22id%22%3A%22cm0cil09k00033b6ikh7soopm%22%7D%5D%7D%2C%7B%22type%22%3A%22PANEL_GROUP%22%2C%22contentType%22%3A%22SHELLS%22%2C%22direction%22%3A%22horizontal%22%2C%22id%22%3A%22SHELLS%22%2C%22panels%22%3A%5B%7B%22type%22%3A%22PANEL%22%2C%22contentType%22%3A%22SHELLS%22%2C%22id%22%3A%22cm0cil09k00043b6iunl8mzfv%22%7D%5D%7D%5D%7D%2C%7B%22type%22%3A%22PANEL_GROUP%22%2C%22contentType%22%3A%22DEVTOOLS%22%2C%22direction%22%3A%22vertical%22%2C%22id%22%3A%22DEVTOOLS%22%2C%22panels%22%3A%5B%7B%22type%22%3A%22PANEL%22%2C%22contentType%22%3A%22DEVTOOLS%22%2C%22id%22%3A%22cm0cil09k00063b6i00s5g6ph%22%7D%5D%7D%5D%2C%22sizes%22%3A%5B50%2C50%5D%7D%2C%22tabbedPanels%22%3A%7B%22cm0cil09k00033b6ikh7soopm%22%3A%7B%22tabs%22%3A%5B%7B%22id%22%3A%22cm0cil09k00023b6ig0rr427m%22%2C%22mode%22%3A%22permanent%22%2C%22type%22%3A%22FILE%22%2C%22filepath%22%3A%22%2Fsrc%2Findex.html%22%2C%22state%22%3A%22IDLE%22%7D%2C%7B%22id%22%3A%22cm0nwqywg00ha3b6ik477m0sa%22%2C%22mode%22%3A%22permanent%22%2C%22type%22%3A%22FILE%22%2C%22initialSelections%22%3A%5B%7B%22startLineNumber%22%3A89%2C%22startColumn%22%3A1%2C%22endLineNumber%22%3A108%2C%22endColumn%22%3A2%7D%5D%2C%22filepath%22%3A%22%2Fsrc%2Findex.mjs%22%2C%22state%22%3A%22IDLE%22%7D%5D%2C%22id%22%3A%22cm0cil09k00033b6ikh7soopm%22%2C%22activeTabId%22%3A%22cm0nwqywg00ha3b6ik477m0sa%22%7D%2C%22cm0cil09k00063b6i00s5g6ph%22%3A%7B%22id%22%3A%22cm0cil09k00063b6i00s5g6ph%22%2C%22activeTabId%22%3A%22cm0nwzrmt001v3b6i36d3eupe%22%2C%22tabs%22%3A%5B%7B%22id%22%3A%22cm0cil09k00053b6iih3l7rxf%22%2C%22mode%22%3A%22permanent%22%2C%22type%22%3A%22UNASSIGNED_PORT%22%2C%22port%22%3A0%7D%2C%7B%22type%22%3A%22SANDBOX_INFO%22%2C%22isCloud%22%3Afalse%2C%22id%22%3A%22cm0nwzdgp000k3b6i1bwmm5bi%22%2C%22mode%22%3A%22permanent%22%7D%2C%7B%22type%22%3A%22UNASSIGNED_PORT%22%2C%22port%22%3A0%2C%22id%22%3A%22cm0nwzrmt001v3b6i36d3eupe%22%2C%22mode%22%3A%22permanent%22%7D%5D%7D%2C%22showDevtools%22%3Atrue%2C%22showShells%22%3Afalse%2C%22showSidebar%22%3Atrue%2C%22sidebarPanelSize%22%3A15%7D&workspaceId=ws_XXze7Vt5ZRuDr9J37bb5ub)
+    - [Layout JS example](https://codesandbox.io/p/devbox/rive-responsive-layout-js-forked-m77nlw?file=%2Fsrc%2Findex.mjs%3A10%2C1)
 
     **Steps**
 
-    1. Set `Fit` to `Fit.Layout` - this will automatically scale and resize the artboard to match the canvas size when calling `resizeDrawingSurfaceToCanvas()`.
+    1. Set `fit` to `Fit.Layout` - this will automatically scale and resize the artboard to match the canvas size when calling `resizeDrawingSurfaceToCanvas()`.
     2. Optionally set `layoutScaleFactor` for manual control of the artboard size (scale factor).
     3. Subscribe to `window.onresize` and call `resizeDrawingSurfaceToCanvas()` to adjust the artboard size as the canvas and window changes.
     4. Subscribe to **device pixel ratio** changes and call `resizeDrawingSurfaceToCanvas()` to ensure the artboard updates correctly on various screen densities. For example, when dragging the window between multiple monitors with different device pixel ratios.
@@ -113,7 +109,34 @@ For more Editor information and how to configure your graphic see [Layouts Overv
 
   </Tab>
   <Tab title="React Native">
-    Coming soon
+    **Examples**
+
+    - [Layout React Native Example](https://github.com/rive-app/rive-react-native/blob/main/example/app/(examples)/ResponsiveLayout.tsx)
+
+    **Steps**
+
+    1. Set `fit` to `Fit.Layout` - this will automatically scale and resize the artboard to match the canvas size.
+    2. Optionally set `layoutScaleFactor` in the `Layout` object for manual control of the artboard's scale factor.
+    3. The React runtime automatically handles window resizing and device pixel ratio changes.
+
+    ```javascript
+    import Rive, { Fit } from 'rive-react-native';
+
+    const resourceName = 'layout_test';
+
+    export default function ResponsiveLayout() {
+      return (
+        <Rive
+          autoplay={true}
+          fit={Fit.Layout}
+          layoutScaleFactor={0.5} // If you do not set this (or set equal to "-1.0"), Rive will automatically scale the layout to match the device pixel ratio
+          resourceName={resourceName}
+          artboardName={'Artboard'}
+          stateMachineName={'State Machine 1'}
+        />
+      );
+    }
+    ```
   </Tab>
 
   <Tab title="Flutter">
@@ -127,7 +150,7 @@ For more Editor information and how to configure your graphic see [Layouts Overv
       layoutScaleFactor: 2.0, // Optional: 2x scale of the layout,
     );
     ```
-    
+
 
     Alternatively, you can also set the `fit` and `layoutScaleFactor` properties directly on any `RivePainter`, such as the `RiveWidgetController`:
 
@@ -318,7 +341,7 @@ If the graphic doesn’t use Rive’s Layout feature, you can configure the layo
       alignment: Alignment.center,
     );
     ```
-    
+
 
     Alternatively, you can also the set `fit` and `alignment` properties directly on any `RivePainter`, such as the `RiveWidgetController`:
 
