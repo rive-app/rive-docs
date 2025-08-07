@@ -8,8 +8,6 @@ Under most circumstances a `.riv` file should load quickly and managing the `Riv
 ## Example Usage
 
 <Tabs>
-
-
     <Tab title="Flutter">
         In Flutter, you are responsible for managing the lifecycle of a Rive file. You can create a `File` object directly, or use the `FileLoader` convenience class with `RiveWidgetBuilder`. In both cases, you must call `dispose()` on the object when it's no longer needed to free up memory.
 
@@ -90,7 +88,6 @@ Under most circumstances a `.riv` file should load quickly and managing the `Riv
 
     </Tab>
 
-
     <Tab title="React Native">
 
         Not yet supported
@@ -167,7 +164,6 @@ Under most circumstances a `.riv` file should load quickly and managing the `Riv
 
     </Tab>
 
-
     <Tab title="Apple">
         ```swift
         // Cache a RiveFile somewhere to cache for reuse
@@ -200,7 +196,37 @@ Under most circumstances a `.riv` file should load quickly and managing the `Riv
         Reusing a single `RiveFile` (when applicable) will reduce the overall memory usage of your application. If your `.riv` can be reused across multiple views, where each view requires the same file but uses different artboards or state machines, consider caching the `RiveFile` before creating your view models. While one `RiveFile` can be cached, to ensure that each view is in its own state, you must create a unique `RiveModel` per `RiveViewModel` instance. 
     </Tab>
 
+    <Tab title="Android">
+        To cache a rive file in Android, you can use the Rive `File` class to load and cache the file. That `RiveFile` can then be reused across multiple `RiveAnimationView` instances. Here's a basic example:
+
+        ```kotlin
+        import app.rive.runtime.kotlin.core.File
+        ...
+
+        // An empty Rive view that will display the content once loaded.
+        val riveView = RiveAnimationView(this)
+        setContentView(riveView)
+
+        // Load the Rive file from the raw resources on an I/O thread.
+        lifecycleScope.launch(Dispatchers.IO) {
+            val bytes = resources.openRawResource(R.raw.my_rive_file).use {
+                it.readBytes()
+            }
+            // Switch to the main thread to set the Rive file.
+            withContext(Dispatchers.Main) {
+                // Create a Rive File object from the byte array. This can be cached.
+                val riveFile = File(bytes)
+                // Assign the Rive file to the view.
+                riveView.setRiveFile(riveFile)
+            }
+        }
+        ```
+
+        Please bear in mind that this is only one way to load the bytes, and your implementation may vary based on your app's architecture. The key point is to create a Rive `File` from the byte array and then set it on the `RiveAnimationView`.
+
+        <Warning>
+        A Rive `File` is reference counted and when created has a reference count of 1. Assigning it to a `RiveAnimationView` will keep an additional reference, but there is still the original reference from its creation. You are responsible for releasing that reference when you are done with the file by calling `File::release`. If you do not release the file, the native memory will remain until the app is closed, even if the Kotlin object is garbage collected.
+        </Warning>
+    </Tab>
+
 </Tabs>
-
-
-
