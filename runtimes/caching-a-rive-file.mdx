@@ -19,7 +19,7 @@ Under most circumstances a `.riv` file should load quickly and managing the `Riv
         After a `File` is disposed, it cannot be used again. To use the same `.riv` file, create a new `File` object.
         </Warning>
 
-        #### Managing State 
+        #### Managing State
 
         How you keep the Rive `File` alive and share it with widgets depends on your state management approach. For global access, load the file in `main` or during app startup, and expose it using a package like [Provider](https://pub.dev/packages/provider). If the file is only needed in a specific part of your app, consider loading the file only when required.
 
@@ -27,7 +27,7 @@ Under most circumstances a `.riv` file should load quickly and managing the `Riv
 
         Managing the file yourself gives you fine-grained control over memory usage, especially when the same Rive file is used in multiple places or simultaneously in several widgets. Use [Flutter DevTools memory tooling](https://docs.flutter.dev/tools/devtools/memory#memory-view-guide) to monitor and optimize memory if needed.
 
-        #### Network Assets 
+        #### Network Assets
 
         To load a Rive file from the Internet, use `File.url('YOUR:URL')`. For network assets, cache the file in memory to avoid repeated downloads and unnecessary decoding of the file.
     </Tab>
@@ -80,7 +80,7 @@ Under most circumstances a `.riv` file should load quickly and managing the `Riv
                 </div>
             </div>
             );
-        
+
         }
 
         export default App;
@@ -95,7 +95,7 @@ Under most circumstances a `.riv` file should load quickly and managing the `Riv
     </Tab>
 
     <Tab title="Web">
-        The following is a basic example to illustrate how to preload a Rive file, and pass the data to multiple Rive instances:
+        The following is a basic example to illustrate how to preload a Rive file, and pass the data to multiple Rive instances. Try it out on [CodeSandbox](https://codesandbox.io/p/sandbox/rive-quick-start-js-forked-g675my?file=%2Fsrc%2Findex.mjs).
 
         ```javascript
         const rive = require("@rive-app/canvas");
@@ -178,7 +178,7 @@ Under most circumstances a `.riv` file should load quickly and managing the `Riv
             init(file: RiveFile) {
                 self.file = file
             }
-            
+
             // Returns a new view model using a cached RiveFile.
             // This means that the RiveFile will not have to be reparsed
             // each time a view model is generated.
@@ -193,7 +193,7 @@ Under most circumstances a `.riv` file should load quickly and managing the `Riv
 
         When using the `RiveViewModel(fileName:)` initializer, the Apple runtime does not cache file usage; that has to be handled manually. You may find that when reusing the same file, your memory usage increases (over time) as you create more view models. This is when you should consider caching the underlying file for reuse.
 
-        Reusing a single `RiveFile` (when applicable) will reduce the overall memory usage of your application. If your `.riv` can be reused across multiple views, where each view requires the same file but uses different artboards or state machines, consider caching the `RiveFile` before creating your view models. While one `RiveFile` can be cached, to ensure that each view is in its own state, you must create a unique `RiveModel` per `RiveViewModel` instance. 
+        Reusing a single `RiveFile` (when applicable) will reduce the overall memory usage of your application. If your `.riv` can be reused across multiple views, where each view requires the same file but uses different artboards or state machines, consider caching the `RiveFile` before creating your view models. While one `RiveFile` can be cached, to ensure that each view is in its own state, you must create a unique `RiveModel` per `RiveViewModel` instance.
     </Tab>
 
     <Tab title="Android">
