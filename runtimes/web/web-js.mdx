@@ -1,12 +1,12 @@
 ---
-title: 'Web (JS)'
-description: 'JavaScript/WASM runtime for Rive.'
+title: "Web (JS)"
+description: "JavaScript/WASM runtime for Rive."
 ---
 
 import Interaction from "/snippets/runtimes/animation-control-and-interaction.mdx"
 import NoteOnFeatureSupport from "/snippets/runtimes/rendering-feature-support.mdx"
 
-<NoteOnFeatureSupport/>
+<NoteOnFeatureSupport />
 
 ## Overview
 
@@ -17,10 +17,11 @@ This guide documents how to get started using the Rive web runtime library. The 
 - Support advanced use cases by controlling the render loop (web-based game engines)
 
 ## Quick Start
+
 See our [quick start example](https://codesandbox.io/p/sandbox/rive-quick-start-js-xmwcm6).
 
 <Note>
-    This example only demonstrates loading a .riv file resource in various ways and creating a Rive instance. The other sections detail more advanced use cases.
+  This example only demonstrates loading a .riv file resource in various ways and creating a Rive instance. The other sections detail more advanced use cases.
 </Note>
 
 ## Getting started
@@ -28,39 +29,35 @@ See our [quick start example](https://codesandbox.io/p/sandbox/rive-quick-start-
 Follow the steps below to integrate Rive into your web app.
 
 <Note>
-    The following instructions describe using the `@rive-app/canvas` package. Rive provides web-based packages like WebGL, Canvas, and Lite versions.<br/>
+  The following instructions describe using the `@rive-app/canvas` package. Rive provides web-based packages like WebGL, Canvas, and Lite versions.
 
-    See [Canvas vs WebGL](/runtimes/web/canvas-vs-webgl) for guidance on which package is the correct choice for your use case.
+  See [Canvas vs WebGL](/runtimes/web/canvas-vs-webgl) for guidance on which package is the correct choice for your use case.
 </Note>
 
 <Steps>
   <Step title="Install the dependency">
     <Warning>
-    We recommend always using the [latest version](https://www.npmjs.com/package/@rive-app/canvas). The versions listed below and in the examples may differ from the latest.
+      We recommend always using the [latest version](https://www.npmjs.com/package/@rive-app/canvas). The versions listed below and in the examples may differ from the latest.
     </Warning>
-
-
     <Tabs>
       <Tab title="Script Tag">
-
         ```html
         // Add the following script tag to your web page to get the latest version:
-
-
+        
+        
         <script src="https://unpkg.com/@rive-app/canvas"></script>
-
+        
         // You can also pin to a specific version (See [here](https://www.npmjs.com/package/@rive-app/canvas) for the latest):
-
-
+        
+        
         <script src="https://unpkg.com/@rive-app/canvas@2.24.0"></script>
-
+        
         // This will make a global `rive` object available, allowing you to access the Rive API via the `rive` entry point:
-
+        
         new rive.Rive({});
         ```
       </Tab>
       <Tab title="Package Manager">
-
         ```bash npm
         npm install @rive-app/canvas
         ```
@@ -80,17 +77,15 @@ Follow the steps below to integrate Rive into your web app.
         ```javascript Importing
         // Import the entire module under the global identifier `rive`
         import * as rive from "@rive-app/canvas";
-
+        
         // Alternatively, import only the specific parts you need
         import { Rive } from "@rive-app/canvas";
-
+        
         ```
       </Tab>
     </Tabs>
-
-
     <Note>
-    Not using [Rive Text](/editor/text/) and [Rive Audio](/editor/events/audio-events)? Consider using [@rive-app/canvas-lite](/runtimes/web/canvas-vs-webgl#rive-app-canvas-lite) which is a smaller package variant.
+      Not using [Rive Text](/editor/text/) and [Rive Audio](/editor/events/audio-events)? Consider using [@rive-app/canvas-lite](/runtimes/web/canvas-vs-webgl#rive-app-canvas-lite) which is a smaller package variant.
     </Note>
   </Step>
   <Step title="Create a Canvas">
@@ -117,7 +112,7 @@ Follow the steps below to integrate Rive into your web app.
             // src: '/public/example.riv',
             canvas: document.getElementById("canvas"),
             autoplay: true,
-            // artboard: "Arboard", // Optional. If not supplied the default is selected
+            // artboard: "Artboard", // Optional. If not supplied the default is selected
             stateMachines: "bumpy",
             onLoad: () => {
               r.resizeDrawingSurfaceToCanvas();
@@ -126,27 +121,28 @@ Follow the steps below to integrate Rive into your web app.
     </script>
     ```
 
-
     <Note>
-    The `resizeDrawingSurfaceToCanvas` method ensures that the Rive animation is correctly scaled to fit the dimensions of the specified canvas element. By default, the canvas rendering surface might not match the exact size of the `<canvas>` element defined in your HTML, which can lead to blurry or incorrectly scaled graphics, especially on high-DPI or retina displays.
+      The `resizeDrawingSurfaceToCanvas` method ensures that the Rive animation is correctly scaled to fit the dimensions of the specified canvas element. By default, the canvas rendering surface might not match the exact size of the `<canvas>` element defined in your HTML, which can lead to blurry or incorrectly scaled graphics, especially on high-DPI or retina displays.
 
-    Calling this method adjusts the internal drawing surface so that the animation is rendered with crisp detail, matching the pixel density of the canvas. This is particularly important when:
+      Calling this method adjusts the internal drawing surface so that the animation is rendered with crisp detail, matching the pixel density of the canvas. This is particularly important when:
 
-    - The size of the canvas changes dynamically (e.g., if it is resized due to responsive layouts).
-    - You want to ensure the animation remains sharp, regardless of device or screen resolution.
-    <br/>
-    **Best practices:**
+      - The size of the canvas changes dynamically (e.g., if it is resized due to responsive layouts).
+      - You want to ensure the animation remains sharp, regardless of device or screen resolution.
 
-    - **Call after load**: It's recommended to call `resizeDrawingSurfaceToCanvas` inside the `onLoad` callback to ensure that the Rive asset has been fully loaded before adjusting the drawing surface. This prevents any rendering issues.
-    - **Handling window resize**: If your canvas size changes during the user's interaction (such as when resizing the browser window), you should also listen for window resize events and call `resizeDrawingSurfaceToCanvas` to re-adjust the rendering surface:
+      <br />
 
-    ```javascript
-    window.addEventListener("resize", () => {
-        r.resizeDrawingSurfaceToCanvas();
-    });
-    ```
+      **Best practices:**
 
-    This way, the Rive animation will continue to look sharp and correctly scaled as the canvas size changes.
+      - **Call after load**: It's recommended to call `resizeDrawingSurfaceToCanvas` inside the `onLoad` callback to ensure that the Rive asset has been fully loaded before adjusting the drawing surface. This prevents any rendering issues.
+      - **Handling window resize**: If your canvas size changes during the user's interaction (such as when resizing the browser window), you should also listen for window resize events and call `resizeDrawingSurfaceToCanvas` to re-adjust the rendering surface:
+
+      ```javascript
+      window.addEventListener("resize", () => {
+          r.resizeDrawingSurfaceToCanvas();
+      });
+      ```
+
+      This way, the Rive animation will continue to look sharp and correctly scaled as the canvas size changes.
     </Note>
   </Step>
 </Steps>
@@ -202,7 +198,7 @@ When working with a Rive instance, it's important to properly clean it up when i
 - The UI containing Rive animations is no longer needed (e.g., when a modal with Rive graphics is closed).
 - The animation or state machine has completed and will not be shown or run again.
 
-Under the hood, Rive creates various low-level objects (such as artboard instances, animation instances, and state machine instances) in C++, which need to be manually deleted to prevent memory leaks. If not cleaned up, these objects can consume unnecessary resources, potentially impacting your application's performance.
+Under the hood, Rive creates various low-level objects (such as artboard instances, animation instances, and state machine instances) in C\+\+, which need to be manually deleted to prevent memory leaks. If not cleaned up, these objects can consume unnecessary resources, potentially impacting your application's performance.
 
 Fortunately, the high-level JavaScript API simplifies this process. You don't need to track every object created during the Rive instance lifecycle. Instead, you can clean up all associated objects with a single method call.
 
@@ -219,26 +215,26 @@ riveInstance.cleanup();
 
 Learn how to interact with your Rive graphics during runtime.
 
-<Interaction/>
+<Interaction />
 
 # Additional Rive web resources
 
 More in-depth Rive web documentation and advanced use cases.
 
 <CardGroup cols={2}>
-  <Card title="Rive Parameters" href="/runtimes/web/rive-parameters" icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>}>
+  <Card title="Rive Parameters" icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>} href="/runtimes/web/rive-parameters">
     API docs for the Rive instance.
   </Card>
-  <Card title="Canvas vs WebGL" href="/runtimes/web/canvas-vs-webgl" icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>}>
+  <Card title="Canvas vs WebGL" icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>} href="/runtimes/web/canvas-vs-webgl">
     A guide to the different Rive web packages
   </Card>
-  <Card title="FAQ" href="/runtimes/web/faq" icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>}>
+  <Card title="FAQ" icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>} href="/runtimes/web/faq">
     Frequently asked questions
   </Card>
-  <Card title="Preloading WASM" href="/runtimes/web/preloading-wasm" icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>}>
+  <Card title="Preloading WASM" icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>} href="/runtimes/web/preloading-wasm">
     Instructions on how to preload and self-host the rive WASM library.
   </Card>
-  <Card title="Low-level API Usage" href="/runtimes/web/low-level-api-usage" icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>}>
+  <Card title="Low-level API Usage" icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>} href="/runtimes/web/low-level-api-usage">
     Control the Rive render loop and layout, and draw multiple artboards to the same canvas.
   </Card>
 </CardGroup>
