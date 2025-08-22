@@ -117,6 +117,10 @@ To begin, we need to get a reference to a particular view model. This can be don
         ```
     </Tab>
     <Tab title="Flutter">
+        <Info>
+        If you're using a `RiveWidgetController`, you can skip the step of creating a `ViewModel`. Go to [View Model Instance](#view-model-instances).
+        </Info>
+
         ```dart
         // Get reference to the File and Artboard
         final file = await File.asset(
@@ -339,6 +343,36 @@ Once we have a reference to a view model, it can be used to create an instance. 
         ```
     </Tab>
     <Tab title="Flutter">
+        If you're using  `RiveWidgetController`:
+        ```dart
+        // Get reference to the File
+        file = await File.asset(
+            'assets/rewards.riv',
+            riveFactory: Factory.rive,
+        );
+
+        // Create a controller
+        controller = RiveWidgetController(file!);
+
+        // Data bind by name
+        viewModelInstance = controller.dataBind(DataBind.byName('My View Model'));
+        
+        // Data bind by index
+        viewModelInstance = controller.dataBind(DataBind.byIndex(0));
+
+        // Auto data bind
+        viewModelInstance = controller.dataBind(DataBind.auto());
+
+        // Bind some existing view model instance to the controller:
+        viewModelInstance = controller.dataBind(DataBind.byInstance(someViewModelInstance));
+
+        // Dispose of objects you created when no longer needed
+        viewModelInstance.dispose();
+        controller.dispose();
+        file.dispose();
+        ```
+
+        If you want to manage the creation of view model instances yourself:
         ```dart
         final vm = file.viewModelByName("My View Model")!;
 
@@ -522,6 +556,16 @@ It is preferred to assign to a state machine, as this will automatically apply t
         ```
     </Tab>
     <Tab title="Flutter">
+        If you're using `RiveWidgetController` the binding happens automatically when you call any of the following:
+        
+        ```dart
+        viewModelInstance = controller.dataBind(DataBind.auto());
+        viewModelInstance = controller.dataBind(DataBind.byName('My View Model'));
+        viewModelInstance = controller.dataBind(DataBind.byIndex(0));
+        viewModelInstnace = controller.dataBind(someViewModelInstance);
+        ```
+
+        Else, you need to make sure to bind the view model instance to the state machine, or artboard.
         ```dart
         final file = await File.asset(
         'assets/my_file.riv',
@@ -635,11 +679,24 @@ Alternatively, you may prefer to use auto-binding. This will automatically bind 
         ```
     </Tab>
     <Tab title="Flutter">
-        <Info>
-        Flutter (rive_native) does not support auto-binding at this time. Higher level widgets will expose this functionality in the future.
+        ```dart
+        // Get reference to the File
+        file = await File.asset(
+            'assets/rewards.riv',
+            riveFactory: Factory.rive,
+        );
 
-        See the `RivePlayer.dart` file in the example app for a demo of how this will be presented.
-      </Info>
+        // Create a controller
+        controller = RiveWidgetController(file!);
+
+        // Auto data bind
+        viewModelInstance = controller.dataBind(DataBind.auto());
+
+        // Dispose of objects you created when no longer needed
+        viewModelInstance.dispose();
+        controller.dispose();
+        file.dispose();
+        ```
     </Tab>
     <Tab title="Unity">
         **Rive Widget** provides both visual and programmatic ways to configure auto-binding. In the Inspector, you can easily set up binding through the Data Binding Mode dropdown:
@@ -990,8 +1047,8 @@ Some properties are mutable and have getters, setters, and observer operations f
     </Tab>
     <Tab title="Flutter">
         ```dart
-        final vm = file.defaultArtboardViewModel(artboard)!;
-        final vmi = vm.createDefaultInstance()!;
+        // Get reference to the ViewModel instance
+        final vmi = someExistingViewModelInstance;
 
         final numberProperty = vmi.number("My Number Property")!;
         // Get
@@ -1221,8 +1278,8 @@ View models can have properties of type view model, allowing for arbitrary nesti
     </Tab>
     <Tab title="Flutter">
         ```dart
-        final vm = file.viewModelByName("My View Model")!;
-        final vmi = vm.createInstanceByName("My Instance")!;
+        // Get reference to the ViewModel instance
+        final vmi = someExistingViewModelInstance;
 
         final nestedNumberByChain = vmi
             .viewModel("My Nested View Model")!
@@ -1363,8 +1420,8 @@ You can observe changes over time to property values, either by using listeners 
     </Tab>
     <Tab title="Flutter">
         ```dart
-        final vm = file.defaultArtboardViewModel(artboard)!;
-        final vmi = vm.createDefaultInstance()!;
+        // Get reference to the ViewModel instance
+        final vmi = someExistingViewModelInstance;
 
         final numberProperty = vmi.number("My Number Property")!;
         // Get
@@ -1622,6 +1679,10 @@ Image properties let you set and replace raster images at runtime, with each ins
         ```
     </Tab>
     <Tab title="Flutter">
+        <Info>
+            See the the [Flutter data binding images example](https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_images.dart).
+        </Info>
+
         ```dart
         // Access the image property by path on a ViewModelInstance object
         final imageProperty = viewModelInstance.image('my_image')!; // image property named "my_image"
@@ -1886,6 +1947,10 @@ For more information on list properties, see the [Data Binding List Property](/e
 
     </Tab>
     <Tab title="Flutter">
+        <Info>
+            See the the [Flutter data binding list example](https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_lists.dart).
+        </Info>
+
         The list API in Flutter is designed to be similar to the [List](https://api.dart.dev/dart-core/List-class.html) class in Dart. It doesn't contain the full API spec of that class, but it does provide the most commonly used methods.
 
         <Warning>
@@ -2126,9 +2191,22 @@ Artboard properties allows you to swap out entire nested artboards (components) 
     ```
     </Tab>
     <Tab title="Flutter">
-    <Info>
-    Supported. Documentation coming soon.
-    </Info>
+        <Info>
+            See the the [Flutter data binding images example](https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_artboards.dart).
+        </Info>
+
+        Artboard properties work with the `BindableArtboard` class, which is different from the regular `Artboard` class in the package.
+
+        `BindableArtboard` is a runtime wrapper for interacting with artboards through data binding. These instances reference existing artboards in your file, so no additional setup is required in the Rive Editor.
+
+        ```dart
+            // Artboard property to bind
+            final artboardProp = viewModelInstance.artboard('artboardPropertyName')!;
+
+            // Create a bindable artboard
+            final bindableArtboard = riveFile.artboardToBind('artboardName')!;
+            artboardProp.value = bindableArtboard;
+        ```
     </Tab>
     <Tab title="Unity">
         Artboard properties work with the `BindableArtboard` class, which is different from the regular `Artboard` class in the package.
@@ -2314,15 +2392,11 @@ Enums are string typed. The Rive file contains a list of enums. Each enum in tur
         See the [Data Binding view](https://github.com/rive-app/rive-ios/blob/main/Example-iOS/Source/Examples/SwiftUI/DataBindingView.swift) in the Example app for a demo.
     </Tab>
     <Tab title="Flutter">
-        See the `examples/data_binding.dart` file in the example app on [Pub](https://pub.dev/packages/rive_native) for a demo.
-
-        ```bash
-        dart pub unpack rive_native # Unpack the package source code and example app
-        cd rive_native/example      # Navigate to the example folder
-        flutter create .            # Create the platform folders
-        flutter pub get             # Fetch dependencies
-        flutter run                 # Run the example app
-        ```
+        See the [Data Binding example](https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding.dart
+        Other examples:
+        - [Data binding images](https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_images.dart)
+        - [Data binding artboards](https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_artboards.dart)
+        - [Data binding lists](https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_lists.dart)
     </Tab>
      <Tab title="React Native">
         See the [Data Binding view](https://github.com/rive-app/rive-react-native/blob/main/example/app/(examples)/DataBinding.tsx) in the Example app for a demo.
