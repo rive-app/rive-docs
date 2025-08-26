@@ -139,8 +139,6 @@ A low-level Rive API using a WebGL2 context. It has the same benefits as the reg
 - Allows for rendering multiple Rive graphics to a single canvas.
 - Allows deeper control and manipulation of the components in a Rive hierarchy.
 
-See an example of usage here: [CodeSandbox](https://codesandbox.io/p/sandbox/rive-canvas-advanced-api-centaur-example-q6snxp?file=%2Fsrc%2Findex.ts)
-
 ### *-single versions
 
 Each of the above NPM packages includes the `rive.wasm` file. In the high-level APIs (`@rive-app/canvas` and `@rive-app/webgl`) the runtime requests this for you so you don't have to, as opposed to their `-advanced` counterparts. We also have alternative versions of each of the above packages on NPM that have the WASM encoded in the JS bundle (excluding the `lite` versions). This means you won't have to make a network request for the WASM that powers the Rive animations, as it's all in one main JS file. This is a solution for if you have issues loading from the CDNs that load in the WASM in your app.
