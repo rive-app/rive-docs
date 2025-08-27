@@ -18,7 +18,7 @@ This guide documents how to get started using the Rive web runtime library. The 
 
 ## Quick Start
 
-See our [quick start example](https://codesandbox.io/p/sandbox/rive-quick-start-js-xmwcm6).
+See our [quick start example](https://codesandbox.io/p/sandbox/rive-quick-start-js-xmwcm6?file=%2Fsrc%2Findex.ts).
 
 <Note>
   This example only demonstrates loading a .riv file resource in various ways and creating a Rive instance. The other sections detail more advanced use cases.
@@ -43,17 +43,17 @@ Follow the steps below to integrate Rive into your web app.
       <Tab title="Script Tag">
         ```html
         // Add the following script tag to your web page to get the latest version:
-        
-        
+
+
         <script src="https://unpkg.com/@rive-app/canvas"></script>
-        
+
         // You can also pin to a specific version (See [here](https://www.npmjs.com/package/@rive-app/canvas) for the latest):
-        
-        
+
+
         <script src="https://unpkg.com/@rive-app/canvas@2.24.0"></script>
-        
+
         // This will make a global `rive` object available, allowing you to access the Rive API via the `rive` entry point:
-        
+
         new rive.Rive({});
         ```
       </Tab>
@@ -77,10 +77,10 @@ Follow the steps below to integrate Rive into your web app.
         ```javascript Importing
         // Import the entire module under the global identifier `rive`
         import * as rive from "@rive-app/canvas";
-        
+
         // Alternatively, import only the specific parts you need
         import { Rive } from "@rive-app/canvas";
-        
+
         ```
       </Tab>
     </Tabs>
@@ -182,7 +182,7 @@ Bringing it all together, here's how to load a Rive graphic in a single HTML fil
 
 ### Loading Rive files
 
-[See this example](https://codesandbox.io/p/sandbox/rive-quick-start-js-xmwcm6) for the different ways to load in a .riv file, the options are:
+[See this example](https://codesandbox.io/p/sandbox/rive-quick-start-js-xmwcm6?file=%2Fsrc%2Findex.ts) for the different ways to load in a .riv file, the options are:
 
 1. **Hosted URL**: Use a string representing the URL where the `.riv` file is hosted. Set this as the `src` attribute when creating a new Rive instance.
 2. **Static Assets in the bundle**: Provide a string with the path to a publicly accessible `.riv` file within your web project. Handle `.riv` files just like any other static asset (e.g., images or fonts) in your project.
@@ -242,7 +242,6 @@ More in-depth Rive web documentation and advanced use cases.
 # Examples
 
 - [Basic gallery app](https://github.com/rive-app/rive-wasm/tree/master/js/examples/_frameworks/parcel_example_canvas)
-- [Tracking mouse cursor](https://codesandbox.io/p/sandbox/tracking-mouse-cursor-n38gdd)
-- [Simple skinning](https://codesandbox.io/p/sandbox/simple-skinning-example-96xnwn)
-- [Connecting to page scroll](https://codesandbox.io/p/sandbox/rive-page-scroll-h4msqw)
-- [Playing state machine only when scrolled into the user's viewport](https://codesandbox.io/p/sandbox/rive-wait-for-scroll-into-view-y9wg8d)
+- [Tracking mouse cursor](https://codesandbox.io/p/sandbox/tracking-mouse-cursor-n38gdd?file=%2Fsrc%2Findex.ts)
+- [Connecting to page scroll](https://codesandbox.io/p/sandbox/rive-page-scroll-h4msqw?file=%2Fsrc%2Findex.ts%3A27%2C45)
+- [Playing state machine only when scrolled into the user's viewport](https://codesandbox.io/p/sandbox/rive-wait-for-scroll-into-view-y9wg8d?file=%2Fsrc%2Findex.ts)
