@@ -1742,9 +1742,9 @@ For more information on list properties, see the [Data Binding List Property](/e
 
         <Columns cols={2}>
             <Card
-                title="Example: Lists with JS"
+                title="Example: Data Binding Lists"
                 img="/images/app-runtimes/data-binding/rive-db-lists.webp"
-                href="https://codesandbox.io/p/sandbox/suspicious-hertz-2lg4m8?file=%2Fsrc%2Findex.mjs"
+                href="https://codesandbox.io/p/sandbox/suspicious-hertz-2lg4m8?file=%2Fsrc%2Findex.ts"
             >
                 Add, remove, and swap items in your data binding list with javascript.
             </Card>
@@ -1789,7 +1789,7 @@ For more information on list properties, see the [Data Binding List Property](/e
 
          <Columns cols={2}>
             <Card
-                title="Example: Lists with React"
+                title="Example: Data Binding Lists"
                 img="/images/app-runtimes/data-binding/rive-db-lists.webp"
                 href="https://codesandbox.io/p/sandbox/rive-react-data-binding-lists-4msh9z?file=%2Fsrc%2FApp.tsx"
             >
@@ -2065,12 +2065,76 @@ Artboard properties allows you to swap out entire nested artboards (components) 
 
 <Tabs>
     <Tab title="Web">
-    <Info>
-    Supported. Documentation coming soon.
-    </Info>
+    <Columns cols={2}>
+        <Card
+            title="Example: Data binding Artboards"
+            img="/images/app-runtimes/data-binding/rive-data-bind-components.webp"
+            href="https://codesandbox.io/p/sandbox/rive-js-data-binding-artboards-jx3pf9?file=%2Fsrc%2Findex.mjs%3A5%2C19"
+        >
+            Swap an artboard with another artboard from the same .riv or one loaded at runtime.
+        </Card>
+    </Columns>
+
+    ```typescript
+    let artboardProperty = null;
+    let characterArtboard = null;
+
+    function attachCharacter() {
+        // If the artboard property and the character artboard, both exist, set the artboard
+        if (characterArtboard && artboardProperty) {
+            artboardProperty.value = characterArtboard;
+        }
+    }
+
+    const r = new Rive({
+        src: "swap_character_main.riv",
+        autoplay: true,
+        canvas: el,
+        autoBind: true,
+        layout: new Layout({
+            fit: Fit.Layout,
+            layoutScaleFactor: 0.5,
+        }),
+        stateMachines: "State Machine 1",
+        onLoad: () => {
+            r.resizeDrawingSurfaceToCanvas();
+
+            const vmi = r.viewModelInstance;
+            artboardProperty = vmi.artboard("Artboard property");
+
+            attachCharacter();
+        },
+        onLoadError: () => {
+            console.log("error");
+        },
+    });
+
+    // Load an external artboard
+    const assetsFile = new RiveFile({
+        src: "swap_character_assets.riv",
+        onLoad: () => {
+            characterArtboard = assetsFile.getArtboard("Character 1");
+            attachCharacter();
+        },
+        onLoadError: () => {
+            console.log("error");
+        },
+    });
+    assetsFile.init();
+    ```
     </Tab>
         <Tab title="React">
         Use the `useViewModelInstanceArtboard` hook to set artboard properties on view model instances.
+
+    <Columns cols={2}>
+        <Card
+            title="Example: Data binding Artboards"
+            img="/images/app-runtimes/data-binding/rive-data-bind-components.webp"
+            href="https://codesandbox.io/p/sandbox/rive-react-data-binding-artboards-kmvzh8?file=%2Fsrc%2FApp.tsx"
+        >
+            Swap an artboard with another artboard from the same .riv or one loaded at runtime.
+        </Card>
+    </Columns>
 
         ```typescript
         import { useRive, useViewModel, useViewModelInstance, useViewModelInstanceArtboard } from '@rive-app/react-webgl2';
