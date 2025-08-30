@@ -5,6 +5,8 @@ description: "JavaScript/WASM runtime for Rive."
 
 import Interaction from "/snippets/runtimes/animation-control-and-interaction.mdx"
 import NoteOnFeatureSupport from "/snippets/runtimes/rendering-feature-support.mdx"
+import { RiveCard } from '/snippets/rive-card.jsx'
+import { ExampleEyeFollow } from '/snippets/example-eye-follow.jsx'
 
 <NoteOnFeatureSupport />
 
@@ -241,7 +243,16 @@ More in-depth Rive web documentation and advanced use cases.
 
 # Examples
 
+<Columns cols={2}>
+  <RiveCard
+    title="Tracking the cursor"
+    description="The cat will follow your cursor, even when it's outside the bounds of the canvas."
+    link="https://codesandbox.io/p/sandbox/tracking-mouse-cursor-n38gdd?file=%2Fsrc%2Findex.ts"
+  >
+    <ExampleEyeFollow />
+  </RiveCard>
+</Columns>
+
 - [Basic gallery app](https://github.com/rive-app/rive-wasm/tree/master/js/examples/_frameworks/parcel_example_canvas)
-- [Tracking mouse cursor](https://codesandbox.io/p/sandbox/tracking-mouse-cursor-n38gdd?file=%2Fsrc%2Findex.ts)
 - [Connecting to page scroll](https://codesandbox.io/p/sandbox/rive-page-scroll-h4msqw?file=%2Fsrc%2Findex.ts%3A27%2C45)
 - [Playing state machine only when scrolled into the user's viewport](https://codesandbox.io/p/sandbox/rive-wait-for-scroll-into-view-y9wg8d?file=%2Fsrc%2Findex.ts)
