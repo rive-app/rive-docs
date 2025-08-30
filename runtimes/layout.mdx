@@ -3,6 +3,10 @@ title: 'Layout'
 description: 'Rive offers multiple options for controlling how graphics are laid out within the canvas, view, widget, or texture.'
 ---
 
+import { ExamplesCards } from '/snippets/examples-cards.jsx'
+import { RiveCard } from '/snippets/rive-card.jsx'
+import { ExampleEyeFollow } from '/snippets/example-eye-follow.jsx'
+
 ## Responsive Layout
 
 Rive’s new Layout feature lets you design resizable artboards with built-in responsive behavior, configured directly in the graphic. Just set a **Fit** of type **Layout** at runtime and the artboard will resize automatically. Optionally, provide a **Layout Scale Factor** to further adjust the scale of the content.
@@ -16,6 +20,16 @@ For more Editor information and how to configure your graphic see [Layouts Overv
 <Tabs>
   <Tab title="Web">
     **Examples**
+    asdf
+    <ExamplesCards examples={['dataBindingImages', 'layouts']} runtime="web">
+      <RiveCard
+        title="Responsive Layouts"
+        description="Create responsive layouts that adapt to different screen sizes."
+        link="https://codesandbox.io/p/devbox/rive-responsive-layout-js-forked-m77nlw?file=%2Fsrc%2Findex.ts%3A10%2C1"
+      >
+        <ExampleEyeFollow />
+      </RiveCard>
+    </ExamplesCards>
 
     - [Layout JS example](https://codesandbox.io/p/devbox/rive-responsive-layout-js-forked-m77nlw?file=%2Fsrc%2Findex.ts%3A10%2C1)
 

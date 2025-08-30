@@ -1,12 +1,11 @@
-export const RiveCard = ({ children, link, title, description }) => {
+export const RiveCard = ({ children, href, title, description }) => {
 
   return (
     <a
-      href={link}
+      href={href}
       target="_blank"
       className="card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full cursor-pointer hover:!border-primary dark:hover:!border-primary-light"
     >
-      {/* Examples have a 4:3 aspect ratio */}
       <div className="w-full h-0 relative pb-[75%]">
         <div className="absolute inset-0">
           {children}

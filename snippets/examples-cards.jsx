@@ -1,8 +1,9 @@
-import { Example } from './examples'
+import { RiveCard } from "./rive-card"
 
 export const ExamplesCards = ({
   examples,
   runtime,
+  children
 }) => {
   const examplesData = {
     dataBindingArtboards: {
@@ -35,14 +36,32 @@ export const ExamplesCards = ({
           'https://codesandbox.io/p/sandbox/rive-react-data-binding-lists-4msh9z?file=%2Fsrc%2FApp.tsx',
       },
     },
+    layouts: {
+      title: "Responsive Layouts",
+      description: "Create responsive layouts that adapt to different screen sizes.",
+      riv: "/assets/rivs/layouts_demo.riv",
+      links: {
+        web: "https://codesandbox.io/p/devbox/rive-responsive-layout-js-forked-m77nlw",
+      },
+    }
   }
 
   return (
     <Columns cols={2}>
+      { children }
       {examples.map((example) => {
-        const { title, image, links } = examplesData[example]
-        return (
-          <Card key={title} title={title} img={image} href={links[runtime]} />
+        const { title, image, links, riv, description } = examplesData[example]
+
+        if (image) return  (
+          <Card key={title} title={title} img={image} href={links[runtime]} >
+            {description}
+          </Card>
+        )
+
+        if (riv) return (
+          <RiveCard key={title} title={title} href={links[runtime]} description={description}>
+            to do: add card with rive player
+          </RiveCard>
         )
       })}
     </Columns>
