@@ -1,5 +1,3 @@
-import { Example } from './examples'
-
 export const ExamplesCards = ({
   examples,
   runtime,
