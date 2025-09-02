@@ -38,9 +38,11 @@ export const ExamplesCards = ({
   return (
     <Columns cols={2}>
       {examples.map((example) => {
-        const { title, image, links } = examplesData[example]
+        const { title, image, links, description } = examplesData[example]
         return (
-          <Card key={title} title={title} img={image} href={links[runtime]} />
+          <Card key={title} title={title} img={image} href={links[runtime]} >
+            {description}
+          </Card>
         )
       })}
     </Columns>
