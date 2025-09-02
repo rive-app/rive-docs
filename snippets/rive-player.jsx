@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 export const RivePlayer = ({
-  src,
+  src = "/assets/rivs/cat_follow_cursor_demo.riv",
   stateMachines = "State Machine 1",
   canvasId = "rive-canvas"
 }) => {
@@ -9,11 +9,10 @@ export const RivePlayer = ({
     const rive = window.rive;
 
     const r = new rive.Rive({
-      src: src,
-      stateMachines: stateMachines,
+      src: "/assets/rivs/layouts_demo.riv",
+      stateMachines: "State Machine 1",
       canvas: document.getElementById(canvasId),
       autoplay: true,
-      autoBind: true,
       Layout: new rive.Layout({
         fit: rive.Fit.Layout,
       }),

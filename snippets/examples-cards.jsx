@@ -1,5 +1,3 @@
-import { RiveCard } from "./rive-card"
-
 export const ExamplesCards = ({
   examples,
   runtime,
@@ -56,12 +54,6 @@ export const ExamplesCards = ({
           <Card key={title} title={title} img={image} href={links[runtime]} >
             {description}
           </Card>
-        )
-
-        if (riv) return (
-          <RiveCard key={title} title={title} href={links[runtime]} description={description}>
-            to do: add card with rive player
-          </RiveCard>
         )
       })}
     </Columns>

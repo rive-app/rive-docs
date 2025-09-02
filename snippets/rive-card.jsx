@@ -1,4 +1,4 @@
-export const RiveCard = ({ children, href, title, description }) => {
+export const RiveCard = ({ children, href, title, description, riv }) => {
 
   return (
     <a
