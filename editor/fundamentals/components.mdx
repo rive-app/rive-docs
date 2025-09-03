@@ -10,6 +10,8 @@ Alternatively, you can use the `shift` + `N` shortcut with an artboard selected.
 
 Select the component toggle in the inspector again to revert your selection back to a regular artboard, or use the `shift` + `alt` + `N` shortcut.
 
+Currently, only Artboards that have been flagged as Components will be exported to your `.riv` file. If you think you may want to programmatically access your artboard at runtime, you should mark it as a Component. More options on specific export behaviours are coming soon.
+
 ## Using Components
 Use the Component Tool — formally known as the Nested Artboard Tool — to select and place instances of a component on the stage. Select the tool from the toolbar or use the `N` shortcut to enable it.
 
@@ -20,10 +22,10 @@ Click anywhere on the stage to place the component in the desired location. A po
 Alternatively, select the dropdown menu to the right of the toolbar icon to select the component ahead of time. The menu is informed by the sort mode of the assets tab — the Custom mode will present components as they’re organised in the asset panel, while the Source/Type mode will present components from their source. The latter will become useful in our upcoming Libraries feature.
 
 ## Configuring a Component Instance
-Once you’ve added a Component, you can choose any number of timelins or State Machinesthere are a number of ways to playback various animations and State Machines.
+Once you’ve added a Component, select a Timeline or State Machine for playback.
 
 ### State Machines
-After assigning an artboard to a Nested Artboard, you’ll notice that the default state machine for that artboard is displayed in the Inspector.
+After assigning an Instance, the default State Machine is displayed in the Inspector.
 
 ![Image](https://ucarecdn.com/94ebcfa4-8a62-40a4-a0a4-6c165f9f7358/)
 
