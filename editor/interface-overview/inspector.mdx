@@ -1,51 +1,105 @@
 ---
-title: 'Inspector'
-description: 'The Inspector is located on the right side of the Editor.'
+title: "Inspector"
+description: "The Inspector is located on the right side of the Editor. It shows all of the editable properties of all objects in the Rive editor."
 ---
 
-![Image](/images/editor/interface-overview/658ea70f-60cc-4bbb-95d3-6bacbb69272d.webp)
+# Inspector
 
 An object's editable properties can be found in the Inspector. The Inspector changes dynamically depending on your selected object and where you are in the editor.
 
-## Align tools
+![Inspector Pn](/images/inspector.png)
 
-The Align tools are located at the top of the inspector. Use these tools to quickly align or distribute the selected object.
+## Background Color, Tags, Default Interpolation
+
+When nothing is selected, the Inspector has three sections: Backgrounds, Tags, and Default Interpolation.
+
+**Background color**
+
+Found at the top of the Inspector, this section allows you to change the background color of the editor for both Animate and Design modes. This is a helpful way to remind yourself which mode you are currently in.
+
+![Backgrounds Pn](/images/backgrounds.png)
+
+**Tags**
+
+Below the background color, you can see, edit, and add new tags to your file. Learn more about tags [here](https://rive.app/docs/editor/tagging).
+
+![Tags Pn](/images/tags.png)
+
+**Default Interpolation**
+
+Below Tags is the Default Interpolation for your file.
+
+![Default Int Pn](/images/default_Int.png)
+
+When you set a key on the timeline, it will use the file's default interpolation until it's changed on the timeline. By changing the default interpolation, you can control which interpolation curve is applied to new keys.
+
+## Align and Distribute tools
+
+When one or more objects, such as shapes or groups, are selected, the Align tools appear at the top of the inspector. Use them to align or distribute the selected objects. Read more about the Align tools here.
+
+![Align Pn](/images/Align.png)
+
+## Layout and N-Slicing
+
+When one or more objects, such as shapes or groups, are selected, the inspector gives the option to layout or n-slice the current selection.
+
+![L Oand N Pn](/images/LOandN.png)
+
+<CardGroup cols={2}>
+  <Card title="Layouts" icon="page" iconType="solid" href="https://rive.app/docs/editor/layouts/layouts-overview">
+    Layouts let you build responsive designs.
+  </Card>
+  <Card title="N-Slicing" icon="page" iconType="solid" href="https://rive.app/docs/editor/layouts/n-slicing">
+    N-slicing lets you stretch or repeat parts of raster and vector designs.
+  </Card>
+</CardGroup>
 
 ## Transform properties
 
-The transform properties of an object appear below the Align tools. Generally, these properties include position, scale, and rotation, but can also include width and height if you have a path layer selected.
+The transform properties of an object appear below the Align tools. Generally, these properties include position, scale, and rotation, but they can also include width and height if you have a path layer selected.
+
+![Transform Pn](/images/Transform.png)
 
 ## Layer properties
 
-Below the transform properties, you'll find a number of properties that allow you to customize the look of some objects on the stage. These properties include blend mode, opacity, fill, and stroke.
+Below the transform properties, you'll find several properties that allow you to customize the look of some objects on the stage. These properties include blend mode, opacity, fill, and stroke.
+
+![Layer Pn](/images/Layer.png)
 
 ## Additional properties
 
-Below the Layer properties, you'll find many additional properties that you can add such as Clipping, Constraints, Custom Draw Order, and Selection Colors.
+Below the Layer properties, you'll find many additional properties that you can add such as Clipping, Constraints, Custom Draw Order, and Selection Colors
 
-<CardGroup cols={3}>
-  <Card
-    title="Manipulating Shapes"
-    icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" d="M7.31 7.111 2.406 5.15l4.61-1.844.328-.126a2.3 2.3 0 0 1 1.647 0l.33.126L13.93 5.15 9.024 7.112c-.55.22-1.163.22-1.712 0"></path><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="m2.405 10.911 4.906 1.963c.55.22 1.162.22 1.712 0l4.906-1.963M2.405 8.031 7.31 9.992c.55.22 1.162.22 1.712 0l4.906-1.963M2.405 5.15 7.31 7.111c.55.22 1.162.22 1.712 0l4.906-1.962-4.61-1.844-.329-.126a2.3 2.3 0 0 0-1.647 0l-.329.126z"></path></svg>}
-    iconType="solid"
-    href="/editor/manipulating-shapes/manipulating-shapes"
-  >
+
+![Additional Pn](/images/additional.png)
+
+<CardGroup cols="3">
+  <Card title="Manipulating Shapes" icon="page" iconType="solid" href="../manipulating-shapes/manipulating-shapes">
     The Rive editor gives you multiple ways to manipulate your graphics to create the animation that you want. I
   </Card>
-  <Card
-    title="Constraints"
-    icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" d="M7.31 7.111 2.406 5.15l4.61-1.844.328-.126a2.3 2.3 0 0 1 1.647 0l.33.126L13.93 5.15 9.024 7.112c-.55.22-1.163.22-1.712 0"></path><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="m2.405 10.911 4.906 1.963c.55.22 1.162.22 1.712 0l4.906-1.963M2.405 8.031 7.31 9.992c.55.22 1.162.22 1.712 0l4.906-1.963M2.405 5.15 7.31 7.111c.55.22 1.162.22 1.712 0l4.906-1.962-4.61-1.844-.329-.126a2.3 2.3 0 0 0-1.647 0l-.329.126z"></path></svg>}
-    iconType="solid"
-    href="/editor/constraints/"
-  >
+  <Card title="Constraints" icon="page" iconType="solid" href="../constraints/">
     Constraints are a way to control the properties of an object through another target object.
   </Card>
-  <Card
-    title="Animate Mode"
-    icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" d="M7.31 7.111 2.406 5.15l4.61-1.844.328-.126a2.3 2.3 0 0 1 1.647 0l.33.126L13.93 5.15 9.024 7.112c-.55.22-1.163.22-1.712 0"></path><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="m2.405 10.911 4.906 1.963c.55.22 1.162.22 1.712 0l4.906-1.963M2.405 8.031 7.31 9.992c.55.22 1.162.22 1.712 0l4.906-1.963M2.405 5.15 7.31 7.111c.55.22 1.162.22 1.712 0l4.906-1.962-4.61-1.844-.329-.126a2.3 2.3 0 0 0-1.647 0l-.329.126z"></path></svg>}
-    iconType="solid"
-    href="/editor/animate-mode/"
-  >
+  <Card title="Animate Mode" icon="page" iconType="solid" href="../animate-mode/">
+   
     Rive has two distinct modes, Design and Animate.
+  </Card>
+</CardGroup>
+
+### Motion and State Properties
+
+This section shows customizable properties when Keys, Transitions, or States are selected.
+
+![Motioninspector Pn](/images/motioninspector.png)
+
+<CardGroup cols={3}>
+  <Card title="Interpolation Panel" icon="page" iconType="solid" href="https://rive.app/docs/editor/animate-mode/interpolation-easing">
+    Selecting a key brings up the interpolation panel.
+  </Card>
+  <Card title="Transition Properties" icon="page" iconType="solid" href="https://rive.app/docs/editor/state-machine/transitions">
+    Selecting a transition will show customizable transition properties.
+  </Card>
+  <Card title="State Properties" icon="page" iconType="solid" href="https://rive.app/docs/editor/state-machine/states">
+    State properties are customizable by selecting a state.
   </Card>
 </CardGroup>
