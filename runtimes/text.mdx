@@ -1,16 +1,41 @@
 ---
-title: 'Text'
-description: 'Reading and modifying text at runtime (legacy)'
+title: "Text"
+description: "Reading and modifying text at runtime (legacy)"
 ---
 
 <Info>
-  We strongly recommend controlling your Text with [Data Binding](/runtimes/data-binding), rather than setting the text runs directly.
+  We strongly recommend controlling your Text with [Data
+  Binding](/runtimes/data-binding), rather than setting the text runs directly.
 </Info>
 
 For more information on designing and animating Text, please refer to the editor's text section:
 
 <CardGroup cols={2}>
-  <Card title="Text" href="/editor/text/"  icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" d="M7.31 7.111 2.406 5.15l4.61-1.844.328-.126a2.3 2.3 0 0 1 1.647 0l.33.126L13.93 5.15 9.024 7.112c-.55.22-1.163.22-1.712 0"></path><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="m2.405 10.911 4.906 1.963c.55.22 1.162.22 1.712 0l4.906-1.963M2.405 8.031 7.31 9.992c.55.22 1.162.22 1.712 0l4.906-1.963M2.405 5.15 7.31 7.111c.55.22 1.162.22 1.712 0l4.906-1.962-4.61-1.844-.329-.126a2.3 2.3 0 0 0-1.647 0l-.329.126z"></path></svg>}>
+  <Card
+    title="Text"
+    href="/editor/text/"
+    icon={
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="100%"
+        fill="none"
+        viewBox="0 0 16 16"
+        class="size-4 text-gray-500/80 dark:text-gray-400"
+        aria-hidden="true"
+      >
+        <path
+          fill="currentColor"
+          d="M7.31 7.111 2.406 5.15l4.61-1.844.328-.126a2.3 2.3 0 0 1 1.647 0l.33.126L13.93 5.15 9.024 7.112c-.55.22-1.163.22-1.712 0"
+        ></path>
+        <path
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="m2.405 10.911 4.906 1.963c.55.22 1.162.22 1.712 0l4.906-1.963M2.405 8.031 7.31 9.992c.55.22 1.162.22 1.712 0l4.906-1.963M2.405 5.15 7.31 7.111c.55.22 1.162.22 1.712 0l4.906-1.962-4.61-1.844-.329-.126a2.3 2.3 0 0 0-1.647 0l-.329.126z"
+        ></path>
+      </svg>
+    }
+  >
     [Information on designing and animating Text]
   </Card>
 </CardGroup>
@@ -19,7 +44,7 @@ Please ensure you're on the correct runtime version with support for Rive Text; 
 
 ## Read/Update Text Runs at Runtime
 
-If you intend to update a **text run** at runtime it's important to manually enter a *unique name* for the run in the editor:
+If you intend to update a **text run** at runtime it's important to manually enter a _unique name_ for the run in the editor:
 
 ![Image](/images/runtimes/3114789e-e298-458e-8d9b-00ca71db658d.webp)
 
@@ -30,13 +55,14 @@ And then export the name: **right-click** and select **Export name**
 You can identify an exported component if it's surrounded by square brackets. This makes it possible for the run to be "discoverable" at runtime by its name. For more information, see [Exporting for Runtime](/editor/exporting/exporting-for-runtime).
 
 <Warning>
- **If the name is not set manually in the editor the name will not be part of the exported *.riv* (to reduce file size).**
+  **If the name is not set manually in the editor the name will not be part of
+  the exported *.riv* (to reduce file size).**
 </Warning>
 
 <Note>
- Text runs can also be updated on nested artboards at runtime, see [Read/Update Nested Text Runs at Runtime](#read-update-nested-text-runs-at-runtime) below.
+  Text runs can also be updated on nested artboards at runtime, see [Read/Update
+  Nested Text Runs at Runtime](#read-update-nested-text-runs-at-runtime) below.
 </Note>
-
 
 <Tabs>
 
@@ -353,12 +379,12 @@ You can identify an exported component if it's surrounded by square brackets. Th
 
 ## Read/Update Nested Text Runs at Runtime
 
-It's possible to set nested text runs at runtime—text that is not on the main artboard but on a [Nested Artboard](/editor/fundamentals/nested-artboards). To set a nested text run, you'll need to take note of the path where the input exists at an artboard level.
+It's possible to set nested text runs at runtime—text that is not on the main artboard but on a [Nested Artboard](/editor/fundamentals/components). To set a nested text run, you'll need to take note of the path where the input exists at an artboard level.
 
 For example, to get/set the text run named **button_text** on the **Button** artboard, you need to provide the correct path.
 
 ![Setting Nested Text Runs ](/images/runtimes/51848b07-5a82-4fc9-ab3f-0505336fcce3.webp)
-*Setting Nested Text Runs*
+_Setting Nested Text Runs_
 
 The artboard names here are:
 
@@ -373,13 +399,16 @@ However, the path is determined based on the names set in the hierarchy:
 The path is then: `ArtboardWithUniqueName/ButtonWithUniqueName`
 
 <Warning>
- Be sure to mark the nested artboards and text runs as exported.<br/>
- ![Export nested artboard name](/images/runtimes/618066cd-2909-420e-b94b-d3eb920fe389.webp)
- *Export nested artboard name*
+  Be sure to mark the nested artboards and text runs as exported.
+  <br />
+  ![Export nested artboard
+  name](/images/runtimes/618066cd-2909-420e-b94b-d3eb920fe389.webp) *Export
+  nested artboard name*
 </Warning>
 
 <Warning>
- Do not use "/" in the name for your components, as that will break the search functionality at runtime.
+  Do not use "/" in the name for your components, as that will break the search
+  functionality at runtime.
 </Warning>
 
 <Tabs>
@@ -610,7 +639,8 @@ The path is then: `ArtboardWithUniqueName/ButtonWithUniqueName`
 ### Semantics for Accessibility
 
 <Tip>
-We recommend using [Data Binding](/editor/data-binding/overview) instead as you'll be able to do a two way text binding.
+  We recommend using [Data Binding](/editor/data-binding/overview) instead as
+  you'll be able to do a two way text binding.
 </Tip>
 
 As Rive Text does not make use of the underlying platform text APIs, additional steps need to be taken to ensure it can be read by screen readers.
@@ -721,8 +751,8 @@ The following code snippets provide guidance on how to add semantic labels to yo
 
         In the above snippet, we've created an instance of Rive, and as the state changes in the state machine, we're dynamically updating the contents of the live region (represented by `dynamicTextEl`) with the string rating. Due to the live region having the property of `aria-live="assertive"`, screen readers should read off the new dynamic text content.
     </Tab>
-</Tabs>
 
+</Tabs>
 
 ### Additional Resources:
 
@@ -733,7 +763,8 @@ The following code snippets provide guidance on how to add semantic labels to yo
 When drawing text, not all glyphs (characters) may be available, such as custom fonts that may not support multiple languages, or if your embedded fonts have been set to not contain all glyphs. In these cases, it may be best to have a font that is used when a missing glyph is encountered. Some platforms have support for fallback fonts, which allow the use of system fonts as fallbacks (which should contain most missing glyphs).
 
 <Note>
- On iOS and Android, sizes are ignored; instead, supplied fonts are used to render glyphs that match the styling and animation of a text run at runtime.
+  On iOS and Android, sizes are ignored; instead, supplied fonts are used to
+  render glyphs that match the styling and animation of a text run at runtime.
 </Note>
 
 <Tabs>
@@ -933,5 +964,3 @@ When drawing text, not all glyphs (characters) may be available, such as custom 
     </Tab>
 
 </Tabs>
-
-
