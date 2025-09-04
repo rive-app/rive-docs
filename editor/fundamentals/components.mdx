@@ -1,53 +1,53 @@
 ---
 title: "Components (formally Nested Artboards)"
-description: "Components streamline your workflow with reusable artboards and animations. Changes made to the source Component are reflected across all of its instances."
+description: "Components streamline your workflow with reusable artboards and animations. Changes made to the source component are reflected across all of its instances."
 ---
 
 ## Creating a Component
-Any Artboard can be converted to a Component. To do so, select an Artboard on the stage and use the Component icon in the inspector to toggle its status.
+Any artboard can be converted to a component. To do so, select an artboard on the stage and use the component icon in the inspector to toggle its status.
 
-Alternatively, you can use the `shift` + `N` shortcut with an artboard selected. If you're coming from Figma, then the `cmd/ctrl` + `alt/option` + `K`, shortcut will also work.
+Alternatively, you can use the `Shift` + `N` shortcut with an artboard selected. If you're coming from Figma, then the `Cmd/Ctrl` + `Alt/Option` + `K`, shortcut will also work.
 
-Select the component toggle in the inspector again to revert your selection back to a regular artboard, or use the `shift` + `alt` + `N` shortcut.
+Select the component toggle in the inspector again to revert your selection back to a regular artboard, or use the `Shift` + `Alt/Option` + `N` shortcut.
 
-Currently, only Artboards that have been flagged as Components will be exported to your `.riv` file. If you think you may want to programmatically access your artboard at runtime, you should mark it as a Component. More options on specific export behaviors are coming soon.
+Currently, only artboards that have been flagged as components will be exported to your `.riv` file. If you think you may want to programmatically access an artboard at runtime, you should mark it as a component. More options on specific export behaviors are coming soon.
 
 ## Using Components
 Use the Component Tool — formally known as the Nested Artboard Tool — to select and place instances of a component on the stage. Select the tool from the toolbar or use the `N` shortcut to enable it.
 
-Click anywhere on the stage to place the component in the desired location. A popup menu will display available components to instance. If none show up, you may have no artboards marked as components in your file.
+Click anywhere on the stage to place the component in the desired location. A menu will display available components to instance. If none show up, you may have no artboards marked as components in your file.
 
 ![Image](https://ucarecdn.com/160cd677-f1d3-493e-9e30-acc79c147b57/)
 
-Alternatively, select the dropdown menu to the right of the toolbar icon to select the component ahead of time. The menu is informed by the sort mode of the assets tab — the Custom mode will present components as they’re organised in the asset panel, while the Source/Type mode will present components from their source. The latter will become useful with our upcoming Libraries feature.
+Alternatively, select the dropdown menu to the right of the toolbar icon to select the component ahead of time. The menu is informed by the sort mode of the assets tab — the 'Custom' mode will present components as they’re organised in the asset panel, while the 'Source/Type' mode will present components from their source. The latter will become useful with our upcoming Libraries feature.
 
 ## Configuring a Component Instance
-Once you’ve added an Instance of a Component, select a Timeline or State Machine for playback.
+Once you’ve added an instance of a component, select a timeline or state machine for playback.
 
 ### State Machines
-After assigning an Instance, the default State Machine is displayed in the Inspector.
+After assigning an instance, the default state machine is displayed in the inspector.
 
 ![Image](https://ucarecdn.com/94ebcfa4-8a62-40a4-a0a4-6c165f9f7358/)
 
-If you’ve exposed any Inputs, you can access them using the options menu (when an animation is selected) or in the Inputs Panel (when a state machine is selected).
+If you’ve exposed any inputs, you can access them using the options menu (when an animation is selected) or via the inputs panel when a state machine is selected.
 
 ![Image](https://ucarecdn.com/c2d02ee1-da89-4df9-bc6e-ff6e65a60a25/)
 
 ### Adding an Animation
-You can playback any animation associated with a Component. You’ll need to add the desired animation to the Instance using the plus button in the Inspector.
+You can playback any animation associated with a component. You’ll need to add the desired animation to the instance using the plus button in the Inspector.
 
 ![Image](https://ucarecdn.com/c09c02ea-f94a-4f00-ba0f-ece2f40129f5/)
 
-These animations can be used by themselves, mixed with its State Machine, or other animations.
+These animations can be used by themselves, mixed with the state machine, or layered with other animations.
 
-Note that before adding the animation, you must select whether it's a Simple or Remap animation. We’ll discuss the differences below.
+Note that before adding the animation, you must select whether it's a simple or remapped animation.
 
 #### Simple
-Simple animations are an easy way to playback a Component's timeline.
+Simple animations are an easy way to playback a component's timeline.
 
 ![Image](https://ucarecdn.com/57c30af7-d4ba-416d-8779-ac4daa46d6fb/)
 
-A Simple animation lets you key when an animation begins playing onsla a timeline. You also have the option to change the animation's playback speed.
+A simple animation lets you key its start point on a timeline. You also have the option to change the animation's playback speed.
 
 #### Remap
 Remap animations allow you to key time values of an animation on the timeline. This lets you stretch, shrink, or even play an animation in reverse.
@@ -59,12 +59,12 @@ Note that the time value is in percent, with 0% representing the start of the ti
 ### Mix Value
 As you add additional animations to a Component, animations begin to mix together. This mixing is important, especially when multiple animations share keyed properties. Without adjusting this value, your Component may not playback your animations in the way you want.
 
-By default, any animation added to a Component starts with a mix value of 100%. You can adjust this value in design mode or in a specific animation by setting keys. **Note that an animation that has a non-zero mix value will always be mixing with other animations, regardless if it has a play key set or not.**
+By default, any animation added to a component starts with a mix value of 100%. You can adjust this value in design mode or in a specific animation by setting keys. **Note that an animation that has a non-zero mix value will always be mixing with other animations, regardless if it has a play key set or not.**
 
 To ensure the correct animation is playing, ensure that you key the mix value for the desired animation to 100%, and all other animations have a mix of 0%.
 
 ## Instance Modes
-Component Instances can be set to use one of 3 modes which will behave differently based on their contents and the context in which they are used. The Leaf and Layout modes are typically used when the parent artboard needs to layout its contents responsively.
+Component instances can be set to use one of 3 modes which will behave differently based on their contents and the context in which they are used. The Leaf and Layout modes are typically used when the parent artboard needs to layout its contents responsively.
 
 ### Node
 This is the default mode and is used in non-responsive scenarios. Its contents will always appear scaled (via the Scale property).
