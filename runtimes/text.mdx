@@ -1,7 +1,11 @@
 ---
 title: 'Text'
-description: 'Reading and modifying text at runtime.'
+description: 'Reading and modifying text at runtime (legacy)'
 ---
+
+<Info>
+  We strongly recommend controlling your Text with [Data Binding](/runtimes/data-binding), rather than setting the text runs directly.
+</Info>
 
 For more information on designing and animating Text, please refer to the editor's text section:
 
@@ -17,13 +21,13 @@ Please ensure you're on the correct runtime version with support for Rive Text; 
 
 If you intend to update a **text run** at runtime it's important to manually enter a *unique name* for the run in the editor:
 
-![Image](https://ucarecdn.com/3114789e-e298-458e-8d9b-00ca71db658d/)
+![Image](/images/runtimes/3114789e-e298-458e-8d9b-00ca71db658d.webp)
 
 And then export the name: **right-click** and select **Export name**
 
-![Image](https://ucarecdn.com/b729291c-f915-4ce0-b2fa-f6d6a742141c/)
+![Image](/images/runtimes/b729291c-f915-4ce0-b2fa-f6d6a742141c.webp)
 
-You can identify an exported component if it's surrounded by square brackets. This makes it possible for the run to be "discoverable" at runtime by its name. For more information, see [Exporting for Runtime](../editor/exporting/exporting-for-runtime).
+You can identify an exported component if it's surrounded by square brackets. This makes it possible for the run to be "discoverable" at runtime by its name. For more information, see [Exporting for Runtime](/editor/exporting/exporting-for-runtime).
 
 <Warning>
  **If the name is not set manually in the editor the name will not be part of the exported *.riv* (to reduce file size).**
@@ -202,33 +206,26 @@ You can identify an exported component if it's surrounded by square brackets. Th
     </Tab>
 
     <Tab title="Flutter">
+        Get/set the text run value on an `Artboard` instance.
 
-        Find the `TextValueRun` component with a given **name** on a Rive `Artboard` and update the text value.
+        <Tip>
+        We recommend using [Data Binding](/editor/data-binding/overview) instead to update text at runtime.
+        </Tip>
 
-        To make this more convenient you can create an extension.
+        ```dart Get/Set Text Run Value
+        final controller = RiveWidgetController(riveFile);
+        final artboard = controller.artboard;
 
-        ```dart
-        extension _TextExtension on Artboard {
-        TextValueRun? textRun(String name) => component<TextValueRun>(name);
-        }
+        // Get a text run value
+        artboard.getText(value)
+        // Optional path parameter to get a text run value at a nested artboard level
+        artboard.getText(value, path: path)
+
+        // Set a text run value
+        artboard.setText(value)
+        // Optional path parameter to set a text run value at a nested artboard level
+        artboard.setText(value, path: path)
         ```
-
-        Get a reference to the `Artboard`, find the text run named *"MyRun"*, and update the text value:
-
-        ```dart
-        RiveAnimation.asset(
-        'assets/hello_world_text.riv',
-        animations: const ['Timeline 1'],
-        onInit: (artboard) {
-            final textRun = artboard.textRun('MyRun')!; // find text run named "MyRun"
-            print('Run text used to be ${textRun.text}');
-            textRun.text = 'Hi Flutter Runtime!';
-        },
-        )
-        ```
-
-        Or get a reference to the artboard by calling: `riveFile.mainArtboard`, see [Alternative Widget Setup](./flutter/alternative-widget-setup).
-
     </Tab>
 
     <Tab title="Apple">
@@ -360,14 +357,14 @@ It's possible to set nested text runs at runtime—text that is not on the main 
 
 For example, to get/set the text run named **button_text** on the **Button** artboard, you need to provide the correct path.
 
-![Setting Nested Text Runs ](https://ucarecdn.com/51848b07-5a82-4fc9-ab3f-0505336fcce3/)
+![Setting Nested Text Runs ](/images/runtimes/51848b07-5a82-4fc9-ab3f-0505336fcce3.webp)
 *Setting Nested Text Runs*
 
 The artboard names here are:
 
 - **Main** -&gt; **NestedArtboard** -&gt; **Button**
 
-![Image](https://ucarecdn.com/fc5b5be2-546f-44d0-ad85-f7a8da64973b/)
+![Image](/images/runtimes/fc5b5be2-546f-44d0-ad85-f7a8da64973b.webp)
 
 However, the path is determined based on the names set in the hierarchy:
 
@@ -377,7 +374,7 @@ The path is then: `ArtboardWithUniqueName/ButtonWithUniqueName`
 
 <Warning>
  Be sure to mark the nested artboards and text runs as exported.<br/>
- ![Export nested artboard name](https://ucarecdn.com/618066cd-2909-420e-b94b-d3eb920fe389/)
+ ![Export nested artboard name](/images/runtimes/618066cd-2909-420e-b94b-d3eb920fe389.webp)
  *Export nested artboard name*
 </Warning>
 
@@ -489,11 +486,30 @@ The path is then: `ArtboardWithUniqueName/ButtonWithUniqueName`
         ```
     </Tab>
 
+    <Tab title="Flutter">
+        Get/set a nested text run value on an `Artboard` instance.
+
+        <Tip>
+        We recommend using [Data Binding](/editor/data-binding/overview) instead to update text at runtime.
+        </Tip>
+
+        ```dart Get/Set Text Run Value
+        final controller = RiveWidgetController(riveFile);
+        final artboard = controller.artboard;
+
+        //Use the path parameter to get a text run value at a nested artboard level
+        artboard.getText(value, path: path)
+
+        // Use the path parameter to set a text run value at a nested artboard level
+        artboard.setText(value, path: path)
+        ```
+    </Tab>
+
     <Tab title="Apple">
 
         ### Reading Text
 
-        Similar to [reading text from a text run within a parent artboard](./text#reading-text), you can set the value of a text run within a nested artboard using the following API:
+        Similar to [reading text from a text run within a parent artboard](/runtimes/text#reading-text), you can set the value of a text run within a nested artboard using the following API:
 
         ```swift
         open func getTextRunValue(_ textRunName: String, path: String) -> String?
@@ -501,7 +517,7 @@ The path is then: `ArtboardWithUniqueName/ButtonWithUniqueName`
 
         ### Setting Text
 
-        Additionally, similar to [setting text within a parent artboard](./text#setting-text), you can read the value of a text run within a nested artboard using the following API:
+        Additionally, similar to [setting text within a parent artboard](/runtimes/text#setting-text), you can read the value of a text run within a nested artboard using the following API:
 
         ```swift
         open func setTextRunValue(_ textRunName: String, textValue: String, path: String) throws
@@ -593,10 +609,13 @@ The path is then: `ArtboardWithUniqueName/ButtonWithUniqueName`
 
 ### Semantics for Accessibility
 
+<Tip>
+We recommend using [Data Binding](/editor/data-binding/overview) instead as you'll be able to do a two way text binding.
+</Tip>
+
 As Rive Text does not make use of the underlying platform text APIs, additional steps need to be taken to ensure it can be read by screen readers.
 
 The following code snippets provide guidance on how to add semantic labels to your Rive animations. Please see the respective platform/SDKs developer documentation for additional information regarding accessibility concerns.
-
 
 <Tabs>
     <Tab title="Flutter">
@@ -605,28 +624,17 @@ The following code snippets provide guidance on how to add semantic labels to yo
         ```
         ...
 
-        String semanticLabel = '';
+        final controller = RiveWidgetController(riveFile);
+        final textValue = controller.artboard.getText('some_text_run_name').value;
+        String semanticLabel = textValue;
 
         ...
 
         Semantics(
-        label: semanticLabel,
-        child: RiveAnimation.asset(
-            'assets/hello_world_text.riv',
-            animations: const ['Timeline 1'],
-            onInit: (artboard) {
-            final run = artboard.component<TextValueRun>("MyRun");
-            setState(() {
-                // Calling setState is needed to ensure the Semantics widget
-                // rebuilds with the new value.
-                semanticLabel = run?.text ?? "";
-            });
-            },
-        ),
+            label: semanticLabel,
+            child: RiveWidget(controller: controller);
         ),
         ```
-
-        Or you can read the `.riv` file yourself and instance the artboard, see Alternative Widget Setup.
     </Tab>
 
     <Tab title="Web (JS)">

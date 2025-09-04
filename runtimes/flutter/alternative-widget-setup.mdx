@@ -4,20 +4,20 @@ description: 'Techniques and considerations to cache a Rive File in Flutter.'
 ---
 
 
-The easiest way to integrate Rive animations and state machines into your application is via the `RiveAnimation` widget mentioned throughout the runtime help docs. However, there are cases where you may want to set up animation or state machine controllers associated with the Rive widget before the Artboard is rendered. Check out below for other ways to integrate Rive into your Flutter applications: 
+The easiest way to integrate Rive animations and state machines into your application is via the `RiveAnimation` widget mentioned throughout the runtime help docs. However, there are cases where you may want to set up animation or state machine controllers associated with the Rive widget before the Artboard is rendered. Check out below for other ways to integrate Rive into your Flutter applications:
 
-## Alternative Methods 
+## Alternative Methods
 
-### File loading 
+### File loading
 
 If you want to load in the `.riv` file from the `rootBundle`, you'll need to import the data yourself. The main pattern here is:
 
 <Steps>
-  <Step title="Load in the bytes of the `.riv` file"></Step>
-  <Step title="Use the `RiveFile` class to parse the data and get a reference to the file"></Step>
-  <Step title="Create a reference to the Artboard you want to display, from that file"></Step>
-  <Step title="(Optional) Associate controllers to an Artboard (i.e `StateMachineController`)"></Step>
-  <Step title="Render the `Rive` widget with the artboard reference"></Step>
+  <Step title="Load in the bytes of the `.riv` file" />
+  <Step title="Use the `RiveFile` class to parse the data and get a reference to the file" />
+  <Step title="Create a reference to the Artboard you want to display, from that file" />
+  <Step title="(Optional) Associate controllers to an Artboard (i.e `StateMachineController`)" />
+  <Step title="Render the `Rive` widget with the artboard reference" />
 </Steps>
 
 <Steps>
@@ -89,7 +89,7 @@ If you want to load in the `.riv` file from the `rootBundle`, you'll need to imp
   </Step>
 </Steps>
 
-### Complete Example 
+### Complete Example
 
 Altogether, this pattern might look like the following snippet below:
 

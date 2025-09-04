@@ -1,0 +1,107 @@
+---
+title: "Rive MCP Integration"
+sidebarTitle: "MCP Integration"
+---
+
+import { EarlyAccess } from '/snippets/early-access.mdx'
+
+<EarlyAccess featureName="MCP">
+   MCP Integration is initially available in the Early Access version of the Mac Desktop app. Windows support is coming.
+</EarlyAccess>
+
+## Getting started
+
+You can connect the Rive Editor to AI tools through MCP (Model Context Protocol). The first set of tools are designed to let AI handle repetitive tasks, like creating complex View Models, State Machines with hundreds of states/layers, Layouts, Shapes, and more.
+
+<Note>
+   This initial iteration works with a limited number of AI tools, specifically those supporting MCP. We recommend using Cursor for now, but the list will expand.
+</Note>
+
+## Installation
+
+### Mac
+
+<Steps>
+  <Step title="Install Rive Early Access">
+    Install the latest version of the [Rive Early Access](https://rive.app/downloads) desktop app for Mac.
+  </Step>
+  <Step title="Set up Cursor">
+    Create a [Cursor](https://www.cursor.com/) account and install the app.
+  </Step>
+  <Step title="Save the configuration">
+    Save the following JSON snippet to your computer as `mcp.json`.
+  ```json
+  {
+    "mcpServers": {
+        "rive": {
+            "url": "http://localhost:9791/sse"
+        }
+    }
+  }
+  ```
+  </Step>
+  <Step title="Configure MCP">
+    If you have hidden files and folders enabled in Finder, move `mcp.json` to the `.cursor` folder in your home directory.
+    Otherwise, you can use Terminal. Open Terminal.app and run the following command:
+    ```bash
+    cp /path/to/mcp.json ~/.cursor
+    ```
+  </Step>
+  <Step title="Enable in Cursor">
+    <Steps>
+      <Step title="Open settings">
+        Open Cursor and navigate to the settings panel in the top right corner
+        ![](/images/editor/cursor-settings-button.png)
+      </Step>
+      <Step title="Navigate to the MCP section">
+      ![](/images/editor/cursor-mcp-settings.png)
+      </Step>
+      <Step title="Verify connection">
+        If everything was installed correctly, you should see Rive as an available MCP server
+        ![](/images/editor/cursor-mcp-connection.png)
+
+        <Note>
+        For the Rive server to be available, you must have the Rive Early Access app opened.
+        </Note>
+      </Step>
+      <Step title="Enable connection">
+        Turn the MCP connection `On`
+      </Step>
+    </Steps>
+  </Step>
+</Steps>
+
+Additional information on setting up MCP can be found [here](https://docs.cursor.com/context/model-context-protocol).
+
+## What can it do?
+
+Once Cursor is installed and everything is set up correctly, it's time to start prompting the AI.
+
+<Steps>
+  <Step title="Open your Rive file">
+    Have a Rive File open and an Artboard created.
+  </Step>
+  <Step title="Enter your prompt">
+    Type your prompt into the chat UI and hit enter. The AI will take a moment to process the request.
+    
+    Example prompt:
+    ```
+    Create a State Machine about birds with 20 states and 2 layers
+    ```
+  </Step>
+  <Step title="Complete the interaction">
+    Once the request has been processed, type **End Prompt** to allow the AI to make changes to the Rive file.
+  </Step>
+</Steps>
+
+### Supported Features
+
+- Create State Machines, Layers, States, Transitions, and Conditions
+- Create View Models, Properties, and Instances
+- Create Layouts
+- List View Models
+- Create Shapes
+
+<Note>
+   This list of features will evolve over time as more tools are added.
+</Note>

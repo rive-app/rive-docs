@@ -1,9 +1,13 @@
 ---
 title: 'Animation Playback'
-description: 'Playing and pausing animations.'
+description: 'Playing and pausing animations (legacy)'
 ---
 
-Rive lets you specify what artboard to use, what animations and state machines to mix and play and control the play/pause state of each animation.
+<Info>
+  We strongly recommend controlling your animation(s) at runtime with a [State Machine](/runtimes/state-machines), rather than controlling them individually.
+</Info>
+
+Rive lets you specify what animations and state machines to mix and play and control the play/pause state of each animation.
 
 The term *animations* may collectively refer to both animations and state machines. In this section, we explore how to deal with specific animation playback, rather than state machines.
 
@@ -11,113 +15,6 @@ The term *animations* may collectively refer to both animations and state machin
  If you are trying to coordinate multiple animations' playback at runtime, consider using a state machine instead to do this for you!
 </Note>
 
-## Choosing an artboard
-
-When a Rive object is instantiated, the artboard to use can be specified. If no artboard is given, the default artboard is used. Only one artboard can be used at a time.
-
-<Tabs>
-
-  <Tab title="Web">
-    ```javascript
-    new rive.Rive({
-        src: 'https://cdn.rive.app/animations/vehicles.riv',
-        canvas: document.getElementById('canvas'),
-        artboard: 'Truck',
-        autoplay: true
-    });
-    ```
-  </Tab>
-
-  <Tab title="React">
-    ```javascript
-    export const Simple = () => (
-      <Rive src="https://cdn.rive.app/animations/vehicles.riv" artboard="Truck" />
-    );
-
-    // With `useRive` Hook:
-    export default function Simple() {
-      const { RiveComponent } = useRive({
-          src: 'https://cdn.rive.app/animations/vehicles.riv',
-          artboard: 'Truck',
-          autoplay: true,
-      });
-
-      return <RiveComponent />;
-    }
-    ```
-  </Tab>
-
-  <Tab title="React Native">
-    ```javascript
-    export default function App() {
-      return (
-        <View>
-          <Rive resourceName="truck_v7" artboardName="Jeep" autoplay />
-        </View>
-      );
-    }
-    ```
-  </Tab>
-
-  <Tab title="Flutter">
-    ```dart
-    RiveAnimation.network(
-        'https://cdn.rive.app/animations/vehicles.riv',
-        artboard: 'Truck'
-    );
-    ```
-  </Tab>
-
-  <Tab title="Apple">
-    #### SwiftUI
-    ```swift
-    struct AnimationView: View {
-        var body: some View {
-            RiveViewModel(
-                fileName: "dancing_banana",
-                artboardName: "Banana"
-            ).view()
-        }
-    }
-    ```
-
-    #### UIKit
-    ```swift
-    class AnimationViewController: UIViewController {
-        @IBOutlet weak var riveView: RiveView!
-
-        var bananaVM = RiveViewModel(
-            fileName: "dancing_banana",
-            artboardName: "Banana",
-        )
-
-        override func viewDidLoad() {
-            bananaVM.setView(riveView)
-        }
-    }
-    ```
-  </Tab>
-
-  <Tab title="Android">
-    ### Via XML
-    ```xml
-    <app.rive.runtime.kotlin.RiveAnimationView
-        app:riveAutoPlay="true"
-        app:riveArtboard="Square"
-        app:riveResource="@raw/artboard_animations" />
-    ```
-
-    ### Via Kotlin
-    ```kotlin
-    animationView.setRiveResource(
-        R.raw.artboard_animations,
-        artboardName = "Square",
-        autoplay = true
-    )
-    ```
-  </Tab>
-
-</Tabs>
 
 ## Choosing starting animations
 
@@ -176,17 +73,19 @@ Starting animations can also be chosen when Rive is instantiated. The first anim
   </Tab>
 
   <Tab title="Flutter">
-    ```javascript
-    // Play the curves animation
-    RiveAnimation.network(
-        'https://cdn.rive.app/animations/vehicles.riv',
-        animations: ['curves'],
-    );
+    ```dart
+    // Create a File, Artboard, and SingleAnimationPainter
+    final file = (await File.asset(
+      'assets/rewards.riv',
+      riveFactory: Factory.rive,
+    ))!;
+    final artboard = file.artboard('Main')!;
+    final animationPainter = SingleAnimationPainter("Artboard Name");
 
-    // Play and mix both the idle and curves animations
-    RiveAnimation.network(
-        'https://cdn.rive.app/animations/vehicles.riv',
-        animations: ['idle', 'curves'],
+    // Later create the widget
+    return RiveArtboardWidget(
+      artboard: artboard,
+      painter: animationPainter,
     );
     ```
   </Tab>
@@ -403,7 +302,7 @@ export default function App() {
   <Tab title="React Native">
       #### Invoking Playback Controls
 
-      To trigger animation playback controls, set a `ref` on the Rive component rendered. Once the `ref` is populated, you can trigger functions such as `play`, `pause`, etc. See the `ref` method docs for React Native [Rive Ref Methods](./react-native/rive-ref-methods).
+      To trigger animation playback controls, set a `ref` on the Rive component rendered. Once the `ref` is populated, you can trigger functions such as `play`, `pause`, etc. See the `ref` method docs for React Native [Rive Ref Methods](/runtimes/react-native/rive-ref-methods).
 
       ```javascript
       import Rive, { RiveRef } from 'rive-react-native'
@@ -438,133 +337,13 @@ export default function App() {
   <Tab title="Flutter">
     Flutter handles things a little differently compared to the other runtimes due to its reactive nature.
 
-    Every animation and state machine in Flutter has an underlying controller that manages the state of each animation. When you pass a list of animation names to the RiveAnimation widget, it creates and manages controllers for each.
+    Every animation and state machine in Flutter has an underlying painter that manages the state/painting/advancing.
 
-    In order to access controls for animations, you'll need to instantiate a RiveAnimationController for each animation and pass the controller to the RiveAnimation widget instead of its name. You can mix and match passing in controllers and names, but avoid passing in both for the same animation.
+    In order to access controls for animations, you'll need to create a `SingleAnimationPainter` or `StateMachinePainter` and pass it to the `RiveArtboardWidget`.
 
-    There are a number of controllers provided in the runtime that perform certain tasks. We'll cover these as they become relevant.
+    Or you can create `RiveWidgetController` and pass it to the `RiveWidget` to control playback of state machines with a more feature-rich API (recommended).
 
-    #### Manually controlling a looping animation
-
-
-    [SimpleAnimation](https://pub.dev/documentation/rive/latest/rive/SimpleAnimation-class.html) is a basic controller that provides simple playback control of a single animation. With this controller, you can play, pause, and reset animations.
-
-    In the following example, the `isActive` property of `SimpleAnimation` is used to play and pause a single animation.
-
-    ```dart
-    import 'package:flutter/material.dart';
-    import 'package:rive/rive.dart';
-
-    class PlayPauseAnimation extends StatefulWidget {
-      const PlayPauseAnimation({Key? key}) : super(key: key);
-
-      @override
-      _PlayPauseAnimationState createState() => _PlayPauseAnimationState();
-    }
-
-    class _PlayPauseAnimationState extends State<PlayPauseAnimation> {
-      /// Controller for playback
-      late RiveAnimationController _controller;
-
-      /// Toggles between play and pause animation states
-      void _togglePlay() =>
-          setState(() => _controller.isActive = !_controller.isActive);
-
-      /// Tracks if the animation is playing by whether controller is running
-      bool get isPlaying => _controller.isActive;
-
-      @override
-      void initState() {
-        super.initState();
-        _controller = SimpleAnimation('idle');
-      }
-
-      @override
-      Widget build(BuildContext context) {
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text('Animation Example'),
-          ),
-          body: Center(
-            child: RiveAnimation.network(
-              'https://cdn.rive.app/animations/vehicles.riv',
-              controllers: [_controller],
-              // Update the play state when the widget's initialized
-              onInit: () => setState(() {}),
-            ),
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: _togglePlay,
-            tooltip: isPlaying ? 'Pause' : 'Play',
-            child: Icon(
-              isPlaying ? Icons.pause : Icons.play_arrow,
-            ),
-          ),
-        );
-      }
-    }
-    ```
-
-    ### Repeatedly playing a one-shot animation
-
-    One-shot animations do not loop. [OneShotAnimation](https://pub.dev/documentation/rive/latest/rive/OneShotAnimation-class.html) is a controller that will automatically stop and reset a one-shot animation when it has played through so it can be repeatedly played as required.
-
-    The controller also provides two callbacks: `onStart` and `onStop` that will fire when the animation starts and stops playing respectively.
-
-    The example below demonstrates mixing animation names with controllers. The `idle` and `curves` animations are managed by the runtime and their looping animations will play continuously. `bounce` is a one-shot and is triggered when the button is tapped. The runtime will then play the `bounce` animation, mixing it cleanly with the looping animations.
-
-    ```dart
-    import 'package:flutter/material.dart';
-    import 'package:rive/rive.dart';
-
-    class PlayOneShotAnimation extends StatefulWidget {
-      const PlayOneShotAnimation({Key? key}) : super(key: key);
-
-      @override
-      _PlayOneShotAnimationState createState() => _PlayOneShotAnimationState();
-    }
-
-    class _PlayOneShotAnimationState extends State<PlayOneShotAnimation> {
-      /// Controller for playback
-      late RiveAnimationController _controller;
-
-      /// Is the animation currently playing?
-      bool _isPlaying = false;
-
-      @override
-      void initState() {
-        super.initState();
-        _controller = OneShotAnimation(
-          'bounce',
-          autoplay: false,
-          onStop: () => setState(() => _isPlaying = false),
-          onStart: () => setState(() => _isPlaying = true),
-        );
-      }
-
-      @override
-      Widget build(BuildContext context) {
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text('One-Shot Example'),
-          ),
-          body: Center(
-            child: RiveAnimation.network(
-              'https://cdn.rive.app/animations/vehicles.riv',
-              animations: const ['idle', 'curves'],
-              controllers: [_controller],
-            ),
-          ),
-          floatingActionButton: FloatingActionButton(
-            // disable the button while playing the animation
-            onPressed: () => _isPlaying ? null : _controller.isActive = true,
-            tooltip: 'Play',
-            child: const Icon(Icons.arrow_upward),
-          ),
-        );
-      }
-    }
-    ```
+    This painter concept is extensible, and you can also create your own custom painter, for example, to control multiple animations at once.
   </Tab>
 
   <Tab title="Apple">

@@ -1,23 +1,25 @@
 ---
-title: 'Data Binding'
-description: 'Connect your code to bound editor elements using View Models'
+title: "Data Binding"
+description: "Connect your code to bound editor elements using View Models"
 ---
 
-import { EarlyAccess } from '/snippets/early-access-feature.mdx'
+import { YouTube } from '/snippets/youtube.mdx'
 
-<EarlyAccess featureName="Data Binding">
-  As data binding continues to develop additional features, we suggest you continue to refer to this page for changes.
-</EarlyAccess>
+export const DataBindingReact = () => {
+  return (
+    <Info>
+    Hooks for data binding will soon be available in the Rive React package. In the meantime, you can use the Web API in React. Check back here for updates.
+    </Info>
+  );
+};
 
 # Overview
 
 Before engaging with the runtime data binding APIs, it is important to familiarize yourself with the core concepts presented in the [Overview](/editor/data-binding/overview).
 
-<Card title="Data Binding Concepts" href="/editor/data-binding/overview"  icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" d="M7.31 7.111 2.406 5.15l4.61-1.844.328-.126a2.3 2.3 0 0 1 1.647 0l.33.126L13.93 5.15 9.024 7.112c-.55.22-1.163.22-1.712 0"></path><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="m2.405 10.911 4.906 1.963c.55.22 1.162.22 1.712 0l4.906-1.963M2.405 8.031 7.31 9.992c.55.22 1.162.22 1.712 0l4.906-1.963M2.405 5.15 7.31 7.111c.55.22 1.162.22 1.712 0l4.906-1.962-4.61-1.844-.329-.126a2.3 2.3 0 0 0-1.647 0l-.329.126z"></path></svg>}>
-    An overview of core data binding concepts.
+<Card title="Data Binding Concepts" icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" d="M7.31 7.111 2.406 5.15l4.61-1.844.328-.126a2.3 2.3 0 0 1 1.647 0l.33.126L13.93 5.15 9.024 7.112c-.55.22-1.163.22-1.712 0"></path><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="m2.405 10.911 4.906 1.963c.55.22 1.162.22 1.712 0l4.906-1.963M2.405 8.031 7.31 9.992c.55.22 1.162.22 1.712 0l4.906-1.963M2.405 5.15 7.31 7.111c.55.22 1.162.22 1.712 0l4.906-1.962-4.61-1.844-.329-.126a2.3 2.3 0 0 0-1.647 0l-.329.126z"></path></svg>} href="/editor/data-binding/overview">
+  An overview of core data binding concepts.
 </Card>
-
-<Note>Only the web runtime is released at this time. The Android APIs are provided as a preview.</Note>
 
 # View Models
 
@@ -26,44 +28,173 @@ View models describe a set of properties, but cannot themselves be used to get o
 To begin, we need to get a reference to a particular view model. This can be done either by index, by name, or the default for a given artboard, and is done from the Rive file. The default option refers to the view model assigned to an artboard by the dropdown in the editor.
 
 <Tabs>
-    <Tab title="Web">
+  <Tab title="Web">
+    Access a View Model from the created Rive object in the `onLoad` callback:
+
     ```typescript
     const rive = new rive.Rive({
-        src: "my_rive_file.riv",
-        canvas: document.getElementById("canvas"),
         onLoad: () => {
-            // Get reference by name
-            const namedVM = rive.viewModelByName("My View Model");
-
-            // Get reference by index
-            for (let i = 0; i < rive.viewModelCount(); i++) {
-                const indexedVM = rive.viewModelByIndex(i);
-            }
-
-            // Get reference to the default view model
-            const defaultVM = rive.defaultViewModel();
+            // The Rive object is now loaded and ready to use.
         }
     });
     ```
-    </Tab>
-    <Tab title="Android">
-        ```kotlin
-        // `view` of type RiveAnimationView
-        view.setRiveResource(R.raw.my_rive_file)
-        val file = view.controller.file!!
 
-        // Get reference by name
-        val vm = file.getViewModelByName("My View Model")
+    Once Rive is loaded, you can access the view models using the following methods:
 
-        // Get reference by index
-        for (i in 0 until file.viewModelCount) {
-            val indexedVM = file.getViewModelByIndex(i)
+    ```typescript
+    // Get reference by name
+    const namedVM = rive.viewModelByName("My View Model");
+    
+    // Get reference by index
+    for (let i = 0; i < rive.viewModelCount; i++) {
+        const indexedVM = rive.viewModelByIndex(i);
+    }
+    
+    // Get reference to the default view model
+    const defaultVM = rive.defaultViewModel();
+    ```
+
+    Alternatively, if you have access to the underlying Rive File object you can access the above methods on the file.
+
+    ```typescript
+    const namedVM = file.viewModelByName("My View Model");
+    const indexedVM = file.viewModelByIndex(0);
+    const defaultVM = file.defaultArtboardViewModel(artboard);
+    ```
+  </Tab>
+  <Tab title="React">
+    Use the `useViewModel` hook to get a reference to a view model. You need to pass the `rive` object obtained from `useRive`.
+
+    ```typescript
+    import { useRive, useViewModel } from '@rive-app/react-webgl2';
+    
+    const { rive, RiveComponent } = useRive({
+        src: 'your_file.riv',
+        // ... other options
+    });
+    
+    // Option 1: Get the default ViewModel for the artboard
+    const defaultViewModel = useViewModel(rive);
+    
+    // Option 2: Get the default ViewModel explicitly
+    const defaultViewModelExplicit = useViewModel(rive, { useDefault: true });
+    
+    // Option 3: Get a ViewModel by its name
+    const namedViewModel = useViewModel(rive, { name: 'MyViewModelName' });
+    ```
+  </Tab>
+  <Tab title="Apple">
+    ```swift
+    let riveViewModel = RiveViewModel(...)
+    let file = riveViewModel.riveModel!.riveFile
+    
+    // Data binding view model by name
+    let viewModelByName = file.viewModelNamed("...")
+    
+    // Data binding view model by index
+    for index in 0..<file.viewModelCount {
+        let viewModelByIndex = file.viewModel(at: index)
+    }
+    
+    // Default data binding view model for an artboard
+    let artboard = riveViewModel.riveModel!.artboard
+    let viewModelForArtboard = file.viewModel(for: artboard)
+    ```
+  </Tab>
+  <Tab title="Android">
+    ```kotlin
+    // `view` of type RiveAnimationView
+    view.setRiveResource(R.raw.my_rive_file)
+    val file = view.controller.file!!
+    
+    // Get reference by name
+    val vm = file.getViewModelByName("My View Model")
+    
+    // Get reference by index
+    for (i in 0 until file.viewModelCount) {
+        val indexedVM = file.getViewModelByIndex(i)
+    }
+    
+    // Get reference to the default view model
+    val defaultVM = file.defaultViewModelForArtboard(view.controller.activeArtboard!!)
+    ```
+  </Tab>
+  <Tab title="Flutter">
+    <Info>
+      If you're using a `RiveWidgetController`, you can skip the step of creating a `ViewModel`. Go to [View Model Instances](#view-model-instances).
+    </Info>
+    ```dart
+    // Get reference to the File and Artboard
+    final file = await File.asset(
+        'assets/my_file.riv',
+        riveFactory: Factory.rive,
+    );
+    final artboard = file!.defaultArtboard()!;
+    
+    // Get reference by name
+    file.viewModelByName("My View Model");
+    
+    // Get reference by index
+    for (var i = 0; i < file.viewModelCount; i++) {
+        final indexedVM = file.viewModelByIndex(i);
+    }
+    
+    // Get reference to the default view model for an artboard
+    final defaultVM = file.defaultArtboardViewModel(artboard);
+    
+    // Dispose the view model when you're no longer using it
+    viewModel.dispose();
+    ```
+  </Tab>
+  <Tab title="Unity">
+    <Note>
+      These APIs are only needed when the `Data Binding Mode` on the RiveWidget is set to `Manual`.
+
+      Otherwise, you can configure view model binding directly in the Unity Inspector under the Data section.
+    </Note>
+    ```csharp
+    private void OnEnable()
+    {
+        riveWidget.OnWidgetStatusChanged += HandleWidgetStatusChanged;
+    }
+    
+    private void OnDisable()
+    {
+        riveWidget.OnWidgetStatusChanged -= HandleWidgetStatusChanged;
+    }
+    
+    private void HandleWidgetStatusChanged()
+    {
+        if (riveWidget.Status == WidgetStatus.Loaded)
+        {
+            File file = riveWidget.File;
+    
+            // Get reference by name
+            ViewModel viewModel = file.GetViewModelByName("My View Model");
+    
+            // Get reference by index
+            for (int i = 0; i < file.ViewModelCount; i++)
+            {
+                ViewModel indexedVM = file.GetViewModelAtIndex(i);
+            }
+    
+            // Get reference to the default view model for an artboard
+            ViewModel defaultVM = riveWidget.Artboard.DefaultViewModel;
         }
+    }
+    ```
+  </Tab>
+  <Tab title="React Native">
+    In React Native you cannot directly instantiate a view model and pass it to Rive. Instead, React Native will always use the view model
+    that is bound to the artboard - as set in the editor.
 
-        // Get reference to the default view model
-        val defaultVM = file.defaultViewModelForArtboard(view.controller.activeArtboard!!)
-        ```
-    </Tab>
+    This is because in React Native, you do not have direct control over the Rive file, the artboard, or the state machine.
+    What you can control is the instance of the view model. See below.
+
+    <Info>
+      A future version of Rive for React Native may allow for similar control as the other runtimes.
+    </Info>
+  </Tab>
 </Tabs>
 
 # View Model Instances
@@ -72,104 +203,431 @@ Once we have a reference to a view model, it can be used to create an instance. 
 
 1. Create a blank instance - Fill the properties of the created instance with default values as follows:
 
-    | Type              | Value           |
-    |-------------------|-----------------|
-    | Number            | 0               |
-    | String            | Empty string    |
-    | Boolean           | False           |
-    | Color             | #000000FF       |
-    | Trigger           | Untriggered     |
-    | Enum              | The first value |
-    | Nested view model | Null            |
-
+   | Type              | Value           |
+   | ----------------- | --------------- |
+   | Number            | 0               |
+   | String            | Empty string    |
+   | Boolean           | False           |
+   | Color             | 0xFF000000      |
+   | Trigger           | Untriggered     |
+   | Enum              | The first value |
+   | Nested view model | Null            |
 2. Create the default instance - Use the instance labelled "Default" in the editor. Usually this is the one a designer intends as the primary one to be used at runtime.
-
 3. Create by index - Using the order returned when iterating over all available instances. Useful when creating multiple instances by iteration.
-
 4. Create by name - Use the editor's instance name. Useful when creating a specific instance.
 
 <Tabs>
-    <Tab title="Web">
+  <Tab title="Web">
     ```typescript
-    const rive = new rive.Rive({
-        onLoad: () => {
-            const vm = rive.viewModelByName("My View Model");
-
-            // Create blank
-            const vmiBlank = vm.instance();
-
-            // Create default
-            const vmiDefault = vm.defaultInstance();
-
-            // Create by index
-            for (let i = 0; i < vm.instanceCount; i++) {
-                const vmiIndexed = vm.instanceByIndex(i);
-            }
-
-            // Create by name
-            const vmiNamed = vmvm.instanceByName("My Instance");
-        }
-    });
+    // Create a blank instance from a view model (ViewModel)
+    const vmiBlank = viewModel.instance();
+    
+    // Create a default instance from a view model (ViewModel)
+    const vmiDefault = viewModel.defaultInstance();
+    
+    // Create an instance by index from a view model (ViewModel)
+    for (let i = 0; i < viewModel.instanceCount; i++) {
+        const vmiIndexed = viewModel.instanceByIndex(i);
+    }
+    
+    // Create an instace by name from a view model (ViewModel)
+    const vmiNamed = viewModel.instanceByName("My Instance");
     ```
-    </Tab>
-    <Tab title="Android">
-        ```kotlin
-        val vm = view.controller.file?.getViewModelByName("My View Model")!!
+  </Tab>
+  <Tab title="React">
+    Use the `useViewModelInstance` hook to create a view model instance from a view model returned by the `useViewModel` hook.
 
+    ```typescript
+    import { useRive, useViewModel, useViewModelInstance } from '@rive-app/react-webgl2';
+    
+    const { rive, RiveComponent } = useRive({
+        src: 'your_file.riv',
+        artboard: 'MyArtboard',
+        stateMachine: 'MyStateMachine',
+        // ... other options
+    });
+    
+    const viewModel = useViewModel(rive, { name: 'MyViewModelName' });
+    // Or: const viewModel = useViewModel(rive); // Default VM
+    
+    // Get default instance without binding
+    const defaultUnbound = useViewModelInstance(viewModel, { useDefault: true });
+    
+    // Get named instance without binding
+    const namedUnbound = useViewModelInstance(viewModel, { name: 'MyInstanceName' });
+    
+    // Create new blank instance without binding
+    const newUnbound = useViewModelInstance(viewModel, { useNew: true });
+    ```
+
+    You can also bind the view model instance directly to the Rive instance by passing the `rive` object to the `useViewModelInstance` hook.
+
+    ```typescript
+    import { useRive, useViewModel, useViewModelInstance } from '@rive-app/react-webgl2';
+    
+    const { rive, RiveComponent } = useRive({
+        src: 'your_file.riv',
+        artboard: 'MyArtboard',
+        stateMachine: 'MyStateMachine',
+        autoBind: false, // Disable auto binding so we can manually bind later
+        // ... other options
+    });
+    
+    const viewModel = useViewModel(rive, { name: 'MyViewModelName' });
+    
+    // Get default instance (implicit) and bind it
+    const defaultBound = useViewModelInstance(viewModel, { rive });
+    
+    // Get named instance and bind it
+    const namedBound = useViewModelInstance(viewModel, { name: 'MyInstanceName', rive });
+    
+    // Create a new blank instance and bind it
+    const newBound = useViewModelInstance(viewModel, { useNew: true, rive });
+    ```
+
+    If you set `autoBind: true` in `useRive`, you can access the automatically bound default instance directly via `rive.viewModelInstance` once Rive is loaded, without needing `useViewModel` or `useViewModelInstance`.
+
+    ```typescript
+    const { rive, RiveComponent } = useRive({
+        src: 'your_file.riv',
+        artboard: 'MyArtboard',
+        stateMachine: 'MyStateMachine',
+        autoBind: true,
+    });
+    
+    // Once loaded, the instance is available:
+    const boundInstance = rive?.viewModelInstance;
+    ```
+  </Tab>
+  <Tab title="Apple">
+    ```swift
+        let riveViewModel = RiveViewModel(...)
+        let viewModel = riveViewModel.riveModel!.riveFile.viewModelNamed("...")!
+    
         // Create blank
-        val vmiBlank = vm.createBlankInstance()
-
+        let blankInstance = viewModel.createInstance()
+    
         // Create default
-        val vmiDefault = vm.createDefaultInstance()
-
+        let defaultInstance = viewModel.createDefaultInstance()
+    
         // Create by index
-        for (i in 0 until vm.instanceCount) {
-            val vmiIndexed = vm.createInstanceFromIndex(i)
+        for index in 0..<viewModel.instanceCount {
+            let instanceByIndex = viewModel.createInstance(fromIndex: index)
         }
-
+    
         // Create by name
-        val vmiNamed = vm.createInstanceFromName("My Instance")
-        ```
-    </Tab>
+        for name in viewModel.instanceNames {
+            let instanceByName = viewModel.createInstance(fromName: name)
+        }
+    ```
+  </Tab>
+  <Tab title="Android">
+    ```kotlin
+    val vm = view.controller.file?.getViewModelByName("My View Model")!!
+    
+    // Create blank
+    val vmiBlank = vm.createBlankInstance()
+    
+    // Create default
+    val vmiDefault = vm.createDefaultInstance()
+    
+    // Create by index
+    for (i in 0 until vm.instanceCount) {
+        val vmiIndexed = vm.createInstanceFromIndex(i)
+    }
+    
+    // Create by name
+    val vmiNamed = vm.createInstanceFromName("My Instance")
+    ```
+  </Tab>
+  <Tab title="Flutter">
+    If you're using  `RiveWidgetController`:
+
+    ```dart
+    // Get reference to the File
+    file = await File.asset(
+        'assets/rewards.riv',
+        riveFactory: Factory.rive,
+    );
+    
+    // Create a controller
+    controller = RiveWidgetController(file!);
+    
+    // Data bind by name
+    viewModelInstance = controller.dataBind(DataBind.byName('My View Model'));
+    
+    // Data bind by index
+    viewModelInstance = controller.dataBind(DataBind.byIndex(0));
+    
+    // Auto data bind
+    viewModelInstance = controller.dataBind(DataBind.auto());
+    
+    // Bind some existing view model instance to the controller:
+    viewModelInstance = controller.dataBind(DataBind.byInstance(someViewModelInstance));
+    
+    // Dispose of objects you created when no longer needed
+    viewModelInstance.dispose();
+    controller.dispose();
+    file.dispose();
+    ```
+
+    If you want to manage the creation of view model instances yourself:
+
+    ```dart
+    final vm = file.viewModelByName("My View Model")!;
+    
+    // Create blank
+    final vmiBlank = vm.createInstance();
+    
+    // Create default
+    final vmiDefault = vm.createDefaultInstance();
+    
+    // Create by index
+    for (int i = 0; i < vm.instanceCount; i++) {
+    final vmiIndexed = vm.createInstanceByIndex(i);
+    }
+    
+    // Create by name
+    final vmiNamed = vm.createInstanceByName("My Instance");
+    
+    // Dispose the view model instance
+    viewModelInstance.dispose();
+    ```
+  </Tab>
+  <Tab title="Unity">
+    <Note>
+      These APIs are only needed when the `Data Binding Mode` on the RiveWidget is set to `Manual`.
+
+      Otherwise, you can configure view model binding directly in the Unity Inspector under the Data section.
+    </Note>
+    ```csharp
+    private void OnEnable()
+    {
+        riveWidget.OnWidgetStatusChanged += HandleWidgetStatusChanged;
+    }
+    
+    private void OnDisable()
+    {
+        riveWidget.OnWidgetStatusChanged -= HandleWidgetStatusChanged;
+    }
+    
+    private void HandleWidgetStatusChanged()
+    {
+        if (riveWidget.Status == WidgetStatus.Loaded)
+        {
+            // From a ViewModel reference
+            ViewModel vm = riveWidget.File.GetViewModelByName("My View Model");
+    
+            // Create blank
+            ViewModelInstance vmiBlank = vm.CreateInstance();
+    
+            // Create default
+            ViewModelInstance vmiDefault = vm.CreateDefaultInstance();
+    
+            // Create by index
+            for (int i = 0; i < vm.InstanceCount; i++)
+            {
+                ViewModelInstance vmiIndexed = vm.CreateInstanceAt(i);
+            }
+    
+            // Create by name
+            ViewModelInstance vmiNamed = vm.CreateInstanceByName("My Instance");
+        }
+    }
+    ```
+  </Tab>
+  <Tab title="React Native">
+    You can bind a view model instance to a Rive component by passing in a `dataBinding` prop to the Rive component.
+
+    The `dataBinding` prop accepts a `DataBindBy` type, which can be one of the following:
+
+    ```typescript
+    export type DataBindBy =
+        | { type: 'autobind'; value: boolean }
+        | { type: 'index'; value: number }
+        | { type: 'name'; value: string }
+        | { type: 'empty' };
+    
+    export const AutoBind = (value: boolean): DataBindBy => ({
+        type: 'autobind',
+        value,
+    });
+    export const BindByIndex = (value: number): DataBindBy => ({
+        type: 'index',
+        value,
+    });
+    export const BindByName = (value: string): DataBindBy => ({
+        type: 'name',
+        value,
+    });
+    export const BindEmpty = (): DataBindBy => ({ type: 'empty' });
+    ```
+
+    Example usage:
+
+    ```typescript {7,8,9,10}
+    const [setRiveRef, riveRef] = useRive();
+    
+    return (
+        <Rive
+            ref={setRiveRef}
+            autoplay={true}
+            dataBinding={AutoBind(true)} // default: `AutoBind(false)`
+            // dataBinding={BindByIndex(0)}
+            // dataBinding={BindByName('SomeName')}
+            // dataBinding={BindEmpty()}
+            stateMachineName={'State Machine 1'}
+            resourceName={'rewards'}
+        />
+    );
+    ```
+
+    You can listen to errors by passing in the `onError={(riveError: RNRiveError)` prop to the Rive component.
+    The `riveError` object contains the error type and message, and you can filter out for `RNRiveErrorType.DataBindingError`:
+
+    ```typescript
+    onError={(riveError: RNRiveError) => {
+        switch (riveError.type) {
+            case RNRiveErrorType.DataBindingError: {
+            console.error(`${riveError.message}`);
+            return;
+            }
+            default:
+            console.error('Unhandled error');
+            return;
+        }
+    }}
+    ```
+  </Tab>
 </Tabs>
 
 The created instance can then be assigned to a state machine or artboard. This establishes the bindings set up at edit time.
 
 It is preferred to assign to a state machine, as this will automatically apply the instance to the artboard as well. Only assign to an artboard if you are not using a state machine, i.e. your file is static or uses linear animations.
 
-<Note>The initial values of the instance are not applied to their bound elements until the state machine or artboard advances.</Note>
+<Note>
+  The initial values of the instance are not applied to their bound elements until the state machine or artboard advances.
+</Note>
 
 <Tabs>
-    <Tab title="Web">
+  <Tab title="Web">
     ```typescript
     const rive = new rive.Rive({
+        autoBind: false, // This should be set to false (default)
         onLoad: () => {
             const vm = rive.viewModelByName("My View Model");
             const vmi = vm.instanceByName("My Instance");
-
-            // Apply the instance to the state machine and artboard
+    
+            // Manually bind by applying the instance to the state machine and artboard
             rive.bindViewModelInstance(vmi);
-        }        
+        }
     });
     ```
-    </Tab>
-    <Tab title="Android">
-        ```kotlin
-        view.setRiveResource(
-            R.raw.my_rive_file,
-            artboardName = "My Artboard",
-        )
+  </Tab>
+  <Tab title="React">
+    For React, no additional steps are needed to bind the view model instance to the Rive component. Passing the `rive` object to `useViewModelInstance` handles this automatically.
+  </Tab>
+  <Tab title="Apple">
+    ```swift
+    let riveViewModel = RiveViewModel(...)
+    let artboard = riveViewModel.riveModel!.artboard,
+    let instance = riveViewModel.riveModel!.riveFile.defaultViewModel(for: artboard).createDefaultInstance()!
+    
+    // Apply the instance to the state machine (preferred)
+    // Applying to a state machine will automatically bind to its artboard
+    riveViewModel.riveModel!.stateMachine.bind(instance)
+    
+    // Alternatively, apply the instance to the artboard
+    artboard.bind(viewModelInstance: instance)
+    ```
+  </Tab>
+  <Tab title="Android">
+    ```kotlin
+    view.setRiveResource(
+        R.raw.my_rive_file,
+        artboardName = "My Artboard",
+    )
+    
+    val vm = view.controller.file?.getViewModelByName("My View Model")!!
+    val vmi = vm.createInstanceFromName("My Instance")
+    
+    // Apply the instance to the state machine (preferred)
+    view.controller.stateMachines.first().viewModelInstance = vmi
+    
+    // Alternatively, apply the instance to the artboard
+    view.controller.activeArtboard?.viewModelInstance = vmi
+    ```
+  </Tab>
+  <Tab title="Flutter">
+    If you're using `RiveWidgetController` the binding happens automatically when you call any of the following:
 
-        val vm = view.controller.file?.getViewModelByName("My View Model")!!
-        val vmi = vm.createInstanceFromName("My Instance")
+    ```dart
+    viewModelInstance = controller.dataBind(DataBind.auto());
+    viewModelInstance = controller.dataBind(DataBind.byName('My View Model'));
+    viewModelInstance = controller.dataBind(DataBind.byIndex(0));
+    viewModelInstnace = controller.dataBind(someViewModelInstance);
+    ```
 
-        // Apply the instance to the state machine (preferred)
-        view.controller.stateMachines.first().viewModelInstance = vmi
+    Else, you need to make sure to bind the view model instance to the state machine, or artboard.
 
-        // Alternatively, apply the instance to the artboard
-        view.controller.activeArtboard?.viewModelInstance = vmi
-        ```
-    </Tab>
+    ```dart
+    final file = await File.asset(
+    'assets/my_file.riv',
+    riveFactory: Factory.rive,
+    );
+    
+    final artboard = file!.defaultArtboard();
+    final stateMachine = artboard!.defaultStateMachine()!;
+    
+    final vm = file.defaultArtboardViewModel(artboard)!;
+    final vmi = vm.createDefaultInstance()!;
+    
+    // Bind to the state machine. This automatically binds to the artboard as well.
+    stateMachine.bindViewModelInstance(vmi);
+    
+    // If you're not using a state machine, bind to the artboard
+    artboard.bindViewModelInstance(vmi);
+    ```
+  </Tab>
+  <Tab title="Unity">
+    ```csharp
+    // Access the RiveWidget component
+    
+    // Using the Unity Inspector
+    // 1. Select your RiveWidget in the Inspector
+    // 2. In the "Data" section, set the Data Binding Mode:
+    //    - Auto Bind Default: Automatically binds the default view model instance
+    //    - Auto Bind Selected: Uses a specific instance you select in the dropdown
+    //    - Manual: Requires you to manually set up binding in code
+    
+    // Or programmatically if set to Manual or if using the low-level API
+    private void OnEnable()
+    {
+        riveWidget.OnWidgetStatusChanged += HandleWidgetStatusChanged;
+    }
+    
+    private void OnDisable()
+    {
+        riveWidget.OnWidgetStatusChanged -= HandleWidgetStatusChanged;
+    }
+    
+    private void HandleWidgetStatusChanged()
+    {
+        if (riveWidget.Status == WidgetStatus.Loaded)
+        {
+            ViewModel vm = riveWidget.Artboard.DefaultViewModel;
+            ViewModelInstance vmi = vm.CreateDefaultInstance();
+    
+            // Applying to a state machine will automatically bind to its artboard
+            riveWidget.StateMachine.BindViewModelInstance(vmi);
+        }
+    }
+    
+    ```
+  </Tab>
+  <Tab title="React Native">
+    For React Native, no additional steps are needed to bind the view model instance to the Rive component. The `dataBinding` prop handles this automatically.
+  </Tab>
 </Tabs>
 
 ### Auto-Binding
@@ -177,183 +635,1839 @@ It is preferred to assign to a state machine, as this will automatically apply t
 Alternatively, you may prefer to use auto-binding. This will automatically bind the default view model of the artboard using the default instance to both the state machine and the artboard. The default view model is the one selected on the artboard in the editor dropdown. The default instance is the one marked "Default" in the editor.
 
 <Tabs>
-    <Tab title="Web">
+  <Tab title="Web">
     ```typescript {4}
     const rive = new rive.Rive({
         src: "my_rive_file.riv",
         canvas: document.getElementById("canvas"),
         autoBind: true,
+        onLoad: () => {
+            // Access the current instance that was auto-bound
+            let boundInstance = rive.viewModelInstance;
+        }
     });
     ```
-    </Tab>
-    <Tab title="Android">
-        ```kotlin {3}
-        view.setRiveResource(
-            R.raw.my_rive_file,
-            autoBind = true,
-        )
-        ```
-    </Tab>
+  </Tab>
+  <Tab title="React">
+    ```typescript
+    const { rive, RiveComponent } = useRive({
+        src: 'your_file.riv',
+        artboard: 'MyArtboard',
+        stateMachine: 'MyStateMachine',
+        autoBind: true, // Enable auto-binding
+        // ... other options
+    });
+    
+    // Once loaded, the instance is available:
+    const boundInstance = rive?.viewModelInstance;
+    ```
+  </Tab>
+  <Tab title="Apple">
+    ```swift
+    let riveViewModel = RiveViewModel(...)
+    riveViewModel.riveModel.enableAutoBind { instance in
+        // Store a reference to `instance` to later access properties
+        // The instance may change as state machines and artboards change
+    }
+    
+    // If you'd like to disable autoBind after enabling…
+    riveViewModel.riveModel!.disableAutoBind()
+    ```
+  </Tab>
+  <Tab title="Android">
+    ```kotlin {3}
+    view.setRiveResource(
+        R.raw.my_rive_file,
+        autoBind = true,
+    )
+    ```
+  </Tab>
+  <Tab title="Flutter">
+    ```dart
+    // Get reference to the File
+    file = await File.asset(
+        'assets/rewards.riv',
+        riveFactory: Factory.rive,
+    );
+    
+    // Create a controller
+    controller = RiveWidgetController(file!);
+    
+    // Auto data bind
+    viewModelInstance = controller.dataBind(DataBind.auto());
+    
+    // Dispose of objects you created when no longer needed
+    viewModelInstance.dispose();
+    controller.dispose();
+    file.dispose();
+    ```
+  </Tab>
+  <Tab title="Unity">
+    **Rive Widget** provides both visual and programmatic ways to configure auto-binding. In the Inspector, you can easily set up binding through the Data Binding Mode dropdown:
+
+    ![Data Binding Mode dropdown in Unity Inspector showing Auto Bind options](/images/unity/widget-db-binding-mode-dropdown.jpg)
+
+    To enable auto-binding programmatically, use the following APIs:
+
+    ```csharp
+    
+    // Before the widget is loaded:
+    
+    // Option 1: Auto bind the default instance
+    riveWidget.BindingMode = DataBindingMode.AutoBindDefault;
+    
+    // Option 2: Auto bind a specific instance by name
+    riveWidget.BindingMode = DataBindingMode.AutoBindSelected;
+    riveWidget.ViewModelInstanceName = "My Instance";
+    
+    // Load the Rive file after setting the binding mode
+    riveWidget.Load(riveFile, artboardName, stateMachineName);
+    
+    ...
+    // Access the current instance that was auto-bound
+    ViewModelInstance boundInstance = riveWidget.StateMachine.ViewModelInstance;
+    
+    
+    ```
+  </Tab>
+  <Tab title="React Native">
+    The default value for the `dataBinding` prop is `AutoBind(false)`, which means auto-binding is disabled by default.
+
+    To enable auto-binding, set the `dataBinding` prop to `AutoBind(true)`.
+
+    ```typescript {7}
+    const [setRiveRef, riveRef] = useRive();
+    
+    return (
+        <Rive
+            ref={setRiveRef}
+            autoplay={true}
+            dataBinding={AutoBind(true)} // default: `AutoBind(false)`
+            stateMachineName={'State Machine 1'}
+            resourceName={'rewards'}
+        />
+    );
+    ```
+  </Tab>
 </Tabs>
 
 # Properties
 
 A property is a value that can be read, set, or observed on a view model instance. Properties can be of the following types:
 
-| Type                   | Supported             |
-|------------------------|-----------------------|
-| Floating point numbers | ✅                     |
-| Booleans               | ✅                     |
-| Triggers               | ✅                     |
-| Strings                | ✅                     |
-| Enumerations           | ✅                     |
-| Colors                 | ✅                     |
-| Nesting                | ✅                     |
-| Lists                  | 🚧 Coming soon         |
-| Images                 | 🚧 Coming soon         |
+| Type                   | Supported      |
+| ---------------------- | -------------- |
+| Floating point numbers | ✅              |
+| Booleans               | ✅              |
+| Triggers               | ✅              |
+| Strings                | ✅              |
+| Enumerations           | ✅              |
+| Colors                 | ✅              |
+| Nesting                | ✅              |
+| Lists                  | ✅              |
+| Images                 | ✅ Early Access |
 
 Property descriptors can be inspected on a view model to discover at runtime which are available. These are not the mutable properties themselves though - once again those are on instances. These descriptors have a type and name.
 
 <Tabs>
-    <Tab title="Web">
+  <Tab title="Web">
     ```typescript
-    const rive = new rive.Rive({
-        onLoad: () => {
-            const vm = rive.viewModelByName("My View Model");
-            const vmi = vm.instanceByName("My Instance");
-
-            // A list of properties
-            const properties = vm.properties;
-            console.log(properties);
-        }         
-    });
+    // A list of properties on a view model (ViewModel)
+    const properties = viewModel.properties;
+    console.log(properties);
     ```
-    </Tab>
-    <Tab title="Android">
-        ```kotlin
-        val vm = view.controller.file?.getViewModelByName("My View Model")!!
-
-        // A list of properties
-        val properties = vm.properties
-        assertContains(
-            properties,
-            ViewModel.Property(ViewModel.PropertyDataType.NUMBER, "My Number Property")
-        )
-        ```
-    </Tab>
+  </Tab>
+  <Tab title="React">
+    ```typescript
+    // Access properties from the view model returned by useViewModel
+    const viewModel = useViewModel(rive);
+    console.log(viewModel?.properties);
+    ```
+  </Tab>
+  <Tab title="Apple">
+    ```swift
+    let riveViewModel = RiveViewModel(...)
+    let viewModel = riveViewModel.riveModel!.file.viewModelNamed(...)!
+    for property in viewModel.properties {
+        print(property.type) // String, number, boolean, etc
+        print(property.name) // The name of the property within the view model
+    }
+    ```
+  </Tab>
+  <Tab title="Android">
+    ```kotlin
+    val vm = view.controller.file?.getViewModelByName("My View Model")!!
+    
+    // A list of properties
+    val properties = vm.properties
+    assertContains(
+        properties,
+        ViewModel.Property(ViewModel.PropertyDataType.NUMBER, "My Number Property")
+    )
+    ```
+  </Tab>
+  <Tab title="Flutter">
+    ```dart
+    // Accesss on a ViewModel object
+    print("Properties: ${viewModel.properties}");
+    
+    // Access on a ViewModelInstance object
+    print("Properties: ${viewModelInstance.properties}");
+    ```
+  </Tab>
+  <Tab title="Unity">
+    ```csharp
+    var vm = riveWidget.File.GetViewModelByName("My View Model");
+    
+    // A list of properties
+    var properties = vm.Properties;
+    foreach (var prop in properties)
+    {
+        Debug.Log($"Property: {prop.Name}, Type: {prop.Type}");
+    }
+    ```
+  </Tab>
+  <Tab title="React Native">
+    <Warning>
+      The properties API is not yet available in React Native.
+    </Warning>
+  </Tab>
 </Tabs>
 
-View model instances have mutable properties. References to these properties can be retrieved by name. They have get, set, and observe operations. Getting or observing the value will retrieve the latest value set on that properties binding, as of the last state machine or artboard advance. Setting the value will update the value and all of its bound elements.
+References to these properties can be retrieved by name or path.
 
-<Note>Trigger properties do not have a get operation - only set and observe.</Note>
+Some properties are mutable and have getters, setters, and observer operations for their values. Getting or observing the value will retrieve the latest value set on that property's binding, as of the last state machine or artboard advance. Setting the value will update the value and all of its bound elements.
 
-<Note>After setting a property's value, the changes will not apply to their bound elements until the state machine or artboard advances.</Note>
+<Note>
+  After setting a property's value, the changes will not apply to their bound elements until the state machine or artboard advances.
+</Note>
 
 <Tabs>
-    <Tab title="Web">
+  <Tab title="Web">
     ```typescript
     const rive = new rive.Rive({
+        autoBind: true,
         onLoad: () => {
-            const vm = rive.viewModelByName("My View Model");
-            const vmi = vm.instanceByName("My Instance");
-
+            // Access the current instance that was auto-bound
+            let vmi = rive.viewModelInstance;
+    
+            // Booleans
+            const booleanProperty = vmi.boolean("My Boolean Property");
+            const booleanValue = booleanProperty.value;
+            booleanProperty.value = true;
+    
+            // Strings
+            const stringProperty = vmi.string("My String Property");
+            const stringValue = stringProperty.value;
+            stringProperty.value = "Hello, Rive!";
+    
+            // Numbers
             const numberProperty = vmi.number("My Number Property");
-            // Get
-            const numberValue = numberProperty.value();
-            // Set
-            numberProperty.value(10);
+            const numberValue = numberProperty.value;
+            numberProperty.value = 10;
+    
+            // Colors
+            const colorProperty = vmi.color("My Color Property");
+            const colorValue = colorProperty.value;
+            colorProperty.value = 0xFF000000; // Set color to black with 100% opacity
+    
+            // Other ways to set color
+            colorProperty.rgb(255, 0, 0); // Set RGB to red
+            colorProperty.rbga(255, 0, 0, 128); // Set RGBA to red with 50% opacity
+            colorProperty.argba(128, 255, 0, 0); // Set RGBA to red with 50% opacity
+            colorProperty.opacity(0.5); // Set opacity to 50%
+    
+            // Triggers
+            const triggerProperty = vmi.trigger("My Trigger Property");
+            triggerProperty.trigger();
+    
+            // Enumerations
+            const enumProperty = vmi.enum("My Enum Property");
+            const enumValue = enumProperty.value;
+            enumProperty.value = "Option1";
+        }
+    });
+    ```
+  </Tab>
+  <Tab title="React">
+    Use the specific hook for a given property type to get and set property values.
+
+    - `useViewModelInstanceBoolean`: Read/write boolean properties
+    - `useViewModelInstanceString`: Read/write string properties
+    - `useViewModelInstanceNumber`: Read/write number properties
+    - `useViewModelInstanceColor`: Read/write color properties with additional RGB/alpha methods
+    - `useViewModelInstanceEnum`: Read/write enum properties with available values
+    - `useViewModelInstanceTrigger`: Fire trigger events with optional callbacks
+
+    These hooks return the current `value` and a function to update it (`setValue`, `setRgb`, `trigger`). The `value` will be null if the property is not found or if the hook is provided with an invalid viewModelInstance.
+
+    ```typescript
+    import {
+        useViewModelInstanceBoolean,
+        useViewModelInstanceString,
+        useViewModelInstanceNumber,
+        useViewModelInstanceEnum,
+        useViewModelInstanceColor,
+        useViewModelInstanceTrigger
+    } from '@rive-app/react-webgl2';
+    
+    // Assuming viewModelInstance is obtained via useViewModelInstance or rive.viewModelInstance
+    
+    // Boolean
+    const { value: isActive, setValue: setIsActive } = useViewModelInstanceBoolean(
+        'isToggleOn', // Property path
+        viewModelInstance
+    );
+    // Set: setIsActive(true);
+    
+    // String
+    const { value: userName, setValue: setUserName } = useViewModelInstanceString(
+        'user/name', // Property path
+        viewModelInstance
+    );
+    // Set: setUserName('Rive');
+    
+    // Number
+    const { value: score, setValue: setScore } = useViewModelInstanceNumber(
+        'levelScore', // Property path
+        viewModelInstance
+    );
+    // Set: setScore(100);
+    
+    // Enum
+    const { value: status, setValue: setStatus, values: statusOptions } = useViewModelInstanceEnum(
+        'appStatus', // Property path
+        viewModelInstance
+    );
+    // Set: setStatus('loading');
+    // Get available options: statusOptions is an array like ['idle', 'loading', 'error']
+    
+    // Color
+    const {
+        value: themeColor, // Raw number value like -3267805
+        setRgb: setThemeColorRgb, // Set RGB components (0-255 values)
+        setAlpha: setThemeColorAlpha, // Set alpha component (0-255)
+        setOpacity: setThemeColorOpacity, // Set opacity (0.0-1.0)
+        setRgba: setThemeColorRgba, // Set all components at once
+        setValue: setThemeColorValue // Set raw color value
+    } = useViewModelInstanceColor(
+        'ui/themeColor', // Property path
+        viewModelInstance
+    );
+    // Set RGB: setThemeColorRgb(0, 128, 255); // Set to a blue color
+    // Set Alpha: setThemeColorAlpha(128); // Set to 50% opacity
+    // Set Opacity: setThemeColorOpacity(0.5); // Set to 50% opacity
+    // Set RGBA: setThemeColorRgba(0, 128, 255, 255); // Blue with full opacity
+    // Set Value: setThemeColorValue(-3267805); // Set using raw color value
+    
+    // Trigger (No value, just a trigger function)
+    const { trigger: playEffect } = useViewModelInstanceTrigger(
+        'playButtonEffect', // Property path
+        viewModelInstance,
+        {
+            // Optional callback to be called when the trigger is fired
+            onTrigger: () => {
+                console.log('Trigger Fired!');
+            }
+        }
+    );
+    // Trigger: playEffect();
+    ```
+
+    The `value` returned by each hook will update automatically when the property changes in the Rive graphic.
+  </Tab>
+  <Tab title="Apple">
+    ```swift
+    let riveViewModel = RiveViewModel(...)
+    let instance = riveViewModel.riveModel!.riveFile.viewModelNamed("...")!.createDefaultInstance()!
+    
+    // Strings
+    let stringProperty = instance.stringProperty(fromPath: "...")!
+    // Updating its value
+    stringProperty.value = "Hello, Rive"
+    // Get its value
+    print(stringProperty.value)
+    
+    // You can also set and get values without storing a strong reference
+    instance.stringProperty(fromPath: "...").value = "Hello again, Rive"
+    
+    // Numbers
+    let numberProperty = instance.numberProperty(fromPath: "...")!
+    // Updating its value
+    numberProperty.value = 1337
+    // Get its value
+    print(numberProperty.value)
+    
+    // You can also set and get values without storing a strong reference
+    instance.numberProperty(fromPath: "...").value = 1337
+    
+    // Booleans
+    let booleanProperty = instance.booleanProperty(fromPath: "...")!
+    // Updating its value
+    booleanProperty.value = true
+    // Get its value
+    print(booleanProperty.value)
+    
+    // You can also set and get values without storing a strong reference
+    instance.booleanProperty(fromPath: "...").value = true
+    
+    // Colors
+    let colorProperty = instance.colorProperty(fromPath: "...")!
+    // Updating its value, which is a UIColor/NSColor, so all static helpers apply.
+    colorProperty.value = .red
+    // Get its value
+    print(colorProperty.value)
+    
+    // You can also set and get values without storing a strong reference
+    instance.colorProperty(fromPath: "...").value = .red
+    
+    // Enums
+    let enumProperty = instance.enumProperty(fromPath: "...")!
+    // Updating its value
+    enumProperty.value = "Foo"
+    // Get its value
+    print(enumProperty.value)
+    // Print all possible values
+    print(enumProperty.values)
+    
+    // You can also set and get values without storing a strong reference
+    instance.enumProperty(fromPath: "...").value = "Foo"
+    
+    // Trigger
+    let triggerProperty = instance.triggerProperty(fromPath: "...")!
+    // Fire the trigger
+    triggerProperty.trigger()
+    ```
+  </Tab>
+  <Tab title="Android">
+    ```kotlin
+    val vm = view.controller.file?.getViewModelByName("My View Model")!!
+    val vmi = vm.createInstanceFromName("My Instance")
+    
+    val numberProperty = vmi.getNumberProperty("My Number Property")
+    // Get
+    val numberValue = numberProperty.value
+    // Set
+    numberProperty.value = 10f
+    ```
+  </Tab>
+  <Tab title="Flutter">
+    ```dart
+    // Get reference to the ViewModel instance
+    final vmi = someExistingViewModelInstance;
+    
+    final numberProperty = vmi.number("My Number Property")!;
+    // Get
+    final numberValue = numberProperty.value;
+    
+    // Set
+    numberProperty.value = 10;
+    
+    // Observe
+    void onNumberChange(double value) {
+        print("Number changed to: $value");
+    }
+    numberProperty.addListener(onNumberChange);
+    
+    // Remove listener when done
+    numberProperty.removeListener(onNumberChange);
+    
+    // Alternatively, clear all listeners
+    numberProperty.clearListeners();
+    
+    // Dispose of the property to clear up resources when you're no longer using it
+    // This will call `clearListeners()` internally.
+    numberProperty.dispose();
+    ```
+  </Tab>
+  <Tab title="Unity">
+    ```csharp
+    private void OnEnable()
+    {
+        riveWidget.OnWidgetStatusChanged += HandleWidgetStatusChanged;
+    }
+    
+    private void OnDisable()
+    {
+        riveWidget.OnWidgetStatusChanged -= HandleWidgetStatusChanged;
+    }
+    
+    private void HandleWidgetStatusChanged()
+    {
+        // Check if the widget is loaded before accessing the view model instance
+        if (riveWidget.Status == WidgetStatus.Loaded)
+        {
+            ViewModelInstance viewModelInstance = riveWidget.StateMachine.ViewModelInstance;
+    
+         //==========================================================================
+        // STRING PROPERTIES
+        //==========================================================================
+            ViewModelInstanceStringProperty stringProperty = viewModelInstance.GetStringProperty("title");
+            Debug.Log($"String value: {stringProperty.Value}");
+            stringProperty.Value = "New Text";
+    
+        //==========================================================================
+        // NUMBER PROPERTIES
+        //==========================================================================
+            ViewModelInstanceNumberProperty numberProperty = viewModelInstance.GetNumberProperty("count");
+            Debug.Log($"Number value: {numberProperty.Value}");
+            numberProperty.Value = 42.5f;
+    
+        //==========================================================================
+        // BOOLEAN PROPERTIES
+        //==========================================================================
+            ViewModelInstanceBooleanProperty boolProperty = viewModelInstance.GetBooleanProperty("isActive");
+            Debug.Log($"Boolean value: {boolProperty.Value}");
+            boolProperty.Value = true;
+    
+        //==========================================================================
+        // COLOR PROPERTIES
+        //==========================================================================
+            ViewModelInstanceColorProperty colorProperty = viewModelInstance.GetColorProperty("backgroundColor");
+            // Using Unity Color (float values 0-1)
+            Color currentColor = colorProperty.Value;
+            colorProperty.Value = new UnityEngine.Color(1, 0, 0, 1); // Red color
+            // Or using Color32 (byte values 0-255)
+            Color32 currentColor32 = colorProperty.Value32;
+            colorProperty.Value32 = new Color32(0, 255, 0, 255); // Green color
+    
+        //==========================================================================
+        // ENUM PROPERTIES
+        //==========================================================================
+            ViewModelInstanceEnumProperty enumProperty = viewModelInstance.GetEnumProperty("category");
+            Debug.Log($"Enum current value: {enumProperty.Value}");
+            Debug.Log($"Enum available values: {string.Join(", ", enumProperty.EnumValues)}");
+            enumProperty.Value = "option_name";
+    
+        //==========================================================================
+        // TRIGGER PROPERTIES
+        //==========================================================================
+            ViewModelInstanceTriggerProperty triggerProperty = viewModelInstance.GetTriggerProperty("onSubmit");
+            triggerProperty.Trigger(); // Fire the trigger
+        }
+    }
+    ```
+  </Tab>
+  <Tab title="React Native">
+    There following data binding methods are exposed on the `RiveRef` object.
+
+    ```typescript
+    setBoolean: (path: string, value: boolean) => void;
+    setString: (path: string, value: string) => void;
+    setNumber: (path: string, value: number) => void;
+    setColor: (path: string, color: RiveRGBA | string) => void;
+    setEnum: (path: string, value: string) => void;
+    trigger: (path: string) => void;
+    ```
+
+    <Note>
+      The color property can be set using either a `RiveRGBA` object or a hex string. The hex string should be in the format
+      `#RRGGBBAA`, where `RR`, `GG`, `BB`, and `AA` are two-digit hexadecimal values representing the red, green, blue, and
+      alpha channels, respectively.
+
+      ```js
+      type RiveRGBA = { r: number; g: number; b: number; a: number };
+      ```
+    </Note>
+    Example usage:
+
+    ```typescript
+    const [setRiveRef, riveRef] = useRive();
+    const setBoolean = () => {
+        if (riveRef) {
+            riveRef.setBoolean('My Boolean Property', true);
+        }
+    };
+    const setString = () => {
+        if (riveRef) {
+            riveRef.current.setString('My String Property', 'Hello, Rive');
+        }
+    };
+    const setNumber = () => {
+        if (riveRef) {
+            riveRef.current.setNumber('My Number Property', 10);
+        }
+    };
+    const setColor = () => {
+        if (riveRef) {
+            riveRef.setColor('My Color Property', { r: 255, g: 0, b: 0, a: 1 });
+            // or
+            riveRef.setColor('My Color Property', '#00FF00FF');
+        }
+    };
+    const setEnum = () => {
+        if (riveRef) {
+            riveRef.setEnum('My Enum Property', 'Option 1');
+        }
+    };
+    const trigger = () => {
+        if (riveRef) {
+            riveRef.trigger('My Trigger Property');
+        }
+    };
+    ```
+  </Tab>
+</Tabs>
+
+### Nested Property Paths
+
+View models can have properties of type view model, allowing for arbitrary nesting. You can chain property calls on each instance starting from the root until you get to the property of interest. Alternatively, you can do this through a path parameter, which is similar to a URI in that it is a forward slash delimited list of property names ending in the name of the property of interest.
+
+<Tabs>
+  <Tab title="Web">
+    ```typescript
+    const rive = new rive.Rive({
+        autoBind: true,
+        onLoad: () => {
+            // Access the current instance that was auto-bound
+            let vmi = rive.viewModelInstance;
+    
+            const nestedNumberByChain = vmi
+                .viewModel("My Nested View Model")
+                .viewModel("My Second Nested VM")
+                .number("My Nested Number");
+    
+            const nestedNumberByPath = vmi.number("My Nested View Model/My Second Nested VM/My Nested Number");
+        }
+    });
+    ```
+  </Tab>
+  <Tab title="React">
+    Access nested properties by providing the full path (separated by `/`) as the first argument to the property hooks.
+
+    ```typescript
+    import { useViewModelInstanceString, useViewModelInstanceNumber } from '@rive-app/react-webgl2';
+    
+    // Accessing 'settings/theme/name' (String)
+    const { value: themeName, setValue: setThemeName } = useViewModelInstanceString(
+        'settings/theme/name',
+        viewModelInstance
+    );
+    
+    // Accessing 'settings/volume' (Number)
+    const { value: volume, setValue: setVolume } = useViewModelInstanceNumber(
+        'settings/volume',
+        viewModelInstance
+    );
+    
+    console.log('Current theme:', themeName);
+    // setThemeName('Dark Mode');
+    // setVolume(80);
+    ```
+  </Tab>
+  <Tab title="Apple">
+    ```swift
+    let riveViewModel = RiveViewModel(...)
+    let instance = riveViewModel.riveModel!.riveFile.viewModelNamed("...")!.createDefaultInstance()!
+    
+    let nestedNumberByChain = instance
+                                .viewModelInstanceProperty(fromPath: "Nested View Model")
+                                .viewModelInstanceProperty(fromPath: "Another Nested View Model")
+                                .numberProperty(fromPath: "Number")
+    
+    let nestedNumberByPath = instance.numberProperty(fromPath: "Nested View Model/Another Nested View Model/Number")
+    ```
+  </Tab>
+  <Tab title="Android">
+    ```kotlin
+    val vm = view.controller.file?.getViewModelByName("My View Model")!!
+    val vmi = vm.createInstanceFromName("My Instance")
+    
+    val nestedNumberByChain = vmi
+        .getInstanceProperty("My Nested View Model")
+        .getInstanceProperty("My Second Nested VM")
+        .getNumberProperty("My Nested Number")
+    
+    val nestedNumberByPath = vmi
+        .getNumberProperty("My Nested View Model/My Second Nested VM/My Nested Number")
+    ```
+  </Tab>
+  <Tab title="Flutter">
+    ```dart
+    // Get reference to the ViewModel instance
+    final vmi = someExistingViewModelInstance;
+    
+    final nestedNumberByChain = vmi
+        .viewModel("My Nested View Model")!
+        .viewModel("My Second Nested VM")!
+        .number("My Nested Number");
+    
+    final nestedNumberByPath = vmi.number("My Nested View Model/My Second Nested VM/My Nested Number");
+    ```
+  </Tab>
+  <Tab title="Unity">
+    ```csharp
+    if (riveWidget.Status == WidgetStatus.Loaded)
+    {
+        var viewModelInstance = riveWidget.StateMachine.ViewModelInstance;
+    
+        // Accessing nested view models using chaining
+        var nestedNumberByChain = viewModelInstance
+            .GetViewModelInstanceProperty("My Nested View Model")
+            .GetViewModelInstanceProperty("My Second Nested VM")
+            .GetNumberProperty("My Nested Number");
+    
+        // Accessing nested properties using path notation
+        var nestedNumberByPath = viewModelInstance
+            .GetNumberProperty("My Nested View Model/My Second Nested VM/My Nested Number");
+    
+    
+    }
+    ```
+  </Tab>
+  <Tab title="React Native">
+    <Warning>
+      React Native does not support accessing nested properties using the chain notation.
+      But you can access nested properties using the path notation.
+    </Warning>
+    ```js
+    const [setRiveRef, riveRef] = useRive();
+    const nestedNumberByPath = useRiveNumber(riveRef, 'My Nested View Model/My Second Nested VM/My Nested Number');
+    useEffect(() => {
+        if (nestedNumberByPath) {
+            nestedNumberByPath.setValue(10);
+        }
+    }, [nestedNumberByPath]);
+    ```
+  </Tab>
+</Tabs>
+
+### Observability
+
+You can observe changes over time to property values, either by using listeners or a platform equivalent method. Once observed, you will be notified when the property changes are applied by a state machine advance, whether that is a new value that has been explicitly set or if the value was updated as a result of a binding. Observing trigger properties is an alternative method to receive events from the editor, as compared to [Rive Events](/runtimes/rive-events).
+
+<Tabs>
+  <Tab title="Web">
+    Adding an observer to a property is done by calling the `on` method on the property.
+
+    ```typescript
+    public on(callback: EventCallback)
+    ```
+
+    The observer can be removed by calling the `off` method on the property and passing the callback function. Alternatively, you can call `off()` without any arguments to remove all observers.
+
+    ```typescript
+    public off(callback?: EventCallback)
+    ```
+
+    Example:
+
+    ```typescript
+    const rive = new rive.Rive({
+        autoBind: true,
+        onLoad: () => {
+            // Access the current instance that was auto-bound
+            let vmi = rive.viewModelInstance;
+            const numberProperty = vmi.number("My Number Property");
             // Observe
             numberProperty.on((event) => {
                 console.log(event.data);
             });
-        }             
+            // Remove all listener when done
+            numberProperty.off();
+        }
     });
     ```
-    </Tab>
-    <Tab title="Android">
-        ```kotlin
-        val vm = view.controller.file?.getViewModelByName("My View Model")!!
-        val vmi = vm.createInstanceFromName("My Instance")
+  </Tab>
+  <Tab title="React">
+    The React hooks handle observability automatically. When a property's value changes within the Rive instance (either because you set it via a hook or due to an internal binding), the `value` returned by the corresponding hook (e.g., `useViewModelInstanceString`) updates. This state change triggers a re-render of your React component, allowing you to react to the new value.
 
-        val numberProperty = vmi.getNumberProperty("My Number Property")
-        // Get
-        val numberValue = numberProperty.value
-        // Set
-        numberProperty.value = 10f
-        // Observe
-        lifecycleScope.launch {
-            numberProperty.collect { value ->
-                Log.i("MyActivity", "Value: $value")
+    For Triggers, you can provide an `onTrigger` callback directly to the `useViewModelInstanceTrigger` hook, which fires when the trigger is activated in the Rive instance.
+
+    ```typescript
+    import { useViewModelInstanceTrigger } from '@rive-app/react-webgl2';
+    
+    // Assuming viewModelInstance is available
+    const { trigger } = useViewModelInstanceTrigger(
+        'showPopup',
+        viewModelInstance,
+        {
+            onTrigger: () => {
+                console.log('Show Popup Trigger Fired!');
+                // Show your popup UI
             }
         }
-        // Or collect in Compose
-        val numberValue by numberProperty.collectAsState()
-        ```
-    </Tab>
+    );
+    ```
+  </Tab>
+  <Tab title="Apple">
+    ```swift
+    let riveViewModel = RiveViewModel(...)
+    let instance = riveViewModel.riveModel!.riveFile.viewModelNamed("...")!.createDefaultInstance()!
+    
+    // Get the string property
+    let stringProperty = instance.stringProperty(fromPath: "...")!
+    
+    // Add a listener
+    let listener = stringProperty.addListener { newValue in
+        print(newValue)
+    }
+    
+    // Remove a listener, where listener is the return value of addListener
+    stringProperty.removeListener(listener)
+    
+    // Trigger properties can also be listened to for when they are triggered
+    instance.triggerProperty(fromPath: "...")!.addListener {
+        print("Triggered!")
+    }
+    ```
+  </Tab>
+  <Tab title="Android">
+    ```kotlin
+    val vm = view.controller.file?.getViewModelByName("My View Model")!!
+    val vmi = vm.createInstanceFromName("My Instance")
+    
+    val numberProperty = vmi.getNumberProperty("My Number Property")
+    // Observe
+    lifecycleScope.launch {
+        numberProperty.collect { value ->
+            Log.i("MyActivity", "Value: $value")
+        }
+    }
+    // Or collect in Compose
+    val numberValue by numberProperty.collectAsState()
+    ```
+  </Tab>
+  <Tab title="Flutter">
+    ```dart
+    // Get reference to the ViewModel instance
+    final vmi = someExistingViewModelInstance;
+    
+    final numberProperty = vmi.number("My Number Property")!;
+    // Get
+    final numberValue = numberProperty.value;
+    
+    // Set
+    numberProperty.value = 10;
+    
+    // Observe
+    void onNumberChange(double value) {
+        print("Number changed to: $value");
+    }
+    numberProperty.addListener(onNumberChange);
+    
+    // Remove listener when done
+    numberProperty.removeListener(onNumberChange);
+    
+    // Alternatively, clear all listeners
+    numberProperty.clearListeners();
+    
+    // Dispose of the property to clear up resources when you're no longer using it
+    // This will call `clearListeners()` internally.
+    numberProperty.dispose();
+    ```
+  </Tab>
+  <Tab title="Unity">
+    ```csharp
+    private ViewModelInstanceNumberProperty numberProperty;
+    private ViewModelInstanceStringProperty stringProperty;
+    private ViewModelInstanceBooleanProperty boolProperty;
+    private ViewModelInstanceColorProperty colorProperty;
+    private ViewModelInstanceEnumProperty enumProperty;
+    private ViewModelInstanceTriggerProperty triggerProperty;
+    
+    private void OnEnable()
+    {
+        riveWidget.OnWidgetStatusChanged += HandleWidgetStatusChanged;
+    }
+    
+    private void OnDisable()
+    {
+        riveWidget.OnWidgetStatusChanged -= HandleWidgetStatusChanged;
+    }
+    
+    private void HandleWidgetStatusChanged()
+    {
+        if (riveWidget.Status == WidgetStatus.Loaded)
+        {
+            ViewModelInstance viewModelInstance = riveWidget.StateMachine.ViewModelInstance;
+    
+            // Add listeners to properties
+            numberProperty = viewModelInstance.GetNumberProperty("count");
+            numberProperty.OnValueChanged += OnNumberPropertyChanged;
+    
+            stringProperty = viewModelInstance.GetStringProperty("title");
+            stringProperty.OnValueChanged += OnStringPropertyChanged;
+    
+            boolProperty = viewModelInstance.GetBooleanProperty("isActive");
+            boolProperty.OnValueChanged += OnBoolPropertyChanged;
+    
+            colorProperty = viewModelInstance.GetColorProperty("backgroundColor");
+            colorProperty.OnValueChanged += OnColorPropertyChanged;
+    
+            enumProperty = viewModelInstance.GetEnumProperty("category");
+            enumProperty.OnValueChanged += OnEnumPropertyChanged;
+    
+            triggerProperty = viewModelInstance.GetTriggerProperty("onSubmit");
+            triggerProperty.OnTriggered += OnTriggerPropertyFired;
+    
+    
+        }
+    }
+    
+    private void OnNumberPropertyChanged(float newValue)
+    {
+        Debug.Log($"Number changed to: {newValue}");
+    }
+    
+    private void OnStringPropertyChanged(string newValue)
+    {
+        Debug.Log($"String changed to: {newValue}");
+    }
+    
+    private void OnBoolPropertyChanged(bool newValue)
+    {
+        Debug.Log($"Boolean changed to: {newValue}");
+    }
+    
+    private void OnColorPropertyChanged(UnityEngine.Color newValue)
+    {
+        Debug.Log($"Color changed to: {ColorUtility.ToHtmlStringRGBA(newValue)}");
+    }
+    
+    private void OnEnumPropertyChanged(string newValue)
+    {
+        Debug.Log($"Enum changed to: {newValue}");
+    }
+    
+    private void OnTriggerPropertyFired()
+    {
+        Debug.Log("Trigger fired!");
+    }
+    
+    private void OnDestroy()
+    {
+        // You should remove listeners when no longer needed,
+        numberProperty.OnValueChanged -= OnNumberPropertyChanged;
+        stringProperty.OnValueChanged -= OnStringPropertyChanged;
+        boolProperty.OnValueChanged -= OnBoolPropertyChanged;
+        colorProperty.OnValueChanged -= OnColorPropertyChanged;
+        enumProperty.OnValueChanged -= OnEnumPropertyChanged;
+        triggerProperty.OnTriggered -= OnTriggerPropertyFired;
+    }
+    ```
+  </Tab>
+  <Tab title="React Native">
+    Values are observed through hooks.
+
+    ```typescript
+    const [setRiveRef, riveRef] = useRive();
+    const [boolValue, setBoolValue] = useRiveBoolean(riveRef, 'My Boolean Property');
+    const [stringValue, setStringValue] = useRiveString(riveRef, 'My String Property');
+    const [numberValue, setNumberValue] = useRiveNumber(riveRef, 'My Number Property');
+    const [colorValue, setColorValue] = useRiveColor(riveRef, 'My Color Property');
+    const [enumValue, setEnumValue] = useRiveEnum(riveRef, 'My Enum Property');
+    const triggerButton = useRiveTrigger(riveRef, 'My Trigger Property', () => {
+        console.log('Trigger fired');
+    });
+    
+    useEffect(() => {
+        if (numberValue !== undefined) {
+        console.log('numberValue changed:', numberValue);
+        }
+    }, [numberValue]);
+    
+    const handleButtonPress = () => {
+        if (trigger) {
+            trigger();
+        }
+    };
+    ```
+
+    <Note>
+      The `useRiveTrigger` hook does not return a value, but instead takes a callback function as its third argument.
+      This callback will be executed when the trigger is fired.
+    </Note>
+  </Tab>
 </Tabs>
 
-# Enums
+### Images
+
+Image properties let you set and replace raster images at runtime, with each instance of the image managed independently. For example, you could build an avatar creator and dynamically update features — like swapping out a hat — by setting a view model's image property.
+
+<Tabs>
+  <Tab title="Web">
+    <Columns cols={2}>
+      <Card title="Example: Data Binding Images" href="https://codesandbox.io/p/sandbox/objective-cohen-sqwh9q" img="/images/app-runtimes/data-binding/rive-db-images.webp">
+        Replace images at runtime using data binding images with javascript.
+      </Card>
+    </Columns>
+    ```js
+    const randomImageAsset = (imageProperty) => {
+        fetch("https://picsum.photos/300/500").then(async (res) => {
+            // Decode the image from the response. This object is used to set the image property.
+            const image = await rive.decodeImage(
+                new Uint8Array(await res.arrayBuffer())
+            );
+            imageProperty.value = image;
+            // Rive will automatically clean this up. But it's good practice to dispose this manually
+            // after you have already set the decoded image. Don't call `unref` if you intend
+            // to use the decoded asset again.
+            image.unref();
+        });
+    };
+    
+    const rive = new rive.Rive({
+        autoBind: true,
+        onLoad: () => {
+            // Access the current instance that was auto-bound
+            let vmi = rive.viewModelInstance;
+    
+            // Get the image property by name
+            var imageProperty = vmi.image("bound_image");
+    
+            // Load random image
+            randomImageAsset(imageProperty);
+    
+            // Clear the image to render nothing
+            imageProperty.value = null;
+        }
+    });
+    ```
+  </Tab>
+  <Tab title="React">
+    Use the `useViewModelInstanceImage` hook to set image properties on view model instances.
+
+    ```typescript
+    import { useRive, useViewModel, useViewModelInstance, useViewModelInstanceImage } from '@rive-app/react-webgl2';
+    
+    const { rive, RiveComponent } = useRive({
+        src: 'your_file.riv',
+        artboard: 'MyArtboard',
+        stateMachine: 'MyStateMachine',
+        autoBind: false,
+        // ... other options
+    });
+    
+    const viewModel = useViewModel(rive, { name: 'MyViewModel' });
+    const viewModelInstance = useViewModelInstance(viewModel, { rive });
+    
+    // Get the image property setter
+    const { setValue: setImage } = useViewModelInstanceImage(
+        'profileImage', // Property path
+        viewModelInstance
+    );
+    
+    // Load and set a random image
+    const loadRandomImage = async () => {
+        if (!setImage) return;
+    
+        try {
+            const imageUrl = 'https://picsum.photos/300/500';
+            const response = await fetch(imageUrl);
+            const imageBuffer = await response.arrayBuffer();
+    
+            // Decode the image from the response
+            const decodedImage = await decodeImage(new Uint8Array(imageBuffer));
+            setImage(decodedImage);
+    
+            // Clean up the decoded image
+            decodedImage.unref();
+        } catch (error) {
+            console.error('Failed to load image:', error);
+        }
+    };
+    
+    // Clear the image
+    const clearImage = () => {
+        if (setImage) {
+            setImage(null);
+        }
+    };
+    ```
+  </Tab>
+  <Tab title="Apple">
+    ```swift
+    // Create a RiveImageAsset from data
+    let data = Data(...)
+    var image = RiveImageAsset(data: data)! // This can return nil if the data is not a valid image
+    
+    // Or, create a RiveImageAsset from a UIImage
+    image = RiveImageAsset(image: UIImage(named: "my_image")!, format: .png)! // This can return nil if the image is not a valid jpg or png image
+    
+    let imageProperty = viewModelInstance.imageProperty(fromPath: "image")!
+    
+    // Once you have your data binding view model instance, you can set the image property value
+    imageProperty.setValue(image)
+    
+    // You can also pass nil to clear the image
+    imageProperty.setValue(nil)
+    ```
+  </Tab>
+  <Tab title="Flutter">
+    <Info>
+      See the [Flutter data binding images example](https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_images.dart).
+    </Info>
+    ```dart
+    // Access the image property by path on a ViewModelInstance object
+    final imageProperty = viewModelInstance.image('my_image')!; // image property named "my_image"
+    
+    // Create a RenderImage
+    final renderImage = await Factory.rive.decodeImage(bytes); // use `Factory.flutter` if you're using the Flutter renderer
+    
+    // If the image is valid, update the image property value
+    if (renderImage != null) {
+        imageProperty.value = renderImage;
+    }
+    
+    // You can also set the image property to null to clear it
+    imageProperty.value = null;
+    ```
+  </Tab>
+  <Tab title="Unity">
+    ```csharp
+    [SerializeField] private ImageOutOfBandAsset m_lightImageAsset;
+    [SerializeField] private ImageOutOfBandAsset m_darkImageAsset;
+    
+    private ViewModelInstanceImageProperty imageProperty;
+    private bool isDarkMode = false;
+    
+    private void OnEnable()
+    {
+        riveWidget.OnWidgetStatusChanged += HandleWidgetStatusChanged;
+    }
+    
+    private void OnDisable()
+    {
+        riveWidget.OnWidgetStatusChanged -= HandleWidgetStatusChanged;
+    }
+    
+    private void HandleWidgetStatusChanged()
+    {
+        if (riveWidget.Status == WidgetStatus.Loaded)
+        {
+            m_lightImageAsset.Load();
+            m_darkImageAsset.Load();
+            ViewModelInstance viewModelInstance = riveWidget.StateMachine.ViewModelInstance;
+    
+            // Get the image property by name
+            imageProperty = viewModelInstance.GetImageProperty("profileImage");
+            // or alternatively:
+            // imageProperty = viewModelInstance.GetProperty<ViewModelInstanceImageProperty>("profileImage");
+    
+            // Set up change callback
+            imageProperty.OnValueChanged += OnImageChanged;
+    
+            // Set initial image (light mode)
+            imageProperty.SetImage(m_lightImageAsset);
+        }
+    }
+    
+    private void OnImageChanged(ImageOutOfBandAsset newImage)
+    {
+        Debug.Log("Image updated!");
+    }
+    
+    // Example method to toggle between light and dark mode images
+    public void ToggleTheme()
+    {
+        if (imageProperty != null)
+        {
+            isDarkMode = !isDarkMode;
+            imageProperty.SetImage(isDarkMode ? m_darkImageAsset : m_lightImageAsset);
+        }
+    }
+    
+    // Example method to clear the image
+    public void ClearImage()
+    {
+        if (imageProperty != null)
+        {
+            imageProperty.SetImage(null);
+        }
+    }
+    
+    private void OnDestroy()
+    {
+        m_lightImageAsset.Unload();
+        m_darkImageAsset.Unload();
+    
+        // Remove the event listener
+        if (imageProperty != null)
+        {
+            imageProperty.OnValueChanged -= OnImageChanged;
+        }
+    }
+    ```
+  </Tab>
+  <Tab title="React Native">
+    <Warning>
+      The image data binding API in React Native is not yet available, and will likely only be supported in an upcoming rewrite of the package.
+    </Warning>
+  </Tab>
+</Tabs>
+
+### Lists
+
+List properties let you manage a dynamic set of view model instances at runtime. For example, you can build a TODO app where users can add and remove tasks in a scrollable Layout.
+
+See the [Editor section](/editor/data-binding/lists) on creating data bound lists.
+
+A single list property can include different view model types, with each view model tied to its own Nested Artboard, making it easy to populate a list with a varity of Nested Artboards.
+
+With list properties, you can:
+
+- Add a new view model instance (optionally at an index)
+- Remove an existing view model instance (optionally by index)
+- Swap two view model instances by index
+- Get the size of a list
+
+For more information on list properties, see the [Data Binding List Property](/editor/data-binding/lists#view-model-list-property) editor documentation.
+
+<Tabs>
+  <Tab title="Web">
+    <Columns cols={2}>
+      <Card title="Example: Data Binding Lists" href="https://codesandbox.io/p/sandbox/suspicious-hertz-2lg4m8?file=%2Fsrc%2Findex.ts" img="/images/app-runtimes/data-binding/rive-db-lists.webp">
+        Add, remove, and swap items in your data binding list with javascript.
+      </Card>
+    </Columns>
+    ```javascript
+    const rive = new rive.Rive({
+        autoBind: true,
+        onLoad: () => {
+            // Access the current instance that was auto-bound
+            let vmi = rive.viewModelInstance;
+    
+            // Get the list property by name
+            var list = vmi.list("todos");
+            console.log("length: ", list.length);
+    
+            // Get the view model
+            var todoItemVM = riveInstance.viewModelByName("TodoItem");
+    
+            // Create a blank instance from the view model.
+            // Do this for each new item you want to add.
+            var myTodo = todoItemVM.instance();
+            myTodo.string("description").value = "Buy groceries";
+    
+            // Add the newly created instance to the list
+            list.addInstance(myTodo);
+    
+            // Remove a specific instance from the list
+            list.removeInstance(myTodo);
+    
+            // Swap two instances in the list at index 0 and 1
+            list.swap(0, 1);
+    
+            // Remove instance at index 0
+            list.removeInstanceAt(0);
+        }
+    });
+    ```
+  </Tab>
+  <Tab title="React">
+    Use the `useViewModelInstanceList` hook to manage list properties on view model instances.
+
+    <Columns cols={2}>
+      <Card title="Example: Data Binding Lists" href="https://codesandbox.io/p/sandbox/rive-react-data-binding-lists-4msh9z?file=%2Fsrc%2FApp.tsx" img="/images/app-runtimes/data-binding/rive-db-lists.webp">
+        Add, remove, and swap items in your data binding list with React.
+      </Card>
+    </Columns>
+    ```typescript
+    import { useRive, useViewModel, useViewModelInstance, useViewModelInstanceList } from '@rive-app/react-webgl2';
+    
+    const { rive, RiveComponent } = useRive({
+        src: 'your_file.riv',
+        artboard: 'MyArtboard',
+        stateMachine: 'MyStateMachine',
+        autoBind: false,
+        // ... other options
+    });
+    
+    const viewModel = useViewModel(rive, { name: 'MyViewModel' });
+    const viewModelInstance = useViewModelInstance(viewModel, { rive });
+    
+    // Get the list property with manipulation functions
+    const {
+        length,
+        addInstance,
+        addInstanceAt,
+        removeInstance,
+        removeInstanceAt,
+        getInstanceAt,
+        swap
+    } = useViewModelInstanceList('todos', viewModelInstance);
+    
+    // Add a new todo item
+    const handleAddItem = () => {
+        const todoItemViewModel = rive?.viewModelByName?.('TodoItem');
+        if (todoItemViewModel) {
+            const newTodoItem = todoItemViewModel.instance?.();
+            if (newTodoItem) {
+                // Set some initial values
+                newTodoItem.string('description').value = 'Buy groceries';
+                addInstance(newTodoItem);
+            }
+        }
+    };
+    
+    // Insert item at specific index
+    const handleInsertItem = () => {
+        const todoItemViewModel = rive?.viewModelByName?.('TodoItem');
+        if (todoItemViewModel) {
+            const newTodoItem = todoItemViewModel.instance?.();
+            if (newTodoItem) {
+                addInstanceAt(newTodoItem, 0); // Insert at beginning
+            }
+        }
+    };
+    
+    // Remove first item by instance
+    const handleRemoveFirst = () => {
+        const firstInstance = getInstanceAt(0);
+        if (firstInstance) {
+            removeInstance(firstInstance);
+        }
+    };
+    
+    // Remove item by index
+    const handleRemoveAt = () => {
+        if (length > 0) {
+            removeInstanceAt(0);
+        }
+    };
+    
+    // Swap two items
+    const handleSwap = () => {
+        if (length >= 2) {
+            swap(0, 1);
+        }
+    };
+    
+    console.log(`List has ${length} items`);
+    ```
+  </Tab>
+  <Tab title="Apple">
+    ```swift
+    let listProperty = viewModelInstance.listProperty(fromPath: "list")!
+    
+    // Create a new view model instance and add it to the end of the list
+    let firstInstance = viewModel.createInstanceByName("First Instance")!
+    listProperty.add(firstInstance)
+    
+    // Create a new view model instance and add it to the beginning of the list
+    let secondInstance = myViewModel.createInstanceByName("Second Instance")!
+    listProperty.add(secondInstance, atIndex: 0)
+    
+    // Swap the first and second instances
+    listProperty.swapInstance(atIndex: 0, withInstanceAtIndex: 1)
+    
+    // Remove both instances
+    listProperty.removeInstance(secondInstance)
+    listProperty.removeInstance(atIndex: 0)
+    
+    // Get and print the size of the list
+    print(listProperty.size) // Prints 0
+    ```
+  </Tab>
+  <Tab title="Flutter">
+    <Info>
+      See the [Flutter data binding list example](https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_lists.dart).
+    </Info>
+    The list API in Flutter is designed to be similar to the [List](https://api.dart.dev/dart-core/List-class.html) class in Dart. It doesn't contain the full API spec of that class, but it does provide the most commonly used methods.
+
+    <Warning>
+      Working with lists can result in errors ([`RangeError`](https://api.flutter.dev/flutter/dart-core/RangeError-class.html)) being thrown if you try to access an index that is out of bounds, or perform other list operations that are not permitted. Similar to the Dart List API.
+    </Warning>
+    Access a list property by path on a `ViewModelInstance` object:
+
+    ```dart Access a List property
+    final todosProperty = viewModelInstance.list('todos')!; // list property named "todos"
+    print(todosProperty.length); // print the length of the list
+    ```
+
+    To add an item you first need to create an instance of the view model that you want to add to the list:
+
+    ```dart Create a blank view model instance
+    final todoItemVM = riveFile.viewModelByName("TodoItem")!;
+    final todoItemInstance = todoItemVM.createInstance()!;
+    ```
+
+    You can also create an instance from an existing instance (as exported in the Rive Editor), using:
+
+    - `createDefaultInstance()`
+    - `createInstanceByName('exercise')`
+    - `createInstanceByIndex(0)`.
+
+    Then add the instance to the list:
+
+    ```dart Add an instance to the list
+    todosProperty.add(todoItemInstance);
+    ```
+
+    To remove a particular instance from the list, you can use the `remove` method:
+
+    ```dart Remove an instance from the list
+    todosProperty.remove(todoItemInstance);
+    ```
+
+    Other operations:
+
+    ```dart List operations
+    // Remove at index
+    todosProperty.removeAt(0); // can throw
+    
+    // Insert at index
+    todosProperty.insert(0, todoItemInstance); // can throw
+    
+    // Swap
+    todosProperty.swap(0, 1); // can throw
+    
+    // First
+    ViewModelInstance todo = todosProperty.first(); // can throw
+    
+    // Last
+    ViewModelInstance todo = todosProperty.last(); // can throw
+    
+    // First or null
+    ViewModelInstance? todo todosProperty.firstOrNull(); // will return null if the list is empty
+    
+    // Last or null
+    ViewModelInstance? todosProperty.lastOrNull(); // will return null if the list is empty
+    
+    // Access/set directly by index
+    final instance = todosProperty[0]; // can throw
+    todosProperty[0] = todoItemInstance; // can throw
+    
+    // Instance at index
+    todosProperty.instanceAt(2); // can throw
+    
+    // Length
+    todosProperty.length;
+    ```
+  </Tab>
+  <Tab title="Unity">
+    ```csharp
+    private ViewModelInstanceListProperty listProperty;
+    
+    private void OnEnable()
+    {
+        riveWidget.OnWidgetStatusChanged += HandleWidgetStatusChanged;
+    }
+    
+    private void OnDisable()
+    {
+        riveWidget.OnWidgetStatusChanged -= HandleWidgetStatusChanged;
+    }
+    
+    private void HandleWidgetStatusChanged()
+    {
+        if (riveWidget.Status == WidgetStatus.Loaded)
+        {
+            ViewModelInstance viewModelInstance = riveWidget.StateMachine.ViewModelInstance;
+    
+            // Get the list property by name
+            listProperty = viewModelInstance.GetListProperty("todos");
+            // or alternatively:
+            // var listProperty = viewModelInstance.GetProperty<ViewModelInstanceListProperty>("todos");
+    
+            Debug.Log($"List count: {listProperty.Count}");
+    
+            // Set up change callback
+            listProperty.OnChanged += OnListChanged;
+    
+            // Get the view model for creating new instances
+            var todoItemVM = riveWidget.File.GetViewModelByName("TodoItem");
+    
+            // Create a blank instance from the view model
+            var newTodo = todoItemVM.CreateInstance();
+            newTodo.GetStringProperty("description").Value = "Buy groceries";
+    
+            // Add the newly created instance to the list
+            listProperty.Add(newTodo);
+    
+            // Insert an instance at a specific index
+            var anotherTodo = todoItemVM.CreateInstance();
+            listProperty.Insert(anotherTodo, 0); // Insert at beginning
+    
+            // Access items by index
+            for (int i = 0; i < listProperty.Count; i++)
+            {
+                var item = listProperty.GetInstanceAt(i);
+                Debug.Log($"Item {i}: {item}");
+            }
+    
+            // Remove a specific instance from the list
+            listProperty.Remove(newTodo);
+    
+            // Remove instance at index
+            listProperty.RemoveAt(0);
+    
+            // Swap two instances in the list at index 0 and 1
+            if (listProperty.Count > 1)
+            {
+                listProperty.Swap(0, 1);
+            }
+        }
+    }
+    
+    private void OnListChanged()
+    {
+        Debug.Log("List updated!");
+    }
+    
+    private void OnDestroy()
+    {
+        if (listProperty != null)
+        {
+            listProperty.OnChanged -= OnListChanged;
+        }
+    }
+    ```
+  </Tab>
+  <Tab title="React Native">
+    <Warning>
+      The lists data binding API in React Native is not yet available, and will likely only be supported in an upcoming rewrite of the package.
+    </Warning>
+  </Tab>
+</Tabs>
+
+### Artboards
+
+Artboard properties allows you to swap out entire nested artboards (components) at runtime. This is useful for creating modular components that can be reused across different designs or applications, for example:
+
+- Creating a skinning system that supports a large number of variations, such as a character creator where you can swap out different body parts, clothing, and accessories.
+- Creating a complex scene that is a composition of various artboards loaded from various different Rive files (drawn to a single canvas/texture/widget).
+- Reducing the size (complexity) of a single Rive file by breaking it up into smaller components that can be loaded on demand and swapped in and out as needed.
+
+<Tabs>
+  <Tab title="Web">
+    <Columns cols={2}>
+      <Card title="Example: Data binding Artboards" href="https://codesandbox.io/p/sandbox/rive-js-data-binding-artboards-jx3pf9?file=%2Fsrc%2Findex.mjs%3A5%2C19" img="/images/app-runtimes/data-binding/rive-data-bind-components.webp">
+        Swap an artboard with another artboard from the same .riv or one loaded at runtime.
+      </Card>
+    </Columns>
+    ```typescript
+    let artboardProperty = null;
+    let characterArtboard = null;
+    
+    function attachCharacter() {
+        // If the artboard property and the character artboard, both exist, set the artboard
+        if (characterArtboard && artboardProperty) {
+            artboardProperty.value = characterArtboard;
+        }
+    }
+    
+    const r = new Rive({
+        src: "swap_character_main.riv",
+        autoplay: true,
+        canvas: el,
+        autoBind: true,
+        layout: new Layout({
+            fit: Fit.Layout,
+            layoutScaleFactor: 0.5,
+        }),
+        stateMachines: "State Machine 1",
+        onLoad: () => {
+            r.resizeDrawingSurfaceToCanvas();
+    
+            const vmi = r.viewModelInstance;
+            artboardProperty = vmi.artboard("Artboard property");
+    
+            attachCharacter();
+        },
+        onLoadError: () => {
+            console.log("error");
+        },
+    });
+    
+    // Load an external artboard
+    const assetsFile = new RiveFile({
+        src: "swap_character_assets.riv",
+        onLoad: () => {
+            characterArtboard = assetsFile.getArtboard("Character 1");
+            attachCharacter();
+        },
+        onLoadError: () => {
+            console.log("error");
+        },
+    });
+    assetsFile.init();
+    ```
+  </Tab>
+  <Tab title="React">
+    Use the `useViewModelInstanceArtboard` hook to set artboard properties on view model instances.
+
+    <Columns cols={2}>
+      <Card title="Example: Data binding Artboards" href="https://codesandbox.io/p/sandbox/rive-react-data-binding-artboards-kmvzh8?file=%2Fsrc%2FApp.tsx" img="/images/app-runtimes/data-binding/rive-data-bind-components.webp">
+        Swap an artboard with another artboard from the same .riv or one loaded at runtime.
+      </Card>
+    </Columns>
+    ```typescript
+    import { useRive, useViewModel, useViewModelInstance, useViewModelInstanceArtboard } from '@rive-app/react-webgl2';
+    
+    const { rive, RiveComponent } = useRive({
+        src: 'your_file.riv',
+        artboard: 'MyArtboard',
+        stateMachine: 'MyStateMachine',
+        autoBind: true,
+        // ... other options
+    });
+    
+    // Get artboard property setters
+    const { setValue: setArtboard1 } = useViewModelInstanceArtboard(
+        'artboard_1', // Property path
+        rive?.viewModelInstance
+    );
+    
+    const { setValue: setArtboard2 } = useViewModelInstanceArtboard(
+        'artboard_2', // Property path
+        rive?.viewModelInstance
+    );
+    
+    // Assign different artboards from the same file
+    const handleSetBlueArtboard = () => {
+        if (rive) {
+            const blueArtboard = rive.getArtboard('ArtboardBlue');
+            setArtboard1(blueArtboard);
+        }
+    };
+    
+    const handleSetRedArtboard = () => {
+        if (rive) {
+            const redArtboard = rive.getArtboard('ArtboardRed');
+            setArtboard2(redArtboard);
+        }
+    };
+    
+    const handleSetGreenArtboard = () => {
+        if (rive) {
+            const greenArtboard = rive.getArtboard('ArtboardGreen');
+            setArtboard1(greenArtboard);
+        }
+    };
+    
+    ```
+  </Tab>
+  <Tab title="Apple">
+    Use the `artboardProperty` method on a `RiveDataBindingViewModel.Instance` object to get the artboard property.
+
+    Then use the `setValue` method on the artboard property object to set the new artboard value.
+
+    `setValue` accepts a `RiveBindableArtboard` object, which is a wrapper for an artboard that can be used to set the artboard property value.
+
+    You can get a `RiveBindableArtboard` object by using the `bindableArtboard` methods on a `RiveFile` object.
+
+    ```swift
+    let artboardProperty = instance.artboardProperty(fromPath: "Artboard")!
+    
+    let components = RiveFile(...)
+    let bindableArtboard = components.bindableArtboard(at: 0)!
+    let bindableArtboard2 = components.bindableArtboard(withName: "...")!
+    
+    artboardProperty.setValue(bindableArtboard)
+    ```
+  </Tab>
+  <Tab title="Flutter">
+    <Info>
+      See the [Flutter data binding artboards example](https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_artboards.dart).
+    </Info>
+    Artboard properties work with the `BindableArtboard` class, which is different from the regular `Artboard` class in the package.
+
+    `BindableArtboard` is a runtime wrapper for interacting with artboards through data binding. These instances reference existing artboards in your file, so no additional setup is required in the Rive Editor.
+
+    ```dart
+        // Artboard property to bind
+        final artboardProp = viewModelInstance.artboard('artboardPropertyName')!;
+    
+        // Create a bindable artboard
+        final bindableArtboard = riveFile.artboardToBind('artboardName')!;
+        artboardProp.value = bindableArtboard;
+    ```
+  </Tab>
+  <Tab title="Unity">
+    Artboard properties work with the `BindableArtboard` class, which is different from the regular `Artboard` class in the package.
+
+    `BindableArtboard` is a runtime wrapper for interacting with artboards through data binding. These instances reference existing artboards in your file, so no additional setup is required in the Rive Editor.
+
+    ```csharp
+    [SerializeField] private Asset m_externalRiveAsset;
+    
+    private ViewModelInstanceArtboardProperty artboardProperty;
+    private File externalFile;
+    
+    private void OnEnable()
+    {
+        riveWidget.OnWidgetStatusChanged += HandleWidgetStatusChanged;
+    }
+    
+    private void OnDisable()
+    {
+        riveWidget.OnWidgetStatusChanged -= HandleWidgetStatusChanged;
+    }
+    
+    private void HandleWidgetStatusChanged()
+    {
+        if (riveWidget.Status == WidgetStatus.Loaded)
+        {
+            ViewModelInstance viewModelInstance = riveWidget.StateMachine.ViewModelInstance;
+    
+            // Get the artboard property by name
+            artboardProperty = viewModelInstance.GetArtboardProperty("artboard_1");
+            // or alternatively:
+            // artboardProperty = viewModelInstance.GetProperty<ViewModelInstanceArtboardProperty>("artboard_1");
+    
+            // Set up change callback
+            artboardProperty.OnValueChanged += OnArtboardChanged;
+    
+            // Set artboard from same file.
+            var blueArtboard = riveWidget.File.BindableArtboard("ArtboardBlue");
+            artboardProperty.Value = blueArtboard;
+    
+            // Load external file if needed
+            if (m_externalRiveAsset != null)
+            {
+                externalFile = File.Load(m_externalRiveAsset);
+            }
+        }
+    }
+    
+    private void OnArtboardChanged(BindableArtboard artboard)
+    {
+        Debug.Log($"Artboard changed to: {artboard?.Name}");
+    }
+    
+    // Example method to assign a different artboard from the same file
+    public void SwitchToRedArtboard()
+    {
+        if (artboardProperty != null)
+        {
+            var redArtboard = riveWidget.File.BindableArtboard("ArtboardRed");
+            artboardProperty.Value = redArtboard;
+        }
+    }
+    
+    // Example method to assign an artboard from a different file
+    // This is useful for creating modular components that can be reused across different Rive files.
+    public void SwitchToExternalArtboard()
+    {
+        if (artboardProperty != null && externalFile != null)
+        {
+            var externalArtboard = externalFile.BindableArtboard("SomeArtboard");
+            artboardProperty.Value = externalArtboard;
+        }
+    }
+    
+    private void OnDestroy()
+    {
+        // Clean up external file
+        externalFile?.Dispose();
+    
+        // Remove the event listener
+        if (artboardProperty != null)
+        {
+            artboardProperty.OnValueChanged -= OnArtboardChanged;
+        }
+    }
+    ```
+  </Tab>
+  <Tab title="React Native">
+    <Warning>
+      The artboards data binding API in React Native is not yet available, and will likely only be supported in an upcoming rewrite of the package.
+    </Warning>
+  </Tab>
+</Tabs>
+
+### Enums
 
 Enums properties come in two flavors: system and user-defined. In practice, you will not need to worry about the distinction, but just be aware that system enums are available in any Rive file that binds to an editor-defined enum set, representing options from the editor's dropdowns, where user-defined enums are those defined by a designer in the editor.
 
 Enums are string typed. The Rive file contains a list of enums. Each enum in turn has a name and a list of strings.
 
 <Tabs>
-    <Tab title="Web">
+  <Tab title="Web">
     ```typescript
     const rive = new rive.Rive({
         onLoad: () => {
             const enums = rive.enums();
-
+    
             console.log(enums);
-        }           
+        }
     });
     ```
-    </Tab>
-    <Tab title="Android">
-        ```kotlin
-        val enums = view.controller.file?.enums!!
-
-        val firstEnumName = enums[0].name
-        val firstEnumFirstValue = enums[0].values[0]
-        ```
-    </Tab>
+  </Tab>
+  <Tab title="React">
+    ```typescript
+    const { rive } = useRive({
+        src: 'your_file.riv',
+        artboard: 'MyArtboard',
+        stateMachine: 'MyStateMachine',
+        autoBind: true
+        // ... other options
+    });
+    const enums = rive?.enums();
+    console.log(enums);
+    ```
+  </Tab>
+  <Tab title="Android">
+    ```kotlin
+    val enums = view.controller.file?.enums!!
+    
+    val firstEnumName = enums[0].name
+    val firstEnumFirstValue = enums[0].values[0]
+    ```
+  </Tab>
+  <Tab title="Flutter">
+    ```dart
+    // Accesss on a File object
+    print("Data enums: ${file.enums}");
+    ```
+  </Tab>
+  <Tab title="Unity">
+    ```csharp
+    
+        var viewModelInstance = riveWidget.StateMachine.ViewModelInstance;
+    
+        // Accessing enums from the file
+        var enums = riveWidget.File.ViewModelEnums;
+        foreach (var enumType in enums)
+        {
+            Debug.Log($"Enum: {enumType.Name}");
+            foreach (var value in enumType.Values)
+            {
+                Debug.Log($" - Value: {value}");
+            }
+        }
+    
+        ...
+        // Using enum properties
+        var enumProperty = viewModelInstance.GetEnumProperty("category");
+        Debug.Log($"Current value: {enumProperty.Value}");
+        Debug.Log($"Available values: {string.Join(", ", enumProperty.EnumValues)}");
+        enumProperty.Value = enumProperty.EnumValues[0]; // Set to first value
+    
+    ```
+  </Tab>
+  <Tab title="React Native">
+    <Warning>
+      Retrieving the list of enums on the file is not yet available in React Native.
+    </Warning>
+  </Tab>
 </Tabs>
 
-# Nested Property Paths
-
-View models can have properties of type view model, allowing for arbitrary nesting. We could chain property calls on each instance starting from the root until we get to the property of interest. Alternatively we can do this through a path parameter, which is similar to a URI in that it is a forward slash delimited list of property names ending in the name of the property of interest.
+# Examples
 
 <Tabs>
-    <Tab title="Web">
-    ```typescript
-    const rive = new rive.Rive({
-        onLoad: () => {
-            const vm = rive.viewModelByName("My View Model");
-            const vmi = vm.instanceByName("My Instance");
+  <Tab title="Web">
+    See [this video](https://youtu.be/G6IWCZ1IG10?t=1243) for an intro to data binding using the Web runtime along with this [CodeSandbox example](https://codesandbox.io/p/sandbox/rive-data-binding-quick-start-js-6v2ltn?file=%2Fsrc%2Findex.ts).
 
-            const nestedNumberByChain = vmi
-                .viewModel("My Nested View Model")
-                .viewModel("My Second Nested VM")
-                .number("My Nested Number");
+    - [Detect view model property changes](https://www.youtube.com/watch?v=1WFtGX2coXM)
 
-            const nestedNumberByPath = vmi.number("My Nested View Model/My Second Nested VM/My Nested Number");
-        }           
-    });
-    ```
-    </Tab>
-    <Tab title="Android">
-        ```kotlin
-        val vm = view.controller.file?.getViewModelByName("My View Model")!!
-        val vmi = vm.createInstanceFromName("My Instance")
-
-        val nestedNumberByChain = vmi
-            .getInstanceProperty("My Nested View Model")
-            .getInstanceProperty("My Second Nested VM")
-            .getNumberProperty("My Nested Number")
-
-        val nestedNumberByPath = vmi
-            .getNumberProperty("My Nested View Model/My Second Nested VM/My Nested Number")
-        ```
-    </Tab>
+    <YouTube id="G6IWCZ1IG10" timestamp="1243" />
+  </Tab>
+  <Tab title="React">
+    See the `DataBinding` story in the [Rive React repo](https://github.com/rive-app/rive-react) for a demo.
+  </Tab>
+  <Tab title="Apple">
+    See the [Data Binding view](https://github.com/rive-app/rive-ios/blob/main/Example-iOS/Source/Examples/SwiftUI/DataBindingView.swift) in the Example app for a demo.
+  </Tab>
+  <Tab title="Flutter">
+    - [Data binding overview](https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding.dart)
+    - [Data binding images](https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_images.dart)
+    - [Data binding artboards](https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_artboards.dart)
+    - [Data binding lists](https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_lists.dart)
+  </Tab>
+  <Tab title="React Native">
+    See the [Data Binding view](https://github.com/rive-app/rive-react-native/blob/main/example/app/\(examples\)/DataBinding.tsx) in the Example app for a demo.
+  </Tab>
 </Tabs>

@@ -1,20 +1,15 @@
 ---
-title: 'Data Binding Overview'
-sidebarTitle: 'Overview'
-description: 'Connect editor elements to data and code using View Models'
+title: "Data Binding Overview"
+sidebarTitle: "Overview"
+description: "Connect editor elements to data and code using View Models"
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
-import { EarlyAccess } from '/snippets/early-access-feature.mdx'
-
-
-<EarlyAccess featureName="Data Binding">
-  As data binding continues to develop additional features, we suggest you continue to refer to this page for changes.
-</EarlyAccess>
 
 # What is Data Binding?
 
 Data binding is a powerful way to create reactive connections between editor elements, data, and code. For instance, you might:
+
 - Bind the color of an icon to a color data property that can be adjusted by a developer at runtime
 - Bind the X-position of an animated object so that it can be followed with an offset by another object
 - Listen for a click event on two buttons to increment and decrement a counter
@@ -32,21 +27,27 @@ It also offers the opportunity to shift more logic into the Rive file and out of
 The following video series introduces data binding through a guided walkthrough of the editor, which will help solidify the concepts below.
 
 ### Introduction
-<YouTube id="eqaxhkroDXk" />
+
+<YouTube id="G6IWCZ1IG10" />
 
 ### View Models
+
 <YouTube id="WSkg8kgTR20" />
 
 ### Number Properties
+
 <YouTube id="xmpLMhtKwbI" />
 
 ### String Properties
+
 <YouTube id="qJRrSmz-W48" />
 
 ### Color Properties
+
 <YouTube id="TSEiU1zpSL0" />
 
 ### Binding State Machine Conditions
+
 <YouTube id="VJ9jk0RLc-s" />
 
 # Glossary
@@ -91,6 +92,8 @@ Bidirectional means that changes are applied in both directions, meaning either 
 
 Additionally, a binding may be marked as "Bind Once". This means that the initial value will apply and thereafter the binding will not apply any updates.
 
+<YouTube id="OBmP-KxqIyU" />
+
 ### View Model Nesting
 
 View models can have another view model as one of their properties. This is referred to as "nesting". This is useful when a parent instance wants to associate with a particular child instance, similar to nested artboards.
@@ -105,28 +108,32 @@ Enum properties can be either a "system" enum, in which case they represent a fi
 
 A converter is a general purpose way of transforming a binding's value when it is applied. These transformations might involve changing its type. For instance, the "Convert to String" converter can be used to convert a numerical binding to text, so that an object's X position could be applied to a text run.
 
+To apply a converter on a value that already has a binding, right click on the bound property, click Update Bind, and select your converter from the Convert dropdown.
+
 # Comparing to Existing Features
 
 Data binding fills some of the same roles as existing features in Rive. In general, it is considered a more powerful alternative to both inputs and events, and we recommend you adopt it for most use cases going forward. However, this does not mean that you need to retrofit existing files as they will continue to work as expected.
 
 ### Type Support
+
 View model properties can represent more types of data compared to inputs and events. See below for a comparison.
 
 |                        | Inputs | Events | View Model Properties |
-|------------------------|--------|--------|-----------------------|
-| Floating point numbers | ✅     | ✅     | ✅                     |
-| Booleans               | ✅     | ✅     | ✅                     |
-| Triggers               | ✅     | ❌     | ✅                     |
-| Strings                | ❌     | ✅     | ✅                     |
-| Enumerations           | ❌     | ❌     | ✅                     |
-| Colors                 | ❌     | ❌     | ✅                     |
-| Nesting                | ❌     | ❌     | ✅                     |
-| Lists                  | ❌     | ❌     | 🚧 Coming soon         |
-| Images                 | ❌     | ❌     | 🚧 Coming soon         |
+| ---------------------- | :----- | :----- | :-------------------- |
+| Floating point numbers | ✅      | ✅      | ✅                     |
+| Booleans               | ✅      | ✅      | ✅                     |
+| Triggers               | ✅      | ❌      | ✅                     |
+| Strings                | ❌      | ✅      | ✅                     |
+| Enumerations (Enums)   | ❌      | ❌      | ✅                     |
+| Colors                 | ❌      | ❌      | ✅                     |
+| View Model Nesting     | ❌      | ❌      | ✅                     |
+| Lists                  | ❌      | ❌      | ✅                     |
+| Images                 | ❌      | ❌      | ✅                     |
+| Artboards              | ❌      | ❌      | ✅                     |
 
 ### State Machine Inputs
 
-Before data binding, state machine inputs were the primary way for developers to affect designs. They formed the "input" side of the contract with design. View model properties are a more flexible system. 
+Before data binding, state machine inputs were the primary way for developers to affect designs. They formed the "input" side of the contract with design. View model properties are a more flexible system.
 
 Inputs can only be used to drive state machine transitions, whereas data binding can be used to drive most editor elements in Rive and state machine transitions.
 
@@ -164,6 +171,6 @@ These three use cases are unified by view model instances, where nested artboard
 
 To continue reading about how to interact with data binding in code, see the [Runtime Overview](/runtimes/data-binding) page.
 
-<Card title="Data Binding Runtime Overview" href="/runtimes/data-binding" icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" d="M7.31 7.111 2.406 5.15l4.61-1.844.328-.126a2.3 2.3 0 0 1 1.647 0l.33.126L13.93 5.15 9.024 7.112c-.55.22-1.163.22-1.712 0"></path><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="m2.405 10.911 4.906 1.963c.55.22 1.162.22 1.712 0l4.906-1.963M2.405 8.031 7.31 9.992c.55.22 1.162.22 1.712 0l4.906-1.963M2.405 5.15 7.31 7.111c.55.22 1.162.22 1.712 0l4.906-1.962-4.61-1.844-.329-.126a2.3 2.3 0 0 0-1.647 0l-.329.126z"></path></svg>}>
+<Card title="Data Binding Runtime Overview" icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" d="M7.31 7.111 2.406 5.15l4.61-1.844.328-.126a2.3 2.3 0 0 1 1.647 0l.33.126L13.93 5.15 9.024 7.112c-.55.22-1.163.22-1.712 0"></path><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="m2.405 10.911 4.906 1.963c.55.22 1.162.22 1.712 0l4.906-1.963M2.405 8.031 7.31 9.992c.55.22 1.162.22 1.712 0l4.906-1.963M2.405 5.15 7.31 7.111c.55.22 1.162.22 1.712 0l4.906-1.962-4.61-1.844-.329-.126a2.3 2.3 0 0 0-1.647 0l-.329.126z"></path></svg>} href="/runtimes/data-binding">
   A dive into using data binding at runtime.
 </Card>

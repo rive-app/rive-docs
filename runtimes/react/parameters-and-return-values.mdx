@@ -5,7 +5,7 @@ description: 'Rive React API.'
 
 ## Hooks
 
-### useRive 
+### useRive
 
 The `useRive` hook is the recommended way to hook into the Rive runtime for full control, especially when using the Rive State Machine. See below for parameters to pass in and the return values.
 
@@ -14,11 +14,11 @@ The `useRive` hook is the recommended way to hook into the Rive runtime for full
 - `riveParams` - See below for a set of parameters passed to the `Rive` object at instantiation from the Web runtime. `null` and `undefined` can be passed to conditionally display the .riv file
 - `opts` - *(Optional)* See below for a set of options specific to `rive-react`
 
-#### Parameters 
+#### Parameters
 
 **UseRiveParameters**
 
-Most of these parameters come from the underlying web runtime configuration items for the Rive object, with the exception of supplying a `canvas` element. See [Rive Parameters](../web/rive-parameters) for all the parameters you can supply in this object.
+Most of these parameters come from the underlying web runtime configuration items for the Rive object, with the exception of supplying a `canvas` element. See [Rive Parameters](/runtimes/web/rive-parameters) for all the parameters you can supply in this object.
 
 <Note>
  If you supply an `onLoad` callback in the parameters, you may not have access to the `rive` instance yet. The React runtime uses `onLoad` internally to setState with the `rive` instance, and therefore may not be populated by the time it reaches a consumer-supplied callback. We recommend using a `useEffect` in place of `onLoad` to reliably use the `rive` instance if you are looking for a similar method. In a future version of the web runtime, we may supply the `rive` instance in the parameters of your callback so you can supply an `onLoad` here.
@@ -71,7 +71,7 @@ This hook returns a default instance of a `StateMachineInput`.
 - `value` (get and set) - Access the value of the input, and set the value of the input via this property
 - `fire()` - Fires off a trigger input
 
-See the [State Machines page](/runtimes/state-machines) to see more usage of this hook.
+See the [Inputs page](/runtimes/inputs) to see more usage of this hook.
 
 ### useResizeCanvas
 
@@ -104,9 +104,9 @@ The `useRiveFile` hook is designed for initializing and managing a `RiveFile` in
 
 The main benefit of this hook is that it allows you to create a `RiveFile` instance that you can reuse across components without needing to fetch it again from the `src` URL or reload it from the `buffer`. This improves performance by eliminating redundant network requests and loading times, especially when creating multiple Rive instances from the same source. Unlike passing the `buffer` and `src` parameters to the `useRive` hook directly—which still requires parsing under the hood to create the `RiveFile` object—this hook returns an already parsed `RiveFile` object, including any loaded assets.
 
-`useRiveFile(params: UseRiveFileParameters): RiveFileState` 
+`useRiveFile(params: UseRiveFileParameters): RiveFileState`
 
-#### Parameters 
+#### Parameters
 
 **UseRiveFileParameters**
 
@@ -130,6 +130,6 @@ The main benefit of this hook is that it allows you to create a `RiveFile` insta
 
 The `RiveComponent` default export and the `RiveComponent` returned from the `useRive` hook are both to be rendered in the JSX of a component. As noted previously, all attributes and event handlers that can be passed to a `canvas` element can also be passed to the `Rive` component and used in the same manner.
 
-One thing to note is that `style`/`className` props set on the component will be passed onto the containing `<div>` element, rather than the underlying `<canvas>` itself. The reason for this is that the containing `<div>` element handles resizing and layout for you, and thus, all styles should be passed onto this element. 
+One thing to note is that `style`/`className` props set on the component will be passed onto the containing `<div>` element, rather than the underlying `<canvas>` itself. The reason for this is that the containing `<div>` element handles resizing and layout for you, and thus, all styles should be passed onto this element.
 
 The `<canvas>` element will still receive any other props passed into the component, such as `aria-*` attributes, `role`'s, etc. You can also set children content inside the component for fallback scenarios where the `<canvas>` element cannot be shown.

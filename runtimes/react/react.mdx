@@ -16,7 +16,7 @@ This library contains a React component, as well as custom hooks to help integra
 ## Quick Start
 
 
-See our [quick start example](https://codesandbox.io/p/sandbox/rive-quick-start-react-4xy76h) that shows how to play a Rive animation with React.
+See our [quick start example](https://codesandbox.io/p/sandbox/rive-quick-start-react-4xy76h?file=%2Fsrc%2FApp.tsx%3A25%2C) that shows how to play a Rive animation with React.
 
 
 ## Getting Started
@@ -28,7 +28,7 @@ Follow the steps below for a quick start on integrating Rive into your React app
     The Rive React runtime allows for two main options based on which backing renderer you need.
 
     - **(Recommended)** `@rive-app/react-canvas` - Wraps the `@rive-app/canvas` dependency. Unless you specifically need a `WebGL` backing renderer, we recommend you use this dependency when using Rive in your apps for quick and fast usage.
-    - `@rive-app/react-canvas-lite` - Similar to `@rive-app/react-canvas`, but [smaller](../web/canvas-vs-webgl). This is recommended if the Rive graphic does not use [Rive Text](/editor/text/)
+    - `@rive-app/react-canvas-lite` - Similar to `@rive-app/react-canvas`, but [smaller](/runtimes/web/canvas-vs-webgl). This is recommended if the Rive graphic does not use [Rive Text](/editor/text/)
     - `@rive-app/react-webgl` - Wraps the `@rive-app/webgl` dependency. In the future, we may have advanced rendering features that are only supported by using `WebGL`. At the moment, however, due to the size of the dependency (with Skia), we do not recommend it unless you have specific needs here. We are currently working on improving the performance and size with the [Rive Renderer](https://rive.app/renderer).
     - `@rive-app/react-webgl2` - Wraps the `@rive-app/webgl2` dependency. It uses the Rive Renderer with a WebGL2 context and has a much smaller build size than `rive-app/react-webgl`. In a future major release, this package may be deprecated, and `@rive-app/react-webgl` will make use of the Rive Renderer completely, without an added Skia dependency.
 
@@ -54,7 +54,7 @@ Follow the steps below for a quick start on integrating Rive into your React app
     );
     ```
 
-    See [Parameters and Return Values](../react/parameters-and-return-values) for more on the parameters and return values of the `<Rive />` component.
+    See [Parameters and Return Values](/runtimes/react/parameters-and-return-values) for more on the parameters and return values of the `<Rive />` component.
   </Step>
   <Step title="Using the useRive hook">
     In many cases, you may not only need the React component to render your animation but also the `rive` object instance that controls it as well. The Rive object instance allows you to tap into APIs for:
@@ -91,7 +91,7 @@ Follow the steps below for a quick start on integrating Rive into your React app
 
     Also, keep in mind that the canvas size depends on the container it's placed within. Initially, this is 0x0. Either pass a `className` to `RiveComponent` or wrap `RiveComponent` with an appropriately sized container.
 
-    See [here](./parameters-and-return-values) for more on the parameters and return values of `useRive`.
+    See [here](/runtimes/react/parameters-and-return-values) for more on the parameters and return values of `useRive`.
 
     Additionally, explore subsequent runtime pages to learn how to control animation playback, state machines, and more.
   </Step>
@@ -103,7 +103,7 @@ At this time, we highly recommend isolating your usage of `useRive` to its own w
 
 By isolating `useRive` to its own wrapper component, Rive will have a chance to properly clean up, and restart the animation with a new canvas. In a parent component, you can then conditionally render the wrapper component based on any state or prop-based logic.
 
-Check out this example to see this pattern in use: [https://codesandbox.io/s/userive-wrapper-pattern-zx2h3j](https://codesandbox.io/s/userive-wrapper-pattern-zx2h3j)
+Check out [this example CodeSandbox](https://codesandbox.io/p/sandbox/rive-react-swapping-skins-with-solos-ctcnlx?file=%2Fsrc%2FApp.tsx) to see this pattern in use.
 
 ## Resources
 
@@ -112,7 +112,7 @@ Check out this example to see this pattern in use: [https://codesandbox.io/s/use
 **Types**: [https://github.com/rive-app/rive-react/blob/main/src/types.ts](https://github.com/rive-app/rive-react/blob/main/src/types.ts)
 
 **Examples**
-- Simple skinning example: [https://codesandbox.io/p/sandbox/rive-skins-ctcnlx](https://codesandbox.io/p/sandbox/rive-skins-ctcnlx)
+- Simple skinning example: [https://codesandbox.io/p/sandbox/rive-react-swapping-skins-with-solos-ctcnlx](https://codesandbox.io/p/sandbox/rive-react-swapping-skins-with-solos-ctcnlx?file=%2Fsrc%2FApp.tsx)
 - Storybook demo: [https://rive-app.github.io/rive-react/](https://rive-app.github.io/rive-react/)
 - Animated Login Form:
   - Demo: [https://rive-app.github.io/rive-use-cases/?path=/story/example-loginformcomponent--primary](https://rive-app.github.io/rive-use-cases/?path=/story/example-loginformcomponent--primary)

@@ -13,26 +13,32 @@ While the JS runtime offers a high-level API that allows for integrating Rives i
 - Smaller dependency size
 - ...and more!
 
-See a simple game example [here](https://codesandbox.io/p/sandbox/rive-canvas-advanced-api-centaur-example-q6snxp).
-
 ## Premise
 
 Here's the basic render workflow using the low-level API to render Rives:
 
 <Steps>
-  <Step title="Load the Rive Web Assembly (WASM) file, which contains the module with lower-level APIs"></Step>
-  <Step title="Load the Rive file in"></Step>
-  <Step title="Create instances for Artboards, LinearAnimations, and StateMachines"></Step>
+  <Step title="Load the Rive Web Assembly (WASM) file, which contains the module with lower-level APIs" />
+  <Step title="Load the Rive Web Assembly (WASM) file, which contains the module with lower-level APIs" />
+  <Step title="Load the Rive file in" />
+  <Step title="Create instances for Artboards, LinearAnimations, and StateMachines" />
+  <Step title="Create instances for Artboards, LinearAnimations, and StateMachines" />
   <Step title="Build the render loop function to manipulate the instances created above">
     <Steps>
-      <Step title="Advance any animation instances and apply it"></Step>
-      <Step title="Advance any state machine instances"></Step>
-      <Step title="Advance the artboard"></Step>
-      <Step title="Render the updated artboard on the canvas"></Step>
-      <Step title="Request the next animation frame"></Step>
+      <Step title="Advance any animation instances and apply it" />
+      <Step title="Advance any animation instances and apply it" />
+      <Step title="Advance any state machine instances" />
+      <Step title="Advance any state machine instances" />
+      <Step title="Advance the artboard" />
+      <Step title="Advance the artboard" />
+      <Step title="Render the updated artboard on the canvas" />
+      <Step title="Render the updated artboard on the canvas" />
+      <Step title="Request the next animation frame" />
+      <Step title="Request the next animation frame" />
     </Steps>
   </Step>
-  <Step title="Clean-up created instances when finished"></Step>
+  <Step title="Clean-up created instances when finished" />
+  <Step title="Clean-up created instances when finished" />
 </Steps>
 
 ## Getting Started
@@ -50,7 +56,7 @@ https://unpkg.com/@rive-app/canvas-advanced@2.26.1/rive.wasm
 <Note>
  You'll want to ensure that the version at the end of @rive-app/canvas-advanced@ or @rive-app/webgl2-advanced@ matches the version of the dependency you installed in your app. For example, if you installed @rive-app/canvas-advanced@2.26.1 in package.json, the Rive WASM file you request from unpkg would be https://unpkg.com/@rive-app/canvas-advanced@2.26.1/rive.wasm.
 <br/>
- See [Preloading WASM](./preloading-wasm) to preload WASM.
+ See [Preloading WASM](/runtimes/web/preloading-wasm) to preload WASM.
 </Note>
 
 To start, import the default module from the library and then call it with an object where you only need to set a single parameter, `locateFile`, which is a function that returns the URI of the WASM file. This can be either the `unpkg` URL or the URI to your self-hosted version of it. Simply `await` for the call to resolve, and then you'll get a reference to the low-level Rive runtime APIs.
@@ -226,7 +232,7 @@ After advancing the artboard, call the `save()` API on the rendering context to 
 Finally, after calling the `align()` API, pass the renderer to the artboard via the `draw()` method to draw the artboard on the canvas, then end with a call to the `restore()` API on the renderer to restore the saved state of the canvas.
 
 <Note>
- If you're using `@rive-app/webgl2-advanced`, you will need to add an additional call on the renderer to `flush()` to empty different buffer commands.
+ If you're using `@rive-app/webgl2-advanced`, you will need to call `renderer.flush()` to empty different buffer commands.
 </Note>
 The last thing to do is to call on Rive's `requestAnimationFrame` with this callback to queue up the next callback for the next frame.
 
@@ -303,11 +309,9 @@ stateMachine.delete();
 
 See below for links to examples demonstrating the use of low-level JS APIs:
 
-- [Simple use of @rive-app/canvas-advanced](https://codesandbox.io/p/sandbox/smoosh-microservice-s6dz3m)
-- [Simple use of @rive-app/webgl2-advanced](https://codesandbox.io/p/sandbox/rive-webgl-advanced-57lczl)
-- [Out of band assets (fonts) @rive-app/canvas-advanced](https://codesandbox.io/p/sandbox/rive-canvas-advanced-out-of-band-assets-fonts-3q4zzy)
-- [A volume knob state machine](https://codesandbox.io/p/sandbox/rive-volume-knob-draft-j8qchy)
-- [Centaur apple game](https://codesandbox.io/p/sandbox/rive-canvas-advanced-api-centaur-example-q6snxp)
+- [Simple use of @rive-app/canvas-advanced](https://codesandbox.io/p/sandbox/canvas-advance-api-example-s6dz3m?file=%2Fsrc%2Findex.ts)
+- [Simple use of @rive-app/webgl2-advanced](https://codesandbox.io/p/sandbox/rive-webgl-advanced-57lczl?file=%2Fsrc%2Findex.ts)
+- [Out of band assets (fonts) @rive-app/canvas-advanced](https://codesandbox.io/p/sandbox/rive-canvas-advanced-out-of-band-assets-fonts-3q4zzy?file=%2Fsrc%2Findex.ts)
 
 ## API References
 
@@ -327,4 +331,4 @@ When using Rive’s advanced JS APIs to customize how you use Rive, you will hav
 
 If you're looking to add Rive to your existing render loop (the JS API `requestAniationFrame()`) and do not want to use the Rive-wrapped `requestAnimationFrame()` API, you can do so with an extra API call at the end of your render loop. Call the `rive.resolveAnimationFrame()` API at the end of the render loop before calling `requestAnimationFrame()` again.
 
-See more on usage in the [Rive Parameters](./rive-parameters) doc.
+See more on usage in the [Rive Parameters](/runtimes/web/rive-parameters) doc.

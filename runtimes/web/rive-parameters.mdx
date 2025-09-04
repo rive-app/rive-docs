@@ -12,7 +12,7 @@ export interface RiveParameters {
   canvas: HTMLCanvasElement | OffscreenCanvas, // required
   src?: string, // one of src or buffer is required
   buffer?: ArrayBuffer, // one of src or buffer is required
-  file?: rc.File,
+  riveFile?: RiveFile,
   artboard?: string,
   animations?: string | string[],
   stateMachines?: string | string[],
@@ -41,11 +41,11 @@ export interface RiveParameters {
     - Alternatively, with ES6, you may import the `.riv` file as a data URI. Depending on your bundle loader, you may need to use a plugin (i.e `url-loader` for Webpack) to properly parse and load in `.riv` files as a data URI string. See [this project](https://github.com/zplata/rive-nextjs/blob/main/next.config.js#L8) as a basic example on how to set this up
   - Path to public asset - This is a string path to the`.riv` public asset if bundled in your application. Note that this is **not** a relative path to the asset from wherever the current JS file is in. Treat the `.riv` as any other asset bundled in your application, such as an image or font. If your JS is compiled and run at the root of your web application, you must specify the path from the root to the location of the asset. For example, if your asset is in `/public/foo.riv`, and your JS is run from the root at `/`, you would specify: `src: '/public/foo.riv'` in this property.
 - `buffer?` - *(optional)* ArrayBuffer containing the raw bytes from a .riv file. One of `src` or `buffer` must be provided.
-- `file?` - *(optional)* Lets you reuse a previously loaded Rive runtime file object without needing to fetch it again from the `src` URL or reload it from the `buffer`. This can improve performance by eliminating redundant network requests and loading times, especially when creating multiple Rive instances from the same source. Unlike the `buffer` and `src` parameters, which still require parsing under the hood to create a runtime file object, the file parameter uses an already parsed object, including any loaded assets.
+- `riveFile?` - *(optional)* Lets you reuse a previously loaded Rive runtime file object without needing to fetch it again from the `src` URL or reload it from the `buffer`. This can improve performance by eliminating redundant network requests and loading times, especially when creating multiple Rive instances from the same source. Unlike the `buffer` and `src` parameters, which still require parsing under the hood to create a runtime file object, the file parameter uses an already parsed object, including any loaded assets.
 - `artboard?` - *(optional)* Name of the artboard to use.
 - `animations?` - *(optional)* Name or list of names of animations to play.
 
-<Note> 
+<Note>
  Currently, Rive will play the first timeline animation it finds if no `stateMachines` or `animations` parameter is provided, however, in a future major version of `rive-wasm`, the default will be to play the first state machine it finds.
 </Note>
 
@@ -74,7 +74,7 @@ export interface RiveParameters {
 - `onLoop?` - *(optional)* Callback that gets fired when the animation completes a loop.
 - `onStateChange?` - *(optional)* Callback that gets fired when a state change occurs.
 - `onAdvance?` - *(optional)* Callback that gets fired every frame when the Artboard has advanced.
-- `assetLoader?` - *(optional)* Callback that gets invoked for every asset detected in a Rive file (whether included or excluded). The callback is passed a reference to a Rive **FileAsset** and associated **bytes** for the file (if the asset is embedded in the file). In this callback, you'll determine whether or not to load the asset in your app yourself, or have Rive do it for you. For more details and examples, see the [Loading Assets](../loading-assets) page.
+- `assetLoader?` - *(optional)* Callback that gets invoked for every asset detected in a Rive file (whether included or excluded). The callback is passed a reference to a Rive **FileAsset** and associated **bytes** for the file (if the asset is embedded in the file). In this callback, you'll determine whether or not to load the asset in your app yourself, or have Rive do it for you. For more details and examples, see the [Loading Assets](/runtimes/loading-assets) page.
 
 ## APIs
 
@@ -204,7 +204,7 @@ export enum EventType {
   Play = "play", // When Rive plays an entity or resumes the render loop
   Pause = "pause", // When Rive pauses the render loop and playing entity
   Stop = "stop", // When Rive stops the render loop and playing entity
-  Loop = "loop", // (Singular animations only) When Rive loops an animation 
+  Loop = "loop", // (Singular animations only) When Rive loops an animation
   Advance = "advance", // When Rive advances the animation in a frame
   StateChange = "statechange", // When a Rive state change is detected
   RiveEvent = "riveevent", // When a Rive Event gets reported
@@ -287,7 +287,7 @@ This effectively removes all event listening subscriptions for a single particul
 
 Scrubs through (a) linear timeline animation(s) by a specified amount of seconds.
 
-<Note> 
+<Note>
 Note: This will not do anything if you are playing through a state machine. This only applies if you are using instantiated animations through the `animations` property.
 </Note>
 ### cleanup()
@@ -296,7 +296,7 @@ Note: This will not do anything if you are playing through a state machine. This
 
 This API is **important** to call, as it will stop the animation render loop, and clean up all created instances for the Rive file, artboard, linear timeline animation(s), state machine, and the renderer. The reason it's important to delete these instances is because these entities hold generated C++ references through WASM behind-the-scenes, and therefore will not automatically get garbage collected like normal JS objects, and must be "cleaned up" manually, to prevent memory leaks. Once you are done with the Rive instance (i.e., a state machine has finished running, a user is navigating off the page, etc.), call `.cleanup()` to ensure all underlying memory allocated is freed up.
 
-<Note> 
+<Note>
 If you want to present a different Artboard from the same Rive file dynamically, you can call `cleanupInstances()` which will only delete the Artboard, animation, and state machine instances (but not the Rive file or renderer object, which you can still reuse).
 </Note>
 
@@ -355,7 +355,7 @@ This sets the layout bounds to the current canvas size. You may want to call thi
 
 This resets the `<canvas>` width and height properties to render at its current bounding rect size (CSS `height` and `width` properties) with the browser's `devicePixelRatio` in mind. This prevents blurry output on high-dpi screens (i.e., a `<canvas>` that is 500x500 on the page may render with an internal area size of 1000x1000 while still maintaining its original canvas size). This calls `resizeToCanvas()` implicitly. It's recommended to call this in the `onLoad` callback.
 
-<Note> 
+<Note>
 In a future major version of this runtime, this API may be called internally on initialization by default, with an option to opt-out if you have specific `width` and `height` properties you want to set on the canvas
 </Note>
 ```typescript
@@ -397,7 +397,7 @@ const riveInstance = new rive.Rive({
   canvas: document.getElementById('canvas'),
   autoplay: true,
   stateMachines: 'bumpy',
-  onLoad: () => {  
+  onLoad: () => {
     // Get the inputs via the name of the state machine
     const inputs = riveInstance.stateMachineInputs('bumpy');
     // Find the input you want to set a value for, or trigger
@@ -435,7 +435,7 @@ Sets the text value of the text run component (from the hierarchy of your `.riv`
 
 `resolveAnimationFrame(): void`
 
-You only need to use this function if you are using Rive's [low-level APIs](./low-level-api-usage) to build the render loop manually and are integrating Rive into your existing `requestAnimationFrame()` loop
+You only need to use this function if you are using Rive's [low-level APIs](/runtimes/web/low-level-api-usage) to build the render loop manually and are integrating Rive into your existing `requestAnimationFrame()` loop
 
 Resolves deferred drawing commands with the renderer. You must call this at the end of your render loop if you decide to use your own `requestAnimationFrame()` loop and are adding Rive graphics into it. Otherwise, if you are using Rive's wrapped `rAF` loop (i.e., `rive.requestAnimatimationFrame()` ), you do not need to call this method, as Rive will worry about resolving any rendering calls related to Rive graphics.
 
@@ -452,7 +452,7 @@ function draw(time) {
   lastTime = time;
 
   renderer.clear();
-  
+
   if (artboard) {
     if (stateMachine) {
       stateMachine.advance(elapsedSeconds);
@@ -508,7 +508,7 @@ const riveInstance = new rive.Rive({
   canvas: document.getElementById('canvas'),
   autoplay: true,
   stateMachines: 'bumpy',
-  onLoad: () => {  
+  onLoad: () => {
     // Log the contents of the Rive file
     console.log(riveInstance.contents);
   },

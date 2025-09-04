@@ -3,22 +3,22 @@ title: 'Components'
 description: ''
 ---
 
-The Rive Unity package includes components to help you integrate Rive into your project quickly and easily. These components are a high-level abstraction over the [low-level API](./fundamentals), handling rendering and pointer input, and providing a unified way of working with Rive across render pipelines.
+The Rive Unity package includes components to help you integrate Rive into your project quickly and easily. These components are a high-level abstraction over the [low-level API](/game-runtimes/unity/fundamentals), handling rendering and pointer input, and providing a unified way of working with Rive across render pipelines.
 
 We recommend working with these components unless you have specific rendering needs or need more control over where Rive fits into your graphics pipeline, in which case you can use the low-level API.
 
-## Rive Panel 
+## Rive Panel
 
 The Rive Panel is the foundation for displaying Rive graphics in Unity. It acts as a viewport that manages and renders a collection of Rive widgets to a render texture, with the panel's dimensions determining the render target's size.
 
-The panel renders multiple widgets to a single render texture, which means you draw different Rive files and artboards to one texture by placing multiple Rive Widgets under the same panel. This is more performant than using multiple panels as each panel renders to a separate texture by default. 
+The panel renders multiple widgets to a single render texture, which means you draw different Rive files and artboards to one texture by placing multiple Rive Widgets under the same panel. This is more performant than using multiple panels as each panel renders to a separate texture by default.
 
-#### Setup 
+#### Setup
 
-Create an instance: Right-click in the scene hierarchy `→ Rive → Rive Panel` 
+Create an instance: Right-click in the scene hierarchy `→ Rive → Rive Panel`
 
 <Warning>
- A Rive Panel simply handles drawing the graphics to a texture. You'll need to use the Rive Panel **with** a [Panel Renderer](./components#panel-renderers) to display the texture.
+ A Rive Panel simply handles drawing the graphics to a texture. You'll need to use the Rive Panel **with** a [Panel Renderer](/game-runtimes/unity/components#panel-renderers) to display the texture.
 </Warning>
 
 **Configuration**
@@ -51,7 +51,7 @@ Create an instance: Right-click in the scene hierarchy `→ Rive → Rive Panel`
 | RegisterInputProvider(IPanelInputProvider provider) | Registers a custom input provider for handling pointer events. |
 | UnregisterInputProvider(IPanelInputProvider provider) | Removes a previously registered input provider. |
 
-## Rive Widget 
+## Rive Widget
 
 The Rive Widget is the primary component for displaying Rive artboards in Unity. It handles loading Rive files either from assets during edit time or from runtime-loaded files (useful when loading Rive content from a server or Addressables). The component manages artboard and state machine setup, automatically configuring everything needed to display your graphic.
 
@@ -86,6 +86,8 @@ Create an instance: Right-click in the scene hierarchy `→ Rive → Widgets →
 | Artboard | The currently loaded artboard instance. |
 | State Machine | The currently loaded state machine instance. |
 | Status | Current status of the widget (Uninitialized, Loading, Loaded, Error) |
+| BindingMode | Determines how the widget should handle binding to a ViewModel instance: Auto Bind Default, Auto Bind Selected, or Manual. |
+| ViewModelInstanceName | The name of the ViewModel instance to bind to when BindingMode is set to Auto Bind Selected. |
 
 **Events**
 
@@ -112,7 +114,7 @@ Create an instance: Right-click in the scene hierarchy `→ Rive → Widgets →
 The Procedural Rive Widget enables runtime generation of graphics using the Rive's Renderer. This component lets you create graphics programmatically using Rive's drawing primitives (paths and paints, etc.).
 See [this example](https://github.com/rive-app/rive-unity/blob/0765c81e1b68e77fcbf0e62afee7290eff400d17/tests/package/PlayModeTests/Components/Goldens/TestPanels/TestProceduralDrawing.cs) for a practical implementation of a procedural drawing.
 
-#### Setup 
+#### Setup
 
 Create an instance: Right-click in the scene hierarchy `→ Rive → Widgets → Procedural Rive Widget`
 
@@ -146,7 +148,7 @@ Create an instance: Right-click in the scene hierarchy `→ Rive → Widgets →
 
 ## Panel Renderers
 
-Panel renderers connect RivePanel's render texture to Unity's display systems. By separating rendering logic from display concerns, we can support different rendering contexts (UI, world space, etc.) while keeping the core Rive functionality consistent. 
+Panel renderers connect RivePanel's render texture to Unity's display systems. By separating rendering logic from display concerns, we can support different rendering contexts (UI, world space, etc.) while keeping the core Rive functionality consistent.
 
 Each renderer type specializes in a specific Unity rendering pathway, handling details like input systems and render order automatically.
 
@@ -158,22 +160,22 @@ The Rive Canvas Renderer displays Rive content within Unity's UI system (uGUI). 
  The Rive Canvas Renderer controls the size of the Rive Panel based on the uGUI Canvas it is being displayed under.
 </Note>
 
-You can also create a Rive Panel that has been automatically configured to use this component by right-clicking in the scene hierarchy and navigating to the `Rive > Rive Panel (Canvas)` 
+You can also create a Rive Panel that has been automatically configured to use this component by right-clicking in the scene hierarchy and navigating to the `Rive > Rive Panel (Canvas)`
 
-#### Requirements 
+#### Requirements
 
 - Requires an EventSystem in the scene for pointer input
 - Requires a GraphicRaycaster on the Canvas for pointer input
 - The Rive Panel must be under a uGUI canvas
 - This component must be placed on the same game object as the Rive Panel
 
-#### Configuration 
+#### Configuration
 
 | Property | Description |
 | --- | --- |
 | Pointer Input Mode | Controls whether the renderer accepts pointer input (Enable/Disable). |
 
-#### Properties 
+#### Properties
 
 | Name | Description |
 | --- | --- |
@@ -183,14 +185,14 @@ You can also create a Rive Panel that has been automatically configured to use t
 
 Rive Texture Renderer projects Rive content onto materials in your 3D scene. It bridges the gap between Rive's 2D rendering system and Unity's 3D material system, making it easy to apply Rive content to any mesh in your scene.
 
-#### Requirements 
+#### Requirements
 
 - Must be placed on a GameObject with a MeshRenderer on it. e.g. a Cube, Plane, Quad, or Capsule.
 - Requires an EventSystem in the scene for pointer input
 - Requires a PhysicsRaycaster on the camera for pointer input in 3D space
 - Target GameObject needs a MeshCollider for pointer input
 
-#### Configuration 
+#### Configuration
 
 | Field | Description |
 | --- | --- |
@@ -199,7 +201,7 @@ Rive Texture Renderer projects Rive content onto materials in your 3D scene. It 
 | Visibility Optimization | Determines if the RivePanel should stop rendering when the mesh is not visible to the camera. |
 | Pointer Input Mode | Controls whether the renderer accepts pointer input (Enable/Disable). |
 
-#### Properties 
+#### Properties
 
 | Name | Description |
 | --- | --- |
@@ -216,7 +218,7 @@ Rive Texture Renderer projects Rive content onto materials in your 3D scene. It 
 
 Render Target Strategies control how **Rive Panels** render to textures. They determine whether panels get individual textures or share a texture atlas, and handle details like texture creation, panel arrangement, and memory management.
 
-### Simple Render Target Strategy 
+### Simple Render Target Strategy
 
 The `Simple Render Target Strategy` is the default rendering approach for **Rive Panels**, creating a dedicated render texture for each panel. It is automatically added to a Rive Panel if no custom strategy is provided.
 
@@ -238,20 +240,20 @@ This one-to-one mapping between panels and textures provides straightforward mem
 | --- | --- |
 | DrawTiming | Current draw timing mode. |
 
-### Atlas Render Target Strategy 
+### Atlas Render Target Strategy
 
-The Atlas Render Target Strategy enables multiple panels to share a single texture atlas, optimizing memory usage and draw calls. 
+The Atlas Render Target Strategy enables multiple panels to share a single texture atlas, optimizing memory usage and draw calls.
 
 By default, it uses a simple shelf-packing algorithm to efficiently arrange panels within the atlas, automatically growing the texture as needed while respecting maximum size constraints.
 
-#### Setup 
+#### Setup
 
 1. Create an instance: Right-click in the scene hierarchy `→ Rive → Render Target Strategies → Atlas Render Target Strategy`
 
 - Assign to panels: Drag the strategy into the `Custom Render Target Strategy` field on desired panels
 - (Optional) Configure atlas parameters like starting size and resolution limits
 
-#### Notes 
+#### Notes
 
 - Panels sharing the same strategy instance share the same atlas texture
 - Create multiple strategy instances to group panels into different atlases
@@ -286,13 +288,13 @@ By default, it uses a simple shelf-packing algorithm to efficiently arrange pane
 | --- | --- |
 | Configure(Vector2Int startingSize, Vector2Int maxSize, int maxResPerPanel, int padding) | Sets up atlas parameters before initialization. |
 
-### Pooled Render Target Strategy 
+### Pooled Render Target Strategy
 
 The **Pooled Render Target Strategy** optimizes memory usage by maintaining a pool of reusable render textures. Instead of creating a new texture for each panel or sharing a single atlas, this strategy draws panels to textures from a managed pool, recycling them as needed.
 
 This approach is particularly useful for scenes with dynamic UI elements that appear and disappear frequently. For example, in a game with popup menus or tooltips that show Rive graphics, the strategy can reuse textures as UI elements are shown and hidden, avoiding constant texture allocation and deallocation.
 
-#### Configuration 
+#### Configuration
 
 | Field | Description |
 | --- | --- |
@@ -302,7 +304,7 @@ This approach is particularly useful for scenes with dynamic UI elements that ap
 | Pool Overflow Behavior | How to handle requests when pool is full: `Flexible` (create temporary textures) or `Fixed` (reject new panels). |
 | Draw Timing | When rendering occurs: `Batched` (once per frame) or `Immediate` (instant updates). |
 
-#### Properties 
+#### Properties
 
 | Name | Description |
 | --- | --- |
@@ -312,7 +314,7 @@ This approach is particularly useful for scenes with dynamic UI elements that ap
 | Max Pool Size | Current maximum pool size. |
 | Draw Timing | Current draw timing mode. |
 
-#### Public Methods 
+#### Public Methods
 
 | Name | Description |
 | --- | --- |

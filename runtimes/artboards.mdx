@@ -1,0 +1,148 @@
+---
+title: 'Artboards'
+description: 'Selecting an artboard at runtime'
+---
+
+For more information on creating Artboards in Rive, please refer to: [Artboards](/editor/fundamentals/artboards).
+
+## Choosing an artboard
+
+When a Rive object is instantiated, the artboard to use can be specified. If no artboard is given, the [default artboard](/editor/fundamentals/artboards#default-state-machine), as set in the Rive editor, is used. If no default artboard is set, the first artboard is used.
+
+Only one artboard can be used at a time.
+
+<Tabs>
+
+  <Tab title="Web">
+    ```javascript
+    new rive.Rive({
+        src: 'https://cdn.rive.app/animations/vehicles.riv',
+        canvas: document.getElementById('canvas'),
+        artboard: 'Truck',
+        autoplay: true
+    });
+    ```
+  </Tab>
+
+  <Tab title="React">
+    ```javascript
+    export const Simple = () => (
+      <Rive src="https://cdn.rive.app/animations/vehicles.riv" artboard="Truck" />
+    );
+
+    // With `useRive` Hook:
+    export default function Simple() {
+      const { RiveComponent } = useRive({
+          src: 'https://cdn.rive.app/animations/vehicles.riv',
+          artboard: 'Truck',
+          autoplay: true,
+      });
+
+      return <RiveComponent />;
+    }
+    ```
+  </Tab>
+
+  <Tab title="React Native">
+    ```javascript
+    export default function App() {
+      return (
+        <View>
+          <Rive resourceName="truck_v7" artboardName="Jeep" autoplay />
+        </View>
+      );
+    }
+    ```
+  </Tab>
+
+  <Tab title="Flutter">
+  Manually create an artboard:
+
+  ```dart
+  // Default artboard
+  final artboard = riveFile.defaultArtboard();
+  // Artboard named
+  final artboard = riveFile.artboard('Truck');
+  // Artboard at index
+  final artboard = riveFile.artboardAt(0);
+  ```
+
+  Specify the artboard to use in `RiveWidgetController` or `RiveWidgetBuilder`:
+
+  ```dart
+  // Default artboard
+  final artboardSelector = ArtboardSelector.byDefault();
+  // Artboard named
+  final artboardSelector = ArtboardSelector.byName('Truck');
+  // Artboard at index
+  final artboardSelector = ArtboardSelector.byIndex(0);
+
+  // Pass to RiveWidgetController
+  final controller = RiveWidgetController(
+    riveFile,
+    artboardSelector: artboardSelector,
+  );
+
+  // Pass to RiveWidgetBuilder
+  return RiveWidgetBuilder(
+    fileLoader: fileLoader,
+    artboardSelector: ArtboardSelector.byName('Main'),
+    builder: (context, state) {
+      // return a widget
+    },
+  );  
+  ```
+  </Tab>
+
+  <Tab title="Apple">
+    #### SwiftUI
+    ```swift
+    struct AnimationView: View {
+        var body: some View {
+            RiveViewModel(
+                fileName: "dancing_banana",
+                artboardName: "Banana"
+            ).view()
+        }
+    }
+    ```
+
+    #### UIKit
+    ```swift
+    class AnimationViewController: UIViewController {
+        @IBOutlet weak var riveView: RiveView!
+
+        var bananaVM = RiveViewModel(
+            fileName: "dancing_banana",
+            artboardName: "Banana",
+        )
+
+        override func viewDidLoad() {
+            bananaVM.setView(riveView)
+        }
+    }
+    ```
+  </Tab>
+
+  <Tab title="Android">
+    ### Via XML
+    ```xml
+    <app.rive.runtime.kotlin.RiveAnimationView
+        app:riveAutoPlay="true"
+        app:riveArtboard="Square"
+        app:riveResource="@raw/artboard_animations" />
+    ```
+
+    ### Via Kotlin
+    ```kotlin
+    animationView.setRiveResource(
+        R.raw.artboard_animations,
+        artboardName = "Square",
+        autoplay = true
+    )
+    ```
+  </Tab>
+
+</Tabs>
+
+

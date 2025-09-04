@@ -8,7 +8,7 @@ Before creating your pull request, make sure to [fork](https://docs.github.com/e
 
 ## Images
 
-When adding images, add them to the `images` folder, in a subdirectory similar to the file structure for documentation. 
+When adding images, add them to the `images` folder, in a subdirectory similar to the file structure for documentation.
 
 When naming images, use a descriptive name relative to the functionality you are documenting.
 
@@ -23,6 +23,19 @@ When embedding images, make sure to add descriptive [alt-text](https://docs.gith
 - Web: `images/runtimes/web/my-image.jpg`
 - Unity: `images/game-runtimes/unity/my-image.jpg`
 - Unreal: `images/game-runtimes/unreal/my-image.jpg`
+
+
+### Links:
+
+When adding links to another page within the documentation, make sure the url is relative to the root.
+
+```js
+// Don't
+[Hierarchy](../editor/interface-overview/hierarchy)
+
+// Do
+[Hierarchy](/editor/interface-overview/hierarchy)
+```
 
 ## Making Commits
 
@@ -40,7 +53,7 @@ Below are some suggestions for a Conventional Commit message type to use when wr
 
 ### Scopes
 
-Below are some suggestions for a Conventional Commit message scope to use when writing your commmit message.
+Below are some suggestions for a Conventional Commit message scope to use when writing your commit message.
 
 - `editor`: Changes that apply to the editor as a whole.
 - `runtimes`: Changes that apply to (most) runtimes as a whole.

@@ -1,0 +1,63 @@
+---
+title: "Data Binding Overview"
+description: "Unreal Data Binding Fundamentals"
+---
+
+<Note>
+  If you're unfamiliar with Rive's Data Binding feature, please see [Data Binding](runtimes/data-binding) to get an understanding of the fundamental concepts.
+</Note>
+
+## 🔧 Data Binding Overview
+
+The Rive Unreal Plugin integrates the Rive ViewModel architecture into Unreal Engine, enabling dynamic data-driven content and interaction. Through **data binding**, you can expose gameplay variables, user input, or UI state directly to your Rive animations using a declarative model.
+
+### 🔩 Core Components
+
+- `URiveViewModel`: Represents a Rive-defined schema with properties and instance templates.
+- `URiveViewModelInstance`: Holds runtime values for a ViewModel. Wraps `rive::ViewModelInstanceRuntime` and provides typed property accessors.
+- `URiveViewModelInstanceValue`: Base class for all runtime properties. Derived types include:
+  - `URiveViewModelInstanceBoolean`
+  - `URiveViewModelInstanceNumber`
+  - `URiveViewModelInstanceString`
+  - `URiveViewModelInstanceColor`
+  - `URiveViewModelInstanceEnum`
+  - `URiveViewModelInstanceTrigger`
+  - Nested ViewModels: `URiveViewModelInstance`
+- **Binding Targets**: Instances can be bound to:
+  - `URiveArtboard` – sets the data context for a Rive artboard and it's associated state machine.
+  - `FRiveStateMachine` – synchronizes ViewModel data with state machine inputs and outputs and binds it to the state machine's artboard.
+
+### 🔄 Lifecycle
+
+1. **Load ViewModel** via `URiveFile`:
+
+   ```cpp
+   URiveViewModel* ViewModel = RiveFile->GetViewModelByName("MyData"); 
+   ```
+2. **Create Instance**:
+
+   ```cpp
+   URiveViewModelInstance* Instance = ViewModel->CreateInstance(); 
+   ```
+3. **Bind to Artboard**:
+
+   ```
+   Artboard->SetViewModelInstance(Instance);
+   ```
+4. **Interact with Properties** (e.g. trigger a state or update text):
+
+   ```cpp
+   Instance->SetStringPropertyValue("Username", "RiveUser");
+   Instance->FireTriggerProperty("Login"); 
+   ```
+5. **Respond to Changes**:
+
+   ```cpp
+   NameProperty->BindToValueChange(MyCallback); 
+   ```
+
+### ⚙️ Architecture Highlights
+
+- Properties and ViewModel Instances expose **typed getters/setters** in both C\+\+ and Blueprints.
+- ViewModelInstances can contain **nested ViewModel instances**.
+- Callbacks are **tracked and invoked safely** via `HandleCallbacks()` (called per-frame by `URiveArtboard::AdvanceStateMachine()`).

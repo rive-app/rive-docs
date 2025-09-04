@@ -1,11 +1,9 @@
 ---
-title: 'Common Use Cases'
-description: ''
+title: "Common Use Cases"
 ---
 
-
 <Note>
- The Unreal plugin is in Technical Preview and may change.
+  The Unreal plugin is in alpha and may change.
 </Note>
 
 ## Using the OnRiveReady Event
@@ -16,26 +14,55 @@ For instance, you may want to set data in a Rive component when it is first crea
 
 The blueprint below shows how to bind to the **OnRiveReady** event of a **RiveWidget** and set the text when play has begun and the **RiveWidget** is ready for use.
 
-![Image](https://ucarecdn.com/7bb2da03-269e-4e7d-844d-7dd69d05b0ed/)
+![Image](/images/game-runtimes/unreal/7bb2da03-269e-4e7d-844d-7dd69d05b0ed.webp)
+
+
+## Translate mouse events to Rive artboard events
+
+<Note>
+  If you're using a world space widget (e.g. a Widget component added to your actor), you can simply enable "Receive Hardware Input" on the component to have it respond to mouse events. The method below is only necessary if you're using a Rive texture in worldspace.
+</Note>
+
+If you're using a Rive animation on a worldspace texture, you'll need to manually pass mouse events to your Rive artboard. To do this:
+
+1. Enable "Support UV from hit results" in your Project Settings.
+
+   ![Support UV From Hit Results](/images/unreal/supportuvs.png)
+2. Create a blueprint that translates mouse location to artboard hits. The Topography Map level in the Rive Unreal Demos repository has an example of a Macro that does this using line traces:
+
+   ![Mouse position to artboard position](/images/unreal/mousttoartboard.png)
+3. Call the Macro for the corresponding events and pass them to the artboard:
+
+   ![Pointer Events](/images/unreal/Screenshot2025-05-23113944.png)
 
 ## Controlling Rive files in Unreal Sequencer
 
 Rive files have both inputs and triggers that can be called via Blueprints, which in turn can be called by triggers in the Unreal Sequencer. The Rive and Unreal terminology collides a bit here, so I’ll try to be as clear as possible.
 
 <Steps>
-<Step title="In sequencer, add your RiveActor as a track."></Step>
-<Step title="Move the timeline head to the location where you want to trigger an input or Rive trigger."></Step>
-<Step title="Add a key."></Step>
-<Step title="Right-click the key, select Properties and select “Create New Endpoint”. This will create a Blueprint node that will trigger whatever Blueprint action you like, including Rive actions."></Step>
-<Step title="Open the Blueprint (double-click on Event) and add a Rive Set Bool Value node (be sure to uncheck “Context Sensitive” in the search box."></Step>
-<Step title="The Rive Set Value nodes require an artboard as an input which can be derived from the Sequencer Event node. Add a Rive Get Artboard node and drag the target from the Sequencer Event node. A conversion node will be automatically added."></Step>
-<Step title="Ensure the Blueprint’s “Call In Editor” box is checked."></Step>
+  <Step title="In sequencer, add your RiveActor as a track.">
+
+  </Step>
+  <Step title="Move the timeline head to the location where you want to trigger an input or Rive trigger.">
+
+  </Step>
+  <Step title="Add a key.">
+
+  </Step>
+  <Step title="Right-click the key, select Properties and select “Create New Endpoint”. This will create a Blueprint node that will trigger whatever Blueprint action you like, including Rive actions.">
+
+  </Step>
+  <Step title="Open the Blueprint (double-click on Event) and add a Rive Set Bool Value node (be sure to uncheck “Context Sensitive” in the search box.">
+
+  </Step>
+  <Step title="The Rive Set Value nodes require an artboard as an input which can be derived from the Sequencer Event node. Add a Rive Get Artboard node and drag the target from the Sequencer Event node. A conversion node will be automatically added.">
+
+  </Step>
+  <Step title="Ensure the Blueprint’s “Call In Editor” box is checked.">
+
+  </Step>
 </Steps>
 
 In the example video below, I have a Rive file that has a Boolean input called “Processing” which kicks off a looping animation.
 
-<video
-  controls
-  className="w-full aspect-video"
-  src="https://ucarecdn.com/22a368aa-5110-4b79-afa8-e244a3500e24/"
-></video>
+<video controls className="w-full aspect-video" src="https://ucarecdn.com/22a368aa-5110-4b79-afa8-e244a3500e24/" />
