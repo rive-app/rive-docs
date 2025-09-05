@@ -4,6 +4,7 @@ description: 'Loading and replacing assets dynamically at runtime'
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
+import { ExamplesCards } from '/snippets/examples-cards.jsx'
 
 Some Rive files may contain assets that can be embedded within the actual file binary, such as font, image, or audio files. The Rive runtimes may then load these assets when the Rive file is loaded. While this makes for easy usage of the Rive files/runtimes, there may be opportunities to load these assets in or even replace them at runtime instead of embedding them in the file binary.
 
@@ -188,6 +189,8 @@ See below for documentation on how to handle loading in assets at runtime for yo
     <Tab title="React">
 
     ### Examples
+
+    <ExamplesCards examples={["fontsHostedCompressed"]} runtime="react" />
 
     - [Specify a font asset to load](https://codesandbox.io/p/sandbox/peaceful-water-2chg77?file=%2Fsrc%2FApp.tsx%3A20%2C38)
     - [Localization - Swap a font based on language (TypeScript & i18n)](https://codesandbox.io/p/sandbox/rive-react-i18n-localization-and-font-swapping-kfsqsl?file=%2Fsrc%2FRiveDemo.tsx)
