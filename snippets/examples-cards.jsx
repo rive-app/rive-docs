@@ -7,7 +7,7 @@ export const ExamplesCards = ({
       title: 'Data Binding Artboards',
       description:
         'Swap an artboard with another artboard from the same .riv or one loaded at runtime.',
-      image: '/images/app-runtimes/data-binding/rive-data-bind-components.webp',
+      image: '/images/runtimes/rive-data-bind-components.webp',
       links: {
         web: 'https://codesandbox.io/p/sandbox/rive-js-data-binding-artboards-jx3pf9?file=%2Fsrc%2Findex.mjs%3A5%2C19',
         react:
@@ -18,7 +18,7 @@ export const ExamplesCards = ({
       title: 'Data Binding Images',
       description:
         'Replace images at runtime using data binding images with javascript.',
-      image: '/images/app-runtimes/data-binding/rive-db-images.webp',
+      image: '/images/runtimes/rive-db-images.webp',
       links: {
         web: 'https://codesandbox.io/p/sandbox/objective-cohen-sqwh9q',
       },
@@ -26,7 +26,7 @@ export const ExamplesCards = ({
     dataBindingLists: {
       title: 'Data Binding Lists',
       description: 'Add, remove, edit, and swap items in your data binding list',
-      image: '/images/app-runtimes/data-binding/rive-db-lists.webp',
+      image: '/images/runtimes/rive-db-lists.webp',
       links: {
         web: 'https://codesandbox.io/p/sandbox/suspicious-hertz-2lg4m8?file=%2Fsrc%2Findex.ts',
         react:
@@ -36,7 +36,7 @@ export const ExamplesCards = ({
     fontsHostedCompressed: {
       title: 'Load a Hosted, Compressed Font Asset',
       description: 'Dynamically load a font asset from a hosted location with compression.',
-      image: '/images/app-runtimes/loading-assets/brotli-compressed-fonts.webp',
+      image: '/images/runtimes/brotli-compressed-fonts.webp',
       links: {
         react:
           'https://codesandbox.io/p/sandbox/prod-sound-6yc5xl?file=%2Fsrc%2FApp.tsx%3A19%2C1',
