@@ -9,7 +9,7 @@ export const ExamplesCards = ({
   const examplesData = {
     cachingARiveFile: {
       title: 'Caching a Rive File',
-      description: 'Download and load the .riv into memory once, use it multiple times.',
+      description: 'Load the .riv into memory once, use it multiple times.',
       riv: '/assets/rivs/rives_animated_emojis.riv',
       stateMachines: "State Machine 1",
       artboard: "Emoji_package",
