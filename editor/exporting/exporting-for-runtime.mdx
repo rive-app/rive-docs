@@ -11,7 +11,7 @@ To export a file for runtime, select the blue export action on the right-hand si
 
 ## Changes to exporting object names 
 
-You may need to access certain objects at runtime, such as a text run to swap a string, or a nested artboard to access its inputs. In order to make these objects discoverable at runtime, you'll need to explicitly set it's name to be exported.
+You may need to access certain objects at runtime, such as a text run to swap a string, or a component to access its inputs. In order to make these objects discoverable at runtime, you'll need to explicitly set it's name to be exported.
 
 Previously, names would be exported if renamed from their default value in the editor. The issue with this approach was it assumed any renamed object was being sought at runtime, when in many cases you may simply want to rename objects to better organise your file — you didn't necessarily need them to be exported into your `.riv` export. Subsequently, we've changed this approach to provide more finite control over what object names get exported.
 

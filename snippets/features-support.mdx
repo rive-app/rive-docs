@@ -3,8 +3,10 @@ As our Rive editor adds features for making Rive assets, sometimes our runtimes 
 Check below to see if a given feature used by your Rive asset is supported yet at runtime. We generally recommend that your project uses the latest version of the runtimes to take advantage of follow-on bug fixes and new features.
 
 <Warning>
-Certain features require the use of the Rive Renderer at runtime. See our documentation on [choosing a renderer](/runtimes/choose-a-renderer/).
-Currently, the only feature that requires the Rive Renderer is **[Vector Feathering](https://rive.app/blog/introducing-vector-feathering)**.
+  Certain features require the use of the Rive Renderer at runtime. See our
+  documentation on [choosing a renderer](/runtimes/choose-a-renderer/).
+  Currently, the only feature that requires the Rive Renderer is **[Vector
+  Feathering](https://rive.app/blog/introducing-vector-feathering)**.
 </Warning>
 
 We may include notes on migrating to newer versions if a new feature warrants recent API changes.
@@ -141,7 +143,7 @@ We may include notes on migrating to newer versions if a new feature warrants re
         | Unreal | Not Supported |
     </Accordion>
     <Accordion title="Nested Text">
-        Enables setting text on nested artboards. See [Nested Text](/runtimes/text#read-update-nested-text-runs-at-runtime).
+        Enables setting text on component instances. See [Nested Text](/runtimes/text#read-update-nested-text-runs-at-runtime).
 
         | **Runtime** | **Version** |
         | --- | --- |
@@ -157,7 +159,7 @@ We may include notes on migrating to newer versions if a new feature warrants re
         | Unreal | ✅ `0.1.14+` |
     </Accordion>
     <Accordion title="Nested Inputs">
-        Enables setting inputs on nested artboards. See [Nested Inputs](/runtimes/inputs#nested-inputs).
+        Enables setting inputs on component instances. See [Nested Inputs](/runtimes/inputs#nested-inputs).
 
         | **Runtime** | **Version** |
         | --- | --- |
@@ -205,7 +207,7 @@ We may include notes on migrating to newer versions if a new feature warrants re
         | Unreal | ✅  Supported |
     </Accordion>
     <Accordion title="Nested Inputs and Nested Events">
-        See [Nested Artboards](/editor/fundamentals/nested-artboards).
+        See [Components](/editor/fundamentals/components).
 
         | **Runtime** | **Version** |
         | --- | --- |
@@ -435,4 +437,5 @@ We may include notes on migrating to newer versions if a new feature warrants re
             - `@rive-app/webgl` - Renders Rive with a `WebGLRenderingContext` renderer.
             - We recommend using the `@rive-app/canvas` dependency, but [check here](https://github.com/rive-app/rive-wasm/blob/master/WEB_RUNTIMES.md) to see which might fit your needs better
     </Accordion>
+
 </AccordionGroup>

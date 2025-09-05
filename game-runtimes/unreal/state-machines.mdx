@@ -1,8 +1,7 @@
 ---
-title: 'State Machines'
-description: 'Interact with the Rive State Machine in Unreal.'
+title: "State Machines"
+description: "Interact with the Rive State Machine in Unreal."
 ---
-
 
 For more information on Rive State Machines see the respective [runtime](/runtimes/state-machines) and [editor](/editor/state-machine/) documentation.
 
@@ -13,7 +12,8 @@ To select a state machine, double-click the **RiveTextureObject** asset and ente
 ![Image](/images/game-runtimes/unreal/199aa4b2-e87a-435e-8bcf-dfa8f3edfc1c.webp)
 
 <Note>
- A Rive file may contain many artboards, and an artboard may contain many state machines.
+  A Rive file may contain many artboards, and an artboard may contain many state
+  machines.
 </Note>
 ## Setting Inputs
 
@@ -30,7 +30,8 @@ The available inputs can be viewed in the Rive Editor when selecting a state mac
 In the example above:`effectsVolume` is a **number**, `continueAvailable` is a **boolean**, and `back` is a **trigger**.
 
 <Note>
- An **Input** is accessed by its string name from an **Artboard** (retrieved from a **RiveFile)**.
+  An **Input** is accessed by its string name from an **Artboard** (retrieved
+  from a **RiveFile)**.
 </Note>
 ### Boolean Input
 
@@ -66,7 +67,7 @@ In the example below, we're firing the trigger named `openMenu`.
 
 ### Nested Inputs
 
-You can call these functions on nested inputs by using the node equivalents that end in "at Path". See the [Nested Artboards](/editor/fundamentals/nested-artboards) documentation for more details on using nested artboards.
+You can call these functions on nested inputs by using the node equivalents that end in "at Path". See the [Components](/editor/fundamentals/components) documentation for more details on using components.
 
 ![Image](/images/game-runtimes/unreal/5ac579c6-7d8f-4875-a54f-7716e95f1098.webp)
 
@@ -82,7 +83,7 @@ Let's take a look at an example. The video below shows a Rive file with a simple
 
 This number input switches out the active playing animation, and the state machine blends between the different animations as they transition.
 
-From a runtime  we can set the `numExpression` through Blueprint to toggle the correct expression for the Robot.
+From a runtime we can set the `numExpression` through Blueprint to toggle the correct expression for the Robot.
 
 <video
   controls

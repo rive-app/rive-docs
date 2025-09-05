@@ -23,7 +23,7 @@ You can use these techniques to create all kinds of production-ready buttons, li
 
 Prior to the addition of Layouts in Rive, all objects on an Artboard were positioned in a freeform way, with few rules limiting this (one exception being [Constraints](/editor/constraints/constraints-overview)). Layouts provide a rules based way to position and size your content using Rows and Columns.
 
-<Tip>A Layout is a container whose position and size is bound by rules (relative to its parent Layout or children). When Rive objects (text, shapes, paths, groups, images, nested artboards, and even joysticks or bones) are placed in a Layout, they inherit the positioning rules of the Layout (**participate in the Layout**), but they can also act independently within the Layout container if desired. This allows for added freedom if you need to animate an object within a Layout.</Tip>
+<Tip>A Layout is a container whose position and size is bound by rules (relative to its parent Layout or children). When Rive objects (text, shapes, paths, groups, images, components, and even joysticks or bones) are placed in a Layout, they inherit the positioning rules of the Layout (**participate in the Layout**), but they can also act independently within the Layout container if desired. This allows for added freedom if you need to animate an object within a Layout.</Tip>
 
 <Tip>Layouts only affect the position of other Layouts. For example, if you want to have a Row Layout, you would have a parent Layout set to a direction of Row, and all of its Layout children will be laid out in a row (and have things like their parent's padding, gap, alignment, etc. applied to their positions).</Tip>
 
@@ -63,7 +63,7 @@ This behaviour is determined by the object type of the child. Objects that have 
 - Text
 - Images
 - Parametric shapes (rectangles, ellipses, triangles, polygons, and stars)
-- Nested Artboards (Leaf & Layout mode)
+- Component instances (Leaf & Layout mode)
 - Other Layouts
 
 All other objects will only have their positioned set by the layout. The [N-Slicing](/editor/layouts/n-slicing) feature provides more advanced options to control the layout/scale behaviour of more advanced shapes and groups.

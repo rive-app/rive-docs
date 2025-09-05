@@ -40,13 +40,13 @@ To select a target, click the Target icon and choose an object from the artboard
 
 Note that having an object selected when you create a listener will automatically assign the selected object as the target of the listener.
 
-**Listening to Events on Nested Artboards**
+**Listening to Events on Components**
 
 <Info>
   We strongly recommend using data binding to communicate between artboards, rather than relying on nested Events.
 </Info>
 
-Setting an Artboard or Nested Artboard as the target allows you to listen for Events fired from that Artboard.
+Setting an Artboard or Component as the target allows you to listen for Events fired from that Artboard.
 
 **Opaque Target**
 
@@ -74,7 +74,7 @@ Available actions include:
 
 **Click** – A combination of pointer down and pointer up within the same target area.
 
-**Listen for Event** – Only visible if the target is an Artboard or Nested Artboard. If multiple events exist, use the dropdown to select the specific one.
+**Listen for Event** – Only visible if the target is an Artboard or Component. If multiple events exist, use the dropdown to select the specific one.
 
 # Listener Action
 
@@ -86,7 +86,7 @@ To add a Listener Action, click the plus icon in the panel below the State Machi
 
 ## **View Model Change**
 
-Updates values within your View Model Instance. This is the preferred way to communicate from your Rive file to your runtime code. By default, listeners are set to View Model Change, unless an artboard or nested artboard is the target of the Listener.
+Updates values within your View Model Instance. This is the preferred way to communicate from your Rive file to your runtime code. By default, listeners are set to View Model Change, unless an artboard or component instance is the target of the Listener.
 
 ### **View Model Drop Down**
 
@@ -125,7 +125,7 @@ For example, we can set Number to Number, but attach an add one converter. Every
 
 ### **Report Event**
 
-Fires an event each time the user action is triggered. This is the default option when an artboard or nested artboard is the target of a listener.
+Fires an event each time the user action is triggered. This is the default option when an artboard or component instance is the target of a listener.
 
 ### **Align Target**
 
