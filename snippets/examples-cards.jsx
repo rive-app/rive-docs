@@ -7,8 +7,18 @@ export const ExamplesCards = ({
   cols = 2
 }) => {
   const examplesData = {
+    cachingARiveFile: {
+      title: 'Caching a Rive File',
+      description: 'Download and load the .riv into memory once, use it multiple times.',
+      riv: '/assets/rivs/rives_animated_emojis.riv',
+      stateMachines: "State Machine 1",
+      artboard: "Emoji_package",
+      links: {
+        web: "https://codesandbox.io/p/sandbox/rive-js-caching-a-rive-file-g675my?file=%2Fsrc%2Findex.ts%3A9%2C1"
+      }
+    },
     dataBindingArtboards: {
-      title: 'Example: Data Binding Artboards',
+      title: 'Data Binding Artboards',
       description:
         'Swap an artboard with another artboard from the same .riv or one loaded at runtime.',
       image: '/images/app-runtimes/data-binding/rive-data-bind-components.webp',
@@ -19,7 +29,7 @@ export const ExamplesCards = ({
       },
     },
     dataBindingImages: {
-      title: 'Example: Data Binding Images',
+      title: 'Data Binding Images',
       description:
         'Replace images at runtime using data binding images with javascript.',
       image: '/images/app-runtimes/data-binding/rive-db-images.webp',
@@ -28,7 +38,7 @@ export const ExamplesCards = ({
       },
     },
     dataBindingLists: {
-      title: 'Example: Data Binding Lists',
+      title: 'Data Binding Lists',
       description: 'Add, remove, edit, and swap items in your data binding list',
       image: '/images/app-runtimes/data-binding/rive-db-lists.webp',
       links: {
@@ -46,6 +56,15 @@ export const ExamplesCards = ({
       links: {
         web: "https://codesandbox.io/p/devbox/rive-responsive-layout-js-forked-m77nlw",
         react: "https://codesandbox.io/p/devbox/rive-responsive-layouts-react-forked-nmpv39?file=%2Fsrc%2FApp.tsx"
+      },
+    },
+    fontsHostedCompressed: {
+      title: 'Load a Hosted, Compressed Font Asset',
+      description: 'Dynamically load a font asset from a hosted location with compression.',
+      image: '/images/app-runtimes/loading-assets/brotli-compressed-fonts.webp',
+      links: {
+        react:
+          'https://codesandbox.io/p/sandbox/prod-sound-6yc5xl?file=%2Fsrc%2FApp.tsx%3A19%2C1',
       },
     }
   }
