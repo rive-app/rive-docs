@@ -244,12 +244,12 @@ You can identify an exported component if it's surrounded by square brackets. Th
 
         // Get a text run value
         artboard.getText(value)
-        // Optional path parameter to get a text run value at a nested artboard level
+        // Optional path parameter to get a text run value at a component instance level
         artboard.getText(value, path: path)
 
         // Set a text run value
         artboard.setText(value)
-        // Optional path parameter to set a text run value at a nested artboard level
+        // Optional path parameter to set a text run value at a component instance level
         artboard.setText(value, path: path)
         ```
     </Tab>
@@ -438,7 +438,7 @@ The path is then: `ArtboardWithUniqueName/ButtonWithUniqueName`
         public setTextRunValueAtPath(textRunName: string, textRunValue: string, path: string): void
         ```
 
-        Supply the `textRunName`, the new `textValue`, and the `path` where the run is located at a nested artboard level.
+        Supply the `textRunName`, the new `textValue`, and the `path` where the run is located at a component instance level.
 
         ### Example Usage
 
@@ -483,7 +483,7 @@ The path is then: `ArtboardWithUniqueName/ButtonWithUniqueName`
         public setTextRunValueAtPath(textRunName: string, textRunValue: string, path: string): void
         ```
 
-        Supply the `textRunName`, the new `textRunValue` , and the nested artboard `path` where it is located.
+        Supply the `textRunName`, the new `textRunValue` , and the component `path` where it is located.
 
         #### Example Usage
 
@@ -526,10 +526,10 @@ The path is then: `ArtboardWithUniqueName/ButtonWithUniqueName`
         final controller = RiveWidgetController(riveFile);
         final artboard = controller.artboard;
 
-        //Use the path parameter to get a text run value at a nested artboard level
+        //Use the path parameter to get a text run value at a component instance level
         artboard.getText(value, path: path)
 
-        // Use the path parameter to set a text run value at a nested artboard level
+        // Use the path parameter to set a text run value at a component instance level
         artboard.setText(value, path: path)
         ```
     </Tab>
@@ -538,7 +538,7 @@ The path is then: `ArtboardWithUniqueName/ButtonWithUniqueName`
 
         ### Reading Text
 
-        Similar to [reading text from a text run within a parent artboard](/runtimes/text#reading-text), you can set the value of a text run within a nested artboard using the following API:
+        Similar to [reading text from a text run within a parent artboard](/runtimes/text#reading-text), you can set the value of a text run within a component instance using the following API:
 
         ```swift
         open func getTextRunValue(_ textRunName: String, path: String) -> String?
@@ -546,7 +546,7 @@ The path is then: `ArtboardWithUniqueName/ButtonWithUniqueName`
 
         ### Setting Text
 
-        Additionally, similar to [setting text within a parent artboard](/runtimes/text#setting-text), you can read the value of a text run within a nested artboard using the following API:
+        Additionally, similar to [setting text within a parent artboard](/runtimes/text#setting-text), you can read the value of a text run within a component instance using the following API:
 
         ```swift
         open func setTextRunValue(_ textRunName: String, textValue: String, path: String) throws
