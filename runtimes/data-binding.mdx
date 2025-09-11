@@ -1854,7 +1854,6 @@ For more information on list properties, see the [Data Binding List Property](/e
     Use the `useViewModelInstanceList` hook to manage list properties on view model instances.
 
 
-    <ExamplesCards examples={['dataBindingLists']} runtime="react" />
     ```typescript
     import { useRive, useViewModel, useViewModelInstance, useViewModelInstanceList } from '@rive-app/react-webgl2';
 
@@ -2122,10 +2121,11 @@ Artboard properties allows you to swap out entire components at runtime. This is
 - Creating a complex scene that is a composition of various artboards loaded from various different Rive files (drawn to a single canvas/texture/widget).
 - Reducing the size (complexity) of a single Rive file by breaking it up into smaller components that can be loaded on demand and swapped in and out as needed.
 
+<ExamplesCards examples={['dataBindingArtboards']}  />
+
 <Tabs>
   <Tab title="Web">
 
-    <ExamplesCards examples={['dataBindingArtboards']} runtime="web" />
 
     ```typescript
     let artboardProperty = null;
@@ -2177,8 +2177,6 @@ Artboard properties allows you to swap out entire components at runtime. This is
   </Tab>
   <Tab title="React">
     Use the `useViewModelInstanceArtboard` hook to set artboard properties on view model instances.
-
-    <ExamplesCards examples={['dataBindingArtboards']} runtime="react" />
 
     ```typescript
     import { useRive, useViewModel, useViewModelInstance, useViewModelInstanceArtboard } from '@rive-app/react-webgl2';

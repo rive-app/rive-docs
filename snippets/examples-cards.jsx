@@ -4,7 +4,7 @@ export const ExamplesCards = ({
 }) => {
   const examplesData = {
     dataBindingArtboards: {
-      title: 'Data Binding Artboards',
+      title: 'Demo: Data Binding Artboards',
       description:
         'Swap an artboard with another artboard from the same .riv or one loaded at runtime.',
       image: '/images/runtimes/rive-data-bind-components.webp',
@@ -15,7 +15,7 @@ export const ExamplesCards = ({
       },
     },
     dataBindingImages: {
-      title: 'Data Binding Images',
+      title: 'Demo: Data Binding Images',
       description:
         'Replace images at runtime using data binding images with javascript.',
       image: '/images/runtimes/rive-db-images.webp',
@@ -24,7 +24,7 @@ export const ExamplesCards = ({
       },
     },
     dataBindingLists: {
-      title: 'Data Binding Lists',
+      title: 'Demo: Data Binding Lists',
       description: 'Add, remove, edit, and swap items in your data binding list',
       image: '/images/runtimes/rive-db-lists.webp',
       links: {
@@ -34,7 +34,7 @@ export const ExamplesCards = ({
       },
     },
     fontsHostedCompressed: {
-      title: 'Load a Hosted, Compressed Font Asset',
+      title: 'Demo: Load a Compressed Font for Web',
       description: 'Dynamically load a font asset from a hosted location with compression.',
       image: '/images/runtimes/brotli-compressed-fonts.webp',
       links: {
@@ -65,7 +65,7 @@ export const ExamplesCards = ({
       href={link }
       target="_blank"
       rel="noreferrer"
-      className="border rounded-md px-2 py-1 mr-2 mb-2"
+      className="border border-neutral-600 hover:border-white rounded-[4px] text-14 py-1 px-5 mr-[10px] mb-[10px]"
     >{runtimeTitles[runtime]}</a>
   }
 
@@ -76,7 +76,7 @@ export const ExamplesCards = ({
         return (
           <Card key={title} title={title} img={image}>
             {description}
-            <div className="mt-2">
+            <div className="mt-6 flex flex-wrap">
               {
                 runtimesInOrder.map((runtime) => {
                   return (
