@@ -63,7 +63,7 @@ While there are efforts underway to improve this through new WebGL capabilities,
 
 #### Clipped Artboards
 
-Clipping artboards is generally fine, but if you're experiencing performance issues, it's worth minimizing their use. Clipping can be computationally expensive, as the renderer must evaluate every object—including nested artboards—to determine pixel visibility. Instead, consider applying clips to specific objects or groups within the artboard.
+Clipping artboards is generally fine, but if you're experiencing performance issues, it's worth minimizing their use. Clipping can be computationally expensive, as the renderer must evaluate every object—including component instances—to determine pixel visibility. Instead, consider applying clips to specific objects or groups within the artboard.
 
 In most cases you can safely remove the clip from the main artboard itself, since nothing outside the Rive instance will be rendered at runtime.
 

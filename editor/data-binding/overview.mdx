@@ -96,7 +96,7 @@ Additionally, a binding may be marked as "Bind Once". This means that the initia
 
 ### View Model Nesting
 
-View models can have another view model as one of their properties. This is referred to as "nesting". This is useful when a parent instance wants to associate with a particular child instance, similar to nested artboards.
+View models can have another view model as one of their properties. This is referred to as "nesting". This is useful when a parent instance wants to associate with a particular child instance, similar to components.
 
 ### Enumeration (Enum)
 
@@ -149,7 +149,7 @@ The counterpart to inputs, events were the primary way for developers to receive
 
 Events can only be triggered by timelines, state machine transitions, or listeners. By comparison, data bound properties can be changed from any number of sources.
 
-Events can have keyable properties with values that are passed when triggered. This is limited to being updated by animation keys and can be tricky to "bubble" when the animation exists on a nested artboard. By comparison, view model properties carry the most recent data each time they change, from any level of the hierarchy, triggering a developer's listener with the new value.
+Events can have keyable properties with values that are passed when triggered. This is limited to being updated by animation keys and can be tricky to "bubble" when the animation exists on a component. By comparison, view model properties carry the most recent data each time they change, from any level of the hierarchy, triggering a developer's listener with the new value.
 
 One use case which events offer functionality not yet supported by data binding is in their ability to play audio.
 
@@ -165,7 +165,7 @@ There are a few use cases related to nesting where you may want to consider upda
 - Setting nested text runs
 - "Bubbling" nested events
 
-These three use cases are unified by view model instances, where nested artboards can pull from top-level viewmodels. This simplifies the developer interop, as the structure, naming, and nesting of the file's artboards can change without breaking the code's reference to the data.
+These three use cases are unified by view model instances, where components can pull from top-level viewmodels. This simplifies the developer interop, as the structure, naming, and nesting of the file's artboards can change without breaking the code's reference to the data.
 
 # Runtime APIs
 
