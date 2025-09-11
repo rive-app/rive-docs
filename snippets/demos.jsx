@@ -54,7 +54,9 @@ export const Demos = ({
     'react-native': "React Native",
     flutter: 'Flutter',
     apple: 'Apple',
-    android: 'Android'
+    android: 'Android',
+    unity: 'Unity',
+    unreal: 'Unreal'
   }
 
   const RuntimeLink = ({ link, runtime }) => {
