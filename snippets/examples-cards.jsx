@@ -44,13 +44,47 @@ export const ExamplesCards = ({
     }
   }
 
+  /*
+    No need to edit below this line
+  */
+
+  const runtimesInOrder = ['web', 'react', 'react-native', 'flutter', 'apple', 'android', 'unity', 'unreal']
+  const runtimeTitles = {
+    web: 'Web (TS)',
+    react: 'React',
+    'react-native': "React Native",
+    flutter: 'Flutter',
+    apple: 'Apple',
+    android: 'Android'
+  }
+
+  const RuntimeLink = ({ link, runtime }) => {
+    if (!link) return
+
+    return <a
+      href={link }
+      target="_blank"
+      rel="noreferrer"
+      className="border rounded-md px-2 py-1 mr-2 mb-2"
+    >{runtimeTitles[runtime]}</a>
+  }
+
   return (
     <Columns cols={2}>
       {examples.map((example) => {
         const { title, image, links, description } = examplesData[example]
         return (
-          <Card key={title} title={title} img={image} href={links[runtime]} >
+          <Card key={title} title={title} img={image}>
             {description}
+            <div className="mt-2">
+              {
+                runtimesInOrder.map((runtime) => {
+                  return (
+                    <RuntimeLink key={runtime} runtime={runtime} link={links[runtime]}  />
+                  )
+                })
+              }
+            </div>
           </Card>
         )
       })}
