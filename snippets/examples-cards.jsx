@@ -1,6 +1,5 @@
-export const ExamplesCards = ({
+export const Demos = ({
   examples,
-  runtime,
 }) => {
   const examplesData = {
     dataBindingArtboards: {
