@@ -755,17 +755,20 @@ Alternatively, you may prefer to use auto-binding. This will automatically bind 
 
 A property is a value that can be read, set, or observed on a view model instance. Properties can be of the following types:
 
-| Type                   | Supported      |
-| ---------------------- | -------------- |
+| Type                   | Supported       |
+| ---------------------- | --------------- |
 | Floating point numbers | ✅              |
 | Booleans               | ✅              |
 | Triggers               | ✅              |
 | Strings                | ✅              |
 | Enumerations           | ✅              |
 | Colors                 | ✅              |
-| Nesting                | ✅              |
+| Nested View Models     | ✅              |
 | Lists                  | ✅              |
-| Images                 | ✅ Early Access |
+| Images                 | ✅              |
+| Artboards              | ✅              |
+
+For more information on version compatibility, see the [Feature Support](/feature-support) page.
 
 Property descriptors can be inspected on a view model to discover at runtime which are available. These are not the mutable properties themselves though - once again those are on instances. These descriptors have a type and name.
 
