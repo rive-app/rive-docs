@@ -666,7 +666,7 @@ Alternatively, you may prefer to use auto-binding. This will automatically bind 
   <Tab title="Apple">
     ```swift
     let riveViewModel = RiveViewModel(...)
-    riveViewModel.riveModel.enableAutoBind { instance in
+    riveViewModel.riveModel?.enableAutoBind { instance in
         // Store a reference to `instance` to later access properties
         // The instance may change as state machines and artboards change
     }
@@ -983,7 +983,17 @@ Some properties are mutable and have getters, setters, and observer operations f
   <Tab title="Apple">
     ```swift
     let riveViewModel = RiveViewModel(...)
-    let instance = riveViewModel.riveModel!.riveFile.viewModelNamed("...")!.createDefaultInstance()!
+
+    var viewModelInstance: RiveDataBindingViewModel.Instance!
+    
+    // You can get the view model instance when enabling auto binding
+    riveViewModel.riveModel?.enableAutoBind { instance in
+        // Store a reference to instance
+        viewModelInstance = instance
+    }
+
+    // Alternatively, you can create a view model instance manually
+    viewModelInstance = riveViewModel.riveModel!.riveFile.viewModelNamed("...")!.createDefaultInstance()!
 
     // Strings
     let stringProperty = instance.stringProperty(fromPath: "...")!
@@ -1262,7 +1272,17 @@ View models can have properties of type view model, allowing for arbitrary nesti
   <Tab title="Apple">
     ```swift
     let riveViewModel = RiveViewModel(...)
-    let instance = riveViewModel.riveModel!.riveFile.viewModelNamed("...")!.createDefaultInstance()!
+
+    var viewModelInstance: RiveDataBindingViewModel.Instance!
+    
+    // You can get the view model instance when enabling auto binding
+    riveViewModel.riveModel?.enableAutoBind { instance in
+        // Store a reference to instance
+        viewModelInstance = instance
+    }
+
+    // Alternatively, you can create a view model instance manually
+    viewModelInstance = riveViewModel.riveModel!.riveFile.viewModelNamed("...")!.createDefaultInstance()!
 
     let nestedNumberByChain = instance
                                 .viewModelInstanceProperty(fromPath: "Nested View Model")
@@ -1397,7 +1417,17 @@ You can observe changes over time to property values, either by using listeners 
   <Tab title="Apple">
     ```swift
     let riveViewModel = RiveViewModel(...)
-    let instance = riveViewModel.riveModel!.riveFile.viewModelNamed("...")!.createDefaultInstance()!
+
+    var viewModelInstance: RiveDataBindingViewModel.Instance!
+    
+    // You can get the view model instance when enabling auto binding
+    riveViewModel.riveModel?.enableAutoBind { instance in
+        // Store a reference to instance
+        viewModelInstance = instance
+    }
+
+    // Alternatively, you can create a view model instance manually
+    viewModelInstance = riveViewModel.riveModel!.riveFile.viewModelNamed("...")!.createDefaultInstance()!
 
     // Get the string property
     let stringProperty = instance.stringProperty(fromPath: "...")!
@@ -1679,12 +1709,25 @@ Image properties let you set and replace raster images at runtime, with each ins
   </Tab>
   <Tab title="Apple">
     ```swift
-    // Create a RiveImageAsset from data
-    let data = Data(...)
-    var image = RiveImageAsset(data: data)! // This can return nil if the data is not a valid image
+    let riveViewModel = RiveViewModel(...)
 
-    // Or, create a RiveImageAsset from a UIImage
-    image = RiveImageAsset(image: UIImage(named: "my_image")!, format: .png)! // This can return nil if the image is not a valid jpg or png image
+    var viewModelInstance: RiveDataBindingViewModel.Instance!
+    
+    // You can get the view model instance when enabling auto binding
+    riveViewModel.riveModel?.enableAutoBind { instance in
+        // Store a reference to instance
+        viewModelInstance = instance
+    }
+
+    // Alternatively, you can create a view model instance manually
+    viewModelInstance = riveViewModel.riveModel!.riveFile.viewModelNamed("...")!.createDefaultInstance()!
+
+    // Create a RiveRenderImage from data
+    let data = Data(...)
+    var image = RiveRenderImage(data: data)! // This can return nil if the data is not a valid image
+
+    // Or, create a RiveRenderImage from a UIImage
+    image = RiveRenderImage(image: UIImage(named: "my_image")!, format: .png)! // This can return nil if the image is not a valid jpg or png image
 
     let imageProperty = viewModelInstance.imageProperty(fromPath: "image")!
 
