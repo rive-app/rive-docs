@@ -489,11 +489,28 @@ You can use different renderers for different graphics in your app.
 
 Some considerations when choosing a renderer:
 
-- If you plan on showing many Rive graphics that are all drawing to different Rive widgets, consider using `Factory.flutter` to reduce the native overhead of allocating native render targets and textures.
+- If you plan on showing many Rive graphics that are all drawing to different Rive widgets consider using a [RivePanel](#rivepanel) with `Factory.rive` to draw multiple graphics to the same texture to reduce the overhead of allocating native render targets and textures. Or make use of `Factory.flutter`.
 - If you are showing a complex graphic, consider using `Factory.rive` to take advantage of the Rive renderer's optimizations.
 - Vector Feathering is only available with `Factory.rive`, so if you need that feature, use the Rive renderer.
 
 For more information see [Choosing a Renderer](/runtimes/choose-a-renderer/).
+
+<Warning>
+  The Rive Renderer is not yet supported on Linux through Flutter. On Linux, it automatically falls back to `Factory.flutter`.
+</Warning>
+
+### Note on Flutter Rendering
+
+[Impeller](https://docs.flutter.dev/perf/impeller) is replacing [Skia](https://skia.org/) to become the default renderer for all platforms. As such, there is a possibility of rendering and [performance](https://github.com/flutter/flutter/issues/134432) discrepancies when using the Rive Flutter runtime with platforms that use the Impeller renderer that may not have surfaced before. If you encounter any visual or performance errors at runtime compared to expected behavior in the Rive editor, we recommend trying the following steps to triage:
+
+1. Try running the Flutter app with the `--no-enable-impeller` flag to use the Skia renderer. If the visual discrepancy does not show when using Skia, it may be a rendering bug on Impeller. However, before raising a bug with the Flutter team, try the second point below👇
+
+```bash
+flutter run --no-enable-impeller
+```
+
+2. Try running the Flutter app on the latest `master` channel. It is possible that visual bugs may be resolved on the latest Flutter commits, but not yet released in the `beta` or `stable` channel.
+3. If you are still seeing visual discrepancies with just the Impeller renderer on the latest master branch, we recommend raising a detailed issue to the [Flutter](https://github.com/flutter/flutter) Github repo with a reproducible example, and other relevant details that can help the team debug any possible issues that may be present.
 
 ## Troubleshooting
 

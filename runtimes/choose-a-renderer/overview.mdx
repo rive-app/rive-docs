@@ -24,29 +24,13 @@ The table below outlines the available, and default, renderers for Rive's runtim
 | Web (Canvas) | Canvas2D | Canvas2D |
 | Web (WebGL) | Skia | Skia |
 | Web (WebGL2) | Rive | Rive |
-| Flutter | Skia (other), Impeller (iOS) | Skia / Impeller |
-
-### Note on Rendering in Flutter 
-
-Starting in Flutter `v3.10`, [Impeller](https://docs.flutter.dev/perf/impeller) has replaced [Skia](https://skia.org/) to become the default renderer for apps on iOS platforms and may continue to be the default on future platforms over time. As such, there is a possibility of rendering and [performance](https://github.com/flutter/flutter/issues/134432) discrepancies when using the Rive Flutter runtime with platforms that use the Impeller renderer that may not have surfaced before. If you encounter any visual or performance errors at runtime compared to expected behavior in the Rive editor, we recommend trying the following steps to triage:
-
-1. Try running the Flutter app with the `--no-enable-impeller` flag to use the Skia renderer. If the visual discrepancy does not show when using Skia, it may be a rendering bug on Impeller. However, before raising a bug with the Flutter team, try the second point below👇
-
-```bash
-flutter run --no-enable-impeller
-```
-
-2. Try running the Flutter app on the latest `master` channel. It is possible that visual bugs may be resolved on the latest Flutter commits, but not yet released in the `beta` or `stable` channel.
-3. If you are still seeing visual discrepancies with just the Impeller renderer on the latest master branch, we recommend raising a detailed issue to the [Flutter](https://github.com/flutter/flutter) Github repo with a reproducible example, and other relevant details that can help the team debug any possible issues that may be present.
+| Flutter | No default | Rive / Flutter (Skia / Impeller) |
 
 ## Rive Renderer
 
-The [Rive Renderer](https://rive.app/renderer) is now available on Android and Apple runtimes. See [Specifying a Renderer](#specifying-a-renderer) to set it as your preferred renderer.
+The [Rive Renderer](https://rive.app/renderer) is a new rendering engine designed to provide better performance and visual fidelity across all platforms. It leverages modern graphics APIs and techniques to deliver high-quality rendering for Rive graphics.
 
-While it's ready for testing and your feedback is highly valued during this phase, we advise exercising caution before considering it for production builds. You may encounter compatibility issues with certain devices. Please reach out to us on Discord or through our Support Channel.
-
-Your collaboration helps us refine and enhance the Rive Renderer to make it more robust and reliable for broader applications. Thank you for being a part of this exciting journey!
-
+It also allows Rive to innovate with new features, such as [Vector Feathering](https://rive.app/blog/introducing-vector-feathering), which are only supported through the Rive Renderer. See our [Feature Support](/feature-support) page for more information.
 <Tabs>
 
     <Tab title="Apple">
@@ -82,7 +66,7 @@ Your collaboration helps us refine and enhance the Rive Renderer to make it more
 
         However, we recommend installing the latest version of the dependency to get the latest updates.
 
-        These packages do not bundle any heavy rendering dependencies such as Skia, which makes the package size much smaller than that of the existing `@rive-app/webgl` package.
+        These packages do not bundle any heavy rendering dependencies such as Skia, which makes the package size much smaller than that of the previous `@rive-app/webgl` package.
 
         ## Enabling the Draft Extension
 
@@ -106,6 +90,18 @@ Your collaboration helps us refine and enhance the Rive Renderer to make it more
         - **Android**: `Rive` (default), `Canvas`
 
         See the **Apple** and **Android** sections for additional information on renderers and fallbacks.
+    </Tab>
+
+    <Tab title="Flutter">
+
+        <Warning>
+        The Rive Renderer is not yet supported on Linux through Flutter.
+        </Warning>
+    
+        ## Starting Version
+
+        The Rive Renderer was added in version `0.14.0` of the Flutter runtime. However, we recommend installing the latest version of the dependency to get the latest updates. It's exposed through the `rive_native` package, which is a dependency of the main `rive` package. Read up more about Rive Native [here](/runtimes/flutter/rive-native).
+
     </Tab>
 
 
@@ -261,6 +257,41 @@ See below for runtime instructions to enable a specific renderer.
         ```
     </Tab>
 
+    <Tab title="Flutter">
+    
+        When creating a Rive `File` or `FileLoader`, you need to specify a factory to use:
+
+        - `Factory.rive` for the Rive renderer
+        - `Factory.flutter` for the Flutter renderer (Skia or Impeller)
+
+    ```dart
+        // Rive renderer
+        File.asset("assets/vehicles.riv", riveFactory: Factory.rive)
+        // Flutter renderer
+        File.asset("assets/vehicles.riv", riveFactory: Factory.flutter)
+    ```
+
+        You can use different renderers for different graphics in your app.
+
+        Some considerations when choosing a renderer:
+
+        - If you plan on showing many Rive graphics that are all drawing to different Rive widgets consider using a [RivePanel](/runtimes/flutter/flutter#rivepanel) with `Factory.rive` to draw multiple graphics to the same texture to reduce the overhead of allocating native render targets and textures. Or make use of `Factory.flutter`.
+        - If you are showing a complex graphic, consider using `Factory.rive` to take advantage of the Rive renderer's optimizations.
+        - Vector Feathering is only available with `Factory.rive`, so if you need that feature, use the Rive renderer.
+        
+        ### Note on Flutter Rendering
+
+        [Impeller](https://docs.flutter.dev/perf/impeller) is replacing [Skia](https://skia.org/) to become the default renderer for all platforms. As such, there is a possibility of rendering and [performance](https://github.com/flutter/flutter/issues/134432) discrepancies when using the Rive Flutter runtime with platforms that use the Impeller renderer that may not have surfaced before. If you encounter any visual or performance errors at runtime compared to expected behavior in the Rive editor, we recommend trying the following steps to triage:
+
+        1. Try running the Flutter app with the `--no-enable-impeller` flag to use the Skia renderer. If the visual discrepancy does not show when using Skia, it may be a rendering bug on Impeller. However, before raising a bug with the Flutter team, try the second point below👇
+
+        ```bash
+        flutter run --no-enable-impeller
+        ```
+
+        2. Try running the Flutter app on the latest `master` channel. It is possible that visual bugs may be resolved on the latest Flutter commits, but not yet released in the `beta` or `stable` channel.
+        3. If you are still seeing visual discrepancies with just the Impeller renderer on the latest master branch, we recommend raising a detailed issue to the [Flutter](https://github.com/flutter/flutter) Github repo with a reproducible example, and other relevant details that can help the team debug any possible issues that may be present.        
+    </Tab>
 
 </Tabs>
 
