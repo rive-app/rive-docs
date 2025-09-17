@@ -174,6 +174,8 @@ You can also create a Rive Panel that has been automatically configured to use t
 | Property | Description |
 | --- | --- |
 | Pointer Input Mode | Controls whether the renderer accepts pointer input (Enable/Disable). |
+| Custom Material | A custom UI material to use when rendering the Rive graphic. |
+| Match Canvas Resolution | Whether to match the canvas resolution to the RivePanel's resolution. This is useful for keeping the Rive graphic crisp when using a `Canvas Scaler`. By default, the RivePanel resolution is defined by its rect transform's width and height. Setting this to `true` will result in the RivePanel being rendered at a higher resolution than the panel's rect transform's size if needed. This feature is currently only supported when the RivePanel uses the `SimpleRenderTargetStrategy`, which is the default strategy used if none is provided. |
 
 #### Properties
 
