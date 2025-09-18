@@ -985,7 +985,7 @@ Some properties are mutable and have getters, setters, and observer operations f
     let riveViewModel = RiveViewModel(...)
 
     var viewModelInstance: RiveDataBindingViewModel.Instance!
-    
+
     // You can get the view model instance when enabling auto binding
     riveViewModel.riveModel?.enableAutoBind { instance in
         // Store a reference to instance
@@ -1274,7 +1274,7 @@ View models can have properties of type view model, allowing for arbitrary nesti
     let riveViewModel = RiveViewModel(...)
 
     var viewModelInstance: RiveDataBindingViewModel.Instance!
-    
+
     // You can get the view model instance when enabling auto binding
     riveViewModel.riveModel?.enableAutoBind { instance in
         // Store a reference to instance
@@ -1419,7 +1419,7 @@ You can observe changes over time to property values, either by using listeners 
     let riveViewModel = RiveViewModel(...)
 
     var viewModelInstance: RiveDataBindingViewModel.Instance!
-    
+
     // You can get the view model instance when enabling auto binding
     riveViewModel.riveModel?.enableAutoBind { instance in
         // Store a reference to instance
@@ -1619,9 +1619,11 @@ You can observe changes over time to property values, either by using listeners 
 
 Image properties let you set and replace raster images at runtime, with each instance of the image managed independently. For example, you could build an avatar creator and dynamically update features — like swapping out a hat — by setting a view model's image property.
 
-<Demos examples={['dataBindingImages']}  />
 <Tabs>
   <Tab title="Web">
+    ### Examples
+
+    - [Data Binding Images](https://codesandbox.io/p/sandbox/objective-cohen-sqwh9q)
 
     ```js
     const randomImageAsset = (imageProperty) => {
@@ -1712,7 +1714,7 @@ Image properties let you set and replace raster images at runtime, with each ins
     let riveViewModel = RiveViewModel(...)
 
     var viewModelInstance: RiveDataBindingViewModel.Instance!
-    
+
     // You can get the view model instance when enabling auto binding
     riveViewModel.riveModel?.enableAutoBind { instance in
         // Store a reference to instance
@@ -1858,9 +1860,11 @@ With list properties, you can:
 
 For more information on list properties, see the [Data Binding List Property](/editor/data-binding/lists#view-model-list-property) editor documentation.
 
-<Demos examples={['dataBindingLists']}  />
 <Tabs>
   <Tab title="Web">
+    ### Examples
+
+    - [Data Binding Lists](https://codesandbox.io/p/sandbox/suspicious-hertz-2lg4m8?file=%2Fsrc%2Findex.ts)
 
     ```javascript
     const rive = new rive.Rive({
@@ -1897,6 +1901,10 @@ For more information on list properties, see the [Data Binding List Property](/e
     ```
   </Tab>
   <Tab title="React">
+    ### Examples
+
+    - [Data Binding Lists](https://codesandbox.io/p/sandbox/rive-react-data-binding-lists-4msh9z?file=%2Fsrc%2FApp.tsx)
+
     Use the `useViewModelInstanceList` hook to manage list properties on view model instances.
 
 
@@ -2167,10 +2175,12 @@ Artboard properties allows you to swap out entire components at runtime. This is
 - Creating a complex scene that is a composition of various artboards loaded from various different Rive files (drawn to a single canvas/texture/widget).
 - Reducing the size (complexity) of a single Rive file by breaking it up into smaller components that can be loaded on demand and swapped in and out as needed.
 
-<Demos examples={['dataBindingArtboards']}  />
-
 <Tabs>
   <Tab title="Web">
+
+    ### Examples
+
+    - [Data Binding Artboard](https://codesandbox.io/p/sandbox/rive-js-data-binding-artboards-jx3pf9?file=%2Fsrc%2Findex.mjs%3A5%2C19)
 
 
     ```typescript
@@ -2222,6 +2232,12 @@ Artboard properties allows you to swap out entire components at runtime. This is
     ```
   </Tab>
   <Tab title="React">
+
+    ### Examples
+
+    - [Data Binding Artboard](https://codesandbox.io/p/sandbox/rive-react-data-binding-artboards-kmvzh8?file=%2Fsrc%2FApp.tsx)
+
+
     Use the `useViewModelInstanceArtboard` hook to set artboard properties on view model instances.
 
     ```typescript
