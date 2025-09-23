@@ -140,6 +140,11 @@ export const Demos = ({
     return () => {
       window.removeEventListener("rive-loaded", checkRive);
       window.removeEventListener("resize", handleResize);
+
+
+      riveInstances.current.forEach((instance) => {
+        instance.cleanup()
+      })
     };
   }, []);
 
