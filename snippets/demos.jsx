@@ -40,6 +40,15 @@ export const Demos = ({
         react:
           'https://codesandbox.io/p/sandbox/prod-sound-6yc5xl?file=%2Fsrc%2FApp.tsx%3A19%2C1',
       },
+    },
+    quickStart: {
+      title: "Quick start demo",
+      image: '/images/runtimes/quick-start.gif',
+      description: 'Load and control your Rive (.riv) file.',
+      links: {
+        web: 'https://codesandbox.io/p/sandbox/rive-quick-start-js-xmwcm6?file=%2Fsrc%2Findex.ts',
+        react: 'https://codesandbox.io/p/sandbox/rive-react-quick-start-4xy76h?file=%2Fsrc%2FApp.tsx%3A77%2C14'
+      }
     }
   }
 
