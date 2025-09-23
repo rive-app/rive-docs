@@ -1,5 +1,6 @@
 export const Demos = ({
   examples,
+  runtime
 }) => {
   const examplesData = {
     cachingARiveFile: {
@@ -171,6 +172,27 @@ export const Demos = ({
     )
   }
 
+  const CardContainer = ({ children, link }) => {
+    if (link) {
+      return (
+        <a
+          href={link}
+          className="card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full cursor-pointer hover:!border-primary dark:hover:!border-primary-light"
+        >
+          {children}
+        </a>
+      )
+    }
+
+    return (
+      <div
+        className="flex flex-col card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full"
+      >
+        {children}
+      </div>
+    )
+  }
+
   return (
     <Columns cols={2}>
       {examples.map((example) => {
@@ -178,15 +200,15 @@ export const Demos = ({
         const canvasId = `rive-canvas-${example}`
 
         return (
-          <div
+          <CardContainer
             key={canvasId}
-            className="flex flex-col card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full"
+            link={runtime && links[runtime]}
           >
             <div className="w-full h-0 relative pb-[75%]">
               <div className="absolute inset-0">
                 {
                   image && (
-                    <img alt={title} className="w-full object-cover object-center not-prose" src={image} />
+                    <img alt={title} className="w-full object-cover object-center" src={image} />
                   )
                 }
 
@@ -198,9 +220,14 @@ export const Demos = ({
               </div>
             </div>
             <div className="flex flex-grow flex-col px-6 py-5 relative" data-component-part="card-content-container">
-              <div id="card-link-arrow-icon" className="absolute text-gray-400 dark:text-gray-500 group-hover:text-primary dark:group-hover:text-primary-light top-5 right-5">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-arrow-up-right w-4 h-4"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg>
-              </div>
+              {
+                runtime && (
+
+                  <div id="card-link-arrow-icon" className="absolute text-gray-400 dark:text-gray-500 group-hover:text-primary dark:group-hover:text-primary-light top-5 right-5">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-arrow-up-right w-4 h-4"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg>
+                </div>
+                )
+              }
               <div className="flex flex-col grow">
                 <h2 className="not-prose font-semibold text-base text-gray-800 dark:text-white" data-component-part="card-title">{ title }</h2>
 
@@ -208,19 +235,24 @@ export const Demos = ({
                   <div className="grow flex flex-col">
                     {description}
                   </div>
-                  <div className="mt-6 flex flex-wrap">
-                    {
-                      runtimesInOrder.map((runtime) => {
-                        return (
-                          <RuntimeLink key={runtime} runtime={runtime} link={links[runtime]} />
-                        )
-                      })
-                    }
-                  </div>
+                  {
+                    !runtime && (
+                      <div className="mt-6 flex flex-wrap">
+                        {
+                          // If a specific runtime is defined in the demo component, don't add buttons
+                          runtimesInOrder.map((currentRuntime) => {
+                            return (
+                              <RuntimeLink key={currentRuntime} runtime={currentRuntime} link={links[currentRuntime]} />
+                            )
+                          })
+                        }
+                      </div>
+                    )
+                  }
                 </div>
               </div>
             </div>
-          </div>
+          </CardContainer>
         )
       })}
     </Columns>
