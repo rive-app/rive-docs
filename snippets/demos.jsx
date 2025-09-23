@@ -165,7 +165,7 @@ export const Demos = ({
         const canvasId = `rive-canvas-${example}`
 
         return (
-          <a
+          <div
             key={canvasId}
             className="flex flex-col card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full"
           >
@@ -207,7 +207,7 @@ export const Demos = ({
                 </div>
               </div>
             </div>
-          </a>
+          </div>
         )
       })}
     </Columns>
