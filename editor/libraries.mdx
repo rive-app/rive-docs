@@ -1,0 +1,37 @@
+---
+title: "Libraries"
+sidebarTitle: "Libraries"
+description: "Components streamline your workflow with reusable artboards and animations. Changes made to the source component are reflected across all of its instances."
+---
+
+## Introduction
+Libraries facilitate the sharing of [components](editor/fundamentals/components) and their view models across Rive files. In the past, you may have relied on nested artboards and copy-paste workflows to share elements. This works for individuals, but breaks down at scale: exports bloat, versions drift, and teams lose track of changes.
+
+Libraries provide:
+
+- Components can be published and reused across project files.
+- Updates flow downstream with version history and change notifications.
+- Teams can collaborate without worrying about mismatched assets.
+- Explicit contracts: Authors decide which properties can vary by exposing them via View Models. Consumers use those without touching the underlying complexity.
+- Updatability: Components evolve over time. Consumers can pin to a specific version or update when ready.
+- Detachment: If a component no longer fits, you can detach it. It becomes a local copy and no longer listens for library updates.
+
+
+## Creating a Library
+Any file can be made into a library. First, you'll need to create a [component](editor/fundamentals/components) and/or a view model before you can publish a file as a library. Select an artboard on the stage and use the component icon in the inspector or `Shift` + `N` to toggle its status as a component.
+
+With a component or view model present in the file, select the Publish Library option via the export action on the toolbar, or via the file menu. The publishing panel provides an oppoetuiry to select which of the components, view models, and enums you'd like to be published as part of the library.
+
+You can identify a library file by the icon in the tab bar and in the file browser.
+
+## Importing from a Library
+...
+
+## Updating a Library
+...
+
+## Export Options
+...
+
+## Unpublishing a Library
+...
