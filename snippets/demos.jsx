@@ -162,62 +162,53 @@ export const Demos = ({
     <Columns cols={2}>
       {examples.map((example) => {
         const { title, image, links, description, riv, stateMachines, artboard } = examplesData[example]
+        const canvasId = `rive-canvas-${example}`
 
-        if (image) {
-          return (
-            <Card key={title} title={title} img={image}>
-              {description}
-              <div className="mt-6 flex flex-wrap">
+        return (
+          <a
+            key={canvasId}
+            className="flex flex-col card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full"
+          >
+            <div className="w-full h-0 relative pb-[75%]">
+              <div className="absolute inset-0">
                 {
-                  runtimesInOrder.map((runtime) => {
-                    return (
-                      <RuntimeLink key={runtime} runtime={runtime} link={links[runtime]} />
-                    )
-                  })
+                  image && (
+                    <img alt={title} className="w-full object-cover object-center not-prose" src={image} />
+                  )
+                }
+
+                {
+                  riv && !image && (
+                    <canvas id={canvasId} style={{ width: "100%", height: "100%"}} />
+                  )
                 }
               </div>
-            </Card>
-          )
-        } else if (riv) {
-          const canvasId = `rive-canvas-${example}`
-
-          return (
-            <a
-              key={canvasId}
-              className="flex flex-col card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full"
-            >
-              <div className="w-full h-0 relative pb-[75%]">
-                <div className="absolute inset-0">
-                  <canvas id={canvasId} style={{ width: "100%", height: "100%"}} />
-                </div>
+            </div>
+            <div className="flex flex-grow flex-col px-6 py-5 relative" data-component-part="card-content-container">
+              <div id="card-link-arrow-icon" className="absolute text-gray-400 dark:text-gray-500 group-hover:text-primary dark:group-hover:text-primary-light top-5 right-5">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-arrow-up-right w-4 h-4"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg>
               </div>
-              <div className="flex flex-grow flex-col px-6 py-5 relative" data-component-part="card-content-container">
-                <div id="card-link-arrow-icon" className="absolute text-gray-400 dark:text-gray-500 group-hover:text-primary dark:group-hover:text-primary-light top-5 right-5">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-arrow-up-right w-4 h-4"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg>
-                </div>
-                <div className="flex flex-col grow">
-                  <h2 className="not-prose font-semibold text-base text-gray-800 dark:text-white" contenteditable="false" data-component-part="card-title">{ title }</h2>
+              <div className="flex flex-col grow">
+                <h2 className="not-prose font-semibold text-base text-gray-800 dark:text-white" contenteditable="false" data-component-part="card-title">{ title }</h2>
 
-                  <div className="flex flex-col grow prose mt-1 font-normal text-sm leading-6 text-gray-600 dark:text-gray-400" data-component-part="card-content">
-                    <div className="grow flex flex-column">
-                      {description}
-                    </div>
-                    <div className="mt-6 flex flex-wrap">
-                      {
-                        runtimesInOrder.map((runtime) => {
-                          return (
-                            <RuntimeLink key={runtime} runtime={runtime} link={links[runtime]} />
-                          )
-                        })
-                      }
-                    </div>
+                <div className="flex flex-col grow prose mt-1 font-normal text-sm leading-6 text-gray-600 dark:text-gray-400" data-component-part="card-content">
+                  <div className="grow flex flex-column">
+                    {description}
+                  </div>
+                  <div className="mt-6 flex flex-wrap">
+                    {
+                      runtimesInOrder.map((runtime) => {
+                        return (
+                          <RuntimeLink key={runtime} runtime={runtime} link={links[runtime]} />
+                        )
+                      })
+                    }
                   </div>
                 </div>
               </div>
-            </a>
-          )
-        }
-
+            </div>
+          </a>
+        )
       })}
     </Columns>
   )
