@@ -41,6 +41,7 @@ export const Demos = ({
         web: 'https://codesandbox.io/p/sandbox/suspicious-hertz-2lg4m8?file=%2Fsrc%2Findex.ts',
         react:
           'https://codesandbox.io/p/sandbox/rive-react-data-binding-lists-4msh9z?file=%2Fsrc%2FApp.tsx',
+        flutter: 'https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_lists.dart'
       },
     },
     layouts: {
@@ -51,7 +52,8 @@ export const Demos = ({
       artboard: "Demo",
       links: {
         web: "https://codesandbox.io/p/devbox/rive-responsive-layout-js-forked-m77nlw",
-        react: "https://codesandbox.io/p/devbox/rive-responsive-layouts-react-forked-nmpv39?file=%2Fsrc%2FApp.tsx"
+        react: "https://codesandbox.io/p/devbox/rive-responsive-layouts-react-forked-nmpv39?file=%2Fsrc%2FApp.tsx",
+        flutter: "https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/responsive_layouts.dart"
       },
     },
     fontsHostedCompressed: {
@@ -225,9 +227,10 @@ export const Demos = ({
 
                   <div id="card-link-arrow-icon" className="absolute text-gray-400 dark:text-gray-500 group-hover:text-primary dark:group-hover:text-primary-light top-5 right-5">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-arrow-up-right w-4 h-4"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg>
-                </div>
+                  </div>
                 )
               }
+
               <div className="flex flex-col grow">
                 <h2 className="not-prose font-semibold text-base text-gray-800 dark:text-white" data-component-part="card-title">{ title }</h2>
 
