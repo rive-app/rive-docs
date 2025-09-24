@@ -1,12 +1,13 @@
 export const Demos = ({
   examples,
-  runtime
+  runtime,
+  columns = 2
 }) => {
   const examplesData = {
     cachingARiveFile: {
-      title: 'Demo: Caching a Rive File',
+      title: 'Caching a Rive File',
       description: 'Load the .riv into memory once, use it multiple times.',
-      riv: 'https://rive.app/docs/assets/rivs/rives_animated_emojis.riv',
+      riv: '/assets/rivs/rives_animated_emojis.riv',
       stateMachines: "State Machine 1",
       artboard: "Emoji_package",
       links: {
@@ -14,29 +15,31 @@ export const Demos = ({
       }
     },
     dataBindingArtboards: {
-      title: 'Demo: Data Binding Artboards',
+      title: 'Data Binding Artboards',
       description:
         'Swap an artboard with another artboard from the same .riv or one loaded at runtime.',
-      image: 'https://rive.app/docs/images/runtimes/rive-data-bind-components.webp',
+      image: '/images/runtimes/rive-data-bind-components.webp',
       links: {
         web: 'https://codesandbox.io/p/sandbox/rive-js-data-binding-artboards-jx3pf9?file=%2Fsrc%2Findex.mjs%3A5%2C19',
         react:
           'https://codesandbox.io/p/sandbox/rive-react-data-binding-artboards-kmvzh8?file=%2Fsrc%2FApp.tsx',
+        flutter: 'https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_artboards.dart'
       },
     },
     dataBindingImages: {
-      title: 'Demo: Data Binding Images',
+      title: 'Data Binding Images',
       description:
         'Replace images at runtime using data binding images with javascript.',
-      image: 'https://rive.app/docs/images/runtimes/rive-db-images.webp',
+      image: '/images/runtimes/rive-db-images.webp',
       links: {
         web: 'https://codesandbox.io/p/sandbox/objective-cohen-sqwh9q',
+        flutter: 'https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_images.dart'
       },
     },
     dataBindingLists: {
-      title: 'Demo: Data Binding Lists',
+      title: 'Data Binding Lists',
       description: 'Add, remove, edit, and swap items in your data binding list',
-      image: 'https://rive.app/docs/images/runtimes/rive-db-lists.webp',
+      image: '/images/runtimes/rive-db-lists.webp',
       links: {
         web: 'https://codesandbox.io/p/sandbox/suspicious-hertz-2lg4m8?file=%2Fsrc%2Findex.ts',
         react:
@@ -44,10 +47,19 @@ export const Demos = ({
         flutter: 'https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_lists.dart'
       },
     },
+    dataBindingQuickStart: {
+      title: "Data Binding Quick Start",
+      description: "Get started with Data Binding at runtime",
+      image: "/images/runtimes/rewards.gif",
+      links: {
+        flutter: "https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding.dart",
+        reactNative: "https://github.com/rive-app/rive-react-native/blob/main/example/app/(examples)/DataBinding.tsx"
+      }
+    },
     layouts: {
       title: "Responsive Layouts",
       description: "Create responsive layouts that adapt to different screen sizes.",
-      riv: "https://rive.app/docs/assets/rivs/layouts_demo.riv",
+      riv: "/assets/rivs/layouts_demo.riv",
       stateMachines: "State Machine 1",
       artboard: "Demo",
       links: {
@@ -57,16 +69,16 @@ export const Demos = ({
       },
     },
     fontsHostedCompressed: {
-      title: 'Demo: Load a Compressed Font for Web',
+      title: 'Load a Compressed Font for Web',
       description: 'Dynamically load a font asset from a hosted location with compression.',
-      image: 'https://rive.app/docs/images/runtimes/brotli-compressed-fonts.webp',
+      image: '/images/runtimes/brotli-compressed-fonts.webp',
       links: {
         react:
           'https://codesandbox.io/p/sandbox/prod-sound-6yc5xl?file=%2Fsrc%2FApp.tsx%3A19%2C1',
       },
     },
     quickStart: {
-      title: "Quick start demo",
+      title: "Quick Start",
       image: '/images/runtimes/quick-start.gif',
       description: 'Load and control your Rive (.riv) file.',
       links: {
@@ -195,8 +207,21 @@ export const Demos = ({
     )
   }
 
+  // To do: This is a temp fix for an issue with mintlify where links as variables aren't getting uploaded to their CDN
+  const generateteLink = (link) => {
+    return window.location.hostname === 'localhost' ?
+      link :
+      `https://rive.app/docs${link}`
+  }
+
   return (
-    <Columns cols={2}>
+    <div className={`
+        card-group not-prose grid gap-x-4
+        grid-cols-1
+        ${columns >= 2 && "md:grid-cols-2"}
+        ${columns >= 3 && "xl:grid-cols-3"}
+      `
+    }>
       {examples.map((example) => {
         const { title, image, links, description, riv } = examplesData[example]
         const canvasId = `rive-canvas-${example}`
@@ -204,7 +229,7 @@ export const Demos = ({
         return (
           <CardContainer
             key={canvasId}
-            link={runtime && links[runtime]}
+            link={runtime && generateteLink(links[runtime])}
           >
             <div className="w-full h-0 relative pb-[75%]">
               <div className="absolute inset-0">
@@ -245,7 +270,7 @@ export const Demos = ({
                           // If a specific runtime is defined in the demo component, don't add buttons
                           runtimesInOrder.map((currentRuntime) => {
                             return (
-                              <RuntimeLink key={currentRuntime} runtime={currentRuntime} link={links[currentRuntime]} />
+                              <RuntimeLink key={currentRuntime} runtime={currentRuntime} link={generateteLink(links[currentRuntime])} />
                             )
                           })
                         }
@@ -258,6 +283,6 @@ export const Demos = ({
           </CardContainer>
         )
       })}
-    </Columns>
+    </div>
   )
 }
