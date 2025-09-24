@@ -51,7 +51,8 @@ export const Demos = ({
       artboard: "Demo",
       links: {
         web: "https://codesandbox.io/p/devbox/rive-responsive-layout-js-forked-m77nlw",
-        react: "https://codesandbox.io/p/devbox/rive-responsive-layouts-react-forked-nmpv39?file=%2Fsrc%2FApp.tsx"
+        react: "https://codesandbox.io/p/devbox/rive-responsive-layouts-react-forked-nmpv39?file=%2Fsrc%2FApp.tsx",
+        flutter: "https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/responsive_layouts.dart"
       },
     },
     fontsHostedCompressed: {
