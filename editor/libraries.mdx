@@ -20,47 +20,45 @@ Libraries provide:
 ## Creating a Library
 Any file can be made into a library. First, you'll need to create a [component](editor/fundamentals/components) and/or a view model before you can publish a file as a library. Select an artboard on the stage and use the component icon in the inspector or `Shift` + `N` to toggle its status as a component.
 
-With a component or view model present in the file, select the Publish Library option via the export action on the toolbar, or via the file menu. The publishing panel provides an oppoetuiry to select which of the components, view models, and enums you'd like to be published as part of the library.
+With a component or view model present in the file, select the **Publish Library** option via the export action on the toolbar, or via the file menu. The publishing panel provides an opportunity to select which of the components, view models, and enums you'd like to be published as part of the library.
 
-You can identify a library file by the icon in the tab bar and in the file browser.
+<Tip>You can identify a library file by the icon in the tab bar and in the file browser.</Tip>
 
 ## Importing from a Library
-To start using components and view models from a published library, select the library icon present in both the asset and data panels. The library panel displays alongside the hierarchy/asset/data column, and displays a list of the available libraries for the open file. Currently, a Rive file can only access libraries contained within the same project. Cross-project — or workspace — libraries are coming soon. Furthermore, we also plan to introduce public libraries soon after that.
+To start using components and view models from a published library, select the library icon present in both the asset and data panels. The library panel displays alongside the hierarchy/asset/data column, and displays a list of the available libraries for the open file.
 
-Selecting a library listed in the panel will present its available components, view models, and enums. Choose the elements you'd like to add to your file, and use the Add to File action in the inspector to add them to your assets.
+<Note>Currently, a Rive file can only access libraries contained within the same project. Cross-project — or workspace — libraries are coming soon. Furthermore, we also plan to introduce public libraries soon after that.</Note>
 
-Note: You can use the version dropdown to browse previous iterations of libraries and their components.
+Selecting a library listed in the panel will present its available components, view models, and enums. Choose the elements you'd like to add to your file, and use the **Add to File** action in the inspector to add them to your assets.
 
-With the chosen elements added to your file, you can access and reuse components via the asset and data panels. Elements sourced from a library can be identifed by the library icon in the bottom-right corner of the regular icon.
+<Tip>You can use the version dropdown to browse and import previous iterations of libraries and their components.</Tip>
+
+With the chosen elements added to your file, you can access and reuse components via the asset and data panels. Elements sourced from a library can be identifed by the library icon appended to the bottom-right corner of the regular icon.
 
 ## Updating a Library
-After publishing, you can continue to make changes, add, or remove components, view models, and enums. Republish the library via the same option in the export or file menus. Upon publishing an updated version of the library, any files that have imported elements from it will display a small badge indicating an available update for the given components.
+After publishing, you can continue to make changes, add, or remove components, view models, and enums. Republish the library via the same option in the export or file menus. Upon publishing an updated version of the library, any files that have imported elements from it will display a small badge indicating an available update.
 
 To update components to the latest version, right-click them in the asset/data panel, and select **Update Component** from the context menu. Choose the elements you'd like to update and select **Update Selected**.
 
 ## Detatching
-After importing a component from a library and creating an instance of it on the stage, you can choose to detach it. Detaching a component will decouple it from the source and copy over its contents directly into your working file. Any references to it will point to the new local copy, instead.
-
-You may want to detach a component to make changes to it, without changing the source.
+After importing a component from a library and creating an instance of it on the stage, you may choose to detach it. Detaching a component will decouple it from the source and copy over its contents into your working file. Any references to it will point to the new local copy, instead. You may want to detach a component to make changes to it, without changing the source.
 
 <Note>It's not possible to re-attach a component after it has been detached.</Note>
 
 ## Export Options
-By using libraries, you create a series of dependencies between files. For example, an instance of an imported component depends on the library file it came from, which in turn may depend on an image asset used within the component, or perhaps another component entirely.
+By using libraries, you create a series of dependencies between files. For example, an instance of an imported component depends on the library file it came from, which in turn may depend on an image asset used within the component, or perhaps another component from a different library entirely.
 
-Rive export options to control what and how components and any assets they depend on get exported for runtime. These options are available across assets and components, with an additonal layer of separation for libraries specifically.
+The export options control what and how components and any assets they depend on get exported to a riv file for runtime. These options are available across assets and components, with an additonal layer of separation for libraries specifically.
 
-To access the export options for a given component, asset, or library, select it in the asset panel and choose the desired settings in the inspector.
+To access the export options for a given component, asset, or library, select it in the asset panel and set the desired options in the inspector.
 
-- **Automatic:** Include this asset/component in the export if it's being used somewhere on the stage. For library assets, this options defers to the library author's decision to export the asset or not.
+- **Automatic:** Include this asset/component in the export if it's being used somewhere on the stage. For assets contained within a library, this option is inherited from the source file.
 - **Force Export:** Export this asset/component, regardless of whether or not it's referenced within the file.
 - **Prevent Export:** Don't include this asset/component in the export, regardless of whether or not it's referened within the file.
 
-<Note>Libraries are only a concept in the Rive editor. They facilitate the sharing of components between files. Runtimes aren't able to discern whether a component was sourced from a library or not.</Note>
-
-You may want to adjust these options to suit your needs at runtime as opposed to design-time. For example, images used within a design will be supplied from an external source at runtime, and therefore aren't required in the riv file. Or, you intend to use a library component across multiple Rive files at once via data binding. Exporting the library component separately and excluding from the host files prevents it from being duplicated.
+You may want to adjust these options to suit your needs at runtime as opposed to design-time. For example, images used within a design are to be supplied from an external source at runtime, and therefore aren't required in the riv file. Or, you intend to use a library component across multiple Rive files at once via data binding. Exporting the library component separately and excluding from the host files prevents it from being duplicated.
 
 <Note>Currently, the export behaviour for assets within a library component can only be set at the library level, not per component. To do so, set the panel display mode to Source/Type, and select the library item in the asset panel.</Note>
 
 ## Unpublishing a Library
-Use the Unpublish Library action in the file menu to prevent other files from continuing to access the library and it's components. Any components that were already imported before the library was unpublished will still be accessible to the host file. Unpublishing will only prevent the library from being accessible any further. You may also republish a library at any time.
+Use the **Unpublish Library** action in the file menu to prevent other files from continuing to access the library and its components. Any components that were already imported before a library is unpublished remain accessible to the host file. Unpublishing only prevents a library from being accessible any further. You may also republish a library at any time.
