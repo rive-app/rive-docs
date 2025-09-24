@@ -39,7 +39,11 @@ After publishing, you can continue to make changes, add, or remove components, v
 To update components to the latest version, right-click them in the asset/data panel, and select **Update Component** from the context menu. Choose the elements you'd like to update and select **Update Selected**.
 
 ## Detatching
-...
+After importing a component from a library and creating an instance of it on the stage, you can choose to detach it. Detaching a component will decouple it from the source and copy over its contents directly into your working file. Any references to it will point to the new local copy, instead.
+
+You may want to detach a component to make changes to it, without changing the source.
+
+<Note>It's not possible to re-attach a component after it has been detached.</Note>
 
 ## Export Options
 By using libraries, you create a series of dependencies between files. For example, an instance of an imported component depends on the library file it came from, which in turn may depend on an image asset used within the component, or perhaps another component entirely.
