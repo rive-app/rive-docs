@@ -1,21 +1,25 @@
 ---
-title: 'Animation Playback'
-description: 'Playing and pausing animations (legacy)'
+title: "Animation Playback"
+description: "⚠️ DEPRECATED: Use State Machines instead of direct animation playback at runtime"
 noindex: true
 ---
 
-<Info>
-  We strongly recommend controlling your animation(s) at runtime with a [State Machine](/runtimes/state-machines), rather than controlling them individually.
-</Info>
+<Warning>
+  **DEPRECATION NOTICE:** This entire page documents the legacy Animation
+  Playback system. **For new projects:** Use [State
+  Machines](/runtimes/state-machines) instead. **For existing projects:** Plan
+  to migrate from direct animation control to State Machines as soon as
+  possible. **This content is provided for legacy support only.**
+</Warning>
 
 Rive lets you specify what animations and state machines to mix and play and control the play/pause state of each animation.
 
-The term *animations* may collectively refer to both animations and state machines. In this section, we explore how to deal with specific animation playback, rather than state machines.
+The term _animations_ may collectively refer to both animations and state machines. In this section, we explore how to deal with specific animation playback, rather than state machines.
 
 <Note>
- If you are trying to coordinate multiple animations' playback at runtime, consider using a state machine instead to do this for you!
+  If you are trying to coordinate multiple animations' playback at runtime,
+  consider using a state machine instead to do this for you!
 </Note>
-
 
 ## Choosing starting animations
 
@@ -52,6 +56,7 @@ Starting animations can also be chosen when Rive is instantiated. The first anim
       return <RiveComponent />;
     }
     ```
+
   </Tab>
 
   <Tab title="React Native">
@@ -71,6 +76,7 @@ Starting animations can also be chosen when Rive is instantiated. The first anim
       );
     }
     ```
+
   </Tab>
 
   <Tab title="Flutter">
@@ -89,6 +95,7 @@ Starting animations can also be chosen when Rive is instantiated. The first anim
       painter: animationPainter,
     );
     ```
+
   </Tab>
 
   <Tab title="Apple">
@@ -123,6 +130,7 @@ Starting animations can also be chosen when Rive is instantiated. The first anim
         }
     }
     ```
+
   </Tab>
 
   <Tab title="Android">
@@ -146,6 +154,7 @@ Starting animations can also be chosen when Rive is instantiated. The first anim
         autoplay = true
     )
     ```
+
   </Tab>
 </Tabs>
 ## Controlling playback
@@ -215,9 +224,11 @@ Playback of each animation and state machine can be separately controlled. You c
           ? truck.pause("windshield_wipers")
           : truck.play("windshield_wipers");
       ```
+
   </Tab>
 
     <Tab title="React">
+
 #### Invoking Playback Controls
 
 Very similarly to Web, you can pass in Rive params and callbacks for certain animation events. See the Web tab for some examples of callbacks you can set. Additionally, you can use the `rive` object returned from the `useRive` hook to invoke playback controls.
@@ -258,7 +269,7 @@ export default function App() {
           setWiperButtonText("Start Wipers");
         }
       });
-    }
+    },
   });
 
   function onStartTruckClick() {
@@ -298,6 +309,7 @@ export default function App() {
   );
 }
 ```
+
   </Tab>
 
   <Tab title="React Native">
@@ -332,8 +344,8 @@ export default function App() {
         );
       }
       ```
-  </Tab>
 
+  </Tab>
 
   <Tab title="Flutter">
     Flutter handles things a little differently compared to the other runtimes due to its reactive nature.
@@ -345,6 +357,7 @@ export default function App() {
     Or you can create `RiveWidgetController` and pass it to the `RiveWidget` to control playback of state machines with a more feature-rich API (recommended).
 
     This painter concept is extensible, and you can also create your own custom painter, for example, to control multiple animations at once.
+
   </Tab>
 
   <Tab title="Apple">
@@ -406,7 +419,6 @@ Based on certain events in your app you may want to adjust the playback further.
       - advanced
       - animation looped
 
-
 ```swift
 class ToggleViewModel: RiveViewModel {
   private let onAnimation: String = "On"
@@ -451,6 +463,7 @@ class ToggleViewModel: RiveViewModel {
   override func player(didAdvanceby seconds: Double, riveModel: RiveModel?) {...}
 }
 ```
+
 </Tab>
 
   <Tab title="Android">
@@ -516,6 +529,5 @@ class ToggleViewModel: RiveViewModel {
     [LoopModeActivity.kt](https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/LoopModeActivity.kt)
 
   </Tab>
-
 
 </Tabs>

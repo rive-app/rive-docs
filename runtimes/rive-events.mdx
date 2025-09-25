@@ -1,14 +1,17 @@
 ---
-title: 'Rive Events'
-description: 'Subscribing to Rive Events at runtime.'
+title: "Rive Events"
+description: "⚠️ DEPRECATED: Use Data Binding instead of Events"
 noindex: true
 ---
 
-import { YouTube } from '/snippets/youtube.mdx'
+import { YouTube } from "/snippets/youtube.mdx";
 
-<Info>
-  If you're using [Data Binding](/runtimes/data-binding), you can listen for triggers or value changes without needing Events.
-</Info>
+<Warning>
+  **DEPRECATION NOTICE:** This entire page documents the legacy Events system.
+  **For new projects:** Use [Data Binding](/runtimes/data-binding) instead.
+  **For existing projects:** Plan to migrate from Events to Data Binding as soon
+  as possible. **This content is provided for legacy support only.**
+</Warning>
 
 With Rive events, you have the ability to subscribe to meaningful signals that get reported from animations, state machines, and Rive listeners, all created at design time from the Rive editor. These signals can be subscribed to at runtime and have a specific name, type, and various custom metadata that may accompany the event to help inform the context surrounding its meaning.
 
