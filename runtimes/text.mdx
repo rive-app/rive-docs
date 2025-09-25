@@ -1,13 +1,15 @@
 ---
 title: "Text"
-description: "Reading and modifying text at runtime (legacy)"
+description: "⚠️ DEPRECATED: Use Data Binding instead of direct text run manipulation at runtime"
 noindex: true
 ---
 
-<Info>
-  We strongly recommend controlling your Text with [Data
-  Binding](/runtimes/data-binding), rather than setting the text runs directly.
-</Info>
+<Warning>
+  **DEPRECATION NOTICE:** This entire page documents the legacy Text
+  manipulation system. **For new projects:** Use [Data
+  Binding](/runtimes/data-binding) instead. **For existing projects:** Plan to
+  migrate from direct text run manipulation to Data Binding as soon as possible.
+</Warning>
 
 For more information on designing and animating Text, please refer to the editor's text section:
 
@@ -44,6 +46,12 @@ For more information on designing and animating Text, please refer to the editor
 Please ensure you're on the correct runtime version with support for Rive Text; see [Feature Support](/feature-support).
 
 ## Read/Update Text Runs at Runtime
+
+<Warning>
+  **⚠️ LEGACY CONTENT WARNING:** The following sections document the deprecated
+  Text manipulation system. **This content is provided for legacy support
+  only.** New implementations should use [Data Binding](/runtimes/data-binding).
+</Warning>
 
 If you intend to update a **text run** at runtime it's important to manually enter a _unique name_ for the run in the editor:
 
@@ -379,6 +387,12 @@ You can identify an exported component if it's surrounded by square brackets. Th
 </Tabs>
 
 ## Read/Update Nested Text Runs at Runtime
+
+<Warning>
+  **⚠️ DEPRECATED FEATURE:** Nested Text Runs are part of the legacy Text
+  manipulation system. **Use Data Binding instead** for controlling component
+  text properties at runtime.
+</Warning>
 
 It's possible to set nested text runs at runtime—text that is not on the main artboard but on a [Component](/editor/fundamentals/components). To set a nested text run, you'll need to take note of the path where the input exists at an artboard level.
 
