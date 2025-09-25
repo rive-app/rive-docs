@@ -3,6 +3,8 @@ title: 'Fundamentals'
 description: ''
 ---
 
+import LegacyApiNotice from '/snippets/unity/legacy-api-notice.mdx';
+
 ## Adding Rive Assets
 
 To add a `.riv` file to a Unity project, simply drag it into the Project Window. Once dropped, a **Rive Asset** will be automatically created.
@@ -95,7 +97,9 @@ private void Start()
 
     </Tab>
 
-    <Tab title="Low-level API">
+    <Tab title="Legacy API">
+
+        <LegacyApiNotice />
 
         Artboards are instantiated from a `Rive.File` instance:
 
@@ -124,7 +128,9 @@ A StateMachine contains Inputs and Events, for more information see Unity [State
 
     </Tab>
 
-    <Tab title="Low-level API">
+    <Tab title="Legacy API">
+
+        <LegacyApiNotice />
 
         State Machines are instantiated from an Artboard instance:
 
@@ -167,7 +173,9 @@ In Unity, Rive renders to a [RenderTexture](https://docs.unity3d.com/ScriptRefer
         To display a **Rive Panel** on a GameObject's mesh, use the **Rive Texture Renderer.**
     </Tab>
 
-    <Tab title="Low-level API">
+    <Tab title="Legacy API">
+
+        <LegacyApiNotice />
 
         Layout and draw commands are managed through the `Rive.Renderer`.
 
