@@ -5,7 +5,7 @@ export const Demos = ({
     cachingARiveFile: {
       title: 'Demo: Caching a Rive File',
       description: 'Load the .riv into memory once, use it multiple times.',
-      riv: 'https://rive-static-content.s3.us-west-1.amazonaws.com/rivs/rives_animated_emojis.riv',
+      riv: 'https://static.rive.app/rivs/rives_animated_emojis.riv',
       stateMachines: "State Machine 1",
       artboard: "Emoji_package",
       links: {
@@ -46,7 +46,7 @@ export const Demos = ({
     layouts: {
       title: "Responsive Layouts",
       description: "Create responsive layouts that adapt to different screen sizes.",
-      riv: "https://rive-static-content.s3.us-west-1.amazonaws.com/rivs/layouts_demo.riv",
+      riv: "https://static.rive.app/rivs/layouts_demo.riv",
       stateMachines: "State Machine 1",
       artboard: "Demo",
       links: {
