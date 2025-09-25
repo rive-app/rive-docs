@@ -3,9 +3,13 @@ title: 'Caching a Rive File'
 description: ''
 ---
 
+import { Demos } from '/snippets/demos.jsx'
+
 Under most circumstances a `.riv` file should load quickly and managing the `RiveFile` yourself is not necessary. But if you intend to use the same `.riv` file in multiple parts of your application, or even on the same screen, it might be advantageous to load the file once and keep it in memory.
 
 ## Example Usage
+
+<Demos examples={["cachingARiveFile"]} />
 
 <Tabs>
     <Tab title="Flutter">
@@ -95,7 +99,7 @@ Under most circumstances a `.riv` file should load quickly and managing the `Riv
     </Tab>
 
     <Tab title="Web">
-        The following is a basic example to illustrate how to preload a Rive file, and pass the data to multiple Rive instances. Try it out on [CodeSandbox](https://codesandbox.io/p/sandbox/rive-quick-start-js-forked-g675my?file=%2Fsrc%2Findex.ts%3A4%2C1).
+        The following is a basic example to illustrate how to preload a Rive file, and pass the data to multiple Rive instances.
 
         ```javascript
         const rive = require("@rive-app/canvas");
