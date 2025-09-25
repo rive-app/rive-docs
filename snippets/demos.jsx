@@ -1,6 +1,6 @@
 export const Demos = ({
   examples,
-  runtime
+  runtime,
 }) => {
   const examplesData = {
     cachingARiveFile: {
@@ -44,6 +44,15 @@ export const Demos = ({
         flutter: 'https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_lists.dart'
       },
     },
+    fontsHostedCompressed: {
+      title: 'Demo: Load a Compressed Font for Web',
+      description: 'Dynamically load a font asset from a hosted location with compression.',
+      image: 'https://rive.app/docs/images/runtimes/brotli-compressed-fonts.webp',
+      links: {
+        react:
+          'https://codesandbox.io/p/sandbox/prod-sound-6yc5xl?file=%2Fsrc%2FApp.tsx%3A19%2C1',
+      },
+    },
     layouts: {
       title: "Responsive Layouts",
       description: "Create responsive layouts that adapt to different screen sizes.",
@@ -54,15 +63,6 @@ export const Demos = ({
         web: "https://codesandbox.io/p/devbox/rive-responsive-layout-js-forked-m77nlw",
         react: "https://codesandbox.io/p/devbox/rive-responsive-layouts-react-forked-nmpv39?file=%2Fsrc%2FApp.tsx",
         flutter: "https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/responsive_layouts.dart"
-      },
-    },
-    fontsHostedCompressed: {
-      title: 'Demo: Load a Compressed Font for Web',
-      description: 'Dynamically load a font asset from a hosted location with compression.',
-      image: 'https://rive.app/docs/images/runtimes/brotli-compressed-fonts.webp',
-      links: {
-        react:
-          'https://codesandbox.io/p/sandbox/prod-sound-6yc5xl?file=%2Fsrc%2FApp.tsx%3A19%2C1',
       },
     },
     quickStart: {
@@ -172,30 +172,27 @@ export const Demos = ({
         {runtimeTitles[runtime]}
       </a>
     )
-<<<<<<< HEAD
   }
 
   const CardContainer = ({ children, link }) => {
-    if (link) {
-      return (
-        <a
-          href={link}
-          className="card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full cursor-pointer hover:!border-primary dark:hover:!border-primary-light"
-        >
-          {children}
-        </a>
-      )
-    }
+   if (link) {
+     return (
+       <a
+         href={link}
+         className="card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full cursor-pointer hover:!border-primary dark:hover:!border-primary-light"
+       >
+         {children}
+       </a>
+     )
+   }
 
-    return (
-      <div
-        className="flex flex-col card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full"
-      >
-        {children}
-      </div>
-    )
-=======
->>>>>>> main
+   return (
+     <div
+       className="flex flex-col card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full"
+     >
+       {children}
+     </div>
+   )
   }
 
   return (
@@ -205,25 +202,16 @@ export const Demos = ({
         const canvasId = `rive-canvas-${example}`
 
         return (
-<<<<<<< HEAD
           <CardContainer
             key={canvasId}
             link={runtime && links[runtime]}
-=======
-          <div
-            key={canvasId}
             className="flex flex-col card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full"
->>>>>>> main
           >
             <div className="w-full h-0 relative pb-[75%]">
               <div className="absolute inset-0">
                 {
                   image && (
-<<<<<<< HEAD
-                    <img alt={title} className="w-full object-cover object-center" src={image} />
-=======
                     <img alt={title} className="w-full object-cover object-center not-prose" src={image} />
->>>>>>> main
                   )
                 }
 
@@ -235,18 +223,6 @@ export const Demos = ({
               </div>
             </div>
             <div className="flex flex-grow flex-col px-6 py-5 relative" data-component-part="card-content-container">
-<<<<<<< HEAD
-              {
-                runtime && (
-
-                  <div id="card-link-arrow-icon" className="absolute text-gray-400 dark:text-gray-500 group-hover:text-primary dark:group-hover:text-primary-light top-5 right-5">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-arrow-up-right w-4 h-4"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg>
-                  </div>
-                )
-              }
-
-=======
->>>>>>> main
               <div className="flex flex-col grow">
                 <h2 className="not-prose font-semibold text-base text-gray-800 dark:text-white" data-component-part="card-title">{ title }</h2>
 
@@ -254,12 +230,10 @@ export const Demos = ({
                   <div className="grow flex flex-col">
                     {description}
                   </div>
-<<<<<<< HEAD
                   {
                     !runtime && (
                       <div className="mt-6 flex flex-wrap">
                         {
-                          // If a specific runtime is defined in the demo component, don't add buttons
                           runtimesInOrder.map((currentRuntime) => {
                             return (
                               <RuntimeLink key={currentRuntime} runtime={currentRuntime} link={links[currentRuntime]} />
@@ -273,21 +247,6 @@ export const Demos = ({
               </div>
             </div>
           </CardContainer>
-=======
-                  <div className="mt-6 flex flex-wrap">
-                    {
-                      runtimesInOrder.map((runtime) => {
-                        return (
-                          <RuntimeLink key={runtime} runtime={runtime} link={links[runtime]} />
-                        )
-                      })
-                    }
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
->>>>>>> main
         )
       })}
     </Columns>
