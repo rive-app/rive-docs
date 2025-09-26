@@ -67,7 +67,7 @@ export const Demos = ({
     },
     quickStart: {
       title: "Quick start demo",
-      image: '/images/runtimes/quick-start.gif',
+      image: 'https://rive.app/docs/images/runtimes/quick-start.gif',
       description: 'Load and control your Rive (.riv) file.',
       links: {
         web: 'https://codesandbox.io/p/sandbox/rive-quick-start-js-xmwcm6?file=%2Fsrc%2Findex.ts',
