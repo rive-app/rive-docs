@@ -1,21 +1,22 @@
 ---
-title: 'Fundamentals'
-description: ''
+title: "Fundamentals"
 ---
+
+<Warning>
+  We’re rewriting our Unreal Engine integration to deliver significantly better performance, and it’s already showing a 4x speed boost. To focus on this effort, we’re temporarily pausing support and no longer recommending the current version of the Rive Unreal plugin, which was released as an experimental preview. More details [here](https://community.rive.app/c/announcements/rive-x-unreal).\
+  \
+  This page is for those using the legacy version of the plugin.
+</Warning>
 
 ## Adding Rive files
 
 To add a `.riv` file to an Unreal project, simply drag it into Unreal's Content Browser. Once dropped, a **Rive File**, **Rive Texture Object**, and **Widget Blueprint** asset will be automatically created. A **RiveFile** is a wrapper component configuring the Rive graphic to display, using a backing `.riv` file's data. It contains the following properties:
 
-* **Artboard name**: The [artboard](/editor/fundamentals/artboards) to load.
-
-* **State machine name**: The [state machine](/runtimes/state-machines) to play.
-
-* **Rive fit type**: How the graphic should fit in the available sizes (see [Fit](/runtimes/layout#fit)).
-
-* **Size**: The size of the underlying render target to which the graphic is drawn. The default value is equal to the artboard size, as set in the Rive editor.
-
-* Other texture properties.
+- **Artboard name**: The [artboard](/editor/fundamentals/artboards) to load.
+- **State machine name**: The [state machine](/runtimes/state-machines) to play.
+- **Rive fit type**: How the graphic should fit in the available sizes (see [Fit](/runtimes/layout#fit)).
+- **Size**: The size of the underlying render target to which the graphic is drawn. The default value is equal to the artboard size, as set in the Rive editor.
+- Other texture properties.
 
 An important concept to understand is that the **RiveFile** contains the underlying **artboard** and **state machine** that the Rive runtime uses.
 
@@ -52,7 +53,7 @@ You can also **Reimport** your Rive file to get updates made to the file outside
 
 You can easily create a material asset from a **RiveTextureObject**:
 
-* **Right-click** and select **"Create Material"**
+- **Right-click** and select **"Create Material"**
 
 The created material asset uses the selected **RiveTextureObject** as a texture.
 
@@ -68,7 +69,7 @@ This material can be added to a 3D mesh to be rendered in the scene, just like a
 
 You can easily create a Widget Blueprint from a **RiveFile**:
 
-* **Right click** the **RiveFile** and select **"Create Rive Widget"**
+- **Right click** the **RiveFile** and select **"Create Rive Widget"**
 
 This will automatically create a Widget Blueprint using the selected **RiveFile**.
 
@@ -104,7 +105,7 @@ See the following sections for more advanced usage.
 
 If, for example, your `.riv` file contains multiple different artboards, or if you want to create unique instances of the same artboard and state machine combination, you can easily do so by instancing new **RiveTextureObject**s through the editor:
 
-* **Right-click** a **RiveTextureObject** and select **"Duplicate"**
+- **Right-click** a **RiveTextureObject** and select **"Duplicate"**
 
 These new instances use the same underlying `.riv` file data; however they are unique instances and can be configured with the available properties, such as artboard, state machine, size, etc. Each **RiveTextureObject** instance contains a unique **artboard** and **state machine** instance that can be updated and used independently.
 
