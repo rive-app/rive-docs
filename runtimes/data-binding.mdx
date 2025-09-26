@@ -1597,13 +1597,13 @@ You can observe changes over time to property values, either by using listeners 
 
     useEffect(() => {
         if (numberValue !== undefined) {
-        console.log('numberValue changed:', numberValue);
+            console.log('numberValue changed:', numberValue);
         }
     }, [numberValue]);
 
     const handleButtonPress = () => {
-        if (trigger) {
-            trigger();
+        if (triggerButton) {
+            triggerButton();
         }
     };
     ```
