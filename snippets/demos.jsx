@@ -18,7 +18,7 @@ export const Demos = ({
       title: 'Data Binding Artboards',
       description:
         'Swap an artboard with another artboard from the same .riv or one loaded at runtime.',
-      image: '/images/runtimes/rive-data-bind-components.webp',
+      image: 'https://rive.app/docs/images/runtimes/rive-data-bind-components.webp',
       links: {
         web: 'https://codesandbox.io/p/sandbox/rive-js-data-binding-artboards-jx3pf9?file=%2Fsrc%2Findex.mjs%3A5%2C19',
         react:
@@ -30,7 +30,7 @@ export const Demos = ({
       title: 'Data Binding Images',
       description:
         'Replace images at runtime using data binding images with javascript.',
-      image: '/images/runtimes/rive-db-images.webp',
+      image: 'https://rive.app/docs/images/runtimes/rive-db-images.webp',
       links: {
         web: 'https://codesandbox.io/p/sandbox/objective-cohen-sqwh9q',
         flutter: 'https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_images.dart'
@@ -39,7 +39,7 @@ export const Demos = ({
     dataBindingLists: {
       title: 'Data Binding Lists',
       description: 'Add, remove, edit, and swap items in your data binding list',
-      image: '/images/runtimes/rive-db-lists.webp',
+      image: 'https://rive.app/docs/images/runtimes/rive-db-lists.webp',
       links: {
         web: 'https://codesandbox.io/p/sandbox/suspicious-hertz-2lg4m8?file=%2Fsrc%2Findex.ts',
         react:
@@ -58,10 +58,15 @@ export const Demos = ({
         apple: "https://github.com/rive-app/rive-ios/blob/main/Example-iOS/Source/Examples/SwiftUI/RewardsView.swift"
       }
     },
+    googleAppAds: {
+      title: "Google App Ads",
+      description: "How to make an interactive Google App with Rive",
+
+    },
     layouts: {
       title: "Responsive Layouts",
       description: "Create responsive layouts that adapt to different screen sizes.",
-      riv: "/assets/rivs/layouts_demo.riv",
+      riv: "https://static.rive.app/rivs/layouts_demo.riv",
       stateMachines: "State Machine 1",
       artboard: "Demo",
       links: {
@@ -74,7 +79,7 @@ export const Demos = ({
     fontsHostedCompressed: {
       title: 'Load a Compressed Font for Web',
       description: 'Dynamically load a font asset from a hosted location with compression.',
-      image: '/images/runtimes/brotli-compressed-fonts.webp',
+      image: 'https://rive.app/docs/images/runtimes/brotli-compressed-fonts.webp',
       links: {
         react:
           'https://codesandbox.io/p/sandbox/prod-sound-6yc5xl?file=%2Fsrc%2FApp.tsx%3A19%2C1',
