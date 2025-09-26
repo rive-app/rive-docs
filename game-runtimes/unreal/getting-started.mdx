@@ -4,7 +4,9 @@ description: "Adding Rive to your Unreal project."
 ---
 
 <Warning>
-  We’re rewriting our Unreal Engine integration to deliver significantly better performance, and it’s already showing a 4x speed boost. To focus on this effort, we’re temporarily pausing support and no longer recommending the current version of the Rive Unreal plugin, which was released as an experimental preview. More details [here](https://community.rive.app/c/announcements/rive-x-unreal).
+  We’re rewriting our Unreal Engine integration to deliver significantly better performance, and it’s already showing a 4x speed boost. To focus on this effort, we’re temporarily pausing support and no longer recommending the current version of the Rive Unreal plugin, which was released as an experimental preview. More details [here](https://community.rive.app/c/announcements/rive-x-unreal).\
+  \
+  This page is for those using the legacy version of the plugin.
 </Warning>
 
 <Note>
@@ -14,8 +16,8 @@ description: "Adding Rive to your Unreal project."
 <Tip>
   Helpful hint: To avoid issues with compiling the Rive modules, it's best to either:
 
-  1. Create a C\+\+ project instead of a Blueprint project, OR
-  2. Immediately add a C\+\+ class to the project after creation (and BEFORE adding the Rive plugin).
+  1. Create a C++ project instead of a Blueprint project, OR
+  2. Immediately add a C++ class to the project after creation (and BEFORE adding the Rive plugin).
 </Tip>
 
 **Getting Started Best Practices**
@@ -33,8 +35,8 @@ Specific platform dependencies and build tools are needed to compile the Rive pl
 ### Unreal Version
 
 - Install _UE 5.3.2 or above_ - [Epic Games Launcher.](https://store.epicgames.com/en-US/download)
-- Ensure that _5.3.2 or above_ is set as the current version:![Image](/images/game-runtimes/unreal/c75a2b18-7208-4b28-bfef-a998a9a0bf08.webp)
-- Ensure **Engine Source** is checked from the **Options** launcher shown above:![Image](/images/game-runtimes/unreal/50bf5981-f34a-43cd-b149-09a84bb8b49b.webp)
+- Ensure that _5.3.2 or above_ is set as the current version:<img src="/images/game-runtimes/unreal/c75a2b18-7208-4b28-bfef-a998a9a0bf08.webp" alt="Image" />
+- Ensure **Engine Source** is checked from the **Options** launcher shown above:<img src="/images/game-runtimes/unreal/50bf5981-f34a-43cd-b149-09a84bb8b49b.webp" alt="Image" />
 
 <Note>
   Work is underway to support newer (and older) versions of Unreal. If you require a specific version of Unreal to be supported, please reach out to us on our [support channel](https://community.rive.app/c/support/).
@@ -59,7 +61,7 @@ The plugin is designed to work on both M-Series chips and Intel. _Please_ [file 
 
 Follow these additional steps if you're encountering issues building.
 
-- For the **Visual Studio Installer** within the **Game development with C\+\+** section, be sure to also check:
+- For the **Visual Studio Installer** within the **Game development with C++** section, be sure to also check:
   - Unreal Engine installer
   - Unreal Engine Test Adapter
   - Unreal Engine uproject support (Preview)
@@ -79,7 +81,7 @@ To quickly experiment with rive-unreal, take a look at our [demos project](https
 1. Ensure you've completed the steps outlined in **Build requirements** above.
 2. Download the latest project from the Github.
 3. Extract the project and run **ShowDemo.uproject.**
-4. Wait a bit until a popup appears, asking to build missing modules. Select **yes.** Note that the names of the modules may differ from the image below. ![Image](/images/game-runtimes/unreal/4cf3df6f-9ce6-47d5-8368-8c51f3c7d995.webp)
+4. Wait a bit until a popup appears, asking to build missing modules. Select **yes.** Note that the names of the modules may differ from the image below. <img src="/images/game-runtimes/unreal/4cf3df6f-9ce6-47d5-8368-8c51f3c7d995.webp" alt="Image" />
 5. It may take a while to open the project the first time and appear as if nothing is happening. It shouldn't take longer than a few minutes.
 6. Play the **MainMenu** level (`/Content/Levels/MainMenu/LV_MainMenu.umap`).
 
@@ -102,9 +104,9 @@ To quickly experiment with rive-unreal, take a look at our [demos project](https
 4. Open your project _.uproject_ file.
 5. Wait a bit until a popup appears, asking to build missing modules. Select **Yes.**
 6. It may take a while to open the project the first time and appear as if nothing is happening. It shouldn't take longer than a few minutes.
-7. Once the project is open, ensure that the Rive plugin is enabled: **Settings-\>Plugins** and search for **Rive.**![Image](/images/game-runtimes/unreal/1e6d9667-d43b-4948-abd1-7735c25cbecb.webp)
+7. Once the project is open, ensure that the Rive plugin is enabled: **Settings-\>Plugins** and search for **Rive.**<img src="/images/game-runtimes/unreal/1e6d9667-d43b-4948-abd1-7735c25cbecb.webp" alt="Image" />
 
-Now you can add Rive content\!
+Now you can add Rive content!
 
 **Debug steps**:
 

@@ -7,7 +7,7 @@ export const Demos = ({
     cachingARiveFile: {
       title: 'Caching a Rive File',
       description: 'Load the .riv into memory once, use it multiple times.',
-      riv: '/assets/rivs/rives_animated_emojis.riv',
+      riv: 'https://static.rive.app/rivs/rives_animated_emojis.riv',
       stateMachines: "State Machine 1",
       artboard: "Emoji_package",
       links: {
@@ -79,7 +79,7 @@ export const Demos = ({
     },
     quickStart: {
       title: "Quick Start",
-      image: '/images/runtimes/quick-start.gif',
+      image: 'https://rive.app/docs/images/runtimes/quick-start.gif',
       description: 'Load and control your Rive (.riv) file.',
       links: {
         web: 'https://codesandbox.io/p/sandbox/rive-quick-start-js-xmwcm6?file=%2Fsrc%2Findex.ts',
@@ -207,13 +207,6 @@ export const Demos = ({
     )
   }
 
-  // To do: This is a temp fix for an issue with mintlify where links as variables aren't getting uploaded to their CDN
-  const generateteLink = (link) => {
-    return window.location.hostname === 'localhost' ?
-      link :
-      `https://rive.app/docs${link}`
-  }
-
   return (
     <div className={`
         card-group not-prose grid gap-x-4
@@ -229,7 +222,8 @@ export const Demos = ({
         return (
           <CardContainer
             key={canvasId}
-            link={runtime && generateteLink(links[runtime])}
+            link={runtime && links[runtime]}
+            className="flex flex-col card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full"
           >
             <div className="w-full h-0 relative pb-[75%]">
               <div className="absolute inset-0">
@@ -267,10 +261,9 @@ export const Demos = ({
                     !runtime && (
                       <div className="mt-6 flex flex-wrap">
                         {
-                          // If a specific runtime is defined in the demo component, don't add buttons
                           runtimesInOrder.map((currentRuntime) => {
                             return (
-                              <RuntimeLink key={currentRuntime} runtime={currentRuntime} link={generateteLink(links[currentRuntime])} />
+                              <RuntimeLink key={currentRuntime} runtime={currentRuntime} link={links[currentRuntime]} />
                             )
                           })
                         }
