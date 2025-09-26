@@ -3,6 +3,8 @@ title: 'Layouts'
 description: 'Control the layout of your Rive animation in Unity'
 ---
 
+import LegacyApiNotice from '/snippets/unity/legacy-api-notice.mdx';
+
 For more information on Rive Layout see the [runtime documentation](/runtimes/layout).
 
 <CardGroup col="auto">
@@ -19,7 +21,9 @@ For more information on Rive Layout see the [runtime documentation](/runtimes/la
         ![The Fit and Alignment dropdowns in the Unity inspector](/images/game-runtimes/unity/03086bad-8cd9-4cfc-8d23-03579ff93a00.webp)
 
     </Tab>
-    <Tab title="Low-level API">
+    <Tab title="Legacy API">
+
+        <LegacyApiNotice />
 
         The **fit** and **alignment** can be controlled on the **Rive.Renderer** `.Align()` method:
 
@@ -98,7 +102,9 @@ The `Layout` **Fit** mode lets you display resizable artboards with built-in res
         In practice, you might use this factor to give yourself flexibility in adjusting the artboard size, even after choosing a particular scaling mode. For example, you might find that everything is slightly too large on mobile and set the Layout Scale Factor to 0.9 (90% of the scaled size).
     </Tab>
 
-    <Tab title="Low-level API">
+    <Tab title="Legacy API">
+        <LegacyApiNotice />
+
         **Implementing Layout in Custom Scripts** 
 
         When implementing `Fit.Layout` in your custom scripts, consider the following aspects:
