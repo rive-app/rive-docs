@@ -53,7 +53,9 @@ export const Demos = ({
       image: "/images/runtimes/rewards.gif",
       links: {
         flutter: "https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding.dart",
-        reactNative: "https://github.com/rive-app/rive-react-native/blob/main/example/app/(examples)/DataBinding.tsx"
+        reactNative: "https://github.com/rive-app/rive-react-native/blob/main/example/app/(examples)/DataBinding.tsx",
+        unity: "https://github.com/rive-app/rive-unity-examples/blob/main/getting-started/Assets/RewardsController.cs",
+        apple: "https://github.com/rive-app/rive-ios/blob/main/Example-iOS/Source/Examples/SwiftUI/RewardsView.swift"
       }
     },
     layouts: {
@@ -65,7 +67,8 @@ export const Demos = ({
       links: {
         web: "https://codesandbox.io/p/devbox/rive-responsive-layout-js-forked-m77nlw",
         react: "https://codesandbox.io/p/devbox/rive-responsive-layouts-react-forked-nmpv39?file=%2Fsrc%2FApp.tsx",
-        flutter: "https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/responsive_layouts.dart"
+        flutter: "https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/responsive_layouts.dart",
+        reactNative: 'https://github.com/rive-app/rive-react-native/blob/main/example/app/(examples)/ResponsiveLayout.tsx'
       },
     },
     fontsHostedCompressed: {
@@ -83,7 +86,8 @@ export const Demos = ({
       description: 'Load and control your Rive (.riv) file.',
       links: {
         web: 'https://codesandbox.io/p/sandbox/rive-quick-start-js-xmwcm6?file=%2Fsrc%2Findex.ts',
-        react: 'https://codesandbox.io/p/sandbox/rive-react-quick-start-4xy76h?file=%2Fsrc%2FApp.tsx%3A77%2C14'
+        react: 'https://codesandbox.io/p/sandbox/rive-react-quick-start-4xy76h?file=%2Fsrc%2FApp.tsx%3A77%2C14',
+        reactNative: 'https://github.com/rive-app/rive-react-native/blob/main/example/app/(examples)/QuickStart.tsx'
       }
     }
   }
@@ -92,11 +96,11 @@ export const Demos = ({
   /*
     No need to edit below this line
   */
-  const runtimesInOrder = ['web', 'react', 'react-native', 'flutter', 'apple', 'android', 'unity', 'unreal']
+  const runtimesInOrder = ['web', 'react', 'reactNative', 'flutter', 'apple', 'android', 'unity', 'unreal']
   const runtimeTitles = {
     web: 'Web (TS)',
     react: 'React',
-    'react-native': "React Native",
+    reactNative: "React Native",
     flutter: 'Flutter',
     apple: 'Apple',
     android: 'Android',
