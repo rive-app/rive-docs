@@ -1,5 +1,6 @@
 export const Demos = ({
   examples,
+  runtime,
 }) => {
   const examplesData = {
     cachingARiveFile: {
@@ -43,6 +44,15 @@ export const Demos = ({
         flutter: 'https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_lists.dart'
       },
     },
+    fontsHostedCompressed: {
+      title: 'Demo: Load a Compressed Font for Web',
+      description: 'Dynamically load a font asset from a hosted location with compression.',
+      image: 'https://rive.app/docs/images/runtimes/brotli-compressed-fonts.webp',
+      links: {
+        react:
+          'https://codesandbox.io/p/sandbox/prod-sound-6yc5xl?file=%2Fsrc%2FApp.tsx%3A19%2C1',
+      },
+    },
     layouts: {
       title: "Responsive Layouts",
       description: "Create responsive layouts that adapt to different screen sizes.",
@@ -55,14 +65,14 @@ export const Demos = ({
         flutter: "https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/responsive_layouts.dart"
       },
     },
-    fontsHostedCompressed: {
-      title: 'Demo: Load a Compressed Font for Web',
-      description: 'Dynamically load a font asset from a hosted location with compression.',
-      image: 'https://rive.app/docs/images/runtimes/brotli-compressed-fonts.webp',
+    quickStart: {
+      title: "Quick start demo",
+      image: '/images/runtimes/quick-start.gif',
+      description: 'Load and control your Rive (.riv) file.',
       links: {
-        react:
-          'https://codesandbox.io/p/sandbox/prod-sound-6yc5xl?file=%2Fsrc%2FApp.tsx%3A19%2C1',
-      },
+        web: 'https://codesandbox.io/p/sandbox/rive-quick-start-js-xmwcm6?file=%2Fsrc%2Findex.ts',
+        react: 'https://codesandbox.io/p/sandbox/rive-react-quick-start-4xy76h?file=%2Fsrc%2FApp.tsx%3A77%2C14'
+      }
     }
   }
 
@@ -164,6 +174,27 @@ export const Demos = ({
     )
   }
 
+  const CardContainer = ({ children, link }) => {
+   if (link) {
+     return (
+       <a
+         href={link}
+         className="card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full cursor-pointer hover:!border-primary dark:hover:!border-primary-light"
+       >
+         {children}
+       </a>
+     )
+   }
+
+   return (
+     <div
+       className="flex flex-col card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full"
+     >
+       {children}
+     </div>
+   )
+  }
+
   return (
     <Columns cols={2}>
       {examples.map((example) => {
@@ -171,8 +202,9 @@ export const Demos = ({
         const canvasId = `rive-canvas-${example}`
 
         return (
-          <div
+          <CardContainer
             key={canvasId}
+            link={runtime && links[runtime]}
             className="flex flex-col card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full"
           >
             <div className="w-full h-0 relative pb-[75%]">
@@ -198,19 +230,23 @@ export const Demos = ({
                   <div className="grow flex flex-col">
                     {description}
                   </div>
-                  <div className="mt-6 flex flex-wrap">
-                    {
-                      runtimesInOrder.map((runtime) => {
-                        return (
-                          <RuntimeLink key={runtime} runtime={runtime} link={links[runtime]} />
-                        )
-                      })
-                    }
-                  </div>
+                  {
+                    !runtime && (
+                      <div className="mt-6 flex flex-wrap">
+                        {
+                          runtimesInOrder.map((currentRuntime) => {
+                            return (
+                              <RuntimeLink key={currentRuntime} runtime={currentRuntime} link={links[currentRuntime]} />
+                            )
+                          })
+                        }
+                      </div>
+                    )
+                  }
                 </div>
               </div>
             </div>
-          </div>
+          </CardContainer>
         )
       })}
     </Columns>
