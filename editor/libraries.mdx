@@ -12,33 +12,27 @@ Libraries provide:
 - Components can be published and reused across project files.
 - Updates flow downstream with version history and change notifications.
 - Teams can collaborate without worrying about mismatched assets.
-- Explicit contracts: Authors decide which properties can vary by exposing them via View Models. Consumers use those without touching the underlying complexity.
-- Updatability: Components evolve over time. Consumers can pin to a specific version or update when ready.
-- Detachment: If a component no longer fits, you can detach it. It becomes a local copy and no longer listens for library updates.
 
 
 ## Creating a Library
-Any file can be made into a library. First, you'll need to create a [component](editor/fundamentals/components) and/or a view model before you can publish a file as a library. Select an artboard on the stage and use the component icon in the inspector or `Shift` + `N` to toggle its status as a component.
+Any file can be made into a library. First, you'll need to create a [component](editor/fundamentals/components) and/or a view model before you can publish the file as a library. Select an artboard on the stage and use the component icon in the inspector or `Shift` + `N` to toggle its status as a component.
 
 ![Image](/images/editor/libraries/01-component.webp)
 
 With a component or view model present in the file, select the **Publish Library** option via the export action on the toolbar, or via the file menu. The publishing panel provides an opportunity to select which of the components, view models, and enums you'd like to be published as part of the library.
 
-![Image](/images/editor/libraries/02-publish.webp)
-![Image](/images/editor/libraries/04-select-items.webp)
+![Image](/images/editor/libraries/15-publish-alt.webp)
 
 <Tip>You can identify a library file by the icon in the tab bar and in the file browser.</Tip>
 
-![Image](/images/editor/libraries/03-indicator.webp)
-
 ## Importing from a Library
-To start using components and view models from a published library, select the library icon present in both the asset and data panels. The library panel displays alongside the hierarchy/asset/data column, and displays a list of the available libraries for the open file.
+To start using components and view models from a published library, select the library icon present in both the asset and data panels. The library panel displays alongside the hierarchy/asset/data column, and displays a list of the available libraries for the active file.
 
 ![Image](/images/editor/libraries/05-browse.webp)
 
 <Note>Currently, a Rive file can only access libraries contained within the same project. Cross-project — or workspace — libraries are coming soon. Furthermore, we also plan to introduce public libraries soon after that.</Note>
 
-Selecting a library listed in the panel will present its available components, view models, and enums. Choose the elements you'd like to add to your file, and use the **Add to File** action in the inspector to add them to your assets.
+Selecting a library listed in the panel will present its available components, view models, and enums. Choose the elements you'd like to add to your file, and use the **Add to File** action in the inspector to import them.
 
 ![Image](/images/editor/libraries/06-add-component.webp)
 
@@ -46,7 +40,7 @@ Selecting a library listed in the panel will present its available components, v
 
 ![Image](/images/editor/libraries/07-version-dropdown.webp)
 
-With the chosen elements added to your file, you can access and reuse components via the asset and data panels. Elements sourced from a library can be identifed by the library icon appended to the bottom-right corner of the regular icon.
+With the chosen elements added to your file, you can access and reuse components and view models via the asset and data panels. Elements sourced from a library can be identifed by the library icon appended to the bottom-right corner of the regular icon.
 
 ![Image](/images/editor/libraries/08-assets.webp)
 
@@ -55,21 +49,21 @@ After publishing, you can continue to make changes, add, or remove components, v
 
 ![Image](/images/editor/libraries/09-update-badge.webp)
 
-To update components to the latest version, right-click them in the asset/data panel, and select **Update Component** from the context menu. Choose the elements you'd like to update and select **Update Selected**.
+To update a component, right-click it in asset panel and select **Library Optionss** -> **Update Component** from the context menu. Choose the library elements you'd like to update and select **Update Selected**.
 
 ![Image](/images/editor/libraries/10-update.webp)
 
 ## Detatching
-After importing a component from a library and creating an instance of it on the stage, you may choose to detach it. Detaching a component will decouple it from the source and copy over its contents into your working file. Any references to it will point to the new local copy, instead. You may want to detach a component to make changes to it, without changing the source.
-
-![Image](/images/editor/libraries/13-detach.webp)
+After importing a component from a library and creating an instance of it on the stage, you may choose to detach it. Detaching a component will decouple it from the source and copy over its contents into your active file. Any references to it will be redirected to the new local copy. You may want to detach a component to make changes to it, without changing the source.
 
 <Note>It's not possible to re-attach a component after it has been detached.</Note>
+
+![Image](/images/editor/libraries/13-detach.webp)
 
 ## Export Options
 By using libraries, you create a series of dependencies between files. For example, an instance of an imported component depends on the library file it came from, which in turn may depend on an image asset used within the component, or perhaps another component from a different library entirely.
 
-The export options control what and how components and any assets they depend on get exported to a riv file for runtime. These options are available across assets and components, with an additonal layer of separation for libraries specifically.
+The export options control what and how components and any assets they depend on get exported to a riv file. These options are available across assets and components, with an additonal layer of separation for libraries specifically.
 
 To access the export options for a given component, asset, or library, select it in the asset panel and set the desired options in the inspector.
 
@@ -81,9 +75,9 @@ To access the export options for a given component, asset, or library, select it
 
 You may want to adjust these options to suit your needs at runtime as opposed to design-time. For example, images used within a design are to be supplied from an external source at runtime, and therefore aren't required in the riv file. Or, you intend to use a library component across multiple Rive files at once via data binding. Exporting the library component separately and excluding from the host files prevents it from being duplicated.
 
-![Image](/images/editor/libraries/11-library-wide-options.webp)
-
 <Note>Currently, the export behaviour for assets within a library component can only be set at the library level, not per component. To do so, set the panel display mode to Source/Type, and select the library item in the asset panel.</Note>
+
+![Image](/images/editor/libraries/11-library-wide-options.webp)
 
 ## Unpublishing a Library
 Use the **Unpublish Library** action in the file menu to prevent other files from continuing to access the library and its components. Any components that were already imported before a library is unpublished remain accessible to the host file. Unpublishing only prevents a library from being accessible any further. You may also republish a library at any time.
