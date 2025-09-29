@@ -18,7 +18,7 @@ export const Demos = ({
       title: 'Data Binding Artboards',
       description:
         'Swap an artboard with another artboard from the same .riv or one loaded at runtime.',
-      image: 'https://rive.app/docs/images/runtimes/rive-data-bind-components.webp',
+      image: '/images/runtimes/rive-data-bind-components.webp',
       links: {
         web: 'https://codesandbox.io/p/sandbox/rive-js-data-binding-artboards-jx3pf9?file=%2Fsrc%2Findex.mjs%3A5%2C19',
         react:
@@ -30,7 +30,7 @@ export const Demos = ({
       title: 'Data Binding Images',
       description:
         'Replace images at runtime using data binding images with javascript.',
-      image: 'https://rive.app/docs/images/runtimes/rive-db-images.webp',
+      image: '/images/runtimes/rive-db-images.webp',
       links: {
         web: 'https://codesandbox.io/p/sandbox/objective-cohen-sqwh9q',
         flutter: 'https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_images.dart'
@@ -38,8 +38,8 @@ export const Demos = ({
     },
     dataBindingLists: {
       title: 'Data Binding Lists',
-      description: 'Add, remove, edit, and swap items in your data binding list',
-      image: 'https://rive.app/docs/images/runtimes/rive-db-lists.webp',
+      description: 'Add, remove, edit, and swap items in your data binding list.',
+      image: '/images/runtimes/rive-db-lists.webp',
       links: {
         web: 'https://codesandbox.io/p/sandbox/suspicious-hertz-2lg4m8?file=%2Fsrc%2Findex.ts',
         react:
@@ -49,7 +49,7 @@ export const Demos = ({
     },
     dataBindingQuickStart: {
       title: "Data Binding Quick Start",
-      description: "Get started with Data Binding at runtime",
+      description: "Get started with Data Binding at runtime.",
       image: "/images/runtimes/rewards.gif",
       links: {
         flutter: "https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding.dart",
@@ -60,8 +60,11 @@ export const Demos = ({
     },
     googleAppAds: {
       title: "Google App Ads",
-      description: "How to make an interactive Google App with Rive",
-
+      description: "How to make an interactive Google App with Rive.",
+      image: "/images/runtimes/google-app-ads.png",
+      links: {
+        web: "https://github.com/rive-app/rive-use-cases/tree/main/rive-google-ads"
+      }
     },
     layouts: {
       title: "Responsive Layouts",
@@ -79,7 +82,7 @@ export const Demos = ({
     fontsHostedCompressed: {
       title: 'Load a Compressed Font for Web',
       description: 'Dynamically load a font asset from a hosted location with compression.',
-      image: 'https://rive.app/docs/images/runtimes/brotli-compressed-fonts.webp',
+      image: '/images/runtimes/brotli-compressed-fonts.webp',
       links: {
         react:
           'https://codesandbox.io/p/sandbox/prod-sound-6yc5xl?file=%2Fsrc%2FApp.tsx%3A19%2C1',
@@ -87,7 +90,7 @@ export const Demos = ({
     },
     quickStart: {
       title: "Quick Start",
-      image: 'https://rive.app/docs/images/runtimes/quick-start.gif',
+      image: '/images/runtimes/quick-start.gif',
       description: 'Load and control your Rive (.riv) file.',
       links: {
         web: 'https://codesandbox.io/p/sandbox/rive-quick-start-js-xmwcm6?file=%2Fsrc%2Findex.ts',
@@ -103,7 +106,7 @@ export const Demos = ({
   */
   const runtimesInOrder = ['web', 'react', 'reactNative', 'flutter', 'apple', 'android', 'unity', 'unreal']
   const runtimeTitles = {
-    web: 'Web (TS)',
+    web: 'Web',
     react: 'React',
     reactNative: "React Native",
     flutter: 'Flutter',
@@ -188,7 +191,7 @@ export const Demos = ({
       <a
         href={link }
         target="_blank"
-        className="border border-neutral-600 hover:border-white rounded-[4px] text-14 py-1 px-5 mr-[10px] mb-[10px]"
+        className="cursor-pointer border border-neutral-600 hover:border-white rounded-[4px] text-14 py-1 px-5 mr-[10px] mb-[10px]"
       >
         {runtimeTitles[runtime]}
       </a>
@@ -216,6 +219,16 @@ export const Demos = ({
     )
   }
 
+  // TO DO: Temporary solution until Mintlify fixes variables as src
+  const getSrc = (imageSrc) => {
+    //
+    if (location.hostname === "localhost" && imageSrc.startsWith("/images/")) {
+      return imageSrc
+    }
+
+    return `https://rive.app/docs${imageSrc}`
+  }
+
   return (
     <div className={`
         card-group not-prose grid gap-x-4
@@ -238,7 +251,11 @@ export const Demos = ({
               <div className="absolute inset-0">
                 {
                   image && (
-                    <img alt={title} className="w-full object-cover object-center" src={image} />
+                    <img
+                      alt={title}
+                      className="w-full object-cover object-center"
+                      src={getSrc(image)}
+                    />
                   )
                 }
 
