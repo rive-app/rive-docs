@@ -1,7 +1,7 @@
 ---
-title: 'State Machine Overview'
-sidebarTitle: 'Overview'
-description: 'Add intelligence to your animations.'
+title: "State Machine Overview"
+sidebarTitle: "Overview"
+description: "Add intelligence to your animations."
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
@@ -33,6 +33,17 @@ States are simply timeline animations that can play in your state machine. Typic
 Once we have defined the States of our content, we can tie them together with transitions to create a logical path that our State Machine can take through these different timelines. We’re creating a map that our State Machine can use to get from one animation to the next.
 
 ![Creating Transitions](https://ucarecdn.com/cf0f53e3-abc9-43a9-b43a-e18483fe2613/)
+
+<Warning>
+  **DEPRECATION NOTICE:** This entire page documents the legacy Inputs system.
+  **For new projects:** Use [Data Binding](/editor/data-binding) instead. **For
+  existing projects:** Plan to migrate from Inputs to Data Binding as soon as
+  possible. **This content is provided for legacy support only.**
+</Warning>
+
+Inputs are a legacy tool to control transitions in our state machine. While Inputs can still be used to control transitions, Data Binding is considered best practice since View Models are both more powerful and easier to control at runtime. 
+
+The best use for Inputs is quick, prototype interactions that you don't plan to migrate to runtime.
 
 Inputs are the contract between designers and developers. As designers, we use them as rules for our transitions to occur. For example, we could have a boolean called isHovered. That boolean controls the transition between our idle and hovered state. When the boolean is true, the state machine is in the hovered state, and when it is false, the state machine is in the Idle state. Developers tie into these inputs at runtime and define actions that control the state machines inputs I.E. defining hit areas that can change the isHovered boolean.
 
