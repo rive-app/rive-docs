@@ -7,7 +7,7 @@ description: "Publish your components with dynamic data once, and reuse them eve
 ## Introduction
 Libraries facilitate the sharing of [components](editor/fundamentals/components) and their view models across Rive files. In the past, you may have relied on nested artboards and copy-paste workflows to share elements. This works for individuals, but breaks down at scale: exports bloat, versions drift, and teams lose track of changes.
 
-Libraries provide:
+With Libraries:
 
 - Components can be published and reused across project files.
 - Updates flow downstream with version history and change notifications.
@@ -31,7 +31,7 @@ To start using components and view models from a published library, select the l
 
 ![Image](/images/editor/libraries/05-browse.webp)
 
-<Note>Currently, a Rive file can only access libraries contained within the same project. Cross-project — or workspace — libraries are coming soon. Furthermore, we also plan to introduce public libraries soon after that.</Note>
+<Note>Currently, a Rive file can only access libraries contained within the same project. Cross-project — or workspace — libraries are coming soon. Public libraries are planned soon after that.</Note>
 
 Selecting a library listed in the panel will present its available components, view models, and enums. Choose the elements you'd like to add to your file, and use the **Add to File** action in the inspector to import them.
 
@@ -81,6 +81,6 @@ You may want to adjust these options to suit your needs at runtime as opposed to
 ![Image](/images/editor/libraries/11-library-wide-options.webp)
 
 ## Unpublishing a Library
-Use the **Unpublish Library** action in the file menu to prevent other files from continuing to access the library and its components. Any components that were already imported before a library is unpublished remain accessible to the host file. Unpublishing only prevents a library from being accessible any further. You may also republish a library at any time.
+Use the **Unpublish Library** action in the file menu to prevent additional files from accessing the library and its components. Unpublishing does not remove library components from host files that had already imported them. Host files that have imported library components will retain access to previously published versions of the library. You may republish a library at any time.
 
 ![Image](/images/editor/libraries/14-unpublish.webp)
