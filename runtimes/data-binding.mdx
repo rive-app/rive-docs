@@ -1789,11 +1789,11 @@ Image properties let you set and replace raster images at runtime, with each ins
             // or alternatively:
             // imageProperty = viewModelInstance.GetProperty<ViewModelInstanceImageProperty>("profileImage");
 
-            // Set up change callback
-            imageProperty.OnValueChanged += OnImageChanged;
+        // Set up change callback
+        imageProperty.OnValueChanged += OnImageChanged;
 
-            // Set initial image (light mode)
-            imageProperty.SetImage(m_lightImageAsset);
+        // Set initial image (light mode)
+        imageProperty.Value = m_lightImageAsset;
         }
     }
 
@@ -1802,22 +1802,22 @@ Image properties let you set and replace raster images at runtime, with each ins
         Debug.Log("Image updated!");
     }
 
-    // Example method to toggle between light and dark mode images
-    public void ToggleTheme()
+// Example method to toggle between light and dark mode images
+public void ToggleTheme()
+{
+    if (imageProperty != null)
     {
-        if (imageProperty != null)
-        {
-            isDarkMode = !isDarkMode;
-            imageProperty.SetImage(isDarkMode ? m_darkImageAsset : m_lightImageAsset);
-        }
+        isDarkMode = !isDarkMode;
+        imageProperty.Value = isDarkMode ? m_darkImageAsset : m_lightImageAsset;
     }
+}
 
     // Example method to clear the image
     public void ClearImage()
     {
         if (imageProperty != null)
         {
-            imageProperty.SetImage(null);
+            imageProperty.Value = null;
         }
     }
 
