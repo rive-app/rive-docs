@@ -1789,11 +1789,11 @@ Image properties let you set and replace raster images at runtime, with each ins
             // or alternatively:
             // imageProperty = viewModelInstance.GetProperty<ViewModelInstanceImageProperty>("profileImage");
 
-        // Set up change callback
-        imageProperty.OnValueChanged += OnImageChanged;
+            // Set up change callback
+            imageProperty.OnValueChanged += OnImageChanged;
 
-        // Set initial image (light mode)
-        imageProperty.Value = m_lightImageAsset;
+            // Set initial image (light mode)
+            imageProperty.Value = m_lightImageAsset;
         }
     }
 
