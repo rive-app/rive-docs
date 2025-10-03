@@ -97,6 +97,14 @@ export const Demos = ({
         react: 'https://codesandbox.io/p/sandbox/rive-react-quick-start-4xy76h?file=%2Fsrc%2FApp.tsx%3A77%2C14',
         reactNative: 'https://github.com/rive-app/rive-react-native/blob/main/example/app/(examples)/QuickStart.tsx'
       }
+    },
+    starRating: {
+      title: "Android Quick Start",
+      image: "/images/runtimes/star-rating.webp",
+      description: "Get started with Data Binding for Android.",
+      links: {
+        android: "https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeActivity.kt"
+      }
     }
   }
 
