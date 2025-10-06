@@ -1,10 +1,11 @@
 export const Demos = ({
   examples,
   runtime,
+  columns = 2
 }) => {
   const examplesData = {
     cachingARiveFile: {
-      title: 'Demo: Caching a Rive File',
+      title: 'Caching a Rive File',
       description: 'Load the .riv into memory once, use it multiple times.',
       riv: 'https://static.rive.app/rivs/rives_animated_emojis.riv',
       stateMachines: "State Machine 1",
@@ -14,29 +15,31 @@ export const Demos = ({
       }
     },
     dataBindingArtboards: {
-      title: 'Demo: Data Binding Artboards',
+      title: 'Data Binding Artboards',
       description:
         'Swap an artboard with another artboard from the same .riv or one loaded at runtime.',
-      image: 'https://rive.app/docs/images/runtimes/rive-data-bind-components.webp',
+      image: '/images/runtimes/rive-data-bind-components.webp',
       links: {
         web: 'https://codesandbox.io/p/sandbox/rive-js-data-binding-artboards-jx3pf9?file=%2Fsrc%2Findex.mjs%3A5%2C19',
         react:
           'https://codesandbox.io/p/sandbox/rive-react-data-binding-artboards-kmvzh8?file=%2Fsrc%2FApp.tsx',
+        flutter: 'https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_artboards.dart'
       },
     },
     dataBindingImages: {
-      title: 'Demo: Data Binding Images',
+      title: 'Data Binding Images',
       description:
         'Replace images at runtime using data binding images with javascript.',
-      image: 'https://rive.app/docs/images/runtimes/rive-db-images.webp',
+      image: '/images/runtimes/rive-db-images.webp',
       links: {
         web: 'https://codesandbox.io/p/sandbox/objective-cohen-sqwh9q',
+        flutter: 'https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_images.dart'
       },
     },
     dataBindingLists: {
-      title: 'Demo: Data Binding Lists',
-      description: 'Add, remove, edit, and swap items in your data binding list',
-      image: 'https://rive.app/docs/images/runtimes/rive-db-lists.webp',
+      title: 'Data Binding Lists',
+      description: 'Add, remove, edit, and swap items in your data binding list.',
+      image: '/images/runtimes/rive-db-lists.webp',
       links: {
         web: 'https://codesandbox.io/p/sandbox/suspicious-hertz-2lg4m8?file=%2Fsrc%2Findex.ts',
         react:
@@ -44,14 +47,24 @@ export const Demos = ({
         flutter: 'https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_lists.dart'
       },
     },
-    fontsHostedCompressed: {
-      title: 'Demo: Load a Compressed Font for Web',
-      description: 'Dynamically load a font asset from a hosted location with compression.',
-      image: 'https://rive.app/docs/images/runtimes/brotli-compressed-fonts.webp',
+    dataBindingQuickStart: {
+      title: "Data Binding Quick Start",
+      description: "Get started with Data Binding at runtime.",
+      image: "/images/runtimes/rewards.gif",
       links: {
-        react:
-          'https://codesandbox.io/p/sandbox/prod-sound-6yc5xl?file=%2Fsrc%2FApp.tsx%3A19%2C1',
-      },
+        flutter: "https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding.dart",
+        reactNative: "https://github.com/rive-app/rive-react-native/blob/main/example/app/(examples)/DataBinding.tsx",
+        unity: "https://github.com/rive-app/rive-unity-examples/blob/main/getting-started/Assets/RewardsController.cs",
+        apple: "https://github.com/rive-app/rive-ios/blob/main/Example-iOS/Source/Examples/SwiftUI/RewardsView.swift"
+      }
+    },
+    googleAppAds: {
+      title: "Google App Ads",
+      description: "How to make an interactive Google App with Rive.",
+      image: "/images/runtimes/google-app-ads.png",
+      links: {
+        web: "https://github.com/rive-app/rive-use-cases/tree/main/rive-google-ads"
+      }
     },
     layouts: {
       title: "Responsive Layouts",
@@ -62,16 +75,35 @@ export const Demos = ({
       links: {
         web: "https://codesandbox.io/p/devbox/rive-responsive-layout-js-forked-m77nlw",
         react: "https://codesandbox.io/p/devbox/rive-responsive-layouts-react-forked-nmpv39?file=%2Fsrc%2FApp.tsx",
-        flutter: "https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/responsive_layouts.dart"
+        flutter: "https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/responsive_layouts.dart",
+        reactNative: 'https://github.com/rive-app/rive-react-native/blob/main/example/app/(examples)/ResponsiveLayout.tsx'
+      },
+    },
+    fontsHostedCompressed: {
+      title: 'Load a Compressed Font for Web',
+      description: 'Dynamically load a font asset from a hosted location with compression.',
+      image: '/images/runtimes/brotli-compressed-fonts.webp',
+      links: {
+        react:
+          'https://codesandbox.io/p/sandbox/prod-sound-6yc5xl?file=%2Fsrc%2FApp.tsx%3A19%2C1',
       },
     },
     quickStart: {
-      title: "Quick start demo",
-      image: 'https://rive.app/docs/images/runtimes/quick-start.gif',
+      title: "Quick Start",
+      image: '/images/runtimes/quick-start.gif',
       description: 'Load and control your Rive (.riv) file.',
       links: {
         web: 'https://codesandbox.io/p/sandbox/rive-quick-start-js-xmwcm6?file=%2Fsrc%2Findex.ts',
-        react: 'https://codesandbox.io/p/sandbox/rive-react-quick-start-4xy76h?file=%2Fsrc%2FApp.tsx%3A77%2C14'
+        react: 'https://codesandbox.io/p/sandbox/rive-react-quick-start-4xy76h?file=%2Fsrc%2FApp.tsx%3A77%2C14',
+        reactNative: 'https://github.com/rive-app/rive-react-native/blob/main/example/app/(examples)/QuickStart.tsx'
+      }
+    },
+    starRating: {
+      title: "Android Quick Start",
+      image: "/images/runtimes/star-rating.webp",
+      description: "Get started with Data Binding for Android.",
+      links: {
+        android: "https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeActivity.kt"
       }
     }
   }
@@ -80,11 +112,11 @@ export const Demos = ({
   /*
     No need to edit below this line
   */
-  const runtimesInOrder = ['web', 'react', 'react-native', 'flutter', 'apple', 'android', 'unity', 'unreal']
+  const runtimesInOrder = ['web', 'react', 'reactNative', 'flutter', 'apple', 'android', 'unity', 'unreal']
   const runtimeTitles = {
-    web: 'Web (TS)',
+    web: 'Web',
     react: 'React',
-    'react-native': "React Native",
+    reactNative: "React Native",
     flutter: 'Flutter',
     apple: 'Apple',
     android: 'Android',
@@ -167,7 +199,7 @@ export const Demos = ({
       <a
         href={link }
         target="_blank"
-        className="border border-neutral-600 hover:border-white rounded-[4px] text-14 py-1 px-5 mr-[10px] mb-[10px]"
+        className="cursor-pointer border border-neutral-600 hover:border-white rounded-[4px] text-14 py-1 px-5 mr-[10px] mb-[10px]"
       >
         {runtimeTitles[runtime]}
       </a>
@@ -175,28 +207,44 @@ export const Demos = ({
   }
 
   const CardContainer = ({ children, link }) => {
-   if (link) {
-     return (
-       <a
-         href={link}
-         className="card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full cursor-pointer hover:!border-primary dark:hover:!border-primary-light"
-       >
-         {children}
-       </a>
-     )
-   }
+    if (link) {
+      return (
+        <a
+          href={link}
+          className="card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full cursor-pointer hover:!border-primary dark:hover:!border-primary-light"
+        >
+          {children}
+        </a>
+      )
+    }
 
-   return (
-     <div
-       className="flex flex-col card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full"
-     >
-       {children}
-     </div>
-   )
+    return (
+      <div
+        className="flex flex-col card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full"
+      >
+        {children}
+      </div>
+    )
+  }
+
+  // TO DO: Temporary solution until Mintlify fixes variables as src
+  const getSrc = (imageSrc) => {
+    //
+    if (location.hostname === "localhost" && imageSrc.startsWith("/images/")) {
+      return imageSrc
+    }
+
+    return `https://rive.app/docs${imageSrc}`
   }
 
   return (
-    <Columns cols={2}>
+    <div className={`
+        card-group not-prose grid gap-x-4
+        grid-cols-1
+        ${columns >= 2 && "md:grid-cols-2"}
+        ${columns >= 3 && "xl:grid-cols-3 xl:w-[67rem] xl:max-w-[calc(100vw-25rem)]"}
+      `
+    }>
       {examples.map((example) => {
         const { title, image, links, description, riv } = examplesData[example]
         const canvasId = `rive-canvas-${example}`
@@ -211,7 +259,11 @@ export const Demos = ({
               <div className="absolute inset-0">
                 {
                   image && (
-                    <img alt={title} className="w-full object-cover object-center not-prose" src={image} />
+                    <img
+                      alt={title}
+                      className="w-full object-cover object-center"
+                      src={getSrc(image)}
+                    />
                   )
                 }
 
@@ -223,6 +275,15 @@ export const Demos = ({
               </div>
             </div>
             <div className="flex flex-grow flex-col px-6 py-5 relative" data-component-part="card-content-container">
+              {
+                runtime && (
+
+                  <div id="card-link-arrow-icon" className="absolute text-gray-400 dark:text-gray-500 group-hover:text-primary dark:group-hover:text-primary-light top-5 right-5">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-arrow-up-right w-4 h-4"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg>
+                  </div>
+                )
+              }
+
               <div className="flex flex-col grow">
                 <h2 className="not-prose font-semibold text-base text-gray-800 dark:text-white" data-component-part="card-title">{ title }</h2>
 
@@ -249,6 +310,6 @@ export const Demos = ({
           </CardContainer>
         )
       })}
-    </Columns>
+    </div>
   )
 }
