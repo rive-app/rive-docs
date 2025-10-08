@@ -6,6 +6,9 @@ mode: 'wide'
 ---
 
 import { Demos } from '/snippets/demos.jsx'
+import { RiveCard } from '/snippets/rive-card.jsx'
+import { ExampleEyeFollow } from '/snippets/example-eye-follow.jsx'
+
 
 <Demos
   examples={[
@@ -20,5 +23,17 @@ import { Demos } from '/snippets/demos.jsx'
     "dataBindingLists",
     "googleAppAds"
   ]}
-  columns={4}
-/>
+  columns={3}
+  childrenIndex={4}
+>
+  <RiveCard
+    title="Follow the Cursor"
+    description="Track the cursor, even if it's outside the bounds of the Rive instance."
+    links={{
+      web: "https://codesandbox.io/p/sandbox/rive-web-track-your-mouse-n38gdd"
+    }}
+  >
+    <ExampleEyeFollow />
+  </RiveCard>
+</Demos>
+

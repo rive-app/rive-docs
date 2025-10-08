@@ -1,0 +1,123 @@
+import { useEffect, useState } from "react";
+
+export const ExampleEyeFollow = () => {
+  const [riveReady, setRiveReady] = useState(false);
+
+  useEffect(() => {
+    // If already loaded (e.g., cached)
+    if (window.rive) {
+      setRiveReady(true);
+      return;
+    }
+
+    // Otherwise, wait for script load
+    const checkRive = () => {
+      if (window.rive) {
+        setRiveReady(true);
+        window.removeEventListener("rive-loaded", checkRive);
+      }
+    };
+
+    // You can dispatch your own event from the global loader
+    window.addEventListener("rive-loaded", checkRive);
+
+    return () => {
+      window.removeEventListener("rive-loaded", checkRive);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (riveReady) {
+      const rive = window.rive;
+
+      const mapCursorToRange = (position, dimension) => {
+        // Clamp to canvas bounds and map to 0-100
+        const clampedPosition = Math.max(0, Math.min(position, dimension));
+        return (clampedPosition / dimension) * 100;
+      };
+
+      let handleMouseMove = () => {}
+      let handleMouseLeave = () => {}
+
+      const r = new rive.Rive({
+        src: "/assets/rivs/cat_follow_cursor_demo.riv",
+        stateMachines: "State Machine 1",
+        canvas: document.getElementById("riveCanvas"),
+        autoplay: true,
+        autoBind: true,
+        Layout: new rive.Layout({
+          fit: rive.Fit.Contain,
+        }),
+        onLoad: () => {
+          r.resizeDrawingSurfaceToCanvas();
+
+          const vmi = r.viewModelInstance;
+          if (!vmi) return;
+
+          const xProperty = vmi.number("xPos");
+          const yProperty = vmi.number("yPos");
+
+          // Set the x and y values to 50 initially so the character is looking forward
+          if (xProperty) {
+            xProperty.value = 50;
+          }
+          if (yProperty) {
+            yProperty.value = 50;
+          }
+
+          // Mouse move event handler to update the x and y values as the cursor moves in the window
+          handleMouseMove = (event) => {
+            // Get canvas position and dimensions
+            const rect = riveCanvas.getBoundingClientRect();
+
+            // Calculate cursor position relative to canvas
+            const canvasX = event.clientX - rect.left;
+            const canvasY = event.clientY - rect.top;
+
+            // Map cursor position to 0-100 range based on canvas dimensions
+            // This accounts for canvas position in the window
+            const xValue = mapCursorToRange(canvasX, rect.width);
+            const yValue = mapCursorToRange(canvasY, rect.height);
+
+            // Update the view model properties
+            if (xProperty) {
+              xProperty.value = xValue;
+            }
+            if (yProperty) {
+              yProperty.value = yValue;
+            }
+          };
+
+          handleMouseLeave = () => {
+            if (xProperty) xProperty.value = 50;
+            if (yProperty) yProperty.value = 50;
+          }
+
+          // Add mouse move listener to the entire window
+          window.addEventListener("mousemove", handleMouseMove);
+
+          // Set x and y values back to 50 when the cursor leaves the window
+          document.addEventListener("mouseleave", handleMouseLeave);
+        },
+      });
+
+
+      window.addEventListener("resize", () => {
+        r.resizeDrawingSurfaceToCanvas();
+      });
+
+      return () => {
+        window.removeEventListener("resize", () => {
+          r.resizeDrawingSurfaceToCanvas();
+        });
+
+        window.removeEventListener("mousemove", handleMouseMove);
+
+        window.removeEventListener("mouseleave", handleMouseLeave);
+      };
+
+    }
+  }, [riveReady]);
+
+  return <canvas id="riveCanvas" style={{ width: "100%", height: "100%", backgroundColor: "#ADBCC6"  }} />;
+};
