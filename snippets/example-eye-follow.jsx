@@ -40,7 +40,7 @@ export const ExampleEyeFollow = () => {
       let handleMouseLeave = () => {}
 
       const r = new rive.Rive({
-        src: "/assets/rivs/cat_follow_cursor_demo.riv",
+        src: "https://static.rive.app/rivs/cat_follow_cursor_demo.riv",
         stateMachines: "State Machine 1",
         canvas: document.getElementById("riveCanvas"),
         autoplay: true,
