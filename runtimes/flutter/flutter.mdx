@@ -5,6 +5,7 @@ description: "Flutter runtime for Rive."
 
 import NoteOnFeatureSupport from "/snippets/runtimes/rendering-feature-support.mdx";
 import Interaction from "/snippets/runtimes/animation-control-and-interaction.mdx";
+import { Demos } from '/snippets/demos.jsx'
 
 <NoteOnFeatureSupport />
 
@@ -29,6 +30,9 @@ This guide documents how to use the Rive Flutter runtime to easily integrate Riv
 ## Quick start
 
 See our [example app](https://github.com/rive-app/rive-flutter/tree/master/example).
+
+
+<Demos examples={['dataBindingQuickStart']} runtime="flutter" />
 
 ## Getting started
 
@@ -79,7 +83,7 @@ Future<void> main() async {
 }
 ```
 
-  </Step>  
+  </Step>
   <Step title="Add a Rive widget">
     There are several ways to render Rive graphics in Flutter. We recommend using the `RiveWidget`, and optionally the `RiveWidgetBuilder`, or `RivePanel`.
     - `RiveWidget` is responsible for rendering the graphic and exposing common view configuration.
@@ -285,7 +289,7 @@ Future<void> main() async {
     final fileLoader = FileLoader.fromFile(existingFile, riveFactory: Factory.rive);
     ```
 
-  </Step>   
+  </Step>
 </Steps>
 
 ## Key components
