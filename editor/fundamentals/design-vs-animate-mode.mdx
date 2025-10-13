@@ -5,28 +5,23 @@ description: "The Rive Editor has two distinct modes, Design and Animate. Switch
 
 ## Design Mode
 
-
 Use Design Mode to prepare your graphics for animation. This is where you can design your own graphics with Rive's [tools](../interface-overview/toolbar), [import graphics from other software](./importing-assets), or rig your graphics with [bones](../manipulating-shapes/bones), [transform spaces](./transform-spaces), [layouts](https://rive.app/docs/editor/layouts/layouts-overview), [joysticks](https://rive.app/docs/editor/manipulating-shapes/joysticks), and [constraints](../constraints/).
 
-
-![Image](/images/editor/fundamentals/20e1fd48-e050-46b1-a657-b7c2bd00e988.webp)
+![Image](/Design_Mode.png)
 
 Design Mode is the default mode for any file that doesn't have any animations created. The mode exists because Rive allows you to attach multiple animations to a single artboard, so you need a place to set up and create those graphics.
 
 ## Animate Mode
 
-
 Use [Animate Mode](../animate-mode/) to create all of the [States](https://rive.app/docs/editor/state-machine/states) and [State Machine](../state-machine/) for your artboard.
 
-
-Animate Mode
-
-![Image](/images/editor/fundamentals/717ebbbc-e4e9-4f90-8124-d5a4043bcb3c.webp)
-
+![Image](/Animate_Mode.png)
 
 When you switch to Animate Mode, the UI updates to display a list of Timelines and State Machine associated with the [active artboard](./artboards#active-artboard). The [Inspector](https://rive.app/docs/editor/interface-overview/inspector) also updates to show key buttons next to any property that can be animated.
 
 Selecting any Animation from the Animations list will bring up a timeline view, while selecting a state machine will replace the timeline with the graph view.
+
+![State Machine Pn](/images/editor/fundamentals/State_Machine.png)
 
 ## Creating Assets in Animate Mode
 
@@ -34,4 +29,3 @@ While there are separate modes, graphics can be created and changed in both mode
 
 1. If a Timeline is selected, graphics, both procedural and custom paths, can be created. While graphics can be created, any changes to the path, shape, or its properties will automatically be keyed on the timeline. Because of this, we recommend not making any assets when a timeline is selected.
 2. Animate Mode works like Design Mode if a State Machine is selected. Asset creation, rigging, and other design changes will not be automatically keyed. This lets you make any design changes you want without switching between the different modes, though you do lose some screen real estate due to the graph. We recommend making vast changes in Design mode while using Animate mode only to add quick adjustments like hitboxes or layouts.
-
