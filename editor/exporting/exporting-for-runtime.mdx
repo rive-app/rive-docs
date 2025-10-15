@@ -3,13 +3,13 @@ title: 'Exporting for Runtime'
 description: ''
 ---
 
+<Note>Exporting for runtime is only availble on paid plans. [Learn more about our plans and pricing](https://rive.app/pricing).</Note>
+
 To export a file for runtime, select the blue export action on the right-hand side of the toolbar or navigate to `Export` &gt; `For runtime` via the left-hand toolbar menu. You can load the exported `.riv` file into your app, game, or website via any of our [open source runtimes](/runtimes/).
 
 ![Image](/images/editor/exporting/94fc0d7c-cc7e-4b17-a6f7-0a00c98db70e.webp)
 
-<Note>As of June 2024 we've made changes to the way object names are exported.</Note>
-
-## Changes to exporting object names 
+## Changes to exporting object names
 
 You may need to access certain objects at runtime, such as a text run to swap a string, or a component to access its inputs. In order to make these objects discoverable at runtime, you'll need to explicitly set it's name to be exported.
 
@@ -23,11 +23,11 @@ To export a name, right-click on it in the hierarchy or on the stage and toggle 
 
 <Note>Animations, State Machines, Events, and Input names do not require manual export.</Note>
 
-### Benefits of optimizing your names 
+### Benefits of optimizing your names
 
 Exporting an object's name into your `.riv` adds a small amount of data. For large, complex files, the name data can start to add up. For that reason, it's desirable to only export the names you need to reference at runtime.
 
-### Files created before the introduction of explicit export 
+### Files created before the introduction of explicit export
 
 For files created before this toggle was implemented, we assume any renamed object needs to be discoverable at runtime. That means you may notice a lot of items in your hierarchy being displayed inside brackets when opening an existing file. If, however, you'd prefer to not export the names and make your export size smaller, you can take these steps:
 
