@@ -4,11 +4,12 @@ description: 'Binding Rive Data to Unity and vice versa'
 ---
 
 import LegacyApiNotice from '/snippets/unity/legacy-api-notice.mdx';
+import { Demos } from '/snippets/demos.jsx'
 
-# Quick Start
 
 Data binding allows you to establish connections between your Unity code and your Rive graphics. This creates a two-way reactive system where changes in your code affect the Rive design, and changes in the design can trigger responses in your code.
 
+<Demos examples={['dataBindingQuickStart']} runtime="unity" />
 
 <Tabs>
   <Tab title="Component API (Recommended)">
@@ -39,7 +40,7 @@ using Rive.Components;
 public class DataBindingExample : MonoBehaviour
 {
     [SerializeField] private RiveWidget riveWidget;
-    
+
     private ViewModelInstanceNumberProperty numberProperty;
     private ViewModelInstanceStringProperty stringProperty;
     private ViewModelInstanceBooleanProperty boolProperty;
@@ -55,7 +56,7 @@ public class DataBindingExample : MonoBehaviour
     private void OnDisable()
     {
         riveWidget.OnWidgetStatusChanged -= HandleWidgetStatusChanged;
-        
+
     }
 
     private void HandleWidgetStatusChanged()
@@ -64,7 +65,7 @@ public class DataBindingExample : MonoBehaviour
         if (riveWidget.Status == WidgetStatus.Loaded)
         {
             ViewModelInstance viewModelInstance = riveWidget.StateMachine.ViewModelInstance;
-            
+
             //==========================================================================
             // STRING PROPERTIES
             //==========================================================================
@@ -72,7 +73,7 @@ public class DataBindingExample : MonoBehaviour
             Debug.Log($"String value: {stringProperty.Value}");
             stringProperty.Value = "New Text";
             stringProperty.OnValueChanged += OnStringPropertyChanged;
-            
+
             //==========================================================================
             // NUMBER PROPERTIES
             //==========================================================================
@@ -80,7 +81,7 @@ public class DataBindingExample : MonoBehaviour
             Debug.Log($"Number value: {numberProperty.Value}");
             numberProperty.Value = 42.5f;
             numberProperty.OnValueChanged += OnNumberPropertyChanged;
-            
+
             //==========================================================================
             // BOOLEAN PROPERTIES
             //==========================================================================
@@ -88,7 +89,7 @@ public class DataBindingExample : MonoBehaviour
             Debug.Log($"Boolean value: {boolProperty.Value}");
             boolProperty.Value = true;
             boolProperty.OnValueChanged += OnBoolPropertyChanged;
-            
+
             //==========================================================================
             // COLOR PROPERTIES
             //==========================================================================
@@ -100,7 +101,7 @@ public class DataBindingExample : MonoBehaviour
             Color32 currentColor32 = colorProperty.Value32;
             colorProperty.Value32 = new Color32(0, 255, 0, 255); // Green color
             colorProperty.OnValueChanged += OnColorPropertyChanged;
-            
+
             //==========================================================================
             // ENUM PROPERTIES
             //==========================================================================
@@ -109,7 +110,7 @@ public class DataBindingExample : MonoBehaviour
             Debug.Log($"Enum available values: {string.Join(", ", enumProperty.EnumValues)}");
             enumProperty.Value = "option_name";
             enumProperty.OnValueChanged += OnEnumPropertyChanged;
-            
+
             //==========================================================================
             // TRIGGER PROPERTIES
             //==========================================================================
@@ -159,7 +160,7 @@ public class DataBindingExample : MonoBehaviour
         if (enumProperty != null) enumProperty.OnValueChanged -= OnEnumPropertyChanged;
         if (triggerProperty != null) triggerProperty.OnTriggered -= OnTriggerPropertyFired;
     }
-    
+
 }
 ```
 
@@ -170,9 +171,9 @@ Explore the **RewardsDataBinding** scene in the [getting-started example project
 
 <LegacyApiNotice />
 
- If you choose to use the low-level API to control the render loop, you'll need to manually set up data binding in your scripts. 
- 
- For reference, check this [RiveScreen example](https://github.com/rive-app/rive-unity/blob/main/examples/basic/Assets/GameRuntime/RiveScreen.cs) that demonstrates one way to implement auto binding in a custom render loop.  
+ If you choose to use the low-level API to control the render loop, you'll need to manually set up data binding in your scripts.
+
+ For reference, check this [RiveScreen example](https://github.com/rive-app/rive-unity/blob/main/examples/basic/Assets/GameRuntime/RiveScreen.cs) that demonstrates one way to implement auto binding in a custom render loop.
 
 <Note>
 Using the low-level API requires additional implementation effort and understanding of the Rive runtime. Unless you have a specific need to setup a custom render loop, we recommend using the Component API.

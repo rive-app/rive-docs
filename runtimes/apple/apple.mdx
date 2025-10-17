@@ -4,8 +4,11 @@ description: 'Apple runtime for Rive. '
 ---
 
 import NoteOnFeatureSupport from "/snippets/runtimes/rendering-feature-support.mdx"
+import { Demos } from '/snippets/demos.jsx'
 
 <NoteOnFeatureSupport/>
+
+<Demos examples={['dataBindingQuickStart']} runtime="apple" />
 
 ## Overview
 
@@ -19,7 +22,7 @@ The minimum iOS target is **14.0,** and the target for macOS is `13.1`
  **Note:** macOS runtime support is included in `v4.0.1+`
 </Note>
 
-## Example App
+
 
 You can run our Apple example app from the Rive GitHub repository.
 
@@ -45,7 +48,7 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
         pod 'RiveRuntime'
         ```
 
-        #### Via Swift Package Manager 
+        #### Via Swift Package Manager
 
         To install via Swift Package Manager, in the package finder in Xcode, search for `rive-ios` or the full Github path: `https://github.com/rive-app/rive-ios`
     </Step>
@@ -101,7 +104,7 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
         }
         ```
 
-        #### UIKit - Programmatic 
+        #### UIKit - Programmatic
 
         #### Set up RiveViewModel w/ Controller from scratch in code
 
@@ -110,7 +113,7 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
         ```javascript
         class AnimationViewController: UIViewController {
             var simpleVM = RiveViewModel(fileName: "cool_rive_animation")
-            
+
             override func viewWillAppear(_ animated: Bool) {
                 let riveView = simpleVM.createRiveView()
                 view.addSubview(riveView)
