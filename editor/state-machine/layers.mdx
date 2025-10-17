@@ -1,7 +1,11 @@
 ---
-title: 'Layers'
-description: ''
+title: "Layers"
+description: "Layers let you build more complex logic and animation with the state machine. "
 ---
+
+import { YouTube } from '/snippets/youtube.mdx'
+
+<YouTube id="7Vb1LosMzwk" />
 
 A layer on the state machine allows you to play a single animation at a time. For this reason, you can create multiple layers if you wish to mix multiple animations or add additional interactions to a state machine.
 
@@ -9,20 +13,45 @@ This example uses layers to mix different background animations, and add multipl
 
 ![Using multiple Layers](https://ucarecdn.com/aeedde5a-598f-42b3-a5df-81212757395e/)
 
-### Creating a new layer 
+### Creating a new layer
 
 To create a new layer, use the plus button on the Layers Tab.
 
-![Add a new Layer](https://ucarecdn.com/a6d3e96f-a049-40fd-8ec5-f85301c76a7d/)
+![Add a new Layer](/images/editor/state-machine/state-machine-layer-create.gif)
 
 Notice that each new tab that you create comes with the Default States.
 
 ### Layer Order
 
-It may not be obvious, but the order of your Layers matter with Layers to the right taking priority over the Layers to the left. In most cases, this won’t matter, but if your Layers have States that control the same object, the animations in the right most layer will take priority over the layers to the left as they mix.
+It may not be obvious, but the order of your Layers matter, with Layers to the right taking priority over the Layers to the left. In most cases, this won’t matter, but if your Layers have States that control the same object properties, the animations in the right most layer will take priority over the layers to the left as they mix.
+
+<YouTube id="Fc9MutscvAo" />
 
 **Changing layer order**
 
 You can change the layer order by dragging and dropping your layers around on the Layers tab.
 
-![Move layers](https://ucarecdn.com/5826dbf5-6762-424e-a347-65557cebfdbd/)
+<img
+  src="/images/editor/state-machine/state-machine-layer-order.gif"
+  alt="Move layers"
+  title=""
+  style={{ width:"100%" }}
+/>
+
+**Delete layer**
+
+You can delete a layer with right click over the name and selecting the option "Delete Layer".
+
+![Delete layer](/images/editor/state-machine/state-machine-layer-delete.gif)
+
+**Duplicate layer**
+
+You can delete a layer with right click over the name and selecting the option "Delete Layer".
+
+![Duplicate layer](/images/editor/state-machine/state-machine-layer-duplicate.gif)
+
+**Disable and Enable layer**
+
+You can delete a layer with right click over the name and selecting the option "Delete Layer".
+
+![Disable and Enable layer](/images/editor/state-machine/state-machine-layer-disable.gif)
