@@ -16,7 +16,8 @@ export const Demos = ({
       stateMachines: "State Machine 1",
       artboard: "Emoji_package",
       links: {
-        web: "https://codesandbox.io/p/sandbox/rive-js-caching-a-rive-file-g675my?file=%2Fsrc%2Findex.ts%3A9%2C1"
+        web: "https://codesandbox.io/p/sandbox/rive-js-caching-a-rive-file-g675my?file=%2Fsrc%2Findex.ts%3A9%2C1",
+        react: "https://codesandbox.io/p/sandbox/rive-react-caching-a-rive-file-53gmdf?file=%2Fsrc%2FApp.tsx"
       }
     },
     dataBindingArtboards: {
