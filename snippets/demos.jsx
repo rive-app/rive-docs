@@ -141,7 +141,7 @@ export const Demos = ({
   ]
   const runtimeTitles = {
     web: 'Web',
-    reactJs: 'React (JS Runtime)',
+    reactJs: 'React (Imperative)',
     react: 'React',
     reactNative: "React Native",
     flutter: 'Flutter',
