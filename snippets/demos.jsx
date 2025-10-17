@@ -68,7 +68,7 @@ export const Demos = ({
       description: "How to make an interactive Google App with Rive.",
       image: "/images/runtimes/google-app-ads.png",
       links: {
-        web: "https://github.com/rive-app/rive-use-cases/tree/main/rive-google-ads"
+        mobile: "https://github.com/rive-app/rive-use-cases/tree/main/rive-google-ads"
       }
     },
     layouts: {
@@ -100,7 +100,17 @@ export const Demos = ({
       links: {
         web: 'https://codesandbox.io/p/sandbox/rive-quick-start-js-xmwcm6?file=%2Fsrc%2Findex.ts',
         react: 'https://codesandbox.io/p/sandbox/rive-react-quick-start-4xy76h?file=%2Fsrc%2FApp.tsx%3A77%2C14',
+        reactJs: 'https://codesandbox.io/p/devbox/rive-react-vanilla-js-quick-start-kz66t4?file=%2Fsrc%2FApp.tsx%3A53%2C7',
         reactNative: 'https://github.com/rive-app/rive-react-native/blob/main/example/app/(examples)/QuickStart.tsx'
+      }
+    },
+    quickStartReact: {
+      title: "Quick Start",
+      image: '/images/runtimes/quick-start.gif',
+      description: 'Load and control your Rive (.riv) file.',
+      links: {
+        react: 'https://codesandbox.io/p/sandbox/rive-react-quick-start-4xy76h?file=%2Fsrc%2FApp.tsx%3A77%2C14',
+        reactJs: 'https://codesandbox.io/p/devbox/rive-react-vanilla-js-quick-start-kz66t4?file=%2Fsrc%2FApp.tsx%3A53%2C7',
       }
     },
     starRating: {
@@ -117,16 +127,29 @@ export const Demos = ({
   /*
     No need to edit below this line
   */
-  const runtimesInOrder = ['web', 'react', 'reactNative', 'flutter', 'apple', 'android', 'unity', 'unreal']
+  const runtimesInOrder = [
+    'web',
+    'react',
+    'reactJs',
+    'reactNative',
+    'flutter',
+    'apple',
+    'android',
+    'unity',
+    'unreal',
+    'mobile'
+  ]
   const runtimeTitles = {
     web: 'Web',
+    reactJs: 'React (JS Runtime)',
     react: 'React',
     reactNative: "React Native",
     flutter: 'Flutter',
     apple: 'Apple',
     android: 'Android',
     unity: 'Unity',
-    unreal: 'Unreal'
+    unreal: 'Unreal',
+    mobile: 'Mobile'
   }
 
   // Keep track of Rive instances for when the window resizes
