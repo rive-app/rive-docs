@@ -63,6 +63,14 @@ export const Demos = ({
         apple: "https://github.com/rive-app/rive-ios/blob/main/Example-iOS/Source/Examples/SwiftUI/RewardsView.swift"
       }
     },
+    dataBindingSolos: {
+      title: "Data Binding Solos",
+      description: "Control solos at runtime using strings, numbers, or enums.",
+      image: '/images/runtimes/data-binding-solos.gif',
+      links: {
+        react: "https://codesandbox.io/p/sandbox/rive-react-controlling-solos-at-runtime-ctcnlx?file=%2Fsrc%2FApp.tsx"
+      }
+    },
     googleAppAds: {
       title: "Google App Ads",
       description: "How to make an interactive Google App with Rive.",
