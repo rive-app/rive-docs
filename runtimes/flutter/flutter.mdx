@@ -5,6 +5,7 @@ description: "Flutter runtime for Rive."
 
 import NoteOnFeatureSupport from "/snippets/runtimes/rendering-feature-support.mdx";
 import Interaction from "/snippets/runtimes/animation-control-and-interaction.mdx";
+import { Demos } from '/snippets/demos.jsx'
 
 <NoteOnFeatureSupport />
 
@@ -24,6 +25,9 @@ This guide documents how to use the Rive Flutter runtime to easily integrate Riv
 ## Quick start
 
 See our [example app](https://github.com/rive-app/rive-flutter/tree/master/example).
+
+
+<Demos examples={['dataBindingQuickStart']} runtime="flutter" />
 
 ## Getting started
 
@@ -58,7 +62,7 @@ Follow the steps below to integrate Rive into your Flutter apps.
     </Info>
     ```dart
     import 'package:rive/rive.dart';
-    
+
     Future<void> main() async {
       WidgetsFlutterBinding.ensureInitialized();
       // Call init before using Rive.
@@ -79,20 +83,20 @@ Follow the steps below to integrate Rive into your Flutter apps.
         ```dart
         class ExampleRiveBuilder extends StatefulWidget {
           const ExampleRiveBuilder({super.key});
-        
+
           @override
           State<ExampleRiveBuilder> createState() => _ExampleRiveBuilderState();
         }
-        
+
         class _ExampleRiveBuilderState extends State<ExampleRiveBuilder> {
           late final fileLoader = FileLoader.fromAsset("assets/vehicles.riv", riveFactory: Factory.rive);
-        
+
           @override
           void dispose() {
             fileLoader.dispose();
             super.dispose();
           }
-        
+
           @override
           Widget build(BuildContext context) {
             return RiveWidgetBuilder(
@@ -117,35 +121,35 @@ Follow the steps below to integrate Rive into your Flutter apps.
         ```dart
         class ExampleBasic extends StatefulWidget {
           const ExampleBasic({super.key});
-        
+
           @override
           State<ExampleBasic> createState() => _ExampleBasicState();
         }
-        
+
         class _ExampleBasicState extends State<ExampleBasic> {
           late File file;
           late RiveWidgetController controller;
           bool isInitialized = false;
-        
+
           @override
           void initState() {
             super.initState();
             initRive();
           }
-        
+
           void initRive() async {
             file = (await File.asset("assets/vehicles.riv", riveFactory: Factory.rive))!;
             controller = RiveWidgetController(file);
             setState(() => isInitialized = true);
           }
-        
+
           @override
           void dispose() {
             file.dispose();
             controller.dispose();
             super.dispose();
           }
-        
+
           @override
           Widget build(BuildContext context) {
             if (!isInitialized) {
@@ -169,7 +173,7 @@ Follow the steps below to integrate Rive into your Flutter apps.
         ```dart
          class ExampleRivePanel extends StatelessWidget {
            const ExampleRivePanel({super.key});
-        
+
            @override
            Widget build(BuildContext context) {
              return const RivePanel(
@@ -180,23 +184,23 @@ Follow the steps below to integrate Rive into your Flutter apps.
         }
         class ListViewExample extends StatefulWidget {
           const ListViewExample({super.key});
-        
+
           @override
           State<ListViewExample> createState() => _ListViewExampleState();
         }
-        
+
         class _ListViewExampleState extends State<ListViewExample> {
           late final fileLoader = FileLoader.fromAsset(
             'assets/rating.riv',
             riveFactory: Factory.rive,
           );
-        
+
           @override
           void dispose() {
             fileLoader.dispose();
             super.dispose();
           }
-        
+
           @override
           Widget build(BuildContext context) {
             return ListView.builder(
@@ -210,7 +214,7 @@ Follow the steps below to integrate Rive into your Flutter apps.
         class MyRiveWidget extends StatelessWidget {
           const MyRiveWidget({super.key, required this.fileLoader});
           final FileLoader fileLoader;
-        
+
           @override
           Widget build(BuildContext context) {
             return RiveWidgetBuilder(
@@ -251,7 +255,7 @@ Follow the steps below to integrate Rive into your Flutter apps.
     ```dart
     // Using FileLoader (with RiveWidgetBuilder)
     final fileLoader = FileLoader.fromAsset("assets/vehicles.riv", riveFactory: Factory.rive);
-    
+
     // Using File directly
     final file = await File.asset("assets/vehicles.riv", riveFactory: Factory.rive);
     ```
@@ -261,7 +265,7 @@ Follow the steps below to integrate Rive into your Flutter apps.
     ```dart
     // Using FileLoader (with RiveWidgetBuilder)
     final fileLoader = FileLoader.fromUrl("https://cdn.rive.app/animations/vehicles.riv", riveFactory: Factory.rive);
-    
+
     // Using File directly
     final file = await File.url("https://cdn.rive.app/animations/vehicles.riv", riveFactory: Factory.rive);
     ```
@@ -272,6 +276,7 @@ Follow the steps below to integrate Rive into your Flutter apps.
     // Using FileLoader (with RiveWidgetBuilder)
     final fileLoader = FileLoader.fromFile(existingFile, riveFactory: Factory.rive);
     ```
+
   </Step>
 </Steps>
 
