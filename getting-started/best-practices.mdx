@@ -119,32 +119,6 @@ There are several cases where you may want to pause a state machine configured w
 
    a. `Pause` when the Rive graphic is idling while it waits for a transition in the state machine from user interaction, data resolving, etc.
 
-### Low-level runtime
-
-Most runtimes have both a high-level API for ease of use and a more “advanced” low-level runtime counterpart, which allows you to have more granular control of how animations/state machines play (”advance”) over time.
-
-You can load a Rive file (`.riv`) using low-level runtimes and manage its resources. With this pattern, you can dynamically create multiple instances of a given Artboard (and its associated state machine).
-
-This is useful if you’re creating a whole “scene” with Rive content that draws to the same canvas/view and needs to efficiently manage how each entity advances over time. For example, if you render 100 instances of an artboard you may want to control when and how each of these entities animates over time, as well as when it stops and removes itself from the scene, thus being more strategic about how much Rive utilizes in resources to draw each frame.
-
-See runtime-specific documentation here:
-<CardGroup cols={2}>
-  <Card
-  title="Low-level API Usage"
-  icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>}
-  href="/runtimes/web/low-level-api-usage"
-  >
-      While the JS runtime offers a high-level API that allows for integrating Rives into web applications quickly, the runtime also allows for a smaller advanced low-level API that allows for constructing and controlling Rive(s) in your own render loop.
-  </Card>
-  <Card
-  title="Custom Painter"
-  icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>}
-  href="/runtimes/flutter/custom-painter"
-  >
-  You can manage advancing and drawing an artboard yourself by using a CustomPainter. This will give you more control at a painting level, allowing you to:
-  </Card>
-</CardGroup>
-
 ### Low-end devices
 
 Rive will try to run performantly across all browsers/devices, but if you can, test how your application performs on resource-constrained devices with your specific Rive graphics running. You may find that for a given screen, Rive files that include heavily-animated graphics might be overkill for what is truly needed and decide to display static Rive graphics (i.e., autoplay: false) or reduce the amount of Rive entities animating at any given point.
