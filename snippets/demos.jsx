@@ -123,9 +123,9 @@ export const Demos = ({
       }
     },
     starRating: {
-      title: "Android Quick Start",
+      title: "Android New Compose API Quick Start",
       image: "/images/runtimes/star-rating.webp",
-      description: "Get started with Data Binding for Android.",
+      description: "Get started with the new Compose API (Technical Preview) for Android.",
       links: {
         android: "https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeActivity.kt"
       }
