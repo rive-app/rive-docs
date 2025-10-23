@@ -69,6 +69,12 @@ Under most circumstances a `.riv` file should load quickly and managing the `Riv
     			return CircularProgressIndicator();
     		}
     	}
+    
+    	@override
+    	void dispose() {
+    		_riveFile.dispose();
+    		super.dispose();
+    	}
     }
     ```
 
