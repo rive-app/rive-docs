@@ -232,5 +232,4 @@ Under most circumstances a `.riv` file should load quickly and managing the `Riv
         A Rive `File` is reference counted and when created has a reference count of 1. Assigning it to a `RiveAnimationView` will keep an additional reference, but there is still the original reference from its creation. You are responsible for releasing that reference when you are done with the file by calling `File::release`. If you do not release the file, the native memory will remain until the app is closed, even if the Kotlin object is garbage collected.
         </Warning>
     </Tab>
-
 </Tabs>
