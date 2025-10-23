@@ -14,6 +14,64 @@ Under most circumstances a `.riv` file should load quickly and managing the `Riv
   <Tab title="Flutter">
     In Flutter, you are responsible for managing the lifecycle of a Rive file. You can create a `File` object directly, or use the `FileLoader` convenience class with `RiveWidgetBuilder`. In both cases, you must call `dispose()` on the object when it's no longer needed to free up memory.
 
+    ```dart
+    import 'package:rive/rive.dart';
+    
+    class CachedPage extends StatefulWidget {
+    	const CachedPage({super.key});
+    
+    	@override
+    	State<CachedPage> createState() => _CachedPageState();
+    }
+    
+    class _CachedPageState extends State<CachedPage> {
+    	var _isRivLoaded = false;
+    
+    	// This is where our cached file will go.
+    	late File _riveFile;
+    
+    	@override
+    	void initState() {
+    		super.initState();
+    
+    		// Once initialized, build the layout by updating _isRivLoaded.
+    		_initRive().whenComplete(
+    			() => setState(() {
+    				_isRivLoaded = true;
+    			}),
+    		);
+    	}
+    
+    	Future<void> _initRive() async {
+    		// Retrieve the Rive file from assets.
+    		_riveFile = (await File.asset(
+    			"assets/rewards_demo.riv",
+    			riveFactory: Factory.rive,
+    		))!;
+    	}
+    
+    	@override
+    	Widget build(BuildContext context) {
+    		if (_isRivLoaded) {
+    			// Both widgets can use the same Rive file because we cached it as state.
+    			final widget1 = RiveWidget(controller: RiveWidgetController(_riveFile));
+    			final widget2 = RiveWidget(controller: RiveWidgetController(_riveFile));
+    
+    			return Scaffold(
+    				body: Row(
+    					children: [
+    						Expanded(child: widget1),
+    						Expanded(child: widget2),
+    					],
+    				),
+    			);
+    		} else {
+    			return CircularProgressIndicator();
+    		}
+    	}
+    }
+    ```
+
     <Tip>
       To optimize memory usage, reuse the same `File` object across multiple `RiveWidget` instances if they use the same `.riv` file. This ensures the file is loaded only once and shared in memory.
     </Tip>
