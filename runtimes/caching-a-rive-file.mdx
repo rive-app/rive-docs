@@ -1,6 +1,5 @@
 ---
-title: 'Caching a Rive File'
-description: ''
+title: "Caching a Rive File"
 ---
 
 import { Demos } from '/snippets/demos.jsx'
@@ -12,225 +11,242 @@ Under most circumstances a `.riv` file should load quickly and managing the `Riv
 <Demos examples={["cachingARiveFile"]} />
 
 <Tabs>
-    <Tab title="Flutter">
-        In Flutter, you are responsible for managing the lifecycle of a Rive file. You can create a `File` object directly, or use the `FileLoader` convenience class with `RiveWidgetBuilder`. In both cases, you must call `dispose()` on the object when it's no longer needed to free up memory.
+  <Tab title="Flutter">
+    In Flutter, you are responsible for managing the lifecycle of a Rive file. You can create a `File` object directly, or use the `FileLoader` convenience class with `RiveWidgetBuilder`. In both cases, you must call `dispose()` on the object when it's no longer needed to free up memory.
 
-        <Tip>
-        To optimize memory usage, reuse the same `File` object across multiple `RiveWidget` instances if they use the same `.riv` file. This ensures the file is loaded only once and shared in memory.
-        </Tip>
+    <Tip>
+      To optimize memory usage, reuse the same `File` object across multiple `RiveWidget` instances if they use the same `.riv` file. This ensures the file is loaded only once and shared in memory.
+    </Tip>
+    <Warning>
+      After a `File` is disposed, it cannot be used again. To use the same `.riv` file, create a new `File` object.
+    </Warning>
+    #### Managing State
 
-        <Warning>
-        After a `File` is disposed, it cannot be used again. To use the same `.riv` file, create a new `File` object.
-        </Warning>
+    How you keep the Rive `File` alive and share it with widgets depends on your state management approach. For global access, load the file in `main` or during app startup, and expose it using a package like [Provider](https://pub.dev/packages/provider). If the file is only needed in a specific part of your app, consider loading the file only when required.
 
-        #### Managing State
+    #### Memory
 
-        How you keep the Rive `File` alive and share it with widgets depends on your state management approach. For global access, load the file in `main` or during app startup, and expose it using a package like [Provider](https://pub.dev/packages/provider). If the file is only needed in a specific part of your app, consider loading the file only when required.
+    Managing the file yourself gives you fine-grained control over memory usage, especially when the same Rive file is used in multiple places or simultaneously in several widgets. Use [Flutter DevTools memory tooling](https://docs.flutter.dev/tools/devtools/memory#memory-view-guide) to monitor and optimize memory if needed.
 
-        #### Memory
+    #### Network Assets
 
-        Managing the file yourself gives you fine-grained control over memory usage, especially when the same Rive file is used in multiple places or simultaneously in several widgets. Use [Flutter DevTools memory tooling](https://docs.flutter.dev/tools/devtools/memory#memory-view-guide) to monitor and optimize memory if needed.
+    To load a Rive file from the Internet, use `File.url('YOUR:URL')`. For network assets, cache the file in memory to avoid repeated downloads and unnecessary decoding of the file.
+  </Tab>
+  <Tab title="React">
+    Here’s a simplified example showing how to integrate the `useRiveFile` hook to reuse a `RiveFile` across components
 
-        #### Network Assets
-
-        To load a Rive file from the Internet, use `File.url('YOUR:URL')`. For network assets, cache the file in memory to avoid repeated downloads and unnecessary decoding of the file.
-    </Tab>
-
-    <Tab title="React">
-
-        Here’s a simplified example showing how to integrate the `useRiveFile` hook to reuse a `RiveFile` across components
-
-        ```javascript
-        import React, { useState } from 'react';
-        import { useRiveFile } from '@rive-app/react-canvas';
-
-        // Custom Wrapper component to display the Rive animation
-        const RiveAnimation = ({ riveFile }) => {
-            const { RiveComponent } = useRive({
-                riveFile: riveFile,
-                autoplay: true
-            });
-
-            return <RiveComponent/>;
-        };
-
-        function App() {
-        const { riveFile, status } = useRiveFile({
-            src: 'https://cdn.rive.app/animations/myrivefile.riv',
+    ```javascript
+    import React, { useState } from 'react';
+    import { useRiveFile } from '@rive-app/react-canvas';
+    
+    // Custom Wrapper component to display the Rive animation
+    const RiveAnimation = ({ riveFile }) => {
+        const { RiveComponent } = useRive({
+            riveFile: riveFile,
+            autoplay: true
         });
-
-        const [instanceCount] = useState(5); // Number of RiveAnimation components to render
-
-        if (status === 'idle') {
-            return <div>Idle...</div>;
-        }
-
-        if (status === 'loading') {
-            return <div>Loading...</div>;
-        }
-
-        if (status === 'failed') {
-            return <div>Failed to load Rive file.</div>;
-        }
-
-        // Each RiveAnimation component uses the RiveFile we loaded earlier, so it is only fetched and initialized once
-        return (
-            <div className="App">
-                <header className="App-header">Rive Instances</header>
-                <div className="rive-list">
-                {Array.from({ length: instanceCount }, (_, index) => (
-                    <RiveAnimation key={`rive-instance-${index}`} riveFile={riveFile} />
-                ))}
-                </div>
+    
+        return <RiveComponent/>;
+    };
+    
+    function App() {
+    const { riveFile, status } = useRiveFile({
+        src: 'https://cdn.rive.app/animations/myrivefile.riv',
+    });
+    
+    const [instanceCount] = useState(5); // Number of RiveAnimation components to render
+    
+    if (status === 'idle') {
+        return <div>Idle...</div>;
+    }
+    
+    if (status === 'loading') {
+        return <div>Loading...</div>;
+    }
+    
+    if (status === 'failed') {
+        return <div>Failed to load Rive file.</div>;
+    }
+    
+    // Each RiveAnimation component uses the RiveFile we loaded earlier, so it is only fetched and initialized once
+    return (
+        <div className="App">
+            <header className="App-header">Rive Instances</header>
+            <div className="rive-list">
+            {Array.from({ length: instanceCount }, (_, index) => (
+                <RiveAnimation key={`rive-instance-${index}`} riveFile={riveFile} />
+            ))}
             </div>
-            );
-
-        }
-
-        export default App;
-        ```
-
-    </Tab>
-
-    <Tab title="React Native">
-
-        Not yet supported
-
-    </Tab>
-
-    <Tab title="Web">
-        The following is a basic example to illustrate how to preload a Rive file, and pass the data to multiple Rive instances.
-
-        ```javascript
-        const rive = require("@rive-app/canvas");
-
-        let riveInstances = [];
-
-        function loadRiveFile(src, onSuccess, onError) {
-        const file = new rive.RiveFile({
-            src: src,
-            onLoad: () => onSuccess(file),
-            onLoadError: onError,
-        });
-        // Remember to call init() to trigger the load;
-        file.init().catch(onError);
-        }
-
-        function setupRiveInstance(loadedRiveFile, canvasId) {
-        const canvas = document.getElementById(canvasId);
-        if (!canvas) return;
-
-        const riveInstance = new rive.Rive({
-            riveFile: loadedRiveFile,
-            // Be sure to specify the correct state machine (or animation) name
-            stateMachines: "Motion", // Name of the State Machine to play
-            canvas: canvas,
-            layout: new rive.Layout({
-            fit: rive.Fit.FitWidth,
-            alignment: rive.Alignment.Center,
-            }),
-            autoplay: true,
-            onLoad: () => {
-            // Prevent a blurry canvas by using the device pixel ratio
-            riveInstance.resizeDrawingSurfaceToCanvas();
-            },
-        });
-
-        riveInstances.push(riveInstance);
-        }
-
-        // Loads the .riv file and initializes multiple Rive instances using the same loaded RiveFile in memory
-        loadRiveFile(
-        "clean_the_car.riv",
-        (file) => {
-            setupRiveInstance(file, "rive-canvas-1");
-            setupRiveInstance(file, "rive-canvas-2");
-            // You could also store a reference to the loaded RiveFile here so you're able to initialize other Rive instances later.
-        },
-        (error) => {
-            console.error("Failed to load Rive file:", error);
-        }
+        </div>
         );
+    
+    }
+    
+    export default App;
+    ```
+  </Tab>
+  <Tab title="React Native">
+    Not yet supported
+  </Tab>
+  <Tab title="Web">
+    The following is a basic example to illustrate how to preload a Rive file, and pass the data to multiple Rive instances.
 
-        // Resize the drawing surface for all instances if the window resizes
-        window.addEventListener(
-        "resize",
-        () => {
-            riveInstances.forEach((instance) => {
-            if (instance) {
-                instance.resizeDrawingSurfaceToCanvas();
-            }
-            });
+    ```javascript
+    const rive = require("@rive-app/canvas");
+    
+    let riveInstances = [];
+    
+    function loadRiveFile(src, onSuccess, onError) {
+    const file = new rive.RiveFile({
+        src: src,
+        onLoad: () => onSuccess(file),
+        onLoadError: onError,
+    });
+    // Remember to call init() to trigger the load;
+    file.init().catch(onError);
+    }
+    
+    function setupRiveInstance(loadedRiveFile, canvasId) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    
+    const riveInstance = new rive.Rive({
+        riveFile: loadedRiveFile,
+        // Be sure to specify the correct state machine (or animation) name
+        stateMachines: "Motion", // Name of the State Machine to play
+        canvas: canvas,
+        layout: new rive.Layout({
+        fit: rive.Fit.FitWidth,
+        alignment: rive.Alignment.Center,
+        }),
+        autoplay: true,
+        onLoad: () => {
+        // Prevent a blurry canvas by using the device pixel ratio
+        riveInstance.resizeDrawingSurfaceToCanvas();
         },
-        false
-        );
-        ```
-
-    </Tab>
-
-    <Tab title="Apple">
-        ```swift
-        // Cache a RiveFile somewhere to cache for reuse
-        let file = try! RiveFile(resource: "file", loadCdn: false)
-
-        // For example purposes, a type that reuses a single RiveFile
-        // when creating new view models for given state machines or artboards.
-        class ViewModelGenerator {
-            /// The RiveFile to reuse when generating new view models.
-            private let file: RiveFile
-
-            init(file: RiveFile) {
-                self.file = file
-            }
-
-            // Returns a new view model using a cached RiveFile.
-            // This means that the RiveFile will not have to be reparsed
-            // each time a view model is generated.
-            func viewModel(stateMachine: String?, artboard: String?) -> RiveViewModel {
-                // While one RiveFile can be cached and reused, each view model
-                // should have its own model as to not share state.
-                let model = RiveModel(riveFile: file)
-                return RiveViewModel(model, stateMachineName: stateMachine, artboardName: artboard)
-            }
+    });
+    
+    riveInstances.push(riveInstance);
+    }
+    
+    // Loads the .riv file and initializes multiple Rive instances using the same loaded RiveFile in memory
+    loadRiveFile(
+    "clean_the_car.riv",
+    (file) => {
+        setupRiveInstance(file, "rive-canvas-1");
+        setupRiveInstance(file, "rive-canvas-2");
+        // You could also store a reference to the loaded RiveFile here so you're able to initialize other Rive instances later.
+    },
+    (error) => {
+        console.error("Failed to load Rive file:", error);
+    }
+    );
+    
+    // Resize the drawing surface for all instances if the window resizes
+    window.addEventListener(
+    "resize",
+    () => {
+        riveInstances.forEach((instance) => {
+        if (instance) {
+            instance.resizeDrawingSurfaceToCanvas();
         }
-        ```
-
-        When using the `RiveViewModel(fileName:)` initializer, the Apple runtime does not cache file usage; that has to be handled manually. You may find that when reusing the same file, your memory usage increases (over time) as you create more view models. This is when you should consider caching the underlying file for reuse.
-
-        Reusing a single `RiveFile` (when applicable) will reduce the overall memory usage of your application. If your `.riv` can be reused across multiple views, where each view requires the same file but uses different artboards or state machines, consider caching the `RiveFile` before creating your view models. While one `RiveFile` can be cached, to ensure that each view is in its own state, you must create a unique `RiveModel` per `RiveViewModel` instance.
-    </Tab>
-
-    <Tab title="Android">
-        To cache a rive file in Android, you can use the Rive `File` class to load and cache the file. That `RiveFile` can then be reused across multiple `RiveAnimationView` instances. Here's a basic example:
-
-        ```kotlin
-        import app.rive.runtime.kotlin.core.File
-        ...
-
-        // An empty Rive view that will display the content once loaded.
-        val riveView = RiveAnimationView(this)
-        setContentView(riveView)
-
-        // Load the Rive file from the raw resources on an I/O thread.
-        lifecycleScope.launch(Dispatchers.IO) {
-            val bytes = resources.openRawResource(R.raw.my_rive_file).use {
-                it.readBytes()
-            }
-            // Switch to the main thread to set the Rive file.
-            withContext(Dispatchers.Main) {
-                // Create a Rive File object from the byte array. This can be cached.
-                val riveFile = File(bytes)
-                // Assign the Rive file to the view.
-                riveView.setRiveFile(riveFile)
-            }
+        });
+    },
+    false
+    );
+    ```
+  </Tab>
+  <Tab title="Apple">
+    ```swift
+    // Cache a RiveFile somewhere to cache for reuse
+    let file = try! RiveFile(resource: "file", loadCdn: false)
+    
+    // For example purposes, a type that reuses a single RiveFile
+    // when creating new view models for given state machines or artboards.
+    class ViewModelGenerator {
+        /// The RiveFile to reuse when generating new view models.
+        private let file: RiveFile
+    
+        init(file: RiveFile) {
+            self.file = file
         }
-        ```
+    
+        // Returns a new view model using a cached RiveFile.
+        // This means that the RiveFile will not have to be reparsed
+        // each time a view model is generated.
+        func viewModel(stateMachine: String?, artboard: String?) -> RiveViewModel {
+            // While one RiveFile can be cached and reused, each view model
+            // should have its own model as to not share state.
+            let model = RiveModel(riveFile: file)
+            return RiveViewModel(model, stateMachineName: stateMachine, artboardName: artboard)
+        }
+    }
+    ```
 
-        Please bear in mind that this is only one way to load the bytes, and your implementation may vary based on your app's architecture. The key point is to create a Rive `File` from the byte array and then set it on the `RiveAnimationView`.
+    When using the `RiveViewModel(fileName:)` initializer, the Apple runtime does not cache file usage; that has to be handled manually. You may find that when reusing the same file, your memory usage increases (over time) as you create more view models. This is when you should consider caching the underlying file for reuse.
 
-        <Warning>
-        A Rive `File` is reference counted and when created has a reference count of 1. Assigning it to a `RiveAnimationView` will keep an additional reference, but there is still the original reference from its creation. You are responsible for releasing that reference when you are done with the file by calling `File::release`. If you do not release the file, the native memory will remain until the app is closed, even if the Kotlin object is garbage collected.
-        </Warning>
-    </Tab>
+    Reusing a single `RiveFile` (when applicable) will reduce the overall memory usage of your application. If your `.riv` can be reused across multiple views, where each view requires the same file but uses different artboards or state machines, consider caching the `RiveFile` before creating your view models. While one `RiveFile` can be cached, to ensure that each view is in its own state, you must create a unique `RiveModel` per `RiveViewModel` instance.
+  </Tab>
+  <Tab title="Android">
+    To cache a rive file in Android, you can use the Rive `File` class to load and cache the file. That `File` can then be reused across multiple `RiveAnimationView` instances. Here's a basic example:
 
+    ```kotlin
+    import app.rive.runtime.kotlin.RiveAnimationView
+    import app.rive.runtime.kotlin.RiveInitializer
+    import app.rive.runtime.kotlin.core.File
+    
+    class MainActivity : ComponentActivity() {
+        var riveFile: File? = null
+    
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            enableEdgeToEdge()
+    
+            // Initialize Rive.
+            AppInitializer.getInstance(applicationContext)
+                .initializeComponent(RiveInitializer::class.java)
+    
+            // Load Rive file from assets and cache.
+            application.assets.open("rewards_demo.riv").use { inputStream ->
+                val fileBytes = inputStream.readBytes()
+                riveFile = File(fileBytes)
+            }
+    
+    		setContent {
+    			AndroidView(
+            		factory = { context ->
+    					// First [File] usage.
+                		RiveAnimationView(context).also {
+                    		it.setRiveFile(
+                        		file = riveFile!!,
+                            	stateMachineName = "State Machine 1",
+                        	)
+                    	}
+    
+    					// Second [File] usage.
+    					RiveAnimationView(context).also {
+                    		it.setRiveFile(
+                        		file = riveFile!!,
+                            	stateMachineName = "State Machine 1",
+                        	)
+                    	}
+                	}
+            	)
+    		}
+    	}
+    
+    	// Release file reference.
+        override fun onDestroy() {
+            riveFile?.release()
+            super.onDestroy()
+        }
+    }
+    ```
+
+    Please bear in mind that this is only one way to load the bytes, and your implementation may vary based on your app's architecture. The key point is to create a Rive `File` from the byte array and then set it on the `RiveAnimationView`.
+
+    <Warning>
+      A Rive `File` is reference counted and when created has a reference count of 1. Assigning it to a `RiveAnimationView` will keep an additional reference, but there is still the original reference from its creation. You are responsible for releasing that reference when you are done with the file by calling `File::release`. If you do not release the file, the native memory will remain until the app is closed, even if the Kotlin object is garbage collected.
+    </Warning>
+  </Tab>
 </Tabs>
