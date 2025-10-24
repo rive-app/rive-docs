@@ -291,31 +291,35 @@ Under most circumstances a `.riv` file should load quickly and managing the `Riv
                 }
 
                 setContent {
-                    // First cached file usage.
-                    AndroidView(
-                        factory = { context ->
-                            RiveAnimationView(context).also {
-                                it.setRiveFile(
-                                    file = riveFile!!,
-                                    stateMachineName = "State Machine 1",
-                                    autoBind = true,
-                                )
+                    Row {
+                        // First cached file usage.
+                        AndroidView(
+                            modifier = Modifier.weight(1f),
+                            factory = { context ->
+                                RiveAnimationView(context).also {
+                                    it.setRiveFile(
+                                        file = riveFile!!,
+                                        stateMachineName = "State Machine 1",
+                                        autoBind = true,
+                                    )
+                                }
                             }
-                        }
-                    )
+                        )
 
-                    // Second cached file usage.
-                    AndroidView(
-                        factory = { context ->
-                            RiveAnimationView(context).also {
-                                it.setRiveFile(
-                                    file = riveFile!!,
-                                    stateMachineName = "State Machine 1",
-                                    autoBind = true,
-                                )
+                        // Second cached file usage.
+                        AndroidView(
+                            modifier = Modifier.weight(1f),
+                            factory = { context ->
+                                RiveAnimationView(context).also {
+                                    it.setRiveFile(
+                                        file = riveFile!!,
+                                        stateMachineName = "State Machine 1",
+                                        autoBind = true,
+                                    )
+                                }
                             }
-                        }
-                    )
+                        )
+                    }
                 }
             }
 
