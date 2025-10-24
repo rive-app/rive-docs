@@ -15,6 +15,71 @@ Under most circumstances a `.riv` file should load quickly and managing the `Riv
     <Tab title="Flutter">
         In Flutter, you are responsible for managing the lifecycle of a Rive file. You can create a `File` object directly, or use the `FileLoader` convenience class with `RiveWidgetBuilder`. In both cases, you must call `dispose()` on the object when it's no longer needed to free up memory.
 
+        ```dart
+        import 'package:flutter/material.dart';
+        import 'package:rive/rive.dart';
+        
+        class CachedPage extends StatefulWidget {
+            const CachedPage({super.key});
+        
+            @override
+            State<CachedPage> createState() => _CachedPageState();
+        }
+        
+        class _CachedPageState extends State<CachedPage> {
+            var _isRivLoaded = false;
+        
+            // This is where our cached file will go.
+            late File _riveFile;
+        
+            @override
+            void initState() {
+                super.initState();
+        
+                // Once initialized, build the layout by updating _isRivLoaded.
+                _initRive().whenComplete(
+                    () => setState(() {
+                        _isRivLoaded = true;
+                    }),
+                );
+            }
+        
+            Future<void> _initRive() async {
+                // Retrieve the Rive file from assets.
+                _riveFile = (await File.asset(
+                    "assets/rewards_demo.riv",
+                    riveFactory: Factory.rive,
+                ))!;
+            }
+        
+            @override
+            void dispose() {
+                _riveFile.dispose();
+                super.dispose();
+            }
+        
+            @override
+            Widget build(BuildContext context) {
+                if (_isRivLoaded) {
+                    // Both widgets can use the same Rive file because we cached it as state.
+                    final widget1 = RiveWidget(controller: RiveWidgetController(_riveFile));
+                    final widget2 = RiveWidget(controller: RiveWidgetController(_riveFile));
+        
+                    return Scaffold(
+                        body: Row(
+                            children: [
+                                Expanded(child: widget1),
+                                Expanded(child: widget2),
+                            ],
+                        ),
+                    );
+                } else {
+                    return CircularProgressIndicator();
+                }
+            }
+        }
+        ```
+
         <Tip>
         To optimize memory usage, reuse the same `File` object across multiple `RiveWidget` instances if they use the same `.riv` file. This ensures the file is loaded only once and shared in memory.
         </Tip>
@@ -204,24 +269,63 @@ Under most circumstances a `.riv` file should load quickly and managing the `Riv
         To cache a rive file in Android, you can use the Rive `File` class to load and cache the file. That `RiveFile` can then be reused across multiple `RiveAnimationView` instances. Here's a basic example:
 
         ```kotlin
+        import app.rive.runtime.kotlin.RiveAnimationView
+        import app.rive.runtime.kotlin.RiveInitializer
         import app.rive.runtime.kotlin.core.File
-        ...
 
-        // An empty Rive view that will display the content once loaded.
-        val riveView = RiveAnimationView(this)
-        setContentView(riveView)
+        class MainActivity : ComponentActivity() {
+            var riveFile: File? = null
 
-        // Load the Rive file from the raw resources on an I/O thread.
-        lifecycleScope.launch(Dispatchers.IO) {
-            val bytes = resources.openRawResource(R.raw.my_rive_file).use {
-                it.readBytes()
+            override fun onCreate(savedInstanceState: Bundle?) {
+                super.onCreate(savedInstanceState)
+                enableEdgeToEdge()
+
+                // Initialize Rive.
+                AppInitializer.getInstance(applicationContext)
+                    .initializeComponent(RiveInitializer::class.java)
+
+                // Load Rive file from assets and cache.
+                application.assets.open("rewards_demo.riv").use { inputStream ->
+                    val fileBytes = inputStream.readBytes()
+                    riveFile = File(fileBytes)
+                }
+
+                setContent {
+                    Row {
+                        // First cached file usage.
+                        AndroidView(
+                            modifier = Modifier.weight(1f),
+                            factory = { context ->
+                                RiveAnimationView(context).also {
+                                    it.setRiveFile(
+                                        file = riveFile!!,
+                                        stateMachineName = "State Machine 1",
+                                        autoBind = true,
+                                    )
+                                }
+                            }
+                        )
+
+                        // Second cached file usage.
+                        AndroidView(
+                            modifier = Modifier.weight(1f),
+                            factory = { context ->
+                                RiveAnimationView(context).also {
+                                    it.setRiveFile(
+                                        file = riveFile!!,
+                                        stateMachineName = "State Machine 1",
+                                        autoBind = true,
+                                    )
+                                }
+                            }
+                        )
+                    }
+                }
             }
-            // Switch to the main thread to set the Rive file.
-            withContext(Dispatchers.Main) {
-                // Create a Rive File object from the byte array. This can be cached.
-                val riveFile = File(bytes)
-                // Assign the Rive file to the view.
-                riveView.setRiveFile(riveFile)
+
+            override fun onDestroy() {
+                riveFile?.release()
+                super.onDestroy()
             }
         }
         ```
