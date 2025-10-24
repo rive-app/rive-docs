@@ -2007,6 +2007,27 @@ For more information on list properties, see the [Data Binding List Property](/e
     print(listProperty.size) // Prints 0
     ```
   </Tab>
+  <Tab title="Android">
+    ```kotlin
+    // Acquire the default view model instance and the list property.
+    val vmi = animationView.file!!.firstArtboard.viewModelInstance!!
+    val listProperty = vmi.getListProperty("list")
+
+    // Create a view model instance for "First" and "Second" and add them to the list.
+    val firstInstance = animationView.file!!.getViewModelByName("First").createDefaultInstance()
+    listProperty.add(firstInstance)
+
+    val secondInstance = animationView.file!!.getViewModelByName("Second").createDefaultInstance()
+    listProperty.add(secondInstance)
+    
+    // Swap the two items in the list.
+    listProperty.swap(0, 1)
+    
+    // Remove both items from the list.
+    listProperty.remove(firstInstance)
+    listProperty.removeAt(0)
+    ```
+  </Tab>
   <Tab title="Flutter">
     The list API in Flutter is designed to be similar to the [List](https://api.dart.dev/dart-core/List-class.html) class in Dart. It doesn't contain the full API spec of that class, but it does provide the most commonly used methods.
 
