@@ -1746,6 +1746,51 @@ Image properties let you set and replace raster images at runtime, with each ins
     imageProperty.setValue(nil)
     ```
   </Tab>
+  <Tab title="Android">
+    ```kotlin
+    import app.rive.runtime.kotlin.RiveAnimationView
+    import app.rive.runtime.kotlin.RiveInitializer
+    import app.rive.runtime.kotlin.core.RiveRenderImage
+
+    class MainActivity : ComponentActivity() {
+      override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+
+        // Load image from assets and cache the bytes.
+        var imageBytes: ByteArray
+        application.assets.open("example.jpg").use { inputStream ->
+          imageBytes = inputStream.readBytes()
+        }
+
+        // Initialize Rive.
+        AppInitializer.getInstance(applicationContext)
+          .initializeComponent(RiveInitializer::class.java)
+
+        setContent {
+          AndroidView(
+            factory = { context ->
+              RiveAnimationView(context).also {
+                it.setRiveResource(
+                  resId = R.raw.example,
+                  stateMachineName = "State Machine 1",
+                  autoBind = true,
+                )
+
+                // Preferred way of acquiring viewModelInstance.
+                val vmi = it.stateMachines.first().viewModelInstance!!
+
+                // Replace image property in view model instance with new image.
+                val riveImage = RiveRenderImage.make(imageBytes)
+                vmi.getImageProperty("Image property").set(riveImage)
+              }
+            }
+          )
+        }
+      }
+    }
+    ```
+  </Tab>
   <Tab title="Flutter">
     <Info>
       See the [Flutter data binding images example](https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_images.dart).
@@ -1810,15 +1855,15 @@ Image properties let you set and replace raster images at runtime, with each ins
         Debug.Log("Image updated!");
     }
 
-// Example method to toggle between light and dark mode images
-public void ToggleTheme()
-{
-    if (imageProperty != null)
+    // Example method to toggle between light and dark mode images
+    public void ToggleTheme()
     {
-        isDarkMode = !isDarkMode;
-        imageProperty.Value = isDarkMode ? m_darkImageAsset : m_lightImageAsset;
+        if (imageProperty != null)
+        {
+            isDarkMode = !isDarkMode;
+            imageProperty.Value = isDarkMode ? m_darkImageAsset : m_lightImageAsset;
+        }
     }
-}
 
     // Example method to clear the image
     public void ClearImage()
