@@ -39,8 +39,7 @@ export const Demos = ({
       image: '/images/runtimes/rive-db-images.webp',
       links: {
         web: 'https://codesandbox.io/p/sandbox/objective-cohen-sqwh9q',
-        flutter: 'https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_images.dart',
-        android: 'https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/AssetLoaderFragment.kt'
+        flutter: 'https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_images.dart'
       },
     },
     dataBindingLists: {
