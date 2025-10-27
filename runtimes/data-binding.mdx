@@ -2014,10 +2014,10 @@ For more information on list properties, see the [Data Binding List Property](/e
     val listProperty = vmi.getListProperty("list")
 
     // Create a view model instance for "First" and "Second" and add them to the list.
-    val firstInstance = animationView.file!!.getViewModelByName("First").createDefaultInstance()
+    val firstInstance = animationView.file!!.getViewModelByName("My Item VM").createInstanceFromName("First")
     listProperty.add(firstInstance)
 
-    val secondInstance = animationView.file!!.getViewModelByName("Second").createDefaultInstance()
+    val secondInstance = animationView.file!!.getViewModelByName("My Item VM").createInstanceFromName("Second")
     listProperty.add(secondInstance)
     
     // Swap the two items in the list.
