@@ -6,7 +6,7 @@ description: 'The Android runtime for Rive.'
 import NoteOnFeatureSupport from '/snippets/runtimes/rendering-feature-support.mdx'
 import { Demos } from '/snippets/demos.jsx'
 
-<NoteOnFeatureSupport/>
+<NoteOnFeatureSupport />
 
 <Demos examples={['starRating']} runtime="android" />
 
@@ -150,6 +150,7 @@ val bytes = resources.openRawResource(R.raw.rating).use { res -> res.readBytes()
 val riveFile = File(bytes)
 val riveView = RiveAnimationView(this)
 riveView.setRiveFile(riveFile)
+// Release the file if you no longer need it, keep if you plan to reuse it.
 riveFile.release()
 
 setContentView(riveView)
@@ -198,7 +199,7 @@ setContentView(R.layout.my_layout)
 
 ### Internet Permissions
 
-If you're retrieving Rive files over a network, your app will need permission to access the internet:
+If you're retrieving Rive files over a network, your app will need permission to access the internet in `AndroidManifest.xml`:
 
 ```xml
 <uses-permission android:name="android.permission.INTERNET" />
