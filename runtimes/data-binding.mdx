@@ -1462,12 +1462,12 @@ You can observe changes over time to property values, either by using listeners 
     val numberProperty = vmi.getNumberProperty("My Number Property")
     // Observe
     lifecycleScope.launch {
-        numberProperty.collect { value ->
+        numberProperty.valueFlow.collect { value ->
             Log.i("MyActivity", "Value: $value")
         }
     }
     // Or collect in Compose
-    val numberValue by numberProperty.collectAsState()
+    val numberValue by numberProperty.valueFlow.collectAsState()
     ```
   </Tab>
   <Tab title="Flutter">
