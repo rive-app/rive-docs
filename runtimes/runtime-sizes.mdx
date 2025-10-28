@@ -36,14 +36,9 @@ description: 'Last updated: October 2025'
       ## Components
       Rive Android's binary size is comprised of a number of components:
       - Kotlin code compiled to a DEX file
-      - Rive Android native shared library (`librive-android.so`), which has the following third party static dependencies:
-          | Dependency | Reason                     |
-          | ---------- | -------------------------- |
-          | HarfBuzz   | Text rendering             |
-          | Miniaudio  | Audio support              |
-          | SheenBidi  | Bidirectional text support |
-          | Yoga       | Layout                     |
-          - Additionally, it is comprised of the Rive Android C++ bindings, the Rive C++ runtime, and the Rive Renderer.
+      - Rive Android native shared library (`librive-android.so`)
+          - Comprised of the Rive Android C++ bindings, the Rive C++ runtime, and the Rive Renderer.
+          - Additionally has the [below third party static dependencies](#third-party-dependencies) (currently without Luau)
       - C++ standard library (shared .so file - 394KB download size, 1.2MB install size for ARM-v8a)
       - The following Android dependencies:
           | Dependency                                 | Reason                         |
@@ -70,3 +65,16 @@ description: 'Last updated: October 2025'
         - Changing C++ compile flags to prefer size over speed (requires performance testing)
   </Tab>
 </Tabs>
+
+# Third Party Dependencies
+The common Rive C++ runtime includes a number of open source third party dependencies which contribute to its binary weight. These are:
+
+| Dependency                                            | Reason                     |
+| ----------------------------------------------------- | -------------------------- |
+| [HarfBuzz](https://github.com/harfbuzz/harfbuzz)      | Text rendering             |
+| [Miniaudio](https://github.com/mackron/miniaudio)     | Audio support              |
+| [SheenBidi](https://github.com/Tehreer/SheenBidi)     | Bidirectional text support |
+| [Yoga](https://github.com/facebook/yoga)              | Layout                     |
+| [Luau Interpreter](https://github.com/luau-lang/luau) | Scripting Support          |
+
+<Note>Luau is currently not included in most runtimes. Once scripting is generally available, expect runtime sizes to increase accordingly.</Note>
