@@ -1462,12 +1462,12 @@ You can observe changes over time to property values, either by using listeners 
     val numberProperty = vmi.getNumberProperty("My Number Property")
     // Observe
     lifecycleScope.launch {
-        numberProperty.collect { value ->
+        numberProperty.valueFlow.collect { value ->
             Log.i("MyActivity", "Value: $value")
         }
     }
     // Or collect in Compose
-    val numberValue by numberProperty.collectAsState()
+    val numberValue by numberProperty.valueFlow.collectAsState()
     ```
   </Tab>
   <Tab title="Flutter">
@@ -2005,6 +2005,27 @@ For more information on list properties, see the [Data Binding List Property](/e
 
     // Get and print the size of the list
     print(listProperty.size) // Prints 0
+    ```
+  </Tab>
+  <Tab title="Android">
+    ```kotlin
+    // Acquire the default view model instance and the list property.
+    val vmi = animationView.file!!.firstArtboard.viewModelInstance!!
+    val listProperty = vmi.getListProperty("list")
+
+    // Create a view model instance for "First" and "Second" and add them to the list.
+    val firstInstance = animationView.file!!.getViewModelByName("My Item VM").createInstanceFromName("First")
+    listProperty.add(firstInstance)
+
+    val secondInstance = animationView.file!!.getViewModelByName("My Item VM").createInstanceFromName("Second")
+    listProperty.add(secondInstance)
+    
+    // Swap the two items in the list.
+    listProperty.swap(0, 1)
+    
+    // Remove both items from the list.
+    listProperty.remove(firstInstance)
+    listProperty.removeAt(0)
     ```
   </Tab>
   <Tab title="Flutter">
