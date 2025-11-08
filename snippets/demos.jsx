@@ -122,6 +122,14 @@ export const Demos = ({
         reactJs: 'https://codesandbox.io/p/devbox/rive-react-vanilla-js-quick-start-kz66t4?file=%2Fsrc%2FApp.tsx%3A53%2C7',
       }
     },
+    scriptingTippingConverter: {
+      title: "Converter Script with View Model Properties",
+      image: "/images/scripting/tipping-scripting-converter.gif",
+      description: "Calculate the bill total using the converter's input value added to data binding values.",
+      links: {
+        editor: "TO DO"
+      }
+    },
     starRating: {
       title: "Android New Compose API Quick Start",
       image: "/images/runtimes/star-rating.webp",
@@ -146,7 +154,8 @@ export const Demos = ({
     'android',
     'unity',
     'unreal',
-    'mobile'
+    'mobile',
+    'editor'
   ]
   const runtimeTitles = {
     web: 'Web',
@@ -158,7 +167,8 @@ export const Demos = ({
     android: 'Android',
     unity: 'Unity',
     unreal: 'Unreal',
-    mobile: 'Mobile'
+    mobile: 'Mobile',
+    editor: 'Try in Rive'
   }
 
   // Keep track of Rive instances for when the window resizes

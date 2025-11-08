@@ -1,21 +1,32 @@
 ---
-title: "Scripting Converters"
+title: "Converter Scripts"
 description: "Create custom converters using Rive scripting"
 ---
+
+import { Demos } from '/snippets/demos.jsx'
 
 Rive includes several built-in converters like **Convert to String** and **Round**.
 Scripting lets you create your own custom converters when you need behavior that isn’t covered by the built-ins.
 
 For background on converters and data binding, see [Data Converters](editor/data-binding/overview#converter)
 
-## Create a New Converter Script
+## Examples
 
-1. In the **Assets** panel, click the `+` button.
-2. Select **Script → Converter**.
+<Demos
+  examples={[
+    "scriptingTippingConverter",
+  ]}
+/>
+
+## Creating a New Converter Script
+
+[Create a new script](scripting/creating-a-script) of type Converter.
 
 ![Create converter script](/images/scripting/create-converter-script.png)
 
-A new script asset appears in the Assets panel and opens in the code editor.
+<Tip>
+Use **PascalCase** for script names and match the filename to what it does (example `ConvertNumberToPrice`). Update the script’s type name accordingly.
+</Tip>
 
 ```lua
 type MyConverter = {}
@@ -57,17 +68,12 @@ end
 ```
 
 
-## Use the Script as a Converter
+## Creating a Converter using your Script
 
-Once saved, your script appears alongside other converters.
+Create a new converter using your new converter script:
 
-In the Data panel, click the `+` button.
-
-Choose **Converters → Script → MyConverter**.
-
-<Tip>
-Use **PascalCase** for script names and match the filename to what it does, for example `ConvertNumberToPrice`. Update the script’s type name accordingly.
-</Tip>
+1. In the Data panel, click the `+` button.
+2. Choose **Converters → Script → MyConverter**.
 
 
 ![Create converter with a script](/images/scripting/create-converter-with-script.png)
@@ -75,20 +81,21 @@ Use **PascalCase** for script names and match the filename to what it does, for 
 
 ## Adding Inputs
 
-Inputs let you customize each instance of your converter with unique data or bindings from your view model.
+Inputs let you customize your converter with unique data that can be bound to view model properties.
 
 
 ```lua
+-- Define the script's data and inputs.
 type MyConverter = {
-  -- Make this input value accessible via self
   myInputNumber: Input<number>,
 }
 
 function convert(self: MyConverter, input: DataValueNumber): DataValueNumber
   local dv: DataValueNumber = DataValue.number()
   if input:isNumber() then
-    -- Add the value of myInputNumber to the incoming value
-    dv.value = (input :: DataValueNumber).value  + self.myInputNumber
+    -- Add the values of myInputNumber to the incoming value
+    dv.value = (input :: DataValueNumber).value
+      + self.myInputNumber
   end
   return dv
 end
@@ -99,43 +106,43 @@ return function(): Converter<MyConverter, DataValueNumber, DataValueNumber>
     convert = convert,
     reverseConvert = reverseConvert,
     -- Default value when creating a new converter
-    myInputNumber = 0,
+    myInputNumber = 0
   }
 end
 
 ```
 
-**To edit the input value:**
+**Modifying input value:**
 
 1. Select your converter in the Data panel.
 2. Adjust the field value in the property inspector.
 
 ![Converter script input](/images/scripting/converter-script-input.png)
 
-**To data-bind the input:**
+**Data the input:**
 
 Right-click the field and choose **Data Bind**.
 
 ![Data bind a converter input](/images/scripting/converter-script-input-data-binding.png)
 
-Each converter instance can use the same script but different input values.
+You can create multiple converters using the same script, each with unique input data.
 
-## Accessing View Model Data
+### Using a View Model as an Input
 
-Converters can also read values from view models nested inside the main view model.
+Converters can read values from view models nested inside the main view model.
 
 ![Make Nested View Model accessible in converter](/images/scripting/converter-nested-vm.png)
 
 ```lua
 type MyConverter = {
-  -- Make the nested view mode properties accessible via self
+  -- Make the nested view mode properties accessible via self.
   childViewModel: Input<Data.ChildViewModel>,
 }
 
 function convert(self: MyConverter, input: DataValueNumber): DataValueNumber
   local dv: DataValueNumber = DataValue.number()
   if input:isNumber() then
-    -- Add the addValue view model property to the incoming vaue
+    -- Add the addValue view model property to the incoming vaue.
     dv.value = (input :: DataValueNumber).value + self.childViewModel.addValue.value
   end
   return dv
