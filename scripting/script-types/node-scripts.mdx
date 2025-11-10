@@ -25,7 +25,7 @@ TO DO
 
 ## Creating a Node Script
 
-[Create a new Script](/scripting/creating-scripts) of type Node.
+[Create a new script](/scripting/creating-scripts) and select **Node** as the type.
 
 <Tip>
 Use **PascalCase** for script names and match the filename to what it does (example `ConvertNumberToPrice`). Update the script’s type name accordingly.
@@ -82,12 +82,11 @@ end
 
 ## Inputs
 
-- See [Script Inputs](/scripting/script-inputs).
-- Select the script in the Hierarchy, inputs in the right sidebar
-- Data bind your inputs
+See [Script Inputs](/scripting/script-inputs).
 
+## Common Patterns
 
-## Instanting Components
+### Instanting Components
 
 TO DO
 
@@ -137,8 +136,7 @@ function draw(self: MyGame, renderer: Renderer)
 end
 ```
 
-
-## Fixed-Step Advance
+### Fixed-Step Advance
 
 Frame rates can vary between devices and scenes. If your script moves or animates objects based directly on the frame time, faster devices will move them farther each second, while slower ones will appear to lag behind.
 

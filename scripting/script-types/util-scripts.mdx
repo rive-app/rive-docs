@@ -5,13 +5,11 @@ description: "Create helper modules to organize shared logic across your scripts
 
 
 Util scripts let you organize your code into small, focused modules that can be reused across multiple scripts.
-They’re ideal for math helpers, geometry utilities, color functions, or any logic that doesn’t belong in a single Drawing, Layout, or Converter script.
+They’re ideal for math helpers, geometry utilities, color functions, or any logic that should be broken out into its own script.
 
 ## Creating a Util Script
 
 [Create a new script](/scripting/creating-scripts) and select **Util** as the type.
-
-The default template defines a simple helper function and returns it so it can be used in other scripts.
 
 ```lua
 --- Example helper function.
@@ -19,7 +17,7 @@ local function add(a: number, b: number): MyUtil
   return a + b,
 end
 
--- Return the functions you'd like to in another script
+-- Return the functions you'd like to use in another script
 return {
   add = add,
 }

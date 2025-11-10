@@ -8,7 +8,7 @@ import { Demos } from '/snippets/demos.jsx'
 Rive includes several built-in converters like **Convert to String** and **Round**.
 Scripting lets you create your own custom converters when you need behavior that isn’t covered by the built-ins.
 
-For background on converters and data binding, see [Data Converters](editor/data-binding/overview#converter)
+For background on converters and data binding, see [Data Converters](editor/data-binding/overview#converter).
 
 ## Examples
 
@@ -20,13 +20,9 @@ For background on converters and data binding, see [Data Converters](editor/data
 
 ## Creating a Converter
 
-[Create a new script](/scripting/creating-scripts) of type Converter.
+[Create a new script](/scripting/creating-scripts) and select **Converter** as the type.
 
-![Create converter script](/images/scripting/create-converter-script.png)
-
-<Tip>
-Use **PascalCase** for script names and match the filename to what it does (example `ConvertNumberToPrice`). Update the script’s type name accordingly.
-</Tip>
+## Anatomy of a Converter Script
 
 ```lua
 type MyConverter = {}
@@ -81,88 +77,4 @@ Create a new converter using your new converter script:
 
 ## Adding Inputs
 
-Inputs let you customize your converter with unique data that can be bound to view model properties.
-
-
-```lua
--- Define the script's data and inputs.
-type MyConverter = {
-  myInputNumber: Input<number>,
-}
-
-function convert(self: MyConverter, input: DataValueNumber): DataValueNumber
-  local dv: DataValueNumber = DataValue.number()
-  if input:isNumber() then
-    -- Add the values of myInputNumber to the incoming value
-    dv.value = (input :: DataValueNumber).value
-      + self.myInputNumber
-  end
-  return dv
-end
-
-return function(): Converter<MyConverter, DataValueNumber, DataValueNumber>
-  return {
-    init = init,
-    convert = convert,
-    reverseConvert = reverseConvert,
-    -- Default value when creating a new converter
-    myInputNumber = 0
-  }
-end
-
-```
-
-**Modifying input value:**
-
-1. Select your converter in the Data panel.
-2. Adjust the field value in the property inspector.
-
-![Converter script input](/images/scripting/converter-script-input.png)
-
-**Data the input:**
-
-Right-click the field and choose **Data Bind**.
-
-![Data bind a converter input](/images/scripting/converter-script-input-data-binding.png)
-
-You can create multiple converters using the same script, each with unique input data.
-
-### Using a View Model as an Input
-
-Converters can read values from view models nested inside the main view model.
-
-![Make Nested View Model accessible in converter](/images/scripting/converter-nested-vm.png)
-
-```lua
-type MyConverter = {
-  -- Make the nested view mode properties accessible via self.
-  childViewModel: Input<Data.ChildViewModel>,
-}
-
-function convert(self: MyConverter, input: DataValueNumber): DataValueNumber
-  local dv: DataValueNumber = DataValue.number()
-  if input:isNumber() then
-    -- Add the addValue view model property to the incoming vaue.
-    dv.value = (input :: DataValueNumber).value + self.childViewModel.addValue.value
-  end
-  return dv
-end
-
-return function(): Converter<MyConverter, DataValueNumber, DataValueNumber>
-  return {
-    init = init,
-    convert = convert,
-    reverseConvert = reverseConvert,
-        -- Use late() to mark this input as assigned at runtime
-    childViewModel = late()
-  }
-end
-
-```
-
-Select the converter in the Data panel and assign the desired view model.
-
-![Bind View Model to script](/images/scripting/bind-vm-to-script-converter.png)
-
-
-
+See [Script Inputs](/scripting/script-inputs).
