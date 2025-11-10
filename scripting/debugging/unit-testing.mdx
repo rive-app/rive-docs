@@ -5,3 +5,37 @@ description: ""
 
 TO DO
 
+Test scripts let you create unit tests for your [Util Scripts](/scripting/script-types/util-scripts).
+
+## Creating a Test Script
+
+[Create a new script](/scripting/creating-scripts) and select **Test** as the type.
+
+```lua
+-- Add your Util Script
+local MyUtil = require('MyUtil')
+
+function setup(test: Tester)
+  local case = test.case
+
+  case('Add 2 values together', function(expect)
+    local result = MyUtil.add(2, 3)
+
+    expect(result).is(5)
+    expect(result).never.is(3)
+    expect(result).isGreaterThan(3)
+  end)
+end
+
+return function(): Tests
+  return setup
+end
+```
+
+- For a complete list of...
+- Go to Assets, right click script, `run tests`
+  - Passing scripts turn green
+  - `PASS` shows in left sidebar
+  - Console gives you more info
+  - ai tests
+
