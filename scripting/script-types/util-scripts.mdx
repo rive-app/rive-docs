@@ -1,11 +1,72 @@
 ---
 title: "Util Scripts"
-description: ""
+description: "Create helper modules to organize shared logic across your scripts."
 ---
 
-TO DO
 
-- For organization. Allows you to load one script into another
-- export type makes types work automatically in script they're imported into
-- return object of scripts
-- usage `local Utils = require('Utils')`, `Utils.getDistance()`
+Util scripts let you organize your code into small, focused modules that can be reused across multiple scripts.
+They’re ideal for math helpers, geometry utilities, color functions, or any logic that doesn’t belong in a single Drawing, Layout, or Converter script.
+
+## Creating a Util Script
+
+[Create a new script](scripting/creating-a-script) and select **Util** as the type.
+
+The default template defines a simple helper function and returns it so it can be used in other scripts.
+
+```lua
+--- Example helper function.
+local function add(a: number, b: number): MyUtil
+  return a + b,
+end
+
+-- Return the functions you'd like to in another script
+return {
+  add = add,
+}
+
+```
+
+**Usage:**
+
+```lua
+local MyUtil = require("MyUtil")
+
+local result = MyUtil.add(2, 3)
+print(result) -- 5
+
+```
+
+## Utils with Custom Types
+
+You can also define a custom type if your util returns structured data, like a table.
+
+```lua
+--- Defines the return type for this util.
+--- The type is automatically available when you require the script.
+export type MyUtil = {
+  exampleValue: number,
+  someString: string
+}
+
+--- Example helper function.
+local function add(a: number, b: number): MyUtil
+  return {
+    exampleValue = a + b,
+    someString = "4 out of 5 dentists recommend Rive"
+  }
+end
+
+return {
+  add = add,
+}
+
+```
+
+**Usage:**
+
+```lua
+-- Optional type annotation
+local addedValue: MyUtil = MyUtil.add(2, 3)
+print(addedValue.exampleValue) -- 5
+print(addedValue.someString) -- 4 out of 5 dentists recommend Rive
+```
