@@ -1,0 +1,49 @@
+---
+title: "Layout Scripts"
+description: "Layout scripts allow you to control Layouts."
+---
+
+TO DO
+
+**Layout** scripts allow you to control layouts...
+
+Layout scripts extend [Node Scripts](/scripting/script-types/node-scripts) and include two additional functions - `resize` and `measure`.
+
+## Examples
+
+- Masonry
+- Something simple to explain measure
+
+## Measure
+
+- Only supported with Hug fit type
+- optional
+- Returns optimal size, but can be overridden by fit rules
+
+```lua
+function measure(self: MyLayout): Vec2D
+  return Vec2D.xy(100, 100)
+end
+```
+
+## Resize
+
+- required
+- returns the computed size
+
+```lua
+-- The `resize` function is called when the Scripting Layout that contains the script is resized.
+function resize(self: MyLayout, size: Vec2D)
+  print('New size:')
+  print('x:', size.x)
+  print('y:', size.y)
+end
+```
+
+## Adding a Layout Script to a Layout
+
+- create a layout, add the script
+- add the script, wrap it in a layout
+
+
+

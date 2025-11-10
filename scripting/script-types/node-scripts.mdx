@@ -5,3 +5,198 @@ description: ""
 
 TO DO
 
+- [Creating a script](/scripting/creating-scripts)
+- Return function
+- Lifecycle functions
+
+- Adding scripts to an scene
+  - right click, add script
+- Demos
+
+---------------------------------------------------
+
+Node Scripts let you...
+
+## Examples
+
+TO DO
+
+- Sname game
+
+## Creating a Node Script
+
+[Create a new Script](/scripting/creating-scripts) of type Node.
+
+<Tip>
+Use **PascalCase** for script names and match the filename to what it does (example `ConvertNumberToPrice`). Update the script’s type name accordingly.
+</Tip>
+
+## Anatomy of a Node Script
+
+```lua
+-- Define the script's data and inputs.
+type MyDrawing = {}
+
+-- Called once when the script initializes.
+function init(self: MyDrawing): boolean
+  return true
+end
+
+-- Called every frame to advance the simulation.
+-- 'seconds' is the elapsed time since the previous frame.
+function advance(self: MyDrawing, seconds: number): boolean
+  return false
+end
+
+-- Called when any input value changes.
+function update(self: MyDrawing) end
+
+-- Called every frame (after advance) to render the content.
+function draw(self: MyDrawing, renderer: Renderer) end
+
+
+-- Return a factory function that Rive uses to build the Drawing instance.
+return function(): Drawing<MyDrawing>
+  return {
+    init = init,
+    advance = advance,
+    update = update,
+    draw = draw,
+  }
+end
+```
+
+## Adding Scripts to Your Scene
+
+- right click, scripts > your script
+- the script position will affect where it renders
+- Select the group to set inputs (See [Script Inputs](/scripting/script-inputs))
+
+<Tip>
+**Troubleshooting: If you don't see your script in the list:**
+
+1. Make sure your script is in the Assets Panel.
+2. Check the [Problems Panel](/scripting/debugging/debug-panel#problems) for issues.
+3. Make sure your script returns a function that returns a table with at least an `init` and `draw` function.
+</Tip>
+
+## Inputs
+
+- See [Script Inputs](/scripting/script-inputs).
+- Select the script in the Hierarchy, inputs in the right sidebar
+- Data bind your inputs
+
+
+## Instanting Components
+
+TO DO
+
+- Create a new Artboard Input (see [Script Inputs](/scripting/script-inputs)).
+- enemy and main artboard
+- vm with Enemy
+
+```lua
+type Enemy {
+  artboard: Artboard<Data.Enemy>,
+  position: Vec2D
+}
+
+export type MyGame = {
+  enemy: Input<Artboard<Data.Segment>>,
+  enemies: { Vec2D }
+}
+
+function createEnemy(self: MyGame)
+  -- Create an instance of the artboard
+  local enemy = self.enemy:instance()
+
+  -- Keep track of all enemies in self.enemies
+  local entry: Enemy = {
+    artboard = enemy,
+    position = Vec2D.xy(0, 0),
+  }
+  table.insert(self.enemies, entry)
+end
+
+function advance(self: MyGame, seconds: number)
+  -- Advance the artboard of each enemy
+  for _, enemy in self.enemies do
+    enemy.artboard:advance(seconds)
+  end
+
+  return true
+end
+
+function draw(self: MyGame, renderer: Renderer)
+  -- draw each enemy
+  for _, enemy in self.enemies do
+    renderer:save()
+    enemy.artboard:draw(renderer)
+    renderer:restore()
+  end
+end
+```
+
+
+## Fixed-Step Advance
+
+Frame rates can vary between devices and scenes. If your script moves or animates objects based directly on the frame time, faster devices will move them farther each second, while slower ones will appear to lag behind.
+
+To keep movement and timing consistent, you can advance your simulation in fixed time steps instead of relying on the variable frame rate. This technique is called a fixed-step update or fixed timestep.
+
+```lua
+--- Fixed Timestep Advance
+--- Keeps movement consistent across different frame rates
+--- by advancing the simulation in fixed time steps.
+export type CarGame = {
+  speed: Input<number>,
+  accumulator: number,
+  fixedStep: Input<number>,
+  direction: number,
+  currentX: number,
+  currentY: number,
+}
+
+-- Prevent the script from running too many catch-up steps
+-- after a long pause or frame drop.
+local MAX_STEPS = 5
+
+function advance(self: CarGame, seconds: number): boolean
+  -- Add the time since the last frame to the accumulator.
+  self.accumulator += seconds
+
+  local dt = self.fixedStep
+  local steps = 0
+
+  -- Run the simulation in small, fixed steps.
+  -- If the frame took longer than one step, multiple steps may run this frame.
+  while self.accumulator >= dt and steps < MAX_STEPS do
+    -- Move forward by speed * time.
+    -- Using a fixed dt keeps movement stable even if the frame rate changes.
+    self.currentX += self.speed * math.cos(self.direction) * dt
+    self.currentY += self.speed * math.sin(self.direction) * dt
+
+    -- Subtract one fixed step from the accumulator
+    -- and repeat until we've caught up to real time.
+    self.accumulator -= dt
+    steps += 1
+  end
+
+  return true
+end
+
+-- Create a new instance of the CarGame script with default values.
+-- The simulation runs 60 fixed steps per second.
+return function(): Drawing<CarGame>
+  return {
+    speed = 100,
+    accumulator = 0,
+    direction = 0,
+    fixedStep = 1 / 60,
+    currentX = 0,
+    currentY = 0,
+  }
+end
+
+```
+
