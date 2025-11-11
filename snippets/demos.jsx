@@ -130,6 +130,14 @@ export const Demos = ({
         editor: "TO DO"
       }
     },
+    scriptingSnakeGame: {
+      title: "Snake Game",
+      image: "/images/scripting/tipping-scripting-converter.gif",
+      description: "TO DO",
+      links: {
+        editor: "TO DO"
+      }
+    },
     starRating: {
       title: "Android New Compose API Quick Start",
       image: "/images/runtimes/star-rating.webp",

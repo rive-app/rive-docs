@@ -72,6 +72,34 @@ end
 
 See [Script Inputs](/scripting/script-inputs).
 
+## Drawing
+
+TO DO
+
+```lua
+function update(self: Rectangle)
+  -- Update the path with current width and height
+  self.path:reset()
+
+  local halfWidth = self.width / 2
+  local halfHeight = self.height / 2
+
+  -- Draw rectangle centered at origin
+  self.path:moveTo(Vec2D.xy(-halfWidth, -halfHeight))
+  self.path:lineTo(Vec2D.xy(halfWidth, -halfHeight))
+  self.path:lineTo(Vec2D.xy(halfWidth, halfHeight))
+  self.path:lineTo(Vec2D.xy(-halfWidth, halfHeight))
+  self.path:close()
+
+  -- Update paint color
+  self.paint.color = self.color
+end
+
+function draw(self: Rectangle, renderer: Renderer)
+  renderer:drawPath(self.path, self.paint)
+end
+```
+
 ## Common Patterns
 
 ### Instanting Components
