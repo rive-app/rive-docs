@@ -122,6 +122,14 @@ export const Demos = ({
         reactJs: 'https://codesandbox.io/p/devbox/rive-react-vanilla-js-quick-start-kz66t4?file=%2Fsrc%2FApp.tsx%3A53%2C7',
       }
     },
+    scriptingDrawingShapes: {
+      title: "Drawing Shapes with Scripting",
+      image: "/images/scripting/tipping-scripting-converter.gif",
+      description: "TO DO",
+      links: {
+        editor: "TO DO"
+      }
+    },
     scriptingTippingConverter: {
       title: "Converter Script with View Model Properties",
       image: "/images/scripting/tipping-scripting-converter.gif",
