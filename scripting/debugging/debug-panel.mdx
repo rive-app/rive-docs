@@ -4,13 +4,24 @@ description: ""
 ---
 
 The Debug Panel lets you inspect script output and detect issues
-in your code or data bindings.
+in your code.
 
-Select the icon to toggle the debug panel open.
+## Toolbar
+
+The Debug Panel contains main tabs - [Console](#console) and [Problems](#problems):
+
+![Problems panel](/images/scripting/debugging/debug-panel-tabs.png)
+
+Use the panel icon to open or close the Debug Panel:
 
 ![Problems panel](/images/scripting/debugging/toggle-debug-panel.png)
 
-The Debug Panel contains main tabs - Console and Problems.
+Use the fullscreen icon to toggle the script editor into fullscreen mode:
+
+![Problems panel](/images/scripting/debugging/debug-panel-fullscreen.png)
+
+Logs appear in real time as the state machine plays.
+
 
 ## Console
 
@@ -23,10 +34,11 @@ print("Elapsed time:", seconds)
 
 ## Problems
 
-The Problems tab lists problems detected before the script runs — such as type mismatches, syntax errors, or missing data bindings.
+The Problems tab lists problems detected _before_ the script runs such as type mismatches, syntax errors, or missing data bindings.
 
-The Problems tab handle shows the number of issues found in your scripts.
-Click an item in the Problems panel to jump directly to the affected line of code.
-Hover over any underlined code in the editor to see more details about the issue.
+The tab badge shows the number of issues found across your scripts.
+
+Clicking a problem will jump directly to the affected line of code.
+You can also hover any underlined code in the editor to see an explanation or suggested fix.
 
 ![Problems panel](/images/scripting/debugging/problems-panel.png)
