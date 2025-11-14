@@ -139,7 +139,7 @@ export const Demos = ({
       }
     },
     scriptingUnitTesting: {
-      title: "Unit Testing Demo",
+      title: "Unit Testing",
       image: "/images/scripting/debugging/unit-testing-demo.png",
       description: "This hands-on example demonstrates unit testing rgbToHex and hexToRgb color utilities.",
       links: {
@@ -148,8 +148,8 @@ export const Demos = ({
     },
     scriptingSnakeGame: {
       title: "Snake Game",
-      image: "/images/scripting/tipping-scripting-converter.gif",
-      description: "TO DO",
+      image: "/images/scripting/snake-game.png",
+      description: "Check out this complete game built entirely with Rive using scripting.",
       links: {
         editor: "TO DO"
       }
