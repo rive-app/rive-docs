@@ -74,9 +74,26 @@ The expect helper returns an object with matcher methods you can use in your tes
 expect(value).is(expected)
 expect(value).greaterThan(number)
 expect(value).greaterThanOrEqual(number)
+expect(value).lessThan(number)
+expect(value).lessThanOrEqual(number)
 ```
 
 For a complete list of matchers and test utilities, see Test API Reference (TODO: link).
+
+### Inverting matchers with never
+
+You can invert any matcher by chaining .never before it.
+This means: the test passes only if the matcher would normally fail.
+
+```lua
+case('never examples', function(expect)
+  -- This passes because 2 + 2 is NOT 3
+  expect(2 + 2).never.is(3)
+
+  -- This passes because 4 is NOT >= 6
+  expect(4).never.greaterThanOrEqual(6)
+end)
+```
 
 ## Running Tests
 
