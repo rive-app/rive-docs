@@ -138,6 +138,14 @@ export const Demos = ({
         editor: "TO DO"
       }
     },
+    scriptingUnitTesting: {
+      title: "Unit Testing Demo",
+      image: "/images/scripting/debugging/unit-testing-demo.png",
+      description: "This hands-on example demonstrates unit testing rgbToHex and hexToRgb color utilities.",
+      links: {
+        editor: "https://editor.uat.rive.app/file/unit-testing/30348"
+      }
+    },
     scriptingSnakeGame: {
       title: "Snake Game",
       image: "/images/scripting/tipping-scripting-converter.gif",
