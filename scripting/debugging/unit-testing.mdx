@@ -1,41 +1,91 @@
 ---
 title: "Unit Testing"
-description: ""
+description: "Write and run unit tests for your Util Scripts using Test scripts."
 ---
 
-TO DO
+Test scripts let you write unit tests for your [Util Scripts](/scripting/script-types/util-scripts) and run them directly in the Rive editor.
+Use them to verify math helpers, string utilities, or any other pure logic your scripts depend on.
 
-Test scripts let you create unit tests for your [Util Scripts](/scripting/script-types/util-scripts).
+Beyond validating your code, tests also serve as precise instructions for the [AI Agent](/scripts/ai-agent), helping them produce code that behaves exactly as you intend.
 
 ## Creating a Test Script
 
 [Create a new script](/scripting/creating-scripts) and select **Test** as the type.
 
+### Anatomy of a Test Script
+
+A Test script exposes a single `setup(test: Tester)` function. The `Tester` object gives you helpers to define and group tests:
+
+- `test.case(name, fn)` – define a single test case.
+- `test.group(name, fn)` – group related tests. Groups can be nested.
+- `expect(value)` – create an expectation object to assert on a value.
+
+Inside a case, the `expect` function is passed as an argument to your test callback.
+
+### Example
+
 ```lua
--- Add your Util Script
+-- Load the Util that you want to create tests for
 local MyUtil = require('MyUtil')
 
 function setup(test: Tester)
   local case = test.case
+  local group = test.group
 
-  case('Add 2 values together', function(expect)
+  -- Create a single case with multiple tests
+  case('Addition', function(expect)
     local result = MyUtil.add(2, 3)
-
     expect(result).is(5)
-    expect(result).never.is(3)
-    expect(result).isGreaterThan(3)
+    expect(result).greaterThanOrEqual(5)
+  end)
+
+  -- Organize your tests with groups
+  group('Math', function()
+    case('Subtraction', function(expect)
+      local result = MyUtil.subtract(2, 3)
+      expect(result).is(-1)
+    end)
+
+    case('Multiplication', function(expect)
+      local result = MyUtil.multiply(2, 3)
+      expect(result).greaterThanOrEqual(6)
+    end)
+
+    group('Trigonometry', function()
+
+      case('Degrees to Radians', function(expect)
+        local result = MyUtil.deg2rad(180)
+        expect(result).is(math.pi)
+      end)
+    end)
   end)
 end
 
-return function(): Tests
-  return setup
-end
+```
+<Tip>
+  Tip: Use descriptive names for your groups and cases. They show up in the test results panel and make it easier to see what failed.
+</Tip>
+
+### Matchers (expectations)
+
+The expect helper returns an object with matcher methods you can use in your tests, for example:
+
+```lua
+expect(value).is(expected)
+expect(value).greaterThan(number)
+expect(value).greaterThanOrEqual(number)
 ```
 
-- For a complete list of...
-- Go to Assets, right click script, `run tests`
-  - Passing scripts turn green
-  - `PASS` shows in left sidebar
-  - Console gives you more info
-  - ai tests
+For a complete list of matchers and test utilities, see Test API Reference (TODO: link).
 
+## Running Tests
+
+1. In the Assets panel, right-click your Test script.
+2. Select Run Tests.
+
+Test results are shown:
+
+- Passing and failing cases are listed under the script in the Assets Panel
+- Passing and failing cases are highlighted in the script editor
+
+![Problems panel](/images/scripting/debugging/test-results.png)
