@@ -3,6 +3,8 @@ title: "Pointer Events"
 description: ""
 ---
 
+import { Demos } from '/snippets/demos.jsx'
+
 You can listen for pointer events inside any script that implements `pointerDown`, `pointerMove`, `pointerUp`, or `pointerExit`. These functions can be defined in [Node Scripts](/scripting/script-types/node-scripts) and [Layout Scripts](/scripting/script-types/layout-scripts).
 
 
@@ -38,18 +40,68 @@ end
 Using `event.id`, you can track multiple active pointers:
 
 ```lua
-function onPointerDown(self: MyScript, event: PointerEvent)
-  self.active[event.id] = event.position
+type ActiveId = {
+  position: Vec2D,
+}
+
+export type TrackPointers = {
+  -- Keep track of the position for each of the pointers
+  activePointers: { ActiveId },
+}
+
+function onPointerDown(self: TrackPointers, event: PointerEvent)
+  -- Save an item in the table for each pointer down
+  self.activePointers[event.id] = {
+    position = event.position,
+  }
+
+  print('New pointer down: ' .. event.id)
+  print('Position: ' .. event.position.x .. event.position.y)
+
   event:hit()
 end
 
-function onPointerMove(self: MyScript, event: PointerEvent)
-  self.active[event.id] = event.position
+function onPointerMove(self: TrackPointers, event: PointerEvent)
+  if self.activePointers[event.id] then
+    self.activePointers[event.id].position = event.position
+
+    -- Print all currently active pointer IDs
+    print('Active pointer IDs:')
+    for id, pointer in self.activePointers do
+      print('  id: ', id)
+      print('    x:', pointer.position.x)
+      print('    y:', pointer.position.y)
+    end
+  end
+
   event:hit()
 end
 
-function onPointerUp(self: MyScript, event: PointerEvent)
-  self.active[event.id] = nil
+function onPointerUp(self: TrackPointers, event: PointerEvent)
+  self.activePointers[event.id] = nil
+
+  print('Pointer up: ' .. event.id)
+  print('Position: ' .. event.position.x .. event.position.y)
+
   event:hit()
 end
+
+return function(): Drawing<TrackPointers>
+  return {
+    init = init,
+    advance = advance,
+    draw = draw,
+    pointerDown = onPointerDown,
+    pointerMove = onPointerMove,
+    pointerUp = onPointerUp,
+    activePointers = {},
+  }
+end
+
 ```
+
+<Demos
+  examples={[
+    "scriptingMultiTouch"
+  ]}
+/>
