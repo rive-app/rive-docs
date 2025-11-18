@@ -162,6 +162,14 @@ export const Demos = ({
         editor: "TO DO"
       }
     },
+    scriptingNestedPointers: {
+      title: "Nested Pointer Events",
+      image: "/images/scripting/snake-game.png",
+      description: "TO DO.",
+      links: {
+        editor: "TO DO"
+      }
+    },
     starRating: {
       title: "Android New Compose API Quick Start",
       image: "/images/runtimes/star-rating.webp",

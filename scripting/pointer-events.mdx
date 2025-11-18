@@ -37,7 +37,13 @@ end
 
 ## Multi-touch
 
-Using `event.id`, you can track multiple active pointers:
+Using `event.id`, you can track multiple active pointers.
+
+<Demos
+  examples={[
+    "scriptingMultiTouch"
+  ]}
+/>
 
 ```lua
 type ActiveId = {
@@ -100,8 +106,35 @@ end
 
 ```
 
+## Nested Pointer Events
+
+Rive only listens for Pointer Events on the main artboard.
+If you need to listen for Pointer Events in your [instantiated artboards](/scripting/script-types/node-scripts#instanting-components),
+you'll need to pass them down manually.
+
 <Demos
   examples={[
-    "scriptingMultiTouch"
+    "scriptingNestedPointers"
   ]}
 />
+
+
+```lua
+-- Listen for Pointer Events in your main script
+function handlePointerDown(self: MyScript, event: PointerEvent)
+  -- self.enemy.pointerDown(self.enemy, event)
+  for _, enemy in self.enemies do
+    local localEvent = PointerEvent.new(
+      event.id,
+      Vec2D.xy(
+        -- Normalize the pointer position based on the artboard's position
+        event.position.x - enemy.position.x,
+        event.position.y - enemy.position.y
+      )
+    )
+
+    -- Pass the pointer event to the instantiated artboard
+    self.enemy:pointerDown(localEvent)
+  end
+end
+```
