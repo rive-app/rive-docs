@@ -18,9 +18,6 @@ function handlePointerDown(self: MyDrawing, event: PointerEvent)
   -- Marks the event as handled and prevents propagation.
   event:hit()
   -- event:hit(true) -- handled, but allowed to pass through translucent elements
-
-  -- Returning a non-zero value reports a hit.
-  return 1
 end
 
 -- Register your pointer handlers by assigning functions to pointerDown,
@@ -42,18 +39,17 @@ Using `event.id`, you can track multiple active pointers:
 
 ```lua
 function onPointerDown(self: MyScript, event: PointerEvent)
-    self.active[event.id] = event.position
+  self.active[event.id] = event.position
+  event:hit()
 end
 
 function onPointerMove(self: MyScript, event: PointerEvent)
-    self.active[event.id] = event.position
+  self.active[event.id] = event.position
+  event:hit()
 end
 
 function onPointerUp(self: MyScript, event: PointerEvent)
-    self.active[event.id] = nil
+  self.active[event.id] = nil
+  event:hit()
 end
 ```
-
-## Events on Instantiated Artboards
-
-TO DO
