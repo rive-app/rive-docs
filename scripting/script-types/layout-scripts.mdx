@@ -3,47 +3,62 @@ title: "Layout Scripts"
 description: "Layout scripts allow you to control Layouts."
 ---
 
-TO DO
+import { Demos } from '/snippets/demos.jsx'
 
-**Layout** scripts allow you to control layouts...
+Layout Scripts extend the behavior of [Node Scripts](/scripting/script-types/node-scripts), giving you programmatic control over Layout components. They let you measure, size, and react to changes in your Layout’s geometry. They are ideal for building custom layout behaviors such as masonry grids, carousels, spacing logic, and more.
 
-Layout scripts extend [Node Scripts](/scripting/script-types/node-scripts) and include two additional functions - `resize` and `measure`.
+
 
 ## Examples
 
-- Masonry
-- Something simple to explain measure
+<Demos
+  examples={[
+    "scriptingMasonry"
+  ]}
+/>
 
-## Measure
+## Adding a Layout Script to a Layout
 
-- Only supported with Hug fit type
-- optional
-- Returns optimal size, but can be overridden by fit rules
+1. Add a new [Layout](/editor/layouts/layouts-overview) to the scene.
+2. [Create a new script](/scripting/creating-scripts) and select **Layout** as the type.
+3. Add your script as a child of the Layout.
+
+## Lifecycle
+
+Layout Scripts add two additional lifecycle functions:
+
+- `measure(self): Vec2D` — optional
+- `resize(self, size: Vec2D)` — required
+
+### Measure
+
+Measure lets your script propose an ideal size for the layout.
+Rive will use this value unless a Fit rule overrides it.
+
+Measure only has an effect on layouts with a Fit type of Hug.
 
 ```lua
 function measure(self: MyLayout): Vec2D
+  -- Always declare that this layout would like to be 100×100
   return Vec2D.xy(100, 100)
 end
 ```
 
-## Resize
+### Resize
 
-- required
-- returns the computed size
+Resize runs whenever the Layout receives a new size from its parent or from your measure function.
+This is where you position or update child nodes, recalculate flow, or react to container changes.
 
 ```lua
--- The `resize` function is called when the Scripting Layout that contains the script is resized.
+-- Called whenever the Layout is resized.
 function resize(self: MyLayout, size: Vec2D)
-  print('New size:')
-  print('x:', size.x)
-  print('y:', size.y)
+  print("New size:")
+  print("x:", size.x)
+  print("y:", size.y)
 end
 ```
 
-## Adding a Layout Script to a Layout
 
-- create a layout, add the script
-- add the script, wrap it in a layout
 
 
 

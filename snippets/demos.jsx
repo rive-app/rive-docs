@@ -130,6 +130,14 @@ export const Demos = ({
         editor: "TO DO"
       }
     },
+    scriptingMasonry: {
+      title: "Masonry Layout",
+      image: "/images/scripting/scripting-default-thumb.png",
+      description: "Create a masonry layout using a Layout script.",
+      links: {
+        editor: "TO DO"
+      }
+    },
     scriptingTippingConverter: {
       title: "Converter Script with View Model Properties",
       image: "/images/scripting/tipping-scripting-converter.gif",
