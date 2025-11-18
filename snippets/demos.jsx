@@ -123,9 +123,9 @@ export const Demos = ({
       }
     },
     scriptingDrawingShapes: {
-      title: "Drawing Shapes with Scripting",
+      title: "Drawing with Scripting",
       image: "/images/scripting/scripting-default-thumb.png",
-      description: "TO DO",
+      description: "Draw a squirkle, a star, and an animated wave with scripting.",
       links: {
         editor: "TO DO"
       }
@@ -165,7 +165,7 @@ export const Demos = ({
     scriptingMultiTouch: {
       title: "Tracking Multi-touch",
       image: "/images/scripting/scripting-default-thumb.png",
-      description: "TO DO.",
+      description: "Keep track of every finger.",
       links: {
         editor: "TO DO"
       }
@@ -173,7 +173,15 @@ export const Demos = ({
     scriptingNestedPointers: {
       title: "Nested Pointer Events",
       image: "/images/scripting/scripting-default-thumb.png",
-      description: "TO DO.",
+      description: "Pass pointer events from the parent component to the instantiated children.",
+      links: {
+        editor: "TO DO"
+      }
+    },
+    scriptingInstantiatingArtboards: {
+      title: "Dynamically Adding Components",
+      image: "/images/scripting/scripting-default-thumb.png",
+      description: "Add new components to your scene at runtime.",
       links: {
         editor: "TO DO"
       }
