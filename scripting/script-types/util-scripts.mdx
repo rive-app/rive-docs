@@ -36,18 +36,19 @@ print(result) -- 5
 
 ## Utils with Custom Types
 
-You can also define a custom type if your util returns structured data, like a table.
+Custom types defined in your Util scripts will automatically be accessable
+in the parent script.
 
 ```lua
 --- Defines the return type for this util.
 --- The type is automatically available when you require the script.
-export type MyUtil = {
+export type AdditionResult = {
   exampleValue: number,
   someString: string
 }
 
 --- Example helper function.
-local function add(a: number, b: number): MyUtil
+local function add(a: number, b: number): AdditionResult
   return {
     exampleValue = a + b,
     someString = "4 out of 5 dentists recommend Rive"
@@ -63,12 +64,6 @@ return {
 **Usage:**
 
 ```lua
--- Optional type annotation
-local addedValue: MyUtil = MyUtil.add(2, 3)
-print(addedValue.exampleValue) -- 5
-print(addedValue.someString) -- 4 out of 5 dentists recommend Rive
+-- With type annotation
+local result: AdditionResult = MyUtil.add(2, 3)
 ```
-
-## Testing
-
-See [Unit Testing](/scripting/debugging/unit-testing)
