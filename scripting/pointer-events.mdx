@@ -1,0 +1,59 @@
+---
+title: "Pointer Events"
+description: ""
+---
+
+You can listen for pointer events inside any script that implements `pointerDown`, `pointerMove`, `pointerUp`, or `pointerExit`. These functions can be defined in [Node Scripts](/scripting/script-types/node-scripts) and [Layout Scripts](/scripting/script-types/layout-scripts).
+
+
+```lua
+-- Pointer event callbacks have parameters of `self` and a `PointerEvent`.
+function handlePointerDown(self: MyDrawing, event: PointerEvent)
+  -- Pointer location in local coordinates relative to the script.
+  print(event.position.x, event.position.y)
+
+  -- the pointer identifier (useful for multi-touch)
+  print(event.id)
+
+  -- Marks the event as handled and prevents propagation.
+  event:hit()
+  -- event:hit(true) -- handled, but allowed to pass through translucent elements
+
+  -- Returning a non-zero value reports a hit.
+  return 1
+end
+
+-- Register your pointer handlers by assigning functions to pointerDown,
+-- pointerUp, pointerMove, or pointerExit in the script’s returned table.
+return function(): Drawing<MyScript>
+  return {
+    init = init,
+    draw = draw,
+    advance = advance,
+    pointerDown = myPointerDownFunction,
+  }
+end
+
+```
+
+## Multi-touch
+
+Using `event.id`, you can track multiple active pointers:
+
+```lua
+function onPointerDown(self: MyScript, event: PointerEvent)
+    self.active[event.id] = event.position
+end
+
+function onPointerMove(self: MyScript, event: PointerEvent)
+    self.active[event.id] = event.position
+end
+
+function onPointerUp(self: MyScript, event: PointerEvent)
+    self.active[event.id] = nil
+end
+```
+
+## Events on Instantiated Artboards
+
+TO DO

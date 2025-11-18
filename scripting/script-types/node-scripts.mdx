@@ -122,14 +122,14 @@ TO DO
 - vm with Enemy
 
 ```lua
-type Enemy {
+type Enemy = {
   artboard: Artboard<Data.Enemy>,
-  position: Vec2D
+  position: Vec2D,
 }
 
 export type MyGame = {
-  enemy: Input<Artboard<Data.Segment>>,
-  enemies: { Vec2D }
+  enemy: Input<Artboard<Data.Enemy>>,
+  enemies: { Enemy },
 }
 
 function createEnemy(self: MyGame)
@@ -142,6 +142,12 @@ function createEnemy(self: MyGame)
     position = Vec2D.xy(0, 0),
   }
   table.insert(self.enemies, entry)
+end
+
+function init(self: MyGame)
+  createEnemy(self)
+
+  return true
 end
 
 function advance(self: MyGame, seconds: number)
@@ -160,6 +166,16 @@ function draw(self: MyGame, renderer: Renderer)
     enemy.artboard:draw(renderer)
     renderer:restore()
   end
+end
+
+return function(): Drawing<MyGame>
+  return {
+    init = init,
+    advance = advance,
+    draw = draw,
+    enemy = late(),
+    enemies = {},
+  }
 end
 ```
 
