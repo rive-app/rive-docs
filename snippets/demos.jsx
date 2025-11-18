@@ -124,7 +124,7 @@ export const Demos = ({
     },
     scriptingDrawingShapes: {
       title: "Drawing Shapes with Scripting",
-      image: "/images/scripting/tipping-scripting-converter.gif",
+      image: "/images/scripting/scripting-default-thumb.png",
       description: "TO DO",
       links: {
         editor: "TO DO"
@@ -140,7 +140,7 @@ export const Demos = ({
     },
     scriptingUnitTesting: {
       title: "Unit Testing",
-      image: "/images/scripting/debugging/unit-testing-demo.png",
+      image: "/images/scripting/scripting-default-thumb.png",
       description: "This hands-on example demonstrates unit testing rgbToHex and hexToRgb color utilities.",
       links: {
         editor: "https://editor.uat.rive.app/file/unit-testing/30348"
@@ -156,7 +156,7 @@ export const Demos = ({
     },
     scriptingMultiTouch: {
       title: "Tracking Multi-touch",
-      image: "/images/scripting/snake-game.png",
+      image: "/images/scripting/scripting-default-thumb.png",
       description: "TO DO.",
       links: {
         editor: "TO DO"
@@ -164,7 +164,7 @@ export const Demos = ({
     },
     scriptingNestedPointers: {
       title: "Nested Pointer Events",
-      image: "/images/scripting/snake-game.png",
+      image: "/images/scripting/scripting-default-thumb.png",
       description: "TO DO.",
       links: {
         editor: "TO DO"
