@@ -124,7 +124,7 @@ export const Demos = ({
     },
     scriptingDrawingShapes: {
       title: "Drawing with Scripting",
-      image: "/images/scripting/scripting-default-thumb.png",
+      image: "/images/scripting/drawing-demo.png",
       description: "Draw a squirkle, a star, and an animated wave with scripting.",
       links: {
         editor: "TO DO"
