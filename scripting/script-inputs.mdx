@@ -4,9 +4,14 @@ sidebarTitle: "Script Inputs"
 description: ""
 ---
 
-TO DO - Overview:
-- Inputs let you pass data into your script
-- Inputs can be view models, allowing you to control anything
+Scripted Inputs are the bridge between your scripts and the Rive editor, allowing you to customize and control script behavior through custom input fields.
+
+By defining inputs in your scripts, you expose configurable properties — like numbers, colors, booleans, and artboard components — that appear directly in the Rive interface. This means you can write the logic once in a script, and then experiment freely with values, animate properties over time, bind data from external sources, and reuse the same script across multiple instances with different configurations. Inputs transform static scripts into flexible, designer-friendly tools that enable true collaboration and rapid iteration.
+
+Scripted Inputs
+- let you pass data into your script
+- can be view models, allowing you to control anything
+- enable rapid iteration with values that can be updated as the script runs
 
 
 Inputs let you customize your [Node](/scripting/script-types/node-scripts), [Layout](/scripting/script-types/layout-scripts), and [Converter](/scripting/script-types/converter-scripts) scripts with unique data that can be bound to view model properties.
@@ -45,9 +50,9 @@ return function(): Drawing<MyDrawing>
     -- This will be overridden by a value set in the script's inputs
     myNumber = 0,
     myColor = Color.rgba(255, 255, 0, 255), -- 0xFFFFFF00
-  },
+  
     -- Use late() to mark this input as assigned at runtime
-    myViewModel = late()
+    myViewModel = late(),
     myArtboard = late()
   }
 end
