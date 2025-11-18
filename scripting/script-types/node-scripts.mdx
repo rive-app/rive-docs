@@ -6,17 +6,10 @@ description: ""
 import { Demos } from '/snippets/demos.jsx'
 
 
-Node Scripts let you...
-
-## Examples
-
-TO DO
-
-- Sname game
-
 ## Creating a Node Script
 
-[Create a new script](/scripting/creating-scripts) and select **Node** as the type.
+1. [Create a new script](/scripting/creating-scripts) and select **Node** as the type.
+2. [Add it to the scene](/scripting/creating-scripts#adding-scripts-to-your-scene).
 
 ## Anatomy of a Node Script
 
@@ -53,27 +46,10 @@ return function(): Drawing<MyDrawing>
 end
 ```
 
-## Adding Scripts to Your Scene
-
-- Right-click the artboard you'd like to add your script to and select your script from the menu
-- the script position will affect where it renders
-- Select the group to set inputs (See [Script Inputs](/scripting/script-inputs))
-
-<Tip>
-**Troubleshooting: If you don't see your script in the list:**
-
-1. Make sure your script is in the Assets Panel.
-2. Check the [Problems Panel](/scripting/debugging/debug-panel#problems) for issues.
-3. Make sure your script returns a function that returns a table with at least an `init` and `draw` function.
-</Tip>
-
-## Inputs
-
-See [Script Inputs](/scripting/script-inputs).
 
 ## Drawing
 
-TO DO
+Node scripts allow you to draw shapes and render them in your scene.
 
 <Demos
   examples={[
@@ -82,7 +58,7 @@ TO DO
 />
 
 ```lua
-function update(self: Rectangle)
+function rectangle(self: Rectangle)
   -- Update the path with current width and height
   self.path:reset()
 
@@ -105,17 +81,24 @@ function draw(self: Rectangle, renderer: Renderer)
 end
 ```
 
+See the [API Reference](/scripting/api-reference/path) for a complete list of drawing utilities.
+
 ## Common Patterns
 
 ### Instanting Components
 
-TO DO
+To be able to instantiate components at runtime, you will need to have a basic understanding of
+[Data Binding](/editor/data-binding/overview), [Components](/editor/fundamentals/components), and [Script Inputs](/scripting/script-inputs).
 
-- Create a new Artboard Input (see [Script Inputs](/scripting/script-inputs)).
-- The nested artboard needs its own view model
-- The parent view model needs to reference the nested view model
-- enemy and main artboard
-- vm with Enemy
+See the following example showing how to set up your components, view models, and scripts:
+
+<Demos
+  examples={[
+    "scriptingInstantiatingArtboards",
+    "scriptingSnakeGame"
+  ]}
+/>
+
 
 ```lua
 type Enemy = {
@@ -124,6 +107,8 @@ type Enemy = {
 }
 
 export type MyGame = {
+  -- This is the component that we will dynamically add to our scene
+  -- See: https://rive.app/docs/scripting/script-inputs
   enemy: Input<Artboard<Data.Enemy>>,
   enemies: { Enemy },
 }
@@ -180,6 +165,12 @@ end
 Frame rates can vary between devices and scenes. If your script moves or animates objects based directly on the frame time, faster devices will move them farther each second, while slower ones will appear to lag behind.
 
 To keep movement and timing consistent, you can advance your simulation in fixed time steps instead of relying on the variable frame rate. This technique is called a fixed-step update or fixed timestep.
+
+<Demos
+  examples={[
+    "scriptingSnakeGame"
+  ]}
+/>
 
 ```lua
 --- Fixed Timestep Advance
