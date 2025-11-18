@@ -110,7 +110,7 @@ end
 
 Rive only listens for Pointer Events on the main artboard.
 If you need to listen for Pointer Events in your [instantiated artboards](/scripting/script-types/node-scripts#instanting-components),
-you'll need to pass them down manually.
+you must forward them manually.
 
 <Demos
   examples={[
@@ -120,10 +120,12 @@ you'll need to pass them down manually.
 
 
 ```lua
--- Listen for Pointer Events in your main script
+-- Handle pointer events in the main script
 function handlePointerDown(self: MyScript, event: PointerEvent)
   -- self.enemy.pointerDown(self.enemy, event)
   for _, enemy in self.enemies do
+    -- Convert the incoming pointer position into the enemy's local space.
+    -- This example assumes enemy.position is in the same coordinate system.
     local localEvent = PointerEvent.new(
       event.id,
       Vec2D.xy(
@@ -133,7 +135,7 @@ function handlePointerDown(self: MyScript, event: PointerEvent)
       )
     )
 
-    -- Pass the pointer event to the instantiated artboard
+    -- Forward the event into the instantiated artboard
     self.enemy:pointerDown(localEvent)
   end
 end
