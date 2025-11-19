@@ -8,14 +8,6 @@ Scripted Inputs are the bridge between your scripts and the Rive editor, allowin
 
 By defining inputs in your scripts, you expose configurable properties — like numbers, colors, booleans, and artboard components — that appear directly in the Rive interface. This means you can write the logic once in a script, and then experiment freely with values, animate properties over time, bind data from external sources, and reuse the same script across multiple instances with different configurations. Inputs transform static scripts into flexible, designer-friendly tools that enable true collaboration and rapid iteration.
 
-Scripted Inputs
-- let you pass data into your script
-- can be view models, allowing you to control anything
-- enable rapid iteration with values that can be updated as the script runs
-
-
-Inputs let you customize your [Drawing](/scripting/protocols/drawing-scripts), [Layout](/scripting/protocols/layout-scripts), and [Converter](/scripting/protocols/converter-scripts) scripts with unique data that can be bound to view model properties.
-
 ## Defining Inputs
 
 To make new script inputs, add them to the type and set the defaults in the script's return function.
@@ -23,10 +15,13 @@ To make new script inputs, add them to the type and set the defaults in the scri
 ```lua
 -- Define the script's data and inputs.
 -- These properties will be available in `self`
-type MyScript = {
+type MyDrawing = {
   myNumber: Input<number>,
+  myColor: Input<Color>,
+  -- This input expects a View Model named Points
   myViewModel: Input<Data.Points>,
-  myArtboard: Input<Artboard<Data.MyNestedArtboard>>,
+  -- This input expects an Artboard with a View Model named Points
+  myArtboard: Input<Artboard<Data.Points>>,
   -- This will be accessable via self, but not in the inputs panel
   myString: string,
 }
@@ -67,25 +62,20 @@ end
 
 To access the input properties in the right sidebar of the editor, select your [Drawing](/scripting/protocols/drawing-scripts) or [Layout script](/scripting/protocols/layout-scripts) in the Hierarchy Panel or the [Converter](/scripting/protocols/converter-scripts) in the Data Panel.
 
-**Drawing and Layouts:**
-
-[TO DO - image]
-
-**Converter:**
-
-![Converter script input](/images/scripting/converter-script-input.png)
+![Drawing script input](/images/scripting/script-input.png)
 
 ## Data Binding Inputs
 
-Data Binding inputs allows you to change and listen for changes to view model properties.
+You can use [Data Binding](/editor/data-binding/overview) to control input values at runtime.
 
-To view and update inputs, right-click the input field in right sidebar and choose **Data Bind**.
+<Note>
+  Inputs can control scripts, but scripts can't change the value of inputs.
 
-TO DO - VMs need a property of that VM type to refer to
+  If you need to control a view model property from your script, use [View Model Inputs](#view-model-inputs)
+</Note>
 
-<Tip>
-  Bound Inputs support [Target to Source, Source to Target, and 2-way Data Binding](/editor/data-binding/overview#binding).
-</Tip>
+To data bind an input, right-click the input field in right sidebar, choose Data Bind, and select a
+property.
 
 ![Data bind a converter input](/images/scripting/converter-script-input-data-binding.png)
 
@@ -122,4 +112,72 @@ function init(self: MyApp): boolean
   return true
 end
 ```
+
+
+## View Model Inputs
+
+View Model Inputs let your script read from and write to View Model properties. These properties can control any element in your Rive scene via (See [Data Binding](/editor/data-binding/overview)).
+
+### Setting Up Your View Model
+
+Your script can only access View Models that are nested inside your Main View Model.
+
+**In this example:**
+
+- The `Main` view model has a property named `character`.
+- The `character` property is itself a `Character` view model.
+- The `Character` view model contains two number properties (x and y) that you want to control from your script.
+
+![Nested](/images/scripting/nested-view-model.png)
+
+### Defining a View Model Input
+
+Inside your script, declare a new input whose type matches the nested view model you want to reference (`Data.` + the name of your nested view model).
+
+In this case, the Character view model type becomes `Data.Character`.
+
+```lua
+type MyDrawing = {
+  -- This input expects a view model instance of type Character
+  character: Input<Data.Character>
+}
+
+return function(): Drawing<MyDrawing>
+  return {
+    init = init,
+    advance = advance,
+    draw = draw,
+    -- Initialize with `late()` so the value
+    -- can be provided by the editor at runtime.
+    character = late(),
+  }
+end
+```
+
+### Connecting the Input in the Editor
+
+1. Select your script in the Scene panel (or the converter if you're using a [Converter](/scripting/protocols/converter-scripts) script)
+2. In the right sidebar, look for the Property Group section
+3. You’ll see a dropdown for your character input
+4. Select your nested `character` property from the Main view model
+
+![Nested](/images/scripting/select-vm-input.png)
+
+### Reading and Writing View Model Properties
+
+Once connected, you can access the nested view model directly from your script:
+
+```lua
+function moveCharacter(self: MyDrawing)
+  print('Current x: ', self.character.x.value)
+  self.character.x.value = 10
+end
+```
+
+Because character is a view model instance, you can access all of its public properties:
+
+```lua
+self.character.<propertyName>.value
+```
+
 
