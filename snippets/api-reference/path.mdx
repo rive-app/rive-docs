@@ -13,26 +13,26 @@ Creates an empty `Path` ready to draw into.
 
 ```lua
 local path = Path.new()
-path:moveTo(Vec2D.xy(0, 0))
-path:lineTo(Vec2D.xy(100, 0))
+path:moveTo(Vector.xy(0, 0))
+path:lineTo(Vector.xy(100, 0))
 ```
 
 ## Methods
 
-### `path:moveTo(to: Vec2D)`
+### `path:moveTo(to: Vector)`
 
 Moves the current point to to without drawing.
 Starts a new sub-path.
 
 --- ```lua
---- path:moveTo(Vec2D.xy(10, 10))
+--- path:moveTo(Vector.xy(10, 10))
 --- ```
 
-### `path:lineTo(to: Vec2D)`
+### `path:lineTo(to: Vector)`
 
 Draws a straight line from the current point to to, updating the current point.
 
 ```lua
-path:moveTo(Vec2D.xy(0, 0))
-path:lineTo(Vec2D.xy(100, 0))
+path:moveTo(Vector.xy(0, 0))
+path:lineTo(Vector.xy(100, 0))
 ```
