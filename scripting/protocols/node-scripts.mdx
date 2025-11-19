@@ -1,43 +1,43 @@
 ---
-title: "Drawing Scripts"
+title: "Node Scripts"
 description: ""
 ---
 
 import { Demos } from '/snippets/demos.jsx'
 
-Drawing scripts can be used to render shapes, images, text, artboards, and more.
+Node scripts can be used to render shapes, images, text, artboards, and more.
 
-## Creating a Drawing Script
+## Creating a Node Script
 
-1. [Create a new script](/scripting/creating-scripts) and select **Drawing** as the type.
+1. [Create a new script](/scripting/creating-scripts) and select **Node** as the type.
 2. [Add it to the scene](/scripting/creating-scripts#adding-scripts-to-your-scene).
 
-## Anatomy of a Drawing Script
+## Anatomy of a Node Script
 
 ```lua
 -- Define the script's data and inputs.
-type MyDrawing = {}
+type MyNode = {}
 
 -- Called once when the script initializes.
-function init(self: MyDrawing): boolean
+function init(self: MyNode): boolean
   return true
 end
 
 -- Called every frame to advance the simulation.
 -- 'seconds' is the elapsed time since the previous frame.
-function advance(self: MyDrawing, seconds: number): boolean
+function advance(self: MyNode, seconds: number): boolean
   return false
 end
 
 -- Called when any input value changes.
-function update(self: MyDrawing) end
+function update(self: MyNode) end
 
 -- Called every frame (after advance) to render the content.
-function draw(self: MyDrawing, renderer: Renderer) end
+function draw(self: MyNode, renderer: Renderer) end
 
 
--- Return a factory function that Rive uses to build the Drawing instance.
-return function(): Drawing<MyDrawing>
+-- Return a factory function that Rive uses to build the Node instance.
+return function(): Node<MyNode>
   return {
     init = init,
     advance = advance,
@@ -48,13 +48,13 @@ end
 ```
 
 
-## Drawing
+## Node
 
-Drawing scripts allow you to draw shapes and render them in your scene.
+Node scripts allow you to draw shapes and render them in your scene.
 
 <Demos
   examples={[
-    "scriptingDrawingShapes"
+    "scriptingNodeShapes"
   ]}
 />
 
@@ -150,7 +150,7 @@ function draw(self: MyGame, renderer: Renderer)
   end
 end
 
-return function(): Drawing<MyGame>
+return function(): Node<MyGame>
   return {
     init = init,
     advance = advance,
@@ -216,7 +216,7 @@ end
 
 -- Create a new instance of the CarGame script with default values.
 -- The simulation runs 60 fixed steps per second.
-return function(): Drawing<CarGame>
+return function(): Node<CarGame>
   return {
     speed = 100,
     accumulator = 0,
