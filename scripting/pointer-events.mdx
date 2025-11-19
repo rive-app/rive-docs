@@ -5,7 +5,7 @@ description: ""
 
 import { Demos } from '/snippets/demos.jsx'
 
-You can listen for pointer events inside any script that implements `pointerDown`, `pointerMove`, `pointerUp`, or `pointerExit`. These functions can be defined in [Drawing Scripts](/scripting/script-types/drawing-scripts) and [Layout Scripts](/scripting/script-types/layout-scripts).
+You can listen for pointer events inside any script that implements `pointerDown`, `pointerMove`, `pointerUp`, or `pointerExit`. These functions can be defined in [Drawing Scripts](/scripting/protocols/drawing-scripts) and [Layout Scripts](/scripting/protocols/layout-scripts).
 
 
 ```lua
@@ -109,7 +109,7 @@ end
 ## Nested Pointer Events
 
 Rive only listens for Pointer Events on the main artboard.
-If you need to listen for Pointer Events in your [instantiated artboards](/scripting/script-types/drawing-scripts#instanting-components),
+If you need to listen for Pointer Events in your [instantiated artboards](/scripting/protocols/drawing-scripts#instanting-components),
 you must forward them manually.
 
 <Demos
