@@ -81,14 +81,14 @@ Add one path to another path with the given transform, when specified.
 
 ### `contours`
 
-Returns a ContourMeasure for the first contour in the path. A contour is
+Returns a `ContourMeasure` for the first contour in the path. A contour is
 a sequence of path segments between moveTo operations. Use the 'next'
 property on the returned ContourMeasure to iterate through subsequent
 contours. Returns nil if the path has no contours.
 
 ### `measure`
 
-Returns a PathMeasure that measures the entire path across all contours.
+Returns a `PathMeasure` that measures the entire path across all contours.
 This provides the total length and allows operations on the path as a whole.
 ```lua
 local pathLength = path:measure()
