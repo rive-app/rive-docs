@@ -1,6 +1,5 @@
 ---
-title: 'Bones'
-description: ''
+title: "Bones"
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
@@ -31,24 +30,38 @@ The first bone in a chain is called a root bone. It is the only bone in a chain 
 
 ## Connecting bones to artwork
 
-### 1. Hierarchical relationships
+### Hierarchical relationships
 
 The simplest way to connect shapes and images to bones is through their hierarchical relationships. Any child of a bone will transform with the bone. You can make vector shapes children of bones by dragging and dropping the shape layers onto the desired bone in the hierarchy.
 
 <YouTube id="g8MWMKixURo" />
 
-### 2. Binding
+### Binding
 
 Binding is a way to connect only certain parts of your graphics to bones. This allows you to deform parts of a shape with one bone and another part of the same shape with another bone.
 
 <YouTube id="evn9CHmy9aY" />
 
-To begin binding shapes to bones, select a path layer, and hit enter. Doing this will activate edit vertices mode and reveal the Bind Bones option in the Inspector.
+To begin binding shapes to bones, select a path layer. The Bind Bones option should now appear in the Inspector. Hit the plus button, then select the bones you want to bind. Hold shift to allow multiple bones to be selected.
 
-![Image](https://ucarecdn.com/b2663298-62a5-498b-a99b-23c6e9106e5c/)
+<Note>
+  Procedural shapes like rectangles and ellipses require you to convert them to a custom path. Do this by selecting the path layer, then hitting Enter.
+</Note>
 
-Now, hit the plus button and begin selecting bones on the stage or in the hierarchy that you want to bind to that path.
+![Bind Bones Gi](/images/editor/manipulating-shapes/BindBones.gif)
+
+### Weighting
 
 Once you've finished binding the bones, you need to weight the bones to the vertices or handles of the path. Do this by selecting a vertex and changing the percentage value to reflect the amount of influence you want a bone to have over it.
 
-![Image](https://ucarecdn.com/acb3afc0-6ee9-4fe3-a53c-19ca8fd4f2ec/)
+<Note>
+  The total weight of all bound bones will always equal 100%.
+</Note>
+
+![Weighting Gi](/images/editor/manipulating-shapes/weighting.gif)
+
+### Weight Tool
+
+The weight tool gives you a visual representation of the current weight distribution. Activate this tool by using Shift + B, or by going into the Bone Tool Menu and selecting the Weight Tool. The weight tool also lets you adjust the weighting. To adjust the weight, select a bone, then click and drag anywhere on the stage.
+
+![Weighttool Gi](/images/editor/manipulating-shapes/weighttool.gif)
