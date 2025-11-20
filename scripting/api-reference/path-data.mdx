@@ -2,8 +2,9 @@
 title: PathData
 ---
 
-PathData is an indexed collection of `PathCommand` objects.
+PathData is an indexed collection of [PathCommand](/scripting/api-reference/path-command) objects.
 Both Path and PathData behave like arrays of commands and support iteration via ipairs.
+
 
 ## Methods
 
@@ -16,7 +17,7 @@ Returns the number of commands in the path.
 
 ### `contours`
 
-Returns a ContourMeasure for the first contour in the path. A contour is
+Returns a `ContourMeasure` for the first contour in the path. A contour is
 a sequence of path segments between moveTo operations. Use the 'next'
 property on the returned ContourMeasure to iterate through subsequent
 contours. Returns nil if the path has no contours.
