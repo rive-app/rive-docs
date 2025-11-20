@@ -15,7 +15,7 @@ To make new script inputs, add them to the type and set the defaults in the scri
 ```lua
 -- Define the script's data and inputs.
 -- These properties will be available in `self`
-type MyDrawing = {
+type MyNode = {
   myNumber: Input<number>,
   myColor: Input<Color>,
   -- This input expects a View Model named Points
@@ -36,7 +36,7 @@ function init(self: SnakeGame): boolean
   return true
 end
 
-return function(): Drawing<MyDrawing>
+return function(): Node<MyNode>
   return {
     init = init,
     draw = draw,
@@ -55,14 +55,14 @@ end
 ```
 
 <Tip>
-  Using inputs, instances of Artboards can be added to your scene at runtime. See [Instantiating Components](/scripting/protocols/drawing-scripts#instanting-components).
+  Using inputs, instances of Artboards can be added to your scene at runtime. See [Instantiating Components](/scripting/protocols/Node-scripts#instanting-components).
 </Tip>
 
 ## Setting Input Values
 
-To access the input properties in the right sidebar of the editor, select your [Drawing](/scripting/protocols/drawing-scripts) or [Layout script](/scripting/protocols/layout-scripts) in the Hierarchy Panel or the [Converter](/scripting/protocols/converter-scripts) in the Data Panel.
+To access the input properties in the right sidebar of the editor, select your [Node](/scripting/protocols/node-scripts) or [Layout script](/scripting/protocols/layout-scripts) in the Hierarchy Panel or the [Converter](/scripting/protocols/converter-scripts) in the Data Panel.
 
-![Drawing script input](/images/scripting/script-input.png)
+![Node script input](/images/scripting/script-input.png)
 
 ## Data Binding Inputs
 
@@ -84,7 +84,7 @@ property.
 The `update` function fires every time any input changes.
 
 ```lua
-function update(self: MyDrawing)
+function update(self: MyNode)
   print('An update changed')
 end
 ```
@@ -139,12 +139,12 @@ Inside your script, declare a new input whose type matches the nested view model
 In this case, the Character view model type becomes `Data.Character`.
 
 ```lua
-type MyDrawing = {
+type MyNode = {
   -- This input expects a view model instance of type Character
   character: Input<Data.Character>
 }
 
-return function(): Drawing<MyDrawing>
+return function(): Node<MyNode>
   return {
     init = init,
     advance = advance,
@@ -170,7 +170,7 @@ end
 Once connected, you can access the nested view model directly from your script:
 
 ```lua
-function moveCharacter(self: MyDrawing)
+function moveCharacter(self: MyNode)
   print('Current x: ', self.character.x.value)
   self.character.x.value = 10
 end
