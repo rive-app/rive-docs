@@ -1,0 +1,36 @@
+---
+title: "Debug Panel"
+description: ""
+---
+
+The Debug Panel lets you inspect script output and detect issues
+in your code.
+
+## Toolbar
+
+Switch between [Console](#console) and [Problems](#problems) using the tabs to the left of the panel. Use the icons at the right end of the panel to open and close the panel and toggle fullscreen mode. Additional options to copy and clear the console show up when the Console tab is active.
+
+![Debug panel toolbar](/images/scripting/debugging/debug-panel-toolbar.png)
+
+
+## Console
+
+The Console shows all log output from your scripts during playback. You can use the standard [Luau print()](https://create.roblox.com/docs/reference/engine/globals/LuaGlobals#print) function to log information, variable values, and messages.
+
+```lua
+print("Rive is so cool!")
+print("Elapsed time:", seconds)
+```
+
+![Debug panel toolbar](/images/scripting/debugging/console-print.png)
+
+## Problems
+
+The Problems tab lists problems detected _before_ the script runs such as type mismatches, syntax errors, or missing data bindings.
+
+The tab badge shows the number of issues found across your scripts.
+
+Clicking a problem will jump directly to the affected line of code.
+You can also hover any underlined code in the editor to see an explanation or suggested fix.
+
+![Problems panel](/images/scripting/debugging/problems-panel.png)

@@ -1,0 +1,68 @@
+---
+title: "Util Scripts"
+description: "Create helper modules to organize shared logic across your scripts."
+---
+
+Util scripts let you organize your code into small, focused modules that can be reused across multiple scripts.
+They’re ideal for math helpers, geometry utilities, color functions, or any logic that should be broken out into its own script.
+
+## Creating a Util Script
+
+[Create a new script](/scripting/creating-scripts) and select **Util** as the type.
+
+```lua
+--- Example helper function.
+local function add(a: number, b: number): MyUtil
+  return a + b,
+end
+
+-- Return the functions you'd like to use in another script
+return {
+  add = add,
+}
+
+```
+
+**Usage:**
+
+```lua
+local MyUtil = require("MyUtil")
+
+local result = MyUtil.add(2, 3)
+print(result) -- 5
+
+```
+
+## Utils with Custom Types
+
+Custom types defined in your Util scripts will automatically be accessible
+in the parent script.
+
+```lua
+--- Defines the return type for this util.
+--- The type is automatically available when you require the script.
+export type AdditionResult = {
+  exampleValue: number,
+  someString: string
+}
+
+--- Example helper function.
+local function add(a: number, b: number): AdditionResult
+  return {
+    exampleValue = a + b,
+    someString = "4 out of 5 dentists recommend Rive"
+  }
+end
+
+return {
+  add = add,
+}
+
+```
+
+**Usage:**
+
+```lua
+-- With type annotation
+local result: AdditionResult = MyUtil.add(2, 3)
+```

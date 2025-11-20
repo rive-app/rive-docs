@@ -1,0 +1,92 @@
+---
+title: Mat2D
+---
+
+Represents a 2D transformation matrix with components for scaling,
+rotation, shear, and translation.
+
+## Fields
+
+### `xx`
+
+Represents a 2D transformation matrix with components for scaling,
+rotation, shear, and translation.
+The xx component of the matrix.
+
+### `xy`
+
+The xy component of the matrix.
+
+### `yx`
+
+The yx component of the matrix.
+
+### `yy`
+
+The yy component of the matrix.
+
+### `tx`
+
+Translation along the x-axis.
+
+### `ty`
+
+Translation along the y-axis.
+
+### `withTranslation`
+
+Creates a translation matrix from the given x and y values or from a
+Vec2D position.
+
+### `withScale`
+
+Creates a scale matrix from the given x and y values or from a Vec2D.
+
+### `withScaleAndTranslation`
+
+Creates a scale-and-translation matrix from numeric values or vectors.
+
+## Constructors
+
+### `values`
+
+Creates a matrix using the specified components.
+
+### `identity`
+
+Returns the identity matrix.
+
+### `withRotation`
+
+Creates a rotation matrix from the given angle in radians.
+
+## Static Functions
+
+### `invert`
+
+Writes the inverse of 'input' into 'output'. Returns true if the input
+matrix is invertible.
+
+## Methods
+
+### `invert`
+
+Provides indexed access to the matrix components.
+Returns the inverse of the matrix, or nil if the matrix is not invertible.
+
+### `isIdentity`
+
+Returns true if the matrix is the identity transform.
+
+### `__eq`
+
+Returns true if all components of the two matrices are equal.
+
+### `__mul`
+
+Transforms the given vector by the matrix and returns the result.
+
+### `__mul`
+
+Returns the matrix product of this matrix and the given matrix
+

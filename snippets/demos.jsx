@@ -122,6 +122,70 @@ export const Demos = ({
         reactJs: 'https://codesandbox.io/p/devbox/rive-react-vanilla-js-quick-start-kz66t4?file=%2Fsrc%2FApp.tsx%3A53%2C7',
       }
     },
+    scriptingDrawingShapes: {
+      title: "Drawing with Scripting",
+      image: "https://static.rive.app/docs/drawing-demo.png",
+      description: "Draw a squirkle, a star, and an animated wave with scripting.",
+      links: {
+        editor: "TO DO"
+      }
+    },
+    scriptingMasonry: {
+      title: "Masonry Layout",
+      image: "https://static.rive.app/docs/scripting-default-thumb.png",
+      description: "Create a masonry layout using a Layout script.",
+      links: {
+        editor: "TO DO"
+      }
+    },
+    scriptingTippingConverter: {
+      title: "Converter Script with View Model Properties",
+      image: "https://static.rive.app/docs/tipping-scripting-converter.gif",
+      description: "Calculate the bill total using the converter's input value added to data binding values.",
+      links: {
+        editor: "https://editor.uat.rive.app/file/payment_demo/30062"
+      }
+    },
+    scriptingUnitTesting: {
+      title: "Unit Testing",
+      image: "https://static.rive.app/docs/scripting-default-thumb.png",
+      description: "This hands-on example demonstrates unit testing rgbToHex and hexToRgb color utilities.",
+      links: {
+        editor: "https://editor.uat.rive.app/file/unit-testing/30348"
+      }
+    },
+    scriptingSnakeGame: {
+      title: "Snake Game",
+      image: "https://static.rive.app/docs/snake-game.png",
+      description: "Check out this complete game built entirely with Rive using scripting.",
+      links: {
+        editor: "TO DO"
+      }
+    },
+    scriptingMultiTouch: {
+      title: "Tracking Multi-touch",
+      image: "https://static.rive.app/docs/scripting-default-thumb.png",
+      description: "Keep track of every finger.",
+      links: {
+        editor: "TO DO"
+      }
+    },
+    scriptingNestedPointers: {
+      title: "Nested Pointer Events",
+      image: "https://static.rive.app/docs/scripting-default-thumb.png",
+      description: "Pass pointer events from the parent component to the instantiated children.",
+      links: {
+        editor: "TO DO"
+      }
+    },
+    scriptingInstantiatingArtboards: {
+      title: "Dynamically Adding Components",
+      image: "https://static.rive.app/docs/scripting-default-thumb.png",
+      description: "Add new components to your scene at runtime.",
+      links: {
+        editor: "TO DO"
+      }
+    },
     starRating: {
       title: "Android New Compose API Quick Start",
       image: "/images/runtimes/star-rating.webp",
@@ -146,7 +210,8 @@ export const Demos = ({
     'android',
     'unity',
     'unreal',
-    'mobile'
+    'mobile',
+    'editor'
   ]
   const runtimeTitles = {
     web: 'Web',
@@ -158,7 +223,8 @@ export const Demos = ({
     android: 'Android',
     unity: 'Unity',
     unreal: 'Unreal',
-    mobile: 'Mobile'
+    mobile: 'Mobile',
+    editor: 'Try in Rive'
   }
 
   // Keep track of Rive instances for when the window resizes
@@ -268,6 +334,8 @@ export const Demos = ({
   const getSrc = (imageSrc) => {
     //
     if (location.hostname === "localhost" && imageSrc.startsWith("/images/")) {
+      return imageSrc
+    } else if (imageSrc.startsWith('https:')) {
       return imageSrc
     }
 

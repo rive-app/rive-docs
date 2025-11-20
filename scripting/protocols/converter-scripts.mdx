@@ -1,0 +1,80 @@
+---
+title: "Converter Scripts"
+description: "Create custom converters using Rive scripting"
+---
+
+import { Demos } from '/snippets/demos.jsx'
+
+Rive includes several built-in converters like **Convert to String** and **Round**.
+Scripting lets you create your own custom converters when you need behavior that isn’t covered by the built-ins.
+
+For background on converters and data binding, see [Data Converters](/editor/data-binding/overview#converter).
+
+## Examples
+
+<Demos
+  examples={[
+    "scriptingTippingConverter",
+  ]}
+/>
+
+## Creating a Converter
+
+[Create a new script](/scripting/creating-scripts) and select **Converter** as the type.
+
+## Anatomy of a Converter Script
+
+```lua
+type MyConverter = {}
+
+-- Called once when the script initializes.
+function init(self: MyConverter): boolean
+  return true
+end
+
+-- Converts the bound property value from source to target.
+function convert(self: MyConverter, input: DataValueNumber): DataValueNumber
+  local dv: DataValueNumber = DataValue.number()
+  if input:isNumber() then
+    -- Add 1 to the incoming number
+    dv.value = (input :: DataValueNumber).value + 1
+  end
+  return dv
+end
+
+-- Converts from target back to source (for target-to-source and two-way data binding).
+function reverseConvert(self: MyConverter, input: DataValueNumber): DataValueNumber
+  local dv: DataValueNumber = DataValue.number()
+  if input:isNumber() then
+    dv.value = (input :: DataValueNumber).value - 1
+  end
+  return dv
+end
+
+-- Return a factory function that builds the converter instance.
+-- Rive calls this when the script is created, passing back a table
+-- containing its lifecycle functions and any default values.
+return function(): Converter<MyConverter, DataValueNumber, DataValueNumber>
+  return {
+    init = init,
+    convert = convert,
+    reverseConvert = reverseConvert,
+  }
+end
+```
+
+
+## Creating a Converter using your Script
+
+Create a new converter using your new converter script:
+
+1. In the Data panel, click the `+` button.
+2. Choose **Converters → Script → MyConverter**.
+
+
+![Create converter with a script](/images/scripting/create-converter-with-script.png)
+
+
+## Adding Inputs
+
+See [Script Inputs](/scripting/script-inputs).

@@ -1,0 +1,19 @@
+---
+title: "Protocols"
+sidebarTitle: "Overview"
+description: ""
+---
+
+Protocols are the structured categories of scripts that tell the Editor what you’re trying to make.
+
+Rive currently ships with five, with more to come:
+
+- [Node](/scripting/protocols/node-scripts)
+- [Layout](/scripting/protocols/layout-scripts)
+- [Converter](/scripting/protocols/converter-scripts)
+- PathEffect
+- [Test](/scripting/protocols/test-scripts)
+
+Each protocol represents a different kind of script the Editor can generate: a converter that shapes data, a custom drawing function, a layout helper, a testing harness, a path effect you can attach to strokes, and so on.
+
+Selecting a protocol generates a typed scaffold that defines the surface area you’re allowed to operate on. From there, you work with Rive-native concepts — paths, shapes, view models, artboards, state machines, timelines — but always through the lens of the protocol you picked. It keeps scripts specific and prevents “do anything anywhere” chaos.

@@ -1,0 +1,103 @@
+---
+title: Vec2D
+---
+
+Represents a 2D vector with x and y components.
+
+## Fields
+
+### `x`
+
+Represents a 2D vector with x and y components.
+The x-coordinate of the vector.
+
+### `y`
+
+The y-coordinate of the vector.
+
+## Constructors
+
+### `xy`
+
+Creates a vector with the specified x and y components.
+
+### `origin`
+
+Returns the zero vector (0, 0).
+
+### `lerp`
+
+Returns the linear interpolation between the two vectors, using t where
+0 returns 'from' and 1 returns 'to'.
+
+## Static Functions
+
+### `distance`
+
+Returns the distance between the two vectors.
+
+### `distanceSquared`
+
+Returns the squared distance between the two vectors.
+
+### `dot`
+
+Returns the dot product of the two vectors.
+
+## Methods
+
+### `length`
+
+Provides indexed access to the vector components.
+Returns the length of the vector.
+
+### `lengthSquared`
+
+Returns the squared length of the vector.
+
+### `normalized`
+
+Returns a normalized copy of the vector. If the length is zero,
+the result is the zero vector.
+
+### `__eq`
+
+Returns true if the two vectors have equal components.
+
+### `__unm`
+
+Returns the negated vector.
+
+### `__add`
+
+Returns the sum of two vectors.
+
+### `__sub`
+
+Returns the difference between two vectors.
+
+### `__mul`
+
+Returns the vector scaled by the given number.
+
+### `__div`
+
+Returns the vector divided by the given number
+
+### `distance`
+
+Returns the distance to the other vector.
+
+### `distanceSquared`
+
+Returns the squared distance to the other vector.
+
+### `dot`
+
+Returns the dot product of the vector and the other vector.
+
+### `lerp`
+
+Returns the linear interpolation between the vector and the other
+vector, using t where 0 returns the vector and 1 returns the other.
+

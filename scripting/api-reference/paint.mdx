@@ -1,0 +1,94 @@
+---
+title: Paint
+---
+
+Describes how shapes are drawn, including fill or stroke style, thickness,
+color, gradient, and blending behaviour.
+
+## Fields
+
+### `style`
+
+Describes how shapes are drawn, including fill or stroke style, thickness,
+color, gradient, and blending behaviour.
+Painting style (stroke or fill).
+
+### `join`
+
+Stroke join behaviour for corners.
+
+### `cap`
+
+Stroke cap used for line endings.
+
+### `thickness`
+
+Thickness of the stroked path.
+
+### `blendMode`
+
+Blending mode used when compositing.
+
+### `feather`
+
+Feathering amount.
+
+### `gradient`
+
+Gradient applied to fill (if present).
+
+### `color`
+
+Color
+
+## Constructors
+
+### `new`
+
+Creates a new `Paint` object with default settings.
+
+Example:
+```lua
+local paint = Paint.new()
+paint.style = 'fill'
+paint.color = Color.rgb(255, 200, 80)
+```
+
+### `with`
+
+Creates a new Paint initialized from the provided PaintDefinition.
+
+Example:
+```lua
+local strokePaint = Paint.with({
+style = 'stroke',
+thickness = 3,
+color = Color.hex('#FF0066'),
+join = 'round',
+cap = 'round',
+})
+```
+
+## Methods
+
+### `copy`
+
+Returns a new Paint that copies this one, optionally overriding selected
+properties with values from the provided PaintDefinition.
+
+Example:
+```lua
+local base = Paint.with({
+style = 'fill',
+color = Color.rgb(255, 0, 0),
+})
+
+local outline = base:copy({
+style = 'stroke',
+thickness = 4,
+})
+```
+
+@param values Optional overrides.
+@return A new `Paint` instance with merged values.
+
