@@ -61,11 +61,11 @@ Creates a new Paint initialized from the provided PaintDefinition.
 Example:
 ```lua
 local strokePaint = Paint.with({
-style = 'stroke',
-thickness = 3,
-color = Color.hex('#FF0066'),
-join = 'round',
-cap = 'round',
+  style = 'stroke',
+  thickness = 3,
+  color = Color.hex('#FF0066'),
+  join = 'round',
+  cap = 'round',
 })
 ```
 
@@ -79,13 +79,13 @@ properties with values from the provided PaintDefinition.
 Example:
 ```lua
 local base = Paint.with({
-style = 'fill',
-color = Color.rgb(255, 0, 0),
+  style = 'fill',
+  color = Color.rgb(255, 0, 0),
 })
 
 local outline = base:copy({
-style = 'stroke',
-thickness = 4,
+  style = 'stroke',
+  thickness = 4,
 })
 ```
 
