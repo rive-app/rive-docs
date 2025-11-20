@@ -127,7 +127,8 @@ export const Demos = ({
       image: "https://static.rive.app/docs/drawing-demo.png",
       description: "Draw a squirkle, a star, and an animated wave with scripting.",
       links: {
-        editor: "TO DO"
+        // TODO - replace with marketplace or editor links
+        editor: "https://static.rive.app/revs/Shapes+Demo.rev"
       }
     },
     scriptingMasonry: {
@@ -135,7 +136,8 @@ export const Demos = ({
       image: "https://static.rive.app/docs/scripting-default-thumb.png",
       description: "Create a masonry layout using a Layout script.",
       links: {
-        editor: "TO DO"
+        // TODO - replace with marketplace or editor links
+        editor: "https://static.rive.app/revs/MasonryLayout-v2.rev"
       }
     },
     scriptingTippingConverter: {
@@ -143,7 +145,8 @@ export const Demos = ({
       image: "https://static.rive.app/docs/tipping-scripting-converter.gif",
       description: "Calculate the bill total using the converter's input value added to data binding values.",
       links: {
-        editor: "https://editor.uat.rive.app/file/payment_demo/30062"
+        // TODO - replace with marketplace or editor links
+        editor: "https://static.rive.app/revs/payment_demo.rev"
       }
     },
     scriptingUnitTesting: {
@@ -151,7 +154,8 @@ export const Demos = ({
       image: "https://static.rive.app/docs/scripting-default-thumb.png",
       description: "This hands-on example demonstrates unit testing rgbToHex and hexToRgb color utilities.",
       links: {
-        editor: "https://editor.uat.rive.app/file/unit-testing/30348"
+        // TODO - replace with marketplace or editor links
+        editor: "https://static.rive.app/revs/Unit+Testing.rev"
       }
     },
     scriptingSnakeGame: {
@@ -159,7 +163,8 @@ export const Demos = ({
       image: "https://static.rive.app/docs/snake-game.png",
       description: "Check out this complete game built entirely with Rive using scripting.",
       links: {
-        editor: "TO DO"
+        // TODO - replace with marketplace or editor links
+        editor: "https://static.rive.app/revs/Snake+Game+3.rev"
       }
     },
     scriptingMultiTouch: {
@@ -167,7 +172,8 @@ export const Demos = ({
       image: "https://static.rive.app/docs/scripting-default-thumb.png",
       description: "Keep track of every finger.",
       links: {
-        editor: "TO DO"
+        // TODO - replace with marketplace or editor links
+        editor: "https://static.rive.app/revs/Multi-touch+Pointer+Events.rev"
       }
     },
     scriptingNestedPointers: {
@@ -175,15 +181,8 @@ export const Demos = ({
       image: "https://static.rive.app/docs/scripting-default-thumb.png",
       description: "Pass pointer events from the parent component to the instantiated children.",
       links: {
-        editor: "TO DO"
-      }
-    },
-    scriptingInstantiatingArtboards: {
-      title: "Dynamically Adding Components",
-      image: "https://static.rive.app/docs/scripting-default-thumb.png",
-      description: "Add new components to your scene at runtime.",
-      links: {
-        editor: "TO DO"
+        // TODO - replace with marketplace or editor links
+        editor: "https://static.rive.app/revs/Nested+Pointer+Events.rev"
       }
     },
     starRating: {
