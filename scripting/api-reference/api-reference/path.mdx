@@ -1,0 +1,57 @@
+---
+title: Path
+---
+
+## Constructors
+
+### `new`
+
+## Methods
+
+### `moveTo`
+
+Moves the current point to the specified location, starting a new
+contour.
+
+### `lineTo`
+
+Adds a straight line segment from the current point to the specified
+point.
+
+### `quadTo`
+
+Adds a quadratic Bézier curve from the current point to the specified
+point, using the control point to define the curve shape.
+
+### `cubicTo`
+
+Adds a cubic Bézier curve from the current point to the specified point,
+using controlOut for the start tangent and controlIn for the end tangent.
+
+### `close`
+
+Closes the current contour by adding a line segment from the current
+point back to the first point of the contour (the last moveTo).
+
+### `reset`
+
+Paths should not be reset while they are in flight for rendering. Only
+call reset on subsequent frames if you've called Renderer.drawPath with
+it.
+
+### `add`
+
+Add one path to another path with the given transform, when specified.
+
+### `contours`
+
+Returns a ContourMeasure for the first contour in the path. A contour is
+a sequence of path segments between moveTo operations. Use the 'next'
+property on the returned ContourMeasure to iterate through subsequent
+contours. Returns nil if the path has no contours.
+
+### `measure`
+
+Returns a PathMeasure that measures the entire path across all contours.
+This provides the total length and allows operations on the path as a whole.
+
