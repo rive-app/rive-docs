@@ -12,17 +12,17 @@ color, gradient, and blending behaviour.
 
 Describes how shapes are drawn, including fill or stroke style, thickness,
 color, gradient, and blending behaviour.
-Painting style (stroke or fill).
+Painting style of type [PaintStyle](/scripting/api-reference/paint-style).
 
 
 ### `join`
 
-Stroke join behaviour for corners.
+Stroke join behaviour for corners. See [StrokeJoin](/scripting/api-reference/stroke-join).
 
 
 ### `cap`
 
-Stroke cap used for line endings.
+Stroke cap used for line endings. See [StrokeCap](/scripting/api-reference/stroke-cap).
 
 
 ### `thickness`
@@ -32,7 +32,7 @@ Thickness of the stroked path.
 
 ### `blendMode`
 
-Blending mode used when compositing.
+Blending mode used when compositing. See [BlendMode](/scripting/api-reference/blend-mode).
 
 
 ### `feather`
@@ -42,12 +42,12 @@ Feathering amount.
 
 ### `gradient`
 
-Gradient applied to fill (if present).
+[Gradient](/scripting/api-reference/gradient) applied to fill (if present).
 
 
 ### `color`
 
-Color
+Color. See [Color](/scripting/api-reference/color).
 
 
 ## Constructors
@@ -66,7 +66,7 @@ paint.color = Color.rgb(255, 200, 80)
 
 ### `with`
 
-Creates a new Paint initialized from the provided PaintDefinition.
+Creates a new Paint initialized from the provided [PaintDefinition](/scripting/api-reference/paint-definition).
 
 Example:
 ```lua
@@ -85,7 +85,7 @@ local strokePaint = Paint.with({
 ### `copy`
 
 Returns a new Paint that copies this one, optionally overriding selected
-properties with values from the provided PaintDefinition.
+properties with values from the provided [PaintDefinition](/scripting/api-reference/paint-definition).
 
 Example:
 ```lua
@@ -101,5 +101,6 @@ local outline = base:copy({
 ```
 
 @param values Optional overrides.
-@return A new `Paint` instance with merged values.
+@return A new [Paint](/scripting/api-reference/paint) instance with merged values.
+
 
