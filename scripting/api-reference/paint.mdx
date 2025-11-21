@@ -5,56 +5,47 @@ title: Paint
 Describes how shapes are drawn, including fill or stroke style, thickness,
 color, gradient, and blending behaviour.
 
-
 ## Fields
 
 ### `style`
 
 Describes how shapes are drawn, including fill or stroke style, thickness,
 color, gradient, and blending behaviour.
-Painting style of type [PaintStyle](/scripting/api-reference/paint-style).
-
+Painting style (stroke or fill).
 
 ### `join`
 
-Stroke join behaviour for corners. See [StrokeJoin](/scripting/api-reference/stroke-join).
-
+Stroke join behaviour for corners.
 
 ### `cap`
 
-Stroke cap used for line endings. See [StrokeCap](/scripting/api-reference/stroke-cap).
-
+Stroke cap used for line endings.
 
 ### `thickness`
 
 Thickness of the stroked path.
 
-
 ### `blendMode`
 
-Blending mode used when compositing. See [BlendMode](/scripting/api-reference/blend-mode).
-
+Blending mode used when compositing.
 
 ### `feather`
 
 Feathering amount.
 
-
 ### `gradient`
 
-[Gradient](/scripting/api-reference/gradient) applied to fill (if present).
-
+Gradient applied to fill (if present).
 
 ### `color`
 
-Color. See [Color](/scripting/api-reference/color).
-
+Color
 
 ## Constructors
 
 ### `new`
 
-Creates a new [Paint](/scripting/api-reference/paint) object with default settings.
+Creates a new `Paint` object with default settings.
 
 Example:
 ```lua
@@ -63,10 +54,9 @@ paint.style = 'fill'
 paint.color = Color.rgb(255, 200, 80)
 ```
 
-
 ### `with`
 
-Creates a new Paint initialized from the provided [PaintDefinition](/scripting/api-reference/paint-definition).
+Creates a new Paint initialized from the provided PaintDefinition.
 
 Example:
 ```lua
@@ -79,13 +69,12 @@ local strokePaint = Paint.with({
 })
 ```
 
-
 ## Methods
 
 ### `copy`
 
 Returns a new Paint that copies this one, optionally overriding selected
-properties with values from the provided [PaintDefinition](/scripting/api-reference/paint-definition).
+properties with values from the provided PaintDefinition.
 
 Example:
 ```lua
@@ -101,6 +90,5 @@ local outline = base:copy({
 ```
 
 @param values Optional overrides.
-@return A new [Paint](/scripting/api-reference/paint) instance with merged values.
-
+@return A new `Paint` instance with merged values.
 
