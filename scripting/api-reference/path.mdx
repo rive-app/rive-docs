@@ -16,7 +16,6 @@ contour.
 path:moveTo(Vector.xy(0, 0))
 ```
 
-
 ### `lineTo`
 
 Adds a straight line segment from the current point to the specified
@@ -24,7 +23,6 @@ point.
 ```lua
 path:lineTo(Vector.xy(10, 0))
 ```
-
 
 ### `quadTo`
 
@@ -37,7 +35,6 @@ path:quadTo(
 )
 ```
 
-
 ### `cubicTo`
 
 Adds a cubic Bézier curve from the current point to the specified point,
@@ -49,7 +46,6 @@ path:cubicTo(
   Vector.xy(100, 0)    -- end point
 )
 ```
-
 
 ### `close`
 
@@ -65,12 +61,10 @@ path:lineTo(Vector.xy(-10, 10))
 path:close()
 ```
 
-
 ### `__len`
 
-Each entry is a [PathCommand](/scripting/api-reference/path-command) describing one segment or action in the path.
+Each entry is a `PathCommand` describing one segment or action in the path.
 Returns the number of commands in the path.
-
 
 ### `reset`
 
@@ -81,26 +75,7 @@ it.
 path:reset()
 ```
 
-
 ### `add`
 
 Add one path to another path with the given transform, when specified.
-
-
-### `contours`
-
-Returns a [ContourMeasure](/scripting/api-reference/contour-measure) for the first contour in the path. A contour is
-a sequence of path segments between moveTo operations. Use the 'next'
-property on the returned ContourMeasure to iterate through subsequent
-contours. Returns nil if the path has no contours.
-
-
-### `measure`
-
-Returns a [PathMeasure](/scripting/api-reference/path-measure) that measures the entire path across all contours.
-This provides the total length and allows operations on the path as a whole.
-```lua
-local pathLength = path:measure()
-```
-
 
