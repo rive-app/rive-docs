@@ -1,0 +1,230 @@
+---
+title: "Node Scripts"
+description: ""
+---
+
+import { Demos } from '/snippets/demos.jsx'
+
+Node scripts can be used to render shapes, images, text, artboards, and more.
+
+## Creating a Node Script
+
+1. [Create a new script](/scripting/creating-scripts) and select **Node** as the type.
+2. [Add it to the scene](/scripting/creating-scripts#adding-scripts-to-your-scene).
+
+## Anatomy of a Node Script
+
+```lua
+-- Define the script's data and inputs.
+type MyNode = {}
+
+-- Called once when the script initializes.
+function init(self: MyNode): boolean
+  return true
+end
+
+-- Called every frame to advance the simulation.
+-- 'seconds' is the elapsed time since the previous frame.
+function advance(self: MyNode, seconds: number): boolean
+  return false
+end
+
+-- Called when any input value changes.
+function update(self: MyNode) end
+
+-- Called every frame (after advance) to render the content.
+function draw(self: MyNode, renderer: Renderer) end
+
+
+-- Return a factory function that Rive uses to build the Node instance.
+return function(): Node<MyNode>
+  return {
+    init = init,
+    advance = advance,
+    update = update,
+    draw = draw,
+  }
+end
+```
+
+
+## Node
+
+Node scripts allow you to draw shapes and render them in your scene.
+
+<Demos
+  examples={[
+    "scriptingDrawingShapes"
+  ]}
+/>
+
+```lua
+function rectangle(self: Rectangle)
+  -- Update the path with current width and height
+  self.path:reset()
+
+  local halfWidth = self.width / 2
+  local halfHeight = self.height / 2
+
+  -- Draw rectangle centered at origin
+  self.path:moveTo(Vec2D.xy(-halfWidth, -halfHeight))
+  self.path:lineTo(Vec2D.xy(halfWidth, -halfHeight))
+  self.path:lineTo(Vec2D.xy(halfWidth, halfHeight))
+  self.path:lineTo(Vec2D.xy(-halfWidth, halfHeight))
+  self.path:close()
+
+  -- Update paint color
+  self.paint.color = self.color
+end
+
+function draw(self: Rectangle, renderer: Renderer)
+  renderer:drawPath(self.path, self.paint)
+end
+```
+
+See the [API Reference](/scripting/api-reference/path) for a complete list of drawing utilities.
+
+## Common Patterns
+
+### Instantiating Components
+
+To be able to instantiate components at runtime, you will need to have a basic understanding of
+[Data Binding](/editor/data-binding/overview), [Components](/editor/fundamentals/components), and [Script Inputs](/scripting/script-inputs).
+
+See the following example showing how to set up your components, view models, and scripts:
+
+<Demos
+  examples={[
+    "scriptingSnakeGame"
+  ]}
+/>
+
+
+```lua
+type Enemy = {
+  artboard: Artboard<Data.Enemy>,
+  position: Vec2D,
+}
+
+export type MyGame = {
+  -- This is the component that we will dynamically add to our scene
+  -- See: https://rive.app/docs/scripting/script-inputs
+  enemy: Input<Artboard<Data.Enemy>>,
+  enemies: { Enemy },
+}
+
+function createEnemy(self: MyGame)
+  -- Create an instance of the artboard
+  local enemy = self.enemy:instance()
+
+  -- Keep track of all enemies in self.enemies
+  local entry: Enemy = {
+    artboard = enemy,
+    position = Vec2D.xy(0, 0),
+  }
+  table.insert(self.enemies, entry)
+end
+
+function init(self: MyGame)
+  createEnemy(self)
+
+  return true
+end
+
+function advance(self: MyGame, seconds: number)
+  -- Advance the artboard of each enemy
+  for _, enemy in self.enemies do
+    enemy.artboard:advance(seconds)
+  end
+
+  return true
+end
+
+function draw(self: MyGame, renderer: Renderer)
+  -- draw each enemy
+  for _, enemy in self.enemies do
+    renderer:save()
+    enemy.artboard:draw(renderer)
+    renderer:restore()
+  end
+end
+
+return function(): Node<MyGame>
+  return {
+    init = init,
+    advance = advance,
+    draw = draw,
+    enemy = late(),
+    enemies = {},
+  }
+end
+```
+
+### Fixed-Step Advance
+
+Frame rates can vary between devices and scenes. If your script moves or animates objects based directly on the frame time, faster devices will move them farther each second, while slower ones will appear to lag behind.
+
+To keep movement and timing consistent, you can advance your simulation in fixed time steps instead of relying on the variable frame rate. This technique is called a fixed-step update or fixed timestep.
+
+<Demos
+  examples={[
+    "scriptingSnakeGame"
+  ]}
+/>
+
+```lua
+--- Fixed Timestep Advance
+--- Keeps movement consistent across different frame rates
+--- by advancing the simulation in fixed time steps.
+export type CarGame = {
+  speed: Input<number>,
+  accumulator: number,
+  fixedStep: Input<number>,
+  direction: number,
+  currentX: number,
+  currentY: number,
+}
+
+-- Prevent the script from running too many catch-up steps
+-- after a long pause or frame drop.
+local MAX_STEPS = 5
+
+function advance(self: CarGame, seconds: number): boolean
+  -- Add the time since the last frame to the accumulator.
+  self.accumulator += seconds
+
+  local dt = self.fixedStep
+  local steps = 0
+
+  -- Run the simulation in small, fixed steps.
+  -- If the frame took longer than one step, multiple steps may run this frame.
+  while self.accumulator >= dt and steps < MAX_STEPS do
+    -- Move forward by speed * time.
+    -- Using a fixed dt keeps movement stable even if the frame rate changes.
+    self.currentX += self.speed * math.cos(self.direction) * dt
+    self.currentY += self.speed * math.sin(self.direction) * dt
+
+    -- Subtract one fixed step from the accumulator
+    -- and repeat until we've caught up to real time.
+    self.accumulator -= dt
+    steps += 1
+  end
+
+  return true
+end
+
+-- Create a new instance of the CarGame script with default values.
+-- The simulation runs 60 fixed steps per second.
+return function(): Node<CarGame>
+  return {
+    speed = 100,
+    accumulator = 0,
+    direction = 0,
+    fixedStep = 1 / 60,
+    currentX = 0,
+    currentY = 0,
+  }
+end
+
+```
+

@@ -16,7 +16,8 @@ export const Demos = ({
       stateMachines: "State Machine 1",
       artboard: "Emoji_package",
       links: {
-        web: "https://codesandbox.io/p/sandbox/rive-js-caching-a-rive-file-g675my?file=%2Fsrc%2Findex.ts%3A9%2C1"
+        web: "https://codesandbox.io/p/sandbox/rive-js-caching-a-rive-file-g675my?file=%2Fsrc%2Findex.ts%3A9%2C1",
+        react: "https://codesandbox.io/p/sandbox/rive-react-caching-a-rive-file-53gmdf?file=%2Fsrc%2FApp.tsx"
       }
     },
     dataBindingArtboards: {
@@ -63,12 +64,20 @@ export const Demos = ({
         apple: "https://github.com/rive-app/rive-ios/blob/main/Example-iOS/Source/Examples/SwiftUI/RewardsView.swift"
       }
     },
+    dataBindingSolos: {
+      title: "Data Binding Solos",
+      description: "Control solos at runtime using strings, numbers, or enums.",
+      image: '/images/runtimes/data-binding-solos.gif',
+      links: {
+        react: "https://codesandbox.io/p/sandbox/rive-react-controlling-solos-at-runtime-ctcnlx?file=%2Fsrc%2FApp.tsx"
+      }
+    },
     googleAppAds: {
       title: "Google App Ads",
       description: "How to make an interactive Google App with Rive.",
       image: "/images/runtimes/google-app-ads.png",
       links: {
-        web: "https://github.com/rive-app/rive-use-cases/tree/main/rive-google-ads"
+        mobile: "https://github.com/rive-app/rive-use-cases/tree/main/rive-google-ads"
       }
     },
     layouts: {
@@ -100,13 +109,86 @@ export const Demos = ({
       links: {
         web: 'https://codesandbox.io/p/sandbox/rive-quick-start-js-xmwcm6?file=%2Fsrc%2Findex.ts',
         react: 'https://codesandbox.io/p/sandbox/rive-react-quick-start-4xy76h?file=%2Fsrc%2FApp.tsx%3A77%2C14',
+        reactJs: 'https://codesandbox.io/p/devbox/rive-react-vanilla-js-quick-start-kz66t4?file=%2Fsrc%2FApp.tsx%3A53%2C7',
         reactNative: 'https://github.com/rive-app/rive-react-native/blob/main/example/app/(examples)/QuickStart.tsx'
       }
     },
+    quickStartReact: {
+      title: "Quick Start",
+      image: '/images/runtimes/quick-start.gif',
+      description: 'Load and control your Rive (.riv) file.',
+      links: {
+        react: 'https://codesandbox.io/p/sandbox/rive-react-quick-start-4xy76h?file=%2Fsrc%2FApp.tsx%3A77%2C14',
+        reactJs: 'https://codesandbox.io/p/devbox/rive-react-vanilla-js-quick-start-kz66t4?file=%2Fsrc%2FApp.tsx%3A53%2C7',
+      }
+    },
+    scriptingDrawingShapes: {
+      title: "Drawing with Scripting",
+      image: "https://static.rive.app/docs/drawing-demo.png",
+      description: "Draw a squirkle, a star, and an animated wave with scripting.",
+      links: {
+        // TODO - replace with marketplace or editor links
+        editor: "https://static.rive.app/revs/Shapes+Demo.rev"
+      }
+    },
+    scriptingMasonry: {
+      title: "Masonry Layout",
+      image: "https://static.rive.app/docs/scripting-default-thumb.png",
+      description: "Create a masonry layout using a Layout script.",
+      links: {
+        // TODO - replace with marketplace or editor links
+        editor: "https://static.rive.app/revs/MasonryLayout-v2.rev"
+      }
+    },
+    scriptingTippingConverter: {
+      title: "Converter Script with View Model Properties",
+      image: "https://static.rive.app/docs/tipping-scripting-converter.gif",
+      description: "Calculate the bill total using the converter's input value added to data binding values.",
+      links: {
+        // TODO - replace with marketplace or editor links
+        editor: "https://static.rive.app/revs/payment_demo.rev"
+      }
+    },
+    scriptingUnitTesting: {
+      title: "Unit Testing",
+      image: "https://static.rive.app/docs/scripting-default-thumb.png",
+      description: "This hands-on example demonstrates unit testing rgbToHex and hexToRgb color utilities.",
+      links: {
+        // TODO - replace with marketplace or editor links
+        editor: "https://static.rive.app/revs/Unit+Testing.rev"
+      }
+    },
+    scriptingSnakeGame: {
+      title: "Snake Game",
+      image: "https://static.rive.app/docs/snake-game.png",
+      description: "Check out this complete game built entirely with Rive using scripting.",
+      links: {
+        // TODO - replace with marketplace or editor links
+        editor: "https://static.rive.app/revs/Snake+Game+3.rev"
+      }
+    },
+    scriptingMultiTouch: {
+      title: "Tracking Multi-touch",
+      image: "https://static.rive.app/docs/scripting-default-thumb.png",
+      description: "Keep track of every finger.",
+      links: {
+        // TODO - replace with marketplace or editor links
+        editor: "https://static.rive.app/revs/Multi-touch+Pointer+Events.rev"
+      }
+    },
+    scriptingNestedPointers: {
+      title: "Nested Pointer Events",
+      image: "https://static.rive.app/docs/scripting-default-thumb.png",
+      description: "Pass pointer events from the parent component to the instantiated children.",
+      links: {
+        // TODO - replace with marketplace or editor links
+        editor: "https://static.rive.app/revs/Nested+Pointer+Events.rev"
+      }
+    },
     starRating: {
-      title: "Android Quick Start",
+      title: "Android New Compose API Quick Start",
       image: "/images/runtimes/star-rating.webp",
-      description: "Get started with Data Binding for Android.",
+      description: "Get started with the new Compose API (Technical Preview) for Android.",
       links: {
         android: "https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeActivity.kt"
       }
@@ -117,16 +199,31 @@ export const Demos = ({
   /*
     No need to edit below this line
   */
-  const runtimesInOrder = ['web', 'react', 'reactNative', 'flutter', 'apple', 'android', 'unity', 'unreal']
+  const runtimesInOrder = [
+    'web',
+    'react',
+    'reactJs',
+    'reactNative',
+    'flutter',
+    'apple',
+    'android',
+    'unity',
+    'unreal',
+    'mobile',
+    'editor'
+  ]
   const runtimeTitles = {
     web: 'Web',
+    reactJs: 'React (Imperative)',
     react: 'React',
     reactNative: "React Native",
     flutter: 'Flutter',
     apple: 'Apple',
     android: 'Android',
     unity: 'Unity',
-    unreal: 'Unreal'
+    unreal: 'Unreal',
+    mobile: 'Mobile',
+    editor: 'Try in Rive'
   }
 
   // Keep track of Rive instances for when the window resizes
@@ -236,6 +333,8 @@ export const Demos = ({
   const getSrc = (imageSrc) => {
     //
     if (location.hostname === "localhost" && imageSrc.startsWith("/images/")) {
+      return imageSrc
+    } else if (imageSrc.startsWith('https:')) {
       return imageSrc
     }
 
