@@ -34,46 +34,56 @@ The height of the artboard.
 
 Draws the artboard using the provided renderer.
 
+
 ### `advance`
 
 Advances the artboard by the given time in seconds. Returns true if the
 artboard should continue receiving advance calls.
 
+
 ### `instance`
 
 Creates a new instance of the artboard with independent state.
 
+
 ### `bounds`
 
-Returns the bounding box of the artboard as two Vector values: the
+Returns the bounding box of the artboard as two [Vector](/scripting/api-reference/vector) values: the
 minimum point and the maximum point.
+
 
 ### `node`
 
 Returns the node with the given name, or nil if no such node exists.
+
 
 ### `pointerDown`
 
 Pointer event down handler. Each returns a hit-test result, where 0
 indicates no hit and non-zero values indicate a hit.
 
+
 ### `pointerUp`
 
 Pointer event up handler. Each returns a hit-test result, where 0
 indicates no hit and non-zero values indicate a hit.
+
 
 ### `pointerMove`
 
 Pointer event move handler. Each returns a hit-test result, where 0
 indicates no hit and non-zero values indicate a hit.
 
+
 ### `pointerExit`
 
 Pointer event exit handler. Each returns a hit-test result, where 0
 indicates no hit and non-zero values indicate a hit.
 
+
 ### `addToPath`
 
 Adds the artboard’s geometry to the given path, optionally transformed
 by the provided matrix.
+
 

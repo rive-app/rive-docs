@@ -43,12 +43,12 @@ Translation along the y-axis.
 ### `withTranslation`
 
 Creates a translation matrix from the given x and y values or from a
-Vector position.
+[Vector](/scripting/api-reference/vector) position.
 
 
 ### `withScale`
 
-Creates a scale matrix from the given x and y values or from a Vector.
+Creates a scale matrix from the given x and y values or from a [Vector](/scripting/api-reference/vector).
 
 
 ### `withScaleAndTranslation`
@@ -80,6 +80,7 @@ Creates a rotation matrix from the given angle in radians.
 Writes the inverse of 'input' into 'output'. Returns true if the input
 matrix is invertible.
 
+
 ## Methods
 
 ### `invert`
@@ -87,19 +88,24 @@ matrix is invertible.
 Provides indexed access to the matrix components.
 Returns the inverse of the matrix, or nil if the matrix is not invertible.
 
+
 ### `isIdentity`
 
 Returns true if the matrix is the identity transform.
+
 
 ### `__eq`
 
 Returns true if all components of the two matrices are equal.
 
+
 ### `__mul`
 
 Transforms the given vector by the matrix and returns the result.
 
+
 ### `__mul`
 
 Returns the matrix product of this matrix and the given matrix
+
 
