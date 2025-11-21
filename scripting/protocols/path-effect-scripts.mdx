@@ -1,0 +1,78 @@
+---
+title: "Path Effect Scripts"
+description: "Create custom path effects using Rive scripting"
+---
+
+import { Demos } from '/snippets/demos.jsx'
+
+Path Effects are Rive scripts that modify and transform path geometry in real-time. They give you programmatic control over the shape and structure of paths in your animations, enabling effects like warping, distortion, animation, and procedural modifications.
+
+
+## Creating a Path Effect
+
+[Create a new script](/scripting/creating-scripts) and select **Path Effect** as the type.
+
+## Anatomy of a Converter Script
+
+### Methods
+
+- *init (optional)*
+Called once when the path effect is created. Use this to set up initial state. Returns true if initialization succeeds.
+- *update (required)*
+The core method where path transformation happens. Receives the original PathData and returns a modified version. This is where you manipulate the path's geometry.
+- *advance (optional)*
+Called every frame with elapsed time in seconds. Returns true to continue receiving advance calls. Useful for animated effects that change over time.
+
+## Working with PathData
+PathData provides access to a path's drawing commands (moveTo, lineTo, cubicTo, quadTo, close). You can:
+
+- Read existing commands using indexing
+- Get the command count with #pathData
+- Create new paths and add commands
+- Use measurement tools like contours() and measure() for advanced operations
+
+```lua
+type MyPathEffect = {
+  context: Context,
+}
+
+function init(self: MyPathEffect, context: Context): boolean
+  self.context = context
+  return true
+end
+
+function update(self: MyPathEffect, inPath: PathData): PathData
+  local path = Path.new()
+  return path
+end
+
+function advance(self: MyPathEffect, seconds: number): boolean
+  return true
+end
+
+-- Return a factory function that Rive uses to build the Path Effect instance.
+return function(): PathEffect<MyPathEffect>
+  return {
+    init = init,
+    update = update,
+    advance = advance,
+    context = late(),
+  }
+end
+```
+
+
+## Add the Scripted Path Effect to a Stroke
+
+Select or add a stroke to a shape:
+
+1. Open the Options menu.
+2. Select the Effects Tab and click the '+' to add an effect.
+3. Find your effects under the Script Effects menu option.
+4. Any inputs you have defined will apepar and can be edited here.
+
+![Add Path Effect to a Stroke](/images/scripting/add-path-effect-to-stroke.png)
+
+## Adding Inputs
+
+See [Script Inputs](/scripting/script-inputs).
