@@ -1,0 +1,45 @@
+---
+title: PathMeasure
+---
+
+## Fields
+
+### `length`
+
+The total length of the path across all contours.
+```lua
+local measure = path:measure()
+local pathLength = measure.length
+```
+
+
+### `isClosed`
+
+Returns true only if the path has exactly one contour and that contour is
+closed. Paths with multiple contours always return false, even if all
+contours are closed.
+
+
+## Methods
+
+### `positionAndTangent`
+
+Returns the position and tangent vector at the given distance along the
+path. The distance is clamped to the valid range [0, length]. Returns two
+Vector values: the position and the normalized tangent vector.
+
+### `warp`
+
+Warps a point onto the path. The x-coordinate of the source point is
+interpreted as a distance along the path, and the y-coordinate is used as
+an offset along the tangent direction. Returns the warped position as a
+Vector.
+
+### `extract`
+
+Extracts a sub-section of the path from startDistance to endDistance and
+appends it to the destination path. Distances are clamped to the valid
+range [0, length]. If startWithMove is true (the default), the extracted
+segment begins with a moveTo operation. If false, it continues from the
+previous point in the destination path.
+

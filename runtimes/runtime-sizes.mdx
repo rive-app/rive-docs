@@ -1,36 +1,80 @@
 ---
 title: 'Runtime Sizes'
 sidebarTitle: 'Sizes'
-description: 'Last updated: March 2025'
+description: 'Last updated: October 2025'
 ---
 
 <Tabs>
-    <Tab title="Android">
-        | Target  | Download Size | Install Size |
-        | ------- | ------------- | ------------ |
-        | ARM-v7a | 1.5mb         | 3.9mb        |
-        | ARM-v8a | 1.6mb         | 4.7mb        |
-    </Tab>
-    <Tab title="Apple">
-        | Target                  | Download Size | Install Size |
-        | ------------------------| ------------- | ------------ |
-        | Framework               |               | 3.8mb        |
-        | iOS App + RiveRuntime   | 1.4mb         | 3.9mb        |
-        | macOS App + RiveRuntime | 1.4mb         | 4.0mb        |
+  <Tab title="Web (JS)">
+      | Runtime     | Uncompressed | Compressed |
+      | ----------- | ------------ | ---------- |
+      | canvas-lite | 550KB        | 175KB      |
+      | canvas      | 1300KB       | 550KB      |
+      | webgl2      | 1650KB       | 650KB      |
+  </Tab>
+  <Tab title="React">
+      See `Web (JS)` for more details.
+  </Tab>
+  <Tab title="React Native">
+      See `Android` and `Apple` for more details. 
+  </Tab>
+  <Tab title="Apple">
+      | Target                  | Download Size | Install Size |
+      | ------------------------| ------------- | ------------ |
+      | Framework               |               | 3.8MB        |
+      | iOS App + RiveRuntime   | 1.4MB         | 3.9MB        |
+      | macOS App + RiveRuntime | 1.4MB         | 4.0MB        |
 
-        [![Emerge badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fwww.emergetools.com%2Fapi%2Fv2%2Fpublic_new_build%3FexampleId%3Drive.app.ios.runtime.RiveRuntime%26platform%3Dios%26badgeOption%3Dversion_and_max_install_size%26buildType%3Drelease&query=%24.badgeMetadata&logo=apple&label=RiveRuntime)](https://www.emergetools.com/app/example/ios/rive.app.ios.runtime.RiveRuntime/release)
-    </Tab>
-    <Tab title="React">
-        See `Web (JS)` for more details.
-    </Tab>
-    <Tab title="React Native">
-        See `Android` and `Apple` for more details. 
-    </Tab>
-    <Tab title="Web (JS)">
-        | Runtime     | Uncompressed | Compressed |
-        | ----------- | ------------ | ---------- |
-        | canvas-lite | 550kb        | 175kb      |
-        | canvas      | 1300kb       | 550kb      |
-        | webgl2      | 1650kb       | 650kb      |
-    </Tab>
+      [![Emerge badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fwww.emergetools.com%2Fapi%2Fv2%2Fpublic_new_build%3FexampleId%3Drive.app.ios.runtime.RiveRuntime%26platform%3Dios%26badgeOption%3Dversion_and_max_install_size%26buildType%3Drelease&query=%24.badgeMetadata&logo=apple&label=RiveRuntime)](https://www.emergetools.com/app/example/ios/rive.app.ios.runtime.RiveRuntime/release)
+  </Tab>
+  <Tab title="Android">
+      | Target  | Download Size | Install Size |
+      | ------- | ------------- | ------------ |
+      | ARM-v8a | 2.39MB        | 6.58MB       |
+      | ARM-v7a | 2.31MB        | 5.67MB       |
+
+      ## Components
+      Rive Android's binary size is comprised of a number of components:
+      - Kotlin code compiled to a DEX file
+      - Rive Android native shared library (`librive-android.so`)
+          - Comprised of the Rive Android C++ bindings, the Rive C++ runtime, and the Rive Renderer.
+          - Additionally has the [below third party static dependencies](#third-party-dependencies) (currently without Luau)
+      - C++ standard library (shared .so file - 394KB download size, 1.2MB install size for ARM-v8a)
+      - The following Android dependencies:
+          | Dependency                                 | Reason                         |
+          | ------------------------------------------ | ------------------------------ |
+          | Compose: runtime, ui, ui-android           | Compose support                |
+          | Lifecycle: runtime-ktx and runtime-compose | Lifecycle awareness in Compose |
+          | Startup: startup-runtime                   | Automatic initialization       |
+          | ReLinker                                   | Rive native library loading    |
+          | Volley                                     | Network loading                |
+
+      ## Amortization and R8
+      The sizes listed above reflect adding Rive to an otherwise empty application. Some of the above dependencies may already be present in your application, and as a result do not contribute to the size increase when adding Rive. For example, if your app already uses Jetpack Compose, the Compose dependencies will likely already be included in your app's binary.
+
+      The same is true for the C++ standard library, which will be shared across all dependencies with native code.
+
+      Additionally, when compiling a release build, R8 will minify your application, removing unused code and resources. This can further reduce the size impact of adding Rive to your application. Ensure your Gradle file contains [`isMinifyEnabled = true`](https://developer.android.com/topic/performance/app-optimization/enable-app-optimization).
+
+      ## Future Work
+      There are options available to reduce the binary size of the library that can be considered for future work, including:
+        - Replacing Miniaudio with Oboe for audio support
+          - Currently Miniaudio can be removed by [compiling Rive Android yourself](https://github.com/rive-app/rive-android#no-audio-engine), using the `-PnoAudio` Gradle flag
+        - Modularizing the runtime to allow including Compose support only when needed, and separating the Compose API from the Legacy API
+        - Making Volley an opt-in dependency for network loading
+        - Changing C++ compile flags to prefer size over speed (requires performance testing)
+  </Tab>
 </Tabs>
+
+# Third Party Dependencies
+The common Rive C++ runtime includes a number of open source third party dependencies which contribute to its binary weight. These are:
+
+| Dependency                                            | Reason                     |
+| ----------------------------------------------------- | -------------------------- |
+| [HarfBuzz](https://github.com/harfbuzz/harfbuzz)      | Text rendering             |
+| [Miniaudio](https://github.com/mackron/miniaudio)     | Audio support              |
+| [SheenBidi](https://github.com/Tehreer/SheenBidi)     | Bidirectional text support |
+| [Yoga](https://github.com/facebook/yoga)              | Layout                     |
+| [Luau Interpreter](https://github.com/luau-lang/luau) | Scripting Support          |
+
+<Note>Luau is currently not included in most runtimes. Once scripting is generally available, expect runtime sizes to increase accordingly.</Note>

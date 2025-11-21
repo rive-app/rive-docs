@@ -1,37 +1,25 @@
 ---
-title: 'Clipping'
-description: 'Clipping allows you to cut one shape out from another.'
+title: "Clipping"
+description: "Clipping allows you to cut one shape out from another."
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
 
-<YouTube id="u8EPxqT3LnM" />
+<YouTube id="bxmipy1Gv6Y" />
 
 ## How to use Clipping
 
-Select the shape you want to clip and hit the plus button next to the Clipping options in the Inspector. Now, select the path you want to use as a clipping path.
+Select the shape or group you want to clip and hit the plus button next to the Clipping options in the Inspector. After hitting the plus button, you'll notice a blue border appear around the stage, indicating that you can pick a shape as the clipping source. Now, select the path you want to use as a clipping path. Remember, the clipping target must be a shape, not a group or any other object.
 
-![Image](https://ucarecdn.com/40d8f552-2e48-4513-82cb-b99953cd5afa/)
+![Clipping Gi](/images/editor/manipulating-shapes/Clipping.gif)
 
 You can add as many clipping paths to a shape as you'd like.
 
-## How to use a group as a clipping path
-
-![Image](/images/editor/manipulating-shapes/8ef11ad2-491b-46f3-b101-3723d6611a5a.webp)
-
-Instead of selecting multiple clipping paths one-by-one, you can select a group and all the paths inside the group will be used as clipping paths. In this example, we are adding the ball group as a clipping path to the light shape, which creates a lighting effect on the ball as it moves across the screen.
-
-![Image](https://ucarecdn.com/e9605e43-3ad5-4246-afd2-6635d79bd7cd/)
-
-Using a group as a clipping path
-
 ## Clipping and path direction
 
-![Image](https://ucarecdn.com/c2654331-1f52-4428-8f4c-fd62372ffb1f/)
+If you have shapes that aren't clipping, or only partially clipping, be sure to check the winding of that shape. In most cases, reversing the direction of the path fixes this problem.
 
-Reverse path direction
-
-In the event that you have shapes that aren't clipping, or only partially clipping, be sure to check the winding of that shape. In most cases, reversing the direction of the path with fix this problem.
+![Reverse Direction Gi](/images/editor/manipulating-shapes/ReverseDirection.gif)
 
 ## Inverse Clipping
 
@@ -55,7 +43,7 @@ Note that your shape might not show a hole as ours does. That's because you need
 
 ![Image](/images/editor/manipulating-shapes/4e35e170-b0e0-470b-8d2c-53bf74388fd7.webp)
 
-Select the group containing the jewel and use the "plus" icon in the Clipping section of the Inspector to add your clipping shape.
+Select the group containing the jewel and use the "plus" icon in the Clipping section of the Inspector. Next, select the Clipping Shape as the target.
 
 ![Image](/images/editor/manipulating-shapes/a5b01f21-4757-435b-8a6b-f822cc519005.webp)
 
@@ -63,4 +51,4 @@ Open the Clip Options and set the Operation to Even-Odd.
 
 ![Image](/images/editor/manipulating-shapes/c38910e3-9b33-4fef-a69f-5a2154aa6eec.webp)
 
-Be sure to hide the visibility of your clipping shape so it's not covering your graphic.
+Be sure to hide the visibility of your clipping shape so it doesn't cover your graphic.
