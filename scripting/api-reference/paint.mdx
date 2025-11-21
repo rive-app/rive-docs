@@ -5,7 +5,6 @@ title: Paint
 Describes how shapes are drawn, including fill or stroke style, thickness,
 color, gradient, and blending behaviour.
 
-
 ## Fields
 
 ### `style`
@@ -14,47 +13,39 @@ Describes how shapes are drawn, including fill or stroke style, thickness,
 color, gradient, and blending behaviour.
 Painting style (stroke or fill).
 
-
 ### `join`
 
 Stroke join behaviour for corners.
-
 
 ### `cap`
 
 Stroke cap used for line endings.
 
-
 ### `thickness`
 
 Thickness of the stroked path.
-
 
 ### `blendMode`
 
 Blending mode used when compositing.
 
-
 ### `feather`
 
 Feathering amount.
-
 
 ### `gradient`
 
 Gradient applied to fill (if present).
 
-
 ### `color`
 
 Color
-
 
 ## Constructors
 
 ### `new`
 
-Creates a new [Paint](/scripting/api-reference/paint) object with default settings.
+Creates a new `Paint` object with default settings.
 
 Example:
 ```lua
@@ -62,7 +53,6 @@ local paint = Paint.new()
 paint.style = 'fill'
 paint.color = Color.rgb(255, 200, 80)
 ```
-
 
 ### `with`
 
@@ -78,7 +68,6 @@ local strokePaint = Paint.with({
   cap = 'round',
 })
 ```
-
 
 ## Methods
 
