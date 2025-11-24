@@ -5,6 +5,7 @@ title: Renderer
 Provides functions for drawing paths and images, managing clipping, and
 applying transforms during rendering.
 
+
 ## Methods
 
 ### `drawPath`
@@ -13,30 +14,37 @@ Provides functions for drawing paths and images, managing clipping, and
 applying transforms during rendering.
 Draws the given path using the specified paint.
 
+
 ### `drawImage`
 
 Draws an image using the specified sampler, blend mode, and opacity.
+
 
 ### `drawImageMesh`
 
 Draws an image using mesh data defined by vertices, texture
 coordinates, and triangle indices.
 
+
 ### `clipPath`
 
 Restricts subsequent drawing to the area defined by the given path.
 Clipping remains in effect until the next restore call.
 
+
 ### `save`
 
 Saves the current rendering state, including transforms and clipping.
+
 
 ### `restore`
 
 Restores the most recently saved rendering state.
 
+
 ### `transform`
 
 Applies a transform to the current rendering state. Transforms are
 applied cumulatively until restored.
+
 
