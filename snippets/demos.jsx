@@ -128,7 +128,7 @@ export const Demos = ({
       description: "Draw a squirkle, a star, and an animated wave with scripting.",
       links: {
         // TODO - replace with marketplace or editor links
-        editor: "https://static.rive.app/revs/Shapes+Demo.rev"
+        editor: "https://static.rive.app/revs/Shapes%20Demo.rev"
       }
     },
     scriptingMasonry: {
@@ -155,7 +155,7 @@ export const Demos = ({
       description: "This hands-on example demonstrates unit testing rgbToHex and hexToRgb color utilities.",
       links: {
         // TODO - replace with marketplace or editor links
-        editor: "https://static.rive.app/revs/Unit+Testing.rev"
+        editor: "https://static.rive.app/revs/Unit%20Testing.rev"
       }
     },
     scriptingSnakeGame: {
@@ -164,7 +164,7 @@ export const Demos = ({
       description: "Check out this complete game built entirely with Rive using scripting.",
       links: {
         // TODO - replace with marketplace or editor links
-        editor: "https://static.rive.app/revs/Snake+Game+3.rev"
+        editor: "https://static.rive.app/revs/Snake%20Game%203.rev"
       }
     },
     scriptingMultiTouch: {
@@ -173,7 +173,7 @@ export const Demos = ({
       description: "Keep track of every finger.",
       links: {
         // TODO - replace with marketplace or editor links
-        editor: "https://static.rive.app/revs/Multi-touch+Pointer+Events.rev"
+        editor: "https://static.rive.app/revs/Multi-Touch%20Pointer%20Events.rev"
       }
     },
     scriptingNestedPointers: {
@@ -182,7 +182,7 @@ export const Demos = ({
       description: "Pass pointer events from the parent component to the instantiated children.",
       links: {
         // TODO - replace with marketplace or editor links
-        editor: "https://static.rive.app/revs/Nested+Pointer+Events.rev"
+        editor: "https://static.rive.app/revs/Nested%20Pointer%20Events.rev"
       }
     },
     starRating: {
