@@ -27,7 +27,7 @@ Creates a [DataValueBoolean](/scripting/api-reference/data-value-boolean) that s
 
 ### `color`
 
-Creates a [DataValueColor](/scripting/api-reference/data-value-color) that stores a color.
+Creates a [DataValueColor](/scripting/api-reference/data-value-color) that stores a [Color](/scripting/api-reference/color).
 
 
 ## Methods
@@ -37,20 +37,36 @@ Creates a [DataValueColor](/scripting/api-reference/data-value-color) that store
 Base type for values that can be stored in inputs. Provides
 functions for checking the underlying value type.
 Returns true if the value is a number.
+```lua
+local dv: DataValueNumber = DataValue.number()
+print(dv.isNumber) -- true
+```
 
 
 ### `isString`
 
 Returns true if the value is a string.
+```lua
+local dv: DataValueNumber = DataValue.number()
+print(dv.isString) -- false
+```
 
 
 ### `isBoolean`
 
 Returns true if the value is a boolean.
+```lua
+local dv: DataValueNumber = DataValue.number()
+print(dv.isBoolean) -- false
+```
 
 
 ### `isColor`
 
 Returns true if the value is a color.
+```lua
+local dv: DataValueNumber = DataValue.number()
+print(dv.isColor) -- false
+```
 
 
