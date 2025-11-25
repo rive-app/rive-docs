@@ -11,3 +11,19 @@ function to report desired dimensions.
 See [Layout Scripts](/scripting/protocols/layout-scripts).
 
 
+## Methods
+
+### `measure`
+
+When provided this Layout can be intrinsically sized/request
+to be a specific size. This is not guaranteed as the layout
+may have min/max dimensions. Resize will be called with the
+granted size after being measured.
+
+
+### `resize`
+
+Guaranteed to be called to set initial size and also called
+whenever the size changes.
+
+
