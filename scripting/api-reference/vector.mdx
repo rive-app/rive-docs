@@ -44,41 +44,6 @@ local origin = Vector.origin()  -- (0,0)
 ```
 
 
-### `lerp`
-
-Returns the linear interpolation between the two vectors, using t where
-0 returns 'from' and 1 returns 'to'.
-```lua
-local p = Vector.lerp(Vector.xy(0,0), Vector.xy(8,0), 0.25)  -- (2,0)
-```
-
-
-## Static Functions
-
-### `distance`
-
-Returns the distance between the two vectors.
-```lua
-local d = Vector.distance(Vector.xy(3,4), Vector.xy(0,0))  -- 5
-```
-
-
-### `distanceSquared`
-
-Returns the squared distance between the two vectors.
-```lua
-local d2 = Vector.distanceSquared(Vector.xy(3,4), Vector.xy(0,0))  -- 25
-```
-
-
-### `dot`
-
-Returns the dot product of the two vectors.
-```lua
-local dp = Vector.dot(Vector.xy(1,2), Vector.xy(3,4))  -- 11
-```
-
-
 ## Methods
 
 ### `length`

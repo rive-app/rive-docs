@@ -5,3 +5,25 @@ title: PathEffect
 A scripted effect applied to a path
 
 
+## Methods
+
+### `init`
+
+Called once when the effect is created or attached.
+Return `true` to keep the effect active, or `false` to disable it.
+
+
+### `update`
+
+Called any time an input changes.
+You receive the original [PathData](/scripting/api-reference/path-data) and must return the path
+that should be used for rendering.
+
+
+### `advance`
+
+Called every frame to advance the effect over time.
+`seconds` is the time delta since the last frame.
+Return `true` to keep the effect active, or `false` to disable it.
+
+

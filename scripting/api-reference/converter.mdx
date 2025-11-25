@@ -8,3 +8,27 @@ bindings and Rive properties.
 See [Converter Scripts](/scripting/protocols/converter-scripts).
 
 
+## Methods
+
+### `init`
+
+Called once when the converter is created. Returns true if initialization
+succeeds.
+
+
+### `convert`
+
+Converts the input value (a view model property) to an output value.
+
+
+### `reverseConvert`
+
+Converts the output value back to an input value (a view model property).
+
+
+### `advance`
+
+Optional per-frame update. Returns true if the converter should continue
+receiving advance calls.
+
+
