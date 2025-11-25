@@ -21,11 +21,23 @@ The typed data associated with the artboard.
 ### `width`
 
 The width of the artboard.
+```lua
+self.artboardInstance = self.myArtboard:instance()
+if self.artboardInstance then
+   self.artboardInstance.width = 20
+end
+```
 
 
 ### `height`
 
 The height of the artboard.
+```lua
+self.artboardInstance = self.myArtboard:instance()
+if self.artboardInstance then
+   self.artboardInstance.height = 20
+end
+```
 
 
 ## Methods
@@ -50,6 +62,11 @@ Creates a new instance of the artboard with independent state.
 
 Returns the bounding box of the artboard as two [Vector](/scripting/api-reference/vector) values: the
 minimum point and the maximum point.
+```lua
+local minPt, maxPt = self.myArtboard:bounds()
+print("Bounds width", maxPt.x - minPt.x)
+print("Bounds height", maxPt.y - minPt.y)
+```
 
 
 ### `node`
