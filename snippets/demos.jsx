@@ -185,6 +185,15 @@ export const Demos = ({
         editor: "https://static.rive.app/revs/Nested+Pointer+Events.rev"
       }
     },
+    scriptingBoilPathEffect: {
+      title: "Boiling Path Effect",
+      image: "https://static.rive.app/docs/boiling-effect.gif",
+      description: "Apply a boiling effect to any path using scripting.",
+      links: {
+        // TODO - replace with marketplace or editor links
+        editor: "https://static.rive.app/revs/boiling-effect.rev"
+      }
+    },
     starRating: {
       title: "Android New Compose API Quick Start",
       image: "/images/runtimes/star-rating.webp",
