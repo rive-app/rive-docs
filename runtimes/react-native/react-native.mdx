@@ -1,14 +1,37 @@
 ---
-title: 'React Native'
-description: 'React Native runtime for Rive.'
+title: "React Native"
+description: "React Native runtime for Rive."
 ---
 
-import NoteOnFeatureSupport from "/snippets/runtimes/rendering-feature-support.mdx"
-import { Demos } from '/snippets/demos.jsx'
+import NoteOnFeatureSupport from "/snippets/runtimes/rendering-feature-support.mdx";
+import { Demos } from "/snippets/demos.jsx";
 
-<NoteOnFeatureSupport/>
+<NoteOnFeatureSupport />
 
-<Demos examples={['dataBindingQuickStart']} runtime="react-native" />
+<Demos examples={["dataBindingQuickStart"]} runtime="react-native" />
+
+<Note>
+🚀 **The new Rive React Native runtime is now public and ready for testing!**
+
+**Try it now:** [https://github.com/rive-app/rive-nitro-react-native](https://github.com/rive-app/rive-nitro-react-native)
+
+**Current Status:**: The new package is in development preview. While it's functional and actively maintained, the API may change in future releases. We recommend testing thoroughly before using in production applications.
+
+**Migration Timeline:**
+
+- **Short term:** Complete the new runtime and unblock production usage
+- **Medium term:** Address major concerns in the legacy package while supporting migration
+- **Long term:** Full migration to the new package
+
+We're actively gathering feedback to improve the new runtime. Please share your thoughts and report any issues you encounter.
+
+**Additional information**:
+
+- The new package will eventually be distributed on NPM under the name `@rive-app/react-native`.
+- The documentation on this site has not yet been updated to show the new API. Please see the [example app](https://github.com/rive-app/rive-nitro-react-native/tree/main/example) for usage information.
+- See the [feature comparison](https://github.com/rive-app/rive-nitro-react-native?tab=readme-ov-file#runtime-feature-comparison) and [roadmap](https://github.com/rive-app/rive-nitro-react-native?tab=readme-ov-file#roadmap).
+
+</Note>
 
 ## Overview
 
@@ -17,9 +40,9 @@ This guide documents how to get started using the React Native runtime library. 
 The minimum iOS target is **14.0**
 
 <Note>
- See [our documentation](/runtimes/react-native/adding-rive-to-expo) to add Rive to an Expo app.
+  See [our documentation](/runtimes/react-native/adding-rive-to-expo) to add
+  Rive to an Expo app.
 </Note>
-
 
 ## Getting Started
 
@@ -39,6 +62,7 @@ Follow the steps below for a quick start on integrating Rive into your React Nat
     <Note>
     If you run into issues here, you may need to bump the `ios` deployment version target to at least `14.0`. You can find this version in the `Podfile` of the `ios/` folder.
     </Note>
+
   </Step>
   <Step title="Android - Set Kotlin Dependency Resolution">
     This step may be optional - however, if your Android setup in the React Native project does not have Kotlin `v1.8.0+` set up, you may run into duplicate class issues when building the project. To mitigate these issues, as suggested by [Kotlin docs](https://kotlinlang.org/docs/gradle-configure-project.html#versions-alignment-of-transitive-dependencies), add the following to your dependencies in your application's `build.gradle` file to deal with version alignment:
@@ -49,6 +73,7 @@ Follow the steps below for a quick start on integrating Rive into your React Nat
         ...
     }
     ```
+
   </Step>
   <Step title="Add the Rive component">
     ```javascript
@@ -63,6 +88,7 @@ Follow the steps below for a quick start on integrating Rive into your React Nat
       />;
     }
     ```
+
   </Step>
 </Steps>
 

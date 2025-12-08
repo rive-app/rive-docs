@@ -24,7 +24,6 @@ When embedding images, make sure to add descriptive [alt-text](https://docs.gith
 - Unity: `images/game-runtimes/unity/my-image.jpg`
 - Unreal: `images/game-runtimes/unreal/my-image.jpg`
 
-
 ### Links:
 
 When adding links to another page within the documentation, make sure the url is relative to the root.
@@ -89,7 +88,7 @@ In addition to a good pull request title, ensure that your pull request descript
 
 ## Requesting a Review
 
-Reviewers will automatically be assigned following the assignments in [CODEOWNERS](.github/CODEOWNERS).
+Reviewers will automatically be assigned following the assignments in [CODEOWNERS](/.github/CODEOWNERS).
 
 ## Merging
 
