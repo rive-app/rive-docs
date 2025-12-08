@@ -12,24 +12,24 @@ Path Effects are Rive scripts that modify and transform path geometry in real-ti
 
 [Create a new script](/scripting/creating-scripts) and select **Path Effect** as the type.
 
-## Anatomy of a Converter Script
+## Anatomy of a Path Effect Script
 
 ### Methods
 
 - *init (optional)*
 Called once when the path effect is created. Use this to set up initial state. Returns true if initialization succeeds.
 - *update (required)*
-The core method where path transformation happens. Receives the original PathData and returns a modified version. This is where you manipulate the path's geometry.
+The core method where path transformation happens. Receives the original `PathData` and returns a modified version. This is where you manipulate the path's geometry.
 - *advance (optional)*
 Called every frame with elapsed time in seconds. Returns true to continue receiving advance calls. Useful for animated effects that change over time.
 
 ## Working with PathData
-PathData provides access to a path's drawing commands (moveTo, lineTo, cubicTo, quadTo, close). You can:
+`PathData` provides access to a path's drawing commands (`moveTo`, `lineTo`, `cubicTo`, `quadTo`, `close`). You can:
 
 - Read existing commands using indexing
-- Get the command count with #pathData
+- Get the command count with `#pathData`
 - Create new paths and add commands
-- Use measurement tools like contours() and measure() for advanced operations
+- Use measurement tools like `contours()` and `measure()` for advanced operations
 
 ```lua
 type MyPathEffect = {
