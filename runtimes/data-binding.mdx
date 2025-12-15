@@ -1746,6 +1746,20 @@ Image properties let you set and replace raster images at runtime, with each ins
     imageProperty.setValue(nil)
     ```
   </Tab>
+  <Tab title="Android">
+    ```kotlin
+    // Load image from the assets folder.
+    val imageBytes = context.resources.openRawResource(R.raw.my_image).use { stream ->
+      stream.readBytes()
+    }
+
+    val vmi = it.stateMachines.first().viewModelInstance!!
+
+    // Replace image property in view model instance with new image.
+    val riveImage = RiveRenderImage.fromEncoded(imageBytes)
+    vmi.getImageProperty("Image property").set(riveImage) 
+    ```
+  </Tab>
   <Tab title="Flutter">
     <Info>
       See the [Flutter data binding images example](https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_images.dart).
@@ -1810,15 +1824,15 @@ Image properties let you set and replace raster images at runtime, with each ins
         Debug.Log("Image updated!");
     }
 
-// Example method to toggle between light and dark mode images
-public void ToggleTheme()
-{
-    if (imageProperty != null)
+    // Example method to toggle between light and dark mode images
+    public void ToggleTheme()
     {
-        isDarkMode = !isDarkMode;
-        imageProperty.Value = isDarkMode ? m_darkImageAsset : m_lightImageAsset;
+        if (imageProperty != null)
+        {
+            isDarkMode = !isDarkMode;
+            imageProperty.Value = isDarkMode ? m_darkImageAsset : m_lightImageAsset;
+        }
     }
-}
 
     // Example method to clear the image
     public void ClearImage()
