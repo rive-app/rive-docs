@@ -1,0 +1,225 @@
+---
+title: 'Fonts'
+description: 'Loading and replacing fonts dynamically at runtime.'
+---
+
+## Swapping Fonts at Runtime
+
+Fonts can be loaded dynamically at runtime. This allows you to localize your Rive content without increasing the file size of the exported .riv file. For more information, see [Loading Assets](/runtimes/loading-assets).
+
+## Fallback Fonts
+
+When rendering text, not all glyphs (characters) may be available in the active font. This commonly occurs when:
+
+- Using custom fonts that don’t support all languages or Unicode ranges
+- The embedded font is a subset of the font
+- User-generated or dynamic text contains unexpected characters
+
+To avoid missing or invisible glyphs, some platforms support fallback fonts. A fallback font is used automatically when the primary font cannot render a specific glyph. These are typically system fonts, which generally provide broad Unicode coverage.
+
+<Note>
+  Fallback fonts are **not supported on the web**.
+
+  For security reasons, browsers do not allow the canvas to access local system files, including fonts. As a result, only fonts explicitly provided to Rive can be used.
+</Note>
+
+<Note>
+  On iOS and Android, font sizes specified for fallback fonts are ignored. Instead, the platform selects system fonts that best match the styling and animation of the text run at runtime.
+</Note>
+
+<Tabs>
+
+    <Tab title="Apple">
+
+        As of v6.1, on iOS and macOS, various options for fallbacks can be used. The Apple runtime provides helpers for selecting system fonts based on requested styling. Additionally, UIFonts / NSFonts can be used directly.
+
+        <Note>
+        A default system font of regular weight and width will be used if no fallbacks have been registered.
+        </Note>
+        ```swift
+        // Early in your app lifecycle, call something similar to the following:
+        RiveFont.fallbackFonts = [
+            RiveFallbackFontDescriptor(), // Use a default system font
+            RiveFallbackFontDescriptor(design: .default, weight: .bold, width: .expanded), // Use a bold, expanded system font
+            UIFont(name: "...", size: 20)!
+        ]
+
+        // Alternatively, you can supply different fonts based on style at runtime
+        ```
+
+        As of v6.4, on iOS and macOS, you can utilize a more dynamic callback-based API for returning various fonts depending on the style of any missing characters, as styled in a text run.
+
+        ```swift
+        // As with the similar fallbackFonts API, you utilize Rive helper types
+        // or native UIFont/NSFont types
+        RiveFont.fallbackFontsCallback = { style in
+            switch style.weight {
+                case .thin: return [
+                    RiveFallbackFontDescriptor(weight: .thin),
+                    UIFont.systemFont(ofSize: 20, weight: .thin)
+                ]
+                case .bold: return [
+                    RiveFallbackFontDescriptor(weight: .bold),
+                    UIFont.systemFont(ofSize: 20, weight: .bold)
+                ]
+                default: return [
+                    RiveFallbackFontDescriptor(),
+                    UIFont.systemFont(ofSize: 20)
+                ]
+            }
+        }
+
+        // Alternatively, you can use the raw weight to return various fonts as well
+        RiveFont.fallbackFontsCallback = { style in
+            switch style.rawWeight {
+                case 100: return [
+                    RiveFallbackFontDescriptor(weight: .thin),
+                    UIFont.systemFont(ofSize: 20, weight: .thin)
+                ]
+                case 700: return [
+                    RiveFallbackFontDescriptor(weight: .bold),
+                    UIFont.systemFont(ofSize: 20, weight: .bold)
+                ]
+                default: return [
+                    RiveFallbackFontDescriptor(),
+                    UIFont.systemFont(ofSize: 20)
+                ]
+            }
+        }
+        ```
+    </Tab>
+
+    <Tab title="Android">
+
+        As of v9.12.0, various options for fallback fonts can be used on Android.
+
+        <Note>
+         If no fallback fonts are registered, a default system font ("sans-serif") with a regular weight (400, NORMAL) and normal style will be used.
+        </Note>
+        The `Fonts` class provides ways to handle and customize fonts, including retrieving system fonts, defining font options, and finding fallback fonts based on specific characteristics.
+
+        ### 1. Setting a Fallback Font
+
+        With v9.12.0, the runtime provides a new API to match missing fonts against a specific weight by extending the `FontFallbackStrategy` interface.
+
+        This interface contains a single method:
+
+        ```kotlin
+        fun getFont(weight: Fonts.Weight): List<FontBytes>
+        ```
+
+        Implementers need to override this method. The user's implementation must then be set as the current fallback strategy via `FontFallbackStrategy.stylePicker`.
+
+        **Example:**
+
+        ```kotlin
+        class FontFallback : AppCompatActivity(), FontFallbackStrategy {
+
+            override fun onCreate(savedInstanceState: Bundle?) {
+                super.onCreate(savedInstanceState)
+                // Set the fallback strategy
+                FontFallbackStrategy.stylePicker = this
+            }
+
+            override fun getFont(weight: Fonts.Weight): List<FontBytes> {
+                val desiredWeight = weight.weight
+                val fonts = listOf(
+                    Fonts.FontOpts(
+                        familyName = "sans-serif",
+                        weight = Fonts.Weight(weight = desiredWeight) // Find a matching weight font
+                    ),
+                    // Non-Latin Unicode fallback
+                    Fonts.FontOpts("NotoSansThai-Regular.ttf")
+                )
+                return fonts.mapNotNull {
+                    // Filter out fonts that cannot be found on the system
+                    FontHelper.getFallbackFontBytes(it)
+                }
+            }
+        }
+        ```
+
+        The method returns a list of `FontBytes` (\`ByteArray\`). The runtime attempts to match the character using the fonts in the list in a first-in, first-out (FIFO) order.
+
+        Fallback fonts can also be set using `Rive.setFallbackFont()`, with optional font preferences defined in `Fonts.FontOpts`. These fonts are tried only after attempting the ones returned by `FontFallbackStrategy.getFont()`.
+
+        ### 2. Font.FontOpts - Font Options
+
+        Defines the font characteristics when selecting a fallback font.
+
+        - **Parameters**
+        - `familyName`: Name of the font family (e.g., "Roboto", "NotoSansThai-Regular.ttf"). Defaults to `null`
+        - `lang`: Optional language specification. Defaults to `null`
+        - `weight`: Font weight using `Fonts.Weight` (e.g., `Fonts.Weight.NORMAL`, `Fonts.Weight.BOLD`). Default is `Weight.NORMAL`
+        - `style`: Font style, either `Fonts.Font.STYLE_NORMAL` or `Fonts.Font.STYLE_ITALIC`. Default is `STYLE_NORMAL`
+        - **Default example**
+
+        ```kotlin
+        val defaultFontOpts = Fonts.FontOpts.DEFAULT
+        ```
+
+        ### 3. Retrieving a Fallback Font
+
+        Use `FontHelper.getFallbackFont()` to find a suitable fallback font based on specified options. Returns a `Fonts.Font` object or `null` if no match is found.
+
+        **Example:**
+
+        ```kotlin
+        val fontOpts = Fonts.FontOpts(familyName = "Roboto", weight = Fonts.Weight.BOLD)
+        val fallbackFont = FontHelper.getFallbackFont(fontOpts)
+        ```
+
+        ### 4. Getting Font File and Bytes
+
+        - `FontHelper.getFontFile(font: Fonts.Font)`: Retrieves the file for the specified font.
+        - `FontHelper.getFontBytes(font: Fonts.Font)`: Reads the font file and returns its bytes.
+
+        **Example:**
+
+        ```kotlin
+        val fontFile = FontHelper.getFontFile(fallbackFont)
+        val fontBytes = FontHelper.getFontBytes(fallbackFont)
+        ```
+
+        ### 5. Fonts.Weight - Font Weight
+
+        Represents the font weight, allowing values from 0 to 1000.
+
+        - **Predefined Weights**
+        - `Fonts.Weight.NORMAL` (400)
+        - `Fonts.Weight.BOLD` (700)
+
+        **Example:**
+
+        ```kotlin
+        val normalWeight = Fonts.Weight.NORMAL
+        val customWeight = Fonts.Weight.fromInt(500)
+        ```
+
+        ### 6. Fonts.Style - Font Style
+
+        Represents the font style, allowing "normal" and "italic"
+
+        - **Predefined Styles**
+        - `Fonts.Font.STYLE_NORMAL`
+        - `Fonts.Font.STYLE_ITALIC`
+
+        **Example:**
+
+        ```kotlin
+        val normalStyle = Fonts.Font.STYLE_NORMAL
+        val italicStyle = Fonts.Font.STYLE_ITALIC
+        ```
+
+        ### 7. Getting System Fonts
+
+        - `FontHelper.getSystemFonts()`: Returns a map of all available system font families.
+
+        **Example:**
+
+        ```kotlin
+        val systemFonts = FontHelper.getSystemFonts()
+        ```
+    </Tab>
+
+</Tabs>
