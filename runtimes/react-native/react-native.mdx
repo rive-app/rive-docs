@@ -8,12 +8,10 @@ import { Demos } from "/snippets/demos.jsx";
 
 <NoteOnFeatureSupport />
 
-<Demos examples={["dataBindingQuickStart"]} runtime="react-native" />
-
 <Note>
 🚀 **The new Rive React Native runtime is now available!** Built with Nitro for improved performance and better React Native integration.
 
-**Try it now:**
+**Get started:**
 
 - [GitHub](https://github.com/rive-app/rive-nitro-react-native)
 - [NPM](https://www.npmjs.com/package/@rive-app/react-native)
@@ -26,79 +24,461 @@ import { Demos } from "/snippets/demos.jsx";
 
 We're actively gathering feedback to improve the new runtime. Please share your thoughts and report any issues you encounter.
 
-<Warning>
-  The documentation on this site has not yet been updated to show the new API.
-  Please see the [example
-  app](https://github.com/rive-app/rive-nitro-react-native/tree/main/example)
-  for usage information.
-</Warning>
-
 </Note>
 
 ## Overview
 
-This guide documents how to get started using the React Native runtime library. Rive runtime libraries are open-source. The source is available in its [GitHub repository](https://github.com/rive-app/rive-react-native). This library contains an API for React Native apps to easily integrate Rive assets.
+This guide documents how to get started using the Rive React Native runtime. The source for the new runtime is available in its [GitHub repository](https://github.com/rive-app/rive-nitro-react-native).
 
-The minimum iOS target is **14.0**
+<Tabs>
+  <Tab title="New Runtime (Recommended)">
+     ## Requirements
 
-<Note>
-  See [our documentation](/runtimes/react-native/adding-rive-to-expo) to add
-  Rive to an Expo app.
-</Note>
+      - **React Native**: 0.78 or later (0.79+ recommended for better Android error messages)
+      - **Expo SDK**: 53 or later (for Expo users)
+      - **iOS**: 15.1 or later
+      - **Android**: SDK 24 (Android 7.0) or later
+      - **Xcode**: 16.4 or later
+      - **JDK**: 17 or later
+      - **Nitro Modules**: 0.25.2 or later
 
-## Getting Started
+    ## Getting Started
 
-Follow the steps below for a quick start on integrating Rive into your React Native app.
+    Follow the steps below for a quick start on integrating Rive into your React Native app.
 
-<Steps>
-  <Step title="Install the dependency">
-    ```bash
-    npm install rive-react-native
-    # or for Yarn
-    yarn add rive-react-native
+    You can find the full quick start example [here](https://github.com/rive-app/rive-nitro-react-native/blob/main/example/src/pages/QuickStart.tsx).
+    <Steps>
+      <Step title="Install the dependency">
+        ```bash
+        npm install @rive-app/react-native react-native-nitro-modules
+        # or for Yarn
+        yarn add @rive-app/react-native react-native-nitro-modules
+        ```
+
+        <Note>
+          `react-native-nitro-modules` is required as this library relies on [Nitro Modules](https://nitro.margelo.com/).
+        </Note>
+      </Step>
+      <Step title="Config">
+      These imports and styles are needed for the following steps.
+
+      ```ts Imports
+      import {
+        RiveView,
+        useRive,
+        useRiveFile,
+        useRiveNumber,
+        useRiveTrigger,
+        useViewModelInstance,
+        Fit,
+      } from '@rive-app/react-native';
+      ```
+
+      ```ts Styles
+      const styles = StyleSheet.create({
+        container: {
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+        },
+        rive: {
+          width: '100%',
+          height: 400,
+        },
+      });
+      ```
+      </Step>
+      <Step title="Rive File and Component">
+        The `file` prop is the only requirement for a `RiveView` component.
+
+        Load a **riv** file using the `useRiveFile` hook. This value can be cached and used on multiple components, see [caching a Rive file](/runtimes/caching-a-rive-file).
+
+
+        ```ts Loading a file
+        export default function QuickStart() {
+          const { riveFile } = useRiveFile(
+            require('path/to/quick_start.riv')
+          );
+
+          return (
+            <View style={styles.container}>
+              {riveFile && <RiveView file={riveFile} style={styles.rive} />}
+            </View>
+          );
+        }
+        ```
+      </Step>
+      <Step title="Layout">
+        Configure the layout of the graphic.
+
+        For this example, we'll set the `fit` to `Layout`, which will automatically resize the artboard to match the view size. This works for responsive Rive graphics using [Layouts](/editor/layouts/layouts-overview).
+
+        ```ts Layout focus={1, 4, 5}
+        <RiveView
+          file={riveFile}
+          style={styles.rive}
+          fit={Fit.Layout}
+        />
+        ```
+
+        See the [runtime layout documentation](/runtimes/layout) for more info.
+
+      </Step>
+      <Step title="View Reference">
+      You can get/set the Rive view reference with the `useRive()` hook.
+
+      ```ts useRive hook focus={5, 11}
+      export default function QuickStart() {
+        const { riveFile } = useRiveFile(
+          require('path/to/quick_start.riv')
+        );
+        const { riveViewRef, setHybridRef } = useRive();
+
+        return (
+          <View style={styles.container}>
+            {riveFile && (
+              <RiveView
+                hybridRef={setHybridRef}
+                file={riveFile}
+                fit={Fit.Layout}
+                style={styles.rive}
+              />
+            )}
+          </View>
+        );
+      }
+      ```
+      <Note>
+      The `riveViewRef` exposes various view operations, as well as deprecated functionality such as setting state machine inputs and text value runs.
+      </Note>
+      </Step>
+
+      <Step title="Data binding">
+        We recommend manually creating the view model instance with the `useViewModelInstance` hook and passing it to the view.
+
+        This makes it easy to set initial property values in the `onInit` callback before the view is loaded, and decouples the `ViewModelInstance` from the `RiveView`.
+
+        ```ts Manually create view model instance focus={6-8, 12, 18}
+        export default function QuickStart() {
+          const { riveFile } = useRiveFile(
+            require('path/to/quick_start.riv')
+          );
+          const { riveViewRef, setHybridRef } = useRive();
+          const viewModelInstance = useViewModelInstance(riveFile, {
+            onInit: (vmi) => (vmi.numberProperty('health')!.value = 20),
+          });
+
+          return (
+            <View style={styles.container}>
+              {riveFile && viewModelInstance && (
+                <RiveView
+                  hybridRef={setHybridRef}
+                  file={riveFile}
+                  fit={Fit.Layout}
+                  style={styles.rive}
+                  dataBind={viewModelInstance}
+                />
+              )}
+            </View>
+          );
+        }
+        ```
+
+        Make use of the view model property hooks to update and listen to property changes.
+
+        ```ts Property hooks focus={10-37, 50-52}
+        export default function QuickStart() {
+          const { riveFile } = useRiveFile(
+            require('path/to/quick_start.riv')
+          );
+          const { riveViewRef, setHybridRef } = useRive();
+          const viewModelInstance = useViewModelInstance(riveFile, {
+            onInit: (vmi) => (vmi.numberProperty('health')!.value = 20),
+          });
+
+          const { value: health, setValue: setHealth } = useRiveNumber(
+            'health',
+            viewModelInstance
+          );
+
+          console.log('health', health);
+
+          const { trigger: gameOverTrigger } = useRiveTrigger(
+            'gameOver',
+            viewModelInstance,
+            { onTrigger: () => console.log('Game Over Triggered') }
+          );
+
+          const handleTakeDamage = () => {
+            setHealth((h) => (h ?? 0) - 7);
+            riveViewRef!.playIfNeeded();
+          };
+
+          const handleMaxHealth = () => {
+            setHealth(100);
+            riveViewRef!.playIfNeeded();
+          };
+
+          const handleGameOver = () => {
+            setHealth(0);
+            gameOverTrigger();
+            riveViewRef!.playIfNeeded();
+          };
+
+          return (
+            <View style={styles.container}>
+              {riveFile && viewModelInstance && (
+                <RiveView
+                  hybridRef={setHybridRef}
+                  file={riveFile}
+                  fit={Fit.Layout}
+                  style={styles.rive}
+                  dataBind={viewModelInstance}
+                />
+              )}
+              <Button onPress={handleTakeDamage} title="Take Damage" />
+              <Button onPress={handleMaxHealth} title="Max Health" />
+              <Button onPress={handleGameOver} title="Game Over" />
+            </View>
+          );
+        }
+        ```
+        <Warning>
+        We call `playIfNeeded` to force the state machine to play. Under some circumstances, the state machine might be settled if there is no active timeline in the graphic.
+
+        This is a temporary workaround. In the future, this will happen automatically.
+        </Warning>
+
+
+        See the [runtime data binding documentation](/runtimes/data-binding) for more information.
+      </Step>
+    </Steps>
+
+    <Info>
+      See our [example app](https://github.com/rive-app/rive-nitro-react-native/tree/main/example) for more usage examples.
+    </Info>
+
+    ## Key Components
+
+    ### `RiveView`
+
+    The main component for displaying Rive graphics.
+
+    **Key Properties:**
+    <ResponseField name="file" type="RiveFile" required>
+      The **riv** file to display, loaded via `useRiveFile` or `RiveFileFactory`.
+    </ResponseField>
+    <ResponseField name="hybridRef" type="HybridView">
+      Set the view reference, loaded via `useRive`.
+    </ResponseField>
+    <ResponseField name="autoPlay" type="boolean" default="true">
+      Whether to automatically start playing the state machine.
+    </ResponseField>
+    <ResponseField name="fit" type="Fit" default="Contain">
+      How the Rive graphic should fit within its container.
+    </ResponseField>
+    <ResponseField name="alignment" type="Alignment" default="Center">
+      How the Rive graphic should be aligned within its container.
+      <Note>Ignored when using `Fit.Layout`.</Note>
+    </ResponseField>
+    <ResponseField name="layoutScaleFactor" type="double" default="-1">
+      The scale factor to apply to the Rive graphic when using `Fit.Layout`. The default value uses the device DPI as a scale factor.
+      <Note>This property has no effect for any other `Fit` type.</Note>
+    </ResponseField>
+    <ResponseField name="artboardName" type="String">
+      The name of artboard to display.
+
+      _If not set the default artboard will be used, as set in the Editor._
+    </ResponseField>
+    <ResponseField name="stateMachineName" type="String">
+      The name of the state machine to play.
+
+      _If not set the default state machine will be used, as set in the Editor._
+    </ResponseField>
+    <ResponseField name="onError" type="((error: RiveError) => void)">
+      Callback for custom error handling.
+    </ResponseField>
+
+    ### `useRiveFile`
+
+    Hook for loading Rive files from various sources:
+
+    ```javascript
+    const { riveFile } = useRiveFile({
+      url: 'https://cdn.rive.app/animations/vehicles.riv',
+      // or
+      // source: require('./assets/graphic.riv'),
+    });
     ```
-  </Step>
-  <Step title="iOS - Pod Install">
-    `cd` inside the `ios` folder and run `pod install` (if deploying to iOS)
+
+    ### `useRive`
+
+    Hook to access the Rive view ref after the view is loaded:
+
+    ```javascript
+    const { riveViewRef, setHybridRef } = useRive();
+
+    <RiveView
+      hybridRef={setHybridRef}
+      file={riveFile}
+    />
+    ```
+
+    ## Error Handling
+
+    All Rive operations can be wrapped in try/catch blocks for error handling, for example, loading a file:
+
+    ```js
+    try {
+      const riveFile = await RiveFileFactory.fromURL(
+        'https://cdn.rive.app/animations/vehicles.riv'
+      );
+      // Use the riveFile...
+    } catch (error) {
+      // Handle any errors that occur during Rive file loading
+      console.error('Error loading Rive file:', error);
+    }
+    ```
+
+    ### View-Based Errors
+
+    The `RiveView` component provides an `onError` callback prop to handle errors that occur during view configuration or runtime operations:
+
+    ```js
+    <RiveView
+      file={riveFile}
+      onError={(error) => {
+        // error.type contains the error type enum value
+        // error.message contains a descriptive error message
+        console.error(`Rive Error [${error.type}]: ${error.message}`);
+      }}
+    />
+    ```
+
+    #### Error Types
+
+    The following error types can occur during view operations:
+
+    | Error Type                                     | Value | Description                                           |
+    | ---------------------------------------------- | ----- | ----------------------------------------------------- |
+    | `RiveErrorType.Unknown`                        | 0     | An unknown error occurred                             |
+    | `RiveErrorType.FileNotFound`                   | 1     | The specified Rive file could not be found            |
+    | `RiveErrorType.MalformedFile`                  | 2     | The Rive file is malformed or corrupted               |
+    | `RiveErrorType.IncorrectArtboardName`          | 3     | The specified artboard name does not exist            |
+    | `RiveErrorType.IncorrectStateMachineName`      | 4     | The specified state machine name does not exist       |
+    | `RiveErrorType.ViewModelInstanceNotFound`      | 6     | The specified view model instance was not found       |
+    | `RiveErrorType.IncorrectStateMachineInputName` | 8     | The specified state machine input name does not exist |
+
+    You can use these error types to provide specific error handling:
+
+    ```js
+    import { RiveView, RiveErrorType } from '@rive-app/react-native';
+
+    <RiveView
+      file={riveFile}
+      artboardName="MainArtboard"
+      onError={(error) => {
+        switch (error.type) {
+          case RiveErrorType.IncorrectArtboardName:
+            console.error('Artboard not found:', error.message);
+            // Handle missing artboard (e.g., use default artboard)
+            break;
+          case RiveErrorType.IncorrectStateMachineName:
+            console.error('State machine not found:', error.message);
+            // Handle missing state machine
+            break;
+          case RiveErrorType.MalformedFile:
+            console.error('Corrupted file:', error.message);
+            // Handle corrupted file (e.g., show error UI)
+            break;
+          default:
+            console.error('Rive error:', error.message);
+        }
+      }}
+      style={{ width: '100%', height: 400 }}
+    />;
+    ```
+
+    <Note>If no `onError` handler is provided, errors will be logged to the console by default.</Note>
+
+    ## Resources
+
+    - [GitHub](https://github.com/rive-app/rive-nitro-react-native)
+    - [NPM](https://www.npmjs.com/package/@rive-app/react-native)
+    - [Example App](https://github.com/rive-app/rive-nitro-react-native/tree/main/example)
+
+    See subsequent runtime pages to learn how to control layout, state machines, and more.
+
+  </Tab>
+  <Tab title="Legacy Runtime">
+    <Warning>
+      The legacy runtime is still supported, but we recommend migrating to the new runtime for better performance and features.
+    </Warning>
+
+    This guide documents how to get started using the legacy React Native runtime library. The source is available in its [GitHub repository](https://github.com/rive-app/rive-react-native). This library contains an API for React Native apps to easily integrate Rive assets.
+
+    The minimum iOS target is **14.0**
 
     <Note>
-    If you run into issues here, you may need to bump the `ios` deployment version target to at least `14.0`. You can find this version in the `Podfile` of the `ios/` folder.
+      See [our documentation](/runtimes/react-native/adding-rive-to-expo) to add
+      Rive to an Expo app.
     </Note>
 
-  </Step>
-  <Step title="Android - Set Kotlin Dependency Resolution">
-    This step may be optional - however, if your Android setup in the React Native project does not have Kotlin `v1.8.0+` set up, you may run into duplicate class issues when building the project. To mitigate these issues, as suggested by [Kotlin docs](https://kotlinlang.org/docs/gradle-configure-project.html#versions-alignment-of-transitive-dependencies), add the following to your dependencies in your application's `build.gradle` file to deal with version alignment:
+    ## Getting Started
 
-    ```javascript
-    dependencies {
-        implementation platform('org.jetbrains.kotlin:kotlin-bom:1.8.0')
-        ...
-    }
-    ```
+    Follow the steps below for a quick start on integrating Rive into your React Native app.
 
-  </Step>
-  <Step title="Add the Rive component">
-    ```javascript
-    import Rive from 'rive-react-native';
+    <Steps>
+      <Step title="Install the dependency">
+        ```bash
+        npm install rive-react-native
+        # or for Yarn
+        yarn add rive-react-native
+        ```
+      </Step>
+      <Step title="iOS - Pod Install">
+        `cd` inside the `ios` folder and run `pod install` (if deploying to iOS)
 
-    function App() {
-      return <Rive
-          url="https://public.rive.app/community/runtime-files/2195-4346-avatar-pack-use-case.riv"
-          artboardName="Avatar 1"
-          stateMachineName="avatar"
-          style={{width: 400, height: 400}}
-      />;
-    }
-    ```
+        <Note>
+        If you run into issues here, you may need to bump the `ios` deployment version target to at least `14.0`. You can find this version in the `Podfile` of the `ios/` folder.
+        </Note>
 
-  </Step>
-</Steps>
+      </Step>
+      <Step title="Android - Set Kotlin Dependency Resolution">
+        This step may be optional - however, if your Android setup in the React Native project does not have Kotlin `v1.8.0+` set up, you may run into duplicate class issues when building the project. To mitigate these issues, as suggested by [Kotlin docs](https://kotlinlang.org/docs/gradle-configure-project.html#versions-alignment-of-transitive-dependencies), add the following to your dependencies in your application's `build.gradle` file to deal with version alignment:
 
-See subsequent runtime pages to learn how to control animation playback, state machines, and more.
+        ```javascript
+        dependencies {
+            implementation platform('org.jetbrains.kotlin:kotlin-bom:1.8.0')
+            ...
+        }
+        ```
 
-## Resources
+      </Step>
+      <Step title="Add the Rive component">
+        ```javascript
+        import Rive from 'rive-react-native';
 
-Github: [https://github.com/rive-app/rive-react-native](https://github.com/rive-app/rive-react-native) Examples:
+        function App() {
+          return <Rive
+              url="https://public.rive.app/community/runtime-files/2195-4346-avatar-pack-use-case.riv"
+              artboardName="Avatar 1"
+              stateMachineName="avatar"
+              style={{width: 400, height: 400}}
+          />;
+        }
+        ```
 
-- Demo App: [https://github.com/rive-app/rive-react-native/tree/main/example](https://github.com/rive-app/rive-react-native/tree/main/example)
-- Weather App: [https://github.com/rive-app/weather-app-mobile](https://github.com/rive-app/weather-app-mobile)
+      </Step>
+    </Steps>
+
+    See subsequent runtime pages to learn how to control layout, state machines, and more.
+
+    ## Resources
+
+    - [GitHub](https://github.com/rive-app/rive-react-native)
+    - [Demo App](https://github.com/rive-app/rive-react-native/tree/main/example)
+    - [Weather App](https://github.com/rive-app/weather-app-mobile)
+
+  </Tab>
+</Tabs>
