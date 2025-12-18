@@ -34,7 +34,7 @@ This guide documents how to get started using the Rive React Native runtime. The
   <Tab title="New Runtime (Recommended)">
      ## Requirements
 
-      - **React Native**: 0.78 or later (0.79+ recommended for better Android error messages)
+      - **React Native**: 0.78 or later (0.79+ recommended for improved Android error messages)
       - **Expo SDK**: 53 or later (for Expo users)
       - **iOS**: 15.1 or later
       - **Android**: SDK 24 (Android 7.0) or later
@@ -42,11 +42,11 @@ This guide documents how to get started using the Rive React Native runtime. The
       - **JDK**: 17 or later
       - **Nitro Modules**: 0.25.2 or later
 
-    ## Getting Started
+    ## Quick Start
 
-    Follow the steps below for a quick start on integrating Rive into your React Native app.
+    Follow these quick start steps to get familiar with the Rive React Native runtime.
 
-    You can find the full quick start example [here](https://github.com/rive-app/rive-nitro-react-native/blob/main/example/src/pages/QuickStart.tsx).
+    View the complete quick start example [here](https://github.com/rive-app/rive-nitro-react-native/blob/main/example/src/pages/QuickStart.tsx).
     <Steps>
       <Step title="Install the dependency">
         ```bash
@@ -59,8 +59,8 @@ This guide documents how to get started using the Rive React Native runtime. The
           `react-native-nitro-modules` is required as this library relies on [Nitro Modules](https://nitro.margelo.com/).
         </Note>
       </Step>
-      <Step title="Config">
-      These imports and styles are needed for the following steps.
+      <Step title="Setup">
+      Import the necessary components and define styles for the following steps.
 
       ```ts Imports
       import {
@@ -89,10 +89,9 @@ This guide documents how to get started using the Rive React Native runtime. The
       ```
       </Step>
       <Step title="Rive File and Component">
-        The `file` prop is the only requirement for a `RiveView` component.
+        The `RiveView` component displays Rive graphics. It requires a single prop: `file`, a `RiveFile` object.
 
-        Load a **riv** file using the `useRiveFile` hook. This value can be cached and used on multiple components, see [caching a Rive file](/runtimes/caching-a-rive-file).
-
+        Use the `useRiveFile` hook to load a **riv** file and create a `RiveFile` object. This object can be cached and reused across multiple components, see [caching a Rive file](/runtimes/caching-a-rive-file) for details.
 
         ```ts Loading a file
         export default function QuickStart() {
@@ -109,9 +108,9 @@ This guide documents how to get started using the Rive React Native runtime. The
         ```
       </Step>
       <Step title="Layout">
-        Configure the layout of the graphic.
+        Configure how the graphic fits within its container.
 
-        For this example, we'll set the `fit` to `Layout`, which will automatically resize the artboard to match the view size. This works for responsive Rive graphics using [Layouts](/editor/layouts/layouts-overview).
+        For this example, we'll set `fit` to `Layout`, which automatically resizes the artboard to match the view size. This is ideal for responsive Rive graphics built with [Layouts](/editor/layouts/layouts-overview).
 
         ```ts Layout focus={1, 4, 5}
         <RiveView
@@ -121,11 +120,11 @@ This guide documents how to get started using the Rive React Native runtime. The
         />
         ```
 
-        See the [runtime layout documentation](/runtimes/layout) for more info.
+        See the [runtime layout documentation](/runtimes/layout) for more information.
 
       </Step>
       <Step title="View Reference">
-      You can get/set the Rive view reference with the `useRive()` hook.
+      Use the `useRive()` hook to access the Rive view reference for programmatic control.
 
       ```ts useRive hook focus={5, 11}
       export default function QuickStart() {
@@ -154,9 +153,9 @@ This guide documents how to get started using the Rive React Native runtime. The
       </Step>
 
       <Step title="Data binding">
-        We recommend manually creating the view model instance with the `useViewModelInstance` hook and passing it to the view.
+        Create the view model instance manually using the `useViewModelInstance` hook and pass it to the view.
 
-        This makes it easy to set initial property values in the `onInit` callback before the view is loaded, and decouples the `ViewModelInstance` from the `RiveView`.
+        This approach lets you set initial property values in the `onInit` callback before the view loads, and decouples the `ViewModelInstance` from the `RiveView`.
 
         ```ts Manually create view model instance focus={6-8, 12, 18}
         export default function QuickStart() {
@@ -184,7 +183,7 @@ This guide documents how to get started using the Rive React Native runtime. The
         }
         ```
 
-        Make use of the view model property hooks to update and listen to property changes.
+        Use the view model property hooks to update and listen to property changes.
 
         ```ts Property hooks focus={10-37, 50-52}
         export default function QuickStart() {
@@ -269,10 +268,10 @@ This guide documents how to get started using the Rive React Native runtime. The
       The **riv** file to display, loaded via `useRiveFile` or `RiveFileFactory`.
     </ResponseField>
     <ResponseField name="hybridRef" type="HybridView">
-      Set the view reference, loaded via `useRive`.
+      The view reference setter, obtained from `useRive`.
     </ResponseField>
     <ResponseField name="autoPlay" type="boolean" default="true">
-      Whether to automatically start playing the state machine.
+      Automatically start playing the state machine.
     </ResponseField>
     <ResponseField name="fit" type="Fit" default="Contain">
       How the Rive graphic should fit within its container.
@@ -282,26 +281,26 @@ This guide documents how to get started using the Rive React Native runtime. The
       <Note>Ignored when using `Fit.Layout`.</Note>
     </ResponseField>
     <ResponseField name="layoutScaleFactor" type="double" default="-1">
-      The scale factor to apply to the Rive graphic when using `Fit.Layout`. The default value uses the device DPI as a scale factor.
+      The scale factor to apply to the Rive graphic when using `Fit.Layout`. The default value of `-1` uses the device's DPI.
       <Note>This property has no effect for any other `Fit` type.</Note>
     </ResponseField>
     <ResponseField name="artboardName" type="String">
-      The name of artboard to display.
+      The name of the artboard to display.
 
-      _If not set the default artboard will be used, as set in the Editor._
+      _If not set, the default artboard will be used, as configured in the Editor._
     </ResponseField>
     <ResponseField name="stateMachineName" type="String">
       The name of the state machine to play.
 
-      _If not set the default state machine will be used, as set in the Editor._
+      _If not set, the default state machine will be used, as configured in the Editor._
     </ResponseField>
     <ResponseField name="onError" type="((error: RiveError) => void)">
-      Callback for custom error handling.
+      Custom error handling callback.
     </ResponseField>
 
     ### `useRiveFile`
 
-    Hook for loading Rive files from various sources:
+    Hook for loading Rive files from a URL or local source:
 
     ```javascript
     const { riveFile } = useRiveFile({
@@ -313,7 +312,7 @@ This guide documents how to get started using the Rive React Native runtime. The
 
     ### `useRive`
 
-    Hook to access the Rive view ref after the view is loaded:
+    Hook to access the Rive view reference for programmatic control:
 
     ```javascript
     const { riveViewRef, setHybridRef } = useRive();
@@ -326,7 +325,7 @@ This guide documents how to get started using the Rive React Native runtime. The
 
     ## Error Handling
 
-    All Rive operations can be wrapped in try/catch blocks for error handling, for example, loading a file:
+    Wrap Rive operations in try/catch blocks to handle errors. For example, when loading a file:
 
     ```js
     try {
@@ -335,14 +334,14 @@ This guide documents how to get started using the Rive React Native runtime. The
       );
       // Use the riveFile...
     } catch (error) {
-      // Handle any errors that occur during Rive file loading
+      // Handle errors that occur during Rive file loading
       console.error('Error loading Rive file:', error);
     }
     ```
 
     ### View-Based Errors
 
-    The `RiveView` component provides an `onError` callback prop to handle errors that occur during view configuration or runtime operations:
+    Use the `onError` callback prop to handle errors during view configuration or runtime operations:
 
     ```js
     <RiveView
@@ -357,7 +356,7 @@ This guide documents how to get started using the Rive React Native runtime. The
 
     #### Error Types
 
-    The following error types can occur during view operations:
+    The following error types may occur during view operations:
 
     | Error Type                                     | Value | Description                                           |
     | ---------------------------------------------- | ----- | ----------------------------------------------------- |
@@ -369,7 +368,7 @@ This guide documents how to get started using the Rive React Native runtime. The
     | `RiveErrorType.ViewModelInstanceNotFound`      | 6     | The specified view model instance was not found       |
     | `RiveErrorType.IncorrectStateMachineInputName` | 8     | The specified state machine input name does not exist |
 
-    You can use these error types to provide specific error handling:
+    Use these error types to provide specific error handling:
 
     ```js
     import { RiveView, RiveErrorType } from '@rive-app/react-native';
