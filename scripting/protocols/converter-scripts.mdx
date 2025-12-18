@@ -32,22 +32,30 @@ function init(self: MyConverter): boolean
   return true
 end
 
--- Converts the bound property value from source to target.
-function convert(self: MyConverter, input: DataValueNumber): DataValueNumber
+-- Converts the property value.
+function convert(self: MyConverter, input: DataInputs): DataOutput
   local dv: DataValueNumber = DataValue.number()
+
   if input:isNumber() then
-    -- Add 1 to the incoming number
     dv.value = (input :: DataValueNumber).value + 1
+  else
+    dv.value = 0 -- 0 if input is not a number
   end
+
   return dv
 end
 
--- Converts from target back to source (for target-to-source and two-way data binding).
-function reverseConvert(self: MyConverter, input: DataValueNumber): DataValueNumber
+-- For 2-way data binding, converts the target value back to the source
+function reverseConvert(self: MyConverter, input: DataOutput): DataInputs
   local dv: DataValueNumber = DataValue.number()
+
   if input:isNumber() then
+    -- Example: Subtract 1 from the target number
     dv.value = (input :: DataValueNumber).value - 1
+  else
+    dv.value = 0 -- 0 if target is not a number
   end
+
   return dv
 end
 
