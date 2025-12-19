@@ -576,7 +576,11 @@ See below for documentation on how to handle loading in assets at runtime for yo
 
                 ```ts
                 function RiveContent({ imageUrl }: { imageUrl: string }) {
-                    const riveImage = React.use(getImagePromise(imageUrl));
+                    const imagePromise = React.useMemo(
+                        () => getImagePromise(imageUrl),
+                        [imageUrl]
+                    );
+                    const riveImage = React.use(imagePromise);
 
                     const { riveFile, isLoading, error } = useRiveFile(
                         require('../../assets/rive/out_of_band.riv'),
