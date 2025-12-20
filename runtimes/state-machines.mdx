@@ -111,7 +111,9 @@ Rive's state machines provide a way to combine a set of animation states and man
     <Tabs>
       <Tab title="New Runtime (Recommended)">
 
-        Under most circumstances, you just need to provide `RiveFile` to the `RiveView`, and it will use the correct defaults:
+        By default, `RiveView` automatically uses the default artboard and state machine [configured in the Editor](https://rive.app/docs/editor/fundamentals/artboards#default-state-machine). In most cases, you only need to provide the `file` prop.
+
+        For programmatic control, you can optionally specify `artboardName` and `stateMachineName` props to use a different artboard or state machine.
 
         ```ts
         export default function PlaybackExample() {
