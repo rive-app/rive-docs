@@ -47,8 +47,21 @@ This guide documents how to get started using the Rive React Native runtime. The
 
     Follow these quick start steps to get familiar with the Rive React Native runtime.
 
-    - Remix/download the Rive file used in this quick start guide [here](https://rive.app/marketplace/24637-46037-health-bar-data-binding-quick-start/).
-    - View the complete quick start example [here](https://github.com/rive-app/rive-nitro-react-native/blob/main/example/src/pages/QuickStart.tsx).
+    <CardGroup cols={2}>
+      <Card
+        title="Rive File"
+        href="https://rive.app/marketplace/24637-46037-health-bar-data-binding-quick-start/"
+      >
+        Remix/download the Rive file used in this quick start guide
+      </Card>
+      <Card
+        title="Complete example"
+        href="https://github.com/rive-app/rive-nitro-react-native/blob/main/example/src/pages/QuickStart.tsx"
+      >
+        View the complete quick start example
+      </Card>
+    </CardGroup>
+
     <Steps>
       <Step title="Install the dependency">
         ```bash
@@ -91,9 +104,9 @@ This guide documents how to get started using the Rive React Native runtime. The
       ```
       </Step>
       <Step title="Rive File and Component">
-        The `RiveView` component displays Rive graphics. It requires a single prop: `file`, a `RiveFile` object. See [Loading Rive Files](/runtimes/react-native/loading-rive-files).
+        The `RiveView` component displays Rive graphics. It requires a single prop: `file`, a `RiveFile` object.
 
-        Use the `useRiveFile` hook to load a **riv** file and create a `RiveFile` object. This object can be cached and reused across multiple components. See [caching a Rive file](/runtimes/caching-a-rive-file) for details.
+        Use the `useRiveFile` hook to load a **riv** file and create a `RiveFile` object. This object can be cached and reused across multiple components.
 
         ```ts Loading a file
         export default function QuickStart() {
@@ -108,6 +121,29 @@ This guide documents how to get started using the Rive React Native runtime. The
           );
         }
         ```
+        Further reading:
+
+        <CardGroup cols={3}>
+          <Card
+            title="Props"
+            href="/runtimes/react-native/props"
+          >
+            Available view props for `RiveView`
+          </Card>
+          <Card
+            title="Loading Rive Files"
+            href="/runtimes/react-native/loading-rive-files"
+          >
+            How to load Rive files in your app
+          </Card>
+          <Card
+            title="Caching Rive Files"
+            href="/runtimes/caching-a-rive-file"
+          >
+            Cache Rive files for better performance
+          </Card>
+        </CardGroup>
+
       </Step>
       <Step title="Layout">
         Configure how the graphic fits within its container.
@@ -122,7 +158,16 @@ This guide documents how to get started using the Rive React Native runtime. The
         />
         ```
 
-        See the [runtime layout documentation](/runtimes/layout) for more information.
+        Further reading:
+
+        <CardGroup cols={1}>
+          <Card
+            title="Runtime layout"
+            href="/runtimes/layout"
+          >
+            Control how Rive graphics fit and align within their containers
+          </Card>
+        </CardGroup>
 
       </Step>
       <Step title="View Reference">
@@ -149,9 +194,23 @@ This guide documents how to get started using the Rive React Native runtime. The
         );
       }
       ```
-      <Note>
-      The `riveViewRef` exposes various view operations, as well as deprecated functionality such as setting state machine inputs and text run values.
-      </Note>
+
+      Further reading:
+
+      <CardGroup cols={2}>
+        <Card
+          title="View methods"
+          href="/runtimes/react-native/rive-ref-methods"
+        >
+          See all the available view reference methods.
+        </Card>
+        <Card
+          title="Hybrid Views"
+          href="https://nitro.margelo.com/docs/hybrid-views"
+        >
+          Read more on Nitro Hybrid Views.
+        </Card>
+      </CardGroup>
       </Step>
 
       <Step title="Data binding">
@@ -187,7 +246,7 @@ This guide documents how to get started using the Rive React Native runtime. The
 
         Use the view model property hooks to update and listen to property changes.
 
-        ```ts Property hooks focus={10-37, 50-52}
+        ```ts Property hooks focus={10-37, 50-52} expandable
         export default function QuickStart() {
           const { riveFile } = useRiveFile(
             require('path/to/quick_start.riv')
@@ -250,14 +309,22 @@ This guide documents how to get started using the Rive React Native runtime. The
         This is a temporary workaround. In the future, this will happen automatically.
         </Warning>
 
+      Further reading:
 
-        See the [runtime data binding documentation](/runtimes/data-binding) for more information.
+      <CardGroup cols={1}>
+        <Card
+          title="Data binding"
+          href="/runtimes/data-binding"
+        >
+          See the runtime data binding documentation for more information.
+        </Card>
+      </CardGroup>
       </Step>
     </Steps>
 
-    <Info>
+    <Note>
       See our [example app](https://github.com/rive-app/rive-nitro-react-native/tree/main/example) for more usage examples.
-    </Info>
+    </Note>
 
     ## Key Components
 
@@ -286,7 +353,7 @@ This guide documents how to get started using the Rive React Native runtime. The
     });
     ```
 
-    See [Loading Rive Files](/runtimes/react-native/loading-rive-files) for more information.
+    See [loading Rive files](/runtimes/react-native/loading-rive-files) for more information.
 
     ### `useRive`
 
@@ -301,13 +368,75 @@ This guide documents how to get started using the Rive React Native runtime. The
     />
     ```
 
-    This is a [Nitro Hybrid object](https://nitro.margelo.com/docs/hybrid-views#accessing-the-underlying-hybrid-object).
+    This is a [Nitro Hybrid View](https://nitro.margelo.com/docs/hybrid-views). See the avaiable [view reference methods](/runtimes/react-native/rive-ref-methods)
+
+    ### `useViewModelInstance`
+
+    Hook to create a view model instance from a `RiveFile`, `ViewModel`, or `RiveViewRef`:
+
+    ```ts
+    // Get default instance from RiveFile (recommended)
+    const instance = useViewModelInstance(riveFile);
+
+    // or
+    // Get named instance from a ViewModel
+    const namedInstance = useViewModelInstance(viewModel, { name: 'My Instance' });
+
+    // or
+    // Create a new blank instance from a ViewModel
+    const newInstance = useViewModelInstance(viewModel, { useNew: true });
+
+    // or
+    // With required: true (throws if null, use with Error Boundary)
+    const instance = useViewModelInstance(riveFile, { required: true });
+
+    // or
+    // With onInit to set initial values synchronously
+    const instance = useViewModelInstance(riveFile, {
+      onInit: (vmi) => {
+        vmi.numberProperty('count')?.set(10);
+        vmi.stringProperty('name')?.set('Initial Name');
+      }
+    });
+    ```
+
+    Pass the `dataBind` prop in `RiveView`.
+    ```ts
+    return (
+      <RiveView
+        file={riveFile}
+        dataBind={instance}
+      />
+    );
+    ```
+
+    You can also get the auto-bound instance from a `RiveViewRef`:
+
+    ```javascript
+    import { useRive, useViewModelInstance } from '@rive-app/react-native';
+
+    const { riveViewRef, setHybridRef } = useRive();
+    const instance = useViewModelInstance(riveViewRef);
+    ```
+
+    See the [runtime data binding documentation](/runtimes/data-binding) for more information.
 
     ## Resources
 
-    - [GitHub](https://github.com/rive-app/rive-nitro-react-native)
-    - [NPM](https://www.npmjs.com/package/@rive-app/react-native)
-    - [Example App](https://github.com/rive-app/rive-nitro-react-native/tree/main/example)
+    <CardGroup cols={3}>
+      <Card
+        title="GitHub"
+        href="https://github.com/rive-app/rive-nitro-react-native"
+      />
+      <Card
+        title="NPM"
+        href="https://www.npmjs.com/package/@rive-app/react-native"
+      />
+      <Card
+        title="Example App"
+        href="https://github.com/rive-app/rive-nitro-react-native/tree/main/example"
+      />
+    </CardGroup>
 
   </Tab>
   <Tab title="Legacy Runtime">
@@ -374,16 +503,17 @@ This guide documents how to get started using the Rive React Native runtime. The
 
     ## Resources
 
-    - [GitHub](https://github.com/rive-app/rive-react-native)
-    - [Demo App](https://github.com/rive-app/rive-react-native/tree/main/example)
-    - [Weather App](https://github.com/rive-app/weather-app-mobile)
+    <CardGroup cols={2}>
+      <Card
+        title="GitHub"
+        href="https://github.com/rive-app/rive-react-native"
+      />
+      <Card
+        title="Example App"
+        href="https://github.com/rive-app/rive-react-native/tree/main/example"
+      />
+    </CardGroup>
 
   </Tab>
 
 </Tabs>
-
-    ## Next steps
-
-    Now that you have Rive integrated into your React Native app, you can explore more advanced features like:
-
-    <Interaction />
