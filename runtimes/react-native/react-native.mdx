@@ -93,7 +93,7 @@ This guide documents how to get started using the Rive React Native runtime. The
       <Step title="Rive File and Component">
         The `RiveView` component displays Rive graphics. It requires a single prop: `file`, a `RiveFile` object. See [Loading Rive Files](/runtimes/react-native/loading-rive-files).
 
-        Use the `useRiveFile` hook to load a **riv** file and create a `RiveFile` object. This object can be cached and reused across multiple components, see [caching a Rive file](/runtimes/caching-a-rive-file) for details.
+        Use the `useRiveFile` hook to load a **riv** file and create a `RiveFile` object. This object can be cached and reused across multiple components. See [caching a Rive file](/runtimes/caching-a-rive-file) for details.
 
         ```ts Loading a file
         export default function QuickStart() {
@@ -150,14 +150,14 @@ This guide documents how to get started using the Rive React Native runtime. The
       }
       ```
       <Note>
-      The `riveViewRef` exposes various view operations, as well as deprecated functionality such as setting state machine inputs and text value runs.
+      The `riveViewRef` exposes various view operations, as well as deprecated functionality such as setting state machine inputs and text run values.
       </Note>
       </Step>
 
       <Step title="Data binding">
         Create the view model instance manually using the `useViewModelInstance` hook and pass it to the view.
 
-        This approach lets you set initial property values in the `onInit` callback before the view loads, and decouples the `ViewModelInstance` from the `RiveView`.
+        This approach lets you set initial property values in the `onInit` callback before the view loads and decouples the `ViewModelInstance` from the `RiveView`.
 
         ```ts Manually create view model instance focus={6-8, 12, 18}
         export default function QuickStart() {

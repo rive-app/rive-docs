@@ -1671,12 +1671,12 @@ View models can have properties of type view model, allowing for arbitrary nesti
         ```
 
         <Info>
-          React Native does not yet support accessing a ViewModel property directly, to be able to do the chain notation.
+          The Rive React Native runtime does not yet support accessing a ViewModel property directly, to be able to do the chain notation.
         </Info>
       </Tab>
       <Tab title="Legacy Runtime">
         <Warning>
-          React Native does not support accessing nested properties using the chain notation.
+          The Rive React Native runtime does not support accessing nested properties using the chain notation.
           But you can access nested properties using the path notation.
         </Warning>
         ```js
@@ -1971,7 +1971,7 @@ You can observe changes over time to property values, either by using listeners 
         ```
 
         <Note>
-          The `useRiveTrigger` hook returns a `trigger` function that can be called to fire the trigger, and accepts an optional `onTrigger` callback in its third parameter that will be executed when the trigger is fired.
+          The `useRiveTrigger` hook returns a `trigger` function that can be called to fire the trigger. This hook accepts an optional `onTrigger` callback in its third parameter that will be executed when the trigger is fired.
         </Note>
 
       </Tab>
@@ -2313,7 +2313,7 @@ Image properties let you set and replace raster images at runtime, with each ins
         }
         ```
 
-        Othe image loading options on `RiveImages`:
+        Other image loading options on `RiveImages`:
         ```ts
           /**
           * Load an image from a bundled resource
@@ -3130,7 +3130,7 @@ Enums are string typed. The Rive file contains a list of enums. Each enum in tur
         ```
 
         <Note>
-          Retrieving the list of all enums on the file, or accessing all possible values on an Enum, is not yet available.
+          Retrieving the list of all enums in the file, or accessing all possible values on an Enum, is not yet available.
         </Note>
 
       </Tab>

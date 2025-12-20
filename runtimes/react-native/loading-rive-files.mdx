@@ -16,7 +16,7 @@ description: "How to use Rive files with the Rive React Native runtime. "
 
 ### Option 1: Using `require()` (Recommended)
 
-    Loading Rive files using `require()` is recommended because it doesn't require a native rebuild when you update the file. With Expo, this also enables Over The Air (OTA) updates.
+    Loading Rive files using `require()` is recommended because it doesn't require a native rebuild when you update the Rive file. With Expo, this also enables Over The Air (OTA) updates.
 
     ```tsx
     import { View, ActivityIndicator, Text } from "react-native";
@@ -136,15 +136,15 @@ description: "How to use Rive files with the Rive React Native runtime. "
 
     In the `ios/` folder of your React Native project, open the `.xcodeproj` file in XCode. This will open up the native iOS project.
 
-    Create a _New Group_ under the root of this project and name it whatever asset folder name you'd like to give it (i.e., _Assets_). Drop your `.riv` file into this group, and when prompted by XCode, add it to the _Target_ of your app. This ensures that the Rive file gets included in the bundle resources.
+    Create a New Group under the root of this project and give it a name (i.e., Assets). Drop your `.riv` file into this group, and when prompted by XCode, add it to the _Target_ of your app. This ensures that the Rive file gets included in the bundle resources.
 
     ![Image](/images/runtimes/react-native/3dc3d0fd-34b8-48db-9baa-0fdf668ad76d.webp)
 
     #### Adding to Android
 
-    In the `android/` folder of your React Native project, open the whole folder in Android Studio. This will open up the Android project.
+   Open the `android/` folder of your React Native project in Android Studio. 
 
-    Under the `/app/src/main/res/` directory, create a new _Android Resource Directory_, which is where you'll store Rive file assets, and when prompted to select a name for the folder and resource type, select `raw` from the resource type dropdown. Drop your `.riv` file into this new folder; this ensures that the Rive file gets included in the bundle resources.
+    Under the `/app/src/main/res/` directory, create a new _Android Resource Directory_, which is where you'll store Rive file assets. When prompted to select a name for the folder and resource type, select `raw` from the resource type dropdown. Drop your `.riv` file into this new folder which ensures that the Rive file gets included in the bundle resources.
 
     ![Image](/images/runtimes/react-native/f4d4f2f4-7231-43c8-881b-a3f05fbe33ae.webp)
 
