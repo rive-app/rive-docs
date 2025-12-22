@@ -1,10 +1,15 @@
 ---
-title: 'Loading Assets'
-description: 'Loading and replacing assets dynamically at runtime'
+title: "Loading Assets"
+description: "Loading and replacing assets dynamically at runtime"
 ---
 
-import { YouTube } from '/snippets/youtube.mdx'
-import { Demos } from '/snippets/demos.jsx'
+import { YouTube } from "/snippets/youtube.mdx";
+import { Demos } from "/snippets/demos.jsx";
+
+<Note>
+  If you want to dynamically replace images, use [image data
+  binding](/runtimes/data-binding#images).
+</Note>
 
 Some Rive files may contain assets that can be embedded within the actual file binary, such as font, image, or audio files. The Rive runtimes may then load these assets when the Rive file is loaded. While this makes for easy usage of the Rive files/runtimes, there may be opportunities to load these assets in or even replace them at runtime instead of embedding them in the file binary.
 
@@ -28,42 +33,39 @@ See the **Export Options** section in the editor docs for more details.
 
 ### Embedded Assets
 
-In the Rive editor, static assets can be included in the `.riv` file, by choosing the *"Embedded"* export type. As stated in the beginning of this page, when the Rive file gets loaded, the runtime will implicitly attempt to load in the assets embedded in the `.riv` as well, and you don't need to concern yourself with loading any assets manually.
+In the Rive editor, static assets can be included in the `.riv` file, by choosing the _"Embedded"_ export type. As stated in the beginning of this page, when the Rive file gets loaded, the runtime will implicitly attempt to load in the assets embedded in the `.riv` as well, and you don't need to concern yourself with loading any assets manually.
 
 **Caveat:** Embedded assets may bulk up the file size, especially when it comes to fonts when using Rive Text ([Text Overview](/editor/text/text-overview)).
 
-<Note>
- **Embedded is the default option.**
-</Note>
+<Note>**Embedded is the default option.**</Note>
 ### Loading via Rive's CDN
 
-In the Rive editor, you can mark an imported asset as a *"Hosted"* export type, which means that when you export the `.riv` file, the asset will not be embedded in the file binary, but will be hosted on Rive's CDN. This means that at runtime when loading in the file, the runtime will see the asset is marked as "Hosted" and load the asset in from the Rive CDN, so that you don't need need to concern yourself with loading anything yourself, and the file can still remain tiny.
+In the Rive editor, you can mark an imported asset as a _"Hosted"_ export type, which means that when you export the `.riv` file, the asset will not be embedded in the file binary, but will be hosted on Rive's CDN. This means that at runtime when loading in the file, the runtime will see the asset is marked as "Hosted" and load the asset in from the Rive CDN, so that you don't need need to concern yourself with loading anything yourself, and the file can still remain tiny.
 
 **Caveat:** The app will make an extra call to a Rive CDN to retrieve your asset
 
-<Note>Hosted assets are available on Voyager and Enterprise plans. [Learn more about our plans and pricing](https://rive.app/pricing).</Note>
+<Note>
+  Hosted assets are available on Voyager and Enterprise plans. [Learn more about
+  our plans and pricing](https://rive.app/pricing).
+</Note>
 
 ### Image CDNs
 
 Some image CDNs allow for on-the-fly image transformations, including resizing, cropping, and automatic format conversion based on the browser's and device's capabilities. These CDNs can host your Rive image assets. Note that for these CDNs, you may need to specify the accepted formats, for example, as part of the HTTP header request:
 
 ```html
-...
-headers: {
-  Accept: 'image/png,image/webp,image/jpeg,*/*',
-}
-...
+... headers: { Accept: 'image/png,image/webp,image/jpeg,*/*', } ...
 ```
 
 Please see your CDN provider's documentation for additional information.
 
 <Warning>
- Rive support the following image formats: **jpeg**, **png**, and **webp**
+  Rive support the following image formats: **jpeg**, **png**, and **webp**
 </Warning>
 
 ### Referenced Assets
 
-In the Rive editor, you can mark an imported asset as a *"Referenced"* export type, which means that when you export the `.riv` file, the asset will not be embedded in the file binary, and the responsibility of loading the asset will be handled by your application at runtime. This option enables you to dynamically load in assets via a handler API when the runtime begins loading in the `.riv` file. This option is preferable if you have a need to dynamically load in a specific asset based on any kind of app/game logic, and especially if you want to keep file size small.
+In the Rive editor, you can mark an imported asset as a _"Referenced"_ export type, which means that when you export the `.riv` file, the asset will not be embedded in the file binary, and the responsibility of loading the asset will be handled by your application at runtime. This option enables you to dynamically load in assets via a handler API when the runtime begins loading in the `.riv` file. This option is preferable if you have a need to dynamically load in a specific asset based on any kind of app/game logic, and especially if you want to keep file size small.
 
 All referenced assets, including the `.riv`, will be bundled as a zip file when you export your animation.
 
@@ -513,57 +515,166 @@ See below for documentation on how to handle loading in assets at runtime for yo
     </Tab>
 
     <Tab title="React Native">
-        ### Examples
-        - [Out of bands example](https://github.com/rive-app/rive-react-native/blob/main/example/app/(examples)/OutOfBandAssets.tsx)
+        <Tabs>
+            <Tab title="New Runtime (Recommended)">
+                ### Using the Asset Handler API
 
-        ### Using the Referenced Assets API
+                To load out-of-band assets, provide a key-value object that maps expected assets to their sources when loading the Rive file.
 
-        <Note>
-        React Native has a different API for handling out-of-band assets compared to our other runtimes.
-        </Note>
+                The **key** is the name + unique identifier combination, as exported from the Rive editor.
+                ```javascript
+                const { riveFile, isLoading, error } = useRiveFile(
+                    require('path/to/file.riv'),
+                    {
+                        referencedAssets: {
+                            'Inter-594377': {
+                                source: require('../../assets/fonts/Inter-594377.ttf'),
+                            },
+                            'referenced-image-2929282': {
+                                source: { uri: 'https://picsum.photos/id/372/500/500' },
+                            },
+                            'referenced_audio-2929340': {
+                                source: require('../../assets/audio/referenced_audio-2929340.wav'),
+                            },
+                        },
+                    }
+                );
+                ```
 
-        The `referencedAssets` prop accepts a key-value object. The `key` is the unique identifier of the asset (as exported in the Editor), which combines the asset name and its unique identifier. The `value` specifies how to load the asset:
-        - A source loaded directly from JavaScript.
-        - A URI pointing to an asset downloaded from the web.
-        - A bundled asset on the native platform (iOS and Android), included through Xcode and Android Studio, respectively.
+                <Note>
+                You can optionally exclude the unique identifier. For example, instead of `Inter-594377`, you can use `Inter`. However, it is recommended to use the full identifier to avoid potential conflicts. Using just the asset name allows you to avoid knowing the unique identifier and gives you more control over naming.
+                </Note>
 
-        <Note>
-        You can optionally exclude the unique identifier. For example, instead of `Inter-594377`, you can use `Inter`. However, it is recommended to use the full identifier to avoid potential conflicts. Using just the asset name allows you to avoid knowing the unique identifier and gives you more control over naming.
-        </Note>
+                ### Using Suspense
 
-        The following code sample illustrates the three different ways an asset can be loaded:
+                You can manage the asset decoding yourself, and share this resource across multiple Rive views.
 
-        ```javascript
-        <Rive
-            autoplay={true}
-            stateMachineName="State Machine 1"
-            referencedAssets={{
-                'Inter-594377': {
-                    source: require('./assets/Inter-594377.ttf'), // loaded directly from JavaScript
-                },
-                'referenced-image-2929282': {
-                    source: {
-                        uri: 'https://picsum.photos/id/270/500/500' // Loaded from a URI
-                    },
-                },
-                'referenced_audio-2929340': {
-                    source: {
-                        fileName: 'referenced_audio-2929340.wav', // Loaded from a bundled asset
-                        path: 'audio', // only needed for Android assets
-                    },
-                },
-            }}
-            artboardName="Artboard"
-            resourceName={'out_of_band'}
-            onError={(riveError: RNRiveError) => {
-                console.log(riveError);
-            }}
-        />
-        ```
+                <Info>
+                We currently only support images, but work is underway for the other asset types.
+                </Info>
+                ```ts
+                function getImagePromise(url: string): Promise<RiveImage> {
+                    return RiveImages.loadFromURLAsync(url);
+                }
+                ```
+
+                ```ts
+                <ErrorBoundary key={errorBoundaryKey} fallback={renderErrorFallback}>
+                    <React.Suspense
+                        fallback={
+                        <View style={styles.loadingContainer}>
+                            <ActivityIndicator size="large" />
+                            <Text style={styles.loadingText}>Loading image...</Text>
+                        </View>
+                        }
+                    >
+                        <RiveContent imageUrl={uri} />
+                    </React.Suspense>
+                </ErrorBoundary>
+
+                ```
+
+                ```ts
+                function RiveContent({ imageUrl }: { imageUrl: string }) {
+                    const imagePromise = React.useMemo(
+                        () => getImagePromise(imageUrl),
+                        [imageUrl]
+                    );
+                    const riveImage = React.use(imagePromise);
+
+                    const { riveFile, isLoading, error } = useRiveFile(
+                        require('../../assets/rive/out_of_band.riv'),
+                        {
+                            referencedAssets: {
+                                'Inter-594377': {
+                                source: require('../../assets/fonts/Inter-594377.ttf'),
+                                },
+                                'referenced-image-2929282': riveImage,
+                                'referenced_audio-2929340': {
+                                source: require('../../assets/audio/referenced_audio-2929340.wav'),
+                                },
+                            },
+                        }
+                    );
+
+                    if (isLoading) {
+                        return <ActivityIndicator />;
+                    } else if (error != null) {
+                        return (
+                            <View style={styles.safeAreaViewContainer}>
+                                <Text>Error loading Rive file: {error}</Text>
+                            </View>
+                        );
+                    }
+
+                    return (
+                        <RiveView
+                            file={riveFile}
+                            fit={Fit.Contain}
+                            style={styles.rive}
+                            stateMachineName="State Machine 1"
+                            artboardName="Artboard"
+                        />
+                    );
+                }
+                ```
+
+                See [this example](https://github.com/rive-app/rive-nitro-react-native/blob/main/example/src/pages/OutOfBandAssetsWithSuspense.tsx) for more information.
+
+            </Tab>
+            <Tab title="Legacy Runtime">
+                ### Examples
+                - [Out of bands example](https://github.com/rive-app/rive-react-native/blob/main/example/app/(examples)/OutOfBandAssets.tsx)
+
+                ### Using the Referenced Assets API
+
+                <Note>
+                React Native has a different API for handling out-of-band assets compared to our other runtimes.
+                </Note>
+
+                The `referencedAssets` prop accepts a key-value object. The `key` is the unique identifier of the asset (as exported in the Editor), which combines the asset name and its unique identifier. The `value` specifies how to load the asset:
+                - A source loaded directly from JavaScript.
+                - A URI pointing to an asset downloaded from the web.
+                - A bundled asset on the native platform (iOS and Android), included through Xcode and Android Studio, respectively.
+
+                <Note>
+                You can optionally exclude the unique identifier. For example, instead of `Inter-594377`, you can use `Inter`. However, it is recommended to use the full identifier to avoid potential conflicts. Using just the asset name allows you to avoid knowing the unique identifier and gives you more control over naming.
+                </Note>
+
+                The following code sample illustrates the three different ways an asset can be loaded:
+
+                ```javascript
+                <Rive
+                    autoplay={true}
+                    stateMachineName="State Machine 1"
+                    referencedAssets={{
+                        'Inter-594377': {
+                            source: require('./assets/Inter-594377.ttf'), // loaded directly from JavaScript
+                        },
+                        'referenced-image-2929282': {
+                            source: {
+                                uri: 'https://picsum.photos/id/270/500/500' // Loaded from a URI
+                            },
+                        },
+                        'referenced_audio-2929340': {
+                            source: {
+                                fileName: 'referenced_audio-2929340.wav', // Loaded from a bundled asset
+                                path: 'audio', // only needed for Android assets
+                            },
+                        },
+                    }}
+                    artboardName="Artboard"
+                    resourceName={'out_of_band'}
+                    onError={(riveError: RNRiveError) => {
+                        console.log(riveError);
+                    }}
+                />
+                ```
+            </Tab>
+        </Tabs>
     </Tab>
 
 </Tabs>
-
 
 ## Additional Resources
 

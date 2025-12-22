@@ -1,18 +1,21 @@
 ---
-title: 'Layout'
-description: 'Rive offers multiple options for controlling how graphics are laid out within the canvas, view, widget, or texture.'
+title: "Layout"
+description: "Rive offers multiple options for controlling how graphics are laid out within the canvas, view, widget, or texture."
 ---
 
-import { Demos } from '/snippets/demos.jsx'
+import { Demos } from "/snippets/demos.jsx";
 
 ## Responsive Layout
 
-Rive’s new Layout feature lets you design resizable artboards with built-in responsive behavior, configured directly in the graphic. Just set a **Fit** of type **Layout** at runtime and the artboard will resize automatically. Optionally, provide a **Layout Scale Factor** to further adjust the scale of the content.
+Rive’s Layout feature lets you design resizable artboards with built-in responsive behavior, configured directly in the graphic. Just set a **Fit** to type **Layout** at runtime and the artboard will resize automatically. Optionally, provide a **Layout Scale Factor** to further adjust the scale of the content.
 
-For more Editor information and how to configure your graphic see [Layouts Overview](/editor/layouts/layouts-overview).
+For more Editor information and how to configure your graphic, see [Layouts Overview](/editor/layouts/layouts-overview).
 
 <Note>
- The **Alignment** property will not have an effect when the using a **Fit** of type **Layout**.
+  - The **Alignment** property will not have an effect when using a **Fit** of
+  type **Layout**.
+ - The **LayoutScaleFactor** property only applies to a **Fit** of type **Layout**.
+
 </Note>
 
 <Demos examples={["layouts"]} />
@@ -107,34 +110,100 @@ For more Editor information and how to configure your graphic see [Layouts Overv
 
   </Tab>
   <Tab title="React Native">
-    **Examples**
+    <Tabs>
+      <Tab title="New Runtime (Recommended)">
+        **Steps**
 
-    - [Layout React Native Example](https://github.com/rive-app/rive-react-native/blob/main/example/app/(examples)/ResponsiveLayout.tsx)
+        1. Set `fit` to `Fit.Layout` - this will automatically scale and resize the artboard to match the view size.
+        2. Optionally set the `layoutScaleFactor` for manual control of the artboard size (scale factor). If not set, the graphic uses the DPI of the device for scaling.
 
-    **Steps**
+        ```javascript
+        export default function ResponsiveLayoutsExample() {
+          const { riveFile, isLoading, error } = useRiveFile(
+            require('path/to/file.riv')
+          );
+          const [scaleFactor, setScaleFactor] = useState(4.0);
+          const riveRef = useRef<RiveViewRef>(null);
+          const { width, height } = useWindowDimensions();
 
-    1. Set `fit` to `Fit.Layout` - this will automatically scale and resize the artboard to match the canvas size.
-    2. Optionally set `layoutScaleFactor` in the `Layout` object for manual control of the artboard's scale factor.
-    3. The React runtime automatically handles window resizing and device pixel ratio changes.
+          useEffect(() => {
+            riveRef.current?.playIfNeeded();
+          }, [width, height]);
 
-    ```javascript
-    import Rive, { Fit } from 'rive-react-native';
+          const increaseScale = () => {
+            setScaleFactor((prev) => prev + 0.5);
+            riveRef.current?.playIfNeeded();
+          };
+          const decreaseScale = () => {
+            setScaleFactor((prev) => Math.max(0.5, prev - 0.5));
+            riveRef.current?.playIfNeeded();
+          };
 
-    const resourceName = 'layout_test';
+          return (
+            <View style={styles.container}>
+              {isLoading ? (
+                <ActivityIndicator size="large" color="#0000ff" />
+              ) : error ? (
+                <Text style={styles.errorText}>{error}</Text>
+              ) : riveFile ? (
+                <RiveView
+                  hybridRef={{ f: (ref) => (riveRef.current = ref) }}
+                  file={riveFile}
+                  fit={Fit.Layout}
+                  layoutScaleFactor={scaleFactor}
+                  style={styles.rive}
+                  autoPlay={true}
+                />
+              ) : null}
+              <View style={styles.controls}>
+                <Text style={styles.label}>Layout Scale Factor</Text>
+                <View style={styles.scaleControls}>
+                  <Button title="-" onPress={decreaseScale} />
+                  <View style={styles.scaleText}>
+                    <Text>{scaleFactor.toFixed(1)}x</Text>
+                  </View>
+                  <Button title="+" onPress={increaseScale} />
+                </View>
+              </View>
+            </View>
+          );
+        }
+        ```
 
-    export default function ResponsiveLayout() {
-      return (
-        <Rive
-          autoplay={true}
-          fit={Fit.Layout}
-          layoutScaleFactor={0.5} // If you do not set this (or set equal to "-1.0"), Rive will automatically scale the layout to match the device pixel ratio
-          resourceName={resourceName}
-          artboardName={'Artboard'}
-          stateMachineName={'State Machine 1'}
-        />
-      );
-    }
-    ```
+        <Note>The call to `playIfNeeded()` ensures that the graphic is visually updated after the change. In the future this will be handled automatically.</Note>
+      </Tab>
+      <Tab title="Legacy Runtime">
+        **Examples**
+
+        - [Layout React Native Example](https://github.com/rive-app/rive-react-native/blob/main/example/app/(examples)/ResponsiveLayout.tsx)
+
+        **Steps**
+
+        1. Set `fit` to `Fit.Layout` - this will automatically scale and resize the artboard to match the canvas size.
+        2. Optionally set `layoutScaleFactor` in the `Layout` object for manual control of the artboard's scale factor.
+        3. The React Native runtime automatically handles window resizing and device pixel ratio changes.
+
+        ```javascript
+        import Rive, { Fit } from 'rive-react-native';
+
+        const resourceName = 'layout_test';
+
+        export default function ResponsiveLayout() {
+          return (
+            <Rive
+              autoplay={true}
+              fit={Fit.Layout}
+              layoutScaleFactor={0.5} // If you do not set this (or set equal to "-1.0"), Rive will automatically scale the layout to match the device pixel ratio
+              resourceName={resourceName}
+              artboardName={'Artboard'}
+              stateMachineName={'State Machine 1'}
+            />
+          );
+        }
+        ```
+      </Tab>
+    </Tabs>
+
   </Tab>
 
   <Tab title="Flutter">
@@ -157,6 +226,7 @@ For more Editor information and how to configure your graphic see [Layouts Overv
     controller.fit = Fit.layout;
     controller.layoutScaleFactor = 2.0; // Optional: 2x scale of the layout
     ```
+
   </Tab>
 
   <Tab title="Apple">
@@ -226,13 +296,13 @@ For more Editor information and how to configure your graphic see [Layouts Overv
 
 </Tabs>
 
-
 ## Additional Layout Options
 
 If the graphic doesn’t use Rive’s Layout feature, you can configure the layout with other **Fit** options and **Alignment** settings. See the sections below for more information on **Fit** and **Alignment**.
+
 <Tabs>
   <Tab title="Web">
-    Use the `Layout` object to configure `Fit` and `Alignment`. See **Fit** and **Alignment** below for all enum options.
+    Use the `Layout` object to configure `Fit` and `Alignment`. See [Fit](#fit) and [Alignment](#alignment) for all enum options.
 
     ```javascript
     <div>
@@ -271,10 +341,11 @@ If the graphic doesn’t use Rive’s Layout feature, you can configure the layo
         r.layout = new rive.Layout({ fit: rive.Fit.Fill });
     </script>
     ```
+
   </Tab>
 
   <Tab title="React">
-    Use the `Layout` object to configure `Fit` and `Alignment`. See **Fit** and **Alignment** below for all enum options.
+    Use the `Layout` object to configure `Fit` and `Alignment`. See [Fit](#fit) and [Alignment](#alignment) for all enum options.
 
     ```javascript
     import Rive, { Layout, Fit, Alignment } from '@rive-app/react-canvas';
@@ -307,26 +378,63 @@ If the graphic doesn’t use Rive’s Layout feature, you can configure the layo
       return <RiveComponent />;
     }
     ```
+
   </Tab>
 
   <Tab title="React Native">
-    Set layout attributes for `Fit` and `Alignment` on the `Rive` component directly. See **Fit** and **Alignment** below for all enum options.
+    <Tabs>
+      <Tab title="New Runtime (Recommended)">
+        Set layout attributes for `Fit` and `Alignment` on the `RiveView` component directly. See [Fit](#fit) and [Alignment](#alignment) for all enum options.
 
-    ```javascript
-    import Rive, { Alignment, Fit } from 'rive-react-native';
+        ```ts
+        import {
+          Alignment,
+          Fit,
+          RiveView,
+          useRiveFile,
+        } from '@rive-app/react-native';
 
-    export default function Simple() {
-      return (
-        <ScrollView>
-          <Rive
-            fit={Fit.Cover}
-            alignment={Alignment.TopCenter}
-            resourceName="truck_v7"
-          />
-        </ScrollView>
-      );
-    };
-    ```
+        export default function LayoutExample() {
+          const { riveFile } = useRiveFile(
+            require('path/to/file.riv')
+          );
+
+          return (
+            <View style={styles.container}>
+              {riveFile ? (
+                <RiveView
+                  file={riveFile}
+                  style={styles.rive}
+                  fit={Fit.Contain}
+                  alignment={Alignment.Center}
+                />
+              ) : null}
+            </View>
+          );
+        }
+        ```
+      </Tab>
+      <Tab title="Legacy Runtime">
+        Set layout attributes for `Fit` and `Alignment` on the `Rive` component directly. See [Fit](#fit) and [Alignment](#alignment) for all enum options.
+
+        ```javascript
+        import Rive, { Alignment, Fit } from 'rive-react-native';
+
+        export default function Simple() {
+          return (
+            <ScrollView>
+              <Rive
+                fit={Fit.Cover}
+                alignment={Alignment.TopCenter}
+                resourceName="truck_v7"
+              />
+            </ScrollView>
+          );
+        };
+        ```
+      </Tab>
+    </Tabs>
+
   </Tab>
 
     <Tab title="Flutter">
@@ -348,6 +456,7 @@ If the graphic doesn’t use Rive’s Layout feature, you can configure the layo
     controller.fit = Fit.contain;
     controller.alignment = Alignment.center;
     ```
+
   </Tab>
 
   <Tab title="Apple">
@@ -460,6 +569,7 @@ If the graphic doesn’t use Rive’s Layout feature, you can configure the layo
         }
     }
     ```
+
   </Tab>
     <Tab title="Android">
     The animation view can be further customized as part of specifying layout attributes.
@@ -488,11 +598,10 @@ If the graphic doesn’t use Rive’s Layout feature, you can configure the layo
     animationView.fit = Fit.FILL
     animationView.alignment = Alignment.CENTER
     ```
+
   </Tab>
 
-
 </Tabs>
-
 
 ## Fit
 

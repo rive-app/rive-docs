@@ -1,225 +1,325 @@
 ---
-title: 'Rive Ref Methods'
-description: ''
+title: "Rive Ref Methods"
+description: ""
 ---
 
-Once you have access to the Rive ref object, there are a number of methods available to invoke for controlling animations and state machines.
+<Tabs>
+  <Tab title="New Runtime (Recommended)">
+    Once you have access to the Rive ref object (via `useRive` hook), there are a number of methods available to invoke for controlling your Rive graphic.
+
+    <ResponseField name="play()" type="() => Promise<void>">
+      Starts playing the Rive graphic.
+    </ResponseField>
+
+    <ResponseField name="pause()" type="() => Promise<void>">
+      Pauses the Rive graphic.
+    </ResponseField>
+
+    <ResponseField name="reset()" type="() => Promise<void>">
+      Resets the Rive graphic to its initial state.
+    </ResponseField>
+
+    <ResponseField name="playIfNeeded()" type="() => void">
+      Low overhead function to ensure the Rive graphic is playing. Use after property value updates to ensure the graphic is updated.
+    </ResponseField>
+
+    <ResponseField name="awaitViewReady()" type="() => Promise<boolean>">
+      Waits for the Rive view to be ready. Returns a promise that resolves when the Rive view is ready.
+    </ResponseField>
+
+    <ResponseField name="bindViewModelInstance(viewModelInstance)" type="(viewModelInstance: ViewModelInstance) => void">
+      Binds a view model instance to the Rive view. See the [Data Binding](/runtimes/data-binding) documentation for more details.
+    </ResponseField>
+
+    <ResponseField name="getViewModelInstance()" type="() => ViewModelInstance | undefined">
+      Gets the currently bound view model instance from the Rive view. Returns the bound `ViewModelInstance`, or `undefined` if none is bound.
+    </ResponseField>
+
+    <ResponseField name="setTextRunValue(name, value, path?)" type="(name: string, value: string, path?: string) => void">
+      Sets the text run value on the Rive view.
+      <Warning>
+        This method is deprecated. Use data binding instead. See the [Data Binding](/runtimes/data-binding) documentation.
+      </Warning>
+    </ResponseField>
+
+    <ResponseField name="getTextRunValue(name, path?)" type="(name: string, path?: string) => string">
+      Gets the text run value from the Rive view.
+      <Warning>
+        This method is deprecated. Use data binding instead. See the [Data Binding](/runtimes/data-binding) documentation.
+      </Warning>
+    </ResponseField>
+
+    <ResponseField name="setNumberInputValue(name, value, path?)" type="(name: string, value: number, path?: string) => void">
+      Sets a number state machine input on the Rive view.
+      <Warning>
+        This method is deprecated. Use data binding instead. See the [Data Binding](/runtimes/data-binding) documentation.
+      </Warning>
+    </ResponseField>
+
+    <ResponseField name="getNumberInputValue(name, path?)" type="(name: string, path?: string) => number">
+      Gets a number state machine input from the Rive view.
+      <Warning>
+        This method is deprecated. Use data binding instead. See the [Data Binding](/runtimes/data-binding) documentation.
+      </Warning>
+    </ResponseField>
+
+    <ResponseField name="setBooleanInputValue(name, value, path?)" type="(name: string, value: boolean, path?: string) => void">
+      Sets a boolean state machine input on the Rive view.
+      <Warning>
+        This method is deprecated. Use data binding instead. See the [Data Binding](/runtimes/data-binding) documentation.
+      </Warning>
+    </ResponseField>
+
+    <ResponseField name="getBooleanInputValue(name, path?)" type="(name: string, path?: string) => boolean">
+      Gets a boolean state machine input from the Rive view.
+      <Warning>
+        This method is deprecated. Use data binding instead. See the [Data Binding](/runtimes/data-binding) documentation.
+      </Warning>
+    </ResponseField>
+
+    <ResponseField name="triggerInput(name, path?)" type="(name: string, path?: string) => void">
+      Triggers a trigger state machine input on the Rive view.
+      <Warning>
+        This method is deprecated. Use data binding instead. See the [Data Binding](/runtimes/data-binding) documentation.
+      </Warning>
+    </ResponseField>
 
-### .play()
+    <ResponseField name="onEventListener(onEvent)" type="(onEvent: (event: UnifiedRiveEvent) => void) => void">
+      Adds an event listener to the Rive view.
+      <Warning>
+        This method is deprecated. Use data binding instead. See the [Data Binding](/runtimes/data-binding) documentation.
+      </Warning>
+    </ResponseField>
+
+    <ResponseField name="removeEventListeners()" type="() => void">
+      Removes all event listeners from the Rive view.
+      <Warning>
+        This method is deprecated. Use data binding instead. See the [Data Binding](/runtimes/data-binding) documentation.
+      </Warning>
+    </ResponseField>
+
+  </Tab>
+  <Tab title="Legacy Runtime">
+    Once you have access to the Rive ref object, there are a number of methods available to invoke for controlling animations and state machines.
 
-A reference method that will play a singular animation or state machine. For an animation currently playing it is a no-op.
+    ### .play()
 
-Type: `(animationName?: string, loop?: LoopMode, direction?: Direction, isStateMachine?: boolean) => void`
+    A reference method that will play a singular animation or state machine. For an animation currently playing it is a no-op.
 
-- `animationName` - Specifies which singular animation should be played. We **highly** recommend passing a value here
-  - Default: `""`
-- `loop` - Specifies which `LoopMode` should be used for playing the animations.
-  - Default: `LoopMode.Auto`
-- `direction` - Specifies which `Direction` should be used for playing the animations.
-  - Default: `Direction.Auto`
-- `isStateMachine` - Specifies whether the passed in `animationName` is a state machine or just a linear animation.
-  - Default: `false`
+    Type: `(animationName?: string, loop?: LoopMode, direction?: Direction, isStateMachine?: boolean) => void`
 
-**Example:**
+    - `animationName` - Specifies which singular animation should be played. We **highly** recommend passing a value here
+      - Default: `""`
+    - `loop` - Specifies which `LoopMode` should be used for playing the animations.
+      - Default: `LoopMode.Auto`
+    - `direction` - Specifies which `Direction` should be used for playing the animations.
+      - Default: `Direction.Auto`
+    - `isStateMachine` - Specifies whether the passed in `animationName` is a state machine or just a linear animation.
+      - Default: `false`
 
-```javascript
-import Rive, { RiveRef } from 'rive-react-native';
+    **Example:**
 
-const resourceName = 'truck_v7'
+    ```javascript
+    import Rive, { RiveRef } from 'rive-react-native';
 
-function App() {
-  const riveRef = React.useRef<RiveRef>(null);
+    const resourceName = 'truck_v7'
 
-  const handlePlay = () => { riveRef.current?.play() };
+    function App() {
+      const riveRef = React.useRef<RiveRef>(null);
 
-  return (
-    <>
-      <Rive ref={riveRef} resourceName={resourceName} autoplay={false} />
-      <Button onPress={handlePlay} title="Play">
-    </>
-  );
-}
-```
+      const handlePlay = () => { riveRef.current?.play() };
 
-### .pause()
+      return (
+        <>
+          <Rive ref={riveRef} resourceName={resourceName} autoplay={false} />
+          <Button onPress={handlePlay} title="Play">
+        </>
+      );
+    }
+    ```
 
-A reference method that will pause any playing animation/state machine. For the animations currently stopped/paused it is no-op.
+    ### .pause()
 
-Type: `() => void`
+    A reference method that will pause any playing animation/state machine. For the animations currently stopped/paused it is no-op.
 
-**Example:**
+    Type: `() => void`
 
-```javascript
-import Rive, { RiveRef } from 'rive-react-native';
+    **Example:**
 
-const resourceName = 'truck_v7'
+    ```javascript
+    import Rive, { RiveRef } from 'rive-react-native';
 
-function App() {
-  const riveRef = React.useRef<RiveRef>(null);
+    const resourceName = 'truck_v7'
 
-  const handlePause = () => { riveRef.current?.pause() };
+    function App() {
+      const riveRef = React.useRef<RiveRef>(null);
 
-  return (
-    <>
-      <Rive ref={riveRef} resourceName={resourceName} />
-      <Button onPress={handlePause} title="Pause">
-    </>
-  );
-}
-```
+      const handlePause = () => { riveRef.current?.pause() };
 
-### .stop()
+      return (
+        <>
+          <Rive ref={riveRef} resourceName={resourceName} />
+          <Button onPress={handlePause} title="Pause">
+        </>
+      );
+    }
+    ```
 
-A reference method that will stop an animation/state machine. For the animations currently stopped/paused it is no-op.
+    ### .stop()
 
-Type: `() => void`
+    A reference method that will stop an animation/state machine. For the animations currently stopped/paused it is no-op.
 
-**Example:**
+    Type: `() => void`
 
-```javascript
-import Rive, { RiveRef } from 'rive-react-native';
+    **Example:**
 
-const resourceName = 'truck_v7'
+    ```javascript
+    import Rive, { RiveRef } from 'rive-react-native';
 
-function App() {
-  const riveRef = React.useRef<RiveRef>(null);
+    const resourceName = 'truck_v7'
 
-  const handleStop = () => { riveRef.current?.stop() };
+    function App() {
+      const riveRef = React.useRef<RiveRef>(null);
 
-  return (
-    <>
-      <Rive ref={riveRef} resourceName={resourceName} />
-      <Button onPress={handleStop} title="Stop">
-    </>
-  );
-}
-```
+      const handleStop = () => { riveRef.current?.stop() };
 
-### .reset()
+      return (
+        <>
+          <Rive ref={riveRef} resourceName={resourceName} />
+          <Button onPress={handleStop} title="Stop">
+        </>
+      );
+    }
+    ```
 
-A reference method that will reset the whole artboard. It will play `animationName` or the first animation *(if* `animationName` *hasn't been passed)* immediately if `autoplay` hasn't been set to `false` explicitly.
+    ### .reset()
 
-Type: `() => void`
+    A reference method that will reset the whole artboard. It will play `animationName` or the first animation *(if* `animationName` *hasn't been passed)* immediately if `autoplay` hasn't been set to `false` explicitly.
 
-```javascript
-import Rive, { RiveRef } from 'rive-react-native';
+    Type: `() => void`
 
-const resourceName = 'truck_v7'
+    ```javascript
+    import Rive, { RiveRef } from 'rive-react-native';
 
-function App() {
-  const riveRef = React.useRef<RiveRef>(null);
+    const resourceName = 'truck_v7'
 
-  const handleReset = () => { riveRef.current?.reset() };
+    function App() {
+      const riveRef = React.useRef<RiveRef>(null);
 
-  return (
-    <>
-      <Rive ref={riveRef} resourceName={resourceName} autoplay={true} />
-      <Button onPress={handleReset} title="Reset">
-    </>
-  );
-}
-```
+      const handleReset = () => { riveRef.current?.reset() };
 
-### .fireState()
+      return (
+        <>
+          <Rive ref={riveRef} resourceName={resourceName} autoplay={true} />
+          <Button onPress={handleReset} title="Reset">
+        </>
+      );
+    }
+    ```
 
-A reference method that will fire `trigger` identified by the `inputName` on all active matching state machines.
+    ### .fireState()
 
-Type: `(stateMachineName: string, inputName: string) => void`
+    A reference method that will fire `trigger` identified by the `inputName` on all active matching state machines.
 
-- `stateMachineName` - Specifies state machine name which will be matched against all active state machines.
-- `inputName` - Specifies the name of the `trigger` that should be fired.
+    Type: `(stateMachineName: string, inputName: string) => void`
 
-**Example:**
+    - `stateMachineName` - Specifies state machine name which will be matched against all active state machines.
+    - `inputName` - Specifies the name of the `trigger` that should be fired.
 
-```javascript
-import Rive, { RiveRef } from 'rive-react-native';
+    **Example:**
 
-const resourceName = 'ui_swipe_left_to_delete'
+    ```javascript
+    import Rive, { RiveRef } from 'rive-react-native';
 
-function App() {
-  const riveRef = React.useRef<RiveRef>(null);
+    const resourceName = 'ui_swipe_left_to_delete'
 
-  const handleFireState = () => { riveRef.current?.fireState('Swipe to delete', 'Trigger Delete') };
+    function App() {
+      const riveRef = React.useRef<RiveRef>(null);
 
-  return (
-    <>
-      <Rive ref={riveRef} resourceName={resourceName} autoplay={true} />
-      <Button onPress={handleFireState} title="FireState">
-    </>
-  );
-}
-```
+      const handleFireState = () => { riveRef.current?.fireState('Swipe to delete', 'Trigger Delete') };
 
-### .setInputState()
+      return (
+        <>
+          <Rive ref={riveRef} resourceName={resourceName} autoplay={true} />
+          <Button onPress={handleFireState} title="FireState">
+        </>
+      );
+    }
+    ```
 
-A reference method that will set `input` state identified by the `inputName` on all active matching state machines to the given `value`.
+    ### .setInputState()
 
-Type: `(stateMachineName: string, inputName: string, value: boolean | number) => void`
+    A reference method that will set `input` state identified by the `inputName` on all active matching state machines to the given `value`.
 
-- `stateMachineName` - Specifies state machine name which will be matched against all active state machines.
-- `inputName` - Specifies name of the `input` which state should be updated.
-- `value` - Specifies a value that the `input` state should be set to.
+    Type: `(stateMachineName: string, inputName: string, value: boolean | number) => void`
 
-**Example:**
+    - `stateMachineName` - Specifies state machine name which will be matched against all active state machines.
+    - `inputName` - Specifies name of the `input` which state should be updated.
+    - `value` - Specifies a value that the `input` state should be set to.
 
-```javascript
-import Rive, { RiveRef } from 'rive-react-native';
+    **Example:**
 
-const resourceName = 'ui_swipe_left_to_delete'
-const threshold = 50
+    ```javascript
+    import Rive, { RiveRef } from 'rive-react-native';
 
-function App() {
-  const riveRef = React.useRef<RiveRef>(null);
+    const resourceName = 'ui_swipe_left_to_delete'
+    const threshold = 50
 
-  const handleFireState = () => {
-    riveRef.current?.setInputState(
-      'Swipe to delete',
-      'Swipe Threshold',
-      threshold
-    );
-  };
+    function App() {
+      const riveRef = React.useRef<RiveRef>(null);
 
-  return (
-    <>
-      <Rive ref={riveRef} resourceName={resourceName} autoplay={true} />
-      <Button onPress={handleFireState} title="FireState">
-    </>
-  );
-}
-```
+      const handleFireState = () => {
+        riveRef.current?.setInputState(
+          'Swipe to delete',
+          'Swipe Threshold',
+          threshold
+        );
+      };
 
-### .setTextRunValue()
+      return (
+        <>
+          <Rive ref={riveRef} resourceName={resourceName} autoplay={true} />
+          <Button onPress={handleFireState} title="FireState">
+        </>
+      );
+    }
+    ```
 
-A reference method that will set a text run value (via `value`) on a given text run (via `textRunName`).
+    ### .setTextRunValue()
 
-Type: `setTextRunValue: (textRunName: string, value: string) => void`
+    A reference method that will set a text run value (via `value`) on a given text run (via `textRunName`).
 
-- `textRunName` - Name of the text run to set a new text value on. Read more on text runs here: [Text](/runtimes/text)
-- `value` - Specifies a new text value that should be set on the text run
+    Type: `setTextRunValue: (textRunName: string, value: string) => void`
 
-**Example:**
+    - `textRunName` - Name of the text run to set a new text value on. Read more on text runs here: [Text](/runtimes/text)
+    - `value` - Specifies a new text value that should be set on the text run
 
-```javascript
-import Rive, { RiveRef } from 'rive-react-native';
+    **Example:**
 
-const resourceName = 'ui_swipe_left_to_delete'
-const threshold = 50
+    ```javascript
+    import Rive, { RiveRef } from 'rive-react-native';
 
-function App() {
-  const riveRef = React.useRef<RiveRef>(null);
+    const resourceName = 'ui_swipe_left_to_delete'
+    const threshold = 50
 
-  const handleSetText = () => {
-    riveRef.current?.setTextRunValue(
-      'MyRunName',
-      'New Text',
-    );
-  };
+    function App() {
+      const riveRef = React.useRef<RiveRef>(null);
 
-  return (
-    <>
-      <Rive ref={riveRef} resourceName={resourceName} autoplay={true} />
-      <Button onPress={handleSetText} title="SetText">
-    </>
-  );
-}
-```
+      const handleSetText = () => {
+        riveRef.current?.setTextRunValue(
+          'MyRunName',
+          'New Text',
+        );
+      };
+
+      return (
+        <>
+          <Rive ref={riveRef} resourceName={resourceName} autoplay={true} />
+          <Button onPress={handleSetText} title="SetText">
+        </>
+      );
+    }
+    ```
+
+  </Tab>
+</Tabs>
