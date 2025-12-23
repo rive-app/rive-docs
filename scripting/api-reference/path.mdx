@@ -74,9 +74,9 @@ Returns the number of commands in the path.
 
 ### `reset`
 
-Paths should not be reset while they are in flight for rendering. Only
-call reset on subsequent frames if you've called Renderer.drawPath with
-it.
+Paths should not be reset, or mutated at all, while they are in flight for
+rendering. Only call reset on subsequent frames if you've called
+Renderer.drawPath with it.
 ```lua
 path:reset()
 ```
