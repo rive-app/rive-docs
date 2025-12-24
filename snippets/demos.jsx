@@ -17,8 +17,11 @@ export const Demos = ({
       artboard: "Emoji_package",
       links: {
         web: "https://codesandbox.io/p/sandbox/rive-js-caching-a-rive-file-g675my?file=%2Fsrc%2Findex.ts%3A9%2C1",
-        react: "https://codesandbox.io/p/sandbox/rive-react-caching-a-rive-file-53gmdf?file=%2Fsrc%2FApp.tsx"
-      }
+        react: "https://codesandbox.io/p/sandbox/rive-react-caching-a-rive-file-53gmdf?file=%2Fsrc%2FApp.tsx",
+      },
+      source: [
+        "https://rive.app/marketplace/24644-46045-caching-a-rive-file-at-runtime/"
+      ]
     },
     dataBindingArtboards: {
       title: 'Data Binding Artboards',
@@ -31,6 +34,10 @@ export const Demos = ({
           'https://codesandbox.io/p/sandbox/rive-react-data-binding-artboards-kmvzh8?file=%2Fsrc%2FApp.tsx',
         flutter: 'https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_artboards.dart'
       },
+      source: [
+        "https://rive.app/marketplace/24641-46042-data-binding-artboards/",
+        "https://rive.app/marketplace/24642-47536-data-binding-artboards/"
+      ]
     },
     dataBindingImages: {
       title: 'Data Binding Images',
@@ -38,9 +45,12 @@ export const Demos = ({
         'Replace images at runtime using data binding images with javascript.',
       image: '/images/runtimes/rive-db-images.webp',
       links: {
-        web: 'https://codesandbox.io/p/sandbox/objective-cohen-sqwh9q',
+        web: 'https://codesandbox.io/p/sandbox/objective-cohen-sqwh9q?file=%2Fsrc%2Findex.ts',
         flutter: 'https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_images.dart'
       },
+      source: [
+        "https://rive.app/marketplace/25472-47537-data-binding-images/"
+      ]
     },
     dataBindingLists: {
       title: 'Data Binding Lists',
@@ -52,6 +62,9 @@ export const Demos = ({
           'https://codesandbox.io/p/sandbox/rive-react-data-binding-lists-4msh9z?file=%2Fsrc%2FApp.tsx',
         flutter: 'https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_lists.dart'
       },
+      source: [
+        "https://rive.app/marketplace/25474-47539-data-binding-lists/"
+      ]
     },
     dataBindingQuickStart: {
       title: "Data Binding Quick Start",
@@ -62,7 +75,10 @@ export const Demos = ({
         reactNative: "https://github.com/rive-app/rive-react-native/blob/main/example/app/(examples)/DataBinding.tsx",
         unity: "https://github.com/rive-app/rive-unity-examples/blob/main/getting-started/Assets/RewardsController.cs",
         apple: "https://github.com/rive-app/rive-ios/blob/main/Example-iOS/Source/Examples/SwiftUI/RewardsView.swift"
-      }
+      },
+      source: [
+        "https://rive.app/marketplace/25475-47540-data-binding-demo/"
+      ]
     },
     dataBindingSolos: {
       title: "Data Binding Solos",
@@ -70,7 +86,10 @@ export const Demos = ({
       image: '/images/runtimes/data-binding-solos.gif',
       links: {
         react: "https://codesandbox.io/p/sandbox/rive-react-controlling-solos-at-runtime-ctcnlx?file=%2Fsrc%2FApp.tsx"
-      }
+      },
+      source: [
+        "https://rive.app/marketplace/24643-46044-data-binding-solos/"
+      ]
     },
     googleAppAds: {
       title: "Google App Ads",
@@ -78,7 +97,7 @@ export const Demos = ({
       image: "/images/runtimes/google-app-ads.png",
       links: {
         mobile: "https://github.com/rive-app/rive-use-cases/tree/main/rive-google-ads"
-      }
+      },
     },
     layouts: {
       title: "Responsive Layouts",
@@ -92,6 +111,9 @@ export const Demos = ({
         flutter: "https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/responsive_layouts.dart",
         reactNative: 'https://github.com/rive-app/rive-react-native/blob/main/example/app/(examples)/ResponsiveLayout.tsx'
       },
+      source: [
+        "https://rive.app/marketplace/24638-46038-layouts-demo/"
+      ]
     },
     fontsHostedCompressed: {
       title: 'Load a Compressed Font for Web',
@@ -101,6 +123,9 @@ export const Demos = ({
         react:
           'https://codesandbox.io/p/sandbox/prod-sound-6yc5xl?file=%2Fsrc%2FApp.tsx%3A19%2C1',
       },
+      source: [
+        "https://rive.app/marketplace/25473-47538-loading-compressed-fonts-web/"
+      ]
     },
     quickStart: {
       title: "Quick Start",
@@ -111,7 +136,10 @@ export const Demos = ({
         react: 'https://codesandbox.io/p/sandbox/rive-react-quick-start-4xy76h?file=%2Fsrc%2FApp.tsx%3A77%2C14',
         reactJs: 'https://codesandbox.io/p/devbox/rive-react-vanilla-js-quick-start-kz66t4?file=%2Fsrc%2FApp.tsx%3A53%2C7',
         reactNative: 'https://github.com/rive-app/rive-react-native/blob/main/example/app/(examples)/QuickStart.tsx'
-      }
+      },
+      source: [
+        "https://rive.app/marketplace/24637-46037-health-bar-data-binding-quick-start/"
+      ]
     },
     quickStartReact: {
       title: "Quick Start",
@@ -120,7 +148,10 @@ export const Demos = ({
       links: {
         react: 'https://codesandbox.io/p/sandbox/rive-react-quick-start-4xy76h?file=%2Fsrc%2FApp.tsx%3A77%2C14',
         reactJs: 'https://codesandbox.io/p/devbox/rive-react-vanilla-js-quick-start-kz66t4?file=%2Fsrc%2FApp.tsx%3A53%2C7',
-      }
+      },
+      source: [
+        "https://rive.app/marketplace/24637-46037-health-bar-data-binding-quick-start/"
+      ]
     },
     scriptingDrawingShapes: {
       title: "Drawing with Scripting",
@@ -199,7 +230,7 @@ export const Demos = ({
       image: "/images/runtimes/star-rating.webp",
       description: "Get started with the new Compose API (Technical Preview) for Android.",
       links: {
-        android: "https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeActivity.kt"
+        android: "https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeActivity.kt",
       }
     }
   }
@@ -219,7 +250,7 @@ export const Demos = ({
     'unity',
     'unreal',
     'mobile',
-    'editor'
+    'editor',
   ]
   const runtimeTitles = {
     web: 'Web',
@@ -232,7 +263,7 @@ export const Demos = ({
     unity: 'Unity',
     unreal: 'Unreal',
     mobile: 'Mobile',
-    editor: 'Try in Rive'
+    editor: 'Try in Rive',
   }
 
   // Keep track of Rive instances for when the window resizes
@@ -317,18 +348,7 @@ export const Demos = ({
     )
   }
 
-  const CardContainer = ({ children: content, link }) => {
-    if (link) {
-      return (
-        <a
-          href={link}
-          className="card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full cursor-pointer hover:!border-primary dark:hover:!border-primary-light"
-        >
-          { content }
-        </a>
-      )
-    }
-
+  const CardContainer = ({ children: content }) => {
     return (
       <div
         className="flex flex-col card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full"
@@ -359,7 +379,7 @@ export const Demos = ({
       `
     }>
       {examples.map((example, index) => {
-        const { title, image, links, description, riv } = examplesData[example]
+        const { title, image, links, description, source, riv } = examplesData[example]
         const canvasId = `rive-canvas-${example}`
 
         return (
@@ -369,7 +389,6 @@ export const Demos = ({
             }
             <CardContainer
               key={canvasId}
-              link={runtime && links[runtime]}
             >
               <div className="w-full h-0 relative pb-[75%]">
                 <div className="absolute inset-0">
@@ -391,34 +410,46 @@ export const Demos = ({
                 </div>
               </div>
               <div className="flex flex-grow flex-col px-6 py-5 relative" data-component-part="card-content-container">
-                {
-                  runtime && (
-
-                    <div id="card-link-arrow-icon" className="absolute text-gray-400 dark:text-gray-500 group-hover:text-primary dark:group-hover:text-primary-light top-5 right-5">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-arrow-up-right w-4 h-4"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg>
-                    </div>
-                  )
-                }
-
                 <div className="flex flex-col grow">
                   <h2 className="not-prose font-semibold text-base text-gray-800 dark:text-white" data-component-part="card-title">{ title }</h2>
 
                   <div className="flex flex-col grow prose mt-1 font-normal text-sm leading-6 text-gray-600 dark:text-gray-400" data-component-part="card-content">
                     <div className="grow flex flex-col">
-                      {description}
+                        <p>{description}</p>
+                        {
+                          source && source.length > 0 && (
+                            <p className="mt-3">
+                              {
+                                source.map((item, index) => {
+                                  if (source.length == 1) {
+                                    return <>Open the <a  href={item}>Rive file</a>.</>
+                                  }
+
+                                  if (index == 0) {
+                                    return <>Open <a  href={item}>Rive file 1</a></>
+                                  }
+
+                                  return <>, <a href={item}>file {index + 1}</a></>
+                                })
+                              }
+                            </p>
+                          )
+                        }
                     </div>
                     {
-                      !runtime && (
-                        <div className="mt-6 flex flex-wrap">
-                          {
-                            runtimesInOrder.map((currentRuntime) => {
-                              return (
-                                <RuntimeLink key={currentRuntime} runtime={currentRuntime} link={links[currentRuntime]} />
-                              )
-                            })
-                          }
-                        </div>
-                      )
+
+                      <div className="mt-6 flex flex-wrap">
+                        {
+                          runtimesInOrder.map((currentRuntime) => {
+                            if (runtime && currentRuntime !== runtime) return
+
+                            return (
+                              <RuntimeLink key={currentRuntime} runtime={currentRuntime} link={links[currentRuntime]} />
+                            )
+                          })
+                        }
+                      </div>
+
                     }
                   </div>
                 </div>

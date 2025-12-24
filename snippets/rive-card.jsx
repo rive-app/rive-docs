@@ -1,4 +1,4 @@
-export const RiveCard = ({ title, description, links, children }) => {
+export const RiveCard = ({ title, description, links, children, source }) => {
 
   const runtimesInOrder = ['web', 'react', 'reactNative', 'flutter', 'apple', 'android', 'unity', 'unreal']
   const runtimeTitles = {
@@ -42,7 +42,26 @@ export const RiveCard = ({ title, description, links, children }) => {
         <h2 className="not-prose font-semibold text-base text-gray-800 dark:text-white" data-component-part="card-title">{title}</h2>
         <div className="flex flex-col grow prose mt-1 font-normal text-sm leading-6 text-gray-600 dark:text-gray-400" data-component-part="card-content">
           <div className="grow flex flex-col">
-            {description}
+            <p>{description}</p>
+            {
+              source && source.length > 0 && (
+                <p className="mt-3">
+                  {
+                    source.map((item, index) => {
+                      if (source.length == 1) {
+                        return <>Open the <a  href={item}>Rive file</a>.</>
+                      }
+
+                      if (index == 0) {
+                        return <>Open <a  href={item}>Rive file 1</a></>
+                      }
+
+                      return <>, <a href={item}>file {index + 1}</a></>
+                    })
+                  }
+                </p>
+              )
+            }
           </div>
             <div className="mt-6 flex flex-wrap">
               {
