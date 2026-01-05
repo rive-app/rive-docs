@@ -133,7 +133,7 @@ export const Demos = ({
     },
     scriptingMasonry: {
       title: "Masonry Layout",
-      image: "https://static.rive.app/docs/scripting-default-thumb.png",
+      image: "https://static.rive.app/docs/masonry.png",
       description: "Create a masonry layout using a Layout script.",
       links: {
         // TODO - replace with marketplace or editor links
@@ -141,7 +141,7 @@ export const Demos = ({
       }
     },
     scriptingTippingConverter: {
-      title: "Converter Script with View Model Properties",
+      title: "Custom Converter",
       image: "https://static.rive.app/docs/tipping-scripting-converter.gif",
       description: "Calculate the bill total using the converter's input value added to data binding values.",
       links: {
@@ -159,7 +159,7 @@ export const Demos = ({
       }
     },
     scriptingSnakeGame: {
-      title: "Snake Game",
+      title: "Snake - Complete Game",
       image: "https://static.rive.app/docs/snake-game.png",
       description: "Check out this complete game built entirely with Rive using scripting.",
       links: {
@@ -192,6 +192,15 @@ export const Demos = ({
       links: {
         // TODO - replace with marketplace or editor links
         editor: "https://static.rive.app/revs/boiling-effect.rev"
+      }
+    },
+    scriptingSlotMachine: {
+      title: "Slot Machine - Complete Game",
+      image: "https://static.rive.app/docs/slot-machine.png",
+      description: "Build a complete casino game using scripting.",
+      links: {
+        // TODO - replace with marketplace or editor links
+        editor: "https://static.rive.app/revs/slot_machine.rev"
       }
     },
     starRating: {
