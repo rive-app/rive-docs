@@ -3011,7 +3011,20 @@ Artboard properties allows you to swap out entire components at runtime. This is
   <Tab title="React Native">
     <Tabs>
       <Tab title="New Runtime (Recommended)">
-        <Note>Coming soon</Note>
+        <Info>
+          See the [React Native data binding artboards example](https://github.com/rive-app/rive-nitro-react-native/blob/main/example/src/pages/DataBindingArtboardsExample.tsx).
+        </Info>
+        Artboard properties work with the `BindableArtboard` class. Use `getBindableArtboard` on a `RiveFile` to create a bindable reference, then set it on the artboard property.
+
+        ```typescript
+        // Get artboard property from view model instance
+        const artboardProp = instance.artboardProperty('CharacterArtboard');
+
+        // Create a bindable artboard and set it
+        const bindableArtboard = riveFile.getBindableArtboard('Character 1');
+        artboardProp?.set(bindableArtboard);
+        ```
+
       </Tab>
       <Tab title="Legacy Runtime">
         <Warning>
