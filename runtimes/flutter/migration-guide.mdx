@@ -91,12 +91,15 @@ The following classes have been completely removed:
 
 <Tabs>
   <Tab title="New API">
-    ```dart New API final file = await File.decode(bytes, factory:
+    ```dart 
+    final file = await File.decode(bytes, factory:
     Factory.rive); final artboard = file.defaultArtboard(); final artboard =
-    file.artboard('MyArtboard'); ```
+    file.artboard('MyArtboard'); 
+    ```
   </Tab>
   <Tab title="Old API">
-    ```dart Old API final file = await RiveFile.import(bytes); final artboard =
+    ```dart Old API
+    final file = await RiveFile.import(bytes); final artboard =
     file.mainArtboard; final artboard = file.artboardByName('MyArtboard'); ```
   </Tab>
 </Tabs>
@@ -363,13 +366,17 @@ class _ExampleSingleAnimationPainterState
 
 <Tabs>
   <Tab title="New API">
-    ```dart State Machine Inputs: New API stateMachine.trigger('myTrigger');
-    stateMachine.boolean('myBool'); stateMachine.number('myNumber'); ```
+    ```dart State Machine Inputs: New API
+    stateMachine.trigger('myTrigger');
+    stateMachine.boolean('myBool');
+    stateMachine.number('myNumber');
+    ```
   </Tab>
   <Tab title="Old API">
     ```dart State Machine Inputs: Old API
     controller.getTriggerInput('myTrigger');
-    controller.getBooleanInput('myBool'); controller.getNumberInput('myNumber');
+    controller.getBooleanInput('myBool');
+    controller.getNumberInput('myNumber');
     ```
   </Tab>
 </Tabs>
