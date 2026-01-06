@@ -92,15 +92,17 @@ The following classes have been completely removed:
 <Tabs>
   <Tab title="New API">
     ```dart 
-    final file = await File.decode(bytes, factory:
-    Factory.rive); final artboard = file.defaultArtboard(); final artboard =
+    final file = await File.decode(bytes, factory: Factory.rive);
+    final artboard = file.defaultArtboard(); final artboard =
     file.artboard('MyArtboard'); 
     ```
   </Tab>
   <Tab title="Old API">
     ```dart Old API
-    final file = await RiveFile.import(bytes); final artboard =
-    file.mainArtboard; final artboard = file.artboardByName('MyArtboard'); ```
+    final file = await RiveFile.import(bytes);
+    final artboard = file.mainArtboard;
+    final artboard = file.artboardByName('MyArtboard');
+    ```
   </Tab>
 </Tabs>
 
