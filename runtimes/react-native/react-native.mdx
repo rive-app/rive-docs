@@ -346,11 +346,11 @@ This guide documents how to get started using the Rive React Native runtime. The
     Hook for loading Rive files from a URL or local source:
 
     ```javascript
-    const { riveFile } = useRiveFile({
-      url: 'https://cdn.rive.app/animations/vehicles.riv',
-      // or
-      // source: require('./assets/graphic.riv'),
-    });
+    const { riveFile } = useRiveFile(
+      'https://cdn.rive.app/animations/vehicles.riv'
+    );
+    // or
+    // const { riveFile } = useRiveFile(require('./assets/graphic.riv'));
     ```
 
     See [loading Rive files](/runtimes/react-native/loading-rive-files) and [caching Rive files](/runtimes/caching-a-rive-file) for more information.

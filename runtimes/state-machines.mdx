@@ -117,9 +117,9 @@ Rive's state machines provide a way to combine a set of animation states and man
 
         ```ts
         export default function PlaybackExample() {
-          const { riveFile } = useRiveFile({
-            uri: 'https://cdn.rive.app/animations/vehicles.riv',
-          });
+          const { riveFile } = useRiveFile(
+            'https://cdn.rive.app/animations/vehicles.riv'
+          );
 
           return (
             <View style={styles.container}>
@@ -156,9 +156,9 @@ Rive's state machines provide a way to combine a set of animation states and man
 
         export default function PlaybackExample() {
           const { riveViewRef, setHybridRef } = useRive();
-          const { riveFile } = useRiveFile({
-            uri: 'https://cdn.rive.app/animations/vehicles.riv',
-          });
+          const { riveFile } = useRiveFile(
+            'https://cdn.rive.app/animations/vehicles.riv'
+          );
 
           const play = () => {
             riveViewRef?.play();
