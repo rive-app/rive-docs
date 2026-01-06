@@ -220,11 +220,9 @@ See below for documentation on how to handle loading in assets at runtime for yo
 
         ### Examples
 
-        - [Swap out fonts dynamically](https://zapp.run/edit/rive-out-of-band-assets-fonts-zva0062lva10)
-        - [Swap out images dynamically](https://zapp.run/edit/rive-out-of-band-assets-image-z09q06hl09r0?entry=lib/main.dart&file=pubspec.yaml:2865-2888)
+        - See the [Rive Flutter example app](https://github.com/rive-app/rive-flutter/tree/master/example).
 
         ### Using the Asset Handler API
-
         When instantiating a `File`, add an `assetLoader` callback to the list of parameters. This callback will be called for every asset the runtime detects from the `.riv` file on load, and will be responsible for either handling the load of an asset at runtime or passing on the responsibility and giving the runtime a chance to load it otherwise.
 
         ```dart Font Asset Example
@@ -267,9 +265,6 @@ See below for documentation on how to handle loading in assets at runtime for yo
 
         - `asset` - Reference to a `FileAsset` object. You can grab a number of properties from this object, such as the name, asset type, and more. You'll also use this to set a new Rive specific asset for dynamically loaded content. Types: `FontAsset`, `ImageAsset`, and `AudioAsset`.
         - `bytes` - Array of bytes for the asset (if it's available as an embedded asset)
-
-        **Example Usage**
-        - See the Rive Flutter example app that shows how to pre-cache fonts and images, and dynamically swap them out at runtime.
 
         <Info>
         **Important**: Note that the return value is a `boolean`, which is where you need to return:
