@@ -1,13 +1,13 @@
 ---
-title: 'Migration Guide'
-description: 'Learn how to migrate your Flutter app when upgrading between major versions of the Rive Flutter runtime, including breaking changes and new features.'
+title: "Migration Guide"
+description: "Learn how to migrate your Flutter app when upgrading between major versions of the Rive Flutter runtime, including breaking changes and new features."
 ---
 
 ## Version 0.14.0
 
 This is a significant update for Rive Flutter. We've completely removed all of the Dart code that was used for the Rive runtime and replaced it with our underlying [C++ Runtime](https://github.com/rive-app/rive-runtime). See the [Rive Native for Flutter](/runtimes/flutter/rive-native) page for more details.
 
-This has resulted in a numbers of changes to the underlying API, and a large portion of the code base that was previously accessible through Dart is now implemented in C++ through FFI.
+This has resulted in a number of changes to the underlying API, and a large portion of the code base that was previously accessible through Dart is now implemented in C++ through FFI.
 
 ### What's New in 0.14.0
 
@@ -27,9 +27,9 @@ This release of Rive Flutter adds support for:
 Now that Rive Flutter makes use of the core Rive C++ runtime, you can expect new Rive features to be supported sooner for Rive Flutter.
 
 <Note>
-All your Rive graphics will still look and function the same as they did before.
+  All your Rive graphics will still look and function the same as they did
+  before.
 </Note>
-
 
 ### Requirements
 
@@ -90,27 +90,25 @@ The following classes have been completely removed:
 `RiveFile` has been removed and replaced with `File`. Important changes:
 
 <Tabs>
-    <Tab title="New API">
-    ```dart New API
+  <Tab title="New API">
+    ```dart 
     final file = await File.decode(bytes, factory: Factory.rive);
     final artboard = file.defaultArtboard();
     final artboard = file.artboard('MyArtboard');
     ```
-    </Tab>
-    <Tab title="Old API">
+  </Tab>
+  <Tab title="Old API">
     ```dart Old API
     final file = await RiveFile.import(bytes);
     final artboard = file.mainArtboard;
     final artboard = file.artboardByName('MyArtboard');
     ```
-    </Tab>
+  </Tab>
 </Tabs>
 
 The provided `Factory` determines the renderer that will be used. Use `Factory.rive` for the Rive renderer or `Factory.flutter` for the shipped Flutter renderer (Skia or Impeller).
 
-<Warning>
-Vector Feathering only works with the Rive Renderer.
-</Warning>
+<Warning>Vector Feathering only works with the Rive Renderer.</Warning>
 
 **Key Changes:**
 
@@ -125,8 +123,8 @@ Vector Feathering only works with the Rive Renderer.
 
 See the updated example app for a complete migration guide, including how to use the new `RiveWidget` and `RiveWidgetBuilder` APIs.
 
-| Old Widget                 | New Widget   | Notes              |
-| -------------------------- | ------------ | ------------------ |
+| Old Widget             | New Widget                       | Notes              |
+| ---------------------- | -------------------------------- | ------------------ |
 | `Rive`/`RiveAnimation` | `RiveWidget`/`RiveWidgetBuilder` | Direct replacement |
 
 <Tabs>
@@ -226,7 +224,7 @@ See the updated example app for a complete migration guide, including how to use
         }
     }
     ```
-    </Tab>    
+    </Tab>
     <Tab title="Old API">
     ```dart Old API
     class SimpleAssetAnimation extends StatelessWidget {
@@ -249,6 +247,7 @@ See the updated example app for a complete migration guide, including how to use
     }
     ```
     </Tab>
+
 </Tabs>
 
 #### Controller Migration
@@ -279,30 +278,109 @@ final controller = RiveWidgetController(
 );
 ```
 
+#### Playing Animations
+
+<Warning>
+  This functionality is deprecated. We strongly encourage playing and blending
+  animations through a state machine.
+</Warning>
+
+In the previous version you were able to play an animation directly by passing `animations: ['myAnimation']` to `RiveAnimation`.
+
+To achieve the same in the new version, use a `SingleAnimationPainter` and `RiveArtboardWidget` instead of `RiveWidgetController` and `RiveWidget`.
+
+```dart Single animation example expandable
+import 'package:flutter/material.dart';
+import 'package:rive/rive.dart';
+import 'package:rive_example/main.dart' show RiveExampleApp;
+
+/// This is an alternative controller (painter) to use instead of the
+/// [RiveWidgetController].
+///
+/// This painter is used to paint/advance a state machine. Functionally it's
+/// very similar to the [RiveWidgetController], which we recommend using for
+/// most use cases.
+class ExampleSingleAnimationPainter extends StatefulWidget {
+  const ExampleSingleAnimationPainter({super.key});
+
+  @override
+  State<ExampleSingleAnimationPainter> createState() =>
+      _ExampleSingleAnimationPainterState();
+}
+
+class _ExampleSingleAnimationPainterState
+    extends State<ExampleSingleAnimationPainter> {
+  late File file;
+  Artboard? artboard;
+  late SingleAnimationPainter painter;
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  void init() async {
+    file = (await File.asset(
+      'assets/off_road_car.riv',
+      riveFactory: RiveExampleApp.getCurrentFactory,
+    ))!;
+    painter = SingleAnimationPainter('idle');
+    artboard = file.defaultArtboard();
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    painter.dispose();
+    artboard?.dispose();
+    file.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (artboard == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    return RiveArtboardWidget(
+      artboard: artboard!,
+      painter: painter,
+    );
+  }
+}
+```
+
+<Note>
+  To play and mix multiple animations, you need to create your own painter. See
+  the implementation of `SingleAnimationPainter` and extend it to create and
+  advance multiple animations.
+</Note>
 
 #### Handling State Machine Inputs
 
 <Tip>
-Consider using [Data Binding](editor/data-binding/overview) for more advanced use cases
+  Consider using [Data Binding](/editor/data-binding/overview) for more advanced
+  use cases
 </Tip>
 
 `StateMachineController` has been removed and replaced with `StateMachine`. Important changes:
 
 <Tabs>
-    <Tab title="New API">
+  <Tab title="New API">
     ```dart State Machine Inputs: New API
     stateMachine.trigger('myTrigger');
     stateMachine.boolean('myBool');
     stateMachine.number('myNumber');
     ```
-    </Tab>
-    <Tab title="Old API">
+  </Tab>
+  <Tab title="Old API">
     ```dart State Machine Inputs: Old API
     controller.getTriggerInput('myTrigger');
     controller.getBooleanInput('myBool');
     controller.getNumberInput('myNumber');
     ```
-    </Tab>
+  </Tab>
 </Tabs>
 
 You can access the `stateMachine` from the `RiveWidgetController`:
@@ -313,7 +391,8 @@ final stateMachine = controller.stateMachine;
 ```
 
 <Info>
-It is recommended to manually dispose inputs when no longer needed: `input.dispose()`
+  It is recommended to manually dispose inputs when no longer needed:
+  `input.dispose()`
 </Info>
 
 ##### Nested Inputs
@@ -329,7 +408,8 @@ stateMachine.trigger('myTrigger', path: 'nested/path');
 #### Handling Rive Events
 
 <Tip>
-Consider using [Data Binding](/editor/data-binding/overview) instead of events for more advanced use cases.
+  Consider using [Data Binding](/editor/data-binding/overview) instead of events
+  for more advanced use cases.
 </Tip>
 
 `RiveEvent` has been removed and replaced with `Event`. `Event` is a sealed class with two options:
@@ -363,6 +443,7 @@ Registering an event listener:
     }
     ```
     </Tab>
+
 </Tabs>
 
 Accessing `properties` returns `Map<String, CustomProperty>`. `CustomProperty` is also a sealed class with options:
@@ -408,22 +489,81 @@ The `FileAssetLoader` class and all its subclasses have been removed:
 ##### Out-of-band Asset Loading
 
 <Tabs>
-    <Tab title="New API">
-    ```dart Out-of-band Asset Loading: New API
+  <Tab title="New API">
+    Asset types: `FontAsset`, `ImageAsset`, and `AudioAsset`.
+
+    See this example that demonstrates loading random fonts.
+    ```dart Out-of-band assets: New API
     // New API
-    assetLoader: (asset, bytes) { /* sync work only but can call async functions */ }
-    riveFactory.decodeImage(bytes) // or asset.decode(bytes)
-    asset.renderImage(someImage) // returns bool for success
+    final fontFile = await File.asset(
+      'assets/acqua_text_out_of_band.riv',
+      riveFactory: Factory.rive,
+      assetLoader: (asset, bytes) {
+        // Replace font assets that are not embedded in the rive file
+        if (asset is FontAsset && bytes == null) {
+          final urls = [
+            'https://cdn.rive.app/runtime/flutter/IndieFlower-Regular.ttf',
+            'https://cdn.rive.app/runtime/flutter/comic-neue.ttf',
+            'https://cdn.rive.app/runtime/flutter/inter.ttf',
+            'https://cdn.rive.app/runtime/flutter/inter-tight.ttf',
+            'https://cdn.rive.app/runtime/flutter/josefin-sans.ttf',
+            'https://cdn.rive.app/runtime/flutter/send-flowers.ttf',
+          ];
+
+          // pick a random url from the list of fonts
+          http.get(Uri.parse(urls[Random().nextInt(urls.length)])).then((res) {
+            if (mounted) {
+              asset.decode(
+                Uint8List.view(res.bodyBytes.buffer),
+              );
+              setState(() {
+                // force rebuild in case the Rive graphic is no longer advancing
+              });
+            }
+          });
+          return true; // Tell the runtime not to load the asset automatically
+        } else {
+          return false; // Tell the runtime to proceed with loading the asset if it exists
+        }
+      },
+    );
     ```
-    </Tab>
-    <Tab title="Old API">
+
+    You can also create the asset resource types manually and set them. This is useful if you want to preload the resources:
+    ```dart
+    Future<void?> updateImageAsset(ImageAsset asset, Uint8List bytes) async {
+        final renderImage = await Factory.rive.decodeImage(bytes);
+        if (renderImage != null) {
+            asset.renderImage(renderImage);
+        }
+    }
+
+    Future<void?> updateFontAsset(FontAsset asset, Uint8List bytes) async {
+        final font = await Factory.rive.decodeFont(bytes);
+        if (font != null) {
+            asset.font(font);
+        }
+    }
+
+    Future<void?> updateAudioAsset(AudioAsset asset, Uint8List bytes) async {
+        final audioSource = await Factory.rive.decodeAudio(bytes);
+        if (audioSource != null) {
+            asset.audio(audioSource);
+        }
+    }
+    ```
+
+  </Tab>
+  <Tab title="Old API">
     ```dart Out-of-band Asset Loading: Old API
     // Old API
-    assetLoader: (asset, bytes) async { /* async work */ }
-    ImageAsset.parseBytes(bytes)
-    asset.image = someImage;
+    assetLoader: (asset, bytes) async {
+      /* async work */
+      final someImage = await ImageAsset.parseBytes(bytes)
+      asset.image = someImage;
+    }
     ```
-    </Tab>
+  </Tab>
 </Tabs>
 
 **Key Changes:**
@@ -439,7 +579,8 @@ The `FileAssetLoader` class and all its subclasses have been removed:
 #### Text Run Updates
 
 <Tip>
-We recommend using [Data Binding](/editor/data-binding/overview) instead to update text at runtime.
+  We recommend using [Data Binding](/editor/data-binding/overview) instead to
+  update text at runtime.
 </Tip>
 
 It's no longer possible to access a `TextValueRun` object directly. Use these methods instead to access the String value:
@@ -449,12 +590,12 @@ final controller = RiveWidgetController(riveFile);
 final artboard = controller.artboard;
 
 // Get a text run value
-artboard.getText(value)
-artboard.getText(value, path: path)
+artboard.getText('textRunName')
+artboard.getText('textRunName', path: 'nested/path')
 
 // Set a text run value
-artboard.setText(value)
-artboard.setText(value, path: path)
+artboard.setText('textRunName', 'new value')
+artboard.setText('textRunName', 'new value', path: 'nested/path')
 ```
 
 ### Known Missing Features
@@ -486,4 +627,3 @@ If you encounter issues during migration:
 2. Review the [Data Binding guide](/editor/data-binding/overview)
 3. Visit the [Rive community forums](https://community.rive.app)
 4. Report issues on the [GitHub repository](https://github.com/rive-app/rive-flutter)
-
