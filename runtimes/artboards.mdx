@@ -124,20 +124,45 @@ Only one artboard can be rendered at a time.
     ```
   </Tab>
 
-  <Tab title="Android">
-    ### Via XML
-    ```xml
-    <app.rive.runtime.kotlin.RiveAnimationView
-        app:riveAutoPlay="true"
-        app:riveArtboard="Square"
-        app:riveResource="@raw/artboard_animations" />
+  <Tab title="Android (Compose)">
+    Artboard objects can be created in Compose using the `rememberArtboard` function, which takes the Rive file and name of the artboard.
+
+    ```kotlin
+    val artboard = rememberArtboard(myRiveFile, "My Artboard")
+    ```
+    
+    Alternatively, you can create an artboard outside of Compose contexts. Note that with this approach you are responsible for managing the artboard's lifecycle and must eventually close it with `Artboard::close()` when no longer needed.
+
+    ```kotlin
+    val artboard = Artboard.fromFile(myRiveFile, "My Artboard")
     ```
 
-    ### Via Kotlin
+    Once you have an artboard, you can pass it to the `Rive` composable via the `artboard` parameter.
+
+    ```kotlin
+    setContent {
+        Rive(
+            myRiveFile,
+            artboard = artboard
+        )
+    }
+    ```
+  </Tab>
+
+  <Tab title="Android (Legacy)">
+    ### Using XML Layouts
+    ```xml
+    <app.rive.runtime.kotlin.RiveAnimationView
+        app:riveResource="@raw/my_rive_file"
+        app:riveArtboard="My Artboard"
+        app:riveAutoPlay="true" />
+    ```
+
+    ### Using Kotlin
     ```kotlin
     animationView.setRiveResource(
-        R.raw.artboard_animations,
-        artboardName = "Square",
+        R.raw.my_rive_file,
+        artboardName = "My Artboard",
         autoplay = true
     )
     ```
