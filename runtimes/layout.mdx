@@ -1,308 +1,65 @@
 ---
 title: "Layout"
-description: "Rive offers multiple options for controlling how graphics are laid out within the canvas, view, widget, or texture."
+description: "Control how graphics are laid out within the canvas, view, widget, or texture."
 ---
 
 import { Demos } from "/snippets/demos.jsx";
 
-## Responsive Layout
-
-Rive’s Layout feature lets you design resizable artboards with built-in responsive behavior, configured directly in the graphic. Just set a **Fit** to type **Layout** at runtime and the artboard will resize automatically. Optionally, provide a **Layout Scale Factor** to further adjust the scale of the content.
-
-For more Editor information and how to configure your graphic, see [Layouts Overview](/editor/layouts/layouts-overview).
-
-<Note>
-  - The **Alignment** property will not have an effect when using a **Fit** of
-  type **Layout**.
- - The **LayoutScaleFactor** property only applies to a **Fit** of type **Layout**.
-
-</Note>
-
 <Demos examples={["layouts"]} />
 
-<Tabs>
-  <Tab title="Web">
+## The Fit Mode
 
-    **Steps**
+A Rive graphic authored in the editor will not necessarily match the size of the container (canvas, view, widget, or texture) it is rendered into at runtime. We need to determine the behavior for this scenario, as no one size fits all.
 
-    1. Set `fit` to `Fit.Layout` - this will automatically scale and resize the artboard to match the canvas size when calling `resizeDrawingSurfaceToCanvas()`.
-    2. Optionally set `layoutScaleFactor` for manual control of the artboard size (scale factor).
-    3. Subscribe to `window.onresize` and call `resizeDrawingSurfaceToCanvas()` to adjust the artboard size as the canvas and window changes.
-    4. Subscribe to **device pixel ratio** changes and call `resizeDrawingSurfaceToCanvas()` to ensure the artboard updates correctly on various screen densities. For example, when dragging the window between multiple monitors with different device pixel ratios.
+The solution is choosing the fit mode. This is specified on the container and controls how Rive is scaled.
 
-    ```javascript
-    <style>
-      body {
-        background: #f0f0f0;
-        margin: 0;
-        overflow: hidden;
-      }
+- `Layout`: Use the Rive layout engine to apply responsive layout to the artboard, matching the container dimensions. For this to work, the artboard must be designed with layouts in mind. See [Responsive Layouts](#responsive-layouts) for more information on how to use this option.
+- `Contain`: **(Default)** Preserve aspect ratio and scale the artboard so that its larger dimension matches the corresponding dimension of the container.
 
-      canvas {
-        background-color: red;
-        display: block;
-        width: 100vw;
-        height: 100vh;
-      }
-    </style>
+  If aspect ratios are not identical, this will leave space on the shorter dimension's axis.
+- `ScaleDown`: Preserve aspect ratio and behave like `Contain` when the artboard is larger than the container. Otherwise, use the artboard's original dimensions.
+- `Cover`: Preserve aspect ratio and scale the artboard so that its smaller dimension matches the corresponding dimension of the container.
 
-    <canvas id="riveCanvas"></canvas>
+  If aspect ratios are not identical, this will clip the artboard on the larger dimension's axis.
+- `FitWidth`: Preserve aspect ratio and scale the artboard width to match the container's width.
 
-    <script src="https://unpkg.com/@rive-app/canvas@latest"></script>
+  If the aspect ratios between the artboard and container do not match, this will result in either vertical clipping or space in the vertical axis.
+- `FitHeight`: Preserve aspect ratio and scale the artboard height to match the container's height.
 
-    <script>
-      const rive = new Rive({
-        src: "your-rive-file.riv",
-        autoplay: true,
-        canvas: riveCanvas,
-        layout: new Layout({
-          fit: Fit.Layout,
-          // layoutScaleFactor: 2, // 2x scale of the layout, when using `Fit.Layout`. This allows you to resize the layout as needed.
-        }),
-        stateMachines: ["State Machine 1"],
-        onLoad: () => {
-          computeSize();
-        },
-      });
+  If the aspect ratios between the artboard and container do not match, this will result in either horizontal clipping or space in the horizontal axis.
+- `Fill`: Do not preserve aspect ratio and stretch to the container's dimensions.
+- `None`: Do not scale. Use the artboard's original dimensions.
 
-      function computeSize() {
-        rive.resizeDrawingSurfaceToCanvas();
-      }
+  For either dimension, if the artboard's dimension is larger, it will be clipped. If it is smaller, it will leave space.
 
-      // Subscribe to window size changes and update call `resizeDrawingSurfaceToCanvas`
-      window.onresize = computeSize;
+### Alignment
 
-      // Subscribe to devicePixelRatio changes and call `resizeDrawingSurfaceToCanvas`
-      window
-        .matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`)
-        .addEventListener("change", computeSize);
-    </script>
-    ```
+In all options other than `Layout` and `Fill`, there is the possibility that the Rive graphic is clipped or leaves space within its container. Alignment determines how to align content aligns with within the container. The following options are available.
 
-  </Tab>
+- `TopLeft`
+- `TopCenter`
+- `TopRight`
+- `CenterLeft`
+- `Center` **(Default)**
+- `CenterRight`
+- `BottomLeft`
+- `BottomCenter`
+- `BottomRight`
 
-  <Tab title="React">
+### Bounds
 
-    **Steps**
+Some runtimes expose the option to set the bounding dimensions for the area in which the Rive content will render by providing the minimum and maximum x and y coordinates. These coordinates are relative to the container and all must be provided. These will override alignment settings.
 
-    1. Set `fit` to `Fit.Layout` in the `Layout` object - this will automatically scale and resize the artboard to match the canvas size.
-    2. Pass the `Layout` object to the `layout` prop in `useRive`.
-    3. Optionally set `layoutScaleFactor` in the `Layout` object for manual control of the artboard's scale factor.
-    4. The React runtime automatically handles window resizing and device pixel ratio changes.
+- `minX`
+- `minY`
+- `maxX`
+- `maxY`
 
-    ```jsx
-    import { useRive, Layout, Fit } from "@rive-app/react-canvas";
-
-    export const RiveComponent = () => {
-      const { RiveComponent } = useRive({
-        src: "your-rive-file.riv",
-        stateMachines: "State Machine 1",
-        layout: new Layout({
-          fit: Fit.Layout,
-          // layoutScaleFactor: 2, // Optional: 2x scale of the layout
-        }),
-        autoplay: true,
-      });
-
-      return <RiveComponent />;
-    };
-    ```
-
-  </Tab>
-  <Tab title="React Native">
-    <Tabs>
-      <Tab title="New Runtime (Recommended)">
-        **Steps**
-
-        1. Set `fit` to `Fit.Layout` - this will automatically scale and resize the artboard to match the view size.
-        2. Optionally set the `layoutScaleFactor` for manual control of the artboard size (scale factor). If not set, the graphic uses the DPI of the device for scaling.
-
-        ```javascript
-        export default function ResponsiveLayoutsExample() {
-          const { riveFile, isLoading, error } = useRiveFile(
-            require('path/to/file.riv')
-          );
-          const [scaleFactor, setScaleFactor] = useState(4.0);
-          const riveRef = useRef<RiveViewRef>(null);
-          const { width, height } = useWindowDimensions();
-
-          useEffect(() => {
-            riveRef.current?.playIfNeeded();
-          }, [width, height]);
-
-          const increaseScale = () => {
-            setScaleFactor((prev) => prev + 0.5);
-            riveRef.current?.playIfNeeded();
-          };
-          const decreaseScale = () => {
-            setScaleFactor((prev) => Math.max(0.5, prev - 0.5));
-            riveRef.current?.playIfNeeded();
-          };
-
-          return (
-            <View style={styles.container}>
-              {isLoading ? (
-                <ActivityIndicator size="large" color="#0000ff" />
-              ) : error ? (
-                <Text style={styles.errorText}>{error}</Text>
-              ) : riveFile ? (
-                <RiveView
-                  hybridRef={{ f: (ref) => (riveRef.current = ref) }}
-                  file={riveFile}
-                  fit={Fit.Layout}
-                  layoutScaleFactor={scaleFactor}
-                  style={styles.rive}
-                  autoPlay={true}
-                />
-              ) : null}
-              <View style={styles.controls}>
-                <Text style={styles.label}>Layout Scale Factor</Text>
-                <View style={styles.scaleControls}>
-                  <Button title="-" onPress={decreaseScale} />
-                  <View style={styles.scaleText}>
-                    <Text>{scaleFactor.toFixed(1)}x</Text>
-                  </View>
-                  <Button title="+" onPress={increaseScale} />
-                </View>
-              </View>
-            </View>
-          );
-        }
-        ```
-
-        <Note>The call to `playIfNeeded()` ensures that the graphic is visually updated after the change. In the future this will be handled automatically.</Note>
-      </Tab>
-      <Tab title="Legacy Runtime">
-        **Examples**
-
-        - [Layout React Native Example](https://github.com/rive-app/rive-react-native/blob/main/example/app/(examples)/ResponsiveLayout.tsx)
-
-        **Steps**
-
-        1. Set `fit` to `Fit.Layout` - this will automatically scale and resize the artboard to match the canvas size.
-        2. Optionally set `layoutScaleFactor` in the `Layout` object for manual control of the artboard's scale factor.
-        3. The React Native runtime automatically handles window resizing and device pixel ratio changes.
-
-        ```javascript
-        import Rive, { Fit } from 'rive-react-native';
-
-        const resourceName = 'layout_test';
-
-        export default function ResponsiveLayout() {
-          return (
-            <Rive
-              autoplay={true}
-              fit={Fit.Layout}
-              layoutScaleFactor={0.5} // If you do not set this (or set equal to "-1.0"), Rive will automatically scale the layout to match the device pixel ratio
-              resourceName={resourceName}
-              artboardName={'Artboard'}
-              stateMachineName={'State Machine 1'}
-            />
-          );
-        }
-        ```
-      </Tab>
-    </Tabs>
-
-  </Tab>
-
-  <Tab title="Flutter">
-    Pass the `Fit.layout` to the `RiveWidget` widget. This will automatically scale and resize the artboard to match the widget size.
-    You can also set the `layoutScaleFactor` to control the scale of the artboard. This is useful for adjusting the size of the artboard when using `Fit.layout`.
-
-    ```dart
-    return RiveWidget(
-      controller: controller,
-      fit: Fit.layout,
-      layoutScaleFactor: 2.0, // Optional: 2x scale of the layout,
-    );
-    ```
-
-
-    Alternatively, you can also set the `fit` and `layoutScaleFactor` properties directly on any `RivePainter`, such as the `RiveWidgetController`:
-
-    ```dart
-    final controller = RiveWidgetController(riveFile);
-    controller.fit = Fit.layout;
-    controller.layoutScaleFactor = 2.0; // Optional: 2x scale of the layout
-    ```
-
-  </Tab>
-
-  <Tab title="Apple">
-    **Examples**
-
-    - [SwiftUI](https://github.com/rive-app/rive-ios/blob/main/Example-iOS/Source/Examples/SwiftUI/SwiftLayout.swift)
-
-    **Steps**
-
-    1. Set `fit` on an instance of `RiveViewModel` to `layout`
-    2. Optionally set `layoutScaleFactor` on `RiveViewModel` for manual control of an artboard's scale factor.
-
-    <Info>
-     To enable automatically determining the scale factor, set `.layoutScaleFactor` to `RiveViewModel.layoutScaleFactorAutomatic`. This is the default value; it is equivalent to `-1`. When set, Rive will listen for window and screen changes for the view model's view, and automatically apply the correct scale factor for the current view hierarchy.
-    </Info>
-    ```swift
-    let viewModel = RiveViewModel(fileName: "...")
-    viewModel.fit = .layout
-    viewModel.layoutScaleFactor = RiveViewModel.layoutScaleFactorAutomatic // Allow Rive to determine the scale factor
-    viewModel.layoutScaleFactor = 2.0 // Or, explicitly set the scale factor
-    ```
-
-  </Tab>
-    <Tab title="Android">
-    **Examples**
-
-    See the [Layout](https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/LayoutActivity.kt) example.
-
-    **Steps**
-
-    1. Set the XML `riveLayout` type to `"LAYOUT"`:
-
-    ```kotlin
-    <app.rive.runtime.kotlin.RiveAnimationView
-        ...
-        app:riveFit="LAYOUT"
-    />
-    ```
-
-    2. Alternatively, use a reference to the `RiveAnimationView` and set the `fit` property to `LAYOUT`:
-
-    ```kotlin
-    val animationView = findViewById<RiveAnimationView>(R.id.my_view)
-    animationView.fit = Fit.LAYOUT
-    ```
-
-    3. To adjust the scale factor of the contents, use the `layoutScaleFactor` property. This is nullable, so by default, it will use the density as reported by `resources.displayMetrics.density`. You can override this to any positive float value, or return control to the system by resetting to `null`:
-
-    ```kotlin
-    // Force a set scale factor
-    animationView.layoutScaleFactor = 2.5f
-    // Reset to system control
-    animationView.layoutScaleFactor = null
-    ```
-
-    4. Additionally, the artboard size can be controlled by using the `width` and `height` properties. `resetArtboardSize()` can be used to return these values to their defaults:
-
-    ```kotlin
-    // Force a certain artboard size
-    animationView.controller.activeArtboard?.width = 1000f
-    animationView.controller.activeArtboard?.height = 1000f
-    // Reset the artboard size to defaults
-    animationView.controller.activeArtboard?.resetArtboardSize()
-    ```
-
-  </Tab>
-
-</Tabs>
-
-## Additional Layout Options
-
-If the graphic doesn’t use Rive’s Layout feature, you can configure the layout with other **Fit** options and **Alignment** settings. See the sections below for more information on **Fit** and **Alignment**.
+### Applying the Fit Mode
 
 <Tabs>
   <Tab title="Web">
-    Use the `Layout` object to configure `Fit` and `Alignment`. See [Fit](#fit) and [Alignment](#alignment) for all enum options.
+    Use the `Layout` object to configure `Fit` and `Alignment`. See [Fit](#the-fit-mode) and [Alignment](#alignment) for all enum options.
 
     ```javascript
     <div>
@@ -345,7 +102,7 @@ If the graphic doesn’t use Rive’s Layout feature, you can configure the layo
   </Tab>
 
   <Tab title="React">
-    Use the `Layout` object to configure `Fit` and `Alignment`. See [Fit](#fit) and [Alignment](#alignment) for all enum options.
+    Use the `Layout` object to configure `Fit` and `Alignment`. See [Fit](#the-fit-mode) and [Alignment](#alignment) for all enum options.
 
     ```javascript
     import Rive, { Layout, Fit, Alignment } from '@rive-app/react-canvas';
@@ -384,7 +141,7 @@ If the graphic doesn’t use Rive’s Layout feature, you can configure the layo
   <Tab title="React Native">
     <Tabs>
       <Tab title="New Runtime (Recommended)">
-        Set layout attributes for `Fit` and `Alignment` on the `RiveView` component directly. See [Fit](#fit) and [Alignment](#alignment) for all enum options.
+        Set layout attributes for `Fit` and `Alignment` on the `RiveView` component directly. See [Fit](#the-fit-mode) and [Alignment](#alignment) for all enum options.
 
         ```ts
         import {
@@ -415,7 +172,7 @@ If the graphic doesn’t use Rive’s Layout feature, you can configure the layo
         ```
       </Tab>
       <Tab title="Legacy Runtime">
-        Set layout attributes for `Fit` and `Alignment` on the `Rive` component directly. See [Fit](#fit) and [Alignment](#alignment) for all enum options.
+        Set layout attributes for `Fit` and `Alignment` on the `Rive` component directly. See [Fit](#the-fit-mode) and [Alignment](#alignment) for all enum options.
 
         ```javascript
         import Rive, { Alignment, Fit } from 'rive-react-native';
@@ -460,7 +217,7 @@ If the graphic doesn’t use Rive’s Layout feature, you can configure the layo
   </Tab>
 
   <Tab title="Apple">
-    See values and descriptions in the sections below for `Fit` and `Alignment`. The runtime provides the following enums to set on layout parameters:
+    The runtime provides the following enums to set on layout parameters:
 
     - **Fit**
       - `.fill`
@@ -569,72 +326,310 @@ If the graphic doesn’t use Rive’s Layout feature, you can configure the layo
         }
     }
     ```
-
   </Tab>
-    <Tab title="Android">
-    The animation view can be further customized as part of specifying layout attributes.
 
-    `riveFit` can be specified to determine how the animation should be resized to fit its container. The available choices are `NONE`, `FILL`, `CONTAIN`, `COVER`, `FIT_WIDTH`, `FIT_HEIGHT`, `SCALE_DOWN`, and `LAYOUT`.
+  <Tab title="Android (Legacy)">
+    The `Fit` enum specifies the fit mode with the follow options: `LAYOUT`, `CONTAIN`, `SCALE_DOWN`, `COVER`, `FIT_WIDTH`, `FIT_HEIGHT`, `FILL`, and `NONE`.
 
-    `riveAlignment` informs how it should be aligned within the container. The available choices are `TOP_LEFT`, `TOP_CENTER`, `TOP_RIGHT`, `CENTER_LEFT`, `CENTER`, `CENTER_RIGHT`, `BOTTOM_LEFT`, `BOTTOM_CENTER`, and `BOTTOM_RIGHT`.
+    The `Alignment` enum specifies the alignment with the following options: `TOP_LEFT`, `TOP_CENTER`, `TOP_RIGHT`, `CENTER_LEFT`, `CENTER`, `CENTER_RIGHT`, `BOTTOM_LEFT`, `BOTTOM_CENTER`, and `BOTTOM_RIGHT`.
 
-    See more about these values and meanings in the sections below.
-
-    Specify the layout values in your Resource layout:
-
-    ```kotlin
+    ### Using XML Layouts
+    The fit and alignment enum values can be applied to the `riveFit` and `riveAlignment` attributes in your XML layout:
+    ```xml
     <app.rive.runtime.kotlin.RiveAnimationView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:riveResource="@raw/off_road_car_blog"
-        app:riveAlignment="TOP_CENTER"
-        app:riveFit="FILL"
+        app:riveResource="@raw/my_rive_file"
+        app:riveAlignment="CENTER"
+        app:riveFit="CONTAIN"
     />
     ```
 
-    Or in your Activity code:
+    ### Using Kotlin
+    The fit and alignment enum values can be applied to the `fit` and `alignment` properties on your `RiveAnimationView` instance:
 
     ```kotlin
     animationView.fit = Fit.FILL
     animationView.alignment = Alignment.CENTER
     ```
-
   </Tab>
 
 </Tabs>
 
-## Fit
+## Responsive Layouts
 
-Fit determines how the Rive content will be fitted to the view. There are a number of options available:
+Rive’s layout feature lets you design resizable artboards with built-in responsive behavior, configured from the editor. Ensure the fit mode is set to **Layout** at runtime and the artboard will resize to fill its container according to the constraints defined in the editor.
 
-- `Layout`: Rive content will be resized automatically based on layout constraints of the artboard to match the underlying view size. See [the above](/runtimes/layout#responsive-layout) for more information on how to use this option.
-- `Cover`: Rive will cover the view, preserving the aspect ratio. If the Rive content has a different ratio to the view, then the Rive content will be clipped.
-- `Contain`: **(Default)** Rive content will be contained within the view, preserving the aspect ratio. If the ratios differ, then a portion of the view will be unused.
-- `Fill`: Rive content will fill the available view. If the aspect ratios differ, then the Rive content will be stretched.
-- `FitWidth`: Rive content will fill to the width of the view. This may result in clipping or unfilled view space.
-- `FitHeight`: Rive content will fill to the height of the view. This may result in clipping or unfilled view space.
-- `None`: Rive content will render to the size of its artboard, which may result in clipping or unfilled view space.
-- `ScaleDown`: Rive content is scaled down to the size of the view, preserving the aspect ratio. This is equivalent to `Contain` when the content is larger than the canvas. If the canvas is larger, then `ScaleDown` will not scale up.
+Optionally you may provide a **layout scale factor** to multiply the scale of the content. This allows fine tuning the visual size within your container. This property only applies when setting the **Fit** mode to **Layout**.
 
-## Alignment
+For more Editor information and how to configure your graphic, see [Layouts Overview](/editor/layouts/layouts-overview).
 
-Alignment determines how the content aligns with respect to the view bounds. The following options are available:
+<Tabs>
+  <Tab title="Web">
+    **Steps**
 
-- `Center` **(Default)**
-- `TopLeft`
-- `TopCenter`
-- `TopRight`
-- `CenterLeft`
-- `CenterRight`
-- `BottomLeft`
-- `BottomCenter`
-- `BottomRight`
+    1. Set `fit` to `Fit.Layout` - this will automatically scale and resize the artboard to match the canvas size when calling `resizeDrawingSurfaceToCanvas()`.
+    2. Optionally set `layoutScaleFactor` for manual control of the artboard size (scale factor).
+    3. Subscribe to `window.onresize` and call `resizeDrawingSurfaceToCanvas()` to adjust the artboard size as the canvas and window changes.
+    4. Subscribe to **device pixel ratio** changes and call `resizeDrawingSurfaceToCanvas()` to ensure the artboard updates correctly on various screen densities. For example, when dragging the window between multiple monitors with different device pixel ratios.
 
-## Bounds
+    ```javascript
+    <style>
+      body {
+        background: #f0f0f0;
+        margin: 0;
+        overflow: hidden;
+      }
 
-The bounds for the area in which the Rive content will render can be set by providing the minimum and maximum x and y coordinates. These coordinates are relative to the view in which the Rive content is contained, and all must be provided. These will override alignment settings.
+      canvas {
+        background-color: red;
+        display: block;
+        width: 100vw;
+        height: 100vh;
+      }
+    </style>
 
-- `minX`
-- `minY`
-- `maxX`
-- `maxY`
+    <canvas id="riveCanvas"></canvas>
+
+    <script src="https://unpkg.com/@rive-app/canvas@latest"></script>
+
+    <script>
+      const rive = new Rive({
+        src: "your-rive-file.riv",
+        autoplay: true,
+        canvas: riveCanvas,
+        layout: new Layout({
+          fit: Fit.Layout,
+          // layoutScaleFactor: 2, // 2x scale of the layout, when using `Fit.Layout`. This allows you to resize the layout as needed.
+        }),
+        stateMachines: ["State Machine 1"],
+        onLoad: () => {
+          computeSize();
+        },
+      });
+
+      function computeSize() {
+        rive.resizeDrawingSurfaceToCanvas();
+      }
+
+      // Subscribe to window size changes and update call `resizeDrawingSurfaceToCanvas`
+      window.onresize = computeSize;
+
+      // Subscribe to devicePixelRatio changes and call `resizeDrawingSurfaceToCanvas`
+      window
+        .matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`)
+        .addEventListener("change", computeSize);
+    </script>
+    ```
+  </Tab>
+
+  <Tab title="React">
+
+    **Steps**
+
+    1. Set `fit` to `Fit.Layout` in the `Layout` object - this will automatically scale and resize the artboard to match the canvas size.
+    2. Pass the `Layout` object to the `layout` prop in `useRive`.
+    3. Optionally set `layoutScaleFactor` in the `Layout` object for manual control of the artboard's scale factor.
+    4. The React runtime automatically handles window resizing and device pixel ratio changes.
+
+    ```jsx
+    import { useRive, Layout, Fit } from "@rive-app/react-canvas";
+
+    export const RiveComponent = () => {
+      const { RiveComponent } = useRive({
+        src: "your-rive-file.riv",
+        stateMachines: "State Machine 1",
+        layout: new Layout({
+          fit: Fit.Layout,
+          // layoutScaleFactor: 2, // Optional: 2x scale of the layout
+        }),
+        autoplay: true,
+      });
+
+      return <RiveComponent />;
+    };
+    ```
+  </Tab>
+
+  <Tab title="React Native">
+    <Tabs>
+      <Tab title="New Runtime (Recommended)">
+        **Steps**
+
+        1. Set `fit` to `Fit.Layout` - this will automatically scale and resize the artboard to match the view size.
+        2. Optionally set the `layoutScaleFactor` for manual control of the artboard size (scale factor). If not set, the graphic uses the DPI of the device for scaling.
+
+        ```javascript
+        export default function ResponsiveLayoutsExample() {
+          const { riveFile, isLoading, error } = useRiveFile(
+            require('path/to/file.riv')
+          );
+          const [scaleFactor, setScaleFactor] = useState(4.0);
+          const riveRef = useRef<RiveViewRef>(null);
+          const { width, height } = useWindowDimensions();
+
+          useEffect(() => {
+            riveRef.current?.playIfNeeded();
+          }, [width, height]);
+
+          const increaseScale = () => {
+            setScaleFactor((prev) => prev + 0.5);
+            riveRef.current?.playIfNeeded();
+          };
+          const decreaseScale = () => {
+            setScaleFactor((prev) => Math.max(0.5, prev - 0.5));
+            riveRef.current?.playIfNeeded();
+          };
+
+          return (
+            <View style={styles.container}>
+              {isLoading ? (
+                <ActivityIndicator size="large" color="#0000ff" />
+              ) : error ? (
+                <Text style={styles.errorText}>{error}</Text>
+              ) : riveFile ? (
+                <RiveView
+                  hybridRef={{ f: (ref) => (riveRef.current = ref) }}
+                  file={riveFile}
+                  fit={Fit.Layout}
+                  layoutScaleFactor={scaleFactor}
+                  style={styles.rive}
+                  autoPlay={true}
+                />
+              ) : null}
+              <View style={styles.controls}>
+                <Text style={styles.label}>Layout Scale Factor</Text>
+                <View style={styles.scaleControls}>
+                  <Button title="-" onPress={decreaseScale} />
+                  <View style={styles.scaleText}>
+                    <Text>{scaleFactor.toFixed(1)}x</Text>
+                  </View>
+                  <Button title="+" onPress={increaseScale} />
+                </View>
+              </View>
+            </View>
+          );
+        }
+        ```
+
+        <Note>The call to `playIfNeeded()` ensures that the graphic is visually updated after the change. In the future this will be handled automatically.</Note>
+      </Tab>
+      <Tab title="Legacy Runtime">
+        **Examples**
+
+        - [Layout React Native Example](https://github.com/rive-app/rive-react-native/blob/main/example/app/(examples)/ResponsiveLayout.tsx)
+
+        **Steps**
+
+        1. Set `fit` to `Fit.Layout` - this will automatically scale and resize the artboard to match the canvas size.
+        2. Optionally set `layoutScaleFactor` in the `Layout` object for manual control of the artboard's scale factor.
+        3. The React Native runtime automatically handles window resizing and device pixel ratio changes.
+
+        ```javascript
+        import Rive, { Fit } from 'rive-react-native';
+
+        const resourceName = 'layout_test';
+
+        export default function ResponsiveLayout() {
+          return (
+            <Rive
+              autoplay={true}
+              fit={Fit.Layout}
+              layoutScaleFactor={0.5} // If you do not set this (or set equal to "-1.0"), Rive will automatically scale the layout to match the device pixel ratio
+              resourceName={resourceName}
+              artboardName={'Artboard'}
+              stateMachineName={'State Machine 1'}
+            />
+          );
+        }
+        ```
+      </Tab>
+    </Tabs>
+  </Tab>
+
+  <Tab title="Flutter">
+    Pass the `Fit.layout` to the `RiveWidget` widget. This will automatically scale and resize the artboard to match the widget size.
+    You can also set the `layoutScaleFactor` to control the scale of the artboard. This is useful for adjusting the size of the artboard when using `Fit.layout`.
+
+    ```dart
+    return RiveWidget(
+      controller: controller,
+      fit: Fit.layout,
+      layoutScaleFactor: 2.0, // Optional: 2x scale of the layout,
+    );
+    ```
+
+    Alternatively, you can also set the `fit` and `layoutScaleFactor` properties directly on any `RivePainter`, such as the `RiveWidgetController`:
+
+    ```dart
+    final controller = RiveWidgetController(riveFile);
+    controller.fit = Fit.layout;
+    controller.layoutScaleFactor = 2.0; // Optional: 2x scale of the layout
+    ```
+  </Tab>
+
+  <Tab title="Apple">
+    **Examples**
+
+    - [SwiftUI](https://github.com/rive-app/rive-ios/blob/main/Example-iOS/Source/Examples/SwiftUI/SwiftLayout.swift)
+
+    **Steps**
+
+    1. Set `fit` on an instance of `RiveViewModel` to `layout`
+    2. Optionally set `layoutScaleFactor` on `RiveViewModel` for manual control of an artboard's scale factor.
+
+    <Info>
+     To enable automatically determining the scale factor, set `.layoutScaleFactor` to `RiveViewModel.layoutScaleFactorAutomatic`. This is the default value; it is equivalent to `-1`. When set, Rive will listen for window and screen changes for the view model's view, and automatically apply the correct scale factor for the current view hierarchy.
+    </Info>
+    ```swift
+    let viewModel = RiveViewModel(fileName: "...")
+    viewModel.fit = .layout
+    viewModel.layoutScaleFactor = RiveViewModel.layoutScaleFactorAutomatic // Allow Rive to determine the scale factor
+    viewModel.layoutScaleFactor = 2.0 // Or, explicitly set the scale factor
+    ```
+  </Tab>
+
+  <Tab title="Android (Legacy)">
+    **Examples**
+
+    See the [Layout](https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/LayoutActivity.kt) example.
+
+    **Steps**
+
+    1. Set the XML `riveLayout` type to `"LAYOUT"`:
+
+    ```kotlin
+    <app.rive.runtime.kotlin.RiveAnimationView
+        ...
+        app:riveFit="LAYOUT"
+    />
+    ```
+
+    2. Alternatively, use a reference to the `RiveAnimationView` and set the `fit` property to `LAYOUT`:
+
+    ```kotlin
+    val animationView = findViewById<RiveAnimationView>(R.id.my_view)
+    animationView.fit = Fit.LAYOUT
+    ```
+
+    3. To adjust the scale factor of the contents, use the `layoutScaleFactor` property. This is nullable, so by default, it will use the density as reported by `resources.displayMetrics.density`. You can override this to any positive float value, or return control to the system by resetting to `null`:
+
+    ```kotlin
+    // Force a set scale factor
+    animationView.layoutScaleFactor = 2.5f
+    // Reset to system control
+    animationView.layoutScaleFactor = null
+    ```
+
+    4. Additionally, the artboard size can be controlled by using the `width` and `height` properties. `resetArtboardSize()` can be used to return these values to their defaults:
+
+    ```kotlin
+    // Force a certain artboard size
+    animationView.controller.activeArtboard?.width = 1000f
+    animationView.controller.activeArtboard?.height = 1000f
+    // Reset the artboard size to defaults
+    animationView.controller.activeArtboard?.resetArtboardSize()
+    ```
+  </Tab>
+
+</Tabs>
