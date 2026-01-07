@@ -16,9 +16,9 @@ Only one artboard can be rendered at a time.
   <Tab title="Web">
     ```javascript
     new rive.Rive({
-        src: 'https://cdn.rive.app/animations/vehicles.riv',
+        src: 'https://cdn.rive.app/animations/my_rive_file.riv',
         canvas: document.getElementById('canvas'),
-        artboard: 'Truck',
+        artboard: 'My Artboard',
         autoplay: true
     });
     ```
@@ -27,14 +27,14 @@ Only one artboard can be rendered at a time.
   <Tab title="React">
     ```javascript
     export const Simple = () => (
-      <Rive src="https://cdn.rive.app/animations/vehicles.riv" artboard="Truck" />
+      <Rive src="https://cdn.rive.app/animations/my_rive_file.riv" artboard="My Artboard" />
     );
 
     // With `useRive` Hook:
     export default function Simple() {
       const { RiveComponent } = useRive({
-          src: 'https://cdn.rive.app/animations/vehicles.riv',
-          artboard: 'Truck',
+          src: 'https://cdn.rive.app/animations/my_rive_file.riv',
+          artboard: 'My Artboard',
           autoplay: true,
       });
 
@@ -48,7 +48,7 @@ Only one artboard can be rendered at a time.
     export default function App() {
       return (
         <View>
-          <Rive resourceName="truck_v7" artboardName="Jeep" autoplay />
+          <Rive resourceName="my_rive_file" artboardName="My Artboard" autoplay />
         </View>
       );
     }
@@ -62,7 +62,7 @@ Only one artboard can be rendered at a time.
   // Default artboard
   final artboard = riveFile.defaultArtboard();
   // Artboard named
-  final artboard = riveFile.artboard('Truck');
+  final artboard = riveFile.artboard('My Artboard');
   // Artboard at index
   final artboard = riveFile.artboardAt(0);
   ```
@@ -73,7 +73,7 @@ Only one artboard can be rendered at a time.
   // Default artboard
   final artboardSelector = ArtboardSelector.byDefault();
   // Artboard named
-  final artboardSelector = ArtboardSelector.byName('Truck');
+  final artboardSelector = ArtboardSelector.byName('My Artboard');
   // Artboard at index
   final artboardSelector = ArtboardSelector.byIndex(0);
 
@@ -86,7 +86,7 @@ Only one artboard can be rendered at a time.
   // Pass to RiveWidgetBuilder
   return RiveWidgetBuilder(
     fileLoader: fileLoader,
-    artboardSelector: ArtboardSelector.byName('Main'),
+    artboardSelector: ArtboardSelector.byName('My Artboard'),
     builder: (context, state) {
       // return a widget
     },
@@ -100,8 +100,8 @@ Only one artboard can be rendered at a time.
     struct AnimationView: View {
         var body: some View {
             RiveViewModel(
-                fileName: "dancing_banana",
-                artboardName: "Banana"
+                fileName: "my_rive_file",
+                artboardName: "My Artboard"
             ).view()
         }
     }
@@ -113,8 +113,8 @@ Only one artboard can be rendered at a time.
         @IBOutlet weak var riveView: RiveView!
 
         var bananaVM = RiveViewModel(
-            fileName: "dancing_banana",
-            artboardName: "Banana",
+            fileName: "my_rive_file",
+            artboardName: "My Artboard",
         )
 
         override func viewDidLoad() {
@@ -144,5 +144,3 @@ Only one artboard can be rendered at a time.
   </Tab>
 
 </Tabs>
-
-
