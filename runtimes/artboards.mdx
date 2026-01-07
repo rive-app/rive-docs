@@ -125,18 +125,21 @@ Only one artboard can be rendered at a time.
   </Tab>
 
   <Tab title="Android (Compose)">
+    ### Compose
     Artboard objects can be created in Compose using the `rememberArtboard` function, which takes the Rive file and name of the artboard.
 
     ```kotlin
     val artboard = rememberArtboard(myRiveFile, "My Artboard")
     ```
     
+    ### Outside of Compose
     Alternatively, you can create an artboard outside of Compose contexts. Note that with this approach you are responsible for managing the artboard's lifecycle and must eventually close it with `Artboard::close()` when no longer needed.
 
     ```kotlin
     val artboard = Artboard.fromFile(myRiveFile, "My Artboard")
     ```
 
+    ### Using the Artboard
     Once you have an artboard, you can pass it to the `Rive` composable via the `artboard` parameter.
 
     ```kotlin
