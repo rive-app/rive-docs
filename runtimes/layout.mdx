@@ -328,6 +328,17 @@ Some runtimes expose the option to set the bounding dimensions for the area in w
     ```
   </Tab>
 
+  <Tab title="Android (Compose)">
+    The `Fit` sealed class is used to specify the fit mode. On all variants other than `Layout` and `Fill`, the `Alignment` enum can be supplied to specify the alignment. Note that because this is a class, it must be constructed. If an alignment is not provided, it defaults to `Alignment.Center`.
+
+    ```kotlin
+    Rive(
+        myRiveFile,
+        fit = Fit.Cover(Alignment.TopCenter)
+    )
+    ```
+  </Tab>
+
   <Tab title="Android (Legacy)">
     The `Fit` enum specifies the fit mode with the follow options: `LAYOUT`, `CONTAIN`, `SCALE_DOWN`, `COVER`, `FIT_WIDTH`, `FIT_HEIGHT`, `FILL`, and `NONE`.
 
@@ -589,14 +600,26 @@ For more Editor information and how to configure your graphic, see [Layouts Over
     ```
   </Tab>
 
+  <Tab title="Android (Compose)">
+    See also the [Compose Layout](https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeLayoutActivity.kt) sample.
+
+    Set the `fit` property to `Fit.Layout` in the `Rive` composable. This will resize the artboard to match the container size. The `Fit.Layout` constructor takes an optional `layoutScaleFactor` parameter to adjust the scale of the artboard. By default it is 1, i.e. no scaling.
+
+    ```kotlin
+    Rive(
+        myRiveFile,
+        fit = Fit.Layout(1.2f) // 1.2x scale
+    )
+    ```
+  </Tab>
+
   <Tab title="Android (Legacy)">
-    **Examples**
+    ### Sample
+    See the [Layout](https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/LayoutActivity.kt) sample.
 
-    See the [Layout](https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/LayoutActivity.kt) example.
+    ### Using XML Layouts
 
-    **Steps**
-
-    1. Set the XML `riveLayout` type to `"LAYOUT"`:
+    Set the `riveFit` attribute to `"LAYOUT"`.
 
     ```kotlin
     <app.rive.runtime.kotlin.RiveAnimationView
@@ -605,14 +628,16 @@ For more Editor information and how to configure your graphic, see [Layouts Over
     />
     ```
 
-    2. Alternatively, use a reference to the `RiveAnimationView` and set the `fit` property to `LAYOUT`:
+    ### Using Kotlin
+    Set the RiveAnimationView's `fit` property to `LAYOUT`.
 
     ```kotlin
     val animationView = findViewById<RiveAnimationView>(R.id.my_view)
     animationView.fit = Fit.LAYOUT
     ```
 
-    3. To adjust the scale factor of the contents, use the `layoutScaleFactor` property. This is nullable, so by default, it will use the density as reported by `resources.displayMetrics.density`. You can override this to any positive float value, or return control to the system by resetting to `null`:
+    ### Adjusting the Layout Scale Factor
+    To adjust the scale factor of the contents, use the `layoutScaleFactor` property. This is nullable, so by default, it will use the density as reported by `resources.displayMetrics.density`. You can override this to any positive float value, or return control to the system by resetting to `null`:
 
     ```kotlin
     // Force a set scale factor
@@ -621,7 +646,8 @@ For more Editor information and how to configure your graphic, see [Layouts Over
     animationView.layoutScaleFactor = null
     ```
 
-    4. Additionally, the artboard size can be controlled by using the `width` and `height` properties. `resetArtboardSize()` can be used to return these values to their defaults:
+    ### Resizing the Artboard
+    The artboard size can be manually controlled by using the `width` and `height` properties. `resetArtboardSize()` can be used to return these values to their defaults.
 
     ```kotlin
     // Force a certain artboard size
