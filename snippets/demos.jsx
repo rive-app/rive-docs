@@ -244,6 +244,15 @@ export const Demos = ({
         editor: "https://static.rive.app/revs/slot_machine.rev"
       }
     },
+    scriptingPlinko: {
+      title: "Plinko - Complete Game",
+      image: "https://static.rive.app/docs/scripting-plinko-game.png",
+      description: "Build a complete Plinko game using Layout, Node, and Path Effect scripts.",
+      links: {
+        // TODO - replace with marketplace or editor links
+        editor: "https://static.rive.app/revs/blinko.rev"
+      }
+    },
     starRating: {
       title: "Android New Compose API Quick Start",
       image: "/images/runtimes/star-rating.webp",
