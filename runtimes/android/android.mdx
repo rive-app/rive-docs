@@ -115,7 +115,7 @@ RiveLog.logger = RiveLog.LogcatLogger()
 ### Adding Rive to Your Composition
 <Steps>
   <Step title="Creating a Worker">
-    The Compose API uses an explicit Rive worker which owns a thread for Rive operations, including file and asset decoding, advancing, and drawing. Before you can use any of the API surface, you must create a worker to host these operations.
+    The Compose API uses an explicit Rive worker which owns a thread for Rive operations, including file and asset decoding, advancing, and drawing. Before you can use any of the API surface, you must create a worker to host these operations. Be aware that the worker must live for the duration of all Rive resources made from it.
 
     The simplest API within a Compose context is `rememberRiveWorker`, which will create and remember a worker for the lifetime of the composition. However, if you want to handle any unexpected errors during worker creation, you can use `rememberRiveWorkerOrNull`, which will return `null` if the worker could not be created and forward the error to an error state you provide.
 
