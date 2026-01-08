@@ -103,7 +103,6 @@ To begin, we need to get a reference to a particular view model. This can be don
     // Option 3: Get a ViewModel by its name
     const namedViewModel = useViewModel(rive, { name: 'MyViewModelName' });
     ```
-
   </Tab>
   <Tab title="Apple">
     ```swift
@@ -122,9 +121,9 @@ To begin, we need to get a reference to a particular view model. This can be don
     let artboard = riveViewModel.riveModel!.artboard
     let viewModelForArtboard = file.viewModel(for: artboard)
     ```
-
   </Tab>
-  <Tab title="Android">
+
+  <Tab title="Android (Legacy)">
     ```kotlin
     // `view` of type RiveAnimationView
     view.setRiveResource(R.raw.my_rive_file)
@@ -141,8 +140,8 @@ To begin, we need to get a reference to a particular view model. This can be don
     // Get reference to the default view model
     val defaultVM = file.defaultViewModelForArtboard(view.controller.activeArtboard!!)
     ```
-
   </Tab>
+
   <Tab title="Flutter">
     <Info>
       If you're using a `RiveWidgetController`, you can skip the step of creating a `ViewModel`. Go to [View Model Instances](#view-model-instances).
@@ -169,8 +168,8 @@ To begin, we need to get a reference to a particular view model. This can be don
     // Dispose the view model when you're no longer using it
     viewModel.dispose();
     ```
-
   </Tab>
+
   <Tab title="Unity">
     <Note>
       These APIs are only needed when the `Data Binding Mode` on the RiveWidget is set to `Manual`.
@@ -208,8 +207,8 @@ To begin, we need to get a reference to a particular view model. This can be don
         }
     }
     ```
-
   </Tab>
+
   <Tab title="React Native">
     <Tabs>
       <Tab title="New Runtime (Recommended)">
@@ -234,8 +233,8 @@ To begin, we need to get a reference to a particular view model. This can be don
         </Info>
       </Tab>
     </Tabs>
-
   </Tab>
+
 </Tabs>
 
 # View Model Instances
@@ -275,8 +274,8 @@ Once we have a reference to a view model, it can be used to create an instance. 
     // Create an instace by name from a view model (ViewModel)
     const vmiNamed = viewModel.instanceByName("My Instance");
     ```
-
   </Tab>
+
   <Tab title="React">
     Use the `useViewModelInstance` hook to create a view model instance from a view model returned by the `useViewModel` hook.
 
@@ -341,8 +340,8 @@ Once we have a reference to a view model, it can be used to create an instance. 
     // Once loaded, the instance is available:
     const boundInstance = rive?.viewModelInstance;
     ```
-
   </Tab>
+
   <Tab title="Apple">
     ```swift
         let riveViewModel = RiveViewModel(...)
@@ -364,9 +363,9 @@ Once we have a reference to a view model, it can be used to create an instance. 
             let instanceByName = viewModel.createInstance(fromName: name)
         }
     ```
-
   </Tab>
-  <Tab title="Android">
+
+  <Tab title="Android (Legacy)">
     ```kotlin
     val vm = view.controller.file?.getViewModelByName("My View Model")!!
 
@@ -384,8 +383,8 @@ Once we have a reference to a view model, it can be used to create an instance. 
     // Create by name
     val vmiNamed = vm.createInstanceFromName("My Instance")
     ```
-
   </Tab>
+
   <Tab title="Flutter">
     If you're using  `RiveWidgetController`:
 
@@ -439,8 +438,8 @@ Once we have a reference to a view model, it can be used to create an instance. 
     // Dispose the view model instance
     viewModelInstance.dispose();
     ```
-
   </Tab>
+
   <Tab title="Unity">
     <Note>
       These APIs are only needed when the `Data Binding Mode` on the RiveWidget is set to `Manual`.
@@ -482,8 +481,8 @@ Once we have a reference to a view model, it can be used to create an instance. 
         }
     }
     ```
-
   </Tab>
+
   <Tab title="React Native">
     <Tabs>
       <Tab title="New Runtime (Recommended)">
@@ -596,11 +595,10 @@ Once we have a reference to a view model, it can be used to create an instance. 
             }
         }}
         ```
-
       </Tab>
     </Tabs>
-
   </Tab>
+
 </Tabs>
 
 The created instance can then be assigned to a state machine or artboard. This establishes the bindings set up at edit time.
@@ -626,11 +624,12 @@ It is preferred to assign to a state machine, as this will automatically apply t
         }
     });
     ```
-
   </Tab>
+
   <Tab title="React">
     For React, no additional steps are needed to bind the view model instance to the Rive component. Passing the `rive` object to `useViewModelInstance` handles this automatically.
   </Tab>
+
   <Tab title="Apple">
     ```swift
     let riveViewModel = RiveViewModel(...)
@@ -644,9 +643,9 @@ It is preferred to assign to a state machine, as this will automatically apply t
     // Alternatively, apply the instance to the artboard
     artboard.bind(viewModelInstance: instance)
     ```
-
   </Tab>
-  <Tab title="Android">
+
+  <Tab title="Android (Legacy)">
     ```kotlin
     view.setRiveResource(
         R.raw.my_rive_file,
@@ -662,8 +661,8 @@ It is preferred to assign to a state machine, as this will automatically apply t
     // Alternatively, apply the instance to the artboard
     view.controller.activeArtboard?.viewModelInstance = vmi
     ```
-
   </Tab>
+
   <Tab title="Flutter">
     If you're using `RiveWidgetController` the binding happens automatically when you call any of the following:
 
@@ -694,8 +693,8 @@ It is preferred to assign to a state machine, as this will automatically apply t
     // If you're not using a state machine, bind to the artboard
     artboard.bindViewModelInstance(vmi);
     ```
-
   </Tab>
+
   <Tab title="Unity">
     ```csharp
     // Access the RiveWidget component
@@ -731,8 +730,8 @@ It is preferred to assign to a state machine, as this will automatically apply t
     }
 
     ```
-
   </Tab>
+
   <Tab title="React Native">
     <Tabs>
       <Tab title="New Runtime (Recommended)">
@@ -756,8 +755,8 @@ It is preferred to assign to a state machine, as this will automatically apply t
         For React Native, no additional steps are needed to bind the view model instance to the Rive component. The `dataBinding` prop handles this automatically.
       </Tab>
     </Tabs>
-
   </Tab>
+
 </Tabs>
 
 ### Auto-Binding
@@ -778,6 +777,7 @@ Alternatively, you may prefer to use auto-binding. This will automatically bind 
     });
     ```
   </Tab>
+
   <Tab title="React">
     ```typescript
     const { rive, RiveComponent } = useRive({
@@ -791,7 +791,6 @@ Alternatively, you may prefer to use auto-binding. This will automatically bind 
     // Once loaded, the instance is available:
     const boundInstance = rive?.viewModelInstance;
     ```
-
   </Tab>
   <Tab title="Apple">
     ```swift
@@ -804,9 +803,9 @@ Alternatively, you may prefer to use auto-binding. This will automatically bind 
     // If you'd like to disable autoBind after enabling…
     riveViewModel.riveModel!.disableAutoBind()
     ```
-
   </Tab>
-  <Tab title="Android">
+
+  <Tab title="Android (Legacy)">
     ```kotlin {3}
     view.setRiveResource(
         R.raw.my_rive_file,
@@ -814,6 +813,7 @@ Alternatively, you may prefer to use auto-binding. This will automatically bind 
     )
     ```
   </Tab>
+
   <Tab title="Flutter">
     ```dart
     // Get reference to the File
@@ -833,8 +833,8 @@ Alternatively, you may prefer to use auto-binding. This will automatically bind 
     controller.dispose();
     file.dispose();
     ```
-
   </Tab>
+
   <Tab title="Unity">
     **Rive Widget** provides both visual and programmatic ways to configure auto-binding. In the Inspector, you can easily set up binding through the Data Binding Mode dropdown:
 
@@ -859,11 +859,9 @@ Alternatively, you may prefer to use auto-binding. This will automatically bind 
     ...
     // Access the current instance that was auto-bound
     ViewModelInstance boundInstance = riveWidget.StateMachine.ViewModelInstance;
-
-
     ```
-
   </Tab>
+
   <Tab title="React Native">
     <Tabs>
       <Tab title="New Runtime (Recommended)">
@@ -924,8 +922,8 @@ Alternatively, you may prefer to use auto-binding. This will automatically bind 
         ```
       </Tab>
     </Tabs>
-
   </Tab>
+
 </Tabs>
 
 # Properties
@@ -957,6 +955,7 @@ Property descriptors can be inspected on a view model to discover at runtime whi
     console.log(properties);
     ```
   </Tab>
+
   <Tab title="React">
     ```typescript
     // Access properties from the view model returned by useViewModel
@@ -964,6 +963,7 @@ Property descriptors can be inspected on a view model to discover at runtime whi
     console.log(viewModel?.properties);
     ```
   </Tab>
+
   <Tab title="Apple">
     ```swift
     let riveViewModel = RiveViewModel(...)
@@ -974,7 +974,8 @@ Property descriptors can be inspected on a view model to discover at runtime whi
     }
     ```
   </Tab>
-  <Tab title="Android">
+
+  <Tab title="Android (Legacy)">
     ```kotlin
     val vm = view.controller.file?.getViewModelByName("My View Model")!!
 
@@ -985,8 +986,8 @@ Property descriptors can be inspected on a view model to discover at runtime whi
         ViewModel.Property(ViewModel.PropertyDataType.NUMBER, "My Number Property")
     )
     ```
-
   </Tab>
+
   <Tab title="Flutter">
     ```dart
     // Accesss on a ViewModel object
@@ -995,8 +996,8 @@ Property descriptors can be inspected on a view model to discover at runtime whi
     // Access on a ViewModelInstance object
     print("Properties: ${viewModelInstance.properties}");
     ```
-
   </Tab>
+
   <Tab title="Unity">
     ```csharp
     var vm = riveWidget.File.GetViewModelByName("My View Model");
@@ -1008,8 +1009,8 @@ Property descriptors can be inspected on a view model to discover at runtime whi
         Debug.Log($"Property: {prop.Name}, Type: {prop.Type}");
     }
     ```
-
   </Tab>
+
   <Tab title="React Native">
     <Tabs>
       <Tab title="New Runtime (Recommended)">
@@ -1021,8 +1022,8 @@ Property descriptors can be inspected on a view model to discover at runtime whi
         </Warning>
       </Tab>
     </Tabs>
-
   </Tab>
+
 </Tabs>
 
 References to these properties can be retrieved by name or path.
@@ -1080,8 +1081,8 @@ Some properties are mutable and have getters, setters, and observer operations f
         }
     });
     ```
-
   </Tab>
+
   <Tab title="React">
     Use the specific hook for a given property type to get and set property values.
 
@@ -1168,8 +1169,8 @@ Some properties are mutable and have getters, setters, and observer operations f
     ```
 
     The `value` returned by each hook will update automatically when the property changes in the Rive graphic.
-
   </Tab>
+
   <Tab title="Apple">
     ```swift
     let riveViewModel = RiveViewModel(...)
@@ -1242,9 +1243,9 @@ Some properties are mutable and have getters, setters, and observer operations f
     // Fire the trigger
     triggerProperty.trigger()
     ```
-
   </Tab>
-  <Tab title="Android">
+
+  <Tab title="Android (Legacy)">
     ```kotlin
     val vm = view.controller.file?.getViewModelByName("My View Model")!!
     val vmi = vm.createInstanceFromName("My Instance")
@@ -1255,8 +1256,8 @@ Some properties are mutable and have getters, setters, and observer operations f
     // Set
     numberProperty.value = 10f
     ```
-
   </Tab>
+
   <Tab title="Flutter">
     ```dart
     // Get reference to the ViewModel instance
@@ -1285,8 +1286,8 @@ Some properties are mutable and have getters, setters, and observer operations f
     // This will call `clearListeners()` internally.
     numberProperty.dispose();
     ```
-
   </Tab>
+
   <Tab title="Unity">
     ```csharp
     private void OnEnable()
@@ -1354,8 +1355,8 @@ Some properties are mutable and have getters, setters, and observer operations f
         }
     }
     ```
-
   </Tab>
+
   <Tab title="React Native">
     <Tabs>
       <Tab title="New Runtime (Recommended)">
@@ -1453,7 +1454,6 @@ Some properties are mutable and have getters, setters, and observer operations f
         ```
 
         The `value` returned by each hook will update automatically when the property changes in the Rive graphic.
-
       </Tab>
       <Tab title="Legacy Runtime">
         The following data binding methods are exposed on the `RiveRef` object.
@@ -1513,11 +1513,10 @@ Some properties are mutable and have getters, setters, and observer operations f
             }
         };
         ```
-
       </Tab>
     </Tabs>
-
   </Tab>
+
 </Tabs>
 
 ### Nested Property Paths
@@ -1542,8 +1541,8 @@ View models can have properties of type view model, allowing for arbitrary nesti
         }
     });
     ```
-
   </Tab>
+
   <Tab title="React">
     Access nested properties by providing the full path (separated by `/`) as the first argument to the property hooks.
 
@@ -1566,8 +1565,8 @@ View models can have properties of type view model, allowing for arbitrary nesti
     // setThemeName('Dark Mode');
     // setVolume(80);
     ```
-
   </Tab>
+
   <Tab title="Apple">
     ```swift
     let riveViewModel = RiveViewModel(...)
@@ -1590,9 +1589,9 @@ View models can have properties of type view model, allowing for arbitrary nesti
 
     let nestedNumberByPath = instance.numberProperty(fromPath: "Nested View Model/Another Nested View Model/Number")
     ```
-
   </Tab>
-  <Tab title="Android">
+
+  <Tab title="Android (Legacy)">
     ```kotlin
     val vm = view.controller.file?.getViewModelByName("My View Model")!!
     val vmi = vm.createInstanceFromName("My Instance")
@@ -1605,8 +1604,8 @@ View models can have properties of type view model, allowing for arbitrary nesti
     val nestedNumberByPath = vmi
         .getNumberProperty("My Nested View Model/My Second Nested VM/My Nested Number")
     ```
-
   </Tab>
+
   <Tab title="Flutter">
     ```dart
     // Get reference to the ViewModel instance
@@ -1619,8 +1618,8 @@ View models can have properties of type view model, allowing for arbitrary nesti
 
     final nestedNumberByPath = vmi.number("My Nested View Model/My Second Nested VM/My Nested Number");
     ```
-
   </Tab>
+
   <Tab title="Unity">
     ```csharp
     if (riveWidget.Status == WidgetStatus.Loaded)
@@ -1640,8 +1639,8 @@ View models can have properties of type view model, allowing for arbitrary nesti
 
     }
     ```
-
   </Tab>
+
   <Tab title="React Native">
     <Tabs>
       <Tab title="New Runtime (Recommended)">
@@ -1690,8 +1689,8 @@ View models can have properties of type view model, allowing for arbitrary nesti
         ```
       </Tab>
     </Tabs>
-
   </Tab>
+
 </Tabs>
 
 ### Observability
@@ -1730,8 +1729,8 @@ You can observe changes over time to property values, either by using listeners 
         }
     });
     ```
-
   </Tab>
+
   <Tab title="React">
     The React hooks handle observability automatically. When a property's value changes within the Rive instance (either because you set it via a hook or due to an internal binding), the `value` returned by the corresponding hook (e.g., `useViewModelInstanceString`) updates. This state change triggers a re-render of your React component, allowing you to react to the new value.
 
@@ -1752,8 +1751,8 @@ You can observe changes over time to property values, either by using listeners 
         }
     );
     ```
-
   </Tab>
+
   <Tab title="Apple">
     ```swift
     let riveViewModel = RiveViewModel(...)
@@ -1785,9 +1784,9 @@ You can observe changes over time to property values, either by using listeners 
         print("Triggered!")
     }
     ```
-
   </Tab>
-  <Tab title="Android">
+
+  <Tab title="Android (Legacy)">
     ```kotlin
     val vm = view.controller.file?.getViewModelByName("My View Model")!!
     val vmi = vm.createInstanceFromName("My Instance")
@@ -1802,8 +1801,8 @@ You can observe changes over time to property values, either by using listeners 
     // Or collect in Compose
     val numberValue by numberProperty.valueFlow.collectAsState()
     ```
-
   </Tab>
+
   <Tab title="Flutter">
     ```dart
     // Get reference to the ViewModel instance
@@ -1832,8 +1831,8 @@ You can observe changes over time to property values, either by using listeners 
     // This will call `clearListeners()` internally.
     numberProperty.dispose();
     ```
-
   </Tab>
+
   <Tab title="Unity">
     ```csharp
     private ViewModelInstanceNumberProperty numberProperty;
@@ -1923,8 +1922,8 @@ You can observe changes over time to property values, either by using listeners 
         triggerProperty.OnTriggered -= OnTriggerPropertyFired;
     }
     ```
-
   </Tab>
+
   <Tab title="React Native">
     <Tabs>
       <Tab title="New Runtime (Recommended)">
@@ -1973,7 +1972,6 @@ You can observe changes over time to property values, either by using listeners 
         <Note>
           The `useRiveTrigger` hook returns a `trigger` function that can be called to fire the trigger. This hook accepts an optional `onTrigger` callback in its third parameter that will be executed when the trigger is fired.
         </Note>
-
       </Tab>
       <Tab title="Legacy Runtime">
         Values are observed through hooks.
@@ -2006,11 +2004,10 @@ You can observe changes over time to property values, either by using listeners 
           The `useRiveTrigger` hook does not return a value, but instead takes a callback function as its third argument.
           This callback will be executed when the trigger is fired.
         </Note>
-
       </Tab>
     </Tabs>
-
   </Tab>
+
 </Tabs>
 
 ### Images
@@ -2020,7 +2017,6 @@ Image properties let you set and replace raster images at runtime, with each ins
 <Demos examples={['dataBindingImages']}  />
 <Tabs>
   <Tab title="Web">
-
     ```js
     const randomImageAsset = (imageProperty) => {
         fetch("https://picsum.photos/300/500").then(async (res) => {
@@ -2053,8 +2049,8 @@ Image properties let you set and replace raster images at runtime, with each ins
         }
     });
     ```
-
   </Tab>
+
   <Tab title="React">
     Use the `useViewModelInstanceImage` hook to set image properties on view model instances.
 
@@ -2105,8 +2101,8 @@ Image properties let you set and replace raster images at runtime, with each ins
         }
     };
     ```
-
   </Tab>
+
   <Tab title="Apple">
     ```swift
     let riveViewModel = RiveViewModel(...)
@@ -2137,9 +2133,9 @@ Image properties let you set and replace raster images at runtime, with each ins
     // You can also pass nil to clear the image
     imageProperty.setValue(nil)
     ```
-
   </Tab>
-  <Tab title="Android">
+
+  <Tab title="Android (Legacy)">
     ```kotlin
     // Load image from the assets folder.
     val imageBytes = context.resources.openRawResource(R.raw.my_image).use { stream ->
@@ -2152,8 +2148,8 @@ Image properties let you set and replace raster images at runtime, with each ins
     val riveImage = RiveRenderImage.fromEncoded(imageBytes)
     vmi.getImageProperty("Image property").set(riveImage)
     ```
-
   </Tab>
+
   <Tab title="Flutter">
     <Info>
       See the [Flutter data binding images example](https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_images.dart).
@@ -2173,8 +2169,8 @@ Image properties let you set and replace raster images at runtime, with each ins
     // You can also set the image property to null to clear it
     imageProperty.value = null;
     ```
-
   </Tab>
+
   <Tab title="Unity">
     ```csharp
     [SerializeField] private ImageOutOfBandAsset m_lightImageAsset;
@@ -2252,8 +2248,8 @@ Image properties let you set and replace raster images at runtime, with each ins
     ```
 
     For a demo of image data binding in Unity, see the **Image Data Binding** scene in the [Rive Unity Examples repository](https://github.com/rive-app/rive-unity-examples).
-
   </Tab>
+
   <Tab title="React Native">
     <Tabs>
       <Tab title="New Runtime (Recommended)">
@@ -2337,8 +2333,8 @@ Image properties let you set and replace raster images at runtime, with each ins
         </Warning>
       </Tab>
     </Tabs>
-
   </Tab>
+
 </Tabs>
 
 ### Lists
@@ -2361,7 +2357,6 @@ For more information on list properties, see the [Data Binding List Property](/e
 <Demos examples={['dataBindingLists']}  />
 <Tabs>
   <Tab title="Web">
-
     ```javascript
     const rive = new rive.Rive({
         autoBind: true,
@@ -2395,8 +2390,8 @@ For more information on list properties, see the [Data Binding List Property](/e
         }
     });
     ```
-
   </Tab>
+
   <Tab title="React">
     Use the `useViewModelInstanceList` hook to manage list properties on view model instances.
 
@@ -2473,8 +2468,8 @@ For more information on list properties, see the [Data Binding List Property](/e
 
     console.log(`List has ${length} items`);
     ```
-
   </Tab>
+
   <Tab title="Apple">
     ```swift
     let listProperty = viewModelInstance.listProperty(fromPath: "list")!
@@ -2497,9 +2492,9 @@ For more information on list properties, see the [Data Binding List Property](/e
     // Get and print the size of the list
     print(listProperty.size) // Prints 0
     ```
-
   </Tab>
-  <Tab title="Android">
+
+  <Tab title="Android (Legacy)">
     ```kotlin
     // Acquire the default view model instance and the list property.
     val vmi = animationView.file!!.firstArtboard.viewModelInstance!!
@@ -2519,8 +2514,8 @@ For more information on list properties, see the [Data Binding List Property](/e
     listProperty.remove(firstInstance)
     listProperty.removeAt(0)
     ```
-
   </Tab>
+
   <Tab title="Flutter">
     The list API in Flutter is designed to be similar to the [List](https://api.dart.dev/dart-core/List-class.html) class in Dart. It doesn't contain the full API spec of that class, but it does provide the most commonly used methods.
 
@@ -2593,8 +2588,8 @@ For more information on list properties, see the [Data Binding List Property](/e
     // Length
     todosProperty.length;
     ```
-
   </Tab>
+
   <Tab title="Unity">
     ```csharp
     private ViewModelInstanceListProperty listProperty;
@@ -2673,8 +2668,8 @@ For more information on list properties, see the [Data Binding List Property](/e
         }
     }
     ```
-
   </Tab>
+
   <Tab title="React Native">
     <Tabs>
       <Tab title="New Runtime (Recommended)">
@@ -2767,8 +2762,8 @@ For more information on list properties, see the [Data Binding List Property](/e
         </Warning>
       </Tab>
     </Tabs>
-
   </Tab>
+
 </Tabs>
 
 ### Artboards
@@ -2783,7 +2778,6 @@ Artboard properties allows you to swap out entire components at runtime. This is
 
 <Tabs>
   <Tab title="Web">
-
     ```typescript
     let artboardProperty = null;
     let characterArtboard = null;
@@ -2831,8 +2825,8 @@ Artboard properties allows you to swap out entire components at runtime. This is
     });
     assetsFile.init();
     ```
-
   </Tab>
+
   <Tab title="React">
     Use the `useViewModelInstanceArtboard` hook to set artboard properties on view model instances.
 
@@ -2881,8 +2875,8 @@ Artboard properties allows you to swap out entire components at runtime. This is
     };
 
     ```
-
   </Tab>
+
   <Tab title="Apple">
     Use the `artboardProperty` method on a `RiveDataBindingViewModel.Instance` object to get the artboard property.
 
@@ -2901,8 +2895,8 @@ Artboard properties allows you to swap out entire components at runtime. This is
 
     artboardProperty.setValue(bindableArtboard)
     ```
-
   </Tab>
+
   <Tab title="Flutter">
     <Info>
       See the [Flutter data binding artboards example](https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_artboards.dart).
@@ -2919,8 +2913,8 @@ Artboard properties allows you to swap out entire components at runtime. This is
         final bindableArtboard = riveFile.artboardToBind('artboardName')!;
         artboardProp.value = bindableArtboard;
     ```
-
   </Tab>
+
   <Tab title="Unity">
     Artboard properties work with the `BindableArtboard` class, which is different from the regular `Artboard` class in the package.
 
@@ -3006,8 +3000,8 @@ Artboard properties allows you to swap out entire components at runtime. This is
         }
     }
     ```
-
   </Tab>
+
   <Tab title="React Native">
     <Tabs>
       <Tab title="New Runtime (Recommended)">
@@ -3024,7 +3018,6 @@ Artboard properties allows you to swap out entire components at runtime. This is
         const bindableArtboard = riveFile.getBindableArtboard('Character 1');
         artboardProp?.set(bindableArtboard);
         ```
-
       </Tab>
       <Tab title="Legacy Runtime">
         <Warning>
@@ -3032,8 +3025,8 @@ Artboard properties allows you to swap out entire components at runtime. This is
         </Warning>
       </Tab>
     </Tabs>
-
   </Tab>
+
 </Tabs>
 
 ### Enums
@@ -3053,8 +3046,8 @@ Enums are string typed. The Rive file contains a list of enums. Each enum in tur
         }
     });
     ```
-
   </Tab>
+
   <Tab title="React">
     ```typescript
     const { rive } = useRive({
@@ -3068,21 +3061,23 @@ Enums are string typed. The Rive file contains a list of enums. Each enum in tur
     console.log(enums);
     ```
   </Tab>
-  <Tab title="Android">
+
+  <Tab title="Android (Legacy)">
     ```kotlin
     val enums = view.controller.file?.enums!!
 
     val firstEnumName = enums[0].name
     val firstEnumFirstValue = enums[0].values[0]
     ```
-
   </Tab>
+
   <Tab title="Flutter">
     ```dart
     // Accesss on a File object
     print("Data enums: ${file.enums}");
     ```
   </Tab>
+
   <Tab title="Unity">
     ```csharp
 
@@ -3107,8 +3102,8 @@ Enums are string typed. The Rive file contains a list of enums. Each enum in tur
         enumProperty.Value = enumProperty.EnumValues[0]; // Set to first value
 
     ```
-
   </Tab>
+
   <Tab title="React Native">
     <Tabs>
       <Tab title="New Runtime (Recommended)">
@@ -3145,7 +3140,6 @@ Enums are string typed. The Rive file contains a list of enums. Each enum in tur
         <Note>
           Retrieving the list of all enums in the file, or accessing all possible values on an Enum, is not yet available.
         </Note>
-
       </Tab>
       <Tab title="Legacy Runtime">
         <Warning>
@@ -3153,8 +3147,8 @@ Enums are string typed. The Rive file contains a list of enums. Each enum in tur
         </Warning>
       </Tab>
     </Tabs>
-
   </Tab>
+
 </Tabs>
 
 # Examples
@@ -3164,15 +3158,18 @@ Enums are string typed. The Rive file contains a list of enums. Each enum in tur
     <YouTube id="y7glxOIFEjg" />
     <YouTube id="1WFtGX2coXM" />
   </Tab>
+
   <Tab title="React">
     See the `DataBinding` story in the [Rive React
     repo](https://github.com/rive-app/rive-react) for a demo.
   </Tab>
+
   <Tab title="Apple">
     See the [Data Binding
     view](https://github.com/rive-app/rive-ios/blob/main/Example-iOS/Source/Examples/SwiftUI/DataBindingView.swift)
     in the Example app for a demo.
   </Tab>
+
   <Tab title="Flutter">
     - [Data binding
     overview](https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding.dart)
@@ -3183,6 +3180,7 @@ Enums are string typed. The Rive file contains a list of enums. Each enum in tur
     - [Data binding
     lists](https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_lists.dart)
   </Tab>
+
   <Tab title="React Native">
     <Tabs>
       <Tab title="New Runtime (Recommended)">
@@ -3197,4 +3195,5 @@ Enums are string typed. The Rive file contains a list of enums. Each enum in tur
       </Tab>
     </Tabs>
   </Tab>
+
 </Tabs>
