@@ -3,11 +3,25 @@ title: "State Machine Playback"
 description: "Playing a state machine"
 ---
 
-For more information on designing and building state machines in Rive, please refer to: [State Machine](/editor/state-machine).
+## Overview
 
-Rive's state machines provide a way to combine a set of animation states and manage the transition between them that can be programmatically controlled with [Data Binding](/runtimes/data-binding).
+For more information on designing and building state machines in the Rive editor, please refer to [State Machine Overview](/editor/state-machine).
 
-## Playing state machines
+A Rive state machine is a set of animation states and the transitions between them. At runtime there is limited ability to observe or modify the state directly. This is by design, as this would limit the ability of a designer in Rive to modify the state machine without creating breaking changes. Instead, state machines are indirectly controlled through transitions conditioned on [Data Binding](/runtimes/data-binding) properties.
+
+A designer assigns a default state machine for each artboard in the Rive editor. They may create multiple state machines, each representing a different configuration of states and transitions. When rendering a Rive file and artboard, you may choose which state machine to play. If no state machine is specified, the default state machine for that artboard is used.
+
+## Controlling Playback
+
+State machines play by "advancing" over time. This is done once per frame by the amount of time between frames. For example, for a graphic running at 60 frames per second, the state machine would be advanced by approximately 16.67 milliseconds (1/60th of a second) each frame. This advancing evaluates keyframes, transitions, data bindings changes, and ultimately the visible artboard elements to create the illusion of motion over time.
+
+Each runtime provides a way to control whether the state machine is playing. When paused or stopped (if the runtime supports stopping), the state machine does not advance and the last rendered frame remains visible. When playing from pause, the state machine resumes from where it left off, whereas when playing from stop, it restarts from the entry state.
+
+Whether or not a state machine plays automatically depends on the value of the `autoplay` (or similarly named) property in each runtime. This is typically `true` by default. It may be useful to set this to `false` if you want to configure the state machine and artboard, e.g. through data bindings, before initial playback.
+
+In addition to the paused/stopped state, state machines may also "settle". This is an optimization where the Rive runtime detects that no further changes will occur (for example, if there are no active transitions or animations). While settled the state machine will also stop advancing. This improves performance and energy use by avoiding unnecessary calculations. State machines are unsettled by external actions that change their state, such as user input or data binding changes. You can additionally force a state machine to unsettle by calling play, though it may immediately re-settle if there is no further work to be done.
+
+## Playing State Machines
 
 <Tabs>
   <Tab title="Web">
@@ -49,7 +63,6 @@ Rive's state machines provide a way to combine a set of animation states and man
       r.stop()
     }
     ```
-
   </Tab>
 
   <Tab title="React">
@@ -70,7 +83,7 @@ Rive's state machines provide a way to combine a set of animation states and man
 
     #### Controlling State Machine Playback
 
-    You can manually play and pause the State Machine using the `play`, `pause`, and `stop` methods.
+    You can manually play and pause the state machine using the `play`, `pause`, and `stop` methods.
 
       ```js
     export default function Simple() {
@@ -105,12 +118,11 @@ Rive's state machines provide a way to combine a set of animation states and man
     }
 
     ```
-
   </Tab>
+
   <Tab title="React Native">
     <Tabs>
       <Tab title="New Runtime (Recommended)">
-
         By default, `RiveView` automatically uses the default artboard and state machine [configured in the Editor](https://rive.app/docs/editor/fundamentals/artboards#default-state-machine). In most cases, you only need to provide the `file` prop.
 
         For programmatic control, you can optionally specify `artboardName` and `stateMachineName` props to use a different artboard or state machine.
@@ -133,10 +145,10 @@ Rive's state machines provide a way to combine a set of animation states and man
 
         #### Controlling State Machine Playback
 
-        For more control, you can manage playback and set the **arboard**/**state-machine** combination:
+        For more control, you can manage playback and set the **artboard**/**state machine** combination:
 
         <ResponseField name="autoPlay" type="boolean" default="true">
-        Automatically start playing the state machine.
+          Automatically start playing the state machine.
         </ResponseField>
         <ResponseField name="artboardName" type="String">
           The name of the artboard to display.
@@ -144,10 +156,10 @@ Rive's state machines provide a way to combine a set of animation states and man
           _If not set, the default artboard will be used, as configured in the Editor._
         </ResponseField>
         <ResponseField name="stateMachineName" type="String">
-         The name of the state machine to play.
+          The name of the state machine to play.
 
-        _If not set, the default state machine will be used, as configured in the Editor._
-         </ResponseField>
+          _If not set, the default state machine will be used, as configured in the Editor._
+        </ResponseField>
 
         And manage `play`, `pause`, and `reset` on the Rive view reference.
 
@@ -240,14 +252,12 @@ Rive's state machines provide a way to combine a set of animation states and man
         ```
       </Tab>
     </Tabs>
-
   </Tab>
 
   <Tab title="Flutter">
-
     There are a number of ways to play/select a state machine in Flutter.
 
-    #### When using `RiveWidgetController` (recommended)
+    #### When Using `RiveWidgetController` (Recommended)
 
     When you create a `RiveWidgetController` it will use the default state machine, or you can specify a state machine by name or index.
 
@@ -294,7 +304,7 @@ Rive's state machines provide a way to combine a set of animation states and man
     );
     ```
 
-    #### When using `StateMachinePainter`
+    #### When Using `StateMachinePainter`
 
     When using `StateMachinePainter`, you can specify the state machine to use by passing an optional name.
     ```dart
@@ -307,7 +317,7 @@ Rive's state machines provide a way to combine a set of animation states and man
     );
     ```
 
-    #### Creating a state machine directly
+    #### Creating a State Machine Directly
 
     Create the state machine directly from an `Artboard`:
 
@@ -326,7 +336,7 @@ Rive's state machines provide a way to combine a set of animation states and man
   <Tab title="Apple">
     #### Autoplay the State Machine
 
-    By default, RiveViewModel will automatically play the state machine you’ve given it.
+    By default, RiveViewModel will automatically play the given state machine.
 
     ### SwiftUI
 
@@ -339,7 +349,6 @@ Rive's state machines provide a way to combine a set of animation states and man
     ```
 
     ### UIKit
-
 
     ```swift
     class StateMachineViewController: UIViewController {
@@ -363,7 +372,7 @@ Rive's state machines provide a way to combine a set of animation states and man
 
     ### Play
 
-    If you set autoplay to false you can play the active animation or state machine very simply.
+    If you set autoplay to false you can simply play the active animation or state machine.
 
     ```swift
     simpleVM.play()
@@ -378,53 +387,81 @@ Rive's state machines provide a way to combine a set of animation states and man
     simpleVM.stop()
     simpleVM.reset()
     ```
+  </Tab>
 
-    </Tab>
-    <Tab title="Android">
-    #### Android
+  <Tab title="Android">
+    <Tabs>
+      <Tab title="Compose">
+        By default, the `Rive` composable will select and create the default state machine specified in the Rive editor. To specify a different state machine, you must first create a `StateMachine` object from an `Artboard`.
 
-    ### Via XML
+        ### Compose
+        State machine objects can be created in Compose using the `rememberStateMachine` function, which takes an artboard and name of the state machine.
 
-    ```kotlin
-    <app.rive.runtime.kotlin.RiveAnimationView
-        android:id="@+id/simple_state_machine"
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
-        app:riveResource="@raw/skills"
-        app:riveStateMachine="Designer's Test" />
-    ```
+        ```kotlin
+        val artboard = rememberArtboard(myRiveFile, "My Artboard")
+        val stateMachine = rememberStateMachine(artboard, "My State Machine")
+        ```
 
-    ### Via Kotlin
+        ### Outside of Compose
+        Alternatively, you can create a state machine outside of Compose contexts. Note that with this approach you are responsible for managing the state machine's lifecycle and must eventually close it with `StateMachine::close()` when no longer needed, or leveraging its [`AutoClosable`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-auto-closeable.html) interface with a `use` block.
 
-    ```kotlin
-    animationView.setRiveResource(
-        R.raw.simple_state_machine,
-        autoplay = true,
-        stateMachineName = "Designer's Test"
-    )
-    ```
+        ```kotlin
+        val artboard = Artboard.fromFile(myRiveFile, "My Artboard")
+        val stateMachine = StateMachine.fromArtboard(artboard, "My State Machine")
+        ...
+        stateMachine.close()
+        artboard.close()
+        ```
 
-    Additionally, you can use the same APIs from animation playback (i.e `play`, `pause`, and `stop`) to control state machine playback, as long as you set the `isStateMachine` attribute to `true`.
+        ### Using the State Machine
+        Once you have a state machine, you can pass it to the `Rive` composable via the `stateMachine` parameter.
 
-    ```kotlin
-    animationView.play(
-        "Designer's Test",
-        Loop.AUTO,
-        Direction.AUTO,
-        isStateMachine = true
-    )
+        By default the Rive composable will play the selected state machine. To toggle the play/pause state, set the `playing` parameter, triggering a re-composition. This is also used to replicate the auto-play behavior of other runtimes - simply set `playing` to false if you need to perform initial setup and set to true once ready.
 
-    animationView.pause(
-        "Designer's Test",
-        isStateMachine = true
-    )
+        ```kotlin
+        Rive(
+          myRiveFile,
+          artboard = artboard,
+          stateMachine = stateMachine,
+          playing = true // Or false to pause
+        )
+        ```
+      </Tab>
+      <Tab title="Legacy">
+        By default RiveAnimationView will auto-play the selected state machine.
 
-    animationView.stop(
-        "Designer's Test",
-        isStateMachine = true
-    )
-    ```
+        ⚠️ The legacy API allows for playing multiple linear animations and state machines simultaneously. This is discouraged due to complexity and divergence from other runtimes. Prefer to use a single state machine controlling all animation through states and transitions.
 
+        ### Using XML Layouts
+
+        ```xml
+        <app.rive.runtime.kotlin.RiveAnimationView
+            app:riveResource="@raw/my_rive_file"
+            app:riveStateMachine="My State Machine"
+            app:riveAutoPlay="true" />
+        ```
+
+        ### Using Kotlin
+
+        ```kotlin
+        animationView.setRiveResource(
+            R.raw.my_rive_file,
+            stateMachineName = "My State Machine",
+            autoplay = true
+        )
+        ```
+
+        ### Controlling Playback
+
+        You can control the state machine's playing state using the same APIs as those for linear animation playback (i.e. `play`, `pause`, and `stop`). When doing so, ensure you set the `isStateMachine` parameter to `true`.
+
+        ```kotlin
+        animationView.play("My State Machine", isStateMachine = true)
+        animationView.pause("My State Machine", isStateMachine = true)
+        animationView.stop("My State Machine", isStateMachine = true)
+        ```
+      </Tab>
+    </Tabs>
   </Tab>
 
 </Tabs>

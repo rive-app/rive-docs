@@ -1,15 +1,15 @@
 ---
 title: 'Artboards'
-description: 'Selecting an artboard at runtime'
+description: 'Selecting which artboard to render at runtime'
 ---
 
-For more information on creating Artboards in Rive, please refer to: [Artboards](/editor/fundamentals/artboards).
+For more information on creating artboards in the Rive editor, please refer to [Artboards](/editor/fundamentals/artboards).
 
-## Choosing an artboard
+## Choosing an Artboard
 
-When a Rive object is instantiated, the artboard to use can be specified. If no artboard is given, the [default artboard](/editor/fundamentals/artboards#default-state-machine), as set in the Rive editor, is used. If no default artboard is set, the first artboard is used.
+When a Rive object is instantiated or when a Rive file is rendered, you can specify the artboard to use. If no artboard is given, the [default artboard](/editor/fundamentals/artboards#default-state-machine), as set in the Rive editor, is used. If no default artboard is set, the first artboard is used.
 
-Only one artboard can be used at a time.
+Only one artboard can be rendered at a time.
 
 <Tabs>
 
@@ -48,7 +48,7 @@ Only one artboard can be used at a time.
     export default function App() {
       return (
         <View>
-          <Rive resourceName="truck_v7" artboardName="Jeep" autoplay />
+          <Rive resourceName="my_rive_file" artboardName="My Artboard" autoplay />
         </View>
       );
     }
@@ -62,7 +62,7 @@ Only one artboard can be used at a time.
   // Default artboard
   final artboard = riveFile.defaultArtboard();
   // Artboard named
-  final artboard = riveFile.artboard('Truck');
+  final artboard = riveFile.artboard('My Artboard');
   // Artboard at index
   final artboard = riveFile.artboardAt(0);
   ```
@@ -73,7 +73,7 @@ Only one artboard can be used at a time.
   // Default artboard
   final artboardSelector = ArtboardSelector.byDefault();
   // Artboard named
-  final artboardSelector = ArtboardSelector.byName('Truck');
+  final artboardSelector = ArtboardSelector.byName('My Artboard');
   // Artboard at index
   final artboardSelector = ArtboardSelector.byIndex(0);
 
@@ -86,7 +86,7 @@ Only one artboard can be used at a time.
   // Pass to RiveWidgetBuilder
   return RiveWidgetBuilder(
     fileLoader: fileLoader,
-    artboardSelector: ArtboardSelector.byName('Main'),
+    artboardSelector: ArtboardSelector.byName('My Artboard'),
     builder: (context, state) {
       // return a widget
     },
@@ -100,8 +100,8 @@ Only one artboard can be used at a time.
     struct AnimationView: View {
         var body: some View {
             RiveViewModel(
-                fileName: "dancing_banana",
-                artboardName: "Banana"
+                fileName: "my_rive_file",
+                artboardName: "My Artboard"
             ).view()
         }
     }
@@ -113,8 +113,8 @@ Only one artboard can be used at a time.
         @IBOutlet weak var riveView: RiveView!
 
         var bananaVM = RiveViewModel(
-            fileName: "dancing_banana",
-            artboardName: "Banana",
+            fileName: "my_rive_file",
+            artboardName: "My Artboard",
         )
 
         override func viewDidLoad() {
@@ -125,24 +125,57 @@ Only one artboard can be used at a time.
   </Tab>
 
   <Tab title="Android">
-    ### Via XML
-    ```xml
-    <app.rive.runtime.kotlin.RiveAnimationView
-        app:riveAutoPlay="true"
-        app:riveArtboard="Square"
-        app:riveResource="@raw/artboard_animations" />
-    ```
+    <Tabs>
+      <Tab title="Compose">
+        By default, the `Rive` composable will select and create the default artboard specified in the Rive editor. To specify a different artboard, you must first create an `Artboard` object from a loaded `RiveFile`.
 
-    ### Via Kotlin
-    ```kotlin
-    animationView.setRiveResource(
-        R.raw.artboard_animations,
-        artboardName = "Square",
-        autoplay = true
-    )
-    ```
+        ### Compose
+        Artboard objects can be created in Compose using the `rememberArtboard` function, which takes a Rive file and name of the artboard.
+
+        ```kotlin
+        val artboard = rememberArtboard(myRiveFile, "My Artboard")
+        ```
+        
+        ### Outside of Compose
+        Alternatively, you can create an artboard outside of Compose contexts. Note that with this approach you are responsible for managing the artboard's lifecycle and must eventually close it with `Artboard::close()` when no longer needed, or leveraging its [`AutoClosable`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-auto-closeable.html) interface with a `use` block.
+
+        ```kotlin
+        val artboard = Artboard.fromFile(myRiveFile, "My Artboard")
+        ...
+        artboard.close()
+        ```
+
+        ### Using the Artboard
+        Once you have an artboard, you can pass it to the `Rive` composable via the `artboard` parameter.
+
+        ```kotlin
+        setContent {
+            Rive(
+                myRiveFile,
+                artboard = artboard
+            )
+        }
+        ```
+      </Tab>
+      <Tab title="Legacy">
+        ### Using XML Layouts
+        ```xml
+        <app.rive.runtime.kotlin.RiveAnimationView
+            app:riveResource="@raw/my_rive_file"
+            app:riveArtboard="My Artboard"
+            app:riveAutoPlay="true" />
+        ```
+
+        ### Using Kotlin
+        ```kotlin
+        animationView.setRiveResource(
+            R.raw.my_rive_file,
+            artboardName = "My Artboard",
+            autoplay = true
+        )
+        ```
+      </Tab>
+    </Tabs>
   </Tab>
 
 </Tabs>
-
-
