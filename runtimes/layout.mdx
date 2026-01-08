@@ -326,41 +326,45 @@ Some runtimes expose the option to set the bounding dimensions for the area in w
     ```
   </Tab>
 
-  <Tab title="Android (Compose)">
-    The `Fit` sealed class is used to specify the fit mode. On all variants other than `Layout` and `Fill`, the `Alignment` enum can be supplied to specify the alignment. Note that because this is a class, it must be constructed. If an alignment is not provided, it defaults to `Alignment.Center`.
+  <Tab title="Android">
+    <Tabs>
+      <Tab title="Compose">
+        The `Fit` sealed class is used to specify the fit mode. On all variants other than `Layout` and `Fill`, the `Alignment` enum can be supplied to specify the alignment. Note that because this is a class, it must be constructed. If an alignment is not provided, it defaults to `Alignment.Center`.
 
-    ```kotlin
-    Rive(
-        myRiveFile,
-        fit = Fit.Cover(Alignment.TopCenter)
-    )
-    ```
-  </Tab>
+        ```kotlin
+        Rive(
+            myRiveFile,
+            fit = Fit.Cover(Alignment.TopCenter)
+        )
+        ```
+      </Tab>
+      <Tab title="Legacy">
+        The `Fit` enum specifies the fit mode with the follow options: `LAYOUT`, `CONTAIN`, `SCALE_DOWN`, `COVER`, `FIT_WIDTH`, `FIT_HEIGHT`, `FILL`, and `NONE`.
 
-  <Tab title="Android (Legacy)">
-    The `Fit` enum specifies the fit mode with the follow options: `LAYOUT`, `CONTAIN`, `SCALE_DOWN`, `COVER`, `FIT_WIDTH`, `FIT_HEIGHT`, `FILL`, and `NONE`.
+        The `Alignment` enum specifies the alignment with the following options: `TOP_LEFT`, `TOP_CENTER`, `TOP_RIGHT`, `CENTER_LEFT`, `CENTER`, `CENTER_RIGHT`, `BOTTOM_LEFT`, `BOTTOM_CENTER`, and `BOTTOM_RIGHT`.
 
-    The `Alignment` enum specifies the alignment with the following options: `TOP_LEFT`, `TOP_CENTER`, `TOP_RIGHT`, `CENTER_LEFT`, `CENTER`, `CENTER_RIGHT`, `BOTTOM_LEFT`, `BOTTOM_CENTER`, and `BOTTOM_RIGHT`.
+        ### Using XML Layouts
+        The fit and alignment enum values can be applied to the `riveFit` and `riveAlignment` attributes in your XML layout:
 
-    ### Using XML Layouts
-    The fit and alignment enum values can be applied to the `riveFit` and `riveAlignment` attributes in your XML layout:
-    ```xml
-    <app.rive.runtime.kotlin.RiveAnimationView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:riveResource="@raw/my_rive_file"
-        app:riveAlignment="CENTER"
-        app:riveFit="CONTAIN"
-    />
-    ```
+        ```xml
+        <app.rive.runtime.kotlin.RiveAnimationView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:riveResource="@raw/my_rive_file"
+            app:riveAlignment="CENTER"
+            app:riveFit="CONTAIN"
+        />
+        ```
 
-    ### Using Kotlin
-    The fit and alignment enum values can be applied to the `fit` and `alignment` properties on your `RiveAnimationView` instance:
+        ### Using Kotlin
+        The fit and alignment enum values can be applied to the `fit` and `alignment` properties on your `RiveAnimationView` instance:
 
-    ```kotlin
-    animationView.fit = Fit.FILL
-    animationView.alignment = Alignment.CENTER
-    ```
+        ```kotlin
+        animationView.fit = Fit.FILL
+        animationView.alignment = Alignment.CENTER
+        ```
+      </Tab>
+    </Tabs>
   </Tab>
 
 </Tabs>
@@ -597,62 +601,65 @@ For more Editor information and how to configure your graphic, see [Layouts Over
     ```
   </Tab>
 
-  <Tab title="Android (Compose)">
-    See also the [Compose Layout](https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeLayoutActivity.kt) sample.
+  <Tab title="Android">
+    <Tabs>
+      <Tab title="Compose">
+        See also the [Compose Layout](https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeLayoutActivity.kt) sample.
 
-    Set the `fit` property to `Fit.Layout` in the `Rive` composable. This will resize the artboard to match the container size. The `Fit.Layout` constructor takes an optional `layoutScaleFactor` parameter to adjust the scale of the artboard. By default it is 1, i.e. no scaling.
+        Set the `fit` parameter to `Fit.Layout` in the `Rive` composable. This will resize the artboard to match the container size. The `Fit.Layout` constructor takes an optional `layoutScaleFactor` parameter to adjust the scale of the artboard. By default it is 1, i.e. no scaling.
 
-    ```kotlin
-    Rive(
-        myRiveFile,
-        fit = Fit.Layout(1.2f) // 1.2x scale
-    )
-    ```
-  </Tab>
+        ```kotlin
+        Rive(
+            myRiveFile,
+            fit = Fit.Layout(1.2f) // 1.2x scale
+        )
+        ```
+      </Tab>
+      <Tab title="Legacy">
+        ### Sample
+        See the [Layout](https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/LayoutActivity.kt) sample.
 
-  <Tab title="Android (Legacy)">
-    ### Sample
-    See the [Layout](https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/LayoutActivity.kt) sample.
+        ### Using XML Layouts
 
-    ### Using XML Layouts
+        Set the `riveFit` attribute to `"LAYOUT"`.
 
-    Set the `riveFit` attribute to `"LAYOUT"`.
+        ```kotlin
+        <app.rive.runtime.kotlin.RiveAnimationView
+            ...
+            app:riveFit="LAYOUT"
+        />
+        ```
 
-    ```kotlin
-    <app.rive.runtime.kotlin.RiveAnimationView
-        ...
-        app:riveFit="LAYOUT"
-    />
-    ```
+        ### Using Kotlin
+        Set the RiveAnimationView's `fit` property to `LAYOUT`.
 
-    ### Using Kotlin
-    Set the RiveAnimationView's `fit` property to `LAYOUT`.
+        ```kotlin
+        val animationView = findViewById<RiveAnimationView>(R.id.my_view)
+        animationView.fit = Fit.LAYOUT
+        ```
 
-    ```kotlin
-    val animationView = findViewById<RiveAnimationView>(R.id.my_view)
-    animationView.fit = Fit.LAYOUT
-    ```
+        ### Adjusting the Layout Scale Factor
+        To adjust the scale factor of the contents, use the `layoutScaleFactor` property. This is nullable, so by default, it will use the density as reported by `resources.displayMetrics.density`. You can override this to any positive float value, or return control to the system by resetting to `null`:
 
-    ### Adjusting the Layout Scale Factor
-    To adjust the scale factor of the contents, use the `layoutScaleFactor` property. This is nullable, so by default, it will use the density as reported by `resources.displayMetrics.density`. You can override this to any positive float value, or return control to the system by resetting to `null`:
+        ```kotlin
+        // Force a set scale factor
+        animationView.layoutScaleFactor = 2.5f
+        // Reset to system control
+        animationView.layoutScaleFactor = null
+        ```
 
-    ```kotlin
-    // Force a set scale factor
-    animationView.layoutScaleFactor = 2.5f
-    // Reset to system control
-    animationView.layoutScaleFactor = null
-    ```
+        ### Resizing the Artboard
+        The artboard size can be manually controlled by using the `width` and `height` properties. `resetArtboardSize()` can be used to return these values to their defaults.
 
-    ### Resizing the Artboard
-    The artboard size can be manually controlled by using the `width` and `height` properties. `resetArtboardSize()` can be used to return these values to their defaults.
-
-    ```kotlin
-    // Force a certain artboard size
-    animationView.controller.activeArtboard?.width = 1000f
-    animationView.controller.activeArtboard?.height = 1000f
-    // Reset the artboard size to defaults
-    animationView.controller.activeArtboard?.resetArtboardSize()
-    ```
+        ```kotlin
+        // Force a certain artboard size
+        animationView.controller.activeArtboard?.width = 1000f
+        animationView.controller.activeArtboard?.height = 1000f
+        // Reset the artboard size to defaults
+        animationView.controller.activeArtboard?.resetArtboardSize()
+        ```
+      </Tab>
+    </Tabs>
   </Tab>
 
 </Tabs>
