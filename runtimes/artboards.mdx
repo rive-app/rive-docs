@@ -16,9 +16,9 @@ Only one artboard can be rendered at a time.
   <Tab title="Web">
     ```javascript
     new rive.Rive({
-        src: 'https://cdn.rive.app/animations/my_rive_file.riv',
+        src: 'https://cdn.rive.app/animations/vehicles.riv',
         canvas: document.getElementById('canvas'),
-        artboard: 'My Artboard',
+        artboard: 'Truck',
         autoplay: true
     });
     ```
@@ -27,14 +27,14 @@ Only one artboard can be rendered at a time.
   <Tab title="React">
     ```javascript
     export const Simple = () => (
-      <Rive src="https://cdn.rive.app/animations/my_rive_file.riv" artboard="My Artboard" />
+      <Rive src="https://cdn.rive.app/animations/vehicles.riv" artboard="Truck" />
     );
 
     // With `useRive` Hook:
     export default function Simple() {
       const { RiveComponent } = useRive({
-          src: 'https://cdn.rive.app/animations/my_rive_file.riv',
-          artboard: 'My Artboard',
+          src: 'https://cdn.rive.app/animations/vehicles.riv',
+          artboard: 'Truck',
           autoplay: true,
       });
 
