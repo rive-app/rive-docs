@@ -123,7 +123,11 @@ To begin, we need to get a reference to a particular view model. This can be don
     ```
   </Tab>
 
-  <Tab title="Android (Legacy)">
+  <Tab title="Android">
+    <Tabs>
+      <Tab title="Compose">
+      </Tab>
+      <Tab title="Legacy">
     ```kotlin
     // `view` of type RiveAnimationView
     view.setRiveResource(R.raw.my_rive_file)
@@ -365,24 +369,31 @@ Once we have a reference to a view model, it can be used to create an instance. 
     ```
   </Tab>
 
-  <Tab title="Android (Legacy)">
-    ```kotlin
-    val vm = view.controller.file?.getViewModelByName("My View Model")!!
+  <Tab title="Android">
+    <Tabs>
+      <Tab title="Compose">
+        
+      </Tab>
+      <Tab title="Legacy">
+        ```kotlin
+        val vm = view.controller.file?.getViewModelByName("My View Model")!!
 
-    // Create blank
-    val vmiBlank = vm.createBlankInstance()
+        // Create blank
+        val vmiBlank = vm.createBlankInstance()
 
-    // Create default
-    val vmiDefault = vm.createDefaultInstance()
+        // Create default
+        val vmiDefault = vm.createDefaultInstance()
 
-    // Create by index
-    for (i in 0 until vm.instanceCount) {
-        val vmiIndexed = vm.createInstanceFromIndex(i)
-    }
+        // Create by index
+        for (i in 0 until vm.instanceCount) {
+            val vmiIndexed = vm.createInstanceFromIndex(i)
+        }
 
-    // Create by name
-    val vmiNamed = vm.createInstanceFromName("My Instance")
-    ```
+        // Create by name
+        val vmiNamed = vm.createInstanceFromName("My Instance")
+        ```
+      </Tab>
+    </Tabs>
   </Tab>
 
   <Tab title="Flutter">
@@ -645,22 +656,29 @@ It is preferred to assign to a state machine, as this will automatically apply t
     ```
   </Tab>
 
-  <Tab title="Android (Legacy)">
-    ```kotlin
-    view.setRiveResource(
-        R.raw.my_rive_file,
-        artboardName = "My Artboard",
-    )
+  <Tab title="Android">
+    <Tabs>
+      <Tab title="Compose">
+        
+      </Tab>
+      <Tab title="Legacy">
+        ```kotlin
+        view.setRiveResource(
+            R.raw.my_rive_file,
+            artboardName = "My Artboard",
+        )
 
-    val vm = view.controller.file?.getViewModelByName("My View Model")!!
-    val vmi = vm.createInstanceFromName("My Instance")
+        val vm = view.controller.file?.getViewModelByName("My View Model")!!
+        val vmi = vm.createInstanceFromName("My Instance")
 
-    // Apply the instance to the state machine (preferred)
-    view.controller.stateMachines.first().viewModelInstance = vmi
+        // Apply the instance to the state machine (preferred)
+        view.controller.stateMachines.first().viewModelInstance = vmi
 
-    // Alternatively, apply the instance to the artboard
-    view.controller.activeArtboard?.viewModelInstance = vmi
-    ```
+        // Alternatively, apply the instance to the artboard
+        view.controller.activeArtboard?.viewModelInstance = vmi
+        ```
+      </Tab>
+    </Tabs>
   </Tab>
 
   <Tab title="Flutter">
@@ -805,13 +823,20 @@ Alternatively, you may prefer to use auto-binding. This will automatically bind 
     ```
   </Tab>
 
-  <Tab title="Android (Legacy)">
-    ```kotlin {3}
-    view.setRiveResource(
-        R.raw.my_rive_file,
-        autoBind = true,
-    )
-    ```
+  <Tab title="Android">
+    <Tabs>
+      <Tab title="Compose">
+        
+      </Tab>
+      <Tab title="Legacy">
+        ```kotlin {3}
+        view.setRiveResource(
+            R.raw.my_rive_file,
+            autoBind = true,
+        )
+        ```
+      </Tab>
+    </Tabs>
   </Tab>
 
   <Tab title="Flutter">
@@ -975,7 +1000,12 @@ Property descriptors can be inspected on a view model to discover at runtime whi
     ```
   </Tab>
 
-  <Tab title="Android (Legacy)">
+  <Tab title="Android">
+    <Tabs>
+      <Tab title="Compose">
+        
+      </Tab>
+      <Tab title="Legacy">
     ```kotlin
     val vm = view.controller.file?.getViewModelByName("My View Model")!!
 
@@ -1245,7 +1275,12 @@ Some properties are mutable and have getters, setters, and observer operations f
     ```
   </Tab>
 
-  <Tab title="Android (Legacy)">
+  <Tab title="Android">
+    <Tabs>
+      <Tab title="Compose">
+        
+      </Tab>
+      <Tab title="Legacy">
     ```kotlin
     val vm = view.controller.file?.getViewModelByName("My View Model")!!
     val vmi = vm.createInstanceFromName("My Instance")
@@ -1591,7 +1626,12 @@ View models can have properties of type view model, allowing for arbitrary nesti
     ```
   </Tab>
 
-  <Tab title="Android (Legacy)">
+  <Tab title="Android">
+    <Tabs>
+      <Tab title="Compose">
+        
+      </Tab>
+      <Tab title="Legacy">
     ```kotlin
     val vm = view.controller.file?.getViewModelByName("My View Model")!!
     val vmi = vm.createInstanceFromName("My Instance")
@@ -1786,7 +1826,12 @@ You can observe changes over time to property values, either by using listeners 
     ```
   </Tab>
 
-  <Tab title="Android (Legacy)">
+  <Tab title="Android">
+    <Tabs>
+      <Tab title="Compose">
+        
+      </Tab>
+      <Tab title="Legacy">
     ```kotlin
     val vm = view.controller.file?.getViewModelByName("My View Model")!!
     val vmi = vm.createInstanceFromName("My Instance")
@@ -2135,7 +2180,12 @@ Image properties let you set and replace raster images at runtime, with each ins
     ```
   </Tab>
 
-  <Tab title="Android (Legacy)">
+  <Tab title="Android">
+    <Tabs>
+      <Tab title="Compose">
+        
+      </Tab>
+      <Tab title="Legacy">
     ```kotlin
     // Load image from the assets folder.
     val imageBytes = context.resources.openRawResource(R.raw.my_image).use { stream ->
@@ -2494,7 +2544,12 @@ For more information on list properties, see the [Data Binding List Property](/e
     ```
   </Tab>
 
-  <Tab title="Android (Legacy)">
+  <Tab title="Android">
+    <Tabs>
+      <Tab title="Compose">
+        
+      </Tab>
+      <Tab title="Legacy">
     ```kotlin
     // Acquire the default view model instance and the list property.
     val vmi = animationView.file!!.firstArtboard.viewModelInstance!!
@@ -3062,7 +3117,12 @@ Enums are string typed. The Rive file contains a list of enums. Each enum in tur
     ```
   </Tab>
 
-  <Tab title="Android (Legacy)">
+  <Tab title="Android">
+    <Tabs>
+      <Tab title="Compose">
+        
+      </Tab>
+      <Tab title="Legacy">
     ```kotlin
     val enums = view.controller.file?.enums!!
 
