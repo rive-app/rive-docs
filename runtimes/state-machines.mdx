@@ -429,6 +429,8 @@ In addition to the paused/stopped state, state machines may also "settle". This 
   <Tab title="Android (Legacy)">
     By default RiveAnimationView will auto-play the selected state machine.
 
+    ⚠️ The legacy API allows for playing multiple linear animations and state machines simultaneously. This is discouraged due to complexity and divergence from other runtimes. Prefer to use a single state machine controlling all animation through states and transitions.
+
     ### Using XML Layouts
 
     ```xml
