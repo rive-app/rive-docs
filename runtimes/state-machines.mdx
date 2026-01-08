@@ -389,6 +389,43 @@ In addition to the paused/stopped state, state machines may also "settle". This 
     ```
   </Tab>
 
+  <Tab title="Android (Compose)">
+    By default, the `Rive` composable will select and create the default state machine specified in the Rive editor. To specify a different state machine, you must first create a `StateMachine` object from an `Artboard`.
+
+    ### Compose
+    State machine objects can be created in Compose using the `rememberStateMachine` function, which takes an artboard and name of the state machine.
+
+    ```kotlin
+    val artboard = rememberArtboard(myRiveFile, "My Artboard")
+    val stateMachine = rememberStateMachine(artboard, "My State Machine")
+    ```
+
+    ### Outside of Compose
+    Alternatively, you can create a state machine outside of Compose contexts. Note that with this approach you are responsible for managing the state machine's lifecycle and must eventually close it with `StateMachine::close()` when no longer needed, or leveraging its [`AutoClosable`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-auto-closeable.html) interface with a `use` block.
+
+    ```kotlin
+    val artboard = Artboard.fromFile(myRiveFile, "My Artboard")
+    val stateMachine = StateMachine.fromArtboard(artboard, "My State Machine")
+    ...
+    stateMachine.close()
+    artboard.close()
+    ```
+
+    ### Using the State Machine
+    Once you have a state machine, you can pass it to the `Rive` composable via the `stateMachine` parameter.
+
+    By default the Rive composable will play the selected state machine. To toggle the play/pause state, set the `playing` parameter, triggering a re-composition. This is also used to replicate the auto-play behavior of other runtimes - simply set `playing` to false if you need to perform initial setup and set to true once ready.
+
+    ```kotlin
+    Rive(
+      myRiveFile,
+      artboard = artboard,
+      stateMachine = stateMachine,
+      playing = true // Or false to pause
+    )
+    ```
+  </Tab>
+
   <Tab title="Android (Legacy)">
     By default RiveAnimationView will auto-play the selected state machine.
 
