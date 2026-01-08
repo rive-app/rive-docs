@@ -26,6 +26,8 @@ The entry point for this API is the `Rive` composable function, which can be use
 
 In addition to providing a more idiomatic Compose experience, this API is also powered by a stronger threading model with higher stability and flexibility to spread Rive work across multiple threads.
 
+In the future this threading model will also include a View-based API for projects that cannot use Compose.
+
 **The Legacy View-based API**
 
 This API is based on Android Views and XML layouts. It has been widely deployed in production applications. It also supports [Compose by using AndroidView](https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/LegacyComposeActivity.kt), though it does require some boilerplate to set up.
