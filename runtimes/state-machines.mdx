@@ -19,7 +19,7 @@ Each runtime provides a way to control whether the state machine is playing. Whe
 
 Whether or not a state machine plays automatically depends on the value of the `autoplay` (or similarly named) property in each runtime. This is typically `true` by default. It may be useful to set this to `false` if you want to configure the state machine and artboard, e.g. through data bindings, before initial playback.
 
-In addition to the paused/stopped state, state machines may also "settle". This is an optimization where the Rive runtime detects that no further changes will occur (for example, if there are no active transitions or animations). While settled the state machine will also stop advancing. This improves performance and battery life by avoiding unnecessary calculations. State machines are unsettled by external actions that change their state, such as user input or data binding changes. You can additionally force a state machine to unsettle by calling play, though it may immediately re-settle if there is no further work to be done.
+In addition to the paused/stopped state, state machines may also "settle". This is an optimization where the Rive runtime detects that no further changes will occur (for example, if there are no active transitions or animations). While settled the state machine will also stop advancing. This improves performance and energy use by avoiding unnecessary calculations. State machines are unsettled by external actions that change their state, such as user input or data binding changes. You can additionally force a state machine to unsettle by calling play, though it may immediately re-settle if there is no further work to be done.
 
 ## Playing State Machines
 
