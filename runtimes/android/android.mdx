@@ -10,11 +10,11 @@ import { Demos } from '/snippets/demos.jsx'
 
 <Demos examples={['starRating']} runtime="android" />
 
-## Overview
+# Overview
 
 Welcome to using Rive on Android. Rive runtime libraries are open-source, with Android available in the [rive-android](https://github.com/rive-app/rive-android) GitHub repository.
 
-### The Two Android APIs
+## The Two Android APIs
 
 Rive for Android provides two main APIs for integrating Rive into your application.
 
@@ -36,7 +36,7 @@ The entry point for this API is the `RiveAnimationView`, which can be added to y
 
 We refer to this as the "legacy" API as we are focusing our development efforts on the new Compose API going forward, though this API will continue to be supported and maintained for some time. For all new development projects, we recommend using the new Compose API. Additionally, we recommend migrating existing projects to the new API when feasible, as this version will be deprecated in the future and will have limited to no new feature development.
 
-## Sample App
+# Sample App
 
 To explore the Android API, you can run our Android sample app. Each activity demonstrates a particular feature of the Rive Android runtime.
 
@@ -48,11 +48,11 @@ Open the cloned folder in Android Studio and select the `app` configuration and 
 
 The other build variants are for development purposes and require additional configuration. See [CONTRIBUTING.MD](https://github.com/rive-app/rive-android/blob/master/CONTRIBUTING.md).
 
-## Getting Started
+# Getting Started
 
 If you are looking for getting started instructions for the Legacy API, see [Getting Started (Legacy API)](./legacy-getting-started).
 
-### Adding Rive to Your Project
+## Adding Rive to Your Project
 
 <Steps>
   <Step title="Add the Rive dependency">
@@ -105,14 +105,14 @@ If you are looking for getting started instructions for the Legacy API, see [Get
   </Step>
 </Steps>
 
-### Enabling Logging
+## Enabling Logging
 The Compose API uses extensive logging, especially at the debug level, to help diagnose issues. By default there is no logger enabled. Most commonly you will want to set the global logger to pipe to Android's Logcat, which has a convenience function as follows. This could be done in your activity's `onCreate` method or in your `Application` subclass, for instance, before any Rive functionality is used.
 
 ```kotlin
 RiveLog.logger = RiveLog.LogcatLogger()
 ```
 
-### Adding Rive to Your Composition
+## Adding Rive to Your Composition
 <Steps>
   <Step title="Creating a Worker">
     The Compose API uses an explicit Rive worker which owns a thread for Rive operations, including file and asset decoding, advancing, and drawing. Before you can use any of the API surface, you must create a worker to host these operations. Be aware that the worker must live for the duration of all Rive resources made from it.
@@ -176,7 +176,7 @@ RiveLog.logger = RiveLog.LogcatLogger()
   </Step>
 </Steps>
 
-## Resources
+# Resources
 
 [GitHub](https://github.com/rive-app/rive-android)
 
