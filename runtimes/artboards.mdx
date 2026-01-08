@@ -125,18 +125,22 @@ Only one artboard can be rendered at a time.
   </Tab>
 
   <Tab title="Android (Compose)">
+    By default, the `Rive` composable will select and create the default artboard specified in the Rive editor. To specify a different artboard, you must first create an `Artboard` object from a loaded `RiveFile`.
+
     ### Compose
-    Artboard objects can be created in Compose using the `rememberArtboard` function, which takes the Rive file and name of the artboard.
+    Artboard objects can be created in Compose using the `rememberArtboard` function, which takes a Rive file and name of the artboard.
 
     ```kotlin
     val artboard = rememberArtboard(myRiveFile, "My Artboard")
     ```
     
     ### Outside of Compose
-    Alternatively, you can create an artboard outside of Compose contexts. Note that with this approach you are responsible for managing the artboard's lifecycle and must eventually close it with `Artboard::close()` when no longer needed.
+    Alternatively, you can create an artboard outside of Compose contexts. Note that with this approach you are responsible for managing the artboard's lifecycle and must eventually close it with `Artboard::close()` when no longer needed, or leveraging its [`AutoClosable`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-auto-closeable.html) interface with a `use` block.
 
     ```kotlin
     val artboard = Artboard.fromFile(myRiveFile, "My Artboard")
+    ...
+    artboard.close()
     ```
 
     ### Using the Artboard
