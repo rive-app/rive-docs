@@ -1,0 +1,73 @@
+---
+title: "Data Binding"
+description: ""
+---
+
+Scripting allows you to read, modify, and subscribe to changes in View Model properties,
+as well as create new View Model instances at runtime.
+
+<Info>
+For a conceptual overview of View Models and how they drive your graphic,
+see [View Models & Data Binding](/editor/data-binding/overview).
+</Info>
+
+There are three main ways a script can interact with View Model properties:
+
+### Accessing the Main View Model
+
+All lifecycle functions (`init`, `advance`, `convert`, etc.) include a `context` parameter that gives you access
+to the View Model that is attached to the main artboard. This allows you to read values (strings, enums, lists, etc.), set values,
+fire triggers, listen for triggers, and subscribe to value changes.
+
+<Note>
+  In this context the "main" artboard refers to the topmost artboard being played.
+</Note>
+
+This is the most common approach, and is ideal when your script is intended to operate on the primary data model of the file.
+
+```lua {8-16,19,20}
+type AlarmClock = {}
+
+function handleHoursChanged()
+  print('hours changed!')
+end
+
+function init(self: AlarmClock, context: Context): boolean
+  -- Make a reference to the main view model
+  local vm = context:viewModel()
+
+  -- Get properties from the main view model
+  local hours = vm:getNumber('hours')
+
+  -- Access properties on a nested view model
+  local dateVM = vm:getViewModel('dateViewModel')
+  local date = dateVM:getString('formattedDate')
+
+  if hours then
+    print(hours.value)
+    -- handleHoursChanged is called whenever the hours value changes
+    hours:addListener(handleHoursChanged)
+  end
+
+  return true
+end
+
+return function(): Node<AlarmClock>
+  return {
+    init = init,
+  }
+end
+```
+
+## View Models as Inputs
+
+See [View Model Inputs](/scripting/script-inputs#view-model-inputs)
+
+## Binding Inputs
+
+See [Data Binding Inputs](/scripting/script-inputs#data-binding-inputs)
+
+
+## Creating a View Model Instance
+
+TO DO
