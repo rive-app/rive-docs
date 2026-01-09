@@ -71,7 +71,7 @@ You can use [Data Binding](/editor/data-binding/overview) to control input value
 <Note>
   Inputs can control scripts, but scripts can't change the value of inputs.
 
-  If you need to control a view model property from your script, use [View Model Inputs](#view-model-inputs)
+  If you need to control a view model property from your script, access the [Main View model through context](/scripting/data-binding#accessing-the-main-view-model) or [View Model Inputs](#view-model-inputs)
 </Note>
 
 To data bind an input, right-click the input field in right sidebar, choose Data Bind, and select a
@@ -117,6 +117,10 @@ end
 ## View Model Inputs
 
 View Model Inputs let your script read from and write to View Model properties. These properties can control any element in your Rive scene via (See [Data Binding](/editor/data-binding/overview)).
+
+<Note>
+  You can access the [Main View model through context](/scripting/data-binding#accessing-the-main-view-model).
+</Note>
 
 ### Setting Up Your View Model
 
