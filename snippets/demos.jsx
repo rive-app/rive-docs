@@ -226,6 +226,15 @@ export const Demos = ({
         editor: "https://static.rive.app/revs/boiling-effect.rev"
       }
     },
+    scriptingTextPathEffect: {
+      title: "Text Path Effect",
+      image: "https://static.rive.app/docs/text-path-effect.gif",
+      description: "Control a text path using scripting.",
+      links: {
+        // TODO - replace with marketplace or editor links
+        editor: "https://static.rive.app/revs/text_path_effects.rev"
+      }
+    },
     scriptingSlotMachine: {
       title: "Slot Machine - Complete Game",
       image: "https://static.rive.app/docs/slot-machine.png",
@@ -233,6 +242,15 @@ export const Demos = ({
       links: {
         // TODO - replace with marketplace or editor links
         editor: "https://static.rive.app/revs/slot_machine.rev"
+      }
+    },
+    scriptingPlinko: {
+      title: "Plinko - Complete Game",
+      image: "https://static.rive.app/docs/scripting-plinko-game.png",
+      description: "Build a complete Plinko game using Layout, Node, and Path Effect scripts.",
+      links: {
+        // TODO - replace with marketplace or editor links
+        editor: "https://static.rive.app/revs/blinko.rev"
       }
     },
     starRating: {

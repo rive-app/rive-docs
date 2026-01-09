@@ -4,6 +4,8 @@ sidebarTitle: "Script Inputs"
 description: ""
 ---
 
+import { Demos } from '/snippets/demos.jsx'
+
 Scripted Inputs are the bridge between your scripts and the Rive editor, allowing you to customize and control script behavior through custom input fields.
 
 By defining inputs in your scripts, you expose configurable properties — like numbers, colors, booleans, and artboard components — that appear directly in the Rive interface. This means you can write the logic once in a script, and then experiment freely with values, animate properties over time, bind data from external sources, and reuse the same script across multiple instances with different configurations. Inputs transform static scripts into flexible, designer-friendly tools that enable true collaboration and rapid iteration.
@@ -63,6 +65,12 @@ end
 To access the input properties in the right sidebar of the editor, select your [Node](/scripting/protocols/node-scripts) or [Layout script](/scripting/protocols/layout-scripts) in the Hierarchy Panel or the [Converter](/scripting/protocols/converter-scripts) in the Data Panel.
 
 ![Node script input](/images/scripting/script-input.png)
+
+<Demos
+  examples={[
+    "scriptingDrawingShapes"
+  ]}
+/>
 
 ## Data Binding Inputs
 
