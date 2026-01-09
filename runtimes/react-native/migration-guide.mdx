@@ -5,7 +5,7 @@ description: "Learn how to migrate your React Native app when upgrading between 
 
 ## Migrating from `rive-react-native` to `@rive-app/react-native`
 
-The new Rive React Native runtime (`@rive-app/react-native`) is a complete rewrite built with [Nitro Modules](https://nitro.margelo.com/) for improved performance and better React Native integration. This guide will help you migrate from the legacy `rive-react-native` package to the new runtime.
+The new Rive React Native runtime (`@rive-app/react-native`) is a complete rewrite built with [Nitro Modules](https://nitro.margelo.com/) for improved performance and better React Native integration.
 
 <Note>
   All your Rive graphics will still look and function the same as they did
@@ -14,1048 +14,343 @@ The new Rive React Native runtime (`@rive-app/react-native`) is a complete rewri
 
 ### What's New
 
-The new runtime represents a fundamental architectural shift that gives you more control and unlocks better Rive runtime features:
-
-#### RiveFile Ownership & Caching
-
-**The biggest change:** You now own the `RiveFile` object. Instead of passing a URL or resource name directly to a component, you use the `useRiveFile` hook to load and manage Rive files:
+**RiveFile Ownership:** You now own the `RiveFile` object via the `useRiveFile` hook, enabling file caching, multiple instances from one file, and better resource management.
 
 ```tsx
-const { riveFile } = useRiveFile(require("./animation.riv"));
-```
-
-This ownership model enables:
-
-- **File Caching** - Load a Rive file once and reuse it across multiple components, improving performance
-- **Resource Management** - Full control over when files are loaded and disposed
-- **Multiple Instances** - Create and manage view model instances from a single file
-- **Advanced Use Cases** - Access to underlying file data, artboards, and view models
-
-**Legacy Runtime:**
-
-```tsx
-// File was managed internally by the component
+// Old: file managed internally
 <Rive url="https://cdn.rive.app/animations/vehicles.riv" />
-```
 
-**New Runtime:**
-
-```tsx
-// You own and manage the RiveFile
+// New: you own the RiveFile
 const { riveFile } = useRiveFile(require("./vehicles.riv"));
-<RiveView file={riveFile} />;
+<RiveView file={riveFile} />
 ```
 
-#### Enhanced Data Binding Support
-
-Both runtimes support [Data Binding](/editor/data-binding/) with property hooks, but the new runtime significantly improves the API and unlocks additional capabilities.
-
-**Legacy Runtime Data Binding:**
-
-- ✅ Property hooks: `useRiveNumber`, `useRiveBoolean`, `useRiveString`, `useRiveColor`, `useRiveEnum`, `useRiveTrigger`
-- ✅ Nested properties with path notation (e.g., `'Button/State_1'`)
-- ✅ Reactive updates through hooks
-- ❌ No direct access to `ViewModel` or `ViewModelInstance` objects
-- ❌ Property hooks require passing `riveRef` as first parameter
-- ❌ No instance control or initialization hooks
-- ❌ Cannot create multiple instances from the same view model
-- ❌ No support for advanced types: lists, images, artboards, nested view models
-
-**Legacy Runtime Example:**
+**Enhanced Data Binding:** Direct access to `ViewModel` and `ViewModelInstance` objects, enabling initialization hooks, multiple instances, and support for all property types (lists, images, artboards).
 
 ```tsx
+// Old: hooks take riveRef, return tuples
 const [setRiveRef, riveRef] = useRive();
 const [health, setHealth] = useRiveNumber(riveRef, "health");
-const [buttonText, setButtonText] = useRiveString(riveRef, "Button/State_1");
 
-useRiveTrigger(riveRef, "gameOver", () => console.log("Game Over!"));
-```
-
-**New Runtime Improvements:**
-
-The new runtime gives you direct access to `ViewModel` and `ViewModelInstance` objects for full runtime control:
-
-- **ViewModel** - Describes the structure of properties available for binding (obtained from a RiveFile)
-- **ViewModelInstance** - A concrete instance with actual values you can get and set
-
-This enables:
-
-- **Improved API** - Property hooks take `viewModelInstance` as parameter instead of `riveRef`
-- **Instance Control** - Create, configure, and manage view model instances with `useViewModelInstance`
-- **Initialization Hooks** - Set initial property values before rendering with `onInit` callback
-- **Multiple Instances** - Create and manage multiple instances of the same view model
-- **Direct Access** - Access the underlying `ViewModelInstance` for advanced use cases
-- **Nested Properties** - Access properties using path notation or through chaining (e.g., `viewModelInstance.viewModel('propertyName')`)
-- **Full Property Types** - Support for all property types including lists, artboards, images, and nested view models
-
-**New Runtime Example:**
-
-```tsx
-const { riveFile } = useRiveFile(require("./animation.riv"));
-
-// Create instance with initialization
-const viewModelInstance = useViewModelInstance(riveFile, {
-  onInit: (vmi) => (vmi.numberProperty("health")!.value = 100),
-});
-
-// Use property hooks with viewModelInstance
+// New: hooks take viewModelInstance, return objects
+const viewModelInstance = useViewModelInstance(riveFile);
 const { value: health, setValue: setHealth } = useRiveNumber(
   "health",
   viewModelInstance
 );
-const { trigger } = useRiveTrigger("gameOver", viewModelInstance, {
-  onTrigger: () => console.log("Game Over!"),
-});
-
-// React state automatically syncs with your Rive graphic
-setHealth(50);
 ```
 
-<Note>
-  The new runtime still supports setting state machine inputs directly via view
-  reference methods (like the legacy runtime), but this approach is
-  **deprecated**. We strongly recommend using data binding.
-</Note>
+**Improved Error Handling:**
 
-#### Advanced Control & Flexibility
-
-With access to the underlying objects, you can:
-
-- **Cache and Reuse** - Load a RiveFile once and share it across your app
-- **Multiple Artboards** - Display different artboards from the same loaded file object
-- **Instance Management** - Create, configure, and dispose view model instances as needed
-- **Custom Initialization** - Set initial property values before rendering
-- **Manual Creation** - Bypass hooks and create instances manually when needed
-
-**Example - File Caching:**
-
-```tsx
-// Load once at the app level
-const { riveFile } = useRiveFile(require('./shared.riv'));
-
-// Pass to multiple components
-<GameUI file={riveFile} />
-<MenuScreen file={riveFile} />
-<Settings file={riveFile} />
-```
-
-#### Built on Nitro Modules
-
-The runtime is built on [Nitro Modules](https://nitro.margelo.com/), providing:
-
-- **Better Performance** - C++ native modules with zero-copy data transfer
-- **Improved DX** - Full TypeScript support and better error messages
-- **Future-Proof** - Modern architecture designed for React Native's future
+Error handling is improved. See the [error handling](/runtimes/react-native/error-handling) documentation for more information.
 
 ### Requirements
 
-#### Version Requirements
-
-- **React Native**: 0.78 or later (0.79+ recommended for improved Android error messages)
-- **Expo SDK**: 53 or later (for Expo users)
-- **iOS**: 15.1 or later
-- **Android**: SDK 24 (Android 7.0) or later
-- **Xcode**: 16.4 or later
-- **JDK**: 17 or later
-- **Nitro Modules**: 0.25.2 or later
-
-### Migration Guide
-
-#### Quick Migration Checklist
-
-1. ✅ Update your dependencies to use the new runtime
-   ```bash
-   npm uninstall rive-react-native
-   npm install @rive-app/react-native react-native-nitro-modules
-   ```
-2. ✅ Update imports from `rive-react-native` to `@rive-app/react-native`
-3. ✅ Replace `<Rive />` component with [`<RiveView />`](#component-migration)
-4. ✅ Update file loading to use [`useRiveFile` hook](#loading-rive-files) - you now own the RiveFile
-5. ✅ Update refs to use [`useRive` hook](#view-reference-migration)
-6. ✅ Update [data binding](#data-binding-migration) usage to the new API
-7. ✅ Update [state machine inputs](#state-machine-inputs-deprecated-methods) to new methods (deprecated, use data binding instead)
-8. ✅ Update [event handling](#rive-events-deprecated-methods) to new event listener methods (deprecated, use data binding instead)
-9. ✅ (Recommended) Update state machine inputs to use [data binding](#data-binding-migration)
-10. ✅ (Recommended) Update events to use [data binding](#handling-rive-events-with-data-binding)
-11. ✅ Consider [caching RiveFiles](/runtimes/caching-a-rive-file) for better performance
-12. ✅ Test your graphics and interactions
-
-#### Installation
-
-<Tabs>
-  <Tab title="New Runtime">
-    ```bash
-    npm install @rive-app/react-native react-native-nitro-modules
-    # or for Yarn
-    yarn add @rive-app/react-native react-native-nitro-modules
-    ```
-
-    <Note>
-      `react-native-nitro-modules` is required as this library relies on [Nitro Modules](https://nitro.margelo.com/).
-    </Note>
-
-  </Tab>
-  <Tab title="Legacy Runtime">
-    ```bash
-    npm install rive-react-native
-    # or for Yarn
-    yarn add rive-react-native
-    ```
-  </Tab>
-</Tabs>
-
-#### Loading Rive Files
-
-The new runtime uses the `useRiveFile` hook instead of props to load Rive files. All loading methods return a `RiveFile` object that you pass to the `RiveView` component.
-
-<Info>
-  **Key Benefit:** You now own the `RiveFile` object! This means you can cache
-  and reuse it across multiple components, improving performance. See [Caching
-  Rive Files](/runtimes/caching-a-rive-file) for optimization strategies.
-</Info>
-
-<Tabs>
-  <Tab title="New Runtime">
-    **Option 1: Using `require()` (Recommended)**
-
-    ```tsx Loading from require()
-    import { RiveView, useRiveFile, Fit } from '@rive-app/react-native';
-
-    export default function MyComponent() {
-      const { riveFile, isLoading, error } = useRiveFile(
-        require('./assets/my_animation.riv')
-      );
-
-      if (isLoading) return <ActivityIndicator />;
-      if (error || !riveFile) return <Text>Error loading file</Text>;
-
-      return (
-        <RiveView
-          file={riveFile}
-          style={{ width: 400, height: 400 }}
-        />
-      );
-    }
-    ```
-
-    **Option 2: Loading from URL**
-
-    ```tsx Loading from URL
-    const { riveFile, isLoading, error } = useRiveFile(
-      'https://cdn.rive.app/animations/vehicles.riv'
-    );
-    ```
-
-    **Option 3: Loading from Resource Name**
-
-    ```tsx Loading from resource name
-    const { riveFile, isLoading, error } = useRiveFile('my_animation');
-    ```
-
-    **Option 4: Loading from ArrayBuffer**
-
-    ```tsx Loading from ArrayBuffer
-    import { useState, useEffect } from 'react';
-
-    const [arrayBuffer, setArrayBuffer] = useState<ArrayBuffer>();
-
-    useEffect(() => {
-      fetch('https://cdn.rive.app/animations/vehicles.riv')
-        .then(res => res.arrayBuffer())
-        .then(setArrayBuffer);
-    }, []);
-
-    const { riveFile, isLoading, error } = useRiveFile(arrayBuffer);
-    ```
-
-    See [Loading Rive Files](/runtimes/react-native/loading-rive-files) for more details.
-
-  </Tab>
-  <Tab title="Legacy Runtime">
-    **Option 1: Loading from URL**
-
-    ```tsx
-    <Rive url="https://cdn.rive.app/animations/vehicles.riv" />
-    ```
-
-    **Option 2: Loading from Resource Name**
-
-    ```tsx
-    <Rive resourceName="my_animation" />
-    ```
-
-    **Option 3: Using `source` prop**
-
-    ```tsx
-    <Rive source={require('./assets/my_animation.riv')} />
-    ```
-
-  </Tab>
-</Tabs>
-
-**Key Changes:**
-
-- Use `useRiveFile` hook to load files instead of props
-- The hook returns `riveFile`, `isLoading`, and `error` for better loading state management
-- Pass the `riveFile` object to the `RiveView` component via the `file` prop
-- Loading with `require()` is now the recommended approach
-- Added support for loading from `ArrayBuffer`
-
-#### Component Migration
-
-The `<Rive />` component has been replaced with `<RiveView />`.
-
-<Tabs>
-  <Tab title="New Runtime">
-    ```tsx RiveView component
-    import { RiveView, useRiveFile, Fit } from '@rive-app/react-native';
-
-    export default function MyComponent() {
-      const { riveFile } = useRiveFile(require('./assets/animation.riv'));
-
-      return (
-        <RiveView
-          file={riveFile}
-          artboardName="MainArtboard"
-          stateMachineName="State Machine 1"
-          fit={Fit.Contain}
-          autoPlay={true}
-          style={{ width: 400, height: 400 }}
-        />
-      );
-    }
-    ```
-
-  </Tab>
-  <Tab title="Legacy Runtime">
-    ```tsx Rive component
-    import Rive from 'rive-react-native';
-
-    export default function MyComponent() {
-      return (
-        <Rive
-          url="https://cdn.rive.app/animations/vehicles.riv"
-          artboardName="MainArtboard"
-          stateMachineName="State Machine 1"
-          fit={Fit.Contain}
-          autoplay={true}
-          style={{ width: 400, height: 400 }}
-        />
-      );
-    }
-    ```
-
-  </Tab>
-</Tabs>
-
-**Key Changes:**
-
-| Old Component | New Component  | Notes              |
-| ------------- | -------------- | ------------------ |
-| `<Rive />`    | `<RiveView />` | Direct replacement |
-| `autoplay`    | `autoPlay`     | Now uses camelCase |
-
-#### View Reference Migration
-
-Both runtimes use a `useRive` hook, but the API has changed.
-
-<Tabs>
-  <Tab title="New Runtime">
-    ```tsx useRive hook (New)
-    import { RiveView, useRive, useRiveFile } from '@rive-app/react-native';
-
-    export default function MyComponent() {
-      const { riveFile } = useRiveFile(require('./assets/animation.riv'));
-      const { riveViewRef, setHybridRef } = useRive();
-
-      const handlePlay = () => {
-        riveViewRef?.play();
-      };
-
-      return (
-        <>
-          <RiveView
-            hybridRef={setHybridRef}
-            file={riveFile}
-            style={{ width: 400, height: 400 }}
-          />
-          <Button onPress={handlePlay} title="Play" />
-        </>
-      );
-    }
-    ```
-
-  </Tab>
-  <Tab title="Legacy Runtime">
-    ```tsx useRive hook (Legacy)
-    import Rive from 'rive-react-native';
-    import { useRive } from 'rive-react-native';
-
-    export default function MyComponent() {
-      const [setRiveRef, riveRef] = useRive();
-
-      const handlePlay = () => {
-        riveRef?.play();
-      };
-
-      return (
-        <>
-          <Rive
-            ref={setRiveRef}
-            url="https://cdn.rive.app/animations/vehicles.riv"
-            style={{ width: 400, height: 400 }}
-          />
-          <Button onPress={handlePlay} title="Play" />
-        </>
-      );
-    }
-    ```
-
-  </Tab>
-</Tabs>
-
-**Key Changes:**
-
-- **Old:** `useRive()` returns `[setRiveRef, riveRef]` (tuple)
-- **New:** `useRive()` returns `{ riveViewRef, setHybridRef }` (object)
-- **Old:** Pass `setRiveRef` to the `ref` prop
-- **New:** Pass `setHybridRef` to the `hybridRef` prop
-- **Old:** Access methods via `riveRef?.method()`
-- **New:** Access methods via `riveViewRef?.method()`
-
-See [Rive Ref Methods](/runtimes/react-native/rive-ref-methods) for available methods.
-
-#### Playback Control
-
-Basic playback methods remain similar but are accessed differently.
-
-<Tabs>
-  <Tab title="New Runtime">
-    ```tsx Playback control
-    const { riveViewRef, setHybridRef } = useRive();
-
-    // Play, pause, reset
-    riveViewRef?.play();
-    riveViewRef?.pause();
-    riveViewRef?.reset();
-
-    // playIfNeeded() is also available to ensure the graphic plays after property updates
-    ```
-
-  </Tab>
-  <Tab title="Legacy Runtime">
-    ```tsx Playback control
-    const riveRef = useRef<RiveRef>(null);
-
-    // Play with optional parameters
-    riveRef.current?.play('animationName', LoopMode.Auto, Direction.Auto, false);
-    riveRef.current?.pause();
-    riveRef.current?.stop();
-    riveRef.current?.reset();
-    ```
-
-  </Tab>
-</Tabs>
-
-**Key Changes:**
-
-- `.play()` no longer accepts parameters - use state machines for complex playback
-- `.stop()` has been removed - use `.pause()` and `.reset()` instead
-- `.playIfNeeded()` ensures the graphic plays (useful after property updates)
-
-#### State Machine Inputs (Deprecated Methods)
-
-If you're setting state machine inputs in the legacy runtime, you can continue using similar methods in the new runtime, though they are deprecated.
-
-<Warning>
-  **These methods are deprecated.** While they work for backward compatibility,
-  we strongly recommend migrating to [data binding](#data-binding-migration).
-</Warning>
-
-<Tabs>
-  <Tab title="New Runtime (Deprecated)">
-    ```tsx State Machine Inputs
-    import { RiveView, useRive, useRiveFile } from '@rive-app/react-native';
-    import { useEffect } from 'react';
-    import { Button } from 'react-native';
-
-    export default function MyComponent() {
-      const { riveFile } = useRiveFile(require('./assets/animation.riv'));
-      const { riveViewRef, setHybridRef } = useRive();
-
-      const handleButtonPress = () => {
-        // Set number input
-        riveViewRef?.setNumberInputValue('level', 5);
-
-        // Set boolean input
-        riveViewRef?.setBooleanInputValue('isActive', true);
-
-        // Fire trigger
-        riveViewRef?.triggerInput('buttonPressed');
-      };
-
-      useEffect(() => {
-        if (riveViewRef) {
-          // Get current input values
-          const levelValue = riveViewRef.getNumberInputValue('level');
-          const isActive = riveViewRef.getBooleanInputValue('isActive');
-          console.log('Level:', levelValue, 'Active:', isActive);
-        }
-      }, [riveViewRef]);
-
-      return (
-        <>
-          <RiveView
-            hybridRef={setHybridRef}
-            file={riveFile}
-            style={{ width: 400, height: 400 }}
-          />
-          <Button onPress={handleButtonPress} title="Press Me" />
-        </>
-      );
-    }
-    ```
-
-    **Available methods:**
-    - `setNumberInputValue(name, value, path?)` - Set a number input
-    - `getNumberInputValue(name, path?)` - Get a number input value
-    - `setBooleanInputValue(name, value, path?)` - Set a boolean input
-    - `getBooleanInputValue(name, path?)` - Get a boolean input value
-    - `triggerInput(name, path?)` - Fire a trigger input
-
-  </Tab>
-  <Tab title="Legacy Runtime">
-    ```tsx State Machine Inputs
-    import Rive, { RiveRef } from 'rive-react-native';
-    import { useRef } from 'react';
-    import { Button } from 'react-native';
-
-    export default function MyComponent() {
-      const riveRef = useRef<RiveRef>(null);
-
-      const handleButtonPress = () => {
-        // Set number input
-        riveRef.current?.setInputState('State Machine 1', 'level', 5);
-
-        // Set boolean input
-        riveRef.current?.setInputState('State Machine 1', 'isActive', true);
-
-        // Fire trigger
-        riveRef.current?.fireState('State Machine 1', 'buttonPressed');
-      };
-
-      return (
-        <>
-          <Rive
-            ref={riveRef}
-            url="https://cdn.rive.app/animations/game.riv"
-            stateMachineName="State Machine 1"
-            style={{ width: 400, height: 400 }}
-          />
-          <Button onPress={handleButtonPress} title="Press Me" />
-        </>
-      );
-    }
-    ```
-
-  </Tab>
-</Tabs>
-
-**Key Changes:**
-
-- `.setInputState(stateMachineName, inputName, value)` → `.setNumberInputValue(name, value)` or `.setBooleanInputValue(name, value)`
-- `.fireState(stateMachineName, inputName)` → `.triggerInput(name)`
-- No longer need to specify the state machine name
-- Added getter methods: `.getNumberInputValue()`, `.getBooleanInputValue()`
-- Methods support optional `path` parameter for nested properties
-
-<Info>
-  **Recommended:** Instead of using these deprecated methods, migrate to [data
-  binding](#data-binding-migration) for better control.
-</Info>
-
-#### Rive Events (Deprecated Methods)
-
-If you're listening to Rive events in the legacy runtime, you can continue using event listeners in the new runtime, though they are deprecated.
-
-<Warning>
-  **These methods are deprecated.** While they work for backward compatibility,
-  we strongly recommend migrating to [data
-  binding](#handling-rive-events-with-data-binding).
-</Warning>
-
-<Tabs>
-  <Tab title="New Runtime (Deprecated)">
-    ```tsx Rive Events
-    import {
-      RiveView,
-      useRive,
-      useRiveFile,
-      type RiveEvent,
-      RiveEventType,
-    } from '@rive-app/react-native';
-    import { useEffect } from 'react';
-
-    export default function MyComponent() {
-      const { riveFile } = useRiveFile(require('./assets/animation.riv'));
-      const { riveViewRef, setHybridRef } = useRive();
-
-      useEffect(() => {
-        if (!riveViewRef) return;
-
-        const handleRiveEvent = (event: RiveEvent) => {
-          console.log('Rive Event:', event);
-
-          if (event.type === RiveEventType.General) {
-            console.log('General Event:', event.name);
-            // Access event properties
-            if (event.properties) {
-              console.log('Properties:', event.properties);
-            }
-          } else if (event.type === RiveEventType.OpenUrl) {
-            console.log('Open URL:', event.url, 'Target:', event.target);
-          }
-        };
-
-        // Add event listener
-        riveViewRef.onEventListener(handleRiveEvent);
-
-        // Cleanup
-        return () => {
-          riveViewRef.removeEventListeners();
-        };
-      }, [riveViewRef]);
-
-      return (
-        <RiveView
-          hybridRef={setHybridRef}
-          file={riveFile}
-          style={{ width: 400, height: 400 }}
-        />
-      );
-    }
-    ```
-
-    **Available methods:**
-    - `onEventListener(callback)` - Add an event listener
-    - `removeEventListeners()` - Remove all event listeners
-
-    **Event types:**
-    - `RiveEventType.General` - General Rive events with optional properties
-    - `RiveEventType.OpenUrl` - Open URL events with url and target
-
-  </Tab>
-  <Tab title="Legacy Runtime">
-    ```tsx Rive Events
-    import Rive from 'rive-react-native';
-
-    export default function MyComponent() {
-      const handleRiveEvent = (event) => {
-        console.log('Rive Event:', event);
-
-        // Handle different event types
-        if (event.type === 'general') {
-          console.log('General Event:', event.name);
-        } else if (event.type === 'openurl') {
-          console.log('Open URL:', event.url);
-        }
-      };
-
-      return (
-        <Rive
-          url="https://cdn.rive.app/animations/game.riv"
-          onRiveEventReceived={handleRiveEvent}
-          style={{ width: 400, height: 400 }}
-        />
-      );
-    }
-    ```
-
-  </Tab>
-</Tabs>
-
-**Key Changes:**
-
-- `onRiveEventReceived` prop → Use `onEventListener(callback)` method on the view reference
-- Events are now handled through the view reference instead of component props
-- Use `useEffect` to set up and clean up event listeners
-- Event types are now accessed via `RiveEventType` enum
-- Must manually clean up listeners with `removeEventListeners()`
-
-<Info>
-  **Recommended:** Instead of using these deprecated methods, migrate to [data
-  binding with property hooks](#handling-rive-events-with-data-binding).
-</Info>
-
-#### Data Binding Migration
-
-<Tip>
-  The new runtime emphasizes [Data Binding](/runtimes/data-binding) as the
-  recommended approach for all runtime interactions.
-</Tip>
-
-The new runtime gives you direct access to `ViewModel` and `ViewModelInstance` objects, enabling full data binding support. While the legacy state machine input methods are **still available** in the new runtime (for backward compatibility), they are **deprecated**.
-
-**Why migrate to data binding?**
-
-- **React Integration** - Property hooks integrate seamlessly with React state
-- **Better Performance** - Optimized for React's rendering cycle
-- **More Control** - Access to view model instances and lifecycle management
-- **Full Feature Set** - Support for all property types (enums, colors, lists, etc.)
-- **Type Safety** - Full TypeScript support
-
-**Key Concepts:**
-
-- **ViewModel** - Describes the structure of properties (obtained from a RiveFile)
-- **ViewModelInstance** - A concrete instance with actual property values you can get/set
-- **Property Hooks** - React hooks that integrate Rive properties with React state
-
-The recommended approach is to use data binding with `ViewModelInstance` and property hooks instead of direct method calls.
-
-<Tabs>
-  <Tab title="New Runtime">
-    ```tsx Data Binding
-    import {
-      RiveView,
-      useRive,
-      useRiveFile,
-      useViewModelInstance,
-      useRiveNumber,
-      useRiveTrigger,
-      Fit,
-    } from '@rive-app/react-native';
-
-    export default function MyComponent() {
-      const { riveFile } = useRiveFile(require('./assets/animation.riv'));
-      const { riveViewRef, setHybridRef } = useRive();
-
-      // Create view model instance
-      const viewModelInstance = useViewModelInstance(riveFile, {
-        onInit: (vmi) => {
-          // Set initial values
-          vmi.numberProperty('health')!.value = 100;
-        }
-      });
-
-      // Use property hooks
-      const { value: health, setValue: setHealth } = useRiveNumber(
-        'health',
-        viewModelInstance
-      );
-
-      const { trigger: gameOverTrigger } = useRiveTrigger(
-        'gameOver',
-        viewModelInstance,
-        { onTrigger: () => console.log('Game Over!') }
-      );
-
-      const handleDamage = () => {
-        setHealth((h) => (h ?? 100) - 10);
-        riveViewRef?.play();
-      };
-
-      const handleGameOver = () => {
-        setHealth(0);
-        gameOverTrigger();
-        riveViewRef?.play();
-      };
-
-      return (
-        <>
-          <RiveView
-            hybridRef={setHybridRef}
-            file={riveFile}
-            fit={Fit.Layout}
-            dataBind={viewModelInstance}
-            style={{ width: 400, height: 400 }}
-          />
-          <Button onPress={handleDamage} title="Take Damage" />
-          <Button onPress={handleGameOver} title="Game Over" />
-        </>
-      );
-    }
-    ```
-
-  </Tab>
-  <Tab title="Legacy Runtime">
-    ```tsx State Machine Inputs
-    import { useRef } from 'react';
-    import Rive, { RiveRef } from 'rive-react-native';
-
-    export default function MyComponent() {
-      const riveRef = useRef<RiveRef>(null);
-
-      const handleDamage = () => {
-        // Set number input
-        riveRef.current?.setInputState('State Machine 1', 'health', 90);
-      };
-
-      const handleGameOver = () => {
-        // Fire trigger
-        riveRef.current?.fireState('State Machine 1', 'gameOver');
-      };
-
-      return (
-        <>
-          <Rive
-            ref={riveRef}
-            url="https://cdn.rive.app/animations/game.riv"
-            stateMachineName="State Machine 1"
-            style={{ width: 400, height: 400 }}
-          />
-          <Button onPress={handleDamage} title="Take Damage" />
-          <Button onPress={handleGameOver} title="Game Over" />
-        </>
-      );
-    }
-    ```
-
-  </Tab>
-</Tabs>
-
-**Key Changes:**
-
-- **Recommended:** Use `useRiveNumber` or `useRiveBoolean` hooks instead of `.setInputState()`
-- **Recommended:** Use `useRiveTrigger` hook instead of `.fireState()`
-- Create a `ViewModelInstance` using `useViewModelInstance` hook
-- Pass the instance to `RiveView` via the `dataBind` prop
-- Use property hooks (`useRiveNumber`, `useRiveTrigger`, etc.) to interact with properties
-
-<Info>
-  **Note:** The legacy methods (`.setInputState()`, `.fireState()`) are still
-  available in the new runtime but are deprecated. See the [State Machine Inputs
-  example](https://github.com/rive-app/rive-nitro-react-native/blob/main/example/src/pages/RiveStateMachineInputsExample.tsx)
-  for backward compatibility usage.
-</Info>
-
-Available property hooks:
-
-- `useRiveNumber` - for number properties
-- `useRiveBoolean` - for boolean properties
-- `useRiveString` - for string properties
-- `useRiveTrigger` - for trigger properties
-- `useRiveColor` - for color properties
-- `useRiveEnum` - for enum properties
-- `useRiveList` - for list properties
-
-<Note>
-  Property names support path notation for nested properties (e.g.,
-  `'Button/State_1'`, `'Coin/Item_Value'`).
-</Note>
-
-**Alternative: Manual ViewModelInstance Creation**
-
-You can also manually create a view model instance from a ViewModel:
-
-```tsx Manual instance creation
-import { useMemo } from "react";
-
-const viewModel = useMemo(() => file.defaultArtboardViewModel(), [file]);
-const instance = useMemo(() => viewModel?.createDefaultInstance(), [viewModel]);
-
-// Then use the instance with property hooks
-const { setValue: setButtonText } = useRiveString("Button/State_1", instance);
+- **React Native**: 0.78+ (0.79+ recommended)
+- **Expo SDK**: 53+ (for Expo users)
+- **iOS**: 15.1+
+- **Android**: SDK 24+
+- **Xcode**: 16.4+
+- **JDK**: 17+
+- **Nitro Modules**: 0.25.2+
+
+### Migration Steps
+
+#### 1. Installation
+
+```bash
+npm uninstall rive-react-native
+npm install @rive-app/react-native react-native-nitro-modules
 ```
 
-See [Data Binding](/runtimes/data-binding) for more details.
-
-#### Handling Rive Events with Data Binding
-
 <Note>
-  Updating from runtime events to data binding requires changes in the .riv file
-  in the Rive Editor. See [Data Binding](/runtimes/data-binding) for more
-  details.
+  `react-native-nitro-modules` is required as this library relies on [Nitro
+  Modules](https://nitro.margelo.com/).
 </Note>
 
-Now that you've seen the deprecated event listener approach in the [Rive Events (Deprecated Methods)](#rive-events-deprecated-methods) section, let's look at the recommended data binding approach.
+#### 2. Update Imports
 
-Data binding provides better React integration and more granular control over event handling in your Rive graphic.
+```tsx
+// Old
+import Rive from "rive-react-native";
+
+// New
+import { RiveView } from "@rive-app/react-native";
+```
+
+#### 3. Loading Rive Files
 
 <Tabs>
   <Tab title="New Runtime">
-    ```tsx Event Handling
-    import { useRiveTrigger } from '@rive-app/react-native';
+    ```tsx
+    const { riveFile, isLoading, error } = useRiveFile(require('./animation.riv'));
+    // Also supports: URL string, resource name, or ArrayBuffer
 
-    const { trigger: onButtonClick } = useRiveTrigger(
-      'onButtonClick',
-      viewModelInstance,
+    return <RiveView file={riveFile} style={{ width: 400, height: 400 }} />;
+    ```
+
+  </Tab>
+  <Tab title="Legacy Runtime">
+    ```tsx
+    <Rive source={require('./animation.riv')} />
+    // Also supports: url or resourceName props
+    ```
+
+  </Tab>
+</Tabs>
+
+See [loading Rive files](/runtimes/react-native/loading-rive-files) for more information.
+
+#### 4. Component Migration
+
+<Tabs>
+  <Tab title="New Runtime">
+    ```tsx
+    <RiveView
+      file={riveFile}
+      artboardName="MainArtboard"
+      stateMachineName="State Machine 1"
+      fit={Fit.Contain}
+      autoPlay={true}
+      style={{ width: 400, height: 400 }}
+    />
+    ```
+
+  </Tab>
+  <Tab title="Legacy Runtime">
+    ```tsx
+    <Rive
+      url="https://cdn.rive.app/animations/vehicles.riv"
+      artboardName="MainArtboard"
+      stateMachineName="State Machine 1"
+      fit={Fit.Contain}
+      autoplay={true}
+      style={{ width: 400, height: 400 }}
+    />
+    ```
+
+  </Tab>
+</Tabs>
+
+See [React Native runtime documentation](/runtimes/react-native) for more information.
+
+#### 5. View Reference Migration
+
+<Tabs>
+  <Tab title="New Runtime">
+    ```tsx
+    const { riveViewRef, setHybridRef } = useRive();
+
+    riveViewRef?.play();
+    riveViewRef?.pause();
+
+    <RiveView hybridRef={setHybridRef} file={riveFile} />
+    ```
+
+  </Tab>
+  <Tab title="Legacy Runtime">
+    ```tsx
+    const [setRiveRef, riveRef] = useRive();
+
+    riveRef?.play();
+    riveRef?.pause();
+
+    <Rive ref={setRiveRef} url="..." />
+    ```
+
+  </Tab>
+</Tabs>
+
+See [Rive ref methods](/runtimes/react-native/rive-ref-methods) for more information.
+
+#### 6. State Machine Inputs (Deprecated)
+
+<Warning>
+  These methods are deprecated. Migrate to [data binding](#8-data-binding)
+  instead.
+</Warning>
+
+<Tabs>
+  <Tab title="New Runtime">
+    ```tsx
+    riveViewRef?.setNumberInputValue('level', 5);
+    riveViewRef?.setBooleanInputValue('isActive', true);
+    riveViewRef?.triggerInput('buttonPressed');
+    ```
+
+  </Tab>
+  <Tab title="Legacy Runtime">
+    ```tsx
+    riveRef.current?.setInputState('State Machine 1', 'level', 5);
+    riveRef.current?.setInputState('State Machine 1', 'isActive', true);
+    riveRef.current?.fireState('State Machine 1', 'buttonPressed');
+    ```
+
+  </Tab>
+</Tabs>
+
+See [state machine inputs](/runtimes/inputs) for more information.
+
+#### 7. Rive Events (Deprecated)
+
+<Warning>
+  These methods are deprecated. Use [data binding triggers](#8-data-binding)
+  instead.
+</Warning>
+
+<Tabs>
+  <Tab title="New Runtime">
+    ```tsx
+    useEffect(() => {
+      const handleEvent = (event: RiveEvent) => console.log(event);
+      riveViewRef?.onEventListener(handleEvent);
+      return () => riveViewRef?.removeEventListeners();
+    }, [riveViewRef]);
+    ```
+
+  </Tab>
+  <Tab title="Legacy Runtime">
+    ```tsx
+    <Rive
+      onRiveEventReceived={(event) => console.log(event)}
+      url="..."
+    />
+    ```
+
+  </Tab>
+</Tabs>
+
+See [runtime events](/runtimes/rive-events) for more information.
+
+#### 8. Data Binding
+
+The new runtime significantly improves data binding by giving you direct access to `ViewModelInstance` objects. This enables:
+
+- **Initialization hooks** - Set initial property values before rendering with `onInit` callback
+- **Multiple instances** - Create and manage multiple view model instances from the same file
+- **Advanced property types** - Full support for lists, images, artboards, and nested view models
+- **Better React integration** - Property hooks integrate seamlessly with React state and lifecycle
+
+Main API changes:
+
+- Property hooks take `viewModelInstance` instead of `riveRef`
+- Hooks return objects instead of tuples
+- Parameters are swapped: `(path, viewModelInstance)` vs `(riveRef, path)`
+
+<Tabs>
+  <Tab title="New Runtime">
+    ```tsx
+    const { riveFile } = useRiveFile(require('./animation.riv'));
+    const viewModelInstance = useViewModelInstance(riveFile);
+
+    const { value: health, setValue: setHealth } = useRiveNumber('health', viewModelInstance);
+    const { value: name, setValue: setName } = useRiveString('Player/Name', viewModelInstance);
+    const { trigger } = useRiveTrigger('gameOver', viewModelInstance, {
+      onTrigger: () => console.log('Game Over!')
+    });
+
+    <RiveView file={riveFile} dataBind={viewModelInstance} />
+    ```
+
+  </Tab>
+  <Tab title="Legacy Runtime">
+    ```tsx
+    const [setRiveRef, riveRef] = useRive();
+
+    const [health, setHealth] = useRiveNumber(riveRef, 'health');
+    const [name, setName] = useRiveString(riveRef, 'Player/Name');
+    useRiveTrigger(riveRef, 'gameOver', () => console.log('Game Over!'));
+
+    <Rive ref={setRiveRef} resourceName="animation" dataBinding={AutoBind(true)} />
+    ```
+
+  </Tab>
+</Tabs>
+
+See [data binding](/runtimes/data-binding) for more information.
+
+#### 9. Out of Band Assets
+
+<Tabs>
+  <Tab title="New Runtime">
+    ```tsx
+    const { riveFile } = useRiveFile(
+      require('./animation.riv'),
       {
-        onTrigger: () => {
-          console.log('Button clicked in Rive!');
-        }
+        referencedAssets: {
+          'Inter-594377': {
+            source: require('./fonts/Inter-594377.ttf'),
+          },
+          'my-image': {
+            source: { uri: 'https://example.com/image.png' },
+          },
+        },
       }
     );
     ```
 
-    Alternatively, use the view reference to add event listeners:
-
-    ```tsx Event Listeners
-    import { RiveEventType, type RiveEvent } from '@rive-app/react-native';
-
-    const { riveViewRef, setHybridRef } = useRive();
-
-    useEffect(() => {
-      const listener = (event: RiveEvent) => {
-        if (event.type === RiveEventType.General) {
-          console.log('General event:', event.name);
-        } else if (event.type === RiveEventType.OpenUrl) {
-          console.log('Open URL event:', event.url);
-        }
-      };
-
-      riveViewRef?.onEventListener(listener);
-
-      return () => {
-        riveViewRef?.removeEventListeners();
-      };
-    }, [riveViewRef]);
-    ```
-
-    <Warning>
-      The `onEventListener` and `removeEventListeners` methods are **deprecated**. Use the `useRiveTrigger` hook with `onTrigger` callback for better React integration. See the [Events example](https://github.com/rive-app/rive-nitro-react-native/blob/main/example/src/pages/RiveEventsExample.tsx) for backward compatibility usage.
-    </Warning>
-
   </Tab>
   <Tab title="Legacy Runtime">
-    ```tsx Event Handling
+    ```tsx
     <Rive
-      url="https://cdn.rive.app/animations/game.riv"
-      onRiveEventReceived={(event) => {
-        console.log('Rive event:', event);
+      url="..."
+      referencedAssets={{
+        'Inter-594377': {
+          source: require('./fonts/Inter-594377.ttf'),
+        },
       }}
-      style={{ width: 400, height: 400 }}
     />
     ```
+
   </Tab>
 </Tabs>
 
-**Key Changes:**
+See [loading assets](/runtimes/loading-assets) for more information.
 
-- **Recommended:** Use `useRiveTrigger` hook with `onTrigger` callback
-- **Deprecated:** `riveViewRef.onEventListener()` still works but is deprecated
-- `onRiveEventReceived` prop has been removed (use data binding or event listeners)
-- Data binding provides better React integration and more granular control
+#### 10. Text Run Updates (Deprecated)
 
-#### Text Run Updates
-
-<Tip>
-  We recommend using [Data Binding](/runtimes/data-binding) to update text at
-  runtime.
-</Tip>
-
-The new runtime offers two approaches for updating text:
-
-1. **Recommended:** Data binding with `useRiveString` hook (new approach)
-2. **Deprecated:** Direct methods on the view reference (legacy compatibility)
-
-Both approaches work in the new runtime, but data binding provides better React integration and state management.
+<Warning>
+  Direct text run methods (`.setTextRunValue()`, `.getTextRunValue()`) are
+  **deprecated**.
+</Warning>
 
 <Tabs>
-  <Tab title="New Runtime (Data Binding)">
-    ```tsx Text via Data Binding
-    import { useRiveString } from '@rive-app/react-native';
-
-    const { value: playerName, setValue: setPlayerName } = useRiveString(
-      'playerName',
-      viewModelInstance
-    );
-
-    // Update text
+  <Tab title="Data Binding (Recommended)">
+    ```tsx
+    const { value: playerName, setValue: setPlayerName } = useRiveString('playerName', viewModelInstance);
     setPlayerName('John Doe');
     ```
 
   </Tab>
-  <Tab title="New Runtime (Direct - Deprecated)">
-    ```tsx Text via Direct Method
-    const { riveViewRef, setHybridRef } = useRive();
-
-    // Get text value
-    const textValue = riveViewRef?.getTextRunValue('playerName');
-
-    // Set text value
+  <Tab title="New Runtime (Deprecated)">
+    ```tsx
+    // The new runtime still supports text run methods like the old runtime
     riveViewRef?.setTextRunValue('playerName', 'John Doe');
-
-    // With nested path
-    riveViewRef?.setTextRunValue('playerName', 'John Doe', 'nested/path');
+    const name = riveViewRef?.getTextRunValue('playerName');
     ```
-    <Warning>
-      The `setTextRunValue` and `getTextRunValue` methods are **deprecated**. Use the `useRiveString` hook for better React integration and state management. See the [Text Run example](https://github.com/rive-app/rive-nitro-react-native/blob/main/example/src/pages/RiveTextRunExample.tsx) for backward compatibility usage.
-    </Warning>
 
   </Tab>
   <Tab title="Legacy Runtime">
-    ```tsx Text in Legacy Runtime
-    const riveRef = useRef<RiveRef>(null);
-
-    // Set text value
+    ```tsx
     riveRef.current?.setTextRunValue('playerName', 'John Doe');
     ```
 
   </Tab>
 </Tabs>
 
-**Key Changes:**
+See [text runs](/runtimes/text) for more information.
 
-- **Recommended:** Use `useRiveString` hook for text values
-- **Deprecated:** `.setTextRunValue()` and `.getTextRunValue()` methods still work but are deprecated
-- Data binding provides reactive updates and better state management
-- Both approaches are available for backward compatibility
-
-#### Layout
-
-Both runtimes support the same `Fit` and `Alignment` options, including `Fit.Layout` for responsive Rive graphics.
+#### 11. Callbacks
 
 <Tabs>
   <Tab title="New Runtime">
-    ```tsx Layout
-    import { Fit, Alignment } from '@rive-app/react-native';
-
+    ```tsx
     <RiveView
       file={riveFile}
-      fit={Fit.Layout}
-      alignment={Alignment.Center}
-      layoutScaleFactor={-1} // -1 uses device DPI
-      style={{ width: 400, height: 400 }}
+      onError={(error) => console.error('Rive error:', error)}
     />
-    ```
 
-  </Tab>
-  <Tab title="Legacy Runtime">
-    ```tsx Layout
-    import { Fit, Alignment } from 'rive-react-native';
-
-    <Rive
-      url="https://cdn.rive.app/animations/vehicles.riv"
-      fit={Fit.Layout}
-      alignment={Alignment.Center}
-      layoutScaleFactor={1} // scale factor for Layout mode
-      style={{ width: 400, height: 400 }}
-    />
-    ```
-
-  </Tab>
-</Tabs>
-
-See [Runtime Layout](/runtimes/layout) for more details.
-
-#### Callback Changes
-
-The callback system has been simplified.
-
-<Tabs>
-  <Tab title="New Runtime">
-    ```tsx Callbacks
-    <RiveView
-      file={riveFile}
-      onError={(error) => {
-        console.error('Rive error:', error);
-      }}
-      style={{ width: 400, height: 400 }}
-    />
-    ```
-
-    For state machine events, use data binding:
-    ```tsx State Change Events
+    // For state changes, use data binding listeners. For example, a trigger:
     const { trigger } = useRiveTrigger('onStateChange', viewModelInstance, {
       onTrigger: () => console.log('State changed')
     });
@@ -1063,85 +358,26 @@ The callback system has been simplified.
 
   </Tab>
   <Tab title="Legacy Runtime">
-    ```tsx Callbacks
-    <Rive
-      url="https://cdn.rive.app/animations/vehicles.riv"
-      onPlay={(animationName, isStateMachine) => {
-        console.log('Playing:', animationName);
-      }}
-      onPause={(animationName, isStateMachine) => {
-        console.log('Paused:', animationName);
-      }}
-      onStop={(animationName, isStateMachine) => {
-        console.log('Stopped:', animationName);
-      }}
-      onLoopEnd={(animationName, loopMode) => {
-        console.log('Loop ended:', animationName);
-      }}
-      onStateChanged={(stateMachineName, stateName) => {
-        console.log('State changed:', stateName);
-      }}
-      onError={(error) => {
-        console.error('Error:', error);
-      }}
-      style={{ width: 400, height: 400 }}
-    />
-    ```
-  </Tab>
-</Tabs>
-
-**Key Changes:**
-
-- `onPlay`, `onPause`, `onStop`, `onLoopEnd`, `onStateChanged` callbacks → Use data binding for state changes
-- `onError` callback remains but with updated error type
-- Focus is on data binding for most interaction patterns
-
-#### Playing Individual Animations
-
-<Warning>
-  Playing individual animations directly is discouraged. We strongly encourage
-  playing and blending animations through a state machine.
-</Warning>
-
-<Tabs>
-  <Tab title="New Runtime">
-    Individual animations are not directly supported in the new runtime. Use state machines to control animation playback. This provides better control over animation blending and transitions.
-
-    If you must play individual animations, create a state machine in the Rive editor with states for each animation.
-
-  </Tab>
-  <Tab title="Legacy Runtime">
-    ```tsx Individual Animations
-    <Rive
-      url="https://cdn.rive.app/animations/vehicles.riv"
-      animationName="idle"
-      autoplay={true}
-      style={{ width: 400, height: 400 }}
-    />
-    ```
-
-    Or via ref:
     ```tsx
-    riveRef.current?.play('idle', LoopMode.Loop);
+    <Rive
+      onPlay={(name, isSM) => console.log('Playing:', name)}
+      onPause={(name, isSM) => console.log('Paused:', name)}
+      onStateChanged={(sm, state) => console.log('State changed:', state)}
+      onError={(error) => console.error('Error:', error)}
+    />
     ```
 
   </Tab>
 </Tabs>
 
-**Key Changes:**
-
-- `animationName` prop is not available in the new runtime
-- Use state machines for all animation control
-- State machines provide better animation blending and transitions
+See [data binding](/runtimes/data-binding) for more information.
 
 ### Getting Help
 
-If you encounter issues during migration:
+If you encounter issues:
 
 1. Check the [new runtime documentation](/runtimes/react-native)
 2. Review the [Data Binding guide](/runtimes/data-binding)
-3. See the [example app](https://github.com/rive-app/rive-nitro-react-native/tree/main/example) for complete examples
+3. See the [example app](https://github.com/rive-app/rive-nitro-react-native/tree/main/example)
 4. Visit the [Rive community forums](https://community.rive.app)
-5. Report issues on the [GitHub repository](https://github.com/rive-app/rive-nitro-react-native/issues)
-
----
+5. Report issues on [GitHub](https://github.com/rive-app/rive-nitro-react-native/issues)
