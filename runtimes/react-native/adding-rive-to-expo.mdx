@@ -47,6 +47,40 @@ npx expo install rive-react-native
   </Tab>
 </Tabs>
 
+## Android - Expo SDK 53
+
+<Accordion title="Build failure with Expo SDK 53?">
+  Expo SDK 53 may fail to build on Android due to dependency version conflicts. The Rive Android SDK requires `compileSdkVersion` 36 and Android Gradle Plugin 8.9.1+, but Expo SDK 53 defaults to lower versions.
+
+  To fix this, install `expo-build-properties` and `expo-custom-agp`:
+
+  ```bash
+  npx expo install expo-build-properties expo-custom-agp
+  ```
+
+  Then update your `app.json` or `app.config.js`:
+
+  ```json
+  {
+    "expo": {
+      "plugins": [
+        ["expo-custom-agp", "8.9.2"],
+        [
+          "expo-build-properties",
+          {
+            "android": {
+              "compileSdkVersion": 36
+            }
+          }
+        ]
+      ]
+    }
+  }
+  ```
+
+  After updating, run `npx expo prebuild --clean` and rebuild your app.
+</Accordion>
+
 ## iOS Minimum Version
 
 <Tabs>
