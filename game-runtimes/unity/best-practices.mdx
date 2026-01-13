@@ -18,14 +18,14 @@ Rive is designed to be efficient in Unity, but performance can still be affected
 
 In Unity, **one Rive Panel renders into one Render Texture** by default. Every **Rive Widget** under a panel draws into that same Render Texture.
 
-That’s why, for UI:
+That's why, for UI:
 
 - **Prefer fewer panels**: One (or a small number) of panels is usually best, especially on mobile.
 - **Group widgets under a shared panel**: Multiple widgets under a single panel is typically more efficient than multiple panels.
 
 ### Compose UI in Rive
 
-When you’re getting started with Rive, it can be tempting to use it as a simple replacement for individual UI components (for example, building a single “Rive Button”, instancing it many times, and then assembling it in uGUI/UIToolkit). In Unity, this often creates unnecessary widget/panel/render texture overhead.
+When you're getting started with Rive, it can be tempting to use it as a simple replacement for individual UI components (for example, building a single “Rive Button”, instancing it many times, and then assembling it in uGUI/UIToolkit). In Unity, this often creates unnecessary widget/panel/render texture overhead.
 
 For most projects, the recommended approach is to build your full menu (or at least larger chunks of a screen) in Rive, and drive it with data binding.
 
@@ -54,7 +54,7 @@ The best structure depends on both performance goals and how you want to author 
 #### One larger file
 
 - **Pros**: Keep a full UI flow in one place, drive transitions inside Rive, and test the entire experience in the Rive Editor. The file could be loaded once (e.g. at the start of the game) and can be reused across multiple screens or menus.
-- **Tradeoff**: The entire file (including its embedded assets) stays in memory even if you’re only using part of it or displaying a single artboard.
+- **Tradeoff**: The entire file (including its embedded assets) stays in memory even if you're only using part of it or displaying a single artboard.
 
 #### Multiple files 
 
@@ -63,7 +63,7 @@ For example, one per screen or menu:
 - **Pros**: Load/unload screen-specific UI to save memory. This works well when different screens have different asset needs.
 - **Tradeoffs**:
   - Transitions between screens typically happen in C# (outside Rive).
-  - Be sure to **disable/destroy** widgets you aren’t using so they aren’t advancing or rendering.
+  - Be sure to **disable/destroy** widgets you aren't using so they aren't advancing or rendering.
 
 #### Hybrid approach: data binding with artboard slots
 

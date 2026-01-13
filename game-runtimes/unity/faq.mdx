@@ -3,26 +3,26 @@ title: 'FAQ'
 description: 'Common questions for the Unity runtime.'
 ---
 
-## Does Rive support Sprite Renderer?
+## Does Rive support Unity's Sprite Renderer?
 
-Rive renders to a **Render Texture** in Unity. Unity’s **Sprite Renderer** doesn’t handle Render Textures particularly well out of the box, so using Rive directly as a sprite usually requires a workaround.
+Rive renders to a **Render Texture** in Unity. Unity's **Sprite Renderer** doesn't handle Render Textures particularly well out of the box, so using Rive directly as a sprite usually requires a workaround.
 
 In general, we recommend building your visuals in Rive and driving behavior with **data binding**, rather than trying to treat Rive files as a drop-in replacement for individual sprites that are then assembled in Unity.
 
 If you absolutely need a 2D-style workflow of rendering Rive files as individual objects in Unity, the recommended workaround is to render Rive onto a **Quad** (or other mesh) using the **Rive Texture Renderer**, rather than trying to display a Render Texture through a Sprite Renderer. Note that there are [performance considerations](/game-runtimes/unity/best-practices) to keep in mind when using this approach.
 
 <Note>
-  If you choose to use a Sprite Renderer workaround (especially custom shader approaches), we can’t provide support for debugging or maintaining that custom rendering path as it is not officially supported.
+  If you choose to use a Sprite Renderer workaround (especially custom shader approaches), we can't provide support for debugging or maintaining that custom rendering path as it is not officially supported.
 </Note>
 
 ## Does Rive support UI Toolkit?
 
-Not yet, but we’re working on it.
+Not yet, but we're working on it.
 
 Today, the recommended approach is to use **uGUI** (via the **Rive Canvas Renderer**) or render Rive to a mesh.
 
 
-## Why isn’t my Rive graphic displaying?
+## Why isn't my Rive graphic displaying?
 
 A few common gotchas:
 
