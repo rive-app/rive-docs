@@ -2215,15 +2215,15 @@ Image properties let you set and replace raster images at runtime, with each ins
         Debug.Log("Image updated!");
     }
 
-// Example method to toggle between light and dark mode images
-public void ToggleTheme()
-{
-    if (imageProperty != null)
+    // Example method to toggle between light and dark mode images
+    public void ToggleTheme()
     {
-        isDarkMode = !isDarkMode;
-        imageProperty.Value = isDarkMode ? m_darkImageAsset : m_lightImageAsset;
+        if (imageProperty != null)
+        {
+            isDarkMode = !isDarkMode;
+            imageProperty.Value = isDarkMode ? m_darkImageAsset : m_lightImageAsset;
+        }
     }
-}
 
     // Example method to clear the image
     public void ClearImage()
