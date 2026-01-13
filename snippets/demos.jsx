@@ -223,7 +223,8 @@ export const Demos = ({
       image: "https://static.rive.app/docs/slot-machine.png",
       description: "Build a complete casino game using scripting.",
       links: {
-        editor: "https://rive.app/community/files/25759-48095-slot-machine-game-with-scripting"
+        // TODO - replace with marketplace or editor links
+        editor: "https://static.rive.app/revs/slot_machine.rev"
       }
     },
     starRating: {
