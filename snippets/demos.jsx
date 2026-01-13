@@ -215,8 +215,7 @@ export const Demos = ({
       image: "https://static.rive.app/docs/boiling-effect.gif",
       description: "Apply a boiling effect to any path using scripting.",
       links: {
-        // TODO - replace with marketplace or editor links
-        editor: "https://static.rive.app/revs/boiling-effect.rev"
+        editor: "https://rive.app/community/files/25767-48113-scripting-path-effect-boil"
       }
     },
     scriptingSlotMachine: {
