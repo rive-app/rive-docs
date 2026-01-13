@@ -1,22 +1,23 @@
 ---
-title: 'Runtime Sizes'
-sidebarTitle: 'Sizes'
-description: 'Last updated: October 2025'
+title: "Runtime Sizes"
+sidebarTitle: "Sizes"
+description: "Last updated: January 2026"
 ---
 
 <Tabs>
   <Tab title="Web (JS)">
+    <Note>The majority of the size is the WASM library, which the table below represents.</Note>
       | Runtime     | Uncompressed | Compressed |
       | ----------- | ------------ | ---------- |
-      | canvas-lite | 550KB        | 175KB      |
-      | canvas      | 1300KB       | 550KB      |
-      | webgl2      | 1650KB       | 650KB      |
+      | canvas-lite | 707KB        | 262KB      |
+      | canvas      | 1728KB       | 647KB      |
+      | webgl2      | 2179KB       | 744KB      |
   </Tab>
   <Tab title="React">
       See `Web (JS)` for more details.
   </Tab>
   <Tab title="React Native">
-      See `Android` and `Apple` for more details. 
+      See `Android` and `Apple` for more details.
   </Tab>
   <Tab title="Apple">
       | Target                  | Download Size | Install Size |
@@ -26,6 +27,7 @@ description: 'Last updated: October 2025'
       | macOS App + RiveRuntime | 1.4MB         | 4.0MB        |
 
       [![Emerge badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fwww.emergetools.com%2Fapi%2Fv2%2Fpublic_new_build%3FexampleId%3Drive.app.ios.runtime.RiveRuntime%26platform%3Dios%26badgeOption%3Dversion_and_max_install_size%26buildType%3Drelease&query=%24.badgeMetadata&logo=apple&label=RiveRuntime)](https://www.emergetools.com/app/example/ios/rive.app.ios.runtime.RiveRuntime/release)
+
   </Tab>
   <Tab title="Android">
       | Target  | Download Size | Install Size |
@@ -63,10 +65,12 @@ description: 'Last updated: October 2025'
         - Modularizing the runtime to allow including Compose support only when needed, and separating the Compose API from the Legacy API
         - Making Volley an opt-in dependency for network loading
         - Changing C++ compile flags to prefer size over speed (requires performance testing)
+
   </Tab>
 </Tabs>
 
 # Third Party Dependencies
+
 The common Rive C++ runtime includes a number of open source third party dependencies which contribute to its binary weight. These are:
 
 | Dependency                                            | Reason                     |
@@ -76,5 +80,3 @@ The common Rive C++ runtime includes a number of open source third party depende
 | [SheenBidi](https://github.com/Tehreer/SheenBidi)     | Bidirectional text support |
 | [Yoga](https://github.com/facebook/yoga)              | Layout                     |
 | [Luau Interpreter](https://github.com/luau-lang/luau) | Scripting Support          |
-
-<Note>Luau is currently not included in most runtimes. Once scripting is generally available, expect runtime sizes to increase accordingly.</Note>
