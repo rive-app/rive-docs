@@ -23,6 +23,12 @@ That’s why, for UI:
 - **Prefer fewer panels**: One (or a small number) of panels is usually best, especially on mobile.
 - **Group widgets under a shared panel**: Multiple widgets under a single panel is typically more efficient than multiple panels.
 
+### Compose UI in Rive
+
+When you’re getting started with Rive, it can be tempting to use it as a simple replacement for individual UI components (for example, building a single “Rive Button”, instancing it many times, and then assembling it in uGUI/UIToolkit). In Unity, this often creates unnecessary widget/panel/render texture overhead.
+
+For most projects, the recommended approach is to build your full menu (or at least larger chunks of a screen) in Rive, and drive it with data binding.
+
 ### Screen space UI vs world space UI
 
 - **Screen space UI**: You can usually structure your UI so a single panel covers the whole screen (or a screen region) and multiple widgets draw into it.
@@ -36,9 +42,14 @@ If you have a real use case for many panels (for example, lots of world-space UI
 
 See: [Render Target Strategies](/game-runtimes/unity/components#render-target-strategies).
 
-### One Rive file vs multiple files
+## One Rive file vs multiple files
 
-Performance is usually driven more by **memory usage**, **Render Texture count or size**, and **how much work your graphics do each frame** than by the number of files alone. The best structure depends on both performance goals and how you want to author and maintain your files.
+For multi-screen UI, this usually means choosing between:
+
+- **One larger `.riv` file** that contains multiple screens (often as components), with transitions and logic handled inside Rive.
+- **Multiple `.riv` files** (for example, one per menu) that you enable or instantiate and swap via C#.
+
+The best structure depends on both performance goals and how you want to author and maintain your files.
 
 #### One larger file
 
@@ -54,7 +65,7 @@ For example, one per screen or menu:
   - Transitions between screens typically happen in C# (outside Rive).
   - Be sure to **disable/destroy** widgets you aren’t using so they aren’t advancing or rendering.
 
-#### Hybrid approach: data binding + artboard slots
+#### Hybrid approach: data binding with artboard slots
 
 If you want modular loading *and* want to stay in a single widget/panel, a hybrid approach can work well:
 
@@ -70,9 +81,9 @@ See:
 - Unity: [Data Binding](/game-runtimes/unity/data-binding)
 - Concepts: [Data binding artboards](/runtimes/data-binding#artboards)
 
-## Prefer data binding + lists for dynamic/repeated UI
+## Prefer data binding with lists for dynamic content
 
-If your UI needs to create and remove items dynamically (for example: inventories, quest lists, chat feeds, settings rows, spawning characters), prefer using **data binding list properties** instead of creating lots of separate Rive Widgets.
+If your UI needs to create and remove items dynamically (for example: inventories, chat feeds, spawning characters), prefer using **data binding list properties** instead of creating lots of separate Rive Widgets.
 
 Using lists keeps repeated graphics **inside a single Rive file / widget**, while still letting you add/remove/swap items at runtime through your Unity code.
 
@@ -81,7 +92,7 @@ See:
 - Concepts + examples: [Data binding lists](/runtimes/data-binding#lists)
 - Editor setup: [Lists in the editor](/editor/data-binding/lists)
 
-## Embedded vs referenced assets (Unity)
+## Embedded vs referenced assets
 
 Most projects can start with embedded assets and only optimize when needed. Referenced assets become useful when you need better reuse and control.
 
