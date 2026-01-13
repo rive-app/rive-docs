@@ -889,7 +889,7 @@ Alternatively, you may prefer to use auto-binding. This will automatically bind 
   <Tab title="Android">
     <Tabs>
       <Tab title="Compose">
-        Auto-binding does not exist in the Compose API due to the nature of composables. Since they are functions, it is difficult to get values out of them as compared to classes. We could use callbacks, but that would require a null placeholder to remember the value before it has fired, and would complicate setting initial values before first render. The overhead is no better than supplying the instance directly.
+        Auto-binding does not exist in the Compose API due to the nature of composables. Since they are functions, it is difficult to get values out of them as compared to classes. Callbacks would require a null placeholder to remember the value before it has fired which creates more overhead than supplying the instance directly.
 
         The equivalent is to create a view model instance with no source. This will internally create the default artboard, the default view model for that artboard, and the default instance for that view model. You can then pass that into the `Rive` composable.
 
