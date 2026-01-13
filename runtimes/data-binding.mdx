@@ -2210,7 +2210,7 @@ Image properties let you set and replace raster images at runtime, with each ins
         }
     }
 
-    private void OnImageChanged(ImageOutOfBandAsset newImage)
+    private void OnImageChanged()
     {
         Debug.Log("Image updated!");
     }
@@ -2962,9 +2962,9 @@ Artboard properties allows you to swap out entire components at runtime. This is
         }
     }
 
-    private void OnArtboardChanged(BindableArtboard artboard)
+    private void OnArtboardChanged()
     {
-        Debug.Log($"Artboard changed to: {artboard?.Name}");
+        Debug.Log("Artboard changed");
     }
 
     // Example method to assign a different artboard from the same file
