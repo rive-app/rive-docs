@@ -126,24 +126,34 @@ To begin, we need to get a reference to a particular view model. This can be don
   <Tab title="Android">
     <Tabs>
       <Tab title="Compose">
+        Unlike other runtimes, view models do not exist as a separate object in the Compose API. Instead, they are represented as a `ViewModelSource` sealed class that forms half of a builder pattern used to create view model instances. See [View Model Instances](#view-model-instances) for details on the other half - creating instances.
+
+        ```kotlin
+        // Named source
+        val vmSource = ViewModelSource.Named("My View Model")
+        // Default for artboard source
+        val vmSource = ViewModelSource.DefaultForArtboard(artboard)
+        ```
       </Tab>
       <Tab title="Legacy">
-    ```kotlin
-    // `view` of type RiveAnimationView
-    view.setRiveResource(R.raw.my_rive_file)
-    val file = view.controller.file!!
+        ```kotlin
+        // `view` of type RiveAnimationView
+        view.setRiveResource(R.raw.my_rive_file)
+        val file = view.controller.file!!
 
-    // Get reference by name
-    val vm = file.getViewModelByName("My View Model")
+        // Get reference by name
+        val vm = file.getViewModelByName("My View Model")
 
-    // Get reference by index
-    for (i in 0 until file.viewModelCount) {
-        val indexedVM = file.getViewModelByIndex(i)
-    }
+        // Get reference by index
+        for (i in 0 until file.viewModelCount) {
+            val indexedVM = file.getViewModelByIndex(i)
+        }
 
-    // Get reference to the default view model
-    val defaultVM = file.defaultViewModelForArtboard(view.controller.activeArtboard!!)
-    ```
+        // Get reference to the default view model
+        val defaultVM = file.defaultViewModelForArtboard(view.controller.activeArtboard!!)
+        ```
+      </Tab>
+    </Tabs>
   </Tab>
 
   <Tab title="Flutter">
@@ -255,11 +265,18 @@ Once we have a reference to a view model, it can be used to create an instance. 
    | Color             | 0xFF000000      |
    | Trigger           | Untriggered     |
    | Enum              | The first value |
+   | Image             | No image        |
+   | Artboard          | No artboard     |
+   | List              | Empty list      |
    | Nested view model | Null            |
 
 2. Create the default instance - Use the instance labelled "Default" in the editor. Usually this is the one a designer intends as the primary one to be used at runtime.
 3. Create by index - Using the order returned when iterating over all available instances. Useful when creating multiple instances by iteration.
 4. Create by name - Use the editor's instance name. Useful when creating a specific instance.
+
+<Note>
+  In some samples, due to the wordiness of "view model instance", we use the abbreviation "VMI", as well as "VM" for "view model".
+</Note>
 
 <Tabs>
   <Tab title="Web">
@@ -372,7 +389,38 @@ Once we have a reference to a view model, it can be used to create an instance. 
   <Tab title="Android">
     <Tabs>
       <Tab title="Compose">
-        
+        See [View Models](#view-models) for how to get a `ViewModelSource` to use below. With that, you can use the builder pattern to create a `ViewModelInstanceSource`, the second half. That source can then be passed to `rememberViewModelInstance` to create and remember the instance for the lifetime of the composition.
+
+        ```kotlin
+        // From previous section
+        val vmSource = ViewModelSource.Named("My View Model")
+
+        // Blank instance source
+        val vmiSourceBlank = ViewModelInstanceSource.Blank(vmSource)
+        // or
+        val vmiSourceBlank = vmSource.blankInstance()
+
+        // Default instance source
+        val vmiSourceDefault = ViewModelInstanceSource.Default(vmSource)
+        // or
+        val vmiSourceDefault = vmSource.defaultInstance()
+
+        // Named instance source
+        val vmiSourceNamed = ViewModelInstanceSource.Named(vmSource, "My Instance")
+        // or
+        val vmiSourceNamed = vmSource.namedInstance("My Instance")
+
+        // The completed source can now be used along with the Rive file to create and remember the instance
+        val viewModelInstance = rememberViewModelInstance(riveFile, vmiSourceNamed)
+        ```
+
+        Additionally, you can reference a nested view model instance from within a parent instance using the `Reference` variant.
+
+        ```kotlin
+        val myVMI = rememberViewModelInstance(riveFile, mySource)
+        val referenceSource = ViewModelInstanceSource.Reference(myVMI, "Path/To/Nested VMI")
+        val nestedVMI = rememberViewModelInstance(riveFile, referenceSource)
+        ```
       </Tab>
       <Tab title="Legacy">
         ```kotlin
@@ -612,13 +660,14 @@ Once we have a reference to a view model, it can be used to create an instance. 
 
 </Tabs>
 
+### Binding
+
 The created instance can then be assigned to a state machine or artboard. This establishes the bindings set up at edit time.
 
 It is preferred to assign to a state machine, as this will automatically apply the instance to the artboard as well. Only assign to an artboard if you are not using a state machine, i.e. your file is static or uses linear animations.
 
 <Note>
-  The initial values of the instance are not applied to their bound elements
-  until the state machine or artboard advances.
+  The initial values of the instance are not applied to their bound elements until the state machine or artboard advances.
 </Note>
 
 <Tabs>
@@ -659,9 +708,23 @@ It is preferred to assign to a state machine, as this will automatically apply t
   <Tab title="Android">
     <Tabs>
       <Tab title="Compose">
-        
+        See the [Compose data binding example](https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeDataBindingActivity.kt).
+
+        Binding to the state machine happens automatically when the `ViewModelInstance` is passed to the `Rive` composable.
+
+        ```kotlin {6}
+        val vmiSource = ViewModelSource.Named("My View Model").namedInstance("My Instance")
+        val vmi = rememberViewModelInstance(riveFile, vmiSource)
+
+        Rive(
+            riveFile,
+            viewModelInstance = vmi
+        )
+        ```
       </Tab>
       <Tab title="Legacy">
+        See the [Legacy data binding example](https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/LegacyDataBindingActivity.kt).
+
         ```kotlin
         view.setRiveResource(
             R.raw.my_rive_file,
@@ -826,7 +889,17 @@ Alternatively, you may prefer to use auto-binding. This will automatically bind 
   <Tab title="Android">
     <Tabs>
       <Tab title="Compose">
-        
+        Auto-binding does not exist in the Compose API due to the nature of composables. Since they are functions, it is difficult to get values out of them as compared to classes. We could use callbacks, but that would require a null placeholder to remember the value before it has fired, and would complicate setting initial values before first render. The overhead is no better than supplying the instance directly.
+
+        The equivalent is to create a view model instance with no source. This will internally create the default artboard, the default view model for that artboard, and the default instance for that view model. You can then pass that into the `Rive` composable.
+
+        ```kotlin
+        val vmi = rememberViewModelInstance(riveFile)
+        Rive(
+            riveFile,
+            viewModelInstance = vmi,
+        )
+        ```
       </Tab>
       <Tab title="Legacy">
         ```kotlin {3}
@@ -970,6 +1043,8 @@ A property is a value that can be read, set, or observed on a view model instanc
 
 For more information on version compatibility, see the [Feature Support](/feature-support) page.
 
+### Listing Properties
+
 Property descriptors can be inspected on a view model to discover at runtime which are available. These are not the mutable properties themselves though - once again those are on instances. These descriptors have a type and name.
 
 <Tabs>
@@ -1003,19 +1078,29 @@ Property descriptors can be inspected on a view model to discover at runtime whi
   <Tab title="Android">
     <Tabs>
       <Tab title="Compose">
-        
+        Getting view model properties is a suspend operation, so it needs to be called from a coroutine scope such as `LaunchedEffect`.
+
+        ```kotlin
+        LaunchedEffect(riveFile) {
+            riveFile.getViewModelProperties("My View Model").forEach { property ->
+                Log.d("My Tag", "Property Name: ${property.name}, Type: ${property.type}")
+            }
+        }
+        ```
       </Tab>
       <Tab title="Legacy">
-    ```kotlin
-    val vm = view.controller.file?.getViewModelByName("My View Model")!!
+        ```kotlin
+        val vm = view.controller.file?.getViewModelByName("My View Model")!!
 
-    // A list of properties
-    val properties = vm.properties
-    assertContains(
-        properties,
-        ViewModel.Property(ViewModel.PropertyDataType.NUMBER, "My Number Property")
-    )
-    ```
+        // A list of properties
+        val properties = vm.properties
+        assertContains(
+            properties,
+            ViewModel.Property(ViewModel.PropertyDataType.NUMBER, "My Number Property")
+        )
+        ```
+      </Tab>
+    </Tabs>
   </Tab>
 
   <Tab title="Flutter">
@@ -1056,13 +1141,14 @@ Property descriptors can be inspected on a view model to discover at runtime whi
 
 </Tabs>
 
+### Reading and Writing Properties
+
 References to these properties can be retrieved by name or path.
 
 Some properties are mutable and have getters, setters, and observer operations for their values. Getting or observing the value will retrieve the latest value set on that property's binding, as of the last state machine or artboard advance. Setting the value will update the value and all of its bound elements.
 
 <Note>
-  After setting a property's value, the changes will not apply to their bound
-  elements until the state machine or artboard advances.
+  After setting a property's value, the changes will not apply to their bound elements until the state machine or artboard advances.
 </Note>
 
 <Tabs>
@@ -1278,19 +1364,51 @@ Some properties are mutable and have getters, setters, and observer operations f
   <Tab title="Android">
     <Tabs>
       <Tab title="Compose">
-        
+        ### Writing Values
+        The Compose API does not have explicit property objects. Instead, property values are set on the `ViewModelInstance` directly using methods which take their path.
+
+        ```kotlin
+        val vmi = rememberViewModelInstance(...)
+        vmi.setNumberProperty("Path/To/Property", 10f)
+        ```
+
+        ### Reading  Values
+        Values are read throw a Kotlin [`Flow`](https://kotlinlang.org/docs/flow.html) which emits the latest value whenever it changes. You can collect this flow in a `LaunchedEffect` or convert it to a `State` using `collectAsState()` (or use `collectAsStateWithLifecycle()` to only collect during certain lifecycle states).
+
+        To get the latest value once without observing, you can use the terminal `first()` operator.
+
+        ```kotlin
+        val vmi = rememberViewModelInstance(...)
+        // Collect as State
+        val numberValue by vmi.numberPropertyFlow("Path/To/Property").collectAsState(initial = 0f)
+
+        Text(text = "Number value: $numberValue")
+
+        // Or collect
+        LaunchedEffect(vmi) {
+            vmi.numberPropertyFlow("Path/To/Property").collect { value ->
+                Log.d("Rive", "Number value changed: $value")
+            }
+
+            // Or get once
+            val numberValue = vmi.numberPropertyFlow("Path/To/Property").first()
+            Log.d("Rive", "Current number value: $numberValue")
+        }
+        ```
       </Tab>
       <Tab title="Legacy">
-    ```kotlin
-    val vm = view.controller.file?.getViewModelByName("My View Model")!!
-    val vmi = vm.createInstanceFromName("My Instance")
+        ```kotlin
+        val vm = view.controller.file?.getViewModelByName("My View Model")!!
+        val vmi = vm.createInstanceFromName("My Instance")
 
-    val numberProperty = vmi.getNumberProperty("My Number Property")
-    // Get
-    val numberValue = numberProperty.value
-    // Set
-    numberProperty.value = 10f
-    ```
+        val numberProperty = vmi.getNumberProperty("My Number Property")
+        // Get
+        val numberValue = numberProperty.value
+        // Set
+        numberProperty.value = 10f
+        ```
+      </Tab>
+    </Tabs>
   </Tab>
 
   <Tab title="Flutter">
@@ -1629,21 +1747,32 @@ View models can have properties of type view model, allowing for arbitrary nesti
   <Tab title="Android">
     <Tabs>
       <Tab title="Compose">
-        
+        ```kotlin
+        val parent = rememberViewModelInstance(riveFile, ViewModelSource.Named("Parent VM").namedInstance("Parent"))
+         
+        // Using references
+        val child = rememberViewModelInstance(riveFile, ViewModelInstanceSource.Reference(parent, "Child"))
+        val nestedNumber = child.numberPropertyFlow("My Nested Number").collectAsState(0f)
+
+        // Or using paths
+        val nestedNumber = parent.numberPropertyFlow("Child/My Nested Number").collectAsState(0f)
+        ```
       </Tab>
       <Tab title="Legacy">
-    ```kotlin
-    val vm = view.controller.file?.getViewModelByName("My View Model")!!
-    val vmi = vm.createInstanceFromName("My Instance")
+        ```kotlin
+        val vm = view.controller.file?.getViewModelByName("My View Model")!!
+        val vmi = vm.createInstanceFromName("My Instance")
 
-    val nestedNumberByChain = vmi
-        .getInstanceProperty("My Nested View Model")
-        .getInstanceProperty("My Second Nested VM")
-        .getNumberProperty("My Nested Number")
+        val nestedNumberByChain = vmi
+            .getInstanceProperty("My Nested View Model")
+            .getInstanceProperty("My Second Nested VM")
+            .getNumberProperty("My Nested Number")
 
-    val nestedNumberByPath = vmi
-        .getNumberProperty("My Nested View Model/My Second Nested VM/My Nested Number")
-    ```
+        val nestedNumberByPath = vmi
+            .getNumberProperty("My Nested View Model/My Second Nested VM/My Nested Number")
+        ```
+      </Tab>
+    </Tabs>
   </Tab>
 
   <Tab title="Flutter">
@@ -1829,23 +1958,30 @@ You can observe changes over time to property values, either by using listeners 
   <Tab title="Android">
     <Tabs>
       <Tab title="Compose">
-        
+        Observability is the default behavior when using the Compose API with Kotlin Flows. When you collect a property's flow, you will receive updates whenever the property's value changes.
+
+        ```kotlin
+        val vmi = rememberViewModelInstance(...)
+        val numberPropertyFlow = vmi.numberPropertyFlow("My Number Property").collectAsState(0f)
+        ```
       </Tab>
       <Tab title="Legacy">
-    ```kotlin
-    val vm = view.controller.file?.getViewModelByName("My View Model")!!
-    val vmi = vm.createInstanceFromName("My Instance")
+        ```kotlin
+        val vm = view.controller.file?.getViewModelByName("My View Model")!!
+        val vmi = vm.createInstanceFromName("My Instance")
 
-    val numberProperty = vmi.getNumberProperty("My Number Property")
-    // Observe
-    lifecycleScope.launch {
-        numberProperty.valueFlow.collect { value ->
-            Log.i("MyActivity", "Value: $value")
+        val numberProperty = vmi.getNumberProperty("My Number Property")
+        // Observe
+        lifecycleScope.launch {
+            numberProperty.valueFlow.collect { value ->
+                Log.i("MyActivity", "Value: $value")
+            }
         }
-    }
-    // Or collect in Compose
-    val numberValue by numberProperty.valueFlow.collectAsState()
-    ```
+        // Or collect in Compose
+        val numberValue by numberProperty.valueFlow.collectAsState(0f) // 0 as the initial value while waiting for the first value
+        ```
+      </Tab>
+    </Tabs>
   </Tab>
 
   <Tab title="Flutter">
@@ -2183,21 +2319,79 @@ Image properties let you set and replace raster images at runtime, with each ins
   <Tab title="Android">
     <Tabs>
       <Tab title="Compose">
+        See the [Compose data binding images example](https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeImageBindingActivity.kt).
+
+        To set an image property, you need an `ImageAsset`, which can be created from `rememberImage` using a byte array. The below example loads from raw resources into a `Result` for convenience, but you should use the pattern most appropriate for your app.
+
+        ```kotlin
+        val imageBytes by produceState<Result<ByteArray>>(Result.Loading) {
+            value = withContext(Dispatchers.IO) {
+                context.resources.openRawResource(R.raw.my_image)
+                    .use { Result.Success(it.readBytes()) }
+            }
+        }
+
+        // `andThen` maps over the Result to only call the lambda if it's a Success, propagating Failure and Loading otherwise.
+        val image = imageBytes.andThen { bytes ->
+            rememberImage(riveWorker, bytes)
+        }
+
+        // Or combine into one statement
+        val image = produceState<Result<ByteArray>>(Result.Loading) {
+            value = withContext(Dispatchers.IO) {
+                context.resources.openRawResource(R.raw.my_image)
+                    .use { Result.Success(it.readBytes()) }
+            }
+        }.value.andThen { bytes ->
+            rememberImage(riveWorker, bytes)
+        }
+
+        val vmi = rememberViewModelInstance(riveFile, ViewModelSource.Named("My View Model").defaultInstance())
+        LaunchedEffect(vmi, image) {
+            when(image) {
+                is Result.Failure -> { /* Handle failure to load image */ }
+                is Result.Loading -> { /* Handle loading state if needed */ }
+                is Result.Success -> {
+                    // Set the image property value
+                    vmi.setImage("Image property", image.value)
+                }
+            }
+        }
+        ```
+
+        If you want to gate the presentation of your Rive content until the image is loaded and only if both are successful, you can use the `zip` convenience function to combine multiple `Result` objects together.
+
+        ```kotlin
+        val fileAndImage = riveFile.zip(image)
         
+        when (fileAndImage) {
+            is Result.Failure -> { /* Handle failure to load file or image */ }
+            is Result.Loading -> { /* Handle loading state if needed */ }
+            is Result.Success -> {
+                val (riveFile, image) = fileAndImage.value
+                // Both riveFile and image are loaded successfully here
+                // You can now present your Rive content and set the image property
+            }
+        }
+        ```
+
+        For more information on image assets, see [Loading Assets](./loading-assets).
       </Tab>
       <Tab title="Legacy">
-    ```kotlin
-    // Load image from the assets folder.
-    val imageBytes = context.resources.openRawResource(R.raw.my_image).use { stream ->
-      stream.readBytes()
-    }
+        ```kotlin
+        // Load image from the assets folder.
+        val imageBytes = context.resources.openRawResource(R.raw.my_image).use { stream ->
+          stream.readBytes()
+        }
 
-    val vmi = it.stateMachines.first().viewModelInstance!!
+        val vmi = it.stateMachines.first().viewModelInstance!!
 
-    // Replace image property in view model instance with new image.
-    val riveImage = RiveRenderImage.fromEncoded(imageBytes)
-    vmi.getImageProperty("Image property").set(riveImage)
-    ```
+        // Replace image property in view model instance with new image.
+        val riveImage = RiveRenderImage.fromEncoded(imageBytes)
+        vmi.getImageProperty("Image property").set(riveImage)
+        ```
+      </Tab>
+    </Tabs>
   </Tab>
 
   <Tab title="Flutter">
@@ -2375,7 +2569,6 @@ Image properties let you set and replace raster images at runtime, with each ins
           */
           loadFromBytesAsync(bytes: ArrayBuffer): Promise<RiveImage>;
         ```
-
       </Tab>
       <Tab title="Legacy Runtime">
         <Warning>
@@ -2547,28 +2740,67 @@ For more information on list properties, see the [Data Binding List Property](/e
   <Tab title="Android">
     <Tabs>
       <Tab title="Compose">
-        
+        See the [Compose data binding lists example](https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeListActivity.kt).
+
+        ```kotlin
+        val mainVMI = rememberViewModelInstance(riveFile)
+        val newListItem = rememberViewModelInstance(riveFile, ViewModelSource.Named("My Item VM").namedInstance("My List Item"))
+        LaunchedEffect(mainVMI, newListItem) {
+            val listProperty = "My List"
+
+            // Add new item to the end of the list
+            mainVMI.appendToList(listProperty, newListItem)
+            // Insert new item at index 0
+            mainVMI.insertToListAtIndex(listProperty, 0, newListItem)
+
+            // Swap items at index 0 and 1
+            mainVMI.swapListItems(listProperty, 0, 1)
+
+            // Remove specific instance
+            mainVMI.removeFromList(listProperty, newListItem)
+            // Remove item at index 0
+            mainVMI.removeFromListAtIndex(listProperty, 0)
+        }
+        ```
+
+        Due to the dynamic nature of lists, you may need to create items within a coroutine rather than ahead of time with `rememberViewModelInstance`. Be aware that adding the same instance multiple times to a list will cause them all to share state, which may not be the desired behavior. Use the following pattern to create new instances as needed.
+
+        ```kotlin
+        val mainVMI = rememberViewModelInstance(riveFile)
+        LaunchedEffect(mainVMI) {
+            val listProperty = "My List"
+            // ⚠️ This must be `close`d, which is done here through `AutoCloseable.use`.
+            ViewModelInstance.fromFile(
+                riveFile,
+                ViewModelSource.Named("My Item VM").defaultInstance()
+            ).use { item ->
+                mainVMI.insertToListAtIndex(listProperty, 0, item)
+            }
+        }
+        ```
       </Tab>
       <Tab title="Legacy">
-    ```kotlin
-    // Acquire the default view model instance and the list property.
-    val vmi = animationView.file!!.firstArtboard.viewModelInstance!!
-    val listProperty = vmi.getListProperty("list")
+        ```kotlin
+        // Acquire the default view model instance and the list property.
+        val vmi = animationView.file!!.firstArtboard.viewModelInstance!!
+        val listProperty = vmi.getListProperty("list")
 
-    // Create a view model instance for "First" and "Second" and add them to the list.
-    val firstInstance = animationView.file!!.getViewModelByName("My Item VM").createInstanceFromName("First")
-    listProperty.add(firstInstance)
+        // Create a view model instance for "First" and "Second" and add them to the list.
+        val firstInstance = animationView.file!!.getViewModelByName("My Item VM").createInstanceFromName("First")
+        listProperty.add(firstInstance)
 
-    val secondInstance = animationView.file!!.getViewModelByName("My Item VM").createInstanceFromName("Second")
-    listProperty.add(secondInstance)
+        val secondInstance = animationView.file!!.getViewModelByName("My Item VM").createInstanceFromName("Second")
+        listProperty.add(secondInstance)
 
-    // Swap the two items in the list.
-    listProperty.swap(0, 1)
+        // Swap the two items in the list.
+        listProperty.swap(0, 1)
 
-    // Remove both items from the list.
-    listProperty.remove(firstInstance)
-    listProperty.removeAt(0)
-    ```
+        // Remove both items from the list.
+        listProperty.remove(firstInstance)
+        listProperty.removeAt(0)
+        ```
+      </Tab>
+    </Tabs>
   </Tab>
 
   <Tab title="Flutter">
@@ -2952,6 +3184,44 @@ Artboard properties allows you to swap out entire components at runtime. This is
     ```
   </Tab>
 
+  <Tab title="Android">
+    <Tabs>
+      <Tab title="Compose">
+        See the [Compose data binding artboards example](https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeArtboardBindingActivity.kt).
+
+        ```kotlin
+        val vmi = rememberViewModelInstance(mainFile)
+        val artboard = rememberArtboard(mainFile, "My Artboard")
+
+        LaunchedEffect(vmi, artboard) {
+            vmi.setArtboard("My Artboard Property", artboard)
+        }
+        ```
+      </Tab>
+      <Tab title="Legacy">
+        ```kotlin
+        // Acquire the default view model instance and the artboard property.
+        val vmi = animationView.file!!.firstArtboard.viewModelInstance!!
+        val artboardProperty = vmi.getArtboardProperty("My Artboard Property")
+
+        // Set artboard from same file.
+        val localArtboard = animationView.file!!.getArtboard("My Artboard")
+        artboardProperty.set(localArtboard)
+
+        // Load external file if needed
+        val externalFile = File.load(context.assets, "external_file.riv")
+
+        // Set artboard from external file.
+        val externalArtboard = externalFile.getArtboard("My External Artboard")
+        artboardProperty.set(externalArtboard)
+
+        // Clean up external file when done
+        externalFile.dispose()
+        ```
+      </Tab>
+    </Tabs>
+  </Tab>
+
   <Tab title="Flutter">
     <Info>
       See the [Flutter data binding artboards example](https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_artboards.dart).
@@ -3120,15 +3390,22 @@ Enums are string typed. The Rive file contains a list of enums. Each enum in tur
   <Tab title="Android">
     <Tabs>
       <Tab title="Compose">
-        
+        ```kotlin
+        LaunchedEffect(riveFile) {
+            val enums = riveFile.getEnums()
+            Log.i("RiveEnums", "First enum name: ${enums[0].name}")
+        }
+        ```
       </Tab>
       <Tab title="Legacy">
-    ```kotlin
-    val enums = view.controller.file?.enums!!
+        ```kotlin
+        val enums = view.controller.file?.enums!!
 
-    val firstEnumName = enums[0].name
-    val firstEnumFirstValue = enums[0].values[0]
-    ```
+        val firstEnumName = enums[0].name
+        val firstEnumFirstValue = enums[0].values[0]
+        ```
+      </Tab>
+    </Tabs>
   </Tab>
 
   <Tab title="Flutter">
@@ -3140,27 +3417,25 @@ Enums are string typed. The Rive file contains a list of enums. Each enum in tur
 
   <Tab title="Unity">
     ```csharp
+    var viewModelInstance = riveWidget.StateMachine.ViewModelInstance;
 
-        var viewModelInstance = riveWidget.StateMachine.ViewModelInstance;
-
-        // Accessing enums from the file
-        var enums = riveWidget.File.ViewModelEnums;
-        foreach (var enumType in enums)
+    // Accessing enums from the file
+    var enums = riveWidget.File.ViewModelEnums;
+    foreach (var enumType in enums)
+    {
+        Debug.Log($"Enum: {enumType.Name}");
+        foreach (var value in enumType.Values)
         {
-            Debug.Log($"Enum: {enumType.Name}");
-            foreach (var value in enumType.Values)
-            {
-                Debug.Log($" - Value: {value}");
-            }
+            Debug.Log($" - Value: {value}");
         }
+    }
 
-        ...
-        // Using enum properties
-        var enumProperty = viewModelInstance.GetEnumProperty("category");
-        Debug.Log($"Current value: {enumProperty.Value}");
-        Debug.Log($"Available values: {string.Join(", ", enumProperty.EnumValues)}");
-        enumProperty.Value = enumProperty.EnumValues[0]; // Set to first value
-
+    ...
+    // Using enum properties
+    var enumProperty = viewModelInstance.GetEnumProperty("category");
+    Debug.Log($"Current value: {enumProperty.Value}");
+    Debug.Log($"Available values: {string.Join(", ", enumProperty.EnumValues)}");
+    enumProperty.Value = enumProperty.EnumValues[0]; // Set to first value
     ```
   </Tab>
 
@@ -3220,38 +3495,42 @@ Enums are string typed. The Rive file contains a list of enums. Each enum in tur
   </Tab>
 
   <Tab title="React">
-    See the `DataBinding` story in the [Rive React
-    repo](https://github.com/rive-app/rive-react) for a demo.
+    See the `DataBinding` story in the [Rive React repo](https://github.com/rive-app/rive-react) for a demo.
   </Tab>
 
   <Tab title="Apple">
-    See the [Data Binding
-    view](https://github.com/rive-app/rive-ios/blob/main/Example-iOS/Source/Examples/SwiftUI/DataBindingView.swift)
-    in the Example app for a demo.
+    See the [Data Binding view](https://github.com/rive-app/rive-ios/blob/main/Example-iOS/Source/Examples/SwiftUI/DataBindingView.swift) in the Example app for a demo.
+  </Tab>
+
+  <Tab title="Android">
+    <Tabs>
+      <Tab title="Compose">
+        See the following examples:
+        - [Data Binding Overview](https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeDataBindingActivity.kt)
+        - [Data Binding Images](https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeImageBindingActivity.kt)
+        - [Data Binding Artboards](https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeArtboardBindingActivity.kt)
+        - [Data Binding Lists](https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeListActivity.kt)
+      </Tab>
+      <Tab title="Legacy">
+        See the [data binding overview example](https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/LegacyDataBindingActivity.kt).
+      </Tab>
+    </Tabs>
   </Tab>
 
   <Tab title="Flutter">
-    - [Data binding
-    overview](https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding.dart)
-    - [Data binding
-    images](https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_images.dart)
-    - [Data binding
-    artboards](https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_artboards.dart)
-    - [Data binding
-    lists](https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_lists.dart)
+    - [Data binding overview](https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding.dart)
+    - [Data binding images](https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_images.dart)
+    - [Data binding artboards](https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_artboards.dart)
+    - [Data binding lists](https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_lists.dart)
   </Tab>
 
   <Tab title="React Native">
     <Tabs>
       <Tab title="New Runtime (Recommended)">
-        See the [example
-        app](https://github.com/rive-app/rive-nitro-react-native/tree/main/example)
-        for data binding demos with the new runtime.
+        See the [example app](https://github.com/rive-app/rive-nitro-react-native/tree/main/example) for data binding demos with the new runtime.
       </Tab>
       <Tab title="Legacy Runtime">
-        See the [Data Binding
-        view](https://github.com/rive-app/rive-react-native/blob/main/example/app/\(examples\)/DataBinding.tsx)
-        in the Example app for a demo.
+        See the [Data Binding view](https://github.com/rive-app/rive-react-native/blob/main/example/app/\(examples\)/DataBinding.tsx) in the Example app for a demo.
       </Tab>
     </Tabs>
   </Tab>
