@@ -175,8 +175,7 @@ export const Demos = ({
       image: "https://static.rive.app/docs/tipping-scripting-converter.gif",
       description: "Calculate the bill total using the converter's input value added to data binding values.",
       links: {
-        // TODO - replace with marketplace or editor links
-        editor: "https://static.rive.app/revs/payment_demo.rev"
+        editor: "https://uat.rive.app/community/files/610-1126-custom-converter-with-scripting"
       }
     },
     scriptingUnitTesting: {
