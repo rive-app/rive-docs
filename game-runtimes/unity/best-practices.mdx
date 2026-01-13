@@ -1,0 +1,96 @@
+---
+title: 'Best Practices'
+description: 'Performance and usage considerations for Rive in Unity.'
+---
+
+Rive is designed to be efficient in Unity, but performance can still be affected by core factors like how much work happens every frame, how much memory is in use, and how much rendering overhead is required.
+
+<CardGroup cols={2}>
+  <Card title="General Rive best practices" href="/getting-started/best-practices">
+    Design-time and runtime guidance that applies across platforms.
+  </Card>
+  <Card title="Unity components" href="/game-runtimes/unity/components">
+    Learn how Rive Panel, Rive Widget, and render target strategies work.
+  </Card>
+</CardGroup>
+
+## Rive Panels and Render Textures
+
+In Unity, **one Rive Panel renders into one Render Texture** by default. Every **Rive Widget** under a panel draws into that same Render Texture.
+
+That’s why, for UI:
+
+- **Prefer fewer panels**: One (or a small number) of panels is usually best, especially on mobile.
+- **Group widgets under a shared panel**: Multiple widgets under a single panel is typically more efficient than multiple panels.
+
+### Screen space UI vs world space UI
+
+- **Screen space UI**: You can usually structure your UI so a single panel covers the whole screen (or a screen region) and multiple widgets draw into it.
+- **World space UI / VR**: If your UI exists in the world and needs different sizes, transforms, or visibility rules, you may end up needing more panels and more careful control of render textures.
+
+
+If you have a real use case for many panels (for example, lots of world-space UI surfaces), look at **Render Target Strategies**:
+
+- **Atlas Render Target Strategy**: Packs multiple panels into a shared atlas texture to reduce texture count.
+- **Pooled Render Target Strategy**: Reuses textures to reduce allocation churn when panels appear/disappear frequently.
+
+See: [Render Target Strategies](/game-runtimes/unity/components#render-target-strategies).
+
+### One Rive file vs multiple files
+
+Performance is usually driven more by **memory usage**, **Render Texture count or size**, and **how much work your graphics do each frame** than by the number of files alone. The best structure depends on both performance goals and how you want to author and maintain your files.
+
+#### One larger file
+
+- **Pros**: Keep a full UI flow in one place, drive transitions inside Rive, and test the entire experience in the Rive Editor. The file could be loaded once (e.g. at the start of the game) and can be reused across multiple screens or menus.
+- **Tradeoff**: The entire file (including its embedded assets) stays in memory even if you’re only using part of it or displaying a single artboard.
+
+#### Multiple files 
+
+For example, one per screen or menu:
+
+- **Pros**: Load/unload screen-specific UI to save memory. This works well when different screens have different asset needs.
+- **Tradeoffs**:
+  - Transitions between screens typically happen in C# (outside Rive).
+  - Be sure to **disable/destroy** widgets you aren’t using so they aren’t advancing or rendering.
+
+#### Hybrid approach: data binding + artboard slots
+
+If you want modular loading *and* want to stay in a single widget/panel, a hybrid approach can work well:
+
+- Keep a “main” UI file that owns the overall layout and interaction flow.
+- Use data binding to load other artboards (stored in other `.riv` files) into slots at runtime.
+
+This lets you keep UI modular while still rendering through a shared panel and widget. 
+
+The main tradeoff here is that you may need to create more files and manage them more carefully, and you may need to create more data binding properties and logic to manage the different artboards.
+
+See:
+
+- Unity: [Data Binding](/game-runtimes/unity/data-binding)
+- Concepts: [Data binding artboards](/runtimes/data-binding#artboards)
+
+## Prefer data binding + lists for dynamic/repeated UI
+
+If your UI needs to create and remove items dynamically (for example: inventories, quest lists, chat feeds, settings rows, spawning characters), prefer using **data binding list properties** instead of creating lots of separate Rive Widgets.
+
+Using lists keeps repeated graphics **inside a single Rive file / widget**, while still letting you add/remove/swap items at runtime through your Unity code.
+
+See:
+
+- Concepts + examples: [Data binding lists](/runtimes/data-binding#lists)
+- Editor setup: [Lists in the editor](/editor/data-binding/lists)
+
+## Embedded vs referenced assets (Unity)
+
+Most projects can start with embedded assets and only optimize when needed. Referenced assets become useful when you need better reuse and control.
+
+- **Embedded assets**: Simple workflow; everything is inside the `.riv` file.
+- **Referenced assets**: Useful when you reuse the same fonts/images across multiple `.riv` files, or when you want to swap assets at runtime without duplicating them across files.
+
+In Unity specifically, referenced assets can also help you:
+
+- **Avoid duplicating assets** when the same images/fonts are used across multiple Rive files.
+- **Swap to lower-resolution assets** on memory-constrained devices (keeping the same aspect ratio). If your Rive layout is set up to adapt, the graphic can adjust cleanly.
+
+See: [Loading Assets (Unity)](/game-runtimes/unity/loading-assets).
