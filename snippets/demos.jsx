@@ -191,8 +191,7 @@ export const Demos = ({
       image: "https://static.rive.app/docs/snake-game.png",
       description: "Check out this complete game built entirely with Rive using scripting.",
       links: {
-        // TODO - replace with marketplace or editor links
-        editor: "https://static.rive.app/revs/Snake%20Game%203.rev"
+        editor: "https://rive.app/community/files/25748-48110-snake-game/"
       }
     },
     scriptingMultiTouch: {
