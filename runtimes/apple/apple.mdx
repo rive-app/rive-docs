@@ -156,7 +156,7 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
                         RiveUIView({
                             let worker = Worker()
                             let file = File(source: .local("my_file", Bundle.main))
-                            return Rive(file: file)
+                            return try await Rive(file: file)
                         }).view()
                     }
                     ```
@@ -166,7 +166,7 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
                         let riveView = RiveUIView({
                             let worker = Worker()
                             let file = File(source: .local("my_file", Bundle.main))
-                            return Rive(file: file)
+                            return try await Rive(file: file)
                         }).view()
                         view.addSubview(riveView)
                         ```
