@@ -1,6 +1,5 @@
 ---
-title: 'Fonts'
-description: ''
+title: "Fonts"
 ---
 
 Select a font in the inspector as part of a Text Style. The default list is populated via Google Fonts, however you can also upload your own fonts to the Assets Panel.
@@ -9,11 +8,15 @@ Select a font in the inspector as part of a Text Style. The default list is popu
 
 Font variables and OpenType features can be found in the options fly-out of the Text Styles subsection. If supported by the font, you can find it alongside the font weight dropdown.
 
-<Info>Font variables can be animated. Open the options fly-out in animate mode to add keys.</Info>
+<Info>
+  Font variables can be animated. Open the options fly-out in animate mode to add keys.
+</Info>
 
-<Info>Not all fonts support variable axes and OpenType features. The options menu will only surface for supported fonts.</Info>
+<Info>
+  Not all fonts support variable axes and OpenType features. The options menu will only surface for supported fonts.
+</Info>
 
-![Configure variables and features for compatible fonts](https://ucarecdn.com/54d2b525-81bf-48b0-b4b0-99acfc6ea62d/)
+![Configure variables and features for compatible fonts](/images/editor/text/text-runs-fonts-overview.gif)
 
 ---
 
@@ -21,15 +24,19 @@ Font variables and OpenType features can be found in the options fly-out of the 
 
 ### Google Fonts
 
-The default font list is populated via Google Fonts. These fonts are available to use on all plans. After selecting a font it'll appear in the Assets Panel under the 'Fonts' category. This is true for both custom *and* Google fonts. The latter will update automatically based on the fonts you're using within the Rive file.
+The default font list is populated via Google Fonts. These fonts are available to use on all plans. After selecting a font it'll appear in the Assets Panel under the 'Fonts' category. This is true for both custom _and_ Google fonts. The latter will update automatically based on the fonts you're using within the Rive file.
 
-<Info>Fonts provided by Google Fonts are marked with a G icon.</Info>
+<Info>
+  Fonts provided by Google Fonts are marked with a G icon.
+</Info>
 
 ### Custom Fonts
 
 Upload custom fonts by drag-and-dropping your font file into the editor or via the `+` action in the Assets Panel. Uploaded fonts will show at the top of the font selection drop down in the text inspector.
 
-<Info>Select a font in the Assets Panel to view available metadata and licenses in the Inspector.</Info>
+<Info>
+  Select a font in the Assets Panel to view available metadata and licenses in the Inspector.
+</Info>
 
 ---
 
@@ -47,8 +54,14 @@ Select the font in the **Assets** panel and change the **Type** option to define
 - **Referenced:** Export the font file alongside the `.riv`. This option is ideal if you have multiple Rive files using the same font, or if you're implementing a Rive file into an app, game, or website that already has the font file available. Using a referenced font file will reduce the size of your Rive files.
 - **Hosted:** Hosted fonts are uploaded to Rive's CDN for a runtime to download from on demand. Similar to a referenced font file, choosing to host the font on Rive's CDN will omit it from the `.riv`, thus reducing the `.riv` file size. The Rive runtimes will fetch the font when your animation plays in your app, game, or website.
 
-<Info>Assets hosted on Rive's CDN can be accessed by anyone with the link.</Info>
-<Note>Hosted fonts are available on Voyager and Enterprise plans. [Learn more about our plans and pricing](https://rive.app/pricing).</Note>
+<Info>
+  Assets hosted on Rive's CDN can be accessed by anyone with the link.
+</Info>
+
+ <Note>
+  Hosted fonts are available on Voyager and Enterprise plans. [Learn more about our plans and pricing](https://rive.app/pricing).
+</Note>
+
 
 ---
 
@@ -56,7 +69,9 @@ Select the font in the **Assets** panel and change the **Type** option to define
 
 Alongside the font location, you can configure the glyphs you wish to be included. Removing unnecessary glyphs and scripts will reduce the size of the font file (referenced/hosted) or Rive file (embedded). Deciding which scripts to include will depend on whether you want to dynamically update text at runtime, and the languages you want to support.
 
-<Info>Use the 'View Glyphs' feature to browse what glyphs / scripts are available for your chosen font. You can find it in the Inspector after selecting a font in the Assets Panel.</Info>
+<Info>
+  Use the 'View Glyphs' feature to browse what glyphs / scripts are available for your chosen font. You can find it in the Inspector after selecting a font in the Assets Panel.
+</Info>
 
 ![Use the viewer to browse a font's available glyphs and scripts](https://ucarecdn.com/5dca4473-2bd7-44b2-a1d7-677dc14c58f8/)
 
@@ -64,10 +79,11 @@ Alongside the font location, you can configure the glyphs you wish to be include
 
 - **All Glyphs:** Export the entire font file. All the glyphs will be available to use at runtime.
 - **Glyphs Used:** Only exports glyphs used within the file. For example, if your text says "Hello World!", only the `H`,`e`,`l`,`o`,`W`,`r`,`d`, and `!` glyphs would be exported. Use this option if you don't intend to change the text at runtime.
+
 <Tip>
   If you want to include a specific set of glyphs (ex: numbers only), you can include these glyphs in a separate artboard and they will be compiled for runtime.
 </Tip>
+
 - **Custom:** Export chosen scripts. Use the script options fly-out to toggle scripts on and off. Use this option if you want to dynamically update text at runtime, but don't need to support certain languages or alphabets. This will help reduce file size by removing scripts you don't plan to use.
 
 ![Remove unwanted scripts to optimize font exports](https://ucarecdn.com/2610dd6a-5b58-49cf-8c75-c58558185c02/)
-
