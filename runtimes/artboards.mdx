@@ -106,9 +106,11 @@ Only one artboard can be rendered at a time.
       Once you have created a `File`, you can then retrieve information for and create `Artboard` types.
 
       ```swift
-      // Get all artboard names
+      // Get all artboard names in the file
       let artboardNames = try await file.getArtboardNames()
+      // Get the default artboard for the file
       let defaultArtboard = try await file.createArtboard()
+      // Get an artboard by name from the file
       let artboardByName = try await file.createArtboard("Artboard")
       ```
 
