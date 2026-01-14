@@ -33,7 +33,8 @@ export const Demos = ({
         react:
           'https://codesandbox.io/p/sandbox/rive-react-data-binding-artboards-kmvzh8?file=%2Fsrc%2FApp.tsx',
         flutter: 'https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_artboards.dart',
-        reactNative: 'https://github.com/rive-app/rive-nitro-react-native/blob/main/example/src/pages/DataBindingArtboardsExample.tsx'
+        reactNative: 'https://github.com/rive-app/rive-nitro-react-native/blob/main/example/src/pages/DataBindingArtboardsExample.tsx',
+        android: "https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeArtboardBindingActivity.kt"
       },
       source: [
         "https://rive.app/marketplace/24641-46042-data-binding-artboards/",
@@ -47,7 +48,8 @@ export const Demos = ({
       image: '/images/runtimes/rive-db-images.webp',
       links: {
         web: 'https://codesandbox.io/p/sandbox/objective-cohen-sqwh9q?file=%2Fsrc%2Findex.ts',
-        flutter: 'https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_images.dart'
+        flutter: 'https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_images.dart',
+        android: "https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeImageBindingActivity.kt"
       },
       source: [
         "https://rive.app/marketplace/25472-47537-data-binding-images/"
@@ -61,7 +63,8 @@ export const Demos = ({
         web: 'https://codesandbox.io/p/sandbox/suspicious-hertz-2lg4m8?file=%2Fsrc%2Findex.ts',
         react:
           'https://codesandbox.io/p/sandbox/rive-react-data-binding-lists-4msh9z?file=%2Fsrc%2FApp.tsx',
-        flutter: 'https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_lists.dart'
+        flutter: 'https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_lists.dart',
+        android: "https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeListActivity.kt"
       },
       source: [
         "https://rive.app/marketplace/25474-47539-data-binding-lists/"
@@ -75,7 +78,8 @@ export const Demos = ({
         flutter: "https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding.dart",
         reactNative: "https://github.com/rive-app/rive-react-native/blob/main/example/app/(examples)/DataBinding.tsx",
         unity: "https://github.com/rive-app/rive-unity-examples/blob/main/getting-started/Assets/RewardsController.cs",
-        apple: "https://github.com/rive-app/rive-ios/blob/main/Example-iOS/Source/Examples/SwiftUI/RewardsView.swift"
+        apple: "https://github.com/rive-app/rive-ios/blob/main/Example-iOS/Source/Examples/SwiftUI/RewardsView.swift",
+        android: "https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeDataBindingActivity.kt"
       },
       source: [
         "https://rive.app/marketplace/25475-47540-data-binding-demo/"
@@ -110,7 +114,8 @@ export const Demos = ({
         web: "https://codesandbox.io/p/devbox/rive-responsive-layout-js-forked-m77nlw",
         react: "https://codesandbox.io/p/devbox/rive-responsive-layouts-react-forked-nmpv39?file=%2Fsrc%2FApp.tsx",
         flutter: "https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/responsive_layouts.dart",
-        reactNative: 'https://github.com/rive-app/rive-react-native/blob/main/example/app/(examples)/ResponsiveLayout.tsx'
+        reactNative: "https://github.com/rive-app/rive-react-native/blob/main/example/app/(examples)/ResponsiveLayout.tsx",
+        android: "https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeLayoutActivity.kt"
       },
       source: [
         "https://rive.app/marketplace/24638-46038-layouts-demo/"
@@ -256,7 +261,7 @@ export const Demos = ({
     starRating: {
       title: "Android New Compose API Quick Start",
       image: "/images/runtimes/star-rating.webp",
-      description: "Get started with the new Compose API (Technical Preview) for Android.",
+      description: "Get started with the new Compose API for Android.",
       links: {
         android: "https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeActivity.kt",
       }
