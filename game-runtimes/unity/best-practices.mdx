@@ -27,11 +27,22 @@ That's why, for UI:
 
 When you're getting started with Rive, it can be tempting to use it as a simple replacement for individual UI components (for example, building a single “Rive Button”, instancing it many times, and then assembling it in uGUI/UIToolkit). In Unity, this often creates unnecessary widget/panel/render texture overhead.
 
-For most projects, the recommended approach is to build your full menu (or at least larger chunks of a screen) in Rive, and drive it with data binding.
+For most projects, the recommended approach is to build your full menu (or at least larger chunks of a screen) in Rive, render it single widget/panel, and drive it with data binding.
+
+### Prefer data binding with lists for dynamic content
+
+If your UI needs to create and remove items dynamically (for example: inventories, chat feeds, spawning characters), prefer using **data binding list properties** instead of creating lots of separate Rive Widgets.
+
+Using lists keeps repeated graphics **inside a single Rive file / widget**, while still letting you add/remove/swap items at runtime through your Unity code.
+
+See:
+
+- Concepts + examples: [Data binding lists](/runtimes/data-binding#lists)
+- Editor setup: [Lists in the editor](/editor/data-binding/lists)
 
 ### Screen space UI vs world space UI
 
-- **Screen space UI**: You can usually structure your UI so a single panel covers the whole screen (or a screen region) and multiple widgets draw into it.
+- **Screen space UI**: You can usually structure your UI so a single panel covers the whole screen.
 - **World space UI / VR**: If your UI exists in the world and needs different sizes, transforms, or visibility rules, you may end up needing more panels and more careful control of render textures.
 
 
@@ -81,16 +92,7 @@ See:
 - Unity: [Data Binding](/game-runtimes/unity/data-binding)
 - Concepts: [Data binding artboards](/runtimes/data-binding#artboards)
 
-## Prefer data binding with lists for dynamic content
 
-If your UI needs to create and remove items dynamically (for example: inventories, chat feeds, spawning characters), prefer using **data binding list properties** instead of creating lots of separate Rive Widgets.
-
-Using lists keeps repeated graphics **inside a single Rive file / widget**, while still letting you add/remove/swap items at runtime through your Unity code.
-
-See:
-
-- Concepts + examples: [Data binding lists](/runtimes/data-binding#lists)
-- Editor setup: [Lists in the editor](/editor/data-binding/lists)
 
 ## Embedded vs referenced assets
 
