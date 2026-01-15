@@ -28,6 +28,7 @@ Create an instance: Right-click in the scene hierarchy `→ Rive → Rive Panel`
 | Custom Render Target Strategy | The strategy to use for rendering the panel. By default, each panel renders to a single RenderTexture that matches the panel's dimensions. You can provide a different strategy to render to a pool of textures or share a texture between panels. |
 | Update Mode | Controls how the panel updates widgets: `Auto` for automatic updates each frame, or `Manual` for explicit control through `Tick()`. |
 | Disable Editor Preview | Use this to prevent the panel from rendering in Edit mode in the Unity Editor |
+| Multitouch Support | When `Disabled`, the panel collapses all input to a single pointer for legacy behavior. When `Enabled`, multiple pointers are tracked independently. |
 
 **Properties**
 
@@ -77,6 +78,7 @@ Create an instance: Right-click in the scene hierarchy `→ Rive → Widgets →
 | Layout Scaling Mode | How the widget scales in Layout mode ( `ReferenceArtboardSize` ,  `ConstantPhysicalSize` and `ConstantPixelSize`). |
 | Fallback DPI | DPI value to use when screen DPI is unavailable |
 | Reference DPI | Target DPI for scaling calculations |
+| Speed | Controls the widget's playback speed. A value of 1 is normal speed, 2 is double speed, 0.5 is half speed |
 
 **Properties**
 
