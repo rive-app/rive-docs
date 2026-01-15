@@ -228,8 +228,7 @@ export const Demos = ({
       image: "https://static.rive.app/docs/text-path-effect.gif",
       description: "Control a text path using scripting.",
       links: {
-        // TODO - replace with marketplace or editor links
-        editor: "https://static.rive.app/revs/text_path_effects.rev"
+        editor: "https://rive.app/community/files/25823-text-path-effects/"
       }
     },
     scriptingSlotMachine: {
@@ -245,8 +244,7 @@ export const Demos = ({
       image: "https://static.rive.app/docs/scripting-plinko-game.png",
       description: "Build a complete Plinko game using Layout, Node, and Path Effect scripts.",
       links: {
-        // TODO - replace with marketplace or editor links
-        editor: "https://static.rive.app/revs/blinko.rev"
+        editor: "https://rive.app/marketplace/25772-blinko-scripted-game/"
       }
     },
     starRating: {
