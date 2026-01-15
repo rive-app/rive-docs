@@ -1,64 +1,84 @@
 ---
 title: 'Getting Started'
-description: 'Adding Rive to your Unity game.'
+description: 'Adding Rive to your Unity project.'
 ---
 
-<Note>
- The rive-unity package is currently in Technical Preview for macOS and Windows. We're hoping to gather feedback about the API and feature-set as we expand platform support.​
-</Note>
+New to Rive? Start with the [Rive Editor](/editor/fundamentals/overview) to create your graphics, then [export for runtime](/editor/exporting/exporting-for-runtime) when you're ready to bring them into Unity.
+
+<CardGroup cols={2}>
+  <Card title="Rive Editor basics" href="/editor/fundamentals/overview">
+    Create, rig, and build interactive Rive graphics in the editor.
+  </Card>
+  <Card title="Unity runtime overview" href="/game-runtimes/unity/unity">
+    Supported Unity versions, graphics backends, and feature support.
+  </Card>
+</CardGroup>
+
 ## Example Projects
 
-To quickly experiment with rive-unity, run one of our [example projects](https://github.com/rive-app/rive-unity-examples).
+To quickly experiment with Rive in Unity, run one of our [example projects](https://github.com/rive-app/rive-unity-examples).
 
 ## Installation
 
-The [rive-unity package](https://github.com/rive-app/rive-unity) is available to install from GitHub.
+The Rive Unity package is available on the Unity Asset Store and on GitHub.
 
-You will need a Unity editor that supports OpenGL or D3D11 for Windows, or a Mac with ARM64 (M1, M2, etc) architecture.
+The **Unity Asset Store** has a simpler installation process and only includes the stable package releases. Installing from **GitHub** gives you access to stable releases as well as canary tags, which are updated more frequently and may include [newer/early access features](/feature-support) before they land in a stable release.
 
-On Mac with ARM64 you do not need to configure anything. To manually update select either D3D11/OpenGL for Windows, or Metal for Mac/iOS as the Graphics API under **Edit -&gt;** **Project** **Settings -&gt; Player** in Unity.
+<Tabs>
+  <Tab title="Unity Asset Store">
+    Install the package from the Unity Asset Store:
 
-You can install the Rive package for Unity by opening the Package Manager and adding it as a git dependency, for example (replace `0.0.0` with the [latest release](https://github.com/rive-app/rive-unity/releases)):
+    - [Rive for Unity (Asset Store)](https://assetstore.unity.com/packages/tools/gui/rive-350858)
 
-```bash
-git@github.com:rive-app/rive-unity.git?path=package#v0.0.0
-```
+    <Steps>
+      <Step>Open **Window -&gt; Package Manager**</Step>
+      <Step>Select **My Assets**</Step>
+      <Step>Find **Rive** and select **Download** / **Import**</Step>
+    </Steps>
+  </Tab>
+  <Tab title="GitHub">
+    The [rive-unity package](https://github.com/rive-app/rive-unity) is also available to install from GitHub using a git dependency.
 
-Or through HTTP (replace `0.0.0` with the [latest release](https://github.com/rive-app/rive-unity/releases)):
+    Add it via **Window -&gt; Package Manager** and choose **Add package from git URL...** (replace `0.0.0` with the [latest release](https://github.com/rive-app/rive-unity/releases)):
 
-```bash
-https://github.com/rive-app/rive-unity.git?path=package#v0.0.0
-```
+    ```bash
+    https://github.com/rive-app/rive-unity.git?path=package#v0.0.0
+    ```
 
-<Steps>
-  <Step>Open **Window -&gt; Package Manager**</Step>
-  <Step>Choose **Add package from git URL...**</Step>
-  <Step>
-    Add the URL with version tag
-    ![Image](/images/game-runtimes/unity/929bb6b6-2e4a-45c0-a09b-0c3d4f7c5361.webp)
-  </Step>
-</Steps>
+    <Steps>
+      <Step>Open **Window -&gt; Package Manager**</Step>
+      <Step>Choose **Add package from git URL...**</Step>
+      <Step>
+        Paste the URL with a version tag
+        ![Image](/images/game-runtimes/unity/929bb6b6-2e4a-45c0-a09b-0c3d4f7c5361.webp)
+      </Step>
+    </Steps>
 
-<Note>
- Given the changing nature of the Rive API and the way that Unity reloads packages, Unity may crash during package upgrades. To avoid this, use the following method to upgrade package versions.
-</Note>
-You can also add and update it manually to your projects `Packages/manifest.json` file (replace `0.0.0` with the [latest release](https://github.com/rive-app/rive-unity/releases)):
+    <Note>
+      Unity can occasionally crash when upgrading the packages while the Editor is running. If you experience this, close Unity first, update the version in `Packages/manifest.json`, then reopen the project.
+    </Note>
 
-```bash
-"app.rive.rive-unity": "git@github.com:rive-app/rive-unity.git?path=package#v0.0.0",
-```
+    You can add it manually to your project's `Packages/manifest.json` (replace `0.0.0` with the [latest release](https://github.com/rive-app/rive-unity/releases)):
+
+    ```json
+    "app.rive.rive-unity": "https://github.com/rive-app/rive-unity.git?path=package#v0.0.0"
+    ```
+  </Tab>
+</Tabs>
 
 ## Adding a Rive file to Unity
 
-See our documentation on [Exporting](/editor/exporting/) real-time content.
+See our documentation on [Exporting](/editor/exporting/exporting-for-runtime) graphics for runtime.
 
-Once you have a `.riv` file, you can simply drag it into the Unity project window, which will automatically create an Asset object,. On our [Marketplace](https://rive.app/marketplace), you can find Rive content that can be remixed and used in your project. 
+Once you have a `.riv` file, drag it into the Unity **Project** window. Unity will import it and automatically create a **Rive Asset** you can reference from components and scripts.
+
+On the [Marketplace](https://rive.app/marketplace), you can find Rive files that can be remixed.
 
 ## Displaying a Rive File
 
 **Drag-and-Drop**
 
-To display a `.riv` file, you can drag the asset into the scene hierarchy to create a fully configured screen-space panel setup within a uGUI Canvas.
+To display a Rive file in UI, drag it into the **Scene Hierarchy**. This creates a screen-space setup inside a uGUI Canvas.
 
 <video
   controls
@@ -70,7 +90,8 @@ To display a `.riv` file, you can drag the asset into the scene hierarchy to cre
 <Note>
  The `com.unity.ugui` package must be installed to use these components. This is usually included by default in new Unity projects.
 </Note>
-To display a Rive file on mesh, you can drop the asset onto existing GameObjects in the hierarchy that have a MeshRenderer component attached. This automatically creates a **Rive Panel** in the scene and adds **a Rive Texture Renderer** component to the mesh GameObject.
+
+To display a Rive file on a mesh, drop the Rive file onto an existing GameObject with a `MeshRenderer`. This creates a **Rive Panel** and adds a **Rive Texture Renderer** component to the mesh GameObject.
 
 <video
   controls
@@ -86,4 +107,20 @@ Right-click in the scene hierarchy to create the following:
 - `Rive > Rive Panel` - Creates a standalone panel
 - `Rive > Rive Panel (Canvas)` - Creates a UI-ready panel
 - `Rive > Widgets > Rive Widget` - Adds a standard Rive widget
-- `Rive > Widgets > Procedural Rive Widget` - Adds a procedural widget
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Fundamentals" href="/game-runtimes/unity/fundamentals">
+    How files, artboards, and state machines are represented in Unity.
+  </Card>
+  <Card title="Components" href="/game-runtimes/unity/components">
+    Rive Panel, Rive Widget, and recommended component-based workflows.
+  </Card>
+  <Card title="Data Binding" href="/game-runtimes/unity/data-binding">
+    Bind your C# scripts to your Rive graphics for UI and gameplay-driven updates.
+  </Card>
+  <Card title="Best Practices" href="/game-runtimes/unity/best-practices">
+    Performance and usage considerations for Rive in Unity. 
+  </Card>
+</CardGroup>

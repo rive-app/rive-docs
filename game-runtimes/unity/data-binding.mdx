@@ -25,144 +25,17 @@ The simplest way to use data binding is through the Unity Inspector. The **Rive 
 
 
 
-## Usage Example
+## Working with Data Binding
 
-Once your **Rive Widget** is bound to a view model instance, you can access and modify its properties from your Unity scripts. The following example shows how to get, set, and observe different types of primitive properties.
+Once your **Rive Widget** is bound to a view model instance, you can access and modify its properties from your C# scripts.
 
-For a deeper understanding of data binding concepts and more advanced usage (e.g. databinding [lists](/runtimes/data-binding#lists) or [artboards](/runtimes/data-binding#artboards)), see the [Data Binding documentation](/runtimes/data-binding).
+For the full data binding API (including detailed ViewModel property types, lists, and artboard binding), see the runtime data binding documentation:
 
-
-```csharp
-using UnityEngine;
-using Rive;
-using Rive.Components;
-
-public class DataBindingExample : MonoBehaviour
-{
-    [SerializeField] private RiveWidget riveWidget;
-
-    private ViewModelInstanceNumberProperty numberProperty;
-    private ViewModelInstanceStringProperty stringProperty;
-    private ViewModelInstanceBooleanProperty boolProperty;
-    private ViewModelInstanceColorProperty colorProperty;
-    private ViewModelInstanceEnumProperty enumProperty;
-    private ViewModelInstanceTriggerProperty triggerProperty;
-
-    private void OnEnable()
-    {
-        riveWidget.OnWidgetStatusChanged += HandleWidgetStatusChanged;
-    }
-
-    private void OnDisable()
-    {
-        riveWidget.OnWidgetStatusChanged -= HandleWidgetStatusChanged;
-
-    }
-
-    private void HandleWidgetStatusChanged()
-    {
-        // Check if the widget is loaded before accessing the view model instance
-        if (riveWidget.Status == WidgetStatus.Loaded)
-        {
-            ViewModelInstance viewModelInstance = riveWidget.StateMachine.ViewModelInstance;
-
-            //==========================================================================
-            // STRING PROPERTIES
-            //==========================================================================
-            stringProperty = viewModelInstance.GetStringProperty("title");
-            Debug.Log($"String value: {stringProperty.Value}");
-            stringProperty.Value = "New Text";
-            stringProperty.OnValueChanged += OnStringPropertyChanged;
-
-            //==========================================================================
-            // NUMBER PROPERTIES
-            //==========================================================================
-            numberProperty = viewModelInstance.GetNumberProperty("count");
-            Debug.Log($"Number value: {numberProperty.Value}");
-            numberProperty.Value = 42.5f;
-            numberProperty.OnValueChanged += OnNumberPropertyChanged;
-
-            //==========================================================================
-            // BOOLEAN PROPERTIES
-            //==========================================================================
-            boolProperty = viewModelInstance.GetBooleanProperty("isActive");
-            Debug.Log($"Boolean value: {boolProperty.Value}");
-            boolProperty.Value = true;
-            boolProperty.OnValueChanged += OnBoolPropertyChanged;
-
-            //==========================================================================
-            // COLOR PROPERTIES
-            //==========================================================================
-            colorProperty = viewModelInstance.GetColorProperty("backgroundColor");
-            // Using Unity Color (float values 0-1)
-            Color currentColor = colorProperty.Value;
-            colorProperty.Value = UnityEngine.Color.red;
-            // Or using Color32 (byte values 0-255)
-            Color32 currentColor32 = colorProperty.Value32;
-            colorProperty.Value32 = new Color32(0, 255, 0, 255); // Green color
-            colorProperty.OnValueChanged += OnColorPropertyChanged;
-
-            //==========================================================================
-            // ENUM PROPERTIES
-            //==========================================================================
-            enumProperty = viewModelInstance.GetEnumProperty("category");
-            Debug.Log($"Enum current value: {enumProperty.Value}");
-            Debug.Log($"Enum available values: {string.Join(", ", enumProperty.EnumValues)}");
-            enumProperty.Value = "option_name";
-            enumProperty.OnValueChanged += OnEnumPropertyChanged;
-
-            //==========================================================================
-            // TRIGGER PROPERTIES
-            //==========================================================================
-            triggerProperty = viewModelInstance.GetTriggerProperty("onSubmit");
-            triggerProperty.Trigger(); // Fire the trigger
-            triggerProperty.OnTriggered += OnTriggerPropertyFired;
-        }
-    }
-
-    private void OnNumberPropertyChanged(float newValue)
-    {
-        Debug.Log($"Number changed to: {newValue}");
-    }
-
-    private void OnStringPropertyChanged(string newValue)
-    {
-        Debug.Log($"String changed to: {newValue}");
-    }
-
-    private void OnBoolPropertyChanged(bool newValue)
-    {
-        Debug.Log($"Boolean changed to: {newValue}");
-    }
-
-    private void OnColorPropertyChanged(UnityEngine.Color newValue)
-    {
-        Debug.Log($"Color changed to: {ColorUtility.ToHtmlStringRGBA(newValue)}");
-    }
-
-    private void OnEnumPropertyChanged(string newValue)
-    {
-        Debug.Log($"Enum changed to: {newValue}");
-    }
-
-    private void OnTriggerPropertyFired()
-    {
-        Debug.Log("Trigger fired!");
-    }
-
-    private void OnDestroy()
-    {
-        // Remove property listeners
-        if (numberProperty != null) numberProperty.OnValueChanged -= OnNumberPropertyChanged;
-        if (stringProperty != null) stringProperty.OnValueChanged -= OnStringPropertyChanged;
-        if (boolProperty != null) boolProperty.OnValueChanged -= OnBoolPropertyChanged;
-        if (colorProperty != null) colorProperty.OnValueChanged -= OnColorPropertyChanged;
-        if (enumProperty != null) enumProperty.OnValueChanged -= OnEnumPropertyChanged;
-        if (triggerProperty != null) triggerProperty.OnTriggered -= OnTriggerPropertyFired;
-    }
-
-}
-```
+<CardGroup cols={1}>
+  <Card title="Data Binding Fundamentals" href="/runtimes/data-binding">
+    View model concepts, property types, lists, artboards, and runtime examples across platforms.
+  </Card>
+</CardGroup>
 
 Explore the **RewardsDataBinding** scene in the [getting-started example project](https://github.com/rive-app/rive-unity-examples) for a practical implementation in Unity.
 
