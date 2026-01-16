@@ -172,7 +172,7 @@ export const Demos = ({
       image: "https://static.rive.app/docs/masonry.png",
       description: "Create a masonry layout using a Layout script.",
       links: {
-        editor: "https://rive.app/community/files/25753-48089-scripting-masonry-layout"
+        editor: "https://rive.app/community/files/25826-masonry-layout/"
       }
     },
     scriptingTippingConverter: {
