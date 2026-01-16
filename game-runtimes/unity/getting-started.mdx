@@ -1,6 +1,6 @@
 ---
-title: 'Getting Started'
-description: 'Adding Rive to your Unity project.'
+title: "Getting Started"
+description: "Adding Rive to your Unity project."
 ---
 
 New to Rive? Start with the [Rive Editor](/editor/fundamentals/overview) to create your graphics, then [export for runtime](/editor/exporting/exporting-for-runtime) when you're ready to bring them into Unity.
@@ -31,33 +31,34 @@ The **Unity Asset Store** has a simpler installation process and only includes t
     - [Rive for Unity (Asset Store)](https://assetstore.unity.com/packages/tools/gui/rive-350858)
 
     <Steps>
-      <Step>Open **Window -&gt; Package Manager**</Step>
-      <Step>Select **My Assets**</Step>
-      <Step>Find **Rive** and select **Download** / **Import**</Step>
+      <Step>
+        Open Window -\> Package Manager
+      </Step>
+       <Step>
+        Select My Assets
+      </Step>
+       <Step>
+        Find Rive and select Download / Import
+      </Step>
     </Steps>
   </Tab>
   <Tab title="GitHub">
     The [rive-unity package](https://github.com/rive-app/rive-unity) is also available to install from GitHub using a git dependency.
 
-    Add it via **Window -&gt; Package Manager** and choose **Add package from git URL...** (replace `0.0.0` with the [latest release](https://github.com/rive-app/rive-unity/releases)):
+    Add it via **Window -\> Package Manager** and choose **Add package from git URL...** (replace `0.0.0` with the [latest release](https://github.com/rive-app/rive-unity/releases)):
 
     ```bash
     https://github.com/rive-app/rive-unity.git?path=package#v0.0.0
     ```
 
     <Steps>
-      <Step>Open **Window -&gt; Package Manager**</Step>
-      <Step>Choose **Add package from git URL...**</Step>
       <Step>
-        Paste the URL with a version tag
-        ![Image](/images/game-runtimes/unity/929bb6b6-2e4a-45c0-a09b-0c3d4f7c5361.webp)
+        Paste the URL with a version tag <img src="/images/game-runtimes/unity/929bb6b6-2e4a-45c0-a09b-0c3d4f7c5361.webp" alt="Image" />
       </Step>
     </Steps>
-
     <Note>
       Unity can occasionally crash when upgrading the packages while the Editor is running. If you experience this, close Unity first, update the version in `Packages/manifest.json`, then reopen the project.
     </Note>
-
     You can add it manually to your project's `Packages/manifest.json` (replace `0.0.0` with the [latest release](https://github.com/rive-app/rive-unity/releases)):
 
     ```json
@@ -80,25 +81,15 @@ On the [Marketplace](https://rive.app/marketplace), you can find Rive files that
 
 To display a Rive file in UI, drag it into the **Scene Hierarchy**. This creates a screen-space setup inside a uGUI Canvas.
 
-<video
-  controls
-  className="w-full aspect-video"
-  src="https://ucarecdn.com/c6749dc5-66bb-4125-925c-363c32357881/"
-></video>
-
+<video controls className="w-full aspect-video" src="https://ucarecdn.com/c6749dc5-66bb-4125-925c-363c32357881/" />
 
 <Note>
- The `com.unity.ugui` package must be installed to use these components. This is usually included by default in new Unity projects.
+  The `com.unity.ugui` package must be installed to use these components. This is usually included by default in new Unity projects.
 </Note>
 
 To display a Rive file on a mesh, drop the Rive file onto an existing GameObject with a `MeshRenderer`. This creates a **Rive Panel** and adds a **Rive Texture Renderer** component to the mesh GameObject.
 
-<video
-  controls
-  className="w-full aspect-video"
-  src="https://ucarecdn.com/433ea352-657b-4ebb-bb90-9c228423e018/"
-></video>
-
+<video controls className="w-full aspect-video" src="https://ucarecdn.com/433ea352-657b-4ebb-bb90-9c228423e018/" />
 
 **Quick Creation Menu**
 
@@ -121,6 +112,6 @@ Right-click in the scene hierarchy to create the following:
     Bind your C# scripts to your Rive graphics for UI and gameplay-driven updates.
   </Card>
   <Card title="Best Practices" href="/game-runtimes/unity/best-practices">
-    Performance and usage considerations for Rive in Unity. 
+    Performance and usage considerations for Rive in Unity.
   </Card>
 </CardGroup>
