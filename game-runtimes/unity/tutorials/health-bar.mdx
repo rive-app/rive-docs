@@ -1,0 +1,499 @@
+---
+title: "Tutorial: Drive a health bar with data binding"
+description: "Use a Rive file for a health bar UI, driven entirely by data from Unity."
+---
+
+This tutorial walks through connecting a Rive health bar file to Unity using **data binding**. In this setup, your Unity code updates a single number (`health`) and the Rive file handles the rest (color changes, low-health warnings, flashing, and "revive" UI).
+
+## What you'll build
+
+- A **Rive Widget** under a **Rive Panel** on a uGUI Canvas
+- A `HealthBarController` script that:
+  - Sets a `health` **number** property on the view model instance
+  - Listens for a `gameOver` **trigger** fired from the Rive file
+  - (Optional) Reacts when the Rive file writes back to `health`
+- (Optional) A small keyboard control script to test damage/heal
+
+
+## Requirements
+
+- A Unity project with the Rive package installed. See: [Getting Started](/game-runtimes/unity/getting-started)
+- A `.riv` file that exposes a view model instance with:
+  - `health` (Number)
+  - `gameOver` (Trigger)
+
+<Note>
+  This tutorial focuses on Unity integration. If you're new to view models and data binding in Rive, read: [Data binding concepts](/runtimes/data-binding).
+</Note>
+
+## 1. Import the Rive file
+![Drag the Rive Asset into the Scene Hierarchy](/images/game-runtimes/unity/tutorials/health-bar/drag-into-unity-project.webp)
+
+Drag your `.riv` file into the Unity **Project** window. Unity will import it and create a **Rive Asset**.
+
+## 2. Display the Rive file in UI
+![Drag the Rive Asset into the Scene Hierarchy](/images/game-runtimes/unity/tutorials/health-bar/drag-into-scene-hierarchy.webp)
+
+Drag the **Rive Asset** into the **Scene Hierarchy** to create a uGUI setup.
+
+
+## 3. Configure the Rive Widget
+
+![Configure Rive Widget Settings](/images/game-runtimes/unity/tutorials/health-bar/configure-rive-widget-settings.webp)
+
+The **Rive Widget** should already be configured with the default artboard, state machine, and **Auto Bind Default** mode. If these aren't set correctly, configure them in the inspector:
+
+<Steps>
+  <Step>
+    Select the correct **Artboard Name** and **State Machine Name** for your health bar file.
+  </Step>
+  <Step>
+    Set **Data Binding Mode** to **Auto Bind Default** (or **Auto Bind Selected** if you want to pick a specific view model instance).
+  </Step>
+</Steps>
+
+<Note>
+  This tutorial assumes you're using **Auto Bind** on the widget. If the widget is set to **Manual**, `ViewModelInstance` will be null and your script won't be able to access `health` / `gameOver`.
+  See: [Data Binding mode](/game-runtimes/unity/data-binding#auto-binding-in-the-inspector).
+</Note>
+
+The example file was built with responsiveness in mind, so we also set the `Fit` mode to `Layout` to ensure the health bar is scaled to the size of the widget. See: [Layout](/game-runtimes/unity/layouts) for more information.
+
+## 4. Add the controller script
+
+Create a C# script named `HealthBarController.cs`. This is a wrapper script that will be used to control the health bar from your gameplay code.
+
+Why use a wrapper script? Even though you *can* access Rive view model instance properties anywhere in your project, it's usually better to keep that logic in one place because:
+
+- **It keeps the rest of your code Rive-agnostic**: your gameplay scripts can call `Damage()` / `Heal()` / `SetHealth()` without knowing about view models, property names, or widget lifecycle.
+- **It centralizes Rive-specific details**: if the Rive file changes (renamed properties, new triggers, different setup), you update one script instead of hunting through your project.
+
+### Step 4.1: Set up the basic fields
+
+Start by adding references to the widget and the property names we'll look up in the Rive file.
+
+```csharp
+using System;
+using Rive;
+using Rive.Components;
+using UnityEngine;
+using UnityEngine.Events;
+
+public class HealthBarController : MonoBehaviour
+{
+    [Header("Rive")]
+    [Tooltip("The Rive Widget that is displaying your health bar file.")]
+    [SerializeField] private RiveWidget m_riveWidget;
+
+    [Header("Initial health")]
+    [Tooltip("Initial health applied when the widget finishes loading.")]
+    [SerializeField] private float m_startingHealth = 100f;
+
+    [Header("ViewModel Property Names")]
+    [Tooltip("ViewModel Number property name used by the Rive file.")]
+    [SerializeField] private string m_healthPropertyName = "health";
+
+    [Tooltip("ViewModel Trigger property name fired by the Rive file.")]
+    [SerializeField] private string m_gameOverPropertyName = "gameOver";
+
+    // Cached references to the bound view model properties.
+    private ViewModelInstanceNumberProperty m_healthProperty;
+    private ViewModelInstanceTriggerProperty m_gameOverProperty;
+
+    // Track whether we've initialized health
+    private bool m_hasInitialized;
+}
+```
+
+If you're not sure where to find the values for the `m_healthPropertyName` and `m_gameOverPropertyName` fields, they refer to the names of the `health` and `gameOver` properties in the main view model defined in the Rive file.
+
+![Health Bar Property Model](/images/game-runtimes/unity/tutorials/health-bar/health-bar-property-model.webp)
+
+### Step 4.2: Add events
+
+Add UnityEvents so you can react to health changes and game over events (both in the Inspector and from code).
+
+```csharp
+[Header("Events")]
+[Tooltip("Invoked whenever health changes in the Rive file.")]
+public FloatEvent OnHealthChanged = new FloatEvent();
+
+[Tooltip("Invoked when the Rive file fires the gameOver trigger.")]
+public UnityEvent OnGameOver = new UnityEvent();
+
+[Serializable]
+public class FloatEvent : UnityEvent<float> { }
+```
+
+### Step 4.3: Create a Health property wrapper
+
+This property reads from the Rive view model instance when available, otherwise returns the starting value.
+
+```csharp
+/// <summary>
+/// Health is a thin wrapper over the view model number property.
+/// Until the widget is loaded, it returns the starting value.
+/// </summary>
+public float Health
+{
+    get { return m_healthProperty != null ? m_healthProperty.Value : m_startingHealth; }
+}
+
+private void WriteHealth(float value)
+{
+    if (m_healthProperty != null)
+    {
+        m_healthProperty.Value = value;
+        return;
+    }
+
+    // Widget isn't loaded yet. Store it so we can apply it when the view model instance is ready.
+    m_startingHealth = value;
+}
+```
+
+### Step 4.4: Wait for the widget to load and connect to the view model instance
+
+The widget loads the Rive file asynchronously. We use `OnWidgetStatusChanged` so we only access the view model instance after it's ready.
+
+Add the following methods inside `HealthBarController`:
+
+```csharp
+private void OnEnable()
+{
+    if (m_riveWidget == null)
+    {
+        Debug.LogError($"{nameof(HealthBarController)}: No RiveWidget assigned.", this);
+        return;
+    }
+
+    m_riveWidget.OnWidgetStatusChanged += HandleWidgetStatusChanged;
+
+    // If the widget was already loaded before we subscribed, initialize immediately.
+    HandleWidgetStatusChanged();
+}
+
+private void OnDisable()
+{
+    if (m_riveWidget != null)
+    {
+        m_riveWidget.OnWidgetStatusChanged -= HandleWidgetStatusChanged;
+    }
+
+    // Clean up event listeners to avoid duplicate subscriptions.
+    if (m_healthProperty != null)
+        m_healthProperty.OnValueChanged -= HandleHealthChangedFromRive;
+
+    if (m_gameOverProperty != null)
+        m_gameOverProperty.OnTriggered -= HandleGameOverTriggeredFromRive;
+}
+
+private void HandleWidgetStatusChanged()
+{
+    if (m_riveWidget.Status != WidgetStatus.Loaded)
+        return;
+
+    ViewModelInstance viewModelInstance = m_riveWidget.StateMachine?.ViewModelInstance;
+    if (viewModelInstance == null)
+    {
+        Debug.LogError($"{nameof(HealthBarController)}: ViewModelInstance is null. " +
+                       "Make sure Data Binding Mode is set to Auto Bind Default / Selected.", this);
+        return;
+    }
+
+    // Clean up old listeners first (in case the widget reloads).
+    if (m_healthProperty != null)
+        m_healthProperty.OnValueChanged -= HandleHealthChangedFromRive;
+
+    if (m_gameOverProperty != null)
+        m_gameOverProperty.OnTriggered -= HandleGameOverTriggeredFromRive;
+
+    // Get the health property by name.
+    m_healthProperty = viewModelInstance.GetNumberProperty(m_healthPropertyName);
+    if (m_healthProperty == null)
+    {
+        Debug.LogError($"{nameof(HealthBarController)}: Number property '{m_healthPropertyName}' not found.", this);
+        return;
+    }
+
+    // Get the gameOver property by name.
+    m_gameOverProperty = viewModelInstance.GetTriggerProperty(m_gameOverPropertyName);
+    if (m_gameOverProperty == null)
+    {
+        Debug.LogError($"{nameof(HealthBarController)}: Trigger property '{m_gameOverPropertyName}' not found.", this);
+        return;
+    }
+
+    // Subscribe to changes from the Rive file for the health and gameOver properties.
+    m_healthProperty.OnValueChanged += HandleHealthChangedFromRive;
+    m_gameOverProperty.OnTriggered += HandleGameOverTriggeredFromRive;
+
+    // Set the initial health value only once
+    if (!m_hasInitialized)
+    {
+        m_healthProperty.Value = m_startingHealth;
+        m_hasInitialized = true;
+    }
+}
+```
+
+### Step 4.5: Expose a simple API for gameplay code
+
+This is the "wrapper" payoff: your gameplay code never has to reference `RiveWidget`, `ViewModelInstance`, or property names.
+
+Add:
+
+```csharp
+public void Damage(float amount)
+{
+    WriteHealth(Health - Mathf.Abs(amount));
+}
+
+public void Heal(float amount)
+{
+    WriteHealth(Health + Mathf.Abs(amount));
+}
+
+private void HandleHealthChangedFromRive(float newValue)
+{
+    // Whether health changed due to gameplay code (writing to the view model instance)
+    // or due to the Rive file (e.g. clicking "Revive"), we listen to Rive as the source of change events.
+    OnHealthChanged.Invoke(newValue);
+}
+
+private void HandleGameOverTriggeredFromRive()
+{
+    OnGameOver.Invoke();
+}
+```
+
+## 5. Hook it up in the Inspector
+
+![Attach HealthBarController to the Rive Widget](/images/game-runtimes/unity/tutorials/health-bar/health-bar-controller-component.webp)
+
+Attach `HealthBarController` to any GameObject (commonly the same object as your `Rive Widget`), then:
+
+<Steps>
+  <Step>Assign the `Rive Widget` field.</Step>
+  <Step>Set `Starting Health` (for example, 70).</Step>
+  <Step>
+    (Optional) Wire `On Game Over` to your own gameplay/UI logic (restart flow, quit, show menu, etc.).
+  </Step>
+</Steps>
+
+
+### Optional: keyboard controls
+
+If you want a quick way to test this in Play Mode, you can drive the controller with keyboard input.
+
+Create a script named `HealthBarKeyboardControls.cs`:
+
+```csharp
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+public class HealthBarKeyboardControls : MonoBehaviour
+{
+    [SerializeField] private HealthBarController m_healthBar;
+    [SerializeField] private float m_damageAmount = 10f;
+    [SerializeField] private float m_healAmount = 20f;
+
+    private void Update()
+    {
+        var keyboard = Keyboard.current;
+        if (keyboard == null)
+            return;
+
+        // Damage (left arrow key )
+        if (keyboard.leftArrowKey.wasPressedThisFrame)
+            m_healthBar.Damage(m_damageAmount);
+
+        // Heal (right arrow key)
+        if (keyboard.rightArrowKey.wasPressedThisFrame)
+            m_healthBar.Heal(m_healAmount);
+    }
+}
+```
+
+Attach `HealthBarKeyboardControls` to any GameObject, assign your `HealthBarController`, then press:
+
+- `←` (left arrow key) to take damage
+- `→` (right arrow key) to heal
+
+<Note>
+  This uses Unity's **Input System** package (`com.unity.inputsystem`). If your project is still using the legacy input manager, you'll need to enable the Input System in Unity (**Project Settings → Player → Active Input Handling**).
+
+  You'll also want to select the `Event System` in the Scene Hierarchy and update it to use the new Input System if it is not already.
+</Note>
+
+
+## 6. Drive health from gameplay code
+
+From your gameplay scripts you can treat the Rive file like a "rendered UI" for your data:
+
+- Call `Damage()` or `Heal()` based on gameplay events.
+- Or read `Health` if you need the current value.
+
+<Note>
+  The key idea: your Unity code only updates a number. The Rive file is responsible for visuals like color, warnings, and flashing.
+</Note>
+
+
+## Final `HealthBarController.cs`
+
+If you want the full script in one place, here's the complete version:
+
+```csharp
+using System;
+using Rive;
+using Rive.Components;
+using UnityEngine;
+using UnityEngine.Events;
+
+public class HealthBarController : MonoBehaviour
+{
+    [Header("Rive")]
+    [Tooltip("The Rive Widget that is displaying your health bar file.")]
+    [SerializeField] private RiveWidget m_riveWidget;
+
+    [Header("Initial health")]
+    [Tooltip("Initial health applied when the widget finishes loading.")]
+    [SerializeField] private float m_startingHealth = 100f;
+
+    [Header("ViewModel Property Names")]
+    [Tooltip("ViewModel Number property name used by the Rive file.")]
+    [SerializeField] private string m_healthPropertyName = "health";
+
+    [Tooltip("ViewModel Trigger property name fired by the Rive file.")]
+    [SerializeField] private string m_gameOverPropertyName = "gameOver";
+
+    [Header("Events")]
+    [Tooltip("Invoked whenever health changes in the Rive file. It is called with the new health value.")]
+    public FloatEvent OnHealthChanged = new FloatEvent();
+
+    [Tooltip("Invoked when the Rive file fires the gameOver trigger.")]
+    public UnityEvent OnGameOver = new UnityEvent();
+
+    [Serializable]
+    public class FloatEvent : UnityEvent<float> { }
+
+    private ViewModelInstanceNumberProperty m_healthProperty;
+    private ViewModelInstanceTriggerProperty m_gameOverProperty;
+
+    // Track whether we've initialized health
+    private bool m_hasInitialized;
+
+    public float Health
+    {
+        get { return m_healthProperty != null ? m_healthProperty.Value : m_startingHealth; }
+    }
+
+    private void WriteHealth(float value)
+    {
+        if (m_healthProperty != null)
+        {
+            m_healthProperty.Value = value;
+            return;
+        }
+
+        m_startingHealth = value;
+    }
+
+    private void OnEnable()
+    {
+        if (m_riveWidget == null)
+        {
+            Debug.LogError($"{nameof(HealthBarController)}: No RiveWidget assigned.", this);
+            return;
+        }
+
+        m_riveWidget.OnWidgetStatusChanged += HandleWidgetStatusChanged;
+
+        // If the widget was already loaded before we subscribed, initialize the health bar immediately.
+        HandleWidgetStatusChanged();
+    }
+
+    private void OnDisable()
+    {
+        if (m_riveWidget != null)
+        {
+            m_riveWidget.OnWidgetStatusChanged -= HandleWidgetStatusChanged;
+        }
+
+        // Clean up event listeners to avoid duplicate subscriptions.
+        if (m_healthProperty != null)
+            m_healthProperty.OnValueChanged -= HandleHealthChangedFromRive;
+
+        if (m_gameOverProperty != null)
+            m_gameOverProperty.OnTriggered -= HandleGameOverTriggeredFromRive;
+    }
+
+    private void HandleWidgetStatusChanged()
+    {
+        if (m_riveWidget.Status != WidgetStatus.Loaded)
+            return;
+
+        ViewModelInstance viewModelInstance = m_riveWidget.StateMachine?.ViewModelInstance;
+        if (viewModelInstance == null)
+        {
+            Debug.LogError($"{nameof(HealthBarController)}: ViewModelInstance is null. " +
+                           "Make sure Data Binding Mode is set to Auto Bind Default / Selected.", this);
+            return;
+        }
+
+        // Clean up old listeners first (in case the widget reloads).
+        if (m_healthProperty != null)
+            m_healthProperty.OnValueChanged -= HandleHealthChangedFromRive;
+
+        if (m_gameOverProperty != null)
+            m_gameOverProperty.OnTriggered -= HandleGameOverTriggeredFromRive;
+
+      // Get the health property by name.
+        m_healthProperty = viewModelInstance.GetNumberProperty(m_healthPropertyName);
+        if (m_healthProperty == null)
+        {
+            Debug.LogError($"{nameof(HealthBarController)}: Number property '{m_healthPropertyName}' not found.", this);
+            return;
+        }
+
+        // Get the gameOver property by name.
+        m_gameOverProperty = viewModelInstance.GetTriggerProperty(m_gameOverPropertyName);
+        if (m_gameOverProperty == null)
+        {
+            Debug.LogError($"{nameof(HealthBarController)}: Trigger property '{m_gameOverPropertyName}' not found.", this);
+            return;
+        }
+
+        // Subscribe to changes from the Rive file for the health and gameOver properties.
+        m_healthProperty.OnValueChanged += HandleHealthChangedFromRive;
+        m_gameOverProperty.OnTriggered += HandleGameOverTriggeredFromRive;
+
+        // Set the initial health value only once
+        if (!m_hasInitialized)
+        {
+            m_healthProperty.Value = m_startingHealth;
+            m_hasInitialized = true;
+        }
+    }
+
+    public void Damage(float amount)
+    {
+        WriteHealth(Health - Mathf.Abs(amount));
+    }
+
+    public void Heal(float amount)
+    {
+        WriteHealth(Health + Mathf.Abs(amount));
+    }
+
+    private void HandleHealthChangedFromRive(float newValue)
+    {
+        OnHealthChanged.Invoke(newValue);
+    }
+
+    private void HandleGameOverTriggeredFromRive()
+    {
+        OnGameOver.Invoke();
+    }
+}
+```
