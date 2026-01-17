@@ -3,7 +3,7 @@ title: "Drive a health bar with data binding in Unity"
 description: "Learn how to connect Unity gameplay data to a Rive health bar using view model instance properties."
 ---
 
-This tutorial walks through connecting a Rive health bar file to Unity using **data binding**. In this setup, your Unity code updates a single number (`health`) while the Rive file handles the visuals (e.g. color changes, and low-health warnings).
+This tutorial walks through connecting a Rive health bar file to Unity using **data binding**. In this setup, your Unity code updates a single number (`health`) while the Rive file handles the visuals in response (e.g. color changes, and low-health warnings).
 
 
 ![Gif of the Health Bar Demo with the value changing from 100 to 0](/images/runtimes/quick-start.gif)
@@ -13,7 +13,7 @@ To view the completed project, see [HealthBar Demo](https://github.com/rive-app/
 
 ## What you'll build
 
-- A **Rive Widget** under a **Rive Panel** on a uGUI Canvas
+- A scene that displays a Rive health bar file in screen space
 - A `HealthBarController` script that:
   - Sets a `health` **number** property on the view model instance
   - Listens for a `gameOver` **trigger** fired from the Rive file
@@ -41,8 +41,9 @@ Drag your `.riv` file into the Unity **Project** window. Unity will import it an
 ## 2. Display the Rive file in UI
 ![Drag the Rive Asset into the Scene Hierarchy](/images/game-runtimes/unity/tutorials/health-bar/drag-into-scene-hierarchy.webp)
 
-Drag the **Rive Asset** into the **Scene Hierarchy** to create a uGUI setup.
+Create a new scene if you haven't already, then drag the **Rive Asset** into the **Scene Hierarchy** to create a Rive Panel/Widget that renders to a uGUI Canvas.
 
+This will also add an **Event System** to the scene, which is required for the Rive Widget to receive pointer events.
 
 ## 3. Configure the Rive Widget
 
@@ -128,7 +129,7 @@ public UnityEvent OnGameOver = new UnityEvent();
 public class FloatEvent : UnityEvent<float> { }
 ```
 
-### Step 4.3: Wait for the widget to load and grab the view model instance properties
+### Step 4.3: Grab the view model instance properties when the widget is loaded
 
 We use `OnWidgetStatusChanged` to access the view model instance once the widget is loaded. If you try to access the view model instance before the widget is loaded, it will be null.
 
@@ -269,12 +270,12 @@ Then add gameplay methods that use this helper:
 ```csharp
 public void Damage(float amount)
 {
-    WriteHealth(Health - Mathf.Abs(amount));
+    WriteHealth(Health - amount);
 }
 
 public void Heal(float amount)
 {
-    WriteHealth(Health + Mathf.Abs(amount));
+    WriteHealth(Health + amount);
 }
 ```
 
@@ -282,13 +283,13 @@ public void Heal(float amount)
 
 ![Attach HealthBarController to the Rive Widget](/images/game-runtimes/unity/tutorials/health-bar/health-bar-controller-component.webp)
 
-Attach `HealthBarController` to any GameObject (commonly the same object as your `Rive Widget`), then:
+Attach `HealthBarController` to any GameObject (typically the same object as your `Rive Widget`), then:
 
 <Steps>
-  <Step>Assign the `Rive Widget` field.</Step>
-  <Step>Set `Starting Health` (for example, 70).</Step>
+  <Step>Assign the `Rive Widget` field to the one you created earlier.</Step>
+  <Step>Set `Starting Health` to the initial health value you want to display (for example, 70).</Step>
   <Step>
-    (Optional) Wire `On Game Over` to your own gameplay/UI logic (restart flow, quit, show menu, etc.).
+    (Optional) Wire `On Game Over` to your own gameplay logic.
   </Step>
 </Steps>
 
@@ -505,12 +506,12 @@ public class HealthBarController : MonoBehaviour
 
     public void Damage(float amount)
     {
-        WriteHealth(Health - Mathf.Abs(amount));
+        WriteHealth(Health - amount);
     }
 
     public void Heal(float amount)
     {
-        WriteHealth(Health + Mathf.Abs(amount));
+        WriteHealth(Health + amount);
     }
 
     private void HandleHealthChangedFromRive(float newValue)
