@@ -1,5 +1,5 @@
 ---
-title: "Drive a health bar with data binding in Unity"
+title: "Control a health bar with data binding in Unity"
 description: "Learn how to connect Unity gameplay data to a Rive health bar using view model instance properties."
 ---
 <Badge color="green">Beginner</Badge>
@@ -7,7 +7,7 @@ description: "Learn how to connect Unity gameplay data to a Rive health bar usin
 This tutorial walks through connecting a Rive health bar file to Unity using **data binding**. In this setup, your Unity code updates a single number (`health`) while the Rive file handles the visuals in response (e.g. color changes, and low-health warnings).
 
 
-![Gif of the Health Bar Demo with the value changing from 100 to 0](/images/runtimes/quick-start.gif)
+![GIF of the Health Bar Demo with the value changing from 100 to 0](/images/runtimes/quick-start.gif)
 
 
 To view the completed project, see [HealthBar Demo](https://github.com/rive-app/rive-unity-examples/blob/main/getting-started/Assets/Demos/HealthBar).
@@ -101,7 +101,7 @@ public class HealthBarController : MonoBehaviour
     [Tooltip("ViewModel Trigger property name fired by the Rive file.")]
     [SerializeField] private string m_gameOverPropertyName = "gameOver";
 
-    // Cached references to the bound view model properties.
+    // Cached references to the view model instance properties we'll be using to interact with the Rive file.
     private ViewModelInstanceNumberProperty m_healthProperty;
     private ViewModelInstanceTriggerProperty m_gameOverProperty;
 
@@ -112,7 +112,9 @@ public class HealthBarController : MonoBehaviour
 
 If you're not sure where to find the values for the `m_healthPropertyName` and `m_gameOverPropertyName` fields, they refer to the names of the `health` and `gameOver` properties in the main view model defined in the Rive file.
 
-![Health Bar Property Model](/images/game-runtimes/unity/tutorials/health-bar/health-bar-property-model.webp)
+<Frame caption="The health bar file in the Rive Editor">
+  <img src="/images/game-runtimes/unity/tutorials/health-bar/health-bar-property-model.webp" alt="The health bar file in the Rive Editor with the health and gameOver properties highlighted" />
+</Frame>
 
 ### Step 4.2: Add events
 
@@ -250,11 +252,22 @@ First, add a `Health` property that reads from the `health` view model instance 
 /// </summary>
 public float Health
 {
-    get { return m_healthProperty != null ? m_healthProperty.Value : m_startingHealth; }
+    get
+    {
+        // If the widget is loaded, read from the Rive view model instance property
+        if (m_healthProperty != null)
+        {
+            return m_healthProperty.Value;
+        }
+        
+        // Widget isn't loaded yet, return the starting value
+        return m_startingHealth;
+    }
 }
 
 private void WriteHealth(float value)
 {
+    // If the widget is loaded, write to the Rive view model instance property
     if (m_healthProperty != null)
     {
         m_healthProperty.Value = value;
@@ -368,7 +381,9 @@ public class GameManager : MonoBehaviour
 }
 ```
 
-The key idea here is that your Unity code only updates data. Because the Rive file handles the visual representation, you can change the health bar's appearance in the Rive Editor as much as you want without having to update or write any additional code.
+The key idea here is that your Unity code only updates data. The Rive file handles the visual representation in response to those changes. 
+
+As long as you keep the data contract the same (the `health` number and `gameOver` trigger), you can change the health bar's appearance in the Rive Editor as much as you want without updating or writing any additional code. Simply swap out the old .riv file with the new one.
 
 <Expandable title="Final HealthBarController.cs">
 
@@ -414,17 +429,29 @@ public class HealthBarController : MonoBehaviour
 
     public float Health
     {
-        get { return m_healthProperty != null ? m_healthProperty.Value : m_startingHealth; }
+        get
+        {
+            // If the widget is loaded, read from the Rive view model instance property
+            if (m_healthProperty != null)
+            {
+                return m_healthProperty.Value;
+            }
+            
+            // Widget isn't loaded yet, return the starting value
+            return m_startingHealth;
+        }
     }
 
     private void WriteHealth(float value)
     {
+        // If the widget is loaded, write to the Rive view model instance property
         if (m_healthProperty != null)
         {
             m_healthProperty.Value = value;
             return;
         }
 
+        // Widget isn't loaded yet. Store it so we can apply it when the view model instance is ready.
         m_startingHealth = value;
     }
 
