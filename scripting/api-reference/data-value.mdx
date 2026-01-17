@@ -10,6 +10,10 @@ functions for checking the underlying value type.
 
 ### `number`
 
+```lua
+number
+```
+
 Constructors for [DataValue](/scripting/api-reference/data-value) types. Each function returns a mutable
 DataValue container of the corresponding underlying type.
 Creates a [DataValueNumber](/scripting/api-reference/data-value-number) that stores a number.
@@ -17,15 +21,27 @@ Creates a [DataValueNumber](/scripting/api-reference/data-value-number) that sto
 
 ### `string`
 
+```lua
+string
+```
+
 Creates a [DataValueString](/scripting/api-reference/data-value-string) that stores a string.
 
 
 ### `boolean`
 
+```lua
+boolean
+```
+
 Creates a [DataValueBoolean](/scripting/api-reference/data-value-boolean) that stores a boolean.
 
 
 ### `color`
+
+```lua
+color
+```
 
 Creates a [DataValueColor](/scripting/api-reference/data-value-color) that stores a [Color](/scripting/api-reference/color).
 
@@ -33,6 +49,10 @@ Creates a [DataValueColor](/scripting/api-reference/data-value-color) that store
 ## Methods
 
 ### `isNumber`
+
+```lua
+isNumber() -> boolean
+```
 
 Base type for values that can be stored in inputs. Provides
 functions for checking the underlying value type.
@@ -45,6 +65,10 @@ print(dv.isNumber) -- true
 
 ### `isString`
 
+```lua
+isString() -> boolean
+```
+
 Returns true if the value is a string.
 ```lua
 local dv: DataValueNumber = DataValue.number()
@@ -54,6 +78,10 @@ print(dv.isString) -- false
 
 ### `isBoolean`
 
+```lua
+isBoolean() -> boolean
+```
+
 Returns true if the value is a boolean.
 ```lua
 local dv: DataValueNumber = DataValue.number()
@@ -62,6 +90,10 @@ print(dv.isBoolean) -- false
 
 
 ### `isColor`
+
+```lua
+isColor() -> boolean
+```
 
 Returns true if the value is a color.
 ```lua

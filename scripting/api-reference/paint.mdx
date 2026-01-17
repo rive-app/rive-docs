@@ -54,6 +54,10 @@ Color. See [Color](/scripting/api-reference/color).
 
 ### `new`
 
+```lua
+new
+```
+
 Creates a new [Paint](/scripting/api-reference/paint) object with default settings.
 
 Example:
@@ -65,6 +69,10 @@ paint.color = Color.rgb(255, 200, 80)
 
 
 ### `with`
+
+```lua
+with
+```
 
 Creates a new Paint initialized from the provided [PaintDefinition](/scripting/api-reference/paint-definition).
 
@@ -83,6 +91,10 @@ local strokePaint = Paint.with({
 ## Methods
 
 ### `copy`
+
+```lua
+copy(values:PaintDefinition?) -> Paint
+```
 
 Returns a new Paint that copies this one, optionally overriding selected
 properties with values from the provided [PaintDefinition](/scripting/api-reference/paint-definition).

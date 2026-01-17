@@ -60,15 +60,27 @@ Creates a scale-and-translation matrix from numeric values or vectors.
 
 ### `values`
 
+```lua
+values
+```
+
 Creates a matrix using the specified components.
 
 
 ### `identity`
 
+```lua
+identity
+```
+
 Returns the identity matrix.
 
 
 ### `withRotation`
+
+```lua
+withRotation
+```
 
 Creates a rotation matrix from the given angle in radians.
 
@@ -77,26 +89,46 @@ Creates a rotation matrix from the given angle in radians.
 
 ### `invert`
 
+```lua
+invert() -> Mat2D?
+```
+
 Provides indexed access to the matrix components.
 Returns the inverse of the matrix, or nil if the matrix is not invertible.
 
 
 ### `isIdentity`
 
+```lua
+isIdentity() -> boolean
+```
+
 Returns true if the matrix is the identity transform.
 
 
 ### `__eq`
+
+```lua
+__eq(rhs: Mat2D) -> boolean
+```
 
 Returns true if all components of the two matrices are equal.
 
 
 ### `__mul`
 
+```lua
+__mul(rhs: Vector) -> Vector
+```
+
 Transforms the given vector by the matrix and returns the result.
 
 
 ### `__mul`
+
+```lua
+__mul(rhs: Mat2D) -> Mat2D
+```
 
 Returns the matrix product of this matrix and the given matrix
 

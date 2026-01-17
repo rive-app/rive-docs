@@ -6,9 +6,17 @@ title: Path
 
 ### `new`
 
+```lua
+new
+```
+
 ## Methods
 
 ### `moveTo`
+
+```lua
+moveTo(self: Path, to: Vector) -> ()
+```
 
 Moves the current point to the specified location, starting a new
 contour.
@@ -19,6 +27,10 @@ path:moveTo(Vector.xy(0, 0))
 
 ### `lineTo`
 
+```lua
+lineTo(self: Path, to: Vector) -> ()
+```
+
 Adds a straight line segment from the current point to the specified
 point.
 ```lua
@@ -27,6 +39,10 @@ path:lineTo(Vector.xy(10, 0))
 
 
 ### `quadTo`
+
+```lua
+quadTo(self: Path, control: Vector, to: Vector) -> ()
+```
 
 Adds a quadratic Bézier curve from the current point to the specified
 point, using the control point to define the curve shape.
@@ -40,6 +56,10 @@ path:quadTo(
 
 ### `cubicTo`
 
+```lua
+cubicTo(self: Path, controlOut: Vector, controlIn: Vector, to: Vector) -> ()
+```
+
 Adds a cubic Bézier curve from the current point to the specified point,
 using controlOut for the start tangent and controlIn for the end tangent.
 ```lua
@@ -52,6 +72,10 @@ path:cubicTo(
 
 
 ### `close`
+
+```lua
+close(self: Path) -> ()
+```
 
 Closes the current contour by adding a line segment from the current
 point back to the first point of the contour (the last moveTo).
@@ -68,11 +92,19 @@ path:close()
 
 ### `__len`
 
+```lua
+__len() -> number
+```
+
 Each entry is a [PathCommand](/scripting/api-reference/path-command) describing one segment or action in the path.
 Returns the number of commands in the path.
 
 
 ### `reset`
+
+```lua
+reset(self: Path) -> ()
+```
 
 Paths should not be reset, or mutated at all, while they are in flight for
 rendering. Only call reset on subsequent frames if you've called
@@ -84,10 +116,18 @@ path:reset()
 
 ### `add`
 
+```lua
+add(self: Path, other: PathData, transform: Mat2D?) -> ()
+```
+
 Add one path to another path with the given transform, when specified.
 
 
 ### `contours`
+
+```lua
+contours(self: Path) -> ContourMeasure?
+```
 
 Returns a [ContourMeasure](/scripting/api-reference/contour-measure) for the first contour in the path. A contour is
 a sequence of path segments between moveTo operations. Use the 'next'
@@ -96,6 +136,10 @@ contours. Returns nil if the path has no contours.
 
 
 ### `measure`
+
+```lua
+measure(self: Path) -> PathMeasure
+```
 
 Returns a [PathMeasure](/scripting/api-reference/path-measure) that measures the entire path across all contours.
 This provides the total length and allows operations on the path as a whole.
