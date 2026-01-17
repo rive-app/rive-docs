@@ -10,6 +10,10 @@ Both Path and PathData behave like arrays of commands and support iteration via 
 
 ### `__len`
 
+```lua
+__lennumber
+```
+
 PathData is an indexed collection of [PathCommand](/scripting/api-reference/path-command) objects.
 Both Path and PathData behave like arrays of commands and support iteration via ipairs.
 Each entry is a [PathCommand](/scripting/api-reference/path-command) describing one segment or action in the path.
@@ -18,6 +22,10 @@ Returns the number of commands in the path.
 
 ### `contours`
 
+```lua
+contours(self: PathData) -> ContourMeasure?
+```
+
 Returns a [ContourMeasure](/scripting/api-reference/contour-measure) for the first contour in the path. A contour is
 a sequence of path segments between moveTo operations. Use the 'next'
 property on the returned ContourMeasure to iterate through subsequent
@@ -25,6 +33,10 @@ contours. Returns nil if the path has no contours.
 
 
 ### `measure`
+
+```lua
+measure(self: PathData) -> PathMeasure
+```
 
 Returns a [PathMeasure](/scripting/api-reference/path-measure) that measures the entire path across all contours.
 This provides the total length and allows operations on the path as a whole.
