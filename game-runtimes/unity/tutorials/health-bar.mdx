@@ -103,7 +103,7 @@ public class HealthBarController : MonoBehaviour
     private ViewModelInstanceNumberProperty m_healthProperty;
     private ViewModelInstanceTriggerProperty m_gameOverProperty;
 
-    // Track whether we've initialized health
+    // Track whether we've initialized health so we don't overwrite it if the widget GameObject is disabled and re-enabled.
     private bool m_hasInitialized;
 }
 ```
@@ -128,34 +128,7 @@ public UnityEvent OnGameOver = new UnityEvent();
 public class FloatEvent : UnityEvent<float> { }
 ```
 
-### Step 4.3: Create a Health property wrapper
-
-This property reads from the Rive view model instance when available, otherwise returns the starting value.
-
-```csharp
-/// <summary>
-/// Health is a thin wrapper over the view model number property.
-/// Until the widget is loaded, it returns the starting value.
-/// </summary>
-public float Health
-{
-    get { return m_healthProperty != null ? m_healthProperty.Value : m_startingHealth; }
-}
-
-private void WriteHealth(float value)
-{
-    if (m_healthProperty != null)
-    {
-        m_healthProperty.Value = value;
-        return;
-    }
-
-    // Widget isn't loaded yet. Store it so we can apply it when the view model instance is ready.
-    m_startingHealth = value;
-}
-```
-
-### Step 4.4: Wait for the widget to load and grab the view model instance properties
+### Step 4.3: Wait for the widget to load and grab the view model instance properties
 
 We use `OnWidgetStatusChanged` to access the view model instance once the widget is loaded. If you try to access the view model instance before the widget is loaded, it will be null.
 
@@ -204,7 +177,7 @@ private void HandleWidgetStatusChanged()
         return;
     }
 
-    // Clean up old listeners first (in case the widget reloads).
+    // Clean up old listeners first.
     if (m_healthProperty != null)
         m_healthProperty.OnValueChanged -= HandleHealthChangedFromRive;
 
@@ -238,6 +211,17 @@ private void HandleWidgetStatusChanged()
         m_hasInitialized = true;
     }
 }
+
+// Rive fires events when properties change or triggers are fired. So we listen to Rive as the source of change events and invoke our UnityEvents so that other scripts can react to the changes.
+private void HandleHealthChangedFromRive(float newValue)
+{
+    OnHealthChanged.Invoke(newValue);
+}
+
+private void HandleGameOverTriggeredFromRive()
+{
+    OnGameOver.Invoke();
+}
 ```
 <Note>
   This tutorial file includes a default view model instance. If the widget's **Data Binding Mode** was set to **Manual** or if the file did not have a default view model instance, `m_riveWidget.StateMachine?.ViewModelInstance` would be null. 
@@ -247,11 +231,36 @@ private void HandleWidgetStatusChanged()
   Learn more about binding modes and how to configure them in the [Data Binding](/game-runtimes/unity/data-binding#auto-binding-in-the-inspector) documentation.
 </Note>
 
-### Step 4.5: Expose a simple API for gameplay code
+### Step 4.4: Expose a simple API for gameplay code
 
-This is the "wrapper" payoff: your gameplay code never has to reference `RiveWidget`, `ViewModelInstance`, or property names.
+Now we add methods that provide a clean interface for gameplay without having to expose the underlying Rive implementation details.
 
-Add:
+First, add a `Health` property that reads from the `health` view model instance property when available:
+
+```csharp
+/// <summary>
+/// Health is a thin wrapper over the view model number property.
+/// Until the widget is loaded, it returns the starting value.
+/// </summary>
+public float Health
+{
+    get { return m_healthProperty != null ? m_healthProperty.Value : m_startingHealth; }
+}
+
+private void WriteHealth(float value)
+{
+    if (m_healthProperty != null)
+    {
+        m_healthProperty.Value = value;
+        return;
+    }
+
+    // Widget isn't loaded yet. Store it so we can apply it when the view model instance is ready.
+    m_startingHealth = value;
+}
+```
+
+Then add gameplay methods that use this helper:
 
 ```csharp
 public void Damage(float amount)
@@ -262,18 +271,6 @@ public void Damage(float amount)
 public void Heal(float amount)
 {
     WriteHealth(Health + Mathf.Abs(amount));
-}
-
-private void HandleHealthChangedFromRive(float newValue)
-{
-    // Whether health changed due to gameplay code (writing to the view model instance)
-    // or due to the Rive file (e.g. clicking "Revive"), we listen to Rive as the source of change events.
-    OnHealthChanged.Invoke(newValue);
-}
-
-private void HandleGameOverTriggeredFromRive()
-{
-    OnGameOver.Invoke();
 }
 ```
 
@@ -406,7 +403,7 @@ public class HealthBarController : MonoBehaviour
     private ViewModelInstanceNumberProperty m_healthProperty;
     private ViewModelInstanceTriggerProperty m_gameOverProperty;
 
-    // Track whether we've initialized health
+    // Track whether we've initialized health so we don't overwrite it if the widget GameObject is disabled and re-enabled.
     private bool m_hasInitialized;
 
     public float Health
@@ -467,7 +464,7 @@ public class HealthBarController : MonoBehaviour
             return;
         }
 
-        // Clean up old listeners first (in case the widget reloads).
+        // Clean up old listeners first.
         if (m_healthProperty != null)
             m_healthProperty.OnValueChanged -= HandleHealthChangedFromRive;
 
