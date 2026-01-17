@@ -132,6 +132,10 @@ public class FloatEvent : UnityEvent<float> { }
 
 We use `OnWidgetStatusChanged` to access the view model instance once the widget is loaded. If you try to access the view model instance before the widget is loaded, it will be null.
 
+<Note>
+  The `OnWidgetStatusChanged` callback also provides a safe window to set initial values before the first frame renders, ensuring they're visible immediately without delay.
+</Note>
+
 Add the following methods inside `HealthBarController`:
 
 ```csharp
@@ -212,7 +216,7 @@ private void HandleWidgetStatusChanged()
     }
 }
 
-// Rive fires events when properties change or triggers are fired. So we listen to Rive as the source of change events and invoke our UnityEvents so that other scripts can react to the changes.
+// Rive lets you listen for events when properties change or triggers are fired. We invoke our UnityEvents to notify other scripts of the changes.
 private void HandleHealthChangedFromRive(float newValue)
 {
     OnHealthChanged.Invoke(newValue);
