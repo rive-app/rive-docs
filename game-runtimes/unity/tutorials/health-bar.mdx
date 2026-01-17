@@ -1,9 +1,15 @@
 ---
-title: "Tutorial: Drive a health bar with data binding"
-description: "Use a Rive file for a health bar UI, driven entirely by data from Unity."
+title: "Drive a health bar with data binding in Unity"
+description: "Learn how to connect Unity gameplay data to a Rive health bar using view model instance properties."
 ---
 
-This tutorial walks through connecting a Rive health bar file to Unity using **data binding**. In this setup, your Unity code updates a single number (`health`) and the Rive file handles the rest (color changes, low-health warnings, flashing, and "revive" UI).
+This tutorial walks through connecting a Rive health bar file to Unity using **data binding**. In this setup, your Unity code updates a single number (`health`) while the Rive file handles the visuals (e.g. color changes, and low-health warnings).
+
+
+![Gif of the Health Bar Demo with the value changing from 100 to 0](/images/runtimes/quick-start.gif)
+
+
+To view the completed project, see [HealthBar Demo](https://github.com/rive-app/rive-unity-examples/blob/main/getting-started/Assets/Demos/HealthBar).
 
 ## What you'll build
 
@@ -11,7 +17,6 @@ This tutorial walks through connecting a Rive health bar file to Unity using **d
 - A `HealthBarController` script that:
   - Sets a `health` **number** property on the view model instance
   - Listens for a `gameOver` **trigger** fired from the Rive file
-  - (Optional) Reacts when the Rive file writes back to `health`
 - (Optional) A small keyboard control script to test damage/heal
 
 
@@ -22,8 +27,10 @@ This tutorial walks through connecting a Rive health bar file to Unity using **d
   - `health` (Number)
   - `gameOver` (Trigger)
 
+For this tutorial, you can use the [health-bar.riv](https://github.com/rive-app/rive-unity-examples/blob/main/getting-started/Assets/Demos/HealthBar/RiveFiles/quick_start_health_bar.riv) file.
+
 <Note>
-  This tutorial focuses on Unity integration. If you're new to view models and data binding in Rive, read: [Data binding concepts](/runtimes/data-binding).
+  If you're new to view models and data binding in Rive, read: [Data binding concepts](/runtimes/data-binding).
 </Note>
 
 ## 1. Import the Rive file
@@ -45,19 +52,15 @@ The **Rive Widget** should already be configured with the default artboard, stat
 
 <Steps>
   <Step>
-    Select the correct **Artboard Name** and **State Machine Name** for your health bar file.
+    Select the correct **Artboard Name** and **State Machine Name** for your health bar file. 
+    For this tutorial, the selected artboard name should be `health_bar_v01` and the state machine name should be `State Machine 1`.
   </Step>
   <Step>
-    Set **Data Binding Mode** to **Auto Bind Default** (or **Auto Bind Selected** if you want to pick a specific view model instance).
+    Set **Data Binding Mode** to **Auto Bind Default**.
   </Step>
 </Steps>
 
-<Note>
-  This tutorial assumes you're using **Auto Bind** on the widget. If the widget is set to **Manual**, `ViewModelInstance` will be null and your script won't be able to access `health` / `gameOver`.
-  See: [Data Binding mode](/game-runtimes/unity/data-binding#auto-binding-in-the-inspector).
-</Note>
-
-The example file was built with responsiveness in mind, so we also set the `Fit` mode to `Layout` to ensure the health bar is scaled to the size of the widget. See: [Layout](/game-runtimes/unity/layouts) for more information.
+The example file was built with responsiveness in mind, so we also set the `Fit` mode to `Layout` to ensure the health bar is scaled to the size of the widget. See: [Layout](/game-runtimes/unity/layouts) to learn more.
 
 ## 4. Add the controller script
 
@@ -65,7 +68,7 @@ Create a C# script named `HealthBarController.cs`. This is a wrapper script that
 
 Why use a wrapper script? Even though you *can* access Rive view model instance properties anywhere in your project, it's usually better to keep that logic in one place because:
 
-- **It keeps the rest of your code Rive-agnostic**: your gameplay scripts can call `Damage()` / `Heal()` / `SetHealth()` without knowing about view models, property names, or widget lifecycle.
+- **It keeps the rest of your code Rive-agnostic**: your gameplay scripts can call `Damage()` / `Heal()` without knowing about view models, property names, or widget lifecycle.
 - **It centralizes Rive-specific details**: if the Rive file changes (renamed properties, new triggers, different setup), you update one script instead of hunting through your project.
 
 ### Step 4.1: Set up the basic fields
@@ -152,9 +155,9 @@ private void WriteHealth(float value)
 }
 ```
 
-### Step 4.4: Wait for the widget to load and connect to the view model instance
+### Step 4.4: Wait for the widget to load and grab the view model instance properties
 
-The widget loads the Rive file asynchronously. We use `OnWidgetStatusChanged` so we only access the view model instance after it's ready.
+We use `OnWidgetStatusChanged` to access the view model instance once the widget is loaded. If you try to access the view model instance before the widget is loaded, it will be null.
 
 Add the following methods inside `HealthBarController`:
 
@@ -236,6 +239,13 @@ private void HandleWidgetStatusChanged()
     }
 }
 ```
+<Note>
+  This tutorial file includes a default view model instance. If the widget's **Data Binding Mode** was set to **Manual** or if the file did not have a default view model instance, `m_riveWidget.StateMachine?.ViewModelInstance` would be null. 
+  
+  In this case, you would need to manually create and bind a new view model instance to the state machine.
+  
+  Learn more about binding modes and how to configure them in the [Data Binding](/game-runtimes/unity/data-binding#auto-binding-in-the-inspector) documentation.
+</Note>
 
 ### Step 4.5: Expose a simple API for gameplay code
 
@@ -267,7 +277,7 @@ private void HandleGameOverTriggeredFromRive()
 }
 ```
 
-## 5. Hook it up in the Inspector
+## 5. Set up the controller in the Inspector
 
 ![Attach HealthBarController to the Rive Widget](/images/game-runtimes/unity/tutorials/health-bar/health-bar-controller-component.webp)
 
@@ -323,7 +333,7 @@ Attach `HealthBarKeyboardControls` to any GameObject, assign your `HealthBarCont
 <Note>
   This uses Unity's **Input System** package (`com.unity.inputsystem`). If your project is still using the legacy input manager, you'll need to enable the Input System in Unity (**Project Settings → Player → Active Input Handling**).
 
-  You'll also want to select the `Event System` in the Scene Hierarchy and update it to use the new Input System if it is not already.
+  If the `Event System` in your scene shows a `Replace with InputSystemUIInputModel` button in the Inspector, click it to upgrade to the new Input System (otherwise pointer events won't work with the Rive file).
 </Note>
 
 
@@ -334,14 +344,30 @@ From your gameplay scripts you can treat the Rive file like a "rendered UI" for 
 - Call `Damage()` or `Heal()` based on gameplay events.
 - Or read `Health` if you need the current value.
 
-<Note>
-  The key idea: your Unity code only updates a number. The Rive file is responsible for visuals like color, warnings, and flashing.
-</Note>
+The data flow isn't just one-way. Your game scripts can also listen to events from the Rive file. For example, your game manager script could listen to the `OnGameOver` event:
 
+```csharp
+public class GameManager : MonoBehaviour
+{
+    [SerializeField] private HealthBarController healthBar;
 
-## Final `HealthBarController.cs`
+    private void Start()
+    {
+        // Listen to game over events from the health bar
+        healthBar.OnGameOver.AddListener(HandleGameOver);
+    }
 
-If you want the full script in one place, here's the complete version:
+    private void HandleGameOver()
+    {
+        Debug.Log("Game Over!");
+        // Your game logic...
+    }
+}
+```
+
+The key idea here is that your Unity code only updates data. Because the Rive file handles the visual representation, you can change the health bar's appearance in the Rive Editor as much as you want without having to update or write any additional code.
+
+<Expandable title="Final HealthBarController.cs">
 
 ```csharp
 using System;
@@ -497,3 +523,4 @@ public class HealthBarController : MonoBehaviour
     }
 }
 ```
+</Expandable>
