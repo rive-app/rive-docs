@@ -1,8 +1,61 @@
 ---
-title: "Unreal"
-description: "Unreal runtime for Rive."
+title: Unreal Engine
+description: Use Rive animations and interactive graphics natively in Unreal Engine.
 ---
 
-<Warning>
-  The Unreal plugin has been rewritten as of version 0.4.0 (more details [here](https://community.rive.app/c/announcements/rive-x-unreal). Documentation is coming soon.
-</Warning>
+Rive’s Unreal Engine runtime allows you to render and control Rive animations natively in Unreal, with full support for state machines, events, and data binding through ViewModels.
+
+This runtime is designed for **real-time use cases** and integrates directly with Unreal’s rendering and object systems. APIs are **C++-first**, with Blueprint support provided for common workflows.
+
+## Supported Unreal Versions
+
+- Unreal Engine 5.7.1
+- Earlier versions may work but are not officially supported
+
+## Supported Target Platforms
+
+- Windows  
+- macOS  
+
+## Rendering & Graphics Backends
+
+The Unreal runtime uses Rive’s native renderer and integrates with Unreal’s rendering pipeline.
+
+Supported backends:
+
+- DirectX (Windows)
+- Metal (macOS)
+
+## Feature Support
+
+| Feature | Supported |
+|-------|-----------|
+| Vector animation playback | ✅ |
+| State machines & inputs | ✅ |
+| Events & listeners | ✅ |
+| Text objects | ✅ |
+| Images & assets | ✅ |
+| Fit & alignment | ✅ |
+| Data binding via ViewModels | ✅ |
+| Audio events | ⚠️ Limited |
+| Blueprint support | ✅ |
+| C++ API | ✅ |
+
+## Reporting Issues
+
+If you encounter a bug or unexpected behavior:
+
+- File issues on GitHub:  
+  https://github.com/rive-app/rive-unreal/issues
+
+When reporting issues, please include:
+- Unreal Engine version
+- Target platform
+- Rive plugin version or commit
+- Logs and reproduction steps where possible
+
+## Next Steps
+
+- Follow the **Getting Started** guide to install the plugin and render your first Rive file.
+- Explore **State Machines** and **ViewModels** to add interactivity.
+- Review **Threading & Safety** for advanced or performance-critical use cases.

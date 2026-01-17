@@ -1,0 +1,111 @@
+---
+title: "Getting Started"
+description: "Install the Rive Unreal plugin and render your first Rive animation."
+---
+
+This guide shows you how to install the Rive Unreal plugin, import a `.riv` file, and display it in your project.
+
+If you’re new to Rive, see the Rive Editor documentation to learn how to create and export `.riv` files.
+
+## Requirements
+
+- Unreal Engine 5.7.1
+- A `.riv` file exported from the Rive Editor
+
+## Install the Plugin
+
+<Tabs>
+  <Tab title="Fab">
+    1. Open the **Epic Games Launcher** or Unreal Editor.
+    2. Open **Fab**.
+    3. Search for **Rive** (or go to the [Rive plugin](https://www.fab.com/portal/listings/4a79a0af-7614-42bd-8857-5375c2668706/) page directly).
+    4. Add the plugin to your engine or project.
+    5. Restart Unreal Engine if prompted.
+  </Tab>
+  <Tab title="GitHub">
+    git clone https://github.com/rive-app/rive-unreal.git
+
+    Copy the **Rive** plugin folder into your project’s **Plugins/** directory, then regenerate project files and build.
+  </Tab>
+</Tabs>
+
+## Enable the Plugin
+
+1. Open **Edit → Plugins**.
+2. Find **Rive** under **Runtime**.
+3. Enable the plugin.
+4. Restart the editor if required.
+
+## Import a Rive File
+
+1. Open the **Content Browser**.
+2. Drag and drop a `.riv` file into your project.
+
+Unreal creates a **Rive File** asset that contains the artboards, state machines, and ViewModels defined in the file.
+
+## Display a Rive Animation
+
+Rive content is rendered through an **Artboard**, which represents a runtime instance of a Rive artboard.
+
+### Blueprint
+
+Using Blueprints, you can:
+
+- Create a Rive Artboard
+- Assign a Rive File
+- Select an Artboard and State Machine
+- Advance and render the Artboard each tick
+
+Blueprint nodes are provided to:
+
+- Set state machine inputs
+- Fire triggers
+- Handle events
+- Bind ViewModels
+
+### C++
+
+Using C++, you typically:
+
+- Reference a URiveFile asset
+- Create and initialize a URiveArtboard
+- Advance the state machine during tick
+- Render the Artboard using a render target
+
+C++ provides the most control and is recommended for advanced or performance-critical use cases.
+
+## Use State Machines
+
+If your Rive file includes a state machine, you can:
+
+- Set boolean and number inputs
+- Fire trigger inputs
+- Handle pointer interaction
+- Receive reported events
+
+State machines are accessed and updated through the Artboard.
+
+## Use ViewModels
+
+If your file defines ViewModels, you can:
+
+- Create a ViewModel instance
+- Set typed properties (boolean, number, string, enum, color)
+- Bind the ViewModel to an Artboard
+- Respond to value changes
+
+ViewModels are the preferred way to bind runtime data to Rive content.
+
+## Next Steps
+
+- Artboards and Rendering
+- State Machines
+- ViewModels and Data Binding
+- Blueprint vs C++
+- Threading and Safety
+
+## Examples
+
+Example projects and source code are available on GitHub:
+
+https://github.com/rive-app/rive-unreal
