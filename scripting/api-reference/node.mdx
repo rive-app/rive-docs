@@ -12,11 +12,19 @@ See [Node Scripts](/scripting/protocols/node-scripts).
 
 ### `init`
 
+```lua
+init
+```
+
 Called once when the node is created. Returns true if initialization
 succeeds.
 
 
 ### `advance`
+
+```lua
+advance
+```
 
 Optional per-frame update. Returns true if the node should continue
 receiving advance calls.
@@ -24,15 +32,27 @@ receiving advance calls.
 
 ### `update`
 
+```lua
+update
+```
+
 Called when an input value changes.
 
 
 ### `draw`
 
+```lua
+draw
+```
+
 Called to render the node using the provided renderer.
 
 
 ### `pointerDown`
+
+```lua
+pointerDown
+```
 
 Pointer event down handler.
 
@@ -56,6 +76,10 @@ end
 
 ### `pointerMove`
 
+```lua
+pointerMove
+```
+
 Pointer event move handler.
 
 ```lua
@@ -78,6 +102,10 @@ end
 
 ### `pointerUp`
 
+```lua
+pointerUp
+```
+
 Pointer event up handler.
 ```lua
 function handlePointerUp(self: MyGame, event: PointerEvent)
@@ -98,6 +126,10 @@ end
 
 
 ### `pointerExit`
+
+```lua
+pointerExit
+```
 
 Pointer event exit handler.
 ```lua

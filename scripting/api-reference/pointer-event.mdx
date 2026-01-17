@@ -22,12 +22,20 @@ The unique identifier for the pointer.
 
 ### `new`
 
+```lua
+new
+```
+
 Creates a new [PointerEvent](/scripting/api-reference/pointer-event) with the given id and position.
 
 
 ## Methods
 
 ### `hit`
+
+```lua
+hit(self: PointerEvent, isTranslucent:boolean?) -> ()
+```
 
 Marks the event as handled. If isTranslucent is true, the event may
 continue to propagate through translucent hit targets.

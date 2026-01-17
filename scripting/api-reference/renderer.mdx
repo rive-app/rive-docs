@@ -10,6 +10,10 @@ applying transforms during rendering.
 
 ### `drawPath`
 
+```lua
+drawPath(path: Path, paint: Paint)
+```
+
 Provides functions for drawing paths and images, managing clipping, and
 applying transforms during rendering.
 Draws the given path using the specified paint.
@@ -17,10 +21,18 @@ Draws the given path using the specified paint.
 
 ### `drawImage`
 
+```lua
+drawImage(image: Image, sampler: ImageSampler,  blendMode: BlendMode, opacity: number)
+```
+
 Draws an image using the specified sampler, blend mode, and opacity.
 
 
 ### `drawImageMesh`
+
+```lua
+drawImageMesh(image: Image, sampler: ImageSampler, vertices: VertexBuffer, uvs: VertexBuffer, triangles: TriangleBuffer, blendMode: BlendMode, opacity: number)
+```
 
 Draws an image using mesh data defined by vertices, texture
 coordinates, and triangle indices.
@@ -28,21 +40,37 @@ coordinates, and triangle indices.
 
 ### `clipPath`
 
+```lua
+clipPath(path: Path)
+```
+
 Restricts subsequent drawing to the area defined by the given path.
 Clipping remains in effect until the next restore call.
 
 
 ### `save`
 
+```lua
+save()
+```
+
 Saves the current rendering state, including transforms and clipping.
 
 
 ### `restore`
 
+```lua
+restore()
+```
+
 Restores the most recently saved rendering state.
 
 
 ### `transform`
+
+```lua
+transform(transform: Mat2D)
+```
 
 Applies a transform to the current rendering state. Transforms are
 applied cumulatively until restored.
