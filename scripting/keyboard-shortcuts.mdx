@@ -1,41 +1,179 @@
 ---
 title: "Keyboard Shortcuts"
-description: ""
+description: "A comprehensive reference for all keyboard shortcuts in the Rive script editor."
 ---
 
-Search & Navigation
-
-| Command                  | macOS                                         | Windows/Linux                         |
-| ------------------------ | --------------------------------------------- | ------------------------------------- |
-| **Search Scripts**       | <kbd>⌘</kbd> + <kbd>P</kbd>                   | <kbd>Ctrl</kbd> + <kbd>P</kbd>        |
-| **Find Next**            | <kbd>⌘</kbd> + <kbd>G</kbd>                   | <kbd>Ctrl</kbd> + <kbd>G</kbd>        |
-| **Find Previous**        | <kbd>⌘</kbd> + <kbd>⇧</kbd> + <kbd>G</kbd>    | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>G</kbd> |
-| **Move Caret by Word**   | <kbd>⌥</kbd> + <kbd>←</kbd>/<kbd>→</kbd>      | <kbd>Alt</kbd> + <kbd>←</kbd>/<kbd>→</kbd> |
-| **Move Caret by Subword**| <kbd>⌃</kbd> + <kbd>⌥</kbd> + <kbd>←</kbd>/<kbd>→</kbd> | — |
-| **Move Caret to Start/End** | <kbd>⌘</kbd> + <kbd>←</kbd>/<kbd>→</kbd> | <kbd>Ctrl</kbd> + <kbd>←</kbd>/<kbd>→</kbd> |
-| **Jump to Top/Bottom**   | <kbd>⌘</kbd> + <kbd>↑</kbd>/<kbd>↓</kbd>      | <kbd>Ctrl</kbd> + <kbd>↑</kbd>/<kbd>↓</kbd> |
-| **Close Tab**   | <kbd>⌘</kbd> + <kbd>W</kbd>      | <kbd>Ctrl</kbd> + <kbd>W</kbd> |
-| **Select Next Tab**   | <kbd>⌘</kbd> + <kbd>⇧</kbd> + <kbd>]</kbd>      | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>]</kbd> |
-| **Select Previous Tab**   | <kbd>⌘</kbd> + <kbd>⇧</kbd> + <kbd>[</kbd>      | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>[</kbd> |
-| **Show Tab Palette Next**   | <kbd>⌃</kbd> + <kbd>Tab</kbd>      | <kbd>Ctrl</kbd> + <kbd>Tab</kbd> |
-| **Show Tab Palette Previous**   | <kbd>⌃</kbd> + <kbd>↑</kbd> + <kbd>Tab</kbd>      | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Tab</kbd> |
-
-Editing
+## Basic Editing
 
 | Command                 | macOS                                           | Windows/Linux                        |
 | ----------------------- | ----------------------------------------------- | ------------------------------------ |
-| **Format File**         | <kbd>F4</kbd>                                   | <kbd>F4</kbd>                        |
-| **Toggle Comment**      | <kbd>⌘</kbd> + <kbd>/</kbd>                     | <kbd>Ctrl</kbd> + <kbd>/</kbd>       |
-| **Insert Line Below**   | <kbd>⌘</kbd> + <kbd>↩</kbd>                     | <kbd>Ctrl</kbd> + <kbd>Enter</kbd>   |
-| **Insert Line Above**   | <kbd>⌘</kbd> + <kbd>⇧</kbd> + <kbd>↩</kbd>      | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Enter</kbd> |
-| **Copy Line Up/Down**   | <kbd>⇧</kbd> + <kbd>⌥</kbd> + <kbd>↑</kbd>/<kbd>↓</kbd>                     | <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>↑</kbd>/<kbd>↓</kbd>   |
-| **Move Line(s) Up/Down**    | <kbd>⌥</kbd> + <kbd>↑</kbd>/<kbd>↓</kbd>          | <kbd>Alt</kbd> + <kbd>↑</kbd>/<kbd>↓</kbd> |
+| **Undo**                | <kbd>⌘</kbd> + <kbd>Z</kbd>                     | <kbd>Ctrl</kbd> + <kbd>Z</kbd>       |
+| **Redo**                | <kbd>⌘</kbd> + <kbd>⇧</kbd> + <kbd>Z</kbd>      | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Z</kbd> |
+| **Copy**                | <kbd>⌘</kbd> + <kbd>C</kbd>                     | <kbd>Ctrl</kbd> + <kbd>C</kbd>       |
+| **Cut**                 | <kbd>⌘</kbd> + <kbd>X</kbd>                     | <kbd>Ctrl</kbd> + <kbd>X</kbd>       |
+| **Paste**               | <kbd>⌘</kbd> + <kbd>V</kbd>                     | <kbd>Ctrl</kbd> + <kbd>V</kbd>       |
+| **Save**                | <kbd>⌘</kbd> + <kbd>S</kbd>                     | <kbd>Ctrl</kbd> + <kbd>S</kbd>       |
+| **Select All**          | <kbd>⌘</kbd> + <kbd>A</kbd>                     | <kbd>Ctrl</kbd> + <kbd>A</kbd>       |
+| **Indent**              | <kbd>Tab</kbd>                                  | <kbd>Tab</kbd>                       |
 | **Outdent**             | <kbd>⇧</kbd> + <kbd>Tab</kbd>                   | <kbd>Shift</kbd> + <kbd>Tab</kbd>    |
-| **Accept Autocomplete** | <kbd>↩</kbd> or <kbd>Tab</kbd>                  | <kbd>Enter</kbd> or <kbd>Tab</kbd>   |
+| **Format File**         | <kbd>F4</kbd>                                   | <kbd>F4</kbd>                        |
 
-Cursors & Selection
+## Cursor Movement
 
-| Command                      | macOS                   | Windows/Linux            |
-| ---------------------------- | ----------------------- | ------------------------ |
-| **Add Caret (multi-cursor)** | <kbd>⌥</kbd> + Click    | <kbd>Alt</kbd> + Click   |
-| **Collapse to Single Caret** | <kbd>Esc</kbd>          | <kbd>Esc</kbd>           |
+| Command                     | macOS                                              | Windows/Linux                              |
+| --------------------------- | -------------------------------------------------- | ------------------------------------------ |
+| **Move by Character**       | <kbd>←</kbd>/<kbd>→</kbd>                          | <kbd>←</kbd>/<kbd>→</kbd>                  |
+| **Move by Line**            | <kbd>↑</kbd>/<kbd>↓</kbd>                          | <kbd>↑</kbd>/<kbd>↓</kbd>                  |
+| **Move by Word**            | <kbd>⌥</kbd> + <kbd>←</kbd>/<kbd>→</kbd>           | <kbd>Alt</kbd> + <kbd>←</kbd>/<kbd>→</kbd> |
+| **Move by Subword**         | <kbd>⌃</kbd> + <kbd>⌥</kbd> + <kbd>←</kbd>/<kbd>→</kbd> | —                                     |
+| **Move to Line Start/End**  | <kbd>⌘</kbd> + <kbd>←</kbd>/<kbd>→</kbd>           | <kbd>Ctrl</kbd> + <kbd>←</kbd>/<kbd>→</kbd> |
+| **Move to Document Start/End** | <kbd>⌘</kbd> + <kbd>↑</kbd>/<kbd>↓</kbd>        | <kbd>Ctrl</kbd> + <kbd>↑</kbd>/<kbd>↓</kbd> |
+
+## Selection
+
+All cursor movement commands can be combined with <kbd>⇧</kbd> (Shift) to extend the selection:
+
+| Command                          | macOS                                                   | Windows/Linux                                       |
+| -------------------------------- | ------------------------------------------------------- | --------------------------------------------------- |
+| **Select by Character**          | <kbd>⇧</kbd> + <kbd>←</kbd>/<kbd>→</kbd>                | <kbd>Shift</kbd> + <kbd>←</kbd>/<kbd>→</kbd>        |
+| **Select by Line**               | <kbd>⇧</kbd> + <kbd>↑</kbd>/<kbd>↓</kbd>                | <kbd>Shift</kbd> + <kbd>↑</kbd>/<kbd>↓</kbd>        |
+| **Select by Word**               | <kbd>⇧</kbd> + <kbd>⌥</kbd> + <kbd>←</kbd>/<kbd>→</kbd> | <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>←</kbd>/<kbd>→</kbd> |
+| **Select to Line Start/End**     | <kbd>⇧</kbd> + <kbd>⌘</kbd> + <kbd>←</kbd>/<kbd>→</kbd> | <kbd>Shift</kbd> + <kbd>Ctrl</kbd> + <kbd>←</kbd>/<kbd>→</kbd> |
+| **Select to Document Start/End** | <kbd>⇧</kbd> + <kbd>⌘</kbd> + <kbd>↑</kbd>/<kbd>↓</kbd> | <kbd>Shift</kbd> + <kbd>Ctrl</kbd> + <kbd>↑</kbd>/<kbd>↓</kbd> |
+
+## Line Operations
+
+| Command                 | macOS                                           | Windows/Linux                                    |
+| ----------------------- | ----------------------------------------------- | ------------------------------------------------ |
+| **Toggle Comment**      | <kbd>⌘</kbd> + <kbd>/</kbd>                     | <kbd>Ctrl</kbd> + <kbd>/</kbd>                   |
+| **Insert Line Below**   | <kbd>⌘</kbd> + <kbd>↩</kbd>                     | <kbd>Ctrl</kbd> + <kbd>Enter</kbd>               |
+| **Insert Line Above**   | <kbd>⌘</kbd> + <kbd>⇧</kbd> + <kbd>↩</kbd>      | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Enter</kbd> |
+| **Move Line(s) Up**     | <kbd>⌥</kbd> + <kbd>↑</kbd>                     | <kbd>Alt</kbd> + <kbd>↑</kbd>                    |
+| **Move Line(s) Down**   | <kbd>⌥</kbd> + <kbd>↓</kbd>                     | <kbd>Alt</kbd> + <kbd>↓</kbd>                    |
+| **Duplicate Line Up**   | <kbd>⇧</kbd> + <kbd>⌥</kbd> + <kbd>↑</kbd>      | <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>↑</kbd> |
+| **Duplicate Line Down** | <kbd>⇧</kbd> + <kbd>⌥</kbd> + <kbd>↓</kbd>      | <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>↓</kbd> |
+
+## Multi-Cursor Editing
+
+| Command                      | macOS                                    | Windows/Linux                         |
+| ---------------------------- | ---------------------------------------- | ------------------------------------- |
+| **Add Cursor**               | <kbd>⌥</kbd> + Click                     | <kbd>Alt</kbd> + Click                |
+| **Select Next Occurrence**   | <kbd>⌘</kbd> + <kbd>D</kbd>              | <kbd>Ctrl</kbd> + <kbd>D</kbd>        |
+| **Collapse to Single Cursor**| <kbd>Esc</kbd>                           | <kbd>Esc</kbd>                        |
+
+## Search and Replace
+
+| Command                 | macOS                                           | Windows/Linux                                    |
+| ----------------------- | ----------------------------------------------- | ------------------------------------------------ |
+| **Find**                | <kbd>⌘</kbd> + <kbd>F</kbd>                     | <kbd>Ctrl</kbd> + <kbd>F</kbd>                   |
+| **Find in Files**       | <kbd>⌘</kbd> + <kbd>⇧</kbd> + <kbd>F</kbd>      | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>F</kbd> |
+| **Find Next**           | <kbd>⌘</kbd> + <kbd>G</kbd> or <kbd>↩</kbd>     | <kbd>Ctrl</kbd> + <kbd>G</kbd> or <kbd>Enter</kbd> |
+| **Find Previous**       | <kbd>⌘</kbd> + <kbd>⇧</kbd> + <kbd>G</kbd>      | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>G</kbd> |
+| **Close Search**        | <kbd>Esc</kbd>                                  | <kbd>Esc</kbd>                                   |
+
+The search panel includes toggle buttons for:
+- **Match Case**: Toggle case-sensitive search
+- **Whole Word**: Toggle whole word matching
+- **Regex**: Toggle regular expression mode
+
+## Code Navigation
+
+| Command                 | macOS                                           | Windows/Linux                        |
+| ----------------------- | ----------------------------------------------- | ------------------------------------ |
+| **Go to Definition**    | <kbd>⌘</kbd> + Click                            | <kbd>Ctrl</kbd> + Click              |
+| **File Palette**        | <kbd>⌘</kbd> + <kbd>P</kbd>                     | <kbd>Ctrl</kbd> + <kbd>P</kbd>       |
+| **Command Palette**     | <kbd>⌘</kbd> + <kbd>⇧</kbd> + <kbd>P</kbd>      | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> |
+| **Global Search**       | <kbd>⌘</kbd> + <kbd>K</kbd>                     | <kbd>Ctrl</kbd> + <kbd>K</kbd>       |
+
+## File and Tab Management
+
+| Command                     | macOS                                           | Windows/Linux                                    |
+| --------------------------- | ----------------------------------------------- | ------------------------------------------------ |
+| **Close Tab**               | <kbd>⌘</kbd> + <kbd>W</kbd>                     | <kbd>Ctrl</kbd> + <kbd>W</kbd>                   |
+| **Previous Tab**            | <kbd>⌘</kbd> + <kbd>⇧</kbd> + <kbd>[</kbd>      | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>[</kbd> |
+| **Next Tab**                | <kbd>⌘</kbd> + <kbd>⇧</kbd> + <kbd>]</kbd>      | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>]</kbd> |
+| **Tab Palette Forward**     | <kbd>⌃</kbd> + <kbd>Tab</kbd>                   | <kbd>Ctrl</kbd> + <kbd>Tab</kbd>                 |
+| **Tab Palette Backward**    | <kbd>⌃</kbd> + <kbd>⇧</kbd> + <kbd>Tab</kbd>    | <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Tab</kbd> |
+
+## Autocomplete
+
+| Command                 | macOS                                           | Windows/Linux                        |
+| ----------------------- | ----------------------------------------------- | ------------------------------------ |
+| **Previous Suggestion** | <kbd>↑</kbd>                                    | <kbd>↑</kbd>                         |
+| **Next Suggestion**     | <kbd>↓</kbd>                                    | <kbd>↓</kbd>                         |
+| **Accept Suggestion**   | <kbd>↩</kbd> or <kbd>Tab</kbd>                  | <kbd>Enter</kbd> or <kbd>Tab</kbd>   |
+| **Dismiss**             | <kbd>Esc</kbd>                                  | <kbd>Esc</kbd>                       |
+
+## Mouse Actions
+
+| Action                      | Description                                          |
+| --------------------------- | ---------------------------------------------------- |
+| Click                       | Place cursor at click position                       |
+| Double-click                | Select the word at click position                    |
+| Click in gutter             | Select entire line                                   |
+| <kbd>⇧</kbd> + Click        | Extend selection to click position                   |
+| <kbd>⌥</kbd> + Click        | Add additional cursor at click position              |
+| <kbd>⌘</kbd> + Hover        | Show definition preview for symbol under cursor      |
+| <kbd>⌘</kbd> + Click        | Go to definition of symbol under cursor              |
+| Click and drag              | Select text by dragging                              |
+| Click and drag in gutter    | Select multiple lines                                |
+
+## Auto-Closing Pairs
+
+The editor automatically inserts closing characters for:
+
+| Opening | Closing | Notes                                |
+| ------- | ------- | ------------------------------------ |
+| `{`     | `}`     | Curly braces                         |
+| `[`     | `]`     | Square brackets                      |
+| `(`     | `)`     | Parentheses                          |
+| `"`     | `"`     | Double quotes (not inside strings)   |
+| `'`     | `'`     | Single quotes (not inside strings)   |
+| `` ` `` | `` ` `` | Backticks (not inside strings)       |
+
+## Surrounding Selection
+
+When text is selected, typing an opening character wraps the selection:
+
+| Type    | Selection becomes  |
+| ------- | ------------------ |
+| `{`     | `{selection}`      |
+| `[`     | `[selection]`      |
+| `(`     | `(selection)`      |
+| `"`     | `"selection"`      |
+| `'`     | `'selection'`      |
+| `` ` `` | `` `selection` ``  |
+| `<`     | `<selection>`      |
+
+## Auto-Completion for Luau Blocks
+
+When pressing <kbd>↩</kbd> (Enter) after certain keywords, the editor auto-completes the block structure:
+
+| After typing... | Auto-inserts          |
+| --------------- | --------------------- |
+| `function`      | `end` on new line     |
+| `do`            | `end` on new line     |
+| `then`          | `end` on new line     |
+| `else`          | `end` on new line     |
+| `repeat`        | `until false` on new line |
+
+## Smart Indentation
+
+- Pressing <kbd>↩</kbd> (Enter) automatically maintains the current indentation level
+- After opening keywords (`function`, `do`, `then`, `else`, `repeat`, `{`), the next line is indented
+- <kbd>⌫</kbd> (Backspace) in the indent region removes a full tab (2 spaces) at a time
+- <kbd>⌘</kbd> + <kbd>←</kbd> (Home) toggles between column 0 and the first non-whitespace character
+- Indentation uses 2 spaces (soft tabs)
+- Line comments use `--` (Luau style)
+
+## Diff Mode
+
+When viewing AI-generated changes:
+
+| Action              | Description                               |
+| ------------------- | ----------------------------------------- |
+| Hover over chunk    | Shows accept/reject buttons               |
+| Accept button       | Accept the changes in this chunk          |
+| Reject button       | Reject the changes and restore original   |
+| Accept All          | Accept all pending changes                |
+| Reject All          | Reject all pending changes                |
