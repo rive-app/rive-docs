@@ -3,21 +3,19 @@ title: Paint
 ---
 
 Describes how shapes are drawn, including fill or stroke style, thickness,
-color, gradient, and blending behaviour.
+color, gradient, and blending behavior.
 
 
 ## Fields
 
 ### `style`
 
-Describes how shapes are drawn, including fill or stroke style, thickness,
-color, gradient, and blending behaviour.
 Painting style of type [PaintStyle](/scripting/api-reference/paint-style).
 
 
 ### `join`
 
-Stroke join behaviour for corners. See [StrokeJoin](/scripting/api-reference/stroke-join).
+Stroke join behavior for corners. See [StrokeJoin](/scripting/api-reference/stroke-join).
 
 
 ### `cap`
@@ -28,6 +26,13 @@ Stroke cap used for line endings. See [StrokeCap](/scripting/api-reference/strok
 ### `thickness`
 
 Thickness of the stroked path.
+```lua highlight={3}
+self.paint = Paint.with({
+  color = Color.rgb(255, 100, 50),
+  thickness = 4,
+  style = 'stroke',
+})
+```
 
 
 ### `blendMode`
@@ -38,25 +43,53 @@ Blending mode used when compositing. See [BlendMode](/scripting/api-reference/bl
 ### `feather`
 
 Feathering amount.
+```lua highlight={3}
+self.paint = Paint.with({
+  color = Color.rgb(255, 100, 50),
+  feather = 4,
+  style = 'stroke',
+})
+```
 
 
 ### `gradient`
 
 [Gradient](/scripting/api-reference/gradient) applied to fill (if present).
 
+```lua highlight={8}
+local g = Gradient.linear(Vector.xy(0, 0), Vector.xy(10, 0), {
+  { position = 0, color = Color.rgb(255, 0, 0) },
+  { position = 1, color = Color.rgb(0, 0, 255) },
+})
+
+self.paint = Paint.with({
+  color = Color.rgb(255, 100, 50),
+  gradient = g,
+  style = 'fill',
+})
+```
+
 
 ### `color`
 
 Color. See [Color](/scripting/api-reference/color).
+```lua highlight={2}
+self.paint = Paint.with({
+  color = Color.rgb(255, 100, 50),
+  style = 'fill',
+})
+```
 
 
 ## Constructors
 
 ### `new`
 
+```lua
+new() -> Paint
+```
 Creates a new [Paint](/scripting/api-reference/paint) object with default settings.
 
-Example:
 ```lua
 local paint = Paint.new()
 paint.style = 'fill'
@@ -66,9 +99,11 @@ paint.color = Color.rgb(255, 200, 80)
 
 ### `with`
 
+```lua
+with(values: PaintDefinition) -> Paint
+```
 Creates a new Paint initialized from the provided [PaintDefinition](/scripting/api-reference/paint-definition).
 
-Example:
 ```lua
 local strokePaint = Paint.with({
   style = 'stroke',
@@ -84,10 +119,12 @@ local strokePaint = Paint.with({
 
 ### `copy`
 
+```lua
+copy(values?: PaintDefinition) → Paint
+```
 Returns a new Paint that copies this one, optionally overriding selected
 properties with values from the provided [PaintDefinition](/scripting/api-reference/paint-definition).
 
-Example:
 ```lua
 local base = Paint.with({
   style = 'fill',

@@ -9,8 +9,7 @@ Represents a vector with x and y components.
 
 ### `x`
 
-Represents a vector with x and y components.
-The x component, note that this is read-only.
+The x component of the vector (read-only).
 ```lua
 local v = Vector.xy(10, -5)
 local xValue = v.x  -- 10
@@ -19,7 +18,7 @@ local xValue = v.x  -- 10
 
 ### `y`
 
-The y component, note that this is read-only.
+The y component of the vector (read-only).
 ```lua
 local v = Vector.xy(10, -5)
 local yValue = v.y  -- -5
@@ -30,17 +29,23 @@ local yValue = v.y  -- -5
 
 ### `xy`
 
+```lua
+xy(x: number, y: number) -> Vector
+```
 Creates a vector with the specified x and y components.
 ```lua
-local v = Vector.xy(5, -2)  -- (5, -2)
+local v = Vector.xy(5, -2)  -- 5 -2
 ```
 
 
 ### `origin`
 
+```lua
+origin() -> Vector
+```
 Returns the zero vector (0, 0).
 ```lua
-local origin = Vector.origin()  -- (0,0)
+local origin = Vector.origin()  -- 0 0
 ```
 
 
@@ -51,7 +56,10 @@ local origin = Vector.origin()  -- (0,0)
 Provides indexed access to the vector components.
 ```lua
 local v = Vector.xy(3, 4)
-print(v[1], v[2]) -- 3  4
+print(v[1], v[2]) -- 3 4
+```
+```lua
+length() -> number
 ```
 Returns the length of the vector.
 ```lua
@@ -62,6 +70,9 @@ local len = v:length()  -- 5
 
 ### `lengthSquared`
 
+```lua
+lengthSquared() -> number
+```
 Returns the squared length of the vector.
 ```lua
 local v = Vector.xy(3, 4)
@@ -71,11 +82,14 @@ local len2 = v:lengthSquared()  -- 25
 
 ### `normalized`
 
+```lua
+normalized() -> Vector
+```
 Returns a normalized copy of the vector. If the length is zero,
 the result is the zero vector.
 ```lua
 local v = Vector.xy(10, 0)
-local n = v:normalized()  -- (1,0)
+local n = v:normalized()  -- 1 0
 ```
 
 
@@ -96,7 +110,7 @@ print(a == c)  -- false
 Returns the negated vector.
 ```lua
 local v = Vector.xy(2, -3)
-local neg = -v   -- (-2, 3)
+local neg = -v   -- -2 3
 ```
 
 
@@ -106,7 +120,7 @@ Returns the sum of two vectors.
 ```lua
 local a = Vector.xy(2, 3)
 local b = Vector.xy(-1, 5)
-local c = a + b  -- (1, 8)
+local c = a + b  -- 1 8
 ```
 
 
@@ -116,9 +130,8 @@ Returns the difference between two vectors.
 ```lua
 local a = Vector.xy(2, 3)
 local b = Vector.xy(-1, 5)
-local c = a - b  -- (3, -2)
+local c = a - b  -- 3 -2
 ```
-Returns the difference between two vectors.
 
 
 ### `__mul`
@@ -126,21 +139,24 @@ Returns the difference between two vectors.
 Returns the vector scaled by the given number.
 ```lua
 local v = Vector.xy(3, -2)
-local doubled = v * 2    -- (6, -4)
+local doubled = v * 2    -- 6 -4
 ```
 
 
 ### `__div`
 
-Returns the vector divided by the given number
+Returns the vector divided by the given number.
 ```lua
 local v = Vector.xy(6, -4)
-local half = v / 2    -- (3, -2)
+local half = v / 2    -- 3 -2
 ```
 
 
 ### `distance`
 
+```lua
+distance(other: Vector) -> number
+```
 Returns the distance to the other vector.
 ```lua
 local a = Vector.xy(0, 0)
@@ -151,6 +167,9 @@ print(a:distance(b))  -- 5
 
 ### `distanceSquared`
 
+```lua
+distanceSquared(other: Vector) -> number
+```
 Returns the squared distance to the other vector.
 ```lua
 local a = Vector.xy(0, 0)
@@ -161,6 +180,9 @@ print(a:distanceSquared(b))  -- 25
 
 ### `dot`
 
+```lua
+dot(other: Vector) -> number
+```
 Returns the dot product of the vector and the other vector.
 ```lua
 local a = Vector.xy(1, 2)
@@ -171,7 +193,15 @@ print(a:dot(b))  -- 11  (1*3 + 2*4)
 
 ### `lerp`
 
+```lua
+lerp(other: Vector, t: number) -> Vector
+```
 Returns the linear interpolation between the vector and the other
 vector, using t where 0 returns the vector and 1 returns the other.
+```lua
+local a = Vector.xy(0, 0)
+local b = Vector.xy(10, 0)
+local p = a:lerp(b, 0.5)  -- 5 0
+```
 
 
