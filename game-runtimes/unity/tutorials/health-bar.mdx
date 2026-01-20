@@ -4,8 +4,9 @@ description: "Learn how to connect Unity gameplay data to a Rive health bar usin
 ---
 <Badge color="green">Beginner</Badge>
 
-This tutorial walks through connecting a Rive health bar file to Unity using **data binding**. In this setup, your Unity code updates a single number (`health`) while the Rive file handles the visuals in response (e.g. color changes, and low-health warnings).
+This tutorial walks through connecting a Rive health bar file to Unity using [Data Binding](https://rive.app/docs/editor/data-binding/overview). 
 
+In this setup, the key idea is that your Unity code only updates data while the Rive file handles the visual representation in response to those changes.
 
 ![GIF of the Health Bar Demo with the value changing from 100 to 0](/images/runtimes/quick-start.gif)
 
@@ -378,9 +379,7 @@ public class GameManager : MonoBehaviour
 }
 ```
 
-The key idea here is that your Unity code only updates data. The Rive file handles the visual representation in response to those changes. 
-
-As long as you keep the data contract the same (the `health` number and `gameOver` trigger), you can change the health bar's appearance in the Rive Editor as much as you want without updating or writing any additional code. Simply swap out the old .riv file with the new one.
+This approach separates your game logic from visual presentation. As long as you keep the data contract the same (the `health` number and `gameOver` trigger), you can change the health bar's appearance in the Rive Editor as much as you want without updating or writing any additional code. Simply swap out the old .riv file with the new one.
 
 <Expandable title="Final HealthBarController.cs">
 
