@@ -12,6 +12,17 @@ Each command has a type, and a variable number of points depending on that type.
 
 A PathCommand represents a single drawing instruction inside a Path.
 Each command has a type, and a variable number of points depending on that type.
+```lua highlight={5}
+local path = Path.new()
+path:moveTo(Vector.xy(0, 0))
+path:lineTo(Vector.xy(10, 0))
+
+for i, command in ipairs(path) do
+  print(i, command.type)
+end
+-- 1 moveTo
+-- 2 lineTo
+```
 See [CommandType](/scripting/api-reference/command-type).
 
 
@@ -19,9 +30,28 @@ See [CommandType](/scripting/api-reference/command-type).
 
 ### `__len`
 
-points size varies depending on command. moveTo and lineTo have only two points
-cubicTo has 6 and close has none
+The number of points varies depending on the command type:
+- `moveTo`: 1 point
+- `lineTo`: 1 point
+- `quadTo`: 2 points
+- `cubicTo`: 3 points
+- `close`: 0 points
+```lua highlight={11}
+local path = Path.new()
+path:moveTo(Vector.xy(0, 0))
+path:cubicTo(
+  Vector.xy(25, -40),
+  Vector.xy(75, 40),
+  Vector.xy(100, 0)
+)
+
+local command = path[2]
+print(command.type)      -- cubicTo
+print(#command)          -- 3
+```
 Returns the number of points stored on this command.
-This is equivalent to the size listed in the table above.
+```lua
+local count = #command
+```
 
 
