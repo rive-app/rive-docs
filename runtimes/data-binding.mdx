@@ -108,9 +108,9 @@ To begin, we need to get a reference to a particular view model. This can be don
   <Tab title="Apple">
     <Tabs>
         <Tab title={Apple.currentRuntimeName}>
-        View models are not their own type; rather, they are a source to create a view model instance from.
+        View models are not their own type; rather, they are a source when creating a view model instance from a `File`.
 
-        There are currently two options:
+        You can define the source of a view model via the `ViewModelSource` type.
 
         ```swift
         case artboardDefault(Artboard) // References the default view model for an Artboard
@@ -1284,43 +1284,65 @@ Some properties are mutable and have getters, setters, and observer operations f
   <Tab title="Apple">
     <Tabs>
         <Tab title={Apple.currentRuntimeName}>
-            Contrary to the {Apple.legacyRuntimeName} API, properties are not reference types; instead, they are a very thin wrapper around the path and return type of a property.
+            Property types are a very thin wrapper around the path and return type of a property.
 
-            Setters, getters, and triggers for types are now a part of `ViewModelInstance` objects.
+            All property APIs (e.g setters, getters, and triggers) are available as part of a `ViewModelInstance` object.
 
-            ```swift
-            let file: File = ...
-            let viewModelInstance = try await file.createViweModelInstance(...)
+            <CodeGroup>
+              ```swift String
+              let file: File = ...
+              let viewModelInstance = try await file.createViweModelInstance(...)
 
-            // String
-            let stringProperty = StringProperty(path: "path/to/string")
-            let stringValue = try await viewModelInstance.value(of: stringProperty)
-            viewModelInstance.setValue(of: stringProperty, to: "value")
+              // String
+              let stringProperty = StringProperty(path: "path/to/string")
+              let stringValue = try await viewModelInstance.value(of: stringProperty)
+              viewModelInstance.setValue(of: stringProperty, to: "value")
+              ```
 
-            // Number
-            let numberProperty = NumberProperty(path: "path/to/number")
-            let numberValue = try await viewModelInstance.value(of: numberProperty)
-            viewModelInstance.setValue(of: numberValue, to: 9001)
+              ```swift Number
+              let file: File = ...
+              let viewModelInstance = try await file.createViweModelInstance(...)
+              
+              let numberProperty = NumberProperty(path: "path/to/number")
+              let numberValue = try await viewModelInstance.value(of: numberProperty)
+              viewModelInstance.setValue(of: numberValue, to: 9001)
+              ```
 
-            // Bool
-            let boolProperty = BoolProperty(path: "path/to/bool")
-            let boolValue = try await viewModelInstance.value(of: boolProperty)
-            viewModelInstance.setValue(of: boolProperty, to: true)
+              ```swift Bool
+              let file: File = ...
+              let viewModelInstance = try await file.createViweModelInstance(...)
+              
+              let boolProperty = BoolProperty(path: "path/to/bool")
+              let boolValue = try await viewModelInstance.value(of: boolProperty)
+              viewModelInstance.setValue(of: boolProperty, to: true)
+              ```
 
-            // Color
-            let colorProperty = ColorProperty(path: "path/to/color")
-            let colorValue = try await viewModelInstance.value(of: colorProperty)
-            viewModelInstance.setValue(of: colorProperty, to: Color(red: 255, green: 255, blue: 255, alpha: 255))
+              ```swift Color
+              let file: File = ...
+              let viewModelInstance = try await file.createViweModelInstance(...)
+              
+              let colorProperty = ColorProperty(path: "path/to/color")
+              let colorValue = try await viewModelInstance.value(of: colorProperty)
+              viewModelInstance.setValue(of: colorProperty, to: Color(red: 255, green: 255, blue: 255, alpha: 255))
+              ```
 
-            // Enum
-            let enumProperty = EnumProperty(path: "path/to/enum")
-            let enumValue = try await viewModelInstance.value(of: enumProperty)
-            viewModelInstance.setValue(of: enumProperty, to: "value")
+              ```swift Enum
+              let file: File = ...
+              let viewModelInstance = try await file.createViweModelInstance(...)
+              
+              let enumProperty = EnumProperty(path: "path/to/enum")
+              let enumValue = try await viewModelInstance.value(of: enumProperty)
+              viewModelInstance.setValue(of: enumProperty, to: "value")
+              ```
 
-            // Trigger
-            let triggerProperty = TriggerProperty(path: "path/to/trigger")
-            viewModelInstance.fire(trigger: triggerProperty)
-            ```
+              ```swift Trigger
+              let file: File = ...
+              let viewModelInstance = try await file.createViweModelInstance(...)
+              
+              let triggerProperty = TriggerProperty(path: "path/to/trigger")
+              viewModelInstance.fire(trigger: triggerProperty)
+              ```
+            </CodeGroup>
         </Tab>
         <Tab title={Apple.legacyRuntimeName}>
             ```swift
@@ -1918,7 +1940,7 @@ You can observe changes over time to property values, either by using listeners 
   <Tab title="Apple">
     <Tabs>
         <Tab title={Apple.currentRuntimeName}>
-        Property listeners now utilize Swift Concurrency's async throwing streams.
+        Property listeners utilize Swift Concurrency's async throwing stream API. If a property returns a value, you can listen to its changes by calling the `valueStream(of:)` method on a `ViewModelInstance` object.
 
         ```swift
         let file: File = ...
@@ -1935,7 +1957,24 @@ You can observe changes over time to property values, either by using listeners 
         } catch {
             print(error)
         }
-        ```
+
+        For triggers, you can listen to them by calling the `stream(of:)` method on a `ViewModelInstance` object. This returns a stream of `Void` values, which can be ignored.
+
+        ```swift
+        let file: File = ...
+        let viewModelInstance = try await file.createViewModelInstance(...)
+        let triggerProperty = TriggerProperty(path: "path/to/trigger")
+        let triggerStream = viewModelInstance.stream(of: triggerProperty)
+        do {
+            for try await _ in triggerStream {
+                print("Trigger fired!")
+            }
+        } catch let error as ViewModelInstanceError {
+            // The thrown error should always be a ViewModelInstanceError type
+            print(error)
+        } catch {
+            print(error)
+        }
         </Tab>
         <Tab title={Apple.legacyRuntimeName}>
             ```swift
