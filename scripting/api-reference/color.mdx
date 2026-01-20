@@ -6,15 +6,30 @@ title: Color
 
 ### `lerp`
 
+```lua
+lerp(from: Color, to: Color, t:number) -> Color
+```
 Linearly interpolates between two colors using the parameter t, where
 t = 0 returns 'from' and t = 1 returns 'to'.
-```lua
-self.color = Color.lerp(color1, color2, t)
+```lua highlight={7}
+local black = Color.rgb(0, 0, 0)
+local white = Color.rgb(255, 255, 255)
+
+local t = 0.5
+
+-- Linearly interpolate halfway between black and white
+local gray = Color.lerp(black, white, t)
+
+print(gray)
+-- Returns a gray color between black and white
 ```
 
 
 ### `rgb`
 
+```lua
+rgb(r: number, g: number, b: number) -> Color
+```
 Returns a color constructed from red, green, and blue channels. Alpha
 defaults to 255 (fully opaque). Channel values are clamped to [0, 255].
 ```lua
@@ -25,6 +40,9 @@ self.color = Color.rgb(255, 0, 0)
 
 ### `rgba`
 
+```lua
+rgba(r: number, g: number, b: number, a: number) -> Color
+```
 Returns a color constructed from red, green, blue, and alpha channels.
 Channel values are clamped to [0, 255].
 ```lua
@@ -37,47 +55,100 @@ self.color = Color.rgba(255, 0, 0, 128)
 
 ### `red`
 
+```lua
+red(color: Color, value?: number) -> number | Color
+```
 Returns the red channel of the color. If a value is
 provided, returns a new color with that channel updated.
-```lua
-print("Red:", Color.red(myColor))
+```lua highlight={2,6}
+local myColor = Color.rgba(128, 55, 12, 128)
+local redChannel = Color.red(myColor)
+print(redChannel)
+-- 128
+
+local newColor = Color.red(myColor, 200)
+print(Color.red(newColor))
+-- 200
 ```
 
 
 ### `green`
 
+```lua
+green(color: Color, value?: number) -> number | Color
+```
 Returns the green channel of the color. If a value is
 provided, returns a new color with that channel updated.
-```lua
-print("Green:", Color.green(myColor))
+```lua highlight={2,6}
+local myColor = Color.rgba(128, 55, 12, 128)
+local greenChannel = Color.green(myColor)
+print(greenChannel)
+-- 55
+
+local newColor = Color.green(myColor, 200)
+print(Color.green(newColor))
+-- 200
 ```
 
 
 ### `blue`
 
+```lua
+blue(color: Color, value?: number) -> number | Color
+```
 Returns the blue channel of the color. If a value is
 provided, returns a new color with that channel updated.
-```lua
-print("Blue:", Color.blue(myColor))
+```lua highlight={2,6}
+local myColor = Color.rgba(128, 55, 12, 128)
+local blueChannel = Color.blue(myColor)
+print(blueChannel)
+-- 12
+
+local newColor = Color.blue(myColor, 200)
+print(Color.blue(newColor))
+-- 200
 ```
 
 
 ### `alpha`
 
+```lua
+alpha(color: Color, value?: number) -> number | Color
+```
 Returns the alpha channel of the color, or returns a new color with the
 alpha channel set to the specified value. Values are clamped to [0, 255].
-```lua
-print("Alpha:", Color.alpha(myColor))
+```lua highlight={2,6}
+local myColor = Color.rgba(128, 55, 12, 128)
+local alphaChannel = Color.alpha(myColor)
+print(alphaChannel)
+-- 128
+
+local newColor = Color.alpha(myColor, 200)
+print(Color.alpha(newColor))
+-- 200
 ```
 
 
 ### `opacity`
 
+```lua
+opacity(color: Color, value?: number) -> number | Color
+```
 Returns the opacity of the color as a normalized value in the range
 [0.0, 1.0], or returns a new color with its alpha set from the specified
 opacity.
-```lua
-print("Opacity:", Color.opacity(myColor))
+```lua highlight={4,9}
+local myColor = Color.rgba(255, 0, 0, 128)
+
+-- Get the opacity of a color
+local myOpacity = Color.opacity(myColor)
+print(myOpacity)
+-- 0.5
+
+-- Get a new color with the specified opacity
+local newColor = Color.opacity(myColor, 1.0)
+print(Color.opacity(newColor))
+-- 1.0
 ```
 
 

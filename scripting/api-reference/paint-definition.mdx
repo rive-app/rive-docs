@@ -13,41 +13,75 @@ instance. All fields are optional.
 A partial set of paint properties used to initialize or update a Paint
 instance. All fields are optional.
 The painting style (stroke or fill).
+```lua
+local paint = Paint.new()
+paint.style = 'fill'
+```
 
 
 ### `join`
 
-Stroke join behaviour for corners.
+Stroke join behavior for corners.
+```lua
+local paint = Paint.new()
+paint.join = 'round'
+```
 
 
 ### `cap`
 
 Stroke cap used for line endings.
+```lua
+local paint = Paint.new()
+paint.cap = 'round'
+```
 
 
 ### `thickness`
 
 Thickness of the stroked path.
+```lua
+local paint = Paint.new()
+paint.thickness = 4,
+```
 
 
 ### `blendMode`
 
 Blending mode used when compositing.
+```lua
+local paint = Paint.new()
+paint.blendMode = 'multiply',
+```
 
 
 ### `feather`
 
 Feathering amount.
+```lua
+local paint = Paint.new()
+paint.feather = 3,
+```
 
 
 ### `gradient`
 
-Gradient fill applied to the paint.
+[Gradient](/scripting/api-reference/gradient) fill applied to the paint.
 If explicitly set to `false`, removes any existing gradient.
+
+```lua highlight={7}
+local g = Gradient.linear(Vector.xy(0, 0), Vector.xy(10, 0), {
+  { position = 0, color = Color.rgb(255, 0, 0) },
+  { position = 1, color = Color.rgb(0, 0, 255) },
+})
+
+local paint = Paint.new()
+paint.gradient = g
+```
 
 
 ### `color`
 
-Color
+Color. See [Color](/scripting/api-reference/color).
 
 
