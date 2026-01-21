@@ -12,7 +12,7 @@ export interface RiveParameters {
   canvas: HTMLCanvasElement | OffscreenCanvas, // required
   src?: string, // one of src or buffer or riveFile is required
   buffer?: ArrayBuffer, // one of src or buffer or riveFile is required
-  riveFile?: RiveFile,
+  riveFile?: RiveFile, // one of src or buffer or riveFile is required
   artboard?: string,
   animations?: string | string[],
   stateMachines?: string | string[],
@@ -70,10 +70,10 @@ export interface RiveParameters {
   - **Note:** Rive Listeners by default are not set up on a `<canvas>` element if there is no playing state machine, or a state machine without any Rive Listeners set up on the state machine
 - `isTouchScrollEnabled?` - *(optional)* For Rive Listeners, allows scrolling behavior to still occur on canvas elements when a touch/drag action is performed on touch-enabled devices. Otherwise, scroll behavior may be prevented on touch/drag actions on the canvas by default.
 - `automaticallyHandleEvents?` - *(optional)* Enable Rive Events to be handled by the runtime. This means any special Rive Event may have a side effect that takes place implicitly. For example, if during the render loop an `OpenUrlEvent` is detected, the browser may try to open the specified URL in the payload. This flag is `false` by default to prevent any unwanted behaviors from taking place. This means any special Rive Event will have to be handled manually by subscribing to `EventType.RiveEvent`
-- `autoBind?` - *(optional)* When set to `true`, Rive will automatically look for a default view model and view model instance to bind to the artboard. This is useful when working with data binding features.
+- `autoBind?` - *(optional)* When set to `true`, Rive will automatically look for a default view model and view model instance to bind to the artboard.
 - `dispatchPointerExit?` - *(optional)* For Rive Listeners, dispatches a pointer exit event when the pointer exits the canvas. This can be useful for ensuring hover states are properly reset when the user's cursor leaves the canvas area.
 - `enableMultiTouch?` - *(optional)* Enables multi-touch support for Rive Listeners. When enabled, the runtime will track and respond to multiple simultaneous touch points on touch-enabled devices.
-- `drawingOptions?` - *(optional)* An enum (`DrawOptimizationOptions`) that provides drawing optimization options. This can be used to configure rendering performance optimizations. The default is `DrawOptimizationOptions.DrawOnChanged`.
+- `drawingOptions?` - *(optional)* An enum (`DrawOptimizationOptions`) that provides drawing optimization options. This can be used to configure rendering performance optimizations. The default is `DrawOptimizationOptions.DrawOnChanged`, which will only submit a draw command if the artboard has visually update.
 - `onLoad?` - *(optional)* Callback that gets fired when the .riv file loads.
 - `onLoadError?` - *(optional)* Callback that gets fired when an error occurs loading the .riv file.
 - `onPlay?` - *(optional)* Callback that gets fired when the animation starts playing.
