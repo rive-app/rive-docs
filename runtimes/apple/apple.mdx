@@ -142,6 +142,10 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
                     view.addSubview(riveView)
                     ```
                 </CodeGroup>
+
+                The above example uses the default artboard and state machine for the file, binding the default view model instance to the state machine if available. This is the default behavior when initializing a `Rive` object without specifying an artboard or state machine.
+
+                Alternatively, you can also specify which artboard and state machine to use. Documentation and examples for manually selecting which artboard to use is available in the [Artboards](/runtimes/artboards#choosing-an-artboard) documentation. Documentation and examples for manually selecting which state machine to use is available in the [State Machines](/runtimes/state-machines#getting-a-state-machine) documentation.
             </Step>
             <Step title="Data Binding">
                 [Data Binding](/runtimes/data-binding.mdx) is a feature that allows you to dynamically update your Rive graphics from code. This includes things such as strings, numbers, booleans, and more.
@@ -211,18 +215,10 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
                     ```
                 </CodeGroup>
             </Step>
-            <Step title="Advanced Usage">
-                <Columns cols={2}>
-                    <Card title="Artboards" href="/runtimes/artboards.mdx">
-                        Manage which artboard is displayed at runtime.
-                    </Card>
-                    <Card title="State Machines" href="/runtimes/state-machines.mdx">
-                        Manage which state machine is used at runtime.
-                    </Card>
-                    <Card title="Data Binding" href="/runtimes/data-binding.mdx">
-                        Manage updating and listening to data binding properties at runtime.
-                    </Card>
-                </Columns>
+            <Step title="Examples">
+                For basic usage, see the [Marty](https://github.com/rive-app/rive-ios/blob/main/Example-iOS/Source/Examples/Experimental/MartyView.swift) example in our Example app.
+
+                For a more complete example, see the [Quick Start](https://github.com/rive-app/rive-ios/blob/main/Example-iOS/Source/Examples/Experimental/QuickStartView.swift) example in our Example app, which demonstrates how to use data binding.
             </Step>
         </Steps>
     </Tab>
@@ -329,7 +325,7 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
 
         It is important to note that while multi-threading is supported, Rive object API calls must still be made on the main actor. This is enforced at compile time with functions and types marked as `@MainActor`.
     </Tab>
-    <Tab title={Apple.legacyRuntimeName}>
+    <Tab title={Apple.legacyRuntimeName} borderBottom>
         The legacy runtime is currently single-threaded on the main thread. This means that all Rive calls must be made on the main thread. It is recommended that if you are on a background thread, you should dispatch to the main queue before making any Rive calls.
     </Tab>
 </Tabs>
