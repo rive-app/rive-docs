@@ -10,8 +10,8 @@ You can set any of the following parameters on the Rive object when instantiatin
 ``` typescript
 export interface RiveParameters {
   canvas: HTMLCanvasElement | OffscreenCanvas, // required
-  src?: string, // one of src or buffer is required
-  buffer?: ArrayBuffer, // one of src or buffer is required
+  src?: string, // one of src or buffer or riveFile is required
+  buffer?: ArrayBuffer, // one of src or buffer or riveFile is required
   riveFile?: RiveFile,
   artboard?: string,
   animations?: string | string[],
@@ -23,6 +23,10 @@ export interface RiveParameters {
   shouldDisableRiveListeners?: boolean,
   isTouchScrollEnabled?: boolean,
   automaticallyHandleEvents?: boolean,
+  autoBind?: boolean,
+  dispatchPointerExit?: boolean,
+  enableMultiTouch?: boolean,
+  drawingOptions?: DrawOptimizationOptions,
   onLoad?: EventCallback,
   onLoadError?: EventCallback,
   onPlay?: EventCallback,
@@ -36,11 +40,11 @@ export interface RiveParameters {
 ```
 
 - `canvas` - *(required)* Canvas element to draw Rive animations onto.
-- `src?` - *(optional)* There are two optional ways to use `src`: either via URL to the `.riv` file, or a path to the public `.riv` asset to use. One of `src` or `buffer` must be provided.
+- `src?` - *(optional)* There are two optional ways to use `src`: either via URL to the `.riv` file, or a path to the public `.riv` asset to use. One of `src`, `buffer`, or `riveFile` must be provided.
   - URL - If you are hosting your `.riv` on some publicly accessible bucket/CDN (i.e. AWS, GCS, etc.), you can pass in the URL here.
     - Alternatively, with ES6, you may import the `.riv` file as a data URI. Depending on your bundle loader, you may need to use a plugin (i.e `url-loader` for Webpack) to properly parse and load in `.riv` files as a data URI string. See [this project](https://github.com/zplata/rive-nextjs/blob/main/next.config.js#L8) as a basic example on how to set this up
   - Path to public asset - This is a string path to the`.riv` public asset if bundled in your application. Note that this is **not** a relative path to the asset from wherever the current JS file is in. Treat the `.riv` as any other asset bundled in your application, such as an image or font. If your JS is compiled and run at the root of your web application, you must specify the path from the root to the location of the asset. For example, if your asset is in `/public/foo.riv`, and your JS is run from the root at `/`, you would specify: `src: '/public/foo.riv'` in this property.
-- `buffer?` - *(optional)* ArrayBuffer containing the raw bytes from a .riv file. One of `src` or `buffer` must be provided.
+- `buffer?` - *(optional)* ArrayBuffer containing the raw bytes from a .riv file. One of `src`, `buffer`, or `riveFile` must be provided.
 - `riveFile?` - *(optional)* Lets you reuse a previously loaded Rive runtime file object without needing to fetch it again from the `src` URL or reload it from the `buffer`. This can improve performance by eliminating redundant network requests and loading times, especially when creating multiple Rive instances from the same source. Unlike the `buffer` and `src` parameters, which still require parsing under the hood to create a runtime file object, the file parameter uses an already parsed object, including any loaded assets.
 - `artboard?` - *(optional)* Name of the artboard to use.
 - `animations?` - *(optional)* Name or list of names of animations to play.
@@ -66,6 +70,10 @@ export interface RiveParameters {
   - **Note:** Rive Listeners by default are not set up on a `<canvas>` element if there is no playing state machine, or a state machine without any Rive Listeners set up on the state machine
 - `isTouchScrollEnabled?` - *(optional)* For Rive Listeners, allows scrolling behavior to still occur on canvas elements when a touch/drag action is performed on touch-enabled devices. Otherwise, scroll behavior may be prevented on touch/drag actions on the canvas by default.
 - `automaticallyHandleEvents?` - *(optional)* Enable Rive Events to be handled by the runtime. This means any special Rive Event may have a side effect that takes place implicitly. For example, if during the render loop an `OpenUrlEvent` is detected, the browser may try to open the specified URL in the payload. This flag is `false` by default to prevent any unwanted behaviors from taking place. This means any special Rive Event will have to be handled manually by subscribing to `EventType.RiveEvent`
+- `autoBind?` - *(optional)* When set to `true`, Rive will automatically look for a default view model and view model instance to bind to the artboard. This is useful when working with data binding features.
+- `dispatchPointerExit?` - *(optional)* For Rive Listeners, dispatches a pointer exit event when the pointer exits the canvas. This can be useful for ensuring hover states are properly reset when the user's cursor leaves the canvas area.
+- `enableMultiTouch?` - *(optional)* Enables multi-touch support for Rive Listeners. When enabled, the runtime will track and respond to multiple simultaneous touch points on touch-enabled devices.
+- `drawingOptions?` - *(optional)* An enum (`DrawOptimizationOptions`) that provides drawing optimization options. This can be used to configure rendering performance optimizations. The default is `DrawOptimizationOptions.DrawOnChanged`.
 - `onLoad?` - *(optional)* Callback that gets fired when the .riv file loads.
 - `onLoadError?` - *(optional)* Callback that gets fired when an error occurs loading the .riv file.
 - `onPlay?` - *(optional)* Callback that gets fired when the animation starts playing.
