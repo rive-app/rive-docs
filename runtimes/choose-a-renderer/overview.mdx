@@ -3,6 +3,7 @@ title: 'Choose a Renderer Overview'
 sidebarTitle: 'Overview'
 description: 'Specify a renderer to use at runtime.'
 ---
+import { Apple } from '/snippets/constants.mdx'
 
 Rive makes use of various different renderers depending on platform and runtime. We're working towards unifying the default renderer used across all platforms/runtimes with the [Rive Renderer](https://rive.app/renderer).
 
@@ -43,9 +44,18 @@ It also allows Rive to innovate with new features, such as [Vector Feathering](h
 
         The Rive Renderer will shine best on Apple runtimes in memory usage as an animation plays out, in comparison to previous default renderers.
 
-        With UIKit, you'll be able to see the best performance differences by drawing multiple times on a single `RiveView`, rather than creating multiple instances of `RiveView`s, or multiple `RiveViewModel`s.
+        <Tabs>
+            <Tab title={Apple.currentRuntimeName}>
+                The Rive renderer is the sole renderer for the Apple runtime.
 
-        **Example:** See this [stress test example](https://github.com/rive-app/rive-ios/blob/main/Example-iOS/Source/Examples/Storyboard/StressTest.swift) to see how you can override the drawing function on `RiveView` to draw multiple times on the same view, with each graphic at an offset. You can switch out the renderer with the above config and test out the performance for yourself!
+                The renderer is multi-threaded per `Worker` object. This means that for each `Worker` object, a new thread will be created to process and render the Rive graphics.
+            </Tab>
+            <Tab title={Apple.legacyRuntimeName}>
+                With UIKit, you'll be able to see the best performance differences by drawing multiple times on a single `RiveView`, rather than creating multiple instances of `RiveView`s, or multiple `RiveViewModel`s.
+
+                **Example:** See this [stress test example](https://github.com/rive-app/rive-ios/blob/main/Example-iOS/Source/Examples/Storyboard/StressTest.swift) to see how you can override the drawing function on `RiveView` to draw multiple times on the same view, with each graphic at an offset. You can switch out the renderer with the above config and test out the performance for yourself!
+            </Tab>
+        </Tabs>
     </Tab>
 
     <Tab title="Android">
