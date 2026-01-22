@@ -3,6 +3,8 @@ title: "State Machine Playback"
 description: "Playing a state machine"
 ---
 
+import { Apple } from "/snippets/constants.mdx"
+
 ## Overview
 
 For more information on designing and building state machines in the Rive editor, please refer to [State Machine Overview](/editor/state-machine).
@@ -334,59 +336,105 @@ In addition to the paused/stopped state, state machines may also "settle". This 
   </Tab>
 
   <Tab title="Apple">
-    #### Autoplay the State Machine
+    <Tabs>
+      <Tab title={Apple.currentRuntimeName}>
+        By default, the state machine of a `Rive` object will automatically play when in use by a `RiveUIView`.
 
-    By default, RiveViewModel will automatically play the given state machine.
+        <Note>
+          In the { Apple.currentRuntimeName }, there is currently no way of manually playing and pausing a state machine.
 
-    ### SwiftUI
+          Additionally, the framerate is set to the framerate of the device. 
 
-    ```swift
-    var stateChanger = RiveViewModel(
-        fileName: "skills",
-        stateMachineName: "Designer's Test",
-        artboardName: "Banana"
-    )
-    ```
+          APIs for manually playing and pausing the state machine and setting a custom frame rate will come in the future.
+        </Note>
 
-    ### UIKit
+        The following sections assumes that you have read through the [Getting an Artboard](/runtimes/artboards#getting-an-artboard) overview.
 
-    ```swift
-    class StateMachineViewController: UIViewController {
-        var viewModel = RiveViewModel(
-            fileName: "skills",
-            stateMachineName: "Designer's Test",
-            artboardName: "Banana"
-        )
+        ### Getting a State Machine
 
-        override public func loadView() {
-            super.loadView()
+        Once you have created a `File` and `Artboard`, you can then retrieve information for and create `StateMachine` types.
 
-            guard let stateMachineView = view as? StateMachineView else {
-                fatalError("Could not find StateMachineView")
-            }
+        ```swift
+        // Get all state machine names
+        let stateMachineNames = try await artboard.getStateMachineNames()
+        // Get the default state machine for the artboard
+        let defaultStateMachine = try await artboard.createStateMachine()
+        // Get a state machine by name from the artboard
+        let stateMachineByName = try await artboard.createStateMachine("StateMachine")
+        ```
 
-            viewModel.setView(stateMachineView.riveView)
-        }
-    }
-    ```
+        Note that these are all async throwing functions marked as `@MainActor`. Since they are functions called on an `Artboard` object, any thrown errors will be of type `ArtboardError`.
 
-    ### Play
+        An example of when one of these functions will throw is if you call `.createStateMachine(_:)` with a name that is not in the origin `Artboard`, which will throw a `ArtboardError.invalidStateMachine(String)`.
 
-    If you set autoplay to false you can simply play the active animation or state machine.
+        ### Using a State Machine
 
-    ```swift
-    simpleVM.play()
-    ```
+        Remember that the Rive configuration for a view is the `Rive` type. In the overview, we show initializing a `Rive` object with just a file. However, you can initialize a `Rive` object with a specific state machine:
+        
+        ```swift
+        let worker = Worker()
+        let file = try await File(source: .local("my_file", Bundle.main))
+        let artboardByName = try await file.createArtboard("Artboard")
+        let stateMachine = try await artboardByName.createStateMachine("StateMachine")
+        let rive = try await Rive(file: file, artboard: artboardByName, stateMachine: stateMachine)
+        ```
+      </Tab>
+      <Tab title={Apple.legacyRuntimeName}>
+          #### Autoplay the State Machine
 
-    ### Pause/Stop/Reset
+          By default, RiveViewModel will automatically play the given state machine.
 
-    Based on certain events in your app you may want to adjust the playback further.
+          ### SwiftUI
 
-    ```swift
-    simpleVM.pause()
-    simpleVM.stop()
-    simpleVM.reset()
-    ```
+          ```swift
+          var stateChanger = RiveViewModel(
+              fileName: "skills",
+              stateMachineName: "Designer's Test",
+              artboardName: "Banana"
+          )
+          ```
+
+          ### UIKit
+
+          ```swift
+          class StateMachineViewController: UIViewController {
+              var viewModel = RiveViewModel(
+                  fileName: "skills",
+                  stateMachineName: "Designer's Test",
+                  artboardName: "Banana"
+              )
+
+              override public func loadView() {
+                  super.loadView()
+
+                  guard let stateMachineView = view as? StateMachineView else {
+                      fatalError("Could not find StateMachineView")
+                  }
+
+                  viewModel.setView(stateMachineView.riveView)
+              }
+          }
+          ```
+
+          ### Play
+
+          If you set autoplay to false you can simply play the active animation or state machine.
+
+          ```swift
+          simpleVM.play()
+          ```
+
+          ### Pause/Stop/Reset
+
+          Based on certain events in your app you may want to adjust the playback further.
+
+          ```swift
+          simpleVM.pause()
+          simpleVM.stop()
+          simpleVM.reset()
+          ```
+      </Tab>
+    </Tabs>
   </Tab>
 
   <Tab title="Android">
