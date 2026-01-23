@@ -1,0 +1,163 @@
+---
+title: 'State Machines'
+---
+
+State machines are the primary way to add interactivity and logic to Rive content in Unreal.
+
+They run on an **Artboard** and are updated as part of the Artboard’s tick. Understanding state machines is required before working with events or ViewModels.
+
+
+## What Is a State Machine?
+
+A **state machine** defines how an animation responds to inputs and transitions between states.
+
+In Unreal:
+- State machines live **on an Artboard**
+- An Artboard may have zero or more state machines
+- Only one state machine is active at a time per Artboard
+
+State machines control:
+- Animation playback
+- Transitions
+- Triggers
+- Reported events
+
+---
+
+## Selecting a State Machine
+
+When an Artboard is initialized, you can select which state machine to use.
+
+If no state machine is selected:
+- Animations will not respond to inputs
+- Triggers and events will have no effect
+
+If the file contains multiple state machines, you must explicitly choose one.
+
+---
+
+## State Machine Inputs
+
+State machines expose **inputs** that drive behavior.
+
+Supported input types include:
+
+- **Boolean**  
+  Used for on/off conditions
+
+- **Number**  
+  Used for continuous values such as progress or speed
+
+- **Trigger**  
+  Used for one-shot transitions
+
+Inputs are addressed by name or by path, depending on how they are authored in Rive.
+
+---
+
+## Setting Boolean and Number Inputs
+
+Boolean and number inputs can be read and written at runtime.
+
+Typical uses include:
+- Enabling or disabling animation branches
+- Driving blend values
+- Reacting to gameplay state
+
+Input values are applied immediately and evaluated on the next Artboard tick.
+
+---
+
+## Firing Triggers
+
+Triggers represent one-time events.
+
+When a trigger is fired:
+- The state machine evaluates matching transitions
+- The trigger automatically resets
+- The effect is applied during the next tick
+
+Triggers should be fired explicitly and not treated as persistent state.
+
+---
+
+## Pointer Input
+
+State machines can respond to pointer interaction.
+
+Supported pointer events include:
+- Pointer down
+- Pointer up
+- Pointer move
+- Pointer exit
+
+Pointer input is passed to the Artboard and routed to the active state machine.
+
+If pointer input is never forwarded:
+- Hover and press logic will not work
+- Pointer-based transitions will never fire
+
+---
+
+## Events
+
+State machines can emit **reported events**.
+
+Events are emitted:
+- During state transitions
+- During animation playback
+- As defined in the Rive file
+
+Events can be:
+- Named
+- Parameterized
+- Used to trigger gameplay or UI logic
+
+Events are delivered as part of the Artboard update.
+
+---
+
+## Tick Order and Timing
+
+State machines are evaluated during the Artboard tick.
+
+A typical update sequence is:
+
+1. Input values are set or triggers are fired
+2. The Artboard is advanced
+3. The state machine evaluates transitions
+4. Events are emitted
+5. Rendering occurs
+
+State machines do not update unless the Artboard is ticked.
+
+---
+
+## Multiple State Machines
+
+If a Rive file contains multiple state machines:
+- Only one can be active at a time per Artboard
+- Switching state machines resets internal state
+- Inputs are not shared between state machines
+
+Switching state machines should be done deliberately.
+
+---
+
+## Common Pitfalls
+
+- Forgetting to select a state machine
+- Setting inputs without ticking the Artboard
+- Expecting triggers to persist
+- Sending pointer input to the wrong Artboard
+- Assuming state machines run automatically
+
+---
+
+## Next Steps
+
+- Bind runtime data using **ViewModels**
+- Respond to **Events & Callbacks**
+- Learn when to use **Blueprint vs C++**
+- Review **Threading & Safety**
+

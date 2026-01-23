@@ -1,6 +1,5 @@
 ---
-title: 'Fundamentals'
-description: ''
+title: "Fundamentals"
 ---
 
 import LegacyApiNotice from '/snippets/unity/legacy-api-notice.mdx';
@@ -16,14 +15,14 @@ Now you can display the Rive Asset within a **Rive Panel** and **Rive Widget**.
 A `Rive.File` contains Artboards, StateMachines, and Animations.
 
 <Note>
- If you're working with the Rive Panel and Rive Widgets components, the Rive Widget will automatically handle loading the underlying Rive File from the assigned Asset.<br/>
- You only need to use this class directly if you want control of the lifecycle of the Rive File, or if you need to load the file from an external source like a CDN.
+  If you're working with the Rive Panel and Rive Widgets components, the Rive Widget will automatically handle loading the underlying Rive File from the assigned Asset.\
+  You only need to use this class directly if you want control of the lifecycle of the Rive File, or if you need to load the file from an external source like a CDN.
 </Note>
 
 The `Rive.File` class also provides several methods to load Rive content into Unity:
 
 <Note>
- If the file is already in memory, a cached version will be returned to improve performance and avoid redundant loading.
+  If the file is already in memory, a cached version will be returned to improve performance and avoid redundant loading.
 </Note>
 
 #### 1. From a Rive Asset (.riv file)
@@ -86,187 +85,169 @@ private void Start()
 
 ## Artboards
 
- [Artboards](/editor/fundamentals/artboards) contain [State Machines](/editor/state-machine/state-machine) and Animations.
+[Artboards](/editor/fundamentals/artboards) contain [State Machines](/editor/state-machine/state-machine) and Animations.
 
 <Tabs>
-    <Tab title="Components">
+  <Tab title="Components">
+    Using a **Rive Widget** component, you can select from a list of available artboards within a given **Rive File**.
 
-        Using a **Rive Widget** component, you can select from a list of available artboards within a given **Rive File**.
+    ![Image](/images/game-runtimes/unity/f5612996-b42e-46d4-879a-5da744ea688f.webp)
+  </Tab>
+  <Tab title="Legacy API">
+    <LegacyApiNotice />
 
-        ![Image](/images/game-runtimes/unity/f5612996-b42e-46d4-879a-5da744ea688f.webp)
+    Artboards are instantiated from a `Rive.File` instance:
 
-    </Tab>
-
-    <Tab title="Legacy API">
-
-        <LegacyApiNotice />
-
-        Artboards are instantiated from a `Rive.File` instance:
-
-        ```java
-        private Artboard m_artboard;
-
-        ...
-
-        m_artboard = m_file.Artboard(0); // by index
-        m_artboard = m_file.Artboard("Arboard 1"); // by name
-        ```
-    </Tab>
+    ```java
+    private Artboard m_artboard;
+    
+    ...
+    
+    m_artboard = m_file.Artboard(0); // by index
+    m_artboard = m_file.Artboard("Arboard 1"); // by name
+    ```
+  </Tab>
 </Tabs>
-
 
 ## State Machines
 
 For more information, see [State Machines](/game-runtimes/unity/state-machines).
 
 <Tabs>
-    <Tab title="Components">
+  <Tab title="Components">
+    Using a **Rive Widget** component, you can select from a list of available state machines within a given Artboard.
 
-        Using a **Rive Widget** component, you can select from a list of available state machines within a given Artboard.
+    ![Image](/images/game-runtimes/unity/157836bb-4e86-4893-8565-12905d477500.webp)
+  </Tab>
+  <Tab title="Legacy API">
+    <LegacyApiNotice />
 
-        ![Image](/images/game-runtimes/unity/157836bb-4e86-4893-8565-12905d477500.webp)
+    State Machines are instantiated from an Artboard instance:
 
-    </Tab>
+    ```csharp
+    private StateMachine m_stateMachine;
+    
+    ...
+    
+    m_stateMachine = m_artboard?.StateMachine(); // default state machine
+    m_stateMachine = m_artboard?.StateMachine(0); // state machine at index
+    m_stateMachine = m_artboard?.StateMachine("Name"); // state machine with name
+    ```
 
-    <Tab title="Legacy API">
+    They also control advancing (playing) an animation:
 
-        <LegacyApiNotice />
-
-        State Machines are instantiated from an Artboard instance:
-
-        ```csharp
-        private StateMachine m_stateMachine;
-
-        ...
-
-        m_stateMachine = m_artboard?.StateMachine(); // default state machine
-        m_stateMachine = m_artboard?.StateMachine(0); // state machine at index
-        m_stateMachine = m_artboard?.StateMachine("Name"); // state machine with name
-        ```
-
-        They also control advancing (playing) an animation:
-
-        ```csharp
-        private void Update()
-        {
-            m_stateMachine?.Advance(Time.deltaTime);
-        }
-        ```
-    </Tab>
+    ```csharp
+    private void Update()
+    {
+        m_stateMachine?.Advance(Time.deltaTime);
+    }
+    ```
+  </Tab>
 </Tabs>
-
-
-
 
 ## Rendering
 
 In Unity, Rive renders to a [RenderTexture](https://docs.unity3d.com/ScriptReference/RenderTexture.html) that you can display in your Scene by attaching to a [Material](https://docs.unity3d.com/ScriptReference/Material.html) or anywhere else you would use a Render Texture within your project.
 
 <Tabs>
+  <Tab title="Components">
+    The **Rive Panel** automatically renders its **Rive Widgets** to a Render Texture.
 
-    <Tab title="Components">
+    Using the **Rive Canvas Renderer**, you can display a **Rive Panel** within a uGUI Canvas.
 
-        The **Rive Panel** automatically renders its **Rive Widgets** to a Render Texture.
+    To display a **Rive Panel** on a GameObject's mesh, use the **Rive Texture Renderer.**
+  </Tab>
+  <Tab title="Legacy API">
+    <LegacyApiNotice />
 
-        Using the **Rive Canvas Renderer**, you can display a **Rive Panel** within a uGUI Canvas.
+    Layout and draw commands are managed through the `Rive.Renderer`.
 
-        To display a **Rive Panel** on a GameObject's mesh, use the **Rive Texture Renderer.**
-    </Tab>
+    For a more complex example drawing a texture directly to a camera, see the **getting-started** project in the [examples repository](https://github.com/rive-app/rive-unity-examples).
 
-    <Tab title="Legacy API">
+    The following is a basic example script behaviour to render a given Rive asset to the provided `renderTexture`. The animation is played by calling `.Advance()` on the State Machine.
 
-        <LegacyApiNotice />
+    See [Animation Playback](/runtimes/animation-playback)for more general information on playing animations and state machines at runtime.
 
-        Layout and draw commands are managed through the `Rive.Renderer`.
-
-        For a more complex example drawing a texture directly to a camera, see the **getting-started** project in the [examples repository](https://github.com/rive-app/rive-unity-examples).
-
-        The following is a basic example script behaviour to render a given Rive asset to the provided `renderTexture`. The animation is played by calling `.Advance()` on the State Machine.
-
-        See [Animation Playback](/runtimes/animation-playback)for more general information on playing animations and state machines at runtime.
-
-        ```csharp
-        using System.Collections;
-        using UnityEngine;
-        using UnityEngine.Rendering;
-        using UnityEditor;
-        using Rive;
-
-        using LoadAction = UnityEngine.Rendering.RenderBufferLoadAction;
-        using StoreAction = UnityEngine.Rendering.RenderBufferStoreAction;
-
-        public class RiveTexture : MonoBehaviour
+    ```csharp
+    using System.Collections;
+    using UnityEngine;
+    using UnityEngine.Rendering;
+    using UnityEditor;
+    using Rive;
+    
+    using LoadAction = UnityEngine.Rendering.RenderBufferLoadAction;
+    using StoreAction = UnityEngine.Rendering.RenderBufferStoreAction;
+    
+    public class RiveTexture : MonoBehaviour
+    {
+        public Rive.Asset asset;
+        public RenderTexture renderTexture;
+        public Fit fit = Fit.contain;
+        public Alignment alignment = Alignment.Center;
+    
+        private Rive.RenderQueue m_renderQueue;
+        private Rive.Renderer m_riveRenderer;
+        private CommandBuffer m_commandBuffer;
+    
+        private Rive.File m_file;
+        private Artboard m_artboard;
+        private StateMachine m_stateMachine;
+    
+        private Camera m_camera;
+    
+        private void Start()
         {
-            public Rive.Asset asset;
-            public RenderTexture renderTexture;
-            public Fit fit = Fit.contain;
-            public Alignment alignment = Alignment.Center;
-
-            private Rive.RenderQueue m_renderQueue;
-            private Rive.Renderer m_riveRenderer;
-            private CommandBuffer m_commandBuffer;
-
-            private Rive.File m_file;
-            private Artboard m_artboard;
-            private StateMachine m_stateMachine;
-
-            private Camera m_camera;
-
-            private void Start()
+            // If on D3d11, this is required
+            renderTexture.enableRandomWrite = true;
+            m_renderQueue = new Rive.RenderQueue(renderTexture);
+            m_riveRenderer = m_renderQueue.Renderer();
+            if (asset != null)
             {
-                // If on D3d11, this is required
-                renderTexture.enableRandomWrite = true;
-                m_renderQueue = new Rive.RenderQueue(renderTexture);
-                m_riveRenderer = m_renderQueue.Renderer();
-                if (asset != null)
-                {
-                    m_file = Rive.File.Load(asset);
-                    m_artboard = m_file.Artboard(0);
-                    m_stateMachine = m_artboard?.StateMachine();
-                }
-
-                if (m_artboard != null && renderTexture != null)
-                {
-                    m_riveRenderer.Align(fit, alignment, m_artboard);
-                    m_riveRenderer.Draw(m_artboard);
-
-                    m_commandBuffer = m_riveRenderer.ToCommandBuffer();
-                    m_commandBuffer.SetRenderTarget(renderTexture);
-                    m_commandBuffer.ClearRenderTarget(true, true, UnityEngine.Color.clear, 0.0f);
-                    m_riveRenderer.AddToCommandBuffer(m_commandBuffer);
-                    m_camera = Camera.main;
-                    if (m_camera != null)
-                    {
-                        Camera.main.AddCommandBuffer(CameraEvent.AfterEverything, m_commandBuffer);
-                    }
-                }
+                m_file = Rive.File.Load(asset);
+                m_artboard = m_file.Artboard(0);
+                m_stateMachine = m_artboard?.StateMachine();
             }
-
-            private void Update()
+    
+            if (m_artboard != null && renderTexture != null)
             {
-                if (m_stateMachine != null)
+                m_riveRenderer.Align(fit, alignment, m_artboard);
+                m_riveRenderer.Draw(m_artboard);
+    
+                m_commandBuffer = m_riveRenderer.ToCommandBuffer();
+                m_commandBuffer.SetRenderTarget(renderTexture);
+                m_commandBuffer.ClearRenderTarget(true, true, UnityEngine.Color.clear, 0.0f);
+                m_riveRenderer.AddToCommandBuffer(m_commandBuffer);
+                m_camera = Camera.main;
+                if (m_camera != null)
                 {
-                    m_stateMachine.Advance(Time.deltaTime);
-                }
-            }
-
-            private void OnDisable()
-            {
-                if (m_camera != null && m_commandBuffer != null)
-                {
-                    m_camera.RemoveCommandBuffer(CameraEvent.AfterEverything, m_commandBuffer);
+                    Camera.main.AddCommandBuffer(CameraEvent.AfterEverything, m_commandBuffer);
                 }
             }
         }
-        ```
+    
+        private void Update()
+        {
+            if (m_stateMachine != null)
+            {
+                m_stateMachine.Advance(Time.deltaTime);
+            }
+        }
+    
+        private void OnDisable()
+        {
+            if (m_camera != null && m_commandBuffer != null)
+            {
+                m_camera.RemoveCommandBuffer(CameraEvent.AfterEverything, m_commandBuffer);
+            }
+        }
+    }
+    ```
 
-        1. Create a Unity [RenderTexture](https://docs.unity.cn/ru/2020.1/Manual/class-RenderTexture.html) and [Material](https://docs.unity3d.com/2019.3/Documentation/Manual/Materials.html) in Assets
-        2. Assign the **RenderTexture** to the **Material**
-        3. Drag this behaviour to a **GameObject** and attach the material
-        4. Link the .riv asset and **RenderTexture** on the **RiveTexture** (custom script) behaviour
+    1. Create a Unity [RenderTexture](https://docs.unity.cn/ru/2020.1/Manual/class-RenderTexture.html) and [Material](https://docs.unity3d.com/2019.3/Documentation/Manual/Materials.html) in Assets
+    2. Assign the **RenderTexture** to the **Material**
+    3. Drag this behaviour to a **GameObject** and attach the material
+    4. Link the .riv asset and **RenderTexture** on the **RiveTexture** (custom script) behaviour
 
-        ![Image](/images/game-runtimes/unity/dfa37834-61a2-442c-bb8f-d8d171a2d0fb.webp)
-
-    </Tab>
-
+    ![Image](/images/game-runtimes/unity/dfa37834-61a2-442c-bb8f-d8d171a2d0fb.webp)
+  </Tab>
 </Tabs>

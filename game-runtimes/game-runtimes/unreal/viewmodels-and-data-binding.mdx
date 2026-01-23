@@ -1,0 +1,154 @@
+---
+title: 'Viewmodels and Data Binding'
+---
+
+ViewModels provide a structured way to bind runtime data to Rive content in Unreal.
+
+They are used to drive animation, text, colors, and logic using typed properties, and are the preferred alternative to manually setting individual state machine inputs.
+
+## What Is a ViewModel?
+
+A **ViewModel** is a schema defined in a Rive file that describes a set of named, typed properties.
+
+In Unreal:
+- ViewModels are defined in the Rive file
+- A ViewModel has one or more runtime **instances**
+- A ViewModel instance can be bound to an Artboard
+- Properties can be read and written at runtime
+
+ViewModels do not replace state machines.  
+They **feed data into them**.
+
+## When to Use ViewModels
+
+ViewModels are recommended when you need to:
+
+- Drive multiple values at once
+- Bind structured data (for example UI state)
+- Share data across multiple state machine transitions
+- Avoid hard-coding individual input names
+
+For simple cases, setting state machine inputs directly may be sufficient.
+
+## ViewModel Definitions vs Instances
+
+There are two important concepts:
+
+- **ViewModel**  
+  The definition authored in Rive (property names and types)
+
+- **ViewModel Instance**  
+  A runtime object that holds actual values
+
+Multiple instances can be created from the same ViewModel definition.
+
+Each instance:
+- Stores its own values
+- Can be bound to a different Artboard
+- Is independent of other instances
+
+## Creating a ViewModel Instance
+
+At runtime, you create a ViewModel instance from a Rive file.
+
+Instances can be created:
+- By index
+- By name
+- As a default instance
+
+Once created, the instance can be modified and bound to an Artboard.
+
+## Binding a ViewModel to an Artboard
+
+An Artboard can have **one active ViewModel instance** at a time.
+
+When a ViewModel instance is bound:
+- Its properties become available to the Rive content
+- State machines can read those values
+- Transitions and animations react automatically
+
+Binding can be changed at runtime if needed.
+
+## Property Types
+
+ViewModel properties are strongly typed.
+
+Supported property types include:
+
+- **Boolean**  
+  On/off values
+
+- **Number**  
+  Floating-point values
+
+- **String**  
+  Text content
+
+- **Enum**  
+  One of a predefined set of values
+
+- **Color**  
+  RGBA color values
+
+- **Trigger**  
+  One-shot events
+
+Each property type has corresponding runtime accessors.
+
+## Reading and Writing Properties
+
+Properties can be accessed by name on the ViewModel instance.
+
+Typical operations include:
+- Setting values in response to gameplay
+- Updating text or colors
+- Firing trigger properties
+- Querying current state
+
+Property changes take effect during the next Artboard tick.
+
+## Nested ViewModels
+
+ViewModels can reference other ViewModels.
+
+This allows:
+- Composing complex data structures
+- Reusing shared definitions
+- Binding lists or hierarchical data
+
+Nested ViewModels are resolved automatically when instances are created.
+
+## Value Change Callbacks
+
+ViewModel properties support change notifications.
+
+Callbacks can be used to:
+- React to changes coming from Rive
+- Synchronize Unreal state
+- Trigger additional logic
+
+Callbacks are delivered as part of the Artboard update cycle.
+
+## Lifetime and Ownership
+
+ViewModel instances are runtime objects.
+
+Important rules:
+- They must remain alive while bound to an Artboard
+- Destroying an instance unbinds it
+- Instances are not assets and are not saved
+
+ViewModel instances should be owned and managed explicitly by your code or Blueprint logic.
+
+## Common Pitfalls
+
+- Modifying a ViewModel instance that is not bound
+- Destroying an instance while still in use
+- Expecting ViewModels to tick independently
+- Using ViewModels for one-off triggers only
+
+## Next Steps
+
+- Respond to **Events & Callbacks**
+- Decide between **Blueprint vs C++**
+- Review **Threading & Safety**
