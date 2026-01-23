@@ -614,10 +614,14 @@ Once we have a reference to a view model, it can be used to create an instance. 
         const namedInstance = useViewModelInstance(viewModel, { name: 'My Instance' });
         const newInstance = useViewModelInstance(viewModel, { useNew: true });
 
-        // Options: required throws if null; onInit sets values before render
+        // With required: true (throws if null, use with Error Boundary)
         const instance = useViewModelInstance(riveFile, { required: true });
+
+        // With onInit to set initial values synchronously
         const instance = useViewModelInstance(riveFile, {
-            onInit: (vmi) => vmi.numberProperty('health')!.value = 100,
+            onInit: (vmi) => {
+                vmi.numberProperty('health')!.value = 100;
+            },
         });
 
         return (
