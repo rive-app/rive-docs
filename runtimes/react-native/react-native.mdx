@@ -376,28 +376,25 @@ This guide documents how to get started using the Rive React Native runtime. The
     Hook to create a view model instance from a `RiveFile`, `ViewModel`, or `RiveViewRef`:
 
     ```ts
-    // Get default instance from RiveFile (recommended)
+    // From RiveFile — default artboard's ViewModel, default instance
     const instance = useViewModelInstance(riveFile);
 
-    // or
-    // Get named instance from a ViewModel
-    const namedInstance = useViewModelInstance(viewModel, { name: 'My Instance' });
+    // From RiveFile — specify artboard or ViewModel name (mutually exclusive)
+    const instance = useViewModelInstance(riveFile, { artboardName: 'MainArtboard' });
+    const instance = useViewModelInstance(riveFile, { viewModelName: 'Settings' });
 
-    // or
-    // Create a new blank instance from a ViewModel
+    // instanceName can be combined with any of the above to pick a specific instance
+    const instance = useViewModelInstance(riveFile, { instanceName: 'PersonInstance' });
+    const instance = useViewModelInstance(riveFile, { viewModelName: 'Settings', instanceName: 'UserSettings' });
+
+    // From a ViewModel object
+    const namedInstance = useViewModelInstance(viewModel, { name: 'My Instance' });
     const newInstance = useViewModelInstance(viewModel, { useNew: true });
 
-    // or
-    // With required: true (throws if null, use with Error Boundary)
+    // Options: required throws if null; onInit sets values before render
     const instance = useViewModelInstance(riveFile, { required: true });
-
-    // or
-    // With onInit to set initial values synchronously
     const instance = useViewModelInstance(riveFile, {
-      onInit: (vmi) => {
-        vmi.numberProperty('count')?.set(10);
-        vmi.stringProperty('name')?.set('Initial Name');
-      }
+      onInit: (vmi) => vmi.numberProperty('health')!.value = 100,
     });
     ```
 

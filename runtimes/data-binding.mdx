@@ -598,33 +598,30 @@ Once we have a reference to a view model, it can be used to create an instance. 
 
         const { riveFile } = useRiveFile(require('./my_file.riv'));
 
-        // Get default instance from RiveFile (recommended)
+        // From RiveFile — default artboard's ViewModel, default instance
         const instance = useViewModelInstance(riveFile);
 
-        // Get instance by name from a ViewModel
+        // Specify artboard or ViewModel name (mutually exclusive)
+        const instance = useViewModelInstance(riveFile, { artboardName: 'MainArtboard' });
+        const instance = useViewModelInstance(riveFile, { viewModelName: 'Settings' });
+
+        // instanceName can be combined with any of the above to pick a specific instance
+        const instance = useViewModelInstance(riveFile, { instanceName: 'PersonInstance' });
+        const instance = useViewModelInstance(riveFile, { viewModelName: 'Settings', instanceName: 'UserSettings' });
+
+        // From a ViewModel object
         const viewModel = riveFile?.viewModelByName('My View Model');
         const namedInstance = useViewModelInstance(viewModel, { name: 'My Instance' });
-
-        // Create a new blank instance
         const newInstance = useViewModelInstance(viewModel, { useNew: true });
 
-        // With required: true (throws if null, use with Error Boundary)
+        // Options: required throws if null; onInit sets values before render
         const instance = useViewModelInstance(riveFile, { required: true });
-
-        // With onInit to set initial values synchronously
         const instance = useViewModelInstance(riveFile, {
-            onInit: (vmi) => {
-                vmi.numberProperty('count')?.set(10);
-                vmi.stringProperty('name')?.set('Initial Name');
-            }
+            onInit: (vmi) => vmi.numberProperty('health')!.value = 100,
         });
 
         return (
-            <RiveView
-                file={riveFile}
-                dataBind={instance}
-                autoPlay={true}
-            />
+            <RiveView file={riveFile} dataBind={instance} />
         );
         ```
 
