@@ -4,9 +4,7 @@ description: "Learn how to connect Unity gameplay data to a Rive health bar usin
 ---
 <Badge color="green">Beginner</Badge>
 
-This tutorial walks through connecting a Rive health bar file to Unity using [Data Binding](https://rive.app/docs/editor/data-binding/overview). 
-
-In this setup, the key idea is that your Unity code only updates data while the Rive file handles the visual representation in response to those changes.
+This tutorial walks through connecting a Rive health bar file to Unity using [Data Binding](https://rive.app/docs/editor/data-binding/overview). In this setup, your Unity code updates a single number (`health`) while the Rive file handles the visuals in response (e.g. color changes, and low-health warnings).
 
 ![GIF of the Health Bar Demo with the value changing from 100 to 0](/images/runtimes/quick-start.gif)
 
@@ -360,7 +358,7 @@ From your gameplay scripts you can treat the Rive file like a "rendered UI" for 
 - Call `Damage()` or `Heal()` based on gameplay events.
 - Or read `Health` if you need the current value.
 
-The data flow isn't just one-way. Your game scripts can also listen to events from the Rive file. For example, your game manager script could listen to the `OnGameOver` event:
+The data flow isn't just one-way. Your game scripts can also listen to triggers or changes to values from the Rive file. For example, your game manager script could listen to both health changes and the game over event:
 
 ```csharp
 public class GameManager : MonoBehaviour
@@ -369,8 +367,17 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        // Listen to game over events from the health bar
+        // Listen to health value changes
+        healthBar.OnHealthChanged.AddListener(HandleHealthChanged);
+        
+        // Listen to game over trigger
         healthBar.OnGameOver.AddListener(HandleGameOver);
+    }
+
+    private void HandleHealthChanged(float newHealth)
+    {
+        Debug.Log($"Health changed to: {newHealth}");
+        // Your game logic...
     }
 
     private void HandleGameOver()
