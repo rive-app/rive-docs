@@ -2109,41 +2109,43 @@ You can observe changes over time to property values, either by using listeners 
   <Tab title="Apple">
     <Tabs>
         <Tab title={Apple.currentRuntimeName}>
-        Property listeners utilize Swift Concurrency's async throwing stream API. If a property returns a value, you can listen to its changes by calling the `valueStream(of:)` method on a `ViewModelInstance` object.
+          Property listeners utilize Swift Concurrency's async throwing stream API. If a property returns a value, you can listen to its changes by calling the `valueStream(of:)` method on a `ViewModelInstance` object.
 
-        ```swift
-        let file: File = ...
-        let viewModelInstance = try await file.createViewModelInstance(...)
-        let stringProperty = StringProperty(path: "path/to/string")
-        let valueStream = viewModelInstance.valueStream(of: stringProperty)
-        do {
-            for try await value in valueStream {
-                print(value)
-            }
-        } catch let error as ViewModelInstanceError {
-            // The thrown error should always be a ViewModelInstanceError type
-            print(error)
-        } catch {
-            print(error)
-        }
+          ```swift
+          let file: File = ...
+          let viewModelInstance = try await file.createViewModelInstance(...)
+          let stringProperty = StringProperty(path: "path/to/string")
+          let valueStream = viewModelInstance.valueStream(of: stringProperty)
+          do {
+              for try await value in valueStream {
+                  print(value)
+              }
+          } catch let error as ViewModelInstanceError {
+              // The thrown error should always be a ViewModelInstanceError type
+              print(error)
+          } catch {
+              print(error)
+          }
+          ```
 
-        For triggers, you can listen to them by calling the `stream(of:)` method on a `ViewModelInstance` object. This returns a stream of `Void` values, which can be ignored.
+          For triggers, you can listen to them by calling the `stream(of:)` method on a `ViewModelInstance` object. This returns a stream of `Void` values, which can be ignored.
 
-        ```swift
-        let file: File = ...
-        let viewModelInstance = try await file.createViewModelInstance(...)
-        let triggerProperty = TriggerProperty(path: "path/to/trigger")
-        let triggerStream = viewModelInstance.stream(of: triggerProperty)
-        do {
-            for try await _ in triggerStream {
-                print("Trigger fired!")
-            }
-        } catch let error as ViewModelInstanceError {
-            // The thrown error should always be a ViewModelInstanceError type
-            print(error)
-        } catch {
-            print(error)
-        }
+          ```swift
+          let file: File = ...
+          let viewModelInstance = try await file.createViewModelInstance(...)
+          let triggerProperty = TriggerProperty(path: "path/to/trigger")
+          let triggerStream = viewModelInstance.stream(of: triggerProperty)
+          do {
+              for try await _ in triggerStream {
+                  print("Trigger fired!")
+              }
+          } catch let error as ViewModelInstanceError {
+              // The thrown error should always be a ViewModelInstanceError type
+              print(error)
+          } catch {
+              print(error)
+          }
+          ```
         </Tab>
         <Tab title={Apple.legacyRuntimeName}>
             ```swift
