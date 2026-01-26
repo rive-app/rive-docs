@@ -29,10 +29,6 @@ Follow the steps below for a quick start on integrating Rive into your React app
     - `@rive-app/react-webgl` - Wraps the `@rive-app/webgl` dependency. In the future, we may have advanced rendering features that are only supported by using `WebGL`. At the moment, however, due to the size of the dependency (with Skia), we do not recommend it unless you have specific needs here. We are currently working on improving the performance and size with the [Rive Renderer](https://rive.app/renderer).
     - `@rive-app/react-webgl2` - Wraps the `@rive-app/webgl2` dependency. It uses the Rive Renderer with a WebGL2 context and has a much smaller build size than `rive-app/react-webgl`. In a future major release, this package may be deprecated, and `@rive-app/react-webgl` will make use of the Rive Renderer completely, without an added Skia dependency.
 
-    <Note>
-    To take advantage of trying out the Rive Renderer with react-webgl2 , you should [enable the draft](https://www.wikihow.tech/Enable-WebGL-Draft-Extensions-in-Google-Chrome) `WEBGL_shader_pixel_local_storage` Chrome Extension (by adding WebGL Draft Extensions), otherwise, Rive will fall back to an MSAA solution (also with WebGL2) on browsers without the extension support. Current work is underway with major browsers to support this extension by default in consumer's browsers.
-    </Note>
-
     ```bash
     npm i --save @rive-app/react-canvas
     ```

@@ -69,10 +69,6 @@ An easy-to-use high-level Rive API using a WebGL2 context. Some benefits of this
 - Uses the new Rive Renderer for best performance
 - A much smaller build than `@rive-app/webgl`, which currently adds a larger Skia dependency
 
-<Note>
- To take advantage of trying out the Rive Renderer, you should [enable the draft](https://www.wikihow.tech/Enable-WebGL-Draft-Extensions-in-Google-Chrome) `WEBGL_shader_pixel_local_storage` Chrome Extension (by adding WebGL Draft Extensions in the link above), otherwise, Rive will fall back to an MSAA solution (also with WebGL2) on browsers without the extension support. Current work is underway with major browsers to support this extension by default in consumer's browsers.
-</Note>
-
 **A note about WebGL:** Most browsers limit the number of concurrent WebGL contexts by page/domain. Using Rive, this means that the browser limit impacts the number of `new Rive({...})` instances created.
 
 If you're planning on displaying Rive content in a list/grid or many times on the same page, it's up to you to manage the lifecycle of the provided context and `canvas` element. If you need to display many animations (i.e grids/lists), consider using the `@rive-app/canvas` package which uses the `CanvasRenderingContext2D` renderer and does not have a context limitation, or consider the `@rive-app/webgl2-advanced` package, which will allow you to display multiple Rive graphics on one canvas with full control over the render loop.
