@@ -7,4 +7,12 @@ Defines the shape used at the ends of open stroke segments.
 * `round` – semicircular cap.
 * `square` – squared, extends past the end point.
 
+```lua highlight={3}
+self.paint = Paint.with({
+  color = Color.rgb(255, 100, 50),
+  cap = 'round',
+  style = 'stroke',
+})
+```
+
 
