@@ -54,6 +54,8 @@ import { YouTube } from '/snippets/youtube.mdx'
 
 ![Marketplace Snippet](/images/marketplace-snippet.png)
 
+1. Publish the demo to the Marketplace using the support at Rive user account (credentials in 1password).
+
 ```jsx
 import { Marketplace } from '/snippets/marketplace.mdx'
 
