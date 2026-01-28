@@ -32,7 +32,62 @@ Run the following command at the root of your documentation (where mint.json is)
 mintlify dev
 ```
 
+
 #### Troubleshooting
 
 - Mintlify dev isn't running - Run `mintlify install` it'll re-install dependencies.
 - Page loads as a 404 - Make sure you are running in a folder with `mint.json` (i.e from this repository's root directory).
+
+## Custom Rive Components
+
+#### YouTube
+
+Display a YouTube video
+
+```jsx
+import { YouTube } from '/snippets/youtube.mdx'
+
+<YouTube id="6J3JIwgUwe0" />
+```
+
+#### Marketplace Links
+
+![Marketplace Snippet](/images/marketplace-snippet.png)
+
+```jsx
+import { Marketplace } from '/snippets/marketplace.mdx'
+
+<Marketplace
+  href="https://rive.app/community/files/26116-48795-animating-draw-order"
+/>
+```
+
+#### Demos
+
+![Demos Snippet](/images/demos-snippet.png)
+
+1. Publish the demo to the Marketplace using the support at Rive user account (credentials in 1password).
+2. Upload the 400x300px thumbnail to the `rive-static-content/docs` S3 bucket (This is necessary until Mintlify supports hosting images that are in an array).
+3. Add a new item in the `examplesData` array in demos.jsx.
+
+```jsx
+import { Demos } from '/snippets/demos.jsx'
+
+// Display a single demos
+<Demos examples={['dataBindingQuickStart']} />
+
+// Display multiple demos
+<Demos examples={['dataBindingQuickStart', 'cachingARiveFile']} />
+
+// Display only content for a single runtime
+<Demos examples={['dataBindingQuickStart']} runtime="apple" />
+
+// Define the number of columns
+<Demos examples={['dataBindingQuickStart']} columns={3} />
+
+// Add a custom child component
+// See demos.mdx for a real example
+<Demos examples={['dataBindingQuickStart']} childrenIndex={0} >
+  <div>I'm a child!</div>
+</Demos>
+```
