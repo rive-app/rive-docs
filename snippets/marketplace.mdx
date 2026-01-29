@@ -1,0 +1,15 @@
+export const Marketplace = ({ href }) => {
+  const hrefWithTracking = `${href}?utm_source=docs&utm_medium=docs_link_card&utm_campaign=docs_to_marketplace_links`
+
+  return (
+    <Card
+      title="Learn by remixing"
+      icon="external-link"
+      href={hrefWithTracking}
+      arrow="true"
+      horizontal
+    >
+      Open this file on Marketplace, then click Remix to experiment in the Rive Editor.
+    </Card>
+  );
+};

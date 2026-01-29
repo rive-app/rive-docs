@@ -360,6 +360,10 @@ export const Demos = ({
   const RuntimeLink = ({ link, runtime }) => {
     if (!link) return null
 
+    if (runtime === 'editor') {
+      link = `${link}?utm_source=docs&utm_medium=docs_demo_card&utm_campaign=docs_to_marketplace_links`
+    }
+
     return (
       <a
         href={link }
