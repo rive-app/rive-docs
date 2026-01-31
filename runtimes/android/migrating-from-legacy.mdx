@@ -519,7 +519,7 @@ The legacy runtime uses a "pull" model for loading referenced assets, where the 
 **Legacy RiveAnimationView**
 
 ```kotlin
-class MyAssetLoader : FileAssetLoader(context: Context) : ContextAssetLoader(context) {
+class MyAssetLoader(private val context: Context) : ContextAssetLoader(context) {
     // Example asset loader that handles one image asset named "my_image"
     override fun loadContents(asset: FileAsset, inBandBytes: ByteArray): Boolean {
         val identifier =
