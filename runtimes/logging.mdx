@@ -48,4 +48,20 @@ Some Rive runtimes include logging capabilities to help with debugging. These lo
             </Tab>
         </Tabs>
     </Tab>
+    <Tab title="Android">
+        <Tabs>
+            <Tab title="Compose">
+                The new runtime includes a fine-grained, flexible logging system that allows you to capture logs at various levels (debug, info, warning, error) and redirect them to your preferred logging framework or sink. This is done by implementing the `RiveLog.Logger` interface and assigning the global `RiveLog.logger` property.
+
+                The library ships with a default implementation that logs to Android Logcat. Enable it with the following:
+
+                ```kotlin
+                RiveLog.logger = RiveLog.LogcatLogger()
+                ```
+            </Tab>
+            <Tab title="Legacy">
+                Fine-grained Logging is not supported in the legacy runtime. We may consider retrofitting more logging capabilities to the legacy runtime in the future, especially if doing so would illuminate a potential source for bugs.
+            </Tab>
+        </Tabs>
+    </Tab>
 </Tabs>
