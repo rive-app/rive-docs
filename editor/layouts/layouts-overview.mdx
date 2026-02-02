@@ -5,6 +5,7 @@ description: 'Layouts allow you to build responsive UI components in Rive. Make 
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
+import { Marketplace } from '/snippets/marketplace.mdx'
 
 Leverage Rive's layout system to accommodate a variety of use cases:
 
@@ -34,6 +35,8 @@ Prior to the addition of Layouts in Rive, all objects on an Artboard were positi
 In order to create more complex UI that responds to the screen or browser size, it is important to understand that Layouts can be placed inside other Layouts. We refer to the outer Layout as the parent and the inner Layout as the child. The Layout children are typically positioned relative to their Layout parent (similar to how [Groups](/editor/fundamentals/groups) work). In addition, the parent can either be sized to the children ([Hug](editor/layouts/layout-parameters#scale-types)) or the children can size to their parent ([Fill](editor/layouts/layout-parameters#scale-types)). Here is an example to help visualize how these relationships work.
 
 In the image below we will focus on the regions contained by the dashed lines. The outer green dashed line is the outermost Layout, which is set to Layout it's children in a single Column. In the second row of that Column, the red dashed line is a child Layout containing the Battery indicators for various devices. This Layout is defined as a Row. This Layout has 4 child Layouts (blue dashed) set to evenly Fill the width of their parent (so that when the parent resizes, the child Layouts also resize, each to Fill 25% of the available space). Each of those 4 Layouts are set to Column and have 2 child Layouts (pink dashed) containing a trim path with a visualization of battery remaining and percentage label. By creating these simple parent-child Layouts, we can create infinitely responsive content with Rive!
+
+<Marketplace href="https://rive.app/community/files/26209-48998-layouts-example/" />
 
 ![Image](/images/editor/layout-visualized.png)
 
