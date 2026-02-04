@@ -85,6 +85,10 @@ self.paint = Paint.with({
 
 ### `new`
 
+```
+new () -> Paint
+```
+
 Creates a new [Paint](/scripting/api-reference/paint) object with default settings.
 
 ```lua
@@ -95,6 +99,10 @@ paint.color = Color.rgb(255, 200, 80)
 
 
 ### `with`
+
+```
+with () -> Paint
+```
 
 Creates a new Paint initialized from the provided [PaintDefinition](/scripting/api-reference/paint-definition).
 
@@ -112,6 +120,10 @@ local strokePaint = Paint.with({
 ## Methods
 
 ### `copy`
+
+```
+copy () -> unknown
+```
 
 Returns a new Paint that copies this one, optionally overriding selected
 properties with values from the provided [PaintDefinition](/scripting/api-reference/paint-definition).

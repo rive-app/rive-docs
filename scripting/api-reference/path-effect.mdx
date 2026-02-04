@@ -12,11 +12,19 @@ should be called on its context in the advance function
 
 ### `init`
 
+```
+init () -> unknown
+```
+
 Called once when the effect is created or attached.
 Return `true` to keep the effect active, or `false` to disable it.
 
 
 ### `update`
+
+```
+update () -> unknown
+```
 
 Called any time an input changes.
 You receive the original [PathData](/scripting/api-reference/path-data) and must return the path
@@ -24,6 +32,10 @@ that should be used for rendering.
 
 
 ### `advance`
+
+```
+advance () -> unknown
+```
 
 Called every frame to advance the effect over time.
 `seconds` is the time delta since the last frame.

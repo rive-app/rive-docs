@@ -10,6 +10,10 @@ defined by a set of color stops ([GradientStop](/scripting/api-reference/gradien
 
 ### `linear`
 
+```
+linear () -> Gradient
+```
+
 Creates a linear gradient that transitions between the specified color
 stops along the line from 'from' to 'to'.
 
@@ -22,6 +26,10 @@ local g = Gradient.linear(Vector.xy(0, 0), Vector.xy(100, 0), {
 
 
 ### `radial`
+
+```
+radial () -> Gradient
+```
 
 Creates a radial gradient centered at 'from', extending outward to the
 given radius, using the specified color stops.

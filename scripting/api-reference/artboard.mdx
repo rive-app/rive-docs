@@ -44,10 +44,18 @@ end
 
 ### `draw`
 
+```
+draw () -> unknown
+```
+
 Draws the artboard using the provided renderer.
 
 
 ### `advance`
+
+```
+advance () -> unknown
+```
 
 Advances the artboard by the given time in seconds. Returns true if the
 artboard should continue receiving advance calls.
@@ -55,15 +63,27 @@ artboard should continue receiving advance calls.
 
 ### `instance`
 
+```
+instance () -> unknown
+```
+
 Creates a new instance of the artboard with independent state.
 
 
 ### `animation`
 
+```
+animation () -> unknown
+```
+
 Creates an animation instance linked to the artboard instance
 
 
 ### `bounds`
+
+```
+bounds () -> unknown
+```
 
 Returns the bounding box of the artboard as two [Vector](/scripting/api-reference/vector) values: the
 minimum point and the maximum point.
@@ -76,10 +96,18 @@ print("Bounds height", maxPt.y - minPt.y)
 
 ### `node`
 
+```
+node () -> unknown
+```
+
 Returns the node with the given name, or nil if no such node exists.
 
 
 ### `pointerDown`
+
+```
+pointerDown () -> unknown
+```
 
 Pointer event down handler. Each returns a hit-test result, where 0
 indicates no hit and non-zero values indicate a hit.
@@ -87,11 +115,19 @@ indicates no hit and non-zero values indicate a hit.
 
 ### `pointerUp`
 
+```
+pointerUp () -> unknown
+```
+
 Pointer event up handler. Each returns a hit-test result, where 0
 indicates no hit and non-zero values indicate a hit.
 
 
 ### `pointerMove`
+
+```
+pointerMove () -> unknown
+```
 
 Pointer event move handler. Each returns a hit-test result, where 0
 indicates no hit and non-zero values indicate a hit.
@@ -99,11 +135,19 @@ indicates no hit and non-zero values indicate a hit.
 
 ### `pointerExit`
 
+```
+pointerExit () -> unknown
+```
+
 Pointer event exit handler. Each returns a hit-test result, where 0
 indicates no hit and non-zero values indicate a hit.
 
 
 ### `addToPath`
+
+```
+addToPath () -> unknown
+```
 
 Adds the artboard’s geometry to the given path, optionally transformed
 by the provided matrix.

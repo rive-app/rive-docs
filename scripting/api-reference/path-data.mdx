@@ -10,6 +10,10 @@ Both Path and PathData behave like arrays of commands and support iteration via 
 
 ### `__len`
 
+```
+__len () -> unknown
+```
+
 Each entry is a [PathCommand](/scripting/api-reference/path-command) describing one segment or action in the path.
 ```lua
 for i, command in ipairs(pathData) do
@@ -24,6 +28,10 @@ print(count)
 
 
 ### `contours`
+
+```
+contours () -> unknown
+```
 
 Returns a [ContourMeasure](/scripting/api-reference/contour-measure) for the first contour in the path. A contour is a
 sequence of path segments starting at a `moveTo` and ending before the next
@@ -40,6 +48,10 @@ end
 
 
 ### `measure`
+
+```
+measure () -> unknown
+```
 
 Returns a [PathMeasure](/scripting/api-reference/path-measure) that measures the entire path across all contours.
 This provides the total length and allows operations on the path as a whole.

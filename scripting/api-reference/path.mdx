@@ -12,9 +12,17 @@ next frame to draw it again.
 
 ### `new`
 
+```
+new () -> Path
+```
+
 ## Methods
 
 ### `moveTo`
+
+```
+moveTo () -> unknown
+```
 
 Moves the current point to the specified location, starting a new contour.
 ```lua
@@ -24,6 +32,10 @@ path:moveTo(Vector.xy(0, 0))
 
 ### `lineTo`
 
+```
+lineTo () -> unknown
+```
+
 Adds a straight line segment from the current point to the specified point.
 ```lua
 path:lineTo(Vector.xy(10, 0))
@@ -31,6 +43,10 @@ path:lineTo(Vector.xy(10, 0))
 
 
 ### `quadTo`
+
+```
+quadTo () -> unknown
+```
 
 Adds a quadratic Bézier curve from the current point to the specified point,
 using the control point to define the curve shape.
@@ -44,6 +60,10 @@ path:quadTo(
 
 ### `cubicTo`
 
+```
+cubicTo () -> unknown
+```
+
 Adds a cubic Bézier curve from the current point to the specified point,
 using `controlOut` for the start tangent and `controlIn` for the end tangent.
 ```lua
@@ -56,6 +76,10 @@ path:cubicTo(
 
 
 ### `close`
+
+```
+close () -> unknown
+```
 
 Closes the current contour by adding a line segment from the current point
 back to the first point of the contour (the last `moveTo`).
@@ -72,6 +96,10 @@ path:close()
 
 ### `__len`
 
+```
+__len () -> unknown
+```
+
 Each entry is a [PathCommand](/scripting/api-reference/path-command) describing one segment or action in the path.
 ```lua
 local cmd = path[1]
@@ -86,6 +114,10 @@ print(count)
 
 ### `reset`
 
+```
+reset () -> unknown
+```
+
 Do not mutate or reset a [Path](/scripting/api-reference/path) in the same frame after drawing it.
 If you need to change it, wait until the next frame.
 Only call `reset` on subsequent frames if you've called `Renderer.drawPath`
@@ -96,6 +128,10 @@ path:reset()
 
 
 ### `add`
+
+```
+add () -> unknown
+```
 
 Appends the commands from `other` onto this path. If `transform` is provided,
 the appended commands are transformed as they are added.
@@ -115,6 +151,10 @@ dst:add(src)
 
 ### `contours`
 
+```
+contours () -> unknown
+```
+
 Returns a [ContourMeasure](/scripting/api-reference/contour-measure) for the first contour in the path. A contour is a
 sequence of path segments starting at a `moveTo` and ending before the next
 `moveTo` (or end of path). Use the `next` property on the returned
@@ -130,6 +170,10 @@ end
 
 
 ### `measure`
+
+```
+measure () -> unknown
+```
 
 measure() → PathMeasure
 ```

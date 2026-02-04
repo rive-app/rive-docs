@@ -58,15 +58,27 @@ Creates a scale-and-translation matrix from numeric values or vectors.
 
 ### `values`
 
+```
+values () -> Mat2D
+```
+
 Creates a matrix using the specified components.
 
 
 ### `identity`
 
+```
+identity () -> Mat2D
+```
+
 Returns the identity matrix.
 
 
 ### `withRotation`
+
+```
+withRotation () -> Mat2D
+```
 
 Creates a rotation matrix from the given angle in radians.
 
@@ -75,26 +87,46 @@ Creates a rotation matrix from the given angle in radians.
 
 ### `invert`
 
+```
+invert () -> unknown
+```
+
 Provides indexed access to the matrix components.
 Returns the inverse of the matrix, or nil if the matrix is not invertible.
 
 
 ### `isIdentity`
 
+```
+isIdentity () -> unknown
+```
+
 Returns true if the matrix is the identity transform.
 
 
 ### `__eq`
+
+```
+__eq () -> unknown
+```
 
 Returns true if all components of the two matrices are equal.
 
 
 ### `__mul`
 
+```
+__mul () -> unknown
+```
+
 Transforms the given vector by the matrix and returns the result.
 
 
 ### `__mul`
+
+```
+__mul () -> unknown
+```
 
 Returns the matrix product of this matrix and the given matrix
 

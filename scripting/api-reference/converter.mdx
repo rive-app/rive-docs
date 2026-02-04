@@ -19,11 +19,19 @@ See [Converter Scripts](/scripting/protocols/converter-scripts).
 
 ### `init`
 
+```
+init () -> unknown
+```
+
 Called once when the converter is created. Returns true if initialization
 succeeds.
 
 
 ### `convert`
+
+```
+convert () -> unknown
+```
 
 Converts the input value (a view model property) to an output value.
 The input parameter must be a DataValue type.
@@ -31,11 +39,19 @@ The input parameter must be a DataValue type.
 
 ### `reverseConvert`
 
+```
+reverseConvert () -> unknown
+```
+
 Converts the output value back to an input value (a view model property).
 The input parameter must be a DataValue type.
 
 
 ### `advance`
+
+```
+advance () -> unknown
+```
 
 Optional per-frame update. Returns true if the converter should continue
 receiving advance calls.

@@ -2,10 +2,6 @@
 title: TransitionCondition
 ---
 
-<Note>
-This feature is not yet available in production. 
-</Note>
-
 A condition to evaluate for a transition between state machine states to be taken
 
 
@@ -13,10 +9,18 @@ A condition to evaluate for a transition between state machine states to be take
 
 ### `init`
 
+```
+init () -> unknown
+```
+
 Called once when the transition condition is created or attached.
 
 
 ### `evaluate`
+
+```
+evaluate () -> unknown
+```
 
 Called any time a transition is evaluated.
 

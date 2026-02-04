@@ -10,15 +10,27 @@ applying transforms during rendering.
 
 ### `drawPath`
 
+```
+drawPath () -> unknown
+```
+
 Draws the given path using the specified paint.
 
 
 ### `drawImage`
 
+```
+drawImage () -> unknown
+```
+
 Draws an image using the specified sampler, blend mode, and opacity.
 
 
 ### `drawImageMesh`
+
+```
+drawImageMesh () -> unknown
+```
 
 Draws an image using mesh data defined by vertices, texture
 coordinates, and triangle indices.
@@ -26,21 +38,37 @@ coordinates, and triangle indices.
 
 ### `clipPath`
 
+```
+clipPath () -> unknown
+```
+
 Restricts subsequent drawing to the area defined by the given path.
 Clipping remains in effect until the next restore call.
 
 
 ### `save`
 
+```
+save () -> unknown
+```
+
 Saves the current rendering state, including transforms and clipping.
 
 
 ### `restore`
 
+```
+restore () -> unknown
+```
+
 Restores the most recently saved rendering state.
 
 
 ### `transform`
+
+```
+transform () -> unknown
+```
 
 Applies a transform to the current rendering state. Transforms are
 applied cumulatively until restored.
