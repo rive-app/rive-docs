@@ -3,6 +3,10 @@ title: 'Transitions'
 description: ''
 ---
 
+import { YouTube } from '/snippets/youtube.mdx'
+
+<YouTube id="C4KNgrrqt7k" />
+
 Transitions supply the logical map for the state machine to follow. There are a number of considerations and configurable properties for transitions that we will cover below. Note that we’ll briefly discuss Inputs as well, so be sure to read more about those as well here.
 
 ## Creating a new Transition
@@ -62,6 +66,8 @@ The Pause When Exiting option pauses the animation you are leaving from during t
 As we discussed in the duration section, when a transition happens, properties from the first state are mixed with the first key of the next state. In reality, the animation your state machine leaves from continues to play as the transition happens.
 
 ### Conditions
+
+<YouTube id="30HJo_DaLDk" />
 
 Conditions are the rules for our transitions. Without conditions, our transitions would continuously fire and our state machine would likely look either glitchy, or only play a single animation. Conditions require us to define some inputs, which you can read more about [here](/editor/state-machine/inputs).
 
