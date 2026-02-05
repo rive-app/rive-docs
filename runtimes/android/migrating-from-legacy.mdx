@@ -602,7 +602,7 @@ A growing number of features are only available in the new runtime. These featur
 
 ### Logging
 
-The new runtime includes a fine-grained, flexible [Logging]([Logging](/runtimes/android/android#enabling-logging)) system that allows you to capture logs at various levels (debug, info, warning, error) and redirect them to your preferred logging framework or sink.
+The new runtime includes a fine-grained, flexible [Logging](/runtimes/logging#android) system that allows you to capture logs at various levels (debug, info, warning, error) and redirect them to your preferred logging framework or sink.
 
 By comparison, the legacy runtime has limited logs.
 
@@ -612,7 +612,7 @@ By comparison, the legacy runtime has limited logs.
 
 ### Rendering to Bitmap
 
-The new runtime provides built-in support for [rendering Rive to an Android `Bitmap`](/runtimes/advanced-topic/rendering-to-bitmap), which can be useful for scenarios such as snapshot testing or rendering video encoded from data-bound Rive files into image frames on the edge (i.e. the user's device). This is done using the `RenderBuffer` class or the `onBitmapAvailable` callback in the `Rive` Composable.
+The new runtime provides built-in support for [rendering Rive to an Android `Bitmap`](/runtimes/advanced-topic/rendering-to-a-bitmap), which can be useful for scenarios such as snapshot testing or rendering video encoded from data-bound Rive files into image frames on the edge (i.e. the user's device). This is done using the `RenderBuffer` class or the `onBitmapAvailable` callback in the `Rive` Composable.
 
 Rendering to a Bitmap was technically possible in the legacy runtime by rendering to a Canvas backed by a Bitmap or by sub-classing the renderer, but it was not a built-in feature and required more effort to implement.
 
