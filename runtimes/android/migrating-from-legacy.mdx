@@ -6,9 +6,16 @@ description: "A guide to help you transition from the legacy Rive Android runtim
 
 ## Overview
 
-The [new Rive Android runtime](/runtimes/android/android) is nearly a complete rewrite of both the public API and the internal architecture. Conceptually most operations have an equivalent, even if the API is new.
+The [new Rive Android runtime](/runtimes/android/android) is a **near-complete rewrite** of both the public API and the internal architecture. While conceptually most operations have an equivalent, **you should expect to rebuild your integration rather than incrementally migrate it**.
 
-The first part of this guide covers basic operations and their equivalents. The second part covers features that are exclusive to either the legacy or new runtime. This guide is not meant to be exhaustive as it would be redundant with existing general documentation. Please refer to the relevant sections of the documentation for more details on specific topics. A number of features are no longer supported in the new runtime; these are covered in the [Legacy Exclusive Features](#legacy-exclusive-features) section. Most have workarounds or alternatives. These changes were made to simplify the API surface, reduce maintenance overhead, and prevent anti-patterns.
+This guide covers the following topics:
+1. [Shared Features](#shared-features) - Common operations and their equivalents.
+2. [New Exclusive Features](#new-exclusive-features) - Features available only in the new runtime.
+3. [Legacy Exclusive Features](#legacy-exclusive-features) - Features no longer supported in the new runtime. Most have workarounds or alternatives; these removals simplify the API surface, reduce maintenance overhead, and eliminate anti-patterns.
+
+<Note>
+This guide is not meant to be exhaustive as it would be redundant with existing general documentation. Please refer to the relevant sections of the documentation for more details on specific topics.
+</Note>
 
 ## Package
 
@@ -19,7 +26,9 @@ import app.rive.Artboard
 import app.rive.runtime.kotlin.core.Artboard as LegacyArtboard
 ```
 
-## Shared APIs
+## Shared Features
+
+### Shared APIs
 
 A few APIs are shared between the legacy and new runtimes. They are still in the `app.rive.runtime.kotlin` package of the legacy runtime.
 
@@ -31,13 +40,14 @@ A few APIs are shared between the legacy and new runtimes. They are still in the
   These shared APIs may change in the future to be fully separated with revised versions in the new package. This will only happen as a breaking change in a major version release.
 </Callout>
 
-## Asynchronous APIs
+
+### Asynchronous APIs
 
 Due to the new threading model based on the `RiveWorker`, almost all operations which return values that were originally synchronous on the main thread are now asynchronous `suspend` functions, e.g. loading Rive files and performing queries. You will need to call these functions from a coroutine context, such as within a `LaunchedEffect` in Compose or using `lifecycleScope.launch` in an Activity or Fragment.
 
 The most common Compose operations are wrapped in helpers, such as `rememberRiveFile`, which expose the async state as a `Result` type for easier consumption in Composables. Other operations are "fire and forget", such as creating artboards and view model instances from a loaded Rive file, or advancing a state machine.
 
-## Lifecycles
+### Lifecycles
 
 The legacy Rive Android runtime is View based, with the `RiveAnimationView` class managing its lifecycle based on the owning Activity or Fragment lifecycle. The Rive file's lifetime is associated with the view's, as well as the renderer, controller, and created objects such as artboards and state machines. These used hierarchical reference counting to manage their lifetimes.
 
@@ -45,13 +55,13 @@ The new runtime makes use of the `AutoCloseable` interface to manage lifetimes e
 
 In Compose, lifecycles are tied to `remember` Composables and use `DisposableEffect` to create and dispose of objects as needed, simplifying memory management.
 
-## RiveAnimationView to Rive
+### RiveAnimationView to Rive
 
 The legacy Rive Android runtime is View based and provided the `RiveAnimationView` class to display Rive animations. The name reflects the more limited feature set at the time of its creation, being mostly for animation playback.
 
 The new API is Compose based, with the intention to provide a View API in the future. The main Composable is simply called `Rive`, reflecting the broader feature set and use cases it supports.
 
-### Setting a Local Raw Resource
+#### Setting a Local Raw Resource
 
 <Info>
   The new API will use the I/O dispatcher by default to load Rive files asynchronously. This is different from the legacy runtime, which loaded files synchronously on the main thread. If you want to load files using a different threading model, load the resource using your preferred method and pass the bytes to a `RiveFileSource.Bytes` source.
@@ -92,7 +102,7 @@ when (riveFile) {
 }
 ```
 
-### Setting a Rive File from Bytes
+#### Setting a Rive File from Bytes
 
 **Legacy RiveAnimationView**
 
@@ -122,7 +132,7 @@ when (riveFile) {
 }
 ```
 
-### Caching a Rive File
+#### Caching a Rive File
 
 <Card icon="eye" href="/runtimes/caching-a-rive-file#android" horizontal>
   See also Caching a Rive File for more details.
@@ -167,7 +177,7 @@ when (riveFile) {
 }
 ```
 
-### Choosing an Artboard and State Machine
+#### Choosing an Artboard and State Machine
 
 <Card icon="eye" href="/runtimes/artboards#android" horizontal>
   See also the artboard documentation for more details.
@@ -230,7 +240,7 @@ when (riveFile) {
 }
 ```
 
-### Setting the Fit and Alignment
+#### Setting the Fit and Alignment
 
 <Card icon="eye" href="/runtimes/layout#android" horizontal>
   See also the Layout documentation for more details.
@@ -278,7 +288,7 @@ Rive(
 )
 ```
 
-### Auto Binding
+#### Auto Binding
 
 <Card icon="eye" href="/runtimes/data-binding#android-4" horizontal>
   See also the auto binding section in data binding for more details.
@@ -320,7 +330,7 @@ Rive(
 )
 ```
 
-### Playing, Pausing, and State Machine Settling
+#### Playing, Pausing, and State Machine Settling
 
 **Legacy RiveAnimationView**
 
@@ -343,7 +353,7 @@ Rive(
 )
 ```
 
-### Autoplay and Setting Initial Values
+#### Autoplay and Setting Initial Values
 
 The legacy runtime includes an `autoplay` feature, defaulting to true, that automatically starts playing the given animation or state machine when the Rive file is loaded. This can be disabled to allow setting initial values before playback begins.
 
@@ -390,7 +400,7 @@ Rive(
 )
 ```
 
-### Touch Pass-Through
+#### Touch Pass-Through
 
 **Legacy RiveAnimationView**
 
@@ -424,7 +434,7 @@ Rive(
 )
 ```
 
-## View Models
+### View Models
 
 **Legacy**
 
@@ -450,7 +460,7 @@ LaunchedEffect(riveFile) {
 }
 ```
 
-## View Model Instance Properties
+### View Model Instance Properties
 
 **Legacy**
 
@@ -489,7 +499,7 @@ val numberValue by vmi.collectNumberAsState("My Number Property", initial = 0.0f
 vmi.setNumber("My Number Property", 42.0f)
 ```
 
-## Bindable Artboards
+### Bindable Artboards
 
 **Legacy**
 
@@ -510,7 +520,7 @@ val artboard = rememberArtboard(riveFile, "My Artboard")
 vmi.setArtboard("My Artboard Property", artboard)
 ```
 
-## Loading Referenced Assets
+### Loading Referenced Assets
 
 **Legacy**
 
@@ -572,7 +582,7 @@ val bytesResult = produceState<Result<ByteArray>>(Result.Loading) {
 val image = bytesResult.andThen { bytes -> rememberRegisteredImage(riveWorker, "My Image", bytes) }
 ```
 
-## Default Layout Scale Factor
+### Default Layout Scale Factor
 
 The legacy runtime uses the reported device density as the default scale factor when rendering Rive with Layout as the fit mode.
 
