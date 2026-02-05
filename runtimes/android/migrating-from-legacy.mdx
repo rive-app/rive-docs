@@ -6,7 +6,7 @@ description: "A guide to help you transition from the legacy Rive Android runtim
 
 ## Overview
 
-The new Rive Android runtime is nearly a complete rewrite of both the public API and the internal architecture. Conceptually most operations have an equivalent, even if the API is new.
+The [new Rive Android runtime](/runtimes/android/android) is nearly a complete rewrite of both the public API and the internal architecture. Conceptually most operations have an equivalent, even if the API is new.
 
 The first part of this guide covers basic operations and their equivalents. The second part covers features that are exclusive to either the legacy or new runtime. This guide is not meant to be exhaustive as it would be redundant with existing general documentation. Please refer to the relevant sections of the documentation for more details on specific topics. A number of features are no longer supported in the new runtime; these are covered in the [Legacy Exclusive Features](#legacy-exclusive-features) section. Most have workarounds or alternatives. These changes were made to simplify the API surface, reduce maintenance overhead, and prevent anti-patterns.
 
@@ -226,7 +226,7 @@ when (riveFile) {
             stateMachine = stateMachine
         )
     }
-    else -> {} // Handle loading and error states appropriately 
+    else -> {} // Handle loading and error states appropriately
 }
 ```
 
