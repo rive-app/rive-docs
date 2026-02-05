@@ -3,33 +3,39 @@ title: 'States'
 description: ''
 ---
 
+import { YouTube } from '/snippets/youtube.mdx'
+
 States are simply timeline animations that can play at any point in your state machine. A state could be as simple as changing the color and position of an object, or as complex as blending multiple timelines together.
 
-There are a few types of states that you’ll end up using as you work with the State Machine, including Default States, Single animations, and Blend States. We’ll explore each of these below. 
+There are a few types of states that you’ll end up using as you work with the State Machine, including Default States, Single animations, and Blend States. We’ll explore each of these below.
 
-## Default States 
+## Default States
 
 The Default States are the states that, by default, are added to every State Machine.
 
 ![Default States](/images/editor/state-machine/42815967-dd47-4da1-ba8a-4fc12f64d972.webp)
 
-### Entry State 
+### Entry State
 
 The Entry State is the state that your State Machine will start from. You’ll notice that by default, your state machine will already have an animation attached to the Entry State, but you can change this animation at any time. Note that you can connect multiple animations to the Entry State if you need I.E. you want to build a switch that can start in either the on or off state.
 
 ![Using the Entry state](https://ucarecdn.com/9d359af8-f3c3-4d57-8f88-7ba8dcad4847/)
 
-### Exit State 
+### Exit State
+
+<YouTube id="JuJwak2ikJ4" />
 
 The Exit State tells the State Machine layer to stop playing. This niche state has uses when multiple layers are being used.
 
 ### Any State
 
+<YouTube id="P6Z3oeAJWqY" />
+
 Unlike normal states, states connected to the Any State can be played at any time, regardless of which state your state machine is in. Any States are great to use when you want to create an array of states that can be activated at any time, such as changing the skin of a character.
 
 ![Rating system using the Any state](https://ucarecdn.com/6c4401fc-1b7c-4748-901d-a6e237f57e51/)
 
-## Animation States 
+## Animation States
 
 Animation states include all states other than the default states added to a State Machine. These states will control the look and motion of your interactive content. There are three types of animation states; Single Animation, 1D blend, and Direct blend states.
 
@@ -45,17 +51,20 @@ Right-click to add State
 
 To assign a timeline to a state, use the timeline dropdown in the inspector.
 
-### Single animation state 
+### Single animation state
+
+
+<YouTube id="bGW1tNpNt-Y" />
 
 Any timeline that we create can be used as a single animation state. Depending on the type of animation we are using, the single animation state could be a one-shot, looping, or ping-pong state. In most cases, you’ll be using single animation states to create most of your state machines.
 
-### Blend states 
+### Blend states
 
 A Blend State is any state that blends together two or more timeline animations. We use these states for content like loading bars, health systems, scrolling interactions, and dynamic face rigs.
 
 There are two types of blend states; 1D and Direct Blend states.
 
-#### 1D Blend state: 
+#### 1D Blend state:
 
 A 1D Blend State allows us to mix multiple timelines together with a single numerical input. This state works by ramping up one animation and ramping down the other while you increase or decrease a number input. Note that this mixing is not linear, but is additive and could give you unexpected results.
 
@@ -105,7 +114,7 @@ A Blend by Value timeline can be thought of as the baseline animation, or defaul
 
 An Input blend is an animation that is mixed with the default pose or motion via a number input. Each of your different Input blends should have their own number input.
 
-## Additional State Options 
+## Additional State Options
 
 When you select a state on the State Machine Graph, you’ll have a number of options that you can change.
 
@@ -130,3 +139,13 @@ You can alter the playback speed of a state by changing this value. Note that yo
 **Transitions**
 
 You can see any transitions that leave from the selected state. You also have the option to ignore specific transitions by turning off the eye icon.
+
+## Common Issues
+
+<YouTube id="TnTvFkMC7iI" />
+
+## Use case: Build a simple button
+
+In this exercise, we will use our state machine knowledge to create a simple button with two layers of interactivity. Hover and click.
+
+<YouTube id="hlEPcxhc2pI" />

@@ -67,10 +67,10 @@ function rectangle(self: Rectangle)
   local halfHeight = self.height / 2
 
   -- Draw rectangle centered at origin
-  self.path:moveTo(Vec2D.xy(-halfWidth, -halfHeight))
-  self.path:lineTo(Vec2D.xy(halfWidth, -halfHeight))
-  self.path:lineTo(Vec2D.xy(halfWidth, halfHeight))
-  self.path:lineTo(Vec2D.xy(-halfWidth, halfHeight))
+  self.path:moveTo(Vector.xy(-halfWidth, -halfHeight))
+  self.path:lineTo(Vector.xy(halfWidth, -halfHeight))
+  self.path:lineTo(Vector.xy(halfWidth, halfHeight))
+  self.path:lineTo(Vector.xy(-halfWidth, halfHeight))
   self.path:close()
 
   -- Update paint color
@@ -103,7 +103,7 @@ See the following example showing how to set up your components, view models, an
 ```lua
 type Enemy = {
   artboard: Artboard<Data.Enemy>,
-  position: Vec2D,
+  position: Vector,
 }
 
 export type MyGame = {
@@ -120,7 +120,7 @@ function createEnemy(self: MyGame)
   -- Keep track of all enemies in self.enemies
   local entry: Enemy = {
     artboard = enemy,
-    position = Vec2D.xy(0, 0),
+    position = Vector.xy(0, 0),
   }
   table.insert(self.enemies, entry)
 end

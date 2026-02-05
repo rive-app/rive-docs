@@ -6,7 +6,7 @@ description: "Connect editor elements to data and code using View Models"
 
 import { YouTube } from '/snippets/youtube.mdx'
 
-# What is Data Binding?
+<YouTube id="M6goAzrDop4" />
 
 Data binding is a powerful way to create reactive connections between editor elements, data, and code. For instance, you might:
 
@@ -22,34 +22,6 @@ Within the editor, data binding allows for more reactivity in your designs. You 
 
 It also offers the opportunity to shift more logic into the Rive file and out of code. You will need to decide whether a piece of logic lives in code or data binding for your given use case, but one consideration is that any data binding logic will be universal across runtimes, rather than needing separate re-implementations.
 
-# Intro Videos
-
-The following video series introduces data binding through a guided walkthrough of the editor, which will help solidify the concepts below.
-
-### Introduction
-
-<YouTube id="M6goAzrDop4" />
-
-### View Models
-
-<YouTube id="WSkg8kgTR20" />
-
-### Number Properties
-
-<YouTube id="xmpLMhtKwbI" />
-
-### String Properties
-
-<YouTube id="qJRrSmz-W48" />
-
-### Color Properties
-
-<YouTube id="TSEiU1zpSL0" />
-
-### Binding State Machine Conditions
-
-<YouTube id="VJ9jk0RLc-s" />
-
 # Glossary
 
 Data binding introduces a number of concepts that you will need to familiarize yourself with. The names of these concepts are loosely derived from the Model, View, Viewmodel (MVVM) pattern in software development.
@@ -63,6 +35,8 @@ For the purposes of data binding, an "editor element" simply refers to an editab
 A view model is a blueprint for a collection of data. Developers might think of this as similar to a class in object-oriented programming. View models typically describe all of the associated data with a given use case - commonly one per artboard. View models themselves don't have concrete values. For that, you must have [an instance](#view-model-instance).
 
 ### View Model Property
+
+<YouTube id="NrGz_thkD0g" />
 
 A view model property is one piece of data within a view model. Developers might think of this as similar to a field in object-oriented programming. Properties have a data type which is selected when they are created and a name which can be referenced in code. Each property can be bound to different editor elements of the same type.
 
@@ -83,6 +57,8 @@ These exported instances can then be assigned to an artboard at runtime by devel
 A binding is an association between a property and an editor element. For instance, you might have a property named "Name" bound to a text run's text value.
 
 Bindings can be source to target, target to source, or bidirectional. In this case, "source" means the property, and "target" means the editor element.
+
+<YouTube id="Syt6i4-Bkm4" />
 
 The default binding is source to target. This means that changes to the property update the value of the element. For example, an XPos property updates the X position of an object.
 
@@ -105,6 +81,9 @@ An enum represents a fixed set of options, similar to a drop-down. Use this prop
 Enum properties can be either a "system" enum, in which case they represent a fixed set of options in the editor, such as the "Horizontal Align" options, or a "user defined" enum, in which case they can represent any fixed set of options applicable to your use case.
 
 ### Converter
+
+<YouTube id="td59TXa_xQI" />
+
 
 A converter is a general purpose way of transforming a binding's value when it is applied. These transformations might involve changing its type. For instance, the "Convert to String" converter can be used to convert a numerical binding to text, so that an object's X position could be applied to a text run.
 
@@ -168,6 +147,8 @@ There are a few use cases related to nesting where you may want to consider upda
 These three use cases are unified by view model instances, where components can pull from top-level viewmodels. This simplifies the developer interop, as the structure, naming, and nesting of the file's artboards can change without breaking the code's reference to the data.
 
 # Runtime APIs
+
+<YouTube id="IvkNSOFLdNg" />
 
 To continue reading about how to interact with data binding in code, see the [Runtime Overview](/runtimes/data-binding) page.
 
