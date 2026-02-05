@@ -6,7 +6,7 @@ description: "A guide to help you transition from the legacy Rive Android runtim
 
 ## Overview
 
-The [new Rive Android runtime](/runtimes/android/android) is a **near-complete rewrite** of both the public API and the internal architecture. While conceptually most operations have an equivalent, **you should expect to rebuild your integration rather than incrementally migrate it**.
+The [new Rive Android runtime](/runtimes/android/android) is a **near-complete rewrite** of both the public API and the internal architecture. While conceptually most operations have an equivalent, the two APIs are incompatible. Any existing work in the legacy API that you would like to migrate must be rebuilt using the new API. This guide aims to demonstrate how to migrate each feature area.
 
 This guide covers:
 
@@ -15,7 +15,7 @@ This guide covers:
 3. [Legacy Exclusive Features](#legacy-exclusive-features) - Features no longer supported in the new runtime. Most have workarounds or alternatives; these removals simplify the API surface, reduce maintenance overhead, and eliminate anti-patterns.
 
 <Note>
-This guide is not meant to be exhaustive as it would be redundant with existing general documentation. Please refer to the relevant sections of the documentation for more details on specific topics.
+    This guide is not meant to be exhaustive as it would be redundant with existing general documentation. Please refer to the relevant sections of the documentation for more details on specific topics.
 </Note>
 
 ## Package
@@ -26,6 +26,20 @@ The legacy Rive Android runtime is provided in the `app.rive.runtime.kotlin` pac
 import app.rive.Artboard
 import app.rive.runtime.kotlin.core.Artboard as LegacyArtboard
 ```
+
+## Asynchronous APIs
+
+Due to the new threading model based on the `RiveWorker`, almost all operations which return values that were originally synchronous on the main thread are now asynchronous `suspend` functions, e.g. loading Rive files and performing queries. You will need to call these functions from a coroutine context, such as within a `LaunchedEffect` in Compose or using `lifecycleScope.launch` in an Activity or Fragment.
+
+The most common Compose operations are wrapped in helpers, such as `rememberRiveFile`, which expose the async state as a `Result` type for easier consumption in Composables. Other operations are "fire and forget", such as creating artboards and view model instances from a loaded Rive file, or advancing a state machine.
+
+## Lifecycles
+
+The legacy Rive Android runtime is View based, with the `RiveAnimationView` class managing its lifecycle based on the owning Activity or Fragment lifecycle. The Rive file's lifetime is associated with the view's, as well as the renderer, controller, and created objects such as artboards and state machines. These used hierarchical reference counting to manage their lifetimes.
+
+The new runtime makes use of the `AutoCloseable` interface to manage lifetimes explicitly for objects such as the Rive file, artboards, and state machines. The worker by contrast is reference counted and owns all memory for resources it creates. When creating objects manually, you must `close` them to free their resources or they will last for the duration of the worker. Alternatively, you can use them with the `use` helper, which will call `close` at the end of its block. The worker itself must have all references released or it and its resources will leak.
+
+In Compose, lifecycles are tied to `remember` Composables and use `DisposableEffect` to create and dispose of objects as needed, simplifying memory management.
 
 ## Shared Features
 
@@ -40,21 +54,6 @@ A few APIs are shared between the legacy and new runtimes. They are still in the
 <Callout icon="question">
   These shared APIs may change in the future to be fully separated with revised versions in the new package. This will only happen as a breaking change in a major version release.
 </Callout>
-
-
-### Asynchronous APIs
-
-Due to the new threading model based on the `RiveWorker`, almost all operations which return values that were originally synchronous on the main thread are now asynchronous `suspend` functions, e.g. loading Rive files and performing queries. You will need to call these functions from a coroutine context, such as within a `LaunchedEffect` in Compose or using `lifecycleScope.launch` in an Activity or Fragment.
-
-The most common Compose operations are wrapped in helpers, such as `rememberRiveFile`, which expose the async state as a `Result` type for easier consumption in Composables. Other operations are "fire and forget", such as creating artboards and view model instances from a loaded Rive file, or advancing a state machine.
-
-### Lifecycles
-
-The legacy Rive Android runtime is View based, with the `RiveAnimationView` class managing its lifecycle based on the owning Activity or Fragment lifecycle. The Rive file's lifetime is associated with the view's, as well as the renderer, controller, and created objects such as artboards and state machines. These used hierarchical reference counting to manage their lifetimes.
-
-The new runtime makes use of the `AutoCloseable` interface to manage lifetimes explicitly for objects such as the Rive file, artboards, and state machines. The worker by contrast is reference counted and owns all memory for resources it creates. When creating objects manually, you must `close` them to free their resources or they will last for the duration of the worker. Alternatively, you can use them with the `use` helper, which will call `close` at the end of its block. The worker itself must have all references released or it and its resources will leak.
-
-In Compose, lifecycles are tied to `remember` Composables and use `DisposableEffect` to create and dispose of objects as needed, simplifying memory management.
 
 ### RiveAnimationView to Rive
 
@@ -601,8 +600,8 @@ Rive(
 
 A growing number of features are only available in the new runtime. These features were added to address limitations in the legacy runtime or to provide new capabilities that were not previously possible. Below is a list of such features along with brief descriptions.
 
-- [Logging](/runtimes/android/android#enabling-logging) - The new runtime includes a fine-grained, flexible logging system that allows you to capture logs at various levels (debug, info, warning, error) and redirect them to your preferred logging framework or sink.
-- [Rendering to Bitmap](/runtimes/advanced-topic/rendering-to-bitmap) - Useful for snapshot testing or rendering video encoded from data-bound Rive files.
+- [Logging](/runtimes/logging#android) - The new runtime includes a fine-grained, flexible logging system that allows you to capture logs at various levels (debug, info, warning, error) and redirect them to your preferred logging framework or sink.
+- [Rendering to a Bitmap](/runtimes/advanced-topic/rendering-to-a-bitmap) - Useful for snapshot testing or rendering video encoded from data-bound Rive files.
 - Updating a Data Bind Unsettles the State Machine - In the new runtime, updating a data-bound property automatically "unsettles" the state machine, causing it to advance and draw based on the new data. By comparison, the legacy runtime required you to call `RiveAnimationView.play()` after updating data-bound properties on a settled state machine to achieve the same effect.
 - [Tracking the Loading State](/runtimes/android/android#adding-rive-to-your-composition) - The new runtime provides a `Result` wrapper around Rive file loading operations, allowing you to track the state (loading, success, error) of a Rive file. This is useful for providing user feedback during loading or handling errors gracefully.
 
