@@ -600,10 +600,33 @@ Rive(
 
 A growing number of features are only available in the new runtime. These features were added to address limitations in the legacy runtime or to provide new capabilities that were not previously possible. Below is a list of such features along with brief descriptions.
 
-- [Logging](/runtimes/logging#android) - The new runtime includes a fine-grained, flexible logging system that allows you to capture logs at various levels (debug, info, warning, error) and redirect them to your preferred logging framework or sink.
-- [Rendering to a Bitmap](/runtimes/advanced-topic/rendering-to-a-bitmap) - Useful for snapshot testing or rendering video encoded from data-bound Rive files.
-- Updating a Data Bind Unsettles the State Machine - In the new runtime, updating a data-bound property automatically "unsettles" the state machine, causing it to advance and draw based on the new data. By comparison, the legacy runtime required you to call `RiveAnimationView.play()` after updating data-bound properties on a settled state machine to achieve the same effect.
-- [Tracking the Loading State](/runtimes/android/android#adding-rive-to-your-composition) - The new runtime provides a `Result` wrapper around Rive file loading operations, allowing you to track the state (loading, success, error) of a Rive file. This is useful for providing user feedback during loading or handling errors gracefully.
+### Logging
+
+The new runtime includes a fine-grained, flexible [Logging]([Logging](/runtimes/android/android#enabling-logging)) system that allows you to capture logs at various levels (debug, info, warning, error) and redirect them to your preferred logging framework or sink.
+
+By comparison, the legacy runtime has limited logs.
+
+<Callout icon="question">
+  We may consider retrofitting more logging capabilities to the legacy runtime in the future, especially if doing so would illuminate a potential source for bugs.
+</Callout>
+
+### Rendering to Bitmap
+
+The new runtime provides built-in support for [rendering Rive to an Android `Bitmap`](/runtimes/advanced-topic/rendering-to-bitmap), which can be useful for scenarios such as snapshot testing or rendering video encoded from data-bound Rive files into image frames on the edge (i.e. the user's device). This is done using the `RenderBuffer` class or the `onBitmapAvailable` callback in the `Rive` Composable.
+
+Rendering to a Bitmap was technically possible in the legacy runtime by rendering to a Canvas backed by a Bitmap or by sub-classing the renderer, but it was not a built-in feature and required more effort to implement.
+
+<Callout icon="ban">
+  There are no plans to retrofit this feature into the legacy runtime.
+</Callout>
+
+### Updating a Data Bind Unsettles the State Machine
+
+In the new runtime, updating a data-bound property [automatically "unsettles" the state machine](/runtimes/android/android#adding-rive-to-your-composition), causing it to advance and draw based on the new data. By comparison, the legacy runtime required you to call `RiveAnimationView.play()` after updating data-bound properties on a settled state machine to achieve the same effect.
+
+<Callout icon="question">
+  We may consider retrofitting this behavior into the legacy runtime in the future as it is a common source of confusion. However, doing so would be a breaking change, and it may not be worth the disruption for existing users.
+</Callout>
 
 ## Legacy Exclusive Features
 
