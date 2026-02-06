@@ -610,7 +610,7 @@ By comparison, the legacy runtime has limited logs.
   We may consider retrofitting more logging capabilities to the legacy runtime in the future, especially if doing so would illuminate a potential source for bugs.
 </Callout>
 
-### Rendering to Bitmap
+### Rendering to a Bitmap
 
 The new runtime provides built-in support for [rendering Rive to an Android `Bitmap`](/runtimes/advanced-topic/rendering-to-a-bitmap), which can be useful for scenarios such as snapshot testing or rendering video encoded from data-bound Rive files into image frames on the edge (i.e. the user's device). This is done using the `RenderBuffer` class or the `onBitmapAvailable` callback in the `Rive` Composable.
 
@@ -638,6 +638,34 @@ The legacy runtime is built around the `RiveAnimationView` class, which is a sub
 
 <Callout icon="check">
   There are plans to provide a View-based API in the future.
+</Callout>
+
+### Tracking the Loading State of a Rive File
+
+The new runtime provides a `Result` wrapper around Rive file loading operations, allowing you to track the state (loading, success, error) of a Rive file. This is useful for providing user feedback during loading or handling errors gracefully.
+
+```kotlin
+val riveFile = rememberRiveFile(
+    RiveFileSource.RawRes.from(R.raw.my_rive_file),
+    riveWorker
+)
+when (riveFile) {
+    is Result.Loading -> {
+        // Show loading indicator
+    }
+    is Result.Failure -> {
+        // Show error message
+    }
+    is Result.Success -> {
+        Rive(riveFile.value)
+    }
+}
+```
+
+The legacy runtime's convenience methods, e.g. `setRiveResource()`, do not provide a way to track loading state or handle errors directly. Instead, the file must first be loaded using the `File` class. Loading is normally synchronous, though could be performed on a background thread. With some effort similar loading state tracking could be implemented.
+
+<Callout icon="ban">
+  There are no plans to retrofit this feature into the legacy runtime.
 </Callout>
 
 ### Frame Metrics
@@ -718,7 +746,7 @@ RiveAnimationView.Builder(context)
   See also Choose a Renderer for more details.
 </Card>
 
-The legacy runtime includes a Canvas renderer that allows rendering Rive animations directly into an Android `Canvas`. This is useful as a fallback for scenarios where the Rive Renderer isn't yet feature compatible. As we have improved the Rive Renderer, this use case has diminished.
+The legacy runtime includes a Canvas renderer that allows rendering Rive animations directly into an Android `Canvas`. This was useful as a fallback for scenarios where the Rive Renderer wasn't yet feature compatible. As we have improved the Rive Renderer, this use case has diminished.
 
 The Canvas renderer is enabled with the following APIs.
 
