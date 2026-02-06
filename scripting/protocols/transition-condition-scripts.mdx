@@ -1,0 +1,80 @@
+---
+title: "Transition Condition Scripts"
+description: "Create custom state machine transitions using scripts"
+---
+
+[Conditions](/editor/state-machine/transitions#conditions) are the rules that determine when the State Machine transitions from one state to another. Transition Condition Scripts let you define custom conditions when built-in comparisons aren’t enough—such as transitions that depend on complex logic or multiple view model properties evaluated together.
+
+## Creating a Transition Condition Script
+
+[Create a new script](/scripting/creating-scripts) and select **Transition Condition** as the type.
+
+## Anatomy of a Transition Condition
+
+```lua
+type MyTransitionCondition = {
+  context: Context,
+}
+
+-- Called once when the script initializes.
+function init(self: MyTransitionCondition, context: Context): boolean
+  -- Context gives you access to your main view model and other data.
+  self.context = context
+
+  return true
+end
+
+-- Add your transition logic here.
+-- `evaluate` is fired every frame while the transition is active.
+-- Returning false prevents a transition, true allows a transition.
+function evaluate(self: MyTransitionCondition): boolean
+  return false
+end
+
+-- Return a factory function that Rive uses to build the Transition Condition instance.
+return function(): TransitionCondition<MyTransitionCondition>
+  return {
+    init = init,
+    evaluate = evaluate,
+    context = late(),
+  }
+end
+```
+
+<Note>
+  `evaluate` runs every frame while the transition is active.
+
+  It should be fast and side-effect free, and only return whether the transition is allowed.
+</Note>
+
+## Adding your Transition Condition
+
+<Steps>
+  <Step title="Select a Transition" />
+  <Step title="Click + to add a new Condition" />
+  <Step title="Select your Script" />
+</Steps>
+
+![Add a custom transition](/images/scripting/add-transition-condition.gif)
+
+## Script Inputs
+
+Inputs let you parameterize a transition without changing script logic—making the same condition reusable across different transitions or states. For more information on adding inputs to your scripts, see [Script Inputs](/scripting/script-inputs).
+
+<Note>
+  Inputs can control scripts, but scripts can't change the value of inputs.
+
+  If you need to control a view model property from your script, access the [Main View model through context](/scripting/data-binding#accessing-the-main-view-model) or [View Model Inputs](/scripting/script-inputs#view-model-inputs).
+</Note>
+
+### Setting an Input
+
+To set the value of an input, select the Properties icon next to the transition.
+
+![transition script inputs](/images/scripting/transition-condition-input.png)
+
+### Data Binding an Input
+
+Right-click your property and select Data Bind to bind your input to a view model property.
+
+![data binding transition script inputs](/images/scripting/transition-condition-input-binding.png)
