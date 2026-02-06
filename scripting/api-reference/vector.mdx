@@ -46,6 +46,32 @@ local origin = Vector.origin()  -- 0 0
 ```
 
 
+### `scaleAndAdd`
+
+Returns a + b * scale.
+```lua
+local r = Vector.scaleAndAdd(Vector.xy(1,2), Vector.xy(3,4), 2)  -- 7 10
+```
+
+
+### `scaleAndSub`
+
+Returns a - b * scale.
+```lua
+local r = Vector.scaleAndSub(Vector.xy(7,10), Vector.xy(3,4), 2)  -- 1 2
+```
+
+
+## Static Functions
+
+### `cross`
+
+Returns the cross product of two vectors (z-component of the 3D cross product).
+```lua
+local c = Vector.cross(Vector.xy(1, 0), Vector.xy(0, 1))  -- 1
+```
+
+
 ## Methods
 
 ### `length`
@@ -56,6 +82,7 @@ local v = Vector.xy(3, 4)
 print(v[1], v[2]) -- 3 4
 ```
 Returns the length of the vector.
+Use `Vector.length(v)` instead for better performance.
 ```lua
 local v = Vector.xy(3, 4)
 local len = v:length()  -- 5
@@ -65,6 +92,7 @@ local len = v:length()  -- 5
 ### `lengthSquared`
 
 Returns the squared length of the vector.
+Use `Vector.lengthSquared(v)` instead for better performance.
 ```lua
 local v = Vector.xy(3, 4)
 local len2 = v:lengthSquared()  -- 25
@@ -75,6 +103,7 @@ local len2 = v:lengthSquared()  -- 25
 
 Returns a normalized copy of the vector. If the length is zero,
 the result is the zero vector.
+Use `Vector.normalized(v)` instead for better performance.
 ```lua
 local v = Vector.xy(10, 0)
 local n = v:normalized()  -- 1 0
@@ -143,6 +172,7 @@ local half = v / 2    -- 3 -2
 ### `distance`
 
 Returns the distance to the other vector.
+Use `Vector.distance(a, b)` instead for better performance.
 ```lua
 local a = Vector.xy(0, 0)
 local b = Vector.xy(3, 4)
@@ -153,6 +183,7 @@ print(a:distance(b))  -- 5
 ### `distanceSquared`
 
 Returns the squared distance to the other vector.
+Use `Vector.distanceSquared(a, b)` instead for better performance.
 ```lua
 local a = Vector.xy(0, 0)
 local b = Vector.xy(3, 4)
@@ -163,6 +194,7 @@ print(a:distanceSquared(b))  -- 25
 ### `dot`
 
 Returns the dot product of the vector and the other vector.
+Use `Vector.dot(a, b)` instead for better performance.
 ```lua
 local a = Vector.xy(1, 2)
 local b = Vector.xy(3, 4)
@@ -174,6 +206,7 @@ print(a:dot(b))  -- 11  (1*3 + 2*4)
 
 Returns the linear interpolation between the vector and the other
 vector, using t where 0 returns the vector and 1 returns the other.
+Use `Vector.lerp(a, b, t)` instead for better performance.
 ```lua
 local a = Vector.xy(0, 0)
 local b = Vector.xy(10, 0)
