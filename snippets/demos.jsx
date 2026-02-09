@@ -247,14 +247,6 @@ export const Demos = ({
       links: {
         editor: "https://rive.app/marketplace/25772-blinko-scripted-game/"
       }
-    },
-    starRating: {
-      title: "Android New Compose API Quick Start",
-      image: "/images/runtimes/star-rating.webp",
-      description: "Get started with the new Compose API for Android.",
-      links: {
-        android: "https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeActivity.kt",
-      }
     }
   }
 
