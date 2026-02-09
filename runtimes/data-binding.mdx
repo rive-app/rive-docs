@@ -40,7 +40,7 @@ Before engaging with the runtime data binding APIs, it is important to familiari
 </Card>
 <br />
 
-<Demos examples={["dataBindingQuickStart", "starRating"]} />
+<Demos examples={["dataBindingQuickStart"]} />
 
 # View Models
 
@@ -384,11 +384,11 @@ Once we have a reference to a view model, it can be used to create an instance. 
     <Tabs>
         <Tab title={Apple.currentRuntimeName}>
             The following section assumes that you have read through the [Apple](/runtimes/apple/apple) overview.
-            
+
             ```swift
             // From a file
             let file: File = ...
-            
+
             // When using a view model by name:
             // A blank view model instance
             var blankInstance = try await file.createViewModelInstance(from: .blank(from: .name("ViewModel")))
@@ -1418,7 +1418,7 @@ Some properties are mutable and have getters, setters, and observer operations f
               ```swift Number
               let file: File = ...
               let viewModelInstance = try await file.createViweModelInstance(...)
-              
+
               let numberProperty = NumberProperty(path: "path/to/number")
               let numberValue = try await viewModelInstance.value(of: numberProperty)
               viewModelInstance.setValue(of: numberValue, to: 9001)
@@ -1427,7 +1427,7 @@ Some properties are mutable and have getters, setters, and observer operations f
               ```swift Bool
               let file: File = ...
               let viewModelInstance = try await file.createViweModelInstance(...)
-              
+
               let boolProperty = BoolProperty(path: "path/to/bool")
               let boolValue = try await viewModelInstance.value(of: boolProperty)
               viewModelInstance.setValue(of: boolProperty, to: true)
@@ -1436,7 +1436,7 @@ Some properties are mutable and have getters, setters, and observer operations f
               ```swift Color
               let file: File = ...
               let viewModelInstance = try await file.createViweModelInstance(...)
-              
+
               let colorProperty = ColorProperty(path: "path/to/color")
               let colorValue = try await viewModelInstance.value(of: colorProperty)
               viewModelInstance.setValue(of: colorProperty, to: Color(red: 255, green: 255, blue: 255, alpha: 255))
@@ -1445,7 +1445,7 @@ Some properties are mutable and have getters, setters, and observer operations f
               ```swift Enum
               let file: File = ...
               let viewModelInstance = try await file.createViweModelInstance(...)
-              
+
               let enumProperty = EnumProperty(path: "path/to/enum")
               let enumValue = try await viewModelInstance.value(of: enumProperty)
               viewModelInstance.setValue(of: enumProperty, to: "value")
@@ -1454,7 +1454,7 @@ Some properties are mutable and have getters, setters, and observer operations f
               ```swift Trigger
               let file: File = ...
               let viewModelInstance = try await file.createViweModelInstance(...)
-              
+
               let triggerProperty = TriggerProperty(path: "path/to/trigger")
               viewModelInstance.fire(trigger: triggerProperty)
               ```
@@ -1933,7 +1933,7 @@ View models can have properties of type view model, allowing for arbitrary nesti
       <Tab title="Compose">
         ```kotlin
         val parent = rememberViewModelInstance(riveFile, ViewModelSource.Named("Parent VM").namedInstance("Parent"))
-         
+
         // Using references
         val child = rememberViewModelInstance(riveFile, ViewModelInstanceSource.Reference(parent, "Child"))
         val nestedNumber = child.numberPropertyFlow("My Nested Number").collectAsState(0f)
@@ -2607,7 +2607,7 @@ Image properties let you set and replace raster images at runtime, with each ins
 
         ```kotlin
         val fileAndImage = riveFile.zip(image)
-        
+
         when (fileAndImage) {
             is Result.Failure -> { /* Handle failure to load file or image */ }
             is Result.Loading -> { /* Handle loading state if needed */ }
