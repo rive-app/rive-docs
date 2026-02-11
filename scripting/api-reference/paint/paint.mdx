@@ -10,17 +10,17 @@ color, gradient, and blending behavior.
 
 ### `style`
 
-Painting style of type [PaintStyle](/scripting/api-reference/paint-style).
+Painting style of type [PaintStyle](/scripting/api-reference/paint/paint-style).
 
 
 ### `join`
 
-Stroke join behavior for corners. See [StrokeJoin](/scripting/api-reference/stroke-join).
+Stroke join behavior for corners. See [StrokeJoin](/scripting/api-reference/paint/stroke-join).
 
 
 ### `cap`
 
-Stroke cap used for line endings. See [StrokeCap](/scripting/api-reference/stroke-cap).
+Stroke cap used for line endings. See [StrokeCap](/scripting/api-reference/paint/stroke-cap).
 
 
 ### `thickness`
@@ -37,7 +37,7 @@ self.paint = Paint.with({
 
 ### `blendMode`
 
-Blending mode used when compositing. See [BlendMode](/scripting/api-reference/blend-mode).
+Blending mode used when compositing. See [BlendMode](/scripting/api-reference/paint/blend-mode).
 
 
 ### `feather`
@@ -54,7 +54,7 @@ self.paint = Paint.with({
 
 ### `gradient`
 
-[Gradient](/scripting/api-reference/gradient) applied to fill (if present).
+[Gradient](/scripting/api-reference/gradient/gradient) applied to fill (if present).
 
 ```lua highlight={8}
 local g = Gradient.linear(Vector.xy(0, 0), Vector.xy(10, 0), {
@@ -72,7 +72,7 @@ self.paint = Paint.with({
 
 ### `color`
 
-Color. See [Color](/scripting/api-reference/color).
+Color. See [Color](/scripting/api-reference/color/color).
 ```lua highlight={2}
 self.paint = Paint.with({
   color = Color.rgb(255, 100, 50),
@@ -85,7 +85,7 @@ self.paint = Paint.with({
 
 ### `new`
 
-Creates a new [Paint](/scripting/api-reference/paint) object with default settings.
+Creates a new [Paint](/scripting/api-reference/paint/paint) object with default settings.
 
 ```lua
 local paint = Paint.new()
@@ -96,7 +96,7 @@ paint.color = Color.rgb(255, 200, 80)
 
 ### `with`
 
-Creates a new Paint initialized from the provided [PaintDefinition](/scripting/api-reference/paint-definition).
+Creates a new Paint initialized from the provided [PaintDefinition](/scripting/api-reference/paint/paint-definition).
 
 ```lua
 local strokePaint = Paint.with({
@@ -114,7 +114,7 @@ local strokePaint = Paint.with({
 ### `copy`
 
 Returns a new Paint that copies this one, optionally overriding selected
-properties with values from the provided [PaintDefinition](/scripting/api-reference/paint-definition).
+properties with values from the provided [PaintDefinition](/scripting/api-reference/paint/paint-definition).
 
 ```lua
 local base = Paint.with({
@@ -129,6 +129,6 @@ local outline = base:copy({
 ```
 
 @param values Optional overrides.
-@return A new [Paint](/scripting/api-reference/paint) instance with merged values.
+@return A new [Paint](/scripting/api-reference/paint/paint) instance with merged values.
 
 

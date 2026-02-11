@@ -72,7 +72,7 @@ path:close()
 
 ### `__len`
 
-Each entry is a [PathCommand](/scripting/api-reference/path-command) describing one segment or action in the path.
+Each entry is a [PathCommand](/scripting/api-reference/path/path-command) describing one segment or action in the path.
 ```lua
 local cmd = path[1]
 print(cmd.type)
@@ -86,7 +86,7 @@ print(count)
 
 ### `reset`
 
-Do not mutate or reset a [Path](/scripting/api-reference/path) in the same frame after drawing it.
+Do not mutate or reset a [Path](/scripting/api-reference/path/path) in the same frame after drawing it.
 If you need to change it, wait until the next frame.
 Only call `reset` on subsequent frames if you've called `Renderer.drawPath`
 with it.
@@ -115,10 +115,10 @@ dst:add(src)
 
 ### `contours`
 
-Returns a [ContourMeasure](/scripting/api-reference/contour-measure) for the first contour in the path. A contour is a
+Returns a [ContourMeasure](/scripting/api-reference/path/contour-measure) for the first contour in the path. A contour is a
 sequence of path segments starting at a `moveTo` and ending before the next
 `moveTo` (or end of path). Use the `next` property on the returned
-[ContourMeasure](/scripting/api-reference/contour-measure) to iterate through subsequent contours. Returns `nil` if the
+[ContourMeasure](/scripting/api-reference/path/contour-measure) to iterate through subsequent contours. Returns `nil` if the
 path has no contours.
 ```lua
 local contour = path:contours()
