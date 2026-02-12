@@ -10,19 +10,107 @@ title: ViewModel
 
 ### `getNumber`
 
+Looks up a numeric property by name.
+Returns a [DataValueNumber](/scripting/api-reference/data-value/data-value-number).
+```lua
+local vmi = context:viewModel()
+if vmi then
+  local score = vmi:getNumber('score')
+  if score then
+    print(score.value)
+  end
+end
+```
+
+
 ### `getTrigger`
+
+Looks up a trigger property by name.
+Returns a [PropertyTrigger](/scripting/api-reference/data-value/property-trigger).
+```lua
+local vmi = context:viewModel()
+if vmi then
+  local myTrigger = vmi:getTrigger('myTrigger')
+  if myTrigger then
+    mytrigger:fire()
+  end
+end
+```
+
 
 ### `getString`
 
+Looks up a string property by name.
+Returns a [DataValueString](/scripting/api-reference/data-value/data-value-string).
+```lua
+local vmi = context:viewModel()
+if vmi then
+  local heading = vmi:getString('heading')
+  if heading then
+    print(heading)
+  end
+end
+```
+
+
 ### `getBoolean`
+
+Looks up a boolean property by name.
+Returns a [DataValueBoolean](/scripting/api-reference/data-value/data-value-boolean).
+```lua
+local vmi = context:viewModel()
+if vmi then
+  local darkMode = vmi:getBoolean('darkMode')
+  if darkMode then
+    print(darkMode)
+  end
+end
+```
+
 
 ### `getColor`
 
+Looks up a color property by name.
+Returns a [DataValueColor](/scripting/api-reference/data-value/data-value-color).
+```lua
+local vmi = context:viewModel()
+if vmi then
+  local primaryColor = vmi:getColor('primaryColor')
+  if primaryColor then
+    primaryColor.value = Color.rgba(255, 0, 0, 155)
+  end
+end
+```
+
+
 ### `getList`
+
+Looks up a List property by name.
+Returns a [PropertyList](/scripting/api-reference/interfaces/property-list).
+```lua
+local vmi = context:viewModel()
+if vmi then
+  local enemies = vmi:getList('enemies')
+  if enemies then
+    enemies:pop()
+  end
+end
+```
+
 
 ### `getViewModel`
 
 ### `getEnum`
+
+Looks up an enum by name.
+Returns a [PropertyEnum](/scripting/api-reference/interfaces/property-enum).
+```lua highlight={3}
+local vmi = context:viewModel()
+if vmi then
+    local textAlignment = vmi:getEnum('textAlignment')
+end
+```
+
 
 ### `instance`
 

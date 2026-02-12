@@ -11,21 +11,45 @@ functions for checking the underlying value type.
 ### `number`
 
 Creates a [DataValueNumber](/scripting/api-reference/data-value/data-value-number) that stores a number.
+```lua
+local data = DataValue.number()
+data.value = 42
+
+print(data.value) -- 42
+```
 
 
 ### `string`
 
 Creates a [DataValueString](/scripting/api-reference/data-value/data-value-string) that stores a string.
+```lua
+local data = DataValue.string()
+data.value = 'Rive for life!'
+
+print(data.value) -- Rive for life!
+```
 
 
 ### `boolean`
 
 Creates a [DataValueBoolean](/scripting/api-reference/data-value/data-value-boolean) that stores a boolean.
+```lua
+local data = DataValue.boolean()
+data.value = false
+
+print(data.value) -- false
+```
 
 
 ### `color`
 
 Creates a [DataValueColor](/scripting/api-reference/data-value/data-value-color) that stores a [Color](/scripting/api-reference/color/color).
+```lua
+local data = DataValue.color()
+data.value = Color.rgba(128, 55, 12, 128)
+
+print(Color.red(data.value)) -- 255
+```
 
 
 ## Methods

@@ -2,14 +2,61 @@
 title: Property
 ---
 
-Represents a mutable property with a stored value and listener support.
+Represents a mutable property that stores a value and supports change listeners.
 
 
 ## Fields
 
 ### `value`
 
+The current value of the property.
+
+You can both read and assign to this field.
+```lua highlight={4,5}
+local health = vm:getNumber("health")
+
+if health then
+  print(health.value) -- read
+  health.value = 100  -- write
+end
+```
+
+
 ### `addListener`
 
+Registers a listener that is called whenever the property’s value changes.
+```lua highlight={8,10}
+local health = vm:getNumber("health")
+
+if health then
+  local function onHealthChanged(prop)
+    print("New health:", prop.value)
+  end
+
+  health:addListener(onHealthChanged)
+
+  health.value = 50 -- Triggers listener
+end
+```
+
+
 ### `removeListener`
+
+Removes a previously registered listener.
+```lua highlight={12}
+local health = vm:getNumber("health")
+
+if health then
+  local function onHealthChanged(prop)
+    print("New health:", prop.value)
+  end
+
+  health:addListener(onHealthChanged)
+
+  health.value = 50 -- Triggers listener
+
+  health:removeListener(onHealthChanged)
+end
+```
+
 
