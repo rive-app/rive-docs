@@ -2,7 +2,8 @@
 title: ListenerAction
 ---
 
-An action performed when a listener is triggered
+An action performed when an associated [State Machine Listener](/editor/state-machine/listeners) is triggered.
+For more information, see [Listener Action Scripts](/scripting/protocols/listener-action-scripts).
 
 
 ## Methods
@@ -14,6 +15,12 @@ Called once when the listener is created or attached.
 
 ### `perform`
 
-Called any time a listener is triggered.
+Called when the associated [State Machine Listener](/editor/state-machine/listeners) is triggered.
+This method includes a [PointerEvent](/scripting/api-reference/artboards/pointer-event) parameter containing details about the triggering interaction.
+```lus
+function perform(self: MyListenerAction, pointerEvent: PointerEvent)
+  print(pointerEvent.id)
+end
+```
 
 

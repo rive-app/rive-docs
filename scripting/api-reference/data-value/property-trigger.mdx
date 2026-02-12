@@ -3,15 +3,73 @@ title: PropertyTrigger
 ---
 
 Represents a trigger property that can fire events and notify listeners.
+Unlike other [Property](/scripting/api-reference/data-value/property) types, a trigger does not store a persistent value. It emits an event when fire() is called.
 
 
 ## Fields
 
 ### `addListener`
 
+Registers a listener that is invoked when the trigger fires.
+```lua highlight={5}
+local vmi = context:viewModel()
+if vmi then
+  local cannon = vmi:getTrigger('cannon')
+  if cannon then
+    cannon:addListener(function()
+      print("cannon fired!")
+    end)
+
+    cannon:fire()
+  end
+end
+```
+
+
 ### `removeListener`
+
+Removes a previously registered listener.
+Always remove listeners when they are no longer needed to avoid leaks.
+```lua highlight={17}
+function init(self: MyNode, context: Context): boolean
+  local vmi = context:viewModel()
+  if vmi then
+    local cannon = vmi:getTrigger('cannon')
+    if cannon then
+      self.cannon = cannon
+      self.onCannonFired = onCannonFired
+      cannon:addListener(onCannonFired)
+    end
+  end
+
+  return true
+end
+
+function removeCannonListener(self: MyNode)
+  if self.cannon then
+    self.cannon:removeListener(self.onCannonFired)
+  end
+end
+```
+
 
 ## Methods
 
 ### `fire`
+
+Fires the trigger and notifies all registered listeners.
+```lua highlight={9}
+local vmi = context:viewModel()
+if vmi then
+  local cannon = vmi:getTrigger('cannon')
+  if cannon then
+    cannon:addListener(function()
+      print("cannon fired!")
+    end)
+
+    cannon:fire()
+  end
+end
+```
+
 

@@ -6,3 +6,17 @@ title: EnumValues
 
 ### `__len`
 
+Get the number of enum values.
+```lua highlight={7}
+local vmi = context:viewModel()
+if vmi then
+    local textAlignment = vmi:getEnum('textAlignment')
+
+    if textAlignment then
+        local values = textAlignment:values()
+        print('count: ', #values)
+    end
+end
+```
+
+
