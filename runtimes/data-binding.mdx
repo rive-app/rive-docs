@@ -3618,6 +3618,142 @@ Artboard properties allows you to swap out entire components at runtime. This is
         }
     }
     ```
+
+    ### Using Custom View Model Instances with Bindable Artboards
+
+    You can link a custom `ViewModelInstance` to a bindable artboard, giving you control over the data being used by that artboard.
+
+    To create a bindable artboard with a custom view model instance, use the overload on the `File` instance that contains the artboard: 
+
+    ```csharp
+    var file = riveWidget.File;
+    var viewModelInstance = file.GetViewModelByName("CharacterData").CreateInstance();
+    var bindableArtboard = file.BindableArtboard("FeaturedCharacterCard", viewModelInstance);
+    ```
+
+    **Example: Featured Content Slot**
+
+    Imagine you have a home screen with a single "featured" content area that can display different types of promotions. Each content type uses a **different artboard with its own unique data structure**. Your main UI file contains the home screen layout with a featured content slot that you can populate dynamically:
+
+    ```csharp
+    private ViewModelInstanceArtboardProperty featuredContentSlot;
+
+    private ViewModelInstance characterData;
+    private ViewModelInstance eventData;
+    private ViewModelInstance offerData;
+
+    private BindableArtboard featuredCharacter;
+    private BindableArtboard limitedEvent;
+    private BindableArtboard specialOffer;
+
+    private void HandleWidgetStatusChanged()
+    {
+        if (riveWidget.Status == WidgetStatus.Loaded)
+        {
+            ViewModelInstance viewModelInstance = riveWidget.StateMachine.ViewModelInstance;
+
+            // Get the featured content slot from your main UI
+            featuredContentSlot = viewModelInstance.GetArtboardProperty("featuredContentSlot");
+
+            // Featured Character has its own unique data structure
+            var characterViewModel = riveWidget.File.GetViewModelByName("CharacterData");
+            characterData = characterViewModel.CreateInstance();
+            var charName = characterData.GetStringProperty("name");
+            var charClass = characterData.GetStringProperty("class");
+            var attackPower = characterData.GetNumberProperty("attackPower");
+            var specialAbility = characterData.GetStringProperty("specialAbility");
+            var isUnlocked = characterData.GetBoolProperty("unlocked");
+            charName.Value = "Shadowblade";
+            charClass.Value = "Assassin";
+            attackPower.Value = 92;
+            specialAbility.Value = "Phantom Strike";
+            isUnlocked.Value = false;
+
+            // Limited-Time Event has its own unique data structure
+            var eventViewModel = riveWidget.File.GetViewModelByName("EventData");
+            eventData = eventViewModel.CreateInstance();
+            var eventTitle = eventData.GetStringProperty("title");
+            var eventDescription = eventData.GetStringProperty("description");
+            var hoursRemaining = eventData.GetNumberProperty("hoursRemaining");
+            var participantCount = eventData.GetNumberProperty("participants");
+            var isActive = eventData.GetBoolProperty("active");
+            eventTitle.Value = "Dragon Raid Weekend";
+            eventDescription.Value = "Team up to defeat the ancient dragon";
+            hoursRemaining.Value = 36;
+            participantCount.Value = 1247;
+            isActive.Value = true;
+
+            // Special Offer has its own unique data structure
+            var offerViewModel = riveWidget.File.GetViewModelByName("OfferData");
+            offerData = offerViewModel.CreateInstance();
+            var offerName = offerData.GetStringProperty("itemName");
+            var originalPrice = offerData.GetNumberProperty("originalPrice");
+            var discountPercent = offerData.GetNumberProperty("discount");
+            var currency = offerData.GetStringProperty("currencyType");
+            var timeLeftHours = offerData.GetNumberProperty("expiresInHours");
+            offerName.Value = "Legendary Weapon Pack";
+            originalPrice.Value = 2999;
+            discountPercent.Value = 50;
+            currency.Value = "Gems";
+            timeLeftHours.Value = 12;
+
+            // Create bindable artboards. Each uses a DIFFERENT artboard with unique design
+            featuredCharacter = riveWidget.File.BindableArtboard("FeaturedCharacterCard", characterData);
+            limitedEvent = riveWidget.File.BindableArtboard("EventBanner", eventData);
+            specialOffer = riveWidget.File.BindableArtboard("OfferCard", offerData);
+
+            // Start by showing the featured character
+            featuredContentSlot.Value = featuredCharacter;
+        }
+    }
+
+    // Switch to showing the limited-time event
+    public void ShowLimitedEvent()
+    {
+        if (featuredContentSlot != null && limitedEvent != null)
+        {
+            featuredContentSlot.Value = limitedEvent;
+        }
+    }
+
+    // Switch to showing the special offer
+    public void ShowSpecialOffer()
+    {
+        if (featuredContentSlot != null && specialOffer != null)
+        {
+            featuredContentSlot.Value = specialOffer;
+        }
+    }
+
+    // Update event countdown timer
+    public void UpdateEventTimer(float deltaTime)
+    {
+        if (eventData != null)
+        {
+            var hoursRemaining = eventData.GetNumberProperty("hoursRemaining");
+            hoursRemaining.Value -= (deltaTime / 3600f); // Convert seconds to hours
+        }
+    }
+
+    private void OnDestroy()
+    {
+        // Clean up view model instances
+        characterData?.Dispose();
+        eventData?.Dispose();
+        offerData?.Dispose();
+
+        // Clean up bindable artboards
+        featuredCharacter?.Dispose();
+        limitedEvent?.Dispose();
+        specialOffer?.Dispose();
+
+        // Remove event listeners if any were added
+        if (featuredContentSlot != null)
+        {
+            featuredContentSlot.OnValueChanged -= OnArtboardChanged;
+        }
+    }
+    ```
   </Tab>
 
   <Tab title="React Native">
