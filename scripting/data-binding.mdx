@@ -6,45 +6,193 @@ description: ""
 Scripting allows you to read, modify, and subscribe to changes in View Model properties,
 as well as create new View Model instances at runtime.
 
-<Info>
+<Tip>
 For a conceptual overview of View Models and how they drive your graphic,
 see [View Models & Data Binding](/editor/data-binding/overview).
-</Info>
+</Tip>
 
-There are three main ways a script can interact with View Model properties:
+## View Models
 
-### Accessing the Main View Model
+There are three ways that a script can gain access to a View Model and its properties:
+- Accessing View Models through [Context](#context)
+- Data binding a [View Model as an input](#view-models-as-inputs)
+- Data [binding view model properties to inputs](#binding-inputs)
 
-All lifecycle functions (`init`, `advance`, `convert`, etc.) include a `context` parameter that gives you access
-to the View Model that is attached to the main artboard. This allows you to read values (strings, enums, lists, etc.), set values,
+### Context
+
+The `init` lifecycle function includes a `context` parameter that gives you access
+to your view models. This allows you to read values (strings, enums, lists, etc.), set values,
 fire triggers, listen for triggers, and subscribe to value changes.
 
 <Note>
-  In this context the "main" artboard refers to the topmost artboard being played.
+  In addition to view models, [Context](/scripting/api-reference/interfaces/context) gives you access to named assets and update scheduling.
 </Note>
 
-This is the most common approach, and is ideal when your script is intended to operate on the primary data model of the file.
+```lua {5, 8, 11, 12}
+type MyNode = {}
 
-```lua {8-16,19,20}
-type AlarmClock = {}
+function init(self: MyNode, context: Context): boolean
+  -- Get the view model from the node's immediate context.
+  local vmi = context:viewModel()
+
+  -- Get the root view model
+  local rootVmi = context:rootViewModel()
+
+  -- Get the view model from the parent node.
+  local parentDC = dc:parent()
+  local parentVmi = dc:viewModel()
+end
+
+return function(): Node<MyNode>
+  return {
+    init = init,
+  }
+end
+```
+
+### View Models as Inputs
+
+You can create an [Script Input](/scripting/script-inputs) that can be bound to a view model. This allows you to read values (strings, enums, lists, etc.), set values, fire triggers, listen for triggers, and subscribe to value changes.
+
+```lua {3,7,15}
+type MyNode = {
+  -- This input expects a view model instance of type Character
+  character: Input<Data.Character>
+}
+
+function init(self: MyNode, context: Context): boolean
+  local vmi = self.character
+end
+
+return function(): Node<MyNode>
+  return {
+    init = init,
+    -- Initialize with `late()` so the value
+    -- can be provided by the editor at runtime.
+    character = late(),
+  }
+end
+```
+
+For a detailed explanation, see [View Models Inputs](/scripting/script-inputs#view-model-inputs).
+
+### Binding Inputs
+
+If you only need to read, not set view model properties, you can data bind view model property values to script inputs.
+For more information see [Data Binding Inputs](/scripting/script-inputs#data-binding-inputs).
+
+### Nested View Models
+
+To reference a nested view model, use `getViewModel`.
+
+```lua
+local vmi = context:viewModel(),
+local dateVmi = vmi:getViewModel('dateViewModel')
+```
+
+## Reading and Setting Properties
+
+The following methods allow you to reference view model properties:
+
+- [getNumber](/scripting/api-reference/interfaces/view-model#getnumber)
+- [getTrigger](/scripting/api-reference/interfaces/view-model#gettrigger)
+- [getString](/scripting/api-reference/interfaces/view-model#getstring)
+- [getBoolean](/scripting/api-reference/interfaces/view-model#getboolean)
+- [getColor](/scripting/api-reference/interfaces/view-model#getcolor)
+- [getList](/scripting/api-reference/interfaces/view-model#getlist)
+- [getViewModel](/scripting/api-reference/interfaces/view-model#getviewmodel)
+- [getEnum](/scripting/api-reference/interfaces/view-model#getenum)
+
+
+```lua {5,8,11,15,18}
+local vmi = context:viewModel()
+
+if vmi then
+  -- Get a reference to the score property from the view model
+  local score = vmi:getNumber('score')
+  if score then
+    -- Read the score
+    print(score.value)
+
+    -- Set the score
+    score.value = 100
+  end
+
+  -- Get a reference to the myTrigger property from the view model
+  local myTrigger = vmi:getTrigger('myTrigger')
+  if myTrigger then
+    -- Fire the trigger
+    mytrigger:fire()
+  end
+end
+```
+
+## Listening for Property Changes
+
+### Add a Listener
+
+Use `addListener` to listen for triggers or changes to view model properties.
+
+```lua {17,23}
+type MyNode = {}
 
 function handleHoursChanged()
   print('hours changed!')
 end
 
-function init(self: AlarmClock, context: Context): boolean
-  -- Make a reference to the main view model
-  local vm = context:viewModel()
+function handleTriggerFired()
+  print('Fire!')
+end
 
-  -- Get properties from the main view model
+function init(self: MyNode, context: Context): boolean
+  local vmi = context:viewModel()
+
   local hours = vm:getNumber('hours')
-
-  -- Access properties on a nested view model
-  local dateVM = vm:getViewModel('dateViewModel')
-  local date = dateVM:getString('formattedDate')
-
   if hours then
-    print(hours.value)
+    -- handleHoursChanged is called whenever the hours value changes
+    hours:addListener(handleHoursChanged)
+  end
+
+  local trigger = vm:getTrigger('triggerProperty')
+  if trigger then
+    -- handleTriggerFired is called whenever the trigger is fired
+    trigger:addListener(handleTriggerFired)
+  end
+
+  return true
+end
+
+return function(): Node<MyNode>
+  return {
+    init = init,
+  }
+end
+```
+
+### Remove a Listener
+
+Always remove listeners when they are no longer needed to avoid memory leaks.
+
+```lua highlight={17}
+type MyNode = {}
+
+function init(self: MyNode, context: Context): boolean
+  local vmi = context:viewModel()
+
+  if not vmi then
+    print('No view model found')
+    return false
+  end
+
+  local hours = vmi:getNumber('hours')
+  if hours then
+    local function handleHoursChanged()
+      print('hours changed!')
+
+      -- Remove the event listener
+      hours:removeListener(handleHoursChanged)
+    end
+
     -- handleHoursChanged is called whenever the hours value changes
     hours:addListener(handleHoursChanged)
   end
@@ -52,22 +200,18 @@ function init(self: AlarmClock, context: Context): boolean
   return true
 end
 
-return function(): Node<AlarmClock>
+return function(): Node<MyNode>
   return {
     init = init,
+    hours = late(),
+    trigger = late(),
   }
 end
+
 ```
-
-## View Models as Inputs
-
-See [View Model Inputs](/scripting/script-inputs#view-model-inputs)
-
-## Binding Inputs
-
-See [Data Binding Inputs](/scripting/script-inputs#data-binding-inputs)
-
 
 ## Creating a View Model Instance
 
 Coming soon
+
+
