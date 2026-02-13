@@ -1,75 +1,72 @@
----
-title: "Unreal"
-description: "Unreal Engine runtime for Rive."
----
+# Unreal Engine
 
-import { Info, Warning, Card, CardGroup } from '/snippets';
+Rive’s Unreal runtime allows you to render and control Rive animations natively inside Unreal Engine.
+
+It integrates directly with Unreal’s object system and rendering pipeline and is designed for real-time use cases.
+
+<Info>
+The Unreal runtime is C++-first. Blueprint support is provided for reactive logic and UI workflows.
+</Info>
+
+## Supported Unreal Versions
+
+- Unreal Engine 5.7.3 and above
+
+Earlier versions are not supported.
+
+## Supported Platforms
+
+- Windows
+- macOS
 
 <Warning>
-  The Rive Unreal plugin is currently in **technical preview**. The API may change before the official release.
+Mobile platform support is planned but not yet available.
 </Warning>
 
-This is the Unreal Engine runtime for [Rive](https://rive.app), allowing you to embed interactive Rive animations in your Unreal projects — in UMG widgets, on 3D surfaces, or anywhere you need dynamic, state-driven graphics.
+## Rendering Backends
 
-For a complete list of supported features across all runtimes, see the [Feature Support](/docs/feature-support) page.
+Depending on platform and engine configuration, supported backends include:
 
-## Unreal Engine Version Support
+- DirectX (Windows)
+- Metal (macOS)
 
-The plugin supports Unreal Engine **5.7.3 and above**.
-
-## Platform Support
-
-| Platform | Status |
-|----------|--------|
-| Windows (64-bit) | Supported |
-| macOS | Supported |
-| Android | Coming soon |
-| iOS | Coming soon |
-
-<Info>
-  Server targets are not supported — the plugin excludes server builds.
-</Info>
-
-## Rendering Support
-
-| Backend | Platform |
-|---------|----------|
-| D3D11/D2D12 | Windows |
-| Metal | macOS |
-
-OpenGL (Android) and Metal (iOS) support is in development.
-
-<Info>
-  The Rive plugin uses RHI.
-</Info>
+Rendering is handled by Rive’s native renderer and coordinated with Unreal’s render thread.
 
 ## Feature Support
 
 | Feature | Supported |
-|---------|-----------|
-| Animation Playback | ✅ |
-| Fit & Alignment | ✅ |
-| Data Binding / View Models | ✅ |
-| Listeners / Input Handling | ✅ |
-| Runtime Text Updates | ✅ |
-| Embedded Audio | ✅ |
-| Out-of-band Assets (Images, Fonts, Audio) | ✅ |
-| Layouts | ✅ |
-| Blueprint Support | ✅ |
-| Scripting | ✅ |
-| Procedural Rendering | ❌ (not yet) |
+|----------|------------|
+| Vector animation playback | ✅ |
+| State machines | ✅ |
+| ViewModels (data binding) | ✅ |
+| Property observation | ✅ |
+| Text rendering | ✅ |
+| Image assets | ✅ |
+| Multiple Artboards per file | ✅ |
+| Legacy state machine events | Deprecated |
+| Legacy direct inputs | Deprecated |
 
-## Bug Reports
+<Warning>
+Legacy state machine events and inputs are deprecated.  
+New integrations should use ViewModels for both input and output.
+</Warning>
 
-We welcome feedback and bug reports. Please visit the [Rive Community](https://community.rive.app/) to report issues or request features.
+## Architecture Overview
 
-## Resources
+The Unreal runtime is built around three core runtime objects:
 
-<CardGroup cols={2}>
-  <Card title="Getting Started" icon="rocket" href="/docs/game-runtimes/unreal/getting-started">
-    Install the plugin and display your first Rive animation.
-  </Card>
-  <Card title="Community" icon="users" href="https://community.rive.app/">
-    Get help and share feedback with the Rive community.
-  </Card>
-</CardGroup>
+- **Rive File** — Unreal asset containing imported Rive data  
+- **Artboard** — Runtime instance responsible for evaluation and rendering  
+- **ViewModel** — Typed data boundary between Unreal and Rive logic  
+
+The typical data flow is:
+
+Unreal → ViewModel → State Machine → ViewModel → Unreal
+
+State machines consume and modify ViewModel properties. Unreal observes those changes.
+
+## Support & Community
+
+If you need help:
+
+- Join the Rive Community: https://community.rive.app  
