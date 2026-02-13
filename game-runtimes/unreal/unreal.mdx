@@ -1,3 +1,7 @@
+---
+title: "Unreal"
+---
+
 # Unreal Engine
 
 Rive’s Unreal runtime allows you to render and control Rive animations natively inside Unreal Engine.
@@ -5,7 +9,7 @@ Rive’s Unreal runtime allows you to render and control Rive animations nativel
 It integrates directly with Unreal’s object system and rendering pipeline and is designed for real-time use cases.
 
 <Info>
-The Unreal runtime is C++-first. Blueprint support is provided for reactive logic and UI workflows.
+  The Unreal runtime is C++-first. Blueprint support is provided for reactive logic and UI workflows.
 </Info>
 
 ## Supported Unreal Versions
@@ -20,7 +24,7 @@ Earlier versions are not supported.
 - macOS
 
 <Warning>
-Mobile platform support is planned but not yet available.
+  Mobile platform support is planned but not yet available.
 </Warning>
 
 ## Rendering Backends
@@ -34,30 +38,30 @@ Rendering is handled by Rive’s native renderer and coordinated with Unreal’s
 
 ## Feature Support
 
-| Feature | Supported |
-|----------|------------|
-| Vector animation playback | ✅ |
-| State machines | ✅ |
-| ViewModels (data binding) | ✅ |
-| Property observation | ✅ |
-| Text rendering | ✅ |
-| Image assets | ✅ |
-| Multiple Artboards per file | ✅ |
+| Feature                     | Supported  |
+| --------------------------- | ---------- |
+| Vector animation playback   | ✅          |
+| State machines              | ✅          |
+| ViewModels (data binding)   | ✅          |
+| Property observation        | ✅          |
+| Text rendering              | ✅          |
+| Image assets                | ✅          |
+| Multiple Artboards per file | ✅          |
 | Legacy state machine events | Deprecated |
-| Legacy direct inputs | Deprecated |
+| Legacy direct inputs        | Deprecated |
 
 <Warning>
-Legacy state machine events and inputs are deprecated.  
-New integrations should use ViewModels for both input and output.
+  Legacy state machine events and inputs are deprecated.\
+  New integrations should use ViewModels for both input and output.
 </Warning>
 
 ## Architecture Overview
 
 The Unreal runtime is built around three core runtime objects:
 
-- **Rive File** — Unreal asset containing imported Rive data  
-- **Artboard** — Runtime instance responsible for evaluation and rendering  
-- **ViewModel** — Typed data boundary between Unreal and Rive logic  
+- **Rive File** — Unreal asset containing imported Rive data
+- **Artboard** — Runtime instance responsible for evaluation and rendering
+- **ViewModel** — Typed data boundary between Unreal and Rive logic
 
 The typical data flow is:
 
@@ -69,4 +73,4 @@ State machines consume and modify ViewModel properties. Unreal observes those ch
 
 If you need help:
 
-- Join the Rive Community: https://community.rive.app  
+- Join the Rive Community: https://community.rive.app

@@ -1,111 +1,114 @@
 ---
-title: "Getting Started"
-description: "Install the Rive Unreal plugin and render your first Rive animation."
+title: Getting Started
+description: Install the Rive Unreal plugin and render your first Artboard.
 ---
 
-This guide shows you how to install the Rive Unreal plugin, import a `.riv` file, and display it in your project.
+This guide walks you through installing the Rive Unreal plugin, importing a `.riv` file, and rendering your first **Artboard**.
 
-If you’re new to Rive, see the Rive Editor documentation to learn how to create and export `.riv` files.
+<Info>
+Supported on Unreal Engine 5.7.3 and above.
+</Info>
 
-## Requirements
-
-- Unreal Engine 5.7.1
-- A `.riv` file exported from the Rive Editor
-
-## Install the Plugin
+## 1. Install the Plugin
 
 <Tabs>
-  <Tab title="Fab">
-    1. Open the **Epic Games Launcher** or Unreal Editor.
-    2. Open **Fab**.
-    3. Search for **Rive** (or go to the [Rive plugin](https://www.fab.com/portal/listings/4a79a0af-7614-42bd-8857-5375c2668706/) page directly).
-    4. Add the plugin to your engine or project.
-    5. Restart Unreal Engine if prompted.
+  <Tab title="Fab (Recommended)">
+    <Steps>
+      <Step>
+        Open the **Epic Games Launcher** or Unreal Editor.
+      </Step>
+      <Step>
+        Open **Fab**.
+      </Step>
+      <Step>
+        Search for **Rive** or go directly to  
+        https://www.fab.com/portal/listings/4a79a0af-7614-42bd-8857-5375c2668706/
+      </Step>
+      <Step>
+        Add the plugin to your engine or project.
+      </Step>
+      <Step>
+        Restart Unreal Engine if prompted.
+      </Step>
+    </Steps>
   </Tab>
-  <Tab title="GitHub">
-    git clone https://github.com/rive-app/rive-unreal.git
 
-    Copy the **Rive** plugin folder into your project’s **Plugins/** directory, then regenerate project files and build.
+  <Tab title="GitHub">
+    <Steps>
+      <Step>
+        Clone the repository:
+
+        ```bash
+        git clone https://github.com/rive-app/rive-unreal.git
+        ```
+      </Step>
+      <Step>
+        Copy the **Rive** plugin folder into your project's `Plugins/` directory.
+      </Step>
+      <Step>
+        Regenerate project files and build.
+      </Step>
+    </Steps>
   </Tab>
 </Tabs>
 
-## Enable the Plugin
+## 2. Enable the Plugin
 
 1. Open **Edit → Plugins**.
-2. Find **Rive** under **Runtime**.
+2. Locate **Rive** under Runtime.
 3. Enable the plugin.
 4. Restart the editor if required.
 
-## Import a Rive File
+## 3. Import a Rive File
 
 1. Open the **Content Browser**.
 2. Drag and drop a `.riv` file into your project.
 
-Unreal creates a **Rive File** asset that contains the artboards, state machines, and ViewModels defined in the file.
+Unreal creates a **Rive File** asset.
 
-## Display a Rive Animation
+A **Rive File** contains:
 
-Rive content is rendered through an **Artboard**, which represents a runtime instance of a Rive artboard.
+- One or more **Artboards**
+- Optional **State Machines**
+- Optional **ViewModels**
 
-### Blueprint
+<Info>
+A **Rive File** is an Unreal asset. It does not render directly.
+</Info>
 
-Using Blueprints, you can:
+## 4. Create and Render an Artboard
 
-- Create a Rive Artboard
-- Assign a Rive File
-- Select an Artboard and State Machine
-- Advance and render the Artboard each tick
+Rendering requires creating a runtime **Artboard** from a **Rive File**.
 
-Blueprint nodes are provided to:
+The high-level flow is:
 
-- Set state machine inputs
-- Fire triggers
-- Handle events
-- Bind ViewModels
+1. Load a **Rive File**
+2. Create an **Artboard**
+3. Bind a **ViewModel** (if used)
+4. Tick the **Artboard**
+5. Render the **Artboard**
 
-### C++
+<Warning>
+**Artboards do not tick or render automatically.**  
+You must advance them explicitly each frame.
+</Warning>
 
-Using C++, you typically:
+## 5. Drive Logic with ViewModels
 
-- Reference a URiveFile asset
-- Create and initialize a URiveArtboard
-- Advance the state machine during tick
-- Render the Artboard using a render target
+Interaction is performed through **ViewModels**.
 
-C++ provides the most control and is recommended for advanced or performance-critical use cases.
+You can:
 
-## Use State Machines
+- Set **ViewModel** properties from Unreal
+- Observe **ViewModel** property changes
+- Use **Trigger Properties** for one-shot signals
 
-If your Rive file includes a state machine, you can:
+Legacy direct inputs and event callbacks are deprecated.
 
-- Set boolean and number inputs
-- Fire trigger inputs
-- Handle pointer interaction
-- Receive reported events
+## What’s Next?
 
-State machines are accessed and updated through the Artboard.
-
-## Use ViewModels
-
-If your file defines ViewModels, you can:
-
-- Create a ViewModel instance
-- Set typed properties (boolean, number, string, enum, color)
-- Bind the ViewModel to an Artboard
-- Respond to value changes
-
-ViewModels are the preferred way to bind runtime data to Rive content.
-
-## Next Steps
-
-- Artboards and Rendering
-- State Machines
-- ViewModels and Data Binding
-- Blueprint vs C++
-- Threading and Safety
-
-## Examples
-
-Example projects and source code are available on GitHub:
-
-https://github.com/rive-app/rive-unreal
+- Learn how **Artboards & Rendering** work
+- Understand **State Machines**
+- Use **ViewModels & Data Binding**
+- Observe changes via **ViewModel Callbacks**
+- Review **Threading & Safety**
