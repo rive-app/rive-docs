@@ -1,155 +1,142 @@
 ---
-title: "Artboards and Rendering"
-description: "This page explains what an **Artboard** is in the Unreal runtime, how it relates to a Rive file, and how rendering works. Understanding this page is essential before working with state machines, ViewModels, or events."
+title: Artboards & Rendering
+description: Understand how Artboards are created, ticked, and rendered in Unreal.
 ---
 
-## What Is an Artboard?
+# Artboards & Rendering
 
-An **Artboard** is a runtime instance of a Rive artboard.
+An **Artboard** is the core runtime object responsible for evaluating animation and producing render output.
 
-In Unreal terms:
-- A **Rive File** is an asset that contains source data.
-- An **Artboard** is a live object created at runtime.
-- Artboards are not assets and are not rendered automatically.
+Understanding how **Artboards** work is essential before working with **State Machines** or **ViewModels**.
 
-Each Artboard:
-- Owns its animation state
-- Owns its state machines
-- Receives input
-- Is explicitly ticked and rendered
+<Info>
+A **Rive File** is an Unreal asset. An **Artboard** is a runtime instance created from that asset.
+</Info>
 
----
+## Rive File vs Artboard
+
+A **Rive File**:
+
+- Is an Unreal asset
+- Contains one or more **Artboards**
+- May contain **State Machines**
+- May define **ViewModels**
+- Does not render directly
+
+An **Artboard**:
+
+- Is created at runtime
+- Owns animation state
+- Evaluates **State Machines**
+- Consumes and modifies **ViewModels**
+- Must be ticked explicitly
+- Must be rendered explicitly
 
 ## Artboard Lifecycle
 
-Artboards are created and initialized at runtime.
+The typical lifecycle is:
 
-A typical lifecycle looks like this:
+1. Load a **Rive File**
+2. Create an **Artboard**
+3. Optionally bind a **ViewModel**
+4. Advance the **Artboard** each frame
+5. Render the **Artboard**
+6. Destroy the **Artboard** when no longer needed
 
-1. Load a **URiveFile** asset
-2. Create a **URiveArtboard**
-3. Initialize the Artboard with the file and artboard index or name
-4. Advance the Artboard each frame
-5. Render the Artboard
-6. Destroy the Artboard when no longer needed
+<Warning>
+An **Artboard** does not tick or render automatically.
+</Warning>
 
-Artboards do not persist automatically and must be managed explicitly.
+## Selecting an Artboard
 
----
+A single **Rive File** may contain multiple **Artboards**.
 
-## Initialization
+When creating an **Artboard**, you must select:
 
-An Artboard must be initialized before it can be used.
+- An artboard by name  
+- Or an artboard by index  
 
-Initialization resolves:
-- The selected artboard
-- The default state machine (if any)
-- Available inputs, events, and ViewModels
+Each created **Artboard** instance is independent and maintains its own animation state.
 
-If initialization fails, the Artboard cannot be rendered or updated.
+Multiple **Artboards** can be created from the same **Rive File**.
 
----
+## Ticking an Artboard
 
-## Ticking
+Ticking advances the internal animation and logic.
 
-Artboards are not ticked automatically by Unreal.
+Advancing an **Artboard**:
 
-You are responsible for advancing the Artboard each frame.
+- Evaluates animation timelines
+- Updates **State Machines**
+- Applies **ViewModel** changes
+- Emits property change callbacks
+- Prepares render data
 
-Advancing an Artboard typically includes:
-- Updating animations
-- Advancing state machines
-- Processing input and events
+Ticking should occur once per frame from the game thread.
 
-Failing to tick an Artboard will result in a static image.
+<Tip>
+Centralize **Artboard** ticking in C++ and keep Blueprint reactive.
+</Tip>
 
----
+## Rendering an Artboard
 
-## Rendering
-
-Rendering is explicit and controlled by your code or Blueprint logic.
-
-The Unreal runtime does not automatically draw Artboards.
+Rendering is explicit.
 
 Rendering typically involves:
-- Computing layout and transforms
-- Drawing the Artboard into a render target or widget
-- Submitting draw commands to the renderer
 
-Rendering can be performed:
-- Every frame
-- On demand
-- In response to state changes
+- Applying layout and transforms
+- Drawing into a render target or widget
+- Submitting draw commands through the runtime
 
----
+The runtime coordinates with Unreal’s render thread internally.
 
-## Size, Layout, and Alignment
+<Info>
+Rendering does not automatically occur when ticking.  
+Ticking and rendering are separate responsibilities.
+</Info>
 
-Artboards have an intrinsic size defined in the Rive file.
+## Size and Layout
+
+Each **Artboard** has an intrinsic size defined in the Rive file.
 
 You can:
+
 - Query the original size
 - Set a custom render size
 - Apply transforms
-- Align content within a bounding box
+- Align content within bounds
 
-Layout and alignment are applied at render time and do not modify the source data.
-
----
-
-## Pointer Input
-
-Artboards can receive pointer input for interactive content.
-
-Supported interactions include:
-- Pointer down
-- Pointer up
-- Pointer move
-- Pointer exit
-
-Pointer input is passed explicitly to the Artboard and routed to state machines as needed.
-
----
+Layout adjustments affect rendering only and do not modify source data.
 
 ## Multiple Artboards
 
-A single Rive file may contain multiple artboards.
+Multiple **Artboards** created from the same **Rive File**:
 
-Each Artboard instance:
-- Is independent
-- Has its own state and inputs
-- Can be rendered separately
+- Share loaded assets
+- Maintain independent animation state
+- Maintain independent **ViewModel** bindings
+- Can render simultaneously
 
-Multiple Artboards can be created from the same Rive file at the same time.
+Memory usage scales with file count, not **Artboard** count.
 
----
+## Common Mistakes
 
-## What Artboards Do Not Do Automatically
+- Creating an **Artboard** but never ticking it
+- Rendering without advancing the **Artboard**
+- Destroying a **Rive File** before its **Artboards**
+- Assuming state persists after reinitialization
 
-Artboards do **not**:
-- Tick themselves
-- Render themselves
-- Manage their own lifetime
-- Automatically bind ViewModels
-- Synchronize across threads implicitly
+## Relationship to Other Concepts
 
-All of these behaviors must be driven by your application logic.
+- **State Machines** run inside an **Artboard**
+- **ViewModels** are bound to an **Artboard**
+- Property change callbacks are emitted during **Artboard** tick
 
----
-
-## Common Pitfalls
-
-- Creating an Artboard but never ticking it
-- Rendering without advancing the Artboard
-- Reusing an Artboard instance across unrelated contexts
-- Assuming asset import implies runtime initialization
-
----
+Everything in the runtime flows through the **Artboard**.
 
 ## Next Steps
 
-- Drive interaction with **State Machines**
-- Bind runtime data using **ViewModels**
-- Handle **Events & Callbacks**
-- Learn when to use **Blueprint vs C++**
+- Learn how **State Machines** evaluate logic
+- Bind data using **ViewModels & Data Binding**
+- Observe runtime changes via **ViewModel Callbacks**
 - Review **Threading & Safety**
