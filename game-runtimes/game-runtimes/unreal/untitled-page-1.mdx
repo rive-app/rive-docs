@@ -1,0 +1,192 @@
+---
+title: Migration Guide
+description: Migrate from legacy inputs and events to the ViewModel-first Unreal runtime.
+---
+
+# Migration Guide
+
+This guide helps you migrate projects built on the legacy Unreal plugin (direct **State Machine** inputs and legacy events) to the current **ViewModel**-first runtime.
+
+<Warning>
+Legacy direct inputs and legacy event APIs are deprecated. New integrations should use **ViewModels** for both input and output.
+</Warning>
+
+## What Changed
+
+### Supported Engine Versions
+
+- New minimum supported version: Unreal Engine **5.7.3 and above**
+
+<Info>
+If your project is on an older Unreal version, you must upgrade Unreal before upgrading the plugin.
+</Info>
+
+### Supported Platforms
+
+- Supported: Windows, macOS
+- Not supported yet: Android
+
+### Architectural Shift
+
+Old model:
+- Unreal code sets **State Machine** inputs directly
+- Unreal listens to **State Machine** events directly
+
+New model:
+- Unreal writes to a **ViewModel Instance**
+- A **State Machine** reads and writes **ViewModel** properties
+- Unreal observes changes by subscribing to **ViewModel** property change callbacks
+
+Data flow:
+Unreal → **ViewModel Instance** → **State Machine** → **ViewModel Instance** → Unreal
+
+## Quick Migration Checklist
+
+<Steps>
+  <Step>
+    Upgrade your Unreal Engine project to 5.7.3 or above.
+  </Step>
+  <Step>
+    Upgrade the plugin (Fab or GitHub).
+  </Step>
+  <Step>
+    Replace legacy input setters with **ViewModel** property writes.
+  </Step>
+  <Step>
+    Replace legacy event listeners with **ViewModel** observation (use **Trigger Properties** for one-shot signals).
+  </Step>
+  <Step>
+    Verify your **Artboard** tick and render loop is explicit and centralized (prefer C++).
+  </Step>
+</Steps>
+
+## Migrating Inputs
+
+### Replace Direct Inputs with ViewModel Properties
+
+If you previously set inputs like:
+- Boolean inputs
+- Number inputs
+- Trigger inputs
+
+You should now:
+1. Create a **ViewModel Instance**
+2. Bind it to the **Artboard**
+3. Set the corresponding property on the **ViewModel Instance**
+
+<Tip>
+Name your ViewModel properties to match the intent of the old inputs. Treat the ViewModel as the public API and the **State Machine** as internal implementation.
+</Tip>
+
+### Mapping Guide
+
+Use this mapping for most projects:
+
+- Legacy boolean input → **Boolean property**
+- Legacy number input → **Number property**
+- Legacy trigger input → **Trigger Property**
+
+<Warning>
+Do not mix legacy input setters and **ViewModel** writes in new integrations. Choose the ViewModel path for all new behavior.
+</Warning>
+
+## Migrating Events
+
+### Replace Legacy Events with ViewModel Observation
+
+If you previously relied on **State Machine** events (reported events, named events, callbacks), migrate to:
+
+- **Trigger Properties** for actions
+- Observing property changes for state updates
+
+Common patterns:
+
+- “Button clicked” event → **Trigger Property** named `OnClick` (or similar)
+- “Transition occurred” event → **Trigger Property** named `OnTransition`
+- “Selection changed” event → **Enum property** named `Selection`
+
+<Info>
+Use triggers for one-shot actions. Use boolean/number/enum/string/color properties for persistent state.
+</Info>
+
+## Blueprint Migration
+
+### Old Blueprint Pattern (Deprecated)
+
+- Set **State Machine** inputs directly
+- Bind to legacy event outputs directly
+
+### New Blueprint Pattern (Recommended)
+
+- Write values into a **ViewModel Instance**
+- Bind callbacks to **ViewModel** property changes
+- Fire actions using **Trigger Properties**
+
+<Tip>
+Keep Blueprints reactive. Avoid per-frame polling graphs. Centralize ticking and ownership in C++ where possible.
+</Tip>
+
+## C++ Migration
+
+### Old C++ Pattern (Deprecated)
+
+- Fetch **State Machine** inputs and set values directly
+- Register legacy event callbacks
+
+### New C++ Pattern (Recommended)
+
+- Create a **ViewModel Instance**
+- Bind it to the **Artboard**
+- Set property values on the instance
+- Observe property changes via callbacks
+- Use **Trigger Properties** for actions
+
+<Warning>
+All mutation of **Artboards** and **ViewModel Instances** should occur on the **Game Thread**.
+</Warning>
+
+## Ticking and Rendering (If You Previously Relied on Implicit Behavior)
+
+If your old integration assumed the plugin handled ticking or rendering implicitly, ensure you now:
+
+- Advance the **Artboard** explicitly every frame
+- Render explicitly (or through your chosen integration path)
+- Treat ticking and rendering as separate responsibilities
+
+<Info>
+No tick means no **State Machine** evaluation and no **ViewModel** callbacks.
+</Info>
+
+## Common Migration Pitfalls
+
+- Updating to the new plugin but keeping old input/event code paths
+- Forgetting to bind the **ViewModel Instance** to the **Artboard**
+- Expecting triggers to persist (they are one-shot)
+- Observing a **ViewModel Instance** that is not bound
+- Not ticking the **Artboard** every frame
+
+## Recommended Migration Strategy
+
+<Steps>
+  <Step>
+    Create ViewModel properties that mirror your old inputs and events.
+  </Step>
+  <Step>
+    Update the Rive file to use the ViewModel properties internally.
+  </Step>
+  <Step>
+    Update Unreal code to write to and observe the **ViewModel Instance**.
+  </Step>
+  <Step>
+    Remove legacy input/event usage.
+  </Step>
+  <Step>
+    Run a full regression pass on interactivity and UI flows.
+  </Step>
+</Steps>
+
+## Next Steps
+
+- Review **Threading & Safety**
+- Review **ViewModels & Data Binding**
+- Review **Observing ViewModel Changes**
