@@ -1,46 +1,50 @@
 ---
-title: 'Choose a Renderer Overview'
-sidebarTitle: 'Overview'
-description: 'Specify a renderer to use at runtime.'
+title: "Choose a Renderer Overview"
+sidebarTitle: "Overview"
+description: "Specify a renderer to use at runtime."
 ---
-import { Apple } from '/snippets/constants.mdx'
+
+import { Apple } from "/snippets/constants.mdx";
 
 Rive makes use of various different renderers depending on platform and runtime. We're working towards unifying the default renderer used across all platforms/runtimes with the [Rive Renderer](https://rive.app/renderer).
 
 <Warning>
-Certain features, such as [Vector Feathering](https://rive.app/blog/introducing-vector-feathering), are only supported through the Rive Renderer. See our [Feature Support](/feature-support) page for more information.
+  Certain features, such as [Vector
+  Feathering](https://rive.app/blog/introducing-vector-feathering), are only
+  supported through the Rive Renderer. See our [Feature
+  Support](/feature-support) page for more information.
 </Warning>
 
-## Renderer Options and Default 
+## Renderer Options and Default
 
 You can opt-in to use a specific renderer, see [Specifying a Renderer](#specifying-a-renderer).
 
 The table below outlines the available, and default, renderers for Rive's runtimes:
 
-| Runtime | Default Renderer | Options |
-| --- | --- | --- |
-| Android | Rive | Rive / Canvas / Skia (removed as of v10.0.0) |
-| Apple | Rive | Rive |
-| React Native | Rive | See Apple and Android |
-| Web (Canvas) | Canvas2D | Canvas2D |
-| Web (WebGL) | Skia | Skia |
-| Web (WebGL2) | Rive | Rive |
-| Flutter | No default | Rive / Flutter (Skia / Impeller) |
+| Runtime      | Default Renderer | Options                                      |
+| ------------ | ---------------- | -------------------------------------------- |
+| Android      | Rive             | Rive / Canvas / Skia (removed as of v10.0.0) |
+| Apple        | Rive             | Rive                                         |
+| React Native | Rive             | See Apple and Android                        |
+| Web (Canvas) | Canvas2D         | Canvas2D                                     |
+| Web (WebGL2) | Rive             | Rive                                         |
+| Flutter      | No default       | Rive / Flutter (Skia / Impeller)             |
 
 ## Rive Renderer
 
 The [Rive Renderer](https://rive.app/renderer) is a new rendering engine designed to provide better performance and visual fidelity across all platforms. It leverages modern graphics APIs and techniques to deliver high-quality rendering for Rive graphics.
 
 It also allows Rive to innovate with new features, such as [Vector Feathering](https://rive.app/blog/introducing-vector-feathering), which are only supported through the Rive Renderer. See our [Feature Support](/feature-support) page for more information.
+
 <Tabs>
 
     <Tab title="Apple">
-        
-        ## Starting Version 
+
+        ## Starting Version
 
         The Rive Renderer was made the default renderer in Apple runtimes starting at **v6.0.0**, however, we recommend installing the latest version of the dependency to get the latest updates. See the [CHANGELOG](https://github.com/rive-app/rive-ios/blob/main/CHANGELOG.md) for details on the latest versions.
 
-        ### Performance 
+        ### Performance
 
         The Rive Renderer will shine best on Apple runtimes in memory usage as an animation plays out, in comparison to previous default renderers.
 
@@ -60,29 +64,28 @@ It also allows Rive to innovate with new features, such as [Vector Feathering](h
 
     <Tab title="Android">
 
-        ## Starting Version 
+        ## Starting Version
 
         The Rive Renderer was made the default in the Android runtime starting with **v10.0.0**. However, we recommend installing the latest version of the dependency to get the latest updates. See the [CHANGELOG](https://github.com/rive-app/rive-android/blob/master/CHANGELOG.md) for details on the latest versions.
     </Tab>
 
     <Tab title="Web(JS)">
 
-        ## Starting Version 
+        ## Starting Version
 
-        The Rive Renderer was introduced in the Web (JS)/WASM runtime starting at **v2.11.1** with the following new packages:
+        The Rive Renderer was introduced in the Web (JS)/WASM runtime starting at **v2.11.1** with the following package:
 
         - `@rive-app/webgl2`
-        - `@rive-app/webgl2-advanced`
 
         However, we recommend installing the latest version of the dependency to get the latest updates.
 
-        These packages do not bundle any heavy rendering dependencies such as Skia, which makes the package size much smaller than that of the previous `@rive-app/webgl` package.
+        This package does not bundle heavy renderer dependencies such as Skia, which helps keep package size smaller.
 
         ## Enabling the Draft Extension
 
-        Currently, the Rive Renderer on web relies on a WebGL2 extension that is currently in progress being implemented across all major browsers. To try out the Rive Renderer today, you can do so on Google Chrome. Simply [enable WebGL draft extensions](https://www.wikihow.tech/Enable-WebGL-Draft-Extensions-in-Google-Chrome) on Chrome and restart the browser.
+        On web, enabling [WebGL draft extensions](https://www.wikihow.tech/Enable-WebGL-Draft-Extensions-in-Google-Chrome) in Chrome improves rendering performance with `@rive-app/webgl2`.
 
-        Once the extension is enabled, you must use the `@rive-app/webgl2` package (introduced with `v2.11.1`) to use the Rive Renderer by default. If you do not have the draft extensions enabled or you are using a different browser, the package will fallback to an MSAA solution still using a WebGL2 context to back the `<canvas>` element.
+        Without the extension (or on browsers without support), `@rive-app/webgl2` falls back to an MSAA-based WebGL2 path. We are actively working with browser vendors to make this enabled by default.
 
         The API usage does not change in comparison to using any of the other Web (JS)/WASM runtimes.
 
@@ -107,17 +110,16 @@ It also allows Rive to innovate with new features, such as [Vector Feathering](h
         <Warning>
         The Rive Renderer is not yet supported on Linux through Flutter.
         </Warning>
-    
+
         ## Starting Version
 
         The Rive Renderer was added in version `0.14.0` of the Flutter runtime. However, we recommend installing the latest version of the dependency to get the latest updates. It's exposed through the `rive_native` package, which is a dependency of the main `rive` package. Read up more about Rive Native [here](/runtimes/flutter/rive-native).
 
     </Tab>
 
-
 </Tabs>
 
-## Specifying a Renderer 
+## Specifying a Renderer
 
 See below for runtime instructions to enable a specific renderer.
 
@@ -125,13 +127,13 @@ See below for runtime instructions to enable a specific renderer.
 
     <Tab title="Apple">
 
-        ## Getting Started 
+        ## Getting Started
 
         Options: `Rive (default) / Core Graphics / Skia (deprecated in v6.0.0)`
 
         Below are some notes on configuring the renderer in UIKit and SwiftUI.
 
-        ### UIKit 
+        ### UIKit
 
         Set the global renderer type during your application launch:
 
@@ -149,7 +151,7 @@ See below for runtime instructions to enable a specific renderer.
         }
         ```
 
-        ### SwiftUI 
+        ### SwiftUI
 
         New SwiftUI applications launch with the `App` protocol, but you can still add `UIApplicationDelegate` functionality.
 
@@ -176,7 +178,7 @@ See below for runtime instructions to enable a specific renderer.
         @main
         struct MyRiveRendererApp: App {
             @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-            
+
             var body: some Scene {
                 WindowGroup {
                     ContentView()
@@ -205,7 +207,7 @@ See below for runtime instructions to enable a specific renderer.
         @main
         struct MyRiveRendererApp: App {
             @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-            
+
             var body: some Scene {
                 WindowGroup {
                     ContentView()
@@ -218,7 +220,7 @@ See below for runtime instructions to enable a specific renderer.
 
     <Tab title="Android">
 
-        ## Getting Started 
+        ## Getting Started
 
         Options: `Rive (default) / Canvas / Skia (removed in v10.0.0)`
 
@@ -237,10 +239,10 @@ See below for runtime instructions to enable a specific renderer.
         ```
 
     </Tab>
-    
+
     <Tab title="Web(JS)">
 
-        The `@rive-app/webgl2` and `@rive-app/webgl2-advanced` packages only use the Rive renderer, so there is no configuration needed to use it by default.
+        The `@rive-app/webgl2` package only uses the Rive renderer, so there is no additional configuration needed to use it by default.
 
         To get started, see the section above about enabling draft extensions.
 
@@ -268,7 +270,7 @@ See below for runtime instructions to enable a specific renderer.
     </Tab>
 
     <Tab title="Flutter">
-    
+
         When creating a Rive `File` or `FileLoader`, you need to specify a factory to use:
 
         - `Factory.rive` for the Rive renderer
@@ -288,7 +290,7 @@ See below for runtime instructions to enable a specific renderer.
         - If you plan on showing many Rive graphics that are all drawing to different Rive widgets consider using a [RivePanel](/runtimes/flutter/flutter#rivepanel) with `Factory.rive` to draw multiple graphics to the same texture to reduce the overhead of allocating native render targets and textures. Or make use of `Factory.flutter`.
         - If you are showing a complex graphic, consider using `Factory.rive` to take advantage of the Rive renderer's optimizations.
         - Vector Feathering is only available with `Factory.rive`, so if you need that feature, use the Rive renderer.
-        
+
         ### Note on Flutter Rendering
 
         [Impeller](https://docs.flutter.dev/perf/impeller) is replacing [Skia](https://skia.org/) to become the default renderer for all platforms. As such, there is a possibility of rendering and [performance](https://github.com/flutter/flutter/issues/134432) discrepancies when using the Rive Flutter runtime with platforms that use the Impeller renderer that may not have surfaced before. If you encounter any visual or performance errors at runtime compared to expected behavior in the Rive editor, we recommend trying the following steps to triage:
@@ -300,8 +302,7 @@ See below for runtime instructions to enable a specific renderer.
         ```
 
         2. Try running the Flutter app on the latest `master` channel. It is possible that visual bugs may be resolved on the latest Flutter commits, but not yet released in the `beta` or `stable` channel.
-        3. If you are still seeing visual discrepancies with just the Impeller renderer on the latest master branch, we recommend raising a detailed issue to the [Flutter](https://github.com/flutter/flutter) Github repo with a reproducible example, and other relevant details that can help the team debug any possible issues that may be present.        
+        3. If you are still seeing visual discrepancies with just the Impeller renderer on the latest master branch, we recommend raising a detailed issue to the [Flutter](https://github.com/flutter/flutter) Github repo with a reproducible example, and other relevant details that can help the team debug any possible issues that may be present.
     </Tab>
 
 </Tabs>
-

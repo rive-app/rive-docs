@@ -64,7 +64,7 @@ export interface RiveParameters {
 
 - `layout?` - *(optional)* Layout object to define how animations are displayed on the canvas.
 - `autoplay?` - *(optional)* If true, the animation will automatically start playing when loaded. Defaults to false.
-- `useOffscreenRenderer?` - *(optional)* Boolean flag to determine whether to use a shared offscreen WebGL context rather than create its own WebGL context for this instance of Rive. This is only relevant for the `@rive-app/webgl` package. If you are displaying multiple Rive animations, it is highly encouraged to set this flag to `true`. Defaults to `false`.
+- `useOffscreenRenderer?` - *(optional)* Boolean flag to determine whether to use a shared offscreen WebGL context rather than create its own WebGL context for this instance of Rive. This is relevant for WebGL-based runtimes such as `@rive-app/webgl2`. If you are displaying multiple Rive animations, it is highly encouraged to set this flag to `true`. Defaults to `false`.
 - `enableRiveAssetCDN?` - *(optional)* Allow the runtime to automatically load assets hosted in Rive's CDN. Enabled by default.
 - `shouldDisableRiveListeners?` - *(optional)* Boolean flag to disable setting up Rive Listeners on the `<canvas>` element, thus preventing any event listeners from being set up on the element.
   - **Note:** Rive Listeners by default are not set up on a `<canvas>` element if there is no playing state machine, or a state machine without any Rive Listeners set up on the state machine
