@@ -8,7 +8,6 @@ description: Understand how State Machines evaluate logic inside an Artboard.
 A **State Machine** defines how animation logic evaluates inside an **Artboard**.
 
 In the Unreal runtime, **State Machines** consume and modify **ViewModel** properties.  
-They are not driven by direct imperative inputs.
 
 <Info>
 Legacy direct input APIs and legacy event callbacks are deprecated.  
@@ -45,9 +44,7 @@ Switching a **State Machine** resets its internal state. Do not assume continuit
 
 ## How State Machines Receive Data
 
-**State Machines** no longer rely on direct input setters.
-
-Instead, they consume values from a bound **ViewModel**.
+**State Machines** consume values from a bound **ViewModel**.
 
 Typical flow:
 
@@ -67,8 +64,6 @@ When fired:
 - The **State Machine** evaluates matching transitions
 - The trigger automatically resets
 - Changes take effect during the next tick
-
-Trigger properties replace legacy event-style transitions.
 
 <Tip>
 Use **Trigger Properties** for actions.  
@@ -112,7 +107,6 @@ All communication occurs through **ViewModels**.
 
 ## Common Mistakes
 
-- Expecting legacy input setters to drive transitions
 - Forgetting to bind a **ViewModel**
 - Switching **State Machines** without reinitializing data
 - Failing to tick the **Artboard**
@@ -127,4 +121,3 @@ All communication occurs through **ViewModels**.
 
 - Bind structured data using **ViewModels & Data Binding**
 - Observe runtime changes via **ViewModel Callbacks**
-- Review **Threading & Safety**
