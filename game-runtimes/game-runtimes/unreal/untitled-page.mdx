@@ -78,24 +78,6 @@ Because **ViewModels** may contain nested structures:
 
 This allows complex UI or gameplay state to remain structured and predictable.
 
-## Blueprint vs C++ Observation
-
-Observation works in both environments.
-
-Blueprint is appropriate for:
-
-- UI updates
-- Designer-authored reactions
-- Prototyping
-
-C++ is recommended for:
-
-- Coordinating multiple systems
-- Performance-sensitive logic
-- Centralized event routing
-
-Keep per-frame logic in C++, and keep Blueprint reactive.
-
 ## Lifetime and Safety
 
 Observation follows the lifetime of the **ViewModel Instance**.
@@ -107,23 +89,6 @@ Important rules:
 - Do not assume callbacks persist after **Artboard** reinitialization
 
 Callbacks are synchronous and not asynchronous events.
-
-## Replacing Deprecated Events
-
-If upgrading from legacy event APIs:
-
-Old pattern:
-- Listen for **State Machine** events
-
-New pattern:
-- Use a **Trigger Property**
-- Observe that property on the **ViewModel Instance**
-
-This keeps animation logic and engine logic cleanly separated.
-
-<Warning>
-Do not mix legacy event callbacks with **ViewModel** observation in new integrations.
-</Warning>
 
 ## Common Mistakes
 
@@ -142,7 +107,5 @@ Unreal observes changes.
 
 ## Next Steps
 
-- Decide when to use **Blueprint vs C++**
 - Understand **Loading Assets**
-- Review **Threading & Safety**
 - Read the **Migration Guide** if upgrading
