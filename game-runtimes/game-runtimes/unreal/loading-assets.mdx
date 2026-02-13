@@ -1,135 +1,153 @@
 ---
-title: 'Loading Assets'
+title: Loading Assets
+description: Understand how Rive assets are imported, resolved, and managed at runtime in Unreal.
 ---
 
-Rive files can reference external assets such as images, fonts, and audio.  
-In Unreal, these assets are loaded explicitly as part of the Rive file import and initialization process.
+# Loading Assets
 
-This page explains how asset loading works and what guarantees the runtime provides.
+A **Rive File** may reference external assets such as images and fonts.  
+The Unreal runtime resolves these assets during file initialization and manages them for the lifetime of the file.
 
----
+<Info>
+Assets are resolved at the **Rive File** level, not per **Artboard**.
+</Info>
 
-## What Counts as an Asset?
+## What Is Considered an Asset?
 
-A Rive file may reference:
+A **Rive File** may contain references to:
 
 - Image assets
 - Font assets
-- Audio assets
+- Embedded resources
+- Audio references (if authored)
 
-These assets are defined in the Rive file and resolved at runtime through Unreal.
+These are defined inside the `.riv` file and resolved by the Unreal runtime.
 
----
+## Import-Time Behavior
 
-## Asset Loading Model
+When a `.riv` file is imported into Unreal:
 
-Asset loading in the Unreal runtime is:
+- A **Rive File** asset is created
+- Embedded metadata is parsed
+- Asset references are discovered
+- Unreal-side wrappers are prepared
 
-- Explicit
-- File-scoped
-- Tied to Rive file initialization
+This prepares the file for runtime initialization.
 
-Assets are not loaded lazily per Artboard.  
-They are resolved when the Rive file is imported or initialized.
+<Info>
+Importing a `.riv` file does not create an **Artboard**.  
+Runtime objects are created separately.
+</Info>
 
----
+## Runtime Initialization
 
-## Import-Time Asset Handling
+When a **Rive File** is initialized:
 
-When a `.riv` file is imported:
-
-- Unreal creates a **Rive File** asset
-- Referenced assets are discovered
-- Asset metadata is recorded
-- Unreal asset wrappers are created as needed
-
-This step prepares the file for runtime use but does not render anything.
-
----
-
-## Runtime Asset Resolution
-
-At runtime, when a Rive file is initialized:
-
-- The Rive runtime requests assets by identifier
-- The Unreal asset loader resolves them
-- Assets are cached for the lifetime of the Rive file
+- The runtime resolves referenced assets
+- Renderer resources are prepared
+- Assets are cached internally
+- The file becomes ready for **Artboard** creation
 
 If an asset cannot be resolved:
-- The file may still load
-- The affected content may render incompletely
-- Errors are reported through logging
 
----
+- The file may still initialize
+- Some visual elements may be missing
+- Errors will be logged
 
-## Asset Lifetime
+<Warning>
+Do not create or use an **Artboard** before the **Rive File** has completed initialization.
+</Warning>
 
-Assets loaded for a Rive file:
+## Asset Ownership
 
-- Are owned by the Rive file instance
-- Remain valid while the Rive file is alive
-- Are released when the Rive file is destroyed
+Assets are owned by the **Rive File**.
 
-Artboards do not own assets directly.
+This means:
 
-Destroying an Artboard does not unload assets.
+- Multiple **Artboards** share the same assets
+- Assets are not duplicated per **Artboard**
+- Memory usage scales with file count, not instance count
 
----
+Destroying a **Rive File** releases its associated assets.
 
-## Multiple Artboards and Shared Assets
+Destroying an **Artboard** does not unload assets.
 
-When multiple Artboards are created from the same Rive file:
+## Fonts and Text
 
-- Assets are shared
-- Assets are not duplicated per Artboard
-- Memory usage scales with file count, not Artboard count
+Text objects may reference fonts embedded or linked in the **Rive File**.
 
-This allows multiple independent Artboards to render efficiently.
+Font handling:
 
----
+- Occurs during file initialization
+- Is shared across all **Artboards**
+- Does not support runtime swapping without reinitialization
 
-## Fonts and Text Assets
+If a font fails to load, fallback rendering may occur.
 
-Text objects in Rive may reference fonts.
+## Image Assets
 
-Font handling follows the same rules as other assets:
-- Fonts are resolved during file initialization
-- Missing fonts may cause fallback rendering
-- Font changes require updating the source Rive file
+Image assets referenced in the file:
 
-Fonts are not dynamically swapped at runtime.
+- Are resolved during initialization
+- Are uploaded to the renderer as needed
+- Are shared across **Artboards**
 
----
+Missing images may result in incomplete rendering.
 
 ## Audio Assets
 
-Audio assets may be referenced by Rive content.
+If audio is referenced in the file:
 
-Audio support may be limited depending on platform and configuration.
-
-If audio assets are present:
-- They are loaded through the same asset pipeline
+- It is resolved during file initialization
 - Playback behavior depends on runtime support
-- Audio triggering is driven by ViewModel or state machine logic
+- Triggering should occur via **ViewModel** logic
 
----
+Audio support may vary by platform.
 
-## Asynchronous Loading Considerations
+## Asynchronous Considerations
 
-The Unreal runtime may perform asset loading asynchronously as part of initialization.
+Asset loading may involve background work.
 
-Important considerations:
-- Artboards should not be used until initialization completes
-- ViewModels and rendering assume assets are available
-- Initialization completion should be treated as a readiness signal
+Initialization may:
 
+- Synchronize with the render thread
+- Block until resources are ready
+- Complete asynchronously before use
+
+<Warning>
+Treat file initialization as a readiness boundary.  
 Do not assume assets are available immediately after object creation.
+</Warning>
 
----
+## Reinitialization
 
-## Common Pitfalls
+If a **Rive File** is reimported or reloaded:
 
-- Using Artboards before the Rive file is initialized
-- Assuming assets load per Artboard
-- Destroying the Rive file while Artboards are still in use
-- Expecting runtime asset
+- Existing **Artboards** may become invalid
+- Assets may be reloaded
+- **ViewModel** bindings may need to be reapplied
+
+Handle reinitialization deliberately and avoid assuming persistence.
+
+## Common Mistakes
+
+- Creating **Artboards** before initialization completes
+- Assuming assets are loaded per **Artboard**
+- Destroying a **Rive File** while **Artboards** still exist
+- Expecting runtime asset swapping without reinitialization
+
+## Summary
+
+Asset loading is:
+
+- File-scoped
+- Explicit
+- Shared across **Artboards**
+- Managed by the runtime
+
+Understanding asset ownership prevents memory leaks and invalid references.
+
+## Next Steps
+
+- Review **Threading & Safety**
+- Read the **Migration Guide** if upgrading from legacy APIs

@@ -1,153 +1,148 @@
 ---
-title: "Observing ViewModel Changes"
+title: Observing ViewModel Changes
+description: React to animation and state updates by observing ViewModel property changes.
 ---
 
-With the Unreal runtime, **ViewModels are the supported way to observe changes coming out of Rive content**.
+# Observing ViewModel Changes
 
-Legacy state machine events and direct input callbacks are deprecated.  
-New integrations should rely on **ViewModel property changes** instead.
+In the Unreal runtime, **ViewModels** are the supported way for Rive content to communicate back to Unreal.
 
----
+Legacy **State Machine** events and direct callback mechanisms are deprecated.  
+New integrations should observe **ViewModel** property changes instead.
 
-## Why Observe ViewModels?
+<Info>
+All runtime output from Rive should flow through a **ViewModel Instance**.
+</Info>
 
-ViewModels are not only used to send data *into* Rive — they are also how Rive communicates *back* to Unreal.
+## How Observation Works
 
-When animation logic or state machines update ViewModel properties, those changes can be observed at runtime.
+During the **Artboard** tick:
 
-This creates a single, consistent data flow:
+1. Unreal sets **ViewModel** values
+2. The **State Machine** evaluates transitions
+3. The **State Machine** may modify **ViewModel** values
+4. Property change callbacks are emitted
+5. Rendering occurs
 
-Unreal → ViewModel → State Machine → ViewModel → Unreal
+Observation happens synchronously during this update cycle.
 
----
+<Warning>
+If the **Artboard** is not ticked, property change callbacks will not fire.
+</Warning>
 
-## Property Change Callbacks
+## Registering Callbacks
 
-Each ViewModel property supports change notifications.
+Each property on a **ViewModel Instance** can be observed.
 
-Callbacks are triggered when:
-- A property value changes inside Rive
-- A state machine updates a bound property
-- A trigger property is fired
+When a property changes:
 
-Callbacks are delivered during the Artboard update cycle.
+- The callback is invoked
+- The updated value is available
+- Logic can react immediately
 
----
+Callbacks should be:
 
-## What Can Be Observed
+- Registered after creating the **ViewModel Instance**
+- Unregistered before destroying the instance
+- Owned by the same system that owns the instance
 
-You can observe changes for all supported property types:
+## Observing Trigger Properties
 
-- Boolean  
-- Number  
-- String  
-- Enum  
-- Color  
-- Trigger  
+A **Trigger Property** can be used as a one-shot signal.
 
-Each property type uses the same observation model.
+Common use cases:
 
----
-
-## Trigger Properties as Signals
-
-Trigger properties are commonly used as **one-shot signals**.
-
-Typical use cases:
-- Button clicks
+- Button click notifications
 - Animation milestones
-- Transition notifications
-- UI actions
+- State transition signals
+- Gameplay triggers
 
-Unlike legacy events:
-- Trigger properties are part of the ViewModel
-- They are observable like any other property
-- They reset automatically after firing
+When fired:
 
-Triggers should be preferred over deprecated event mechanisms.
+- The trigger activates during the next tick
+- The property resets automatically
+- The observer receives the callback
 
----
+<Tip>
+Use **Trigger Properties** for actions.  
+Use boolean or numeric properties for persistent state.
+</Tip>
 
-## Binding and Unbinding Callbacks
+## Observing Structured Data
 
-Callbacks must be explicitly managed.
+Because **ViewModels** may contain nested structures:
 
-Important rules:
-- Bind callbacks after the ViewModel instance is created
-- Unbind callbacks when no longer needed
-- Do not assume callbacks persist across Artboard reinitialization
+- Nested **ViewModel Instances** can also be observed
+- Changes propagate through the same callback mechanism
+- Observation remains consistent regardless of hierarchy depth
 
-Destroying a ViewModel instance invalidates all of its callbacks.
+This allows complex UI or gameplay state to remain structured and predictable.
 
----
+## Blueprint vs C++ Observation
 
-## Blueprint vs C++
+Observation works in both environments.
 
-Observing ViewModel changes is supported in both Blueprints and C++.
+Blueprint is appropriate for:
 
-Blueprint observation is appropriate for:
 - UI updates
-- Simple gameplay reactions
+- Designer-authored reactions
 - Prototyping
 
-C++ observation is recommended for:
-- Performance-critical systems
-- Complex state coordination
-- Engine-level integrations
+C++ is recommended for:
 
-Both approaches observe the same underlying property changes.
+- Coordinating multiple systems
+- Performance-sensitive logic
+- Centralized event routing
 
----
+Keep per-frame logic in C++, and keep Blueprint reactive.
 
-## Timing and Tick Behavior
+## Lifetime and Safety
 
-Property change callbacks are evaluated during the Artboard tick.
+Observation follows the lifetime of the **ViewModel Instance**.
 
-This means:
-- Callbacks are synchronous with animation updates
-- No callbacks fire unless the Artboard is advanced
-- Multiple property changes may occur in a single tick
+Important rules:
 
-Callbacks should not assume frame-to-frame continuity unless the Artboard is ticked every frame.
+- Do not observe destroyed instances
+- Unbind callbacks before destroying instances
+- Do not assume callbacks persist after **Artboard** reinitialization
 
----
+Callbacks are synchronous and not asynchronous events.
 
-## Relationship to State Machines
+## Replacing Deprecated Events
 
-State machines may:
-- Read ViewModel properties
-- Write ViewModel properties
-- Fire trigger properties
+If upgrading from legacy event APIs:
 
-Observation should focus on **ViewModel outputs**, not on internal state machine transitions.
+Old pattern:
+- Listen for **State Machine** events
 
-This keeps your Unreal code decoupled from animation implementation details.
+New pattern:
+- Use a **Trigger Property**
+- Observe that property on the **ViewModel Instance**
 
----
+This keeps animation logic and engine logic cleanly separated.
 
-## Deprecated Mechanisms
+<Warning>
+Do not mix legacy event callbacks with **ViewModel** observation in new integrations.
+</Warning>
 
-The following mechanisms are deprecated and should not be used for new integrations:
+## Common Mistakes
 
-- Legacy state machine events
-- Direct imperative input callbacks
-- Event-based observation outside ViewModels
+- Observing a **ViewModel Instance** that is not bound
+- Expecting callbacks without ticking the **Artboard**
+- Using triggers for persistent state
+- Performing heavy logic inside callbacks
 
-These may still exist for backward compatibility but are not part of the forward-facing API.
+## Summary
 
----
+**ViewModels** are both the input and output boundary of the runtime.
 
-## Common Pitfalls
-
-- Observing a ViewModel instance that is not bound to an Artboard
-- Destroying an instance without unbinding callbacks
-- Expecting callbacks without ticking the Artboard
-- Using triggers as persistent state instead of signals
-
----
+Unreal writes values.  
+The **State Machine** evaluates.  
+Unreal observes changes.
 
 ## Next Steps
 
 - Decide when to use **Blueprint vs C++**
+- Understand **Loading Assets**
 - Review **Threading & Safety**
-- Read the **Migration Guide** if upgrading from legacy APIs
+- Read the **Migration Guide** if upgrading
