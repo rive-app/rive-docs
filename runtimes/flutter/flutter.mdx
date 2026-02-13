@@ -5,7 +5,7 @@ description: "Flutter runtime for Rive."
 
 import NoteOnFeatureSupport from "/snippets/runtimes/rendering-feature-support.mdx";
 import Interaction from "/snippets/runtimes/animation-control-and-interaction.mdx";
-import { Demos } from '/snippets/demos.jsx'
+import { Demos } from "/snippets/demos.jsx";
 
 <NoteOnFeatureSupport />
 
@@ -14,20 +14,24 @@ import { Demos } from '/snippets/demos.jsx'
 This guide documents how to use the Rive Flutter runtime to easily integrate Rive graphics in your Flutter apps.
 
 <Note>
-  The latest version of Rive Flutter is currently published as a dev release `0.14.0-dev.x`. This means that while the package is stable and ready for production use, we are still actively developing new features and improvements. We recommend using the latest dev version to take advantage of the newest features and fixes.
+  The latest version of Rive Flutter is currently published as a dev release
+  `0.14.0-dev.x`. This means that while the package is stable and ready for
+  production use, we are still actively developing new features and
+  improvements. We recommend using the latest dev version to take advantage of
+  the newest features and fixes.
 </Note>
 
 <Info>
   Already using Rive Flutter? See our [Migration
-  Guide](/runtimes/flutter/migration-guide) for information on adopting the latest `0.14.x` version.
+  Guide](/runtimes/flutter/migration-guide) for information on adopting the
+  latest `0.14.x` version.
 </Info>
 
 ## Quick start
 
 See our [example app](https://github.com/rive-app/rive-flutter/tree/master/example).
 
-
-<Demos examples={['dataBindingQuickStart']} runtime="flutter" />
+<Demos examples={["dataBindingQuickStart"]} runtime="flutter" />
 
 ## Getting started
 
@@ -42,6 +46,7 @@ Follow the steps below to integrate Rive into your Flutter apps.
     dependencies:
       rive: ^0.14.0-dev.6 # or latest dev version
     ```
+
   </Step>
   <Step title="Import the Rive package">
     Import the Rive runtime library in the file you're looking to integrate Rive animations into.
@@ -55,6 +60,7 @@ Follow the steps below to integrate Rive into your Flutter apps.
     ```dart
     import 'package:rive/rive.dart' as rive;
     ```
+
   </Step>
   <Step title="Initialize Rive">
     <Info>
@@ -70,6 +76,7 @@ Follow the steps below to integrate Rive into your Flutter apps.
       runApp(const MyApp());
     }
     ```
+
   </Step>
   <Step title="Add a Rive widget">
     There are several ways to render Rive graphics in Flutter. We recommend using the `RiveWidget`, and optionally the `RiveWidgetBuilder`, or `RivePanel`.
@@ -240,6 +247,7 @@ Follow the steps below to integrate Rive into your Flutter apps.
         ```
       </Tab>
     </Tabs>
+
   </Step>
   <Step title="Loading from different sources">
     **From Asset Bundle:**
@@ -464,7 +472,8 @@ void dispose() {
 <Note>
   Because the resources are managed by the `RiveWidgetBuilder`, you will not be able to access the `RiveWidgetController` (and other state) after the widget is disposed. If you need to access the controller after the widget is disposed, consider creating the file and controller yourself.
 
-  The exception to this is the `FileLoader`, which you control. This loader can be reused across multiple `RiveWidgetBuilder` instances. The underlying `File` will only be loaded once. The `File` will be disposed when the `FileLoader` is disposed.
+The exception to this is the `FileLoader`, which you control. This loader can be reused across multiple `RiveWidgetBuilder` instances. The underlying `File` will only be loaded once. The `File` will be disposed when the `FileLoader` is disposed.
+
 </Note>
 
 ## Specifying a renderer
@@ -485,7 +494,8 @@ Some considerations when choosing a renderer:
 For more information see [Choosing a Renderer](/runtimes/choose-a-renderer/).
 
 <Warning>
-  The Rive Renderer is not yet supported on Linux through Flutter. On Linux, it automatically falls back to `Factory.flutter`.
+  The Rive Renderer is not yet supported on Linux through Flutter. On Linux, it
+  automatically falls back to `Factory.flutter`.
 </Warning>
 
 ### Note on Flutter Rendering
@@ -516,6 +526,7 @@ If you encounter build errors related to Rive, ensure that:
 
 - You have the correct version of the Rive package in your `pubspec.yaml`.
 - You have run `flutter pub get` to fetch the latest dependencies.
+- You have reviewed the [Flutter FAQ](/runtimes/flutter/faq) for common issues and questions.
 
 If you're still having issues, please see the [Troubleshooting section](/runtimes/flutter/rive-native#troubleshooting) in the Rive Native documentation.
 
