@@ -119,6 +119,81 @@ Multiple **Artboards** created from the same **Rive File**:
 
 Memory usage scales with file count, not **Artboard** count.
 
+# Display in UMG
+
+This is the fastest way to get a **Rive** **Artboard** on screen: render it inside a UMG widget.
+
+<Info>
+UMG is Unreal’s standard UI system. If you’re new to UMG, Epic’s docs are the best starting point. :contentReference[oaicite:0]{index=0}
+</Info>
+
+## Blueprint: Create a Rive Widget
+
+Use the built-in Blueprint node **Create Rive Widget** to spawn a widget configured for a `.riv` asset.
+
+<Tabs>
+  <Tab title="Blueprint">
+    1. Create a **Widget Blueprint** (for example: `WBP_MainHUD`).
+    2. In the Designer, add a container (Canvas / Overlay / SizeBox) where you want the Rive to render.
+    3. In the Graph (Event Construct or when you initialize your UI):
+       - Call **Create Rive Widget**
+       - Add it to your layout (for example, add to an Overlay/Canvas slot)
+    4. Set the widget’s Rive configuration (Rive file / artboard / state machine / view model) using the widget’s exposed properties or the helper functions provided by the plugin.
+
+    <Tip>
+    The plugin release notes explicitly call out fixes and defaults around **Create Rive Widget**, so it’s the intended entry-point for UMG. :contentReference[oaicite:1]{index=1}
+    </Tip>
+  </Tab>
+
+  <Tab title="C++ (UMG host)">
+    Use C++ to *host* the UI (create and add the Widget Blueprint to the viewport), while letting the Widget Blueprint itself create/configure the Rive widget.
+
+    ```cpp
+    // MyHUD.cpp
+    #include "MyHUD.h"
+    #include "Blueprint/UserWidget.h"
+
+    void AMyHUD::BeginPlay()
+    {
+        Super::BeginPlay();
+
+        if (!MainHudWidgetClass) return;
+
+        UUserWidget* Hud = CreateWidget<UUserWidget>(GetWorld(), MainHudWidgetClass);
+        if (!Hud) return;
+
+        Hud->AddToViewport();
+    }
+    ```
+
+    ```cpp
+    // MyHUD.h
+    #pragma once
+
+    #include "CoreMinimal.h"
+    #include "GameFramework/HUD.h"
+    #include "MyHUD.generated.h"
+
+    UCLASS()
+    class AMyHUD : public AHUD
+    {
+        GENERATED_BODY()
+
+    protected:
+        virtual void BeginPlay() override;
+
+    public:
+        UPROPERTY(EditDefaultsOnly, Category="UI")
+        TSubclassOf<UUserWidget> MainHudWidgetClass;
+    };
+    ```
+
+    <Tip>
+    This pattern keeps Rive configuration and layout in UMG (Blueprint), while keeping creation/ownership in C++ — a common Unreal workflow for UI.
+    </Tip>
+  </Tab>
+</Tabs>
+
 ## Common Mistakes
 
 - Creating an **Artboard** but never ticking it
