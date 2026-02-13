@@ -1,154 +1,159 @@
 ---
-title: 'Viewmodels and Data Binding'
+title: ViewModels & Data Binding
+description: Use ViewModels as the structured data boundary between Unreal and Rive.
 ---
 
-ViewModels provide a structured way to bind runtime data to Rive content in Unreal.
+# ViewModels & Data Binding
 
-They are used to drive animation, text, colors, and logic using typed properties, and are the preferred alternative to manually setting individual state machine inputs.
+A **ViewModel** defines a structured, typed data interface between Unreal and Rive.
+
+In the Unreal runtime, **ViewModels** are the primary way to:
+
+- Send data into a **State Machine**
+- Receive data back from animation logic
+- Replace deprecated direct inputs and events
+
+<Info>
+All new integrations should use **ViewModels** as the data boundary.
+</Info>
 
 ## What Is a ViewModel?
 
-A **ViewModel** is a schema defined in a Rive file that describes a set of named, typed properties.
+A **ViewModel** is authored in the Rive Editor and embedded in a **Rive File**.
 
-In Unreal:
-- ViewModels are defined in the Rive file
-- A ViewModel has one or more runtime **instances**
-- A ViewModel instance can be bound to an Artboard
-- Properties can be read and written at runtime
+It defines:
 
-ViewModels do not replace state machines.  
-They **feed data into them**.
+- Property names
+- Property types
+- Optional nested structures
 
-## When to Use ViewModels
+At runtime, you create a **ViewModel Instance**, which holds actual values.
 
-ViewModels are recommended when you need to:
+## ViewModel vs ViewModel Instance
 
-- Drive multiple values at once
-- Bind structured data (for example UI state)
-- Share data across multiple state machine transitions
-- Avoid hard-coding individual input names
+It is important to distinguish:
 
-For simple cases, setting state machine inputs directly may be sufficient.
+- **ViewModel** — the definition in the file  
+- **ViewModel Instance** — the runtime object containing values  
 
-## ViewModel Definitions vs Instances
-
-There are two important concepts:
-
-- **ViewModel**  
-  The definition authored in Rive (property names and types)
-
-- **ViewModel Instance**  
-  A runtime object that holds actual values
-
-Multiple instances can be created from the same ViewModel definition.
+Multiple **ViewModel Instances** can be created from the same **ViewModel** definition.
 
 Each instance:
-- Stores its own values
-- Can be bound to a different Artboard
-- Is independent of other instances
 
-## Creating a ViewModel Instance
+- Stores independent values
+- Can be bound to a different **Artboard**
+- Can be destroyed without affecting other instances
 
-At runtime, you create a ViewModel instance from a Rive file.
+## Binding a ViewModel
 
-Instances can be created:
-- By index
-- By name
-- As a default instance
+An **Artboard** may have one active **ViewModel Instance** bound at a time.
 
-Once created, the instance can be modified and bound to an Artboard.
+When bound:
 
-## Binding a ViewModel to an Artboard
+- The **State Machine** reads property values
+- The **State Machine** may modify property values
+- **Trigger Properties** can drive transitions
+- Property changes become observable in Unreal
 
-An Artboard can have **one active ViewModel instance** at a time.
+<Warning>
+Modifying a **ViewModel Instance** that is not bound to an **Artboard** has no effect on animation.
+</Warning>
 
-When a ViewModel instance is bound:
-- Its properties become available to the Rive content
-- State machines can read those values
-- Transitions and animations react automatically
+## Supported Property Types
 
-Binding can be changed at runtime if needed.
+**ViewModels** support strongly typed properties:
 
-## Property Types
+- Boolean
+- Number
+- String
+- Enum
+- Color
+- **Trigger Property**
 
-ViewModel properties are strongly typed.
+Each property type has appropriate runtime accessors.
 
-Supported property types include:
+## Setting ViewModel Values
 
-- **Boolean**  
-  On/off values
+Unreal drives animation logic by setting **ViewModel** property values.
 
-- **Number**  
-  Floating-point values
+Typical examples:
 
-- **String**  
-  Text content
+- Updating UI state
+- Changing animation mode
+- Driving progress indicators
+- Firing **Trigger Properties**
 
-- **Enum**  
-  One of a predefined set of values
+Changes take effect during the next **Artboard** tick.
 
-- **Color**  
-  RGBA color values
+<Tip>
+Set properties first, then advance the **Artboard**.
+</Tip>
 
-- **Trigger**  
-  One-shot events
+## Trigger Properties
 
-Each property type has corresponding runtime accessors.
+A **Trigger Property** is a one-shot signal.
 
-## Reading and Writing Properties
+When fired:
 
-Properties can be accessed by name on the ViewModel instance.
+- The **State Machine** evaluates transitions
+- The trigger resets automatically
+- The effect applies during the next tick
 
-Typical operations include:
-- Setting values in response to gameplay
-- Updating text or colors
-- Firing trigger properties
-- Querying current state
-
-Property changes take effect during the next Artboard tick.
+Triggers are preferred over legacy event-style APIs.
 
 ## Nested ViewModels
 
-ViewModels can reference other ViewModels.
+**ViewModels** may contain nested **ViewModels**.
 
 This allows:
-- Composing complex data structures
-- Reusing shared definitions
-- Binding lists or hierarchical data
 
-Nested ViewModels are resolved automatically when instances are created.
+- Structured data hierarchies
+- Reusable data definitions
+- Complex UI state modeling
 
-## Value Change Callbacks
+Nested instances are created automatically when instantiating a parent **ViewModel Instance**.
 
-ViewModel properties support change notifications.
+## Data Flow Model
 
-Callbacks can be used to:
-- React to changes coming from Rive
-- Synchronize Unreal state
-- Trigger additional logic
+The full runtime data flow is:
 
-Callbacks are delivered as part of the Artboard update cycle.
+Unreal → **ViewModel Instance** → **State Machine** → **ViewModel Instance** → Unreal
+
+Unreal writes values.
+The **State Machine** reacts.
+Updated values can be observed.
 
 ## Lifetime and Ownership
 
-ViewModel instances are runtime objects.
+**ViewModel Instances** are runtime objects.
 
 Important rules:
-- They must remain alive while bound to an Artboard
-- Destroying an instance unbinds it
-- Instances are not assets and are not saved
 
-ViewModel instances should be owned and managed explicitly by your code or Blueprint logic.
+- They must outlive the **Artboard** using them
+- They must be destroyed explicitly when no longer needed
+- Destroying an instance invalidates its callbacks
 
-## Common Pitfalls
+Keep ownership clear and hierarchical.
 
-- Modifying a ViewModel instance that is not bound
-- Destroying an instance while still in use
-- Expecting ViewModels to tick independently
-- Using ViewModels for one-off triggers only
+<Warning>
+Do not mutate **ViewModel Instances** from background threads.
+</Warning>
+
+## Common Mistakes
+
+- Creating a **ViewModel Instance** but never binding it
+- Treating **Trigger Properties** as persistent state
+- Destroying a **ViewModel Instance** while still bound
+- Expecting immediate animation updates without ticking
+
+## Relationship to Other Systems
+
+- **Artboards** evaluate **State Machines**
+- **State Machines** read and write **ViewModel** properties
+- Property change callbacks expose results back to Unreal
 
 ## Next Steps
 
-- Respond to **Events & Callbacks**
-- Decide between **Blueprint vs C++**
+- Learn how to **Observe ViewModel Changes**
+- Decide when to use **Blueprint vs C++**
 - Review **Threading & Safety**
