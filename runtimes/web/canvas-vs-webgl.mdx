@@ -1,6 +1,6 @@
 ---
 title: "Canvas vs WebGL"
-description: "Choose between @rive-app/webgl2 and @rive-app/canvas, with guidance on performance, package size, and when to use canvas-lite."
+description: "Choose between `@rive-app/webgl2` and `@rive-app/canvas`, with guidance on performance, package size, and when to use canvas-lite."
 ---
 
 ### Choose a runtime
@@ -10,7 +10,7 @@ For web, start by choosing one of these two packages:
 - [`@rive-app/webgl2`](https://www.npmjs.com/package/@rive-app/webgl2)
 - [`@rive-app/canvas`](https://www.npmjs.com/package/@rive-app/canvas)
 
-They share the same high-level API, so switching packages does not require changing how you create a `new Rive({...})` instance. The only difference is the renderer used.
+They share the same high-level API, so switching packages does not require changing how you create a `new Rive({...})` instance. The key differences are the renderer and package size; read the sections below to decide what is best for your use case, and compare package sizes on [Runtime Sizes](/runtimes/runtime-sizes/).
 
 ### `@rive-app/webgl2` (recommended)
 
@@ -46,7 +46,7 @@ npm install @rive-app/canvas
 
 - Uses the browser's built-in [CanvasRenderingContext2D](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API) renderer
 - Smaller package size than WebGL renderer options
-- Great fit for simpler vector/raster animations
+- Good for simpler vector/raster graphics
 
 ### More options after your runtime choice
 
