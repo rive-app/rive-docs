@@ -20,7 +20,16 @@ flutter pub get
 flutter run
 ```
 
-If you still see Android setup errors, follow the Android notes in [Rive Native troubleshooting](/runtimes/flutter/rive-native#android).
+If native libraries were not downloaded, run the `rive_native` setup CLI for your target platform:
+
+```bash
+dart run rive_native:setup --verbose --clean --platform <platform>
+```
+
+Replace `<platform>` with the platform you are building for (for example, `android` or `macos`).
+You can also provide multiple platforms as a comma-separated list (for example, `android,ios,macos`).
+
+If you still see setup errors, follow [Rive Native troubleshooting](/runtimes/flutter/rive-native#troubleshooting). For Android-specific setup issues, see the [Android notes](/runtimes/flutter/rive-native#android).
 
 ## `LateInitializationError: Field 'makeFlutterFactory' has not been initialized`
 
