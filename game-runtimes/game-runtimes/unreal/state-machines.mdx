@@ -1,163 +1,130 @@
 ---
-title: 'State Machines'
+title: State Machines
+description: Understand how State Machines evaluate logic inside an Artboard.
 ---
 
-State machines are the primary way to add interactivity and logic to Rive content in Unreal.
+# State Machines
 
-They run on an **Artboard** and are updated as part of the Artboard’s tick. Understanding state machines is required before working with events or ViewModels.
+A **State Machine** defines how animation logic evaluates inside an **Artboard**.
 
+In the Unreal runtime, **State Machines** consume and modify **ViewModel** properties.  
+They are not driven by direct imperative inputs.
+
+<Info>
+Legacy direct input APIs and legacy event callbacks are deprecated.  
+New integrations should use **ViewModels** as the data boundary.
+</Info>
 
 ## What Is a State Machine?
 
-A **state machine** defines how an animation responds to inputs and transitions between states.
+A **State Machine** is authored in the Rive Editor and embedded in a **Rive File**.
 
-In Unreal:
-- State machines live **on an Artboard**
-- An Artboard may have zero or more state machines
-- Only one state machine is active at a time per Artboard
+At runtime:
 
-State machines control:
-- Animation playback
-- Transitions
-- Triggers
-- Reported events
+- A **State Machine** runs inside an **Artboard**
+- It reads **ViewModel** properties
+- It updates animation state
+- It may modify **ViewModel** properties
+- It may fire **Trigger Properties**
 
----
+Only one **State Machine** is active per **Artboard** at a time.
 
 ## Selecting a State Machine
 
-When an Artboard is initialized, you can select which state machine to use.
+If a **Rive File** contains multiple **State Machines**, you must select which one to run when creating or initializing the **Artboard**.
 
-If no state machine is selected:
-- Animations will not respond to inputs
-- Triggers and events will have no effect
+Switching **State Machines**:
 
-If the file contains multiple state machines, you must explicitly choose one.
+- Resets internal animation state
+- Does not persist previous transitions
+- May require rebinding **ViewModels**
 
----
+<Warning>
+Switching a **State Machine** resets its internal state. Do not assume continuity across switches.
+</Warning>
 
-## State Machine Inputs
+## How State Machines Receive Data
 
-State machines expose **inputs** that drive behavior.
+**State Machines** no longer rely on direct input setters.
 
-Supported input types include:
+Instead, they consume values from a bound **ViewModel**.
 
-- **Boolean**  
-  Used for on/off conditions
+Typical flow:
 
-- **Number**  
-  Used for continuous values such as progress or speed
+1. Unreal sets a **ViewModel** property
+2. The **Artboard** is advanced
+3. The **State Machine** evaluates transitions
+4. Animation state updates
 
-- **Trigger**  
-  Used for one-shot transitions
+This keeps animation logic decoupled from engine code.
 
-Inputs are addressed by name or by path, depending on how they are authored in Rive.
+## Trigger Properties
 
----
+A **Trigger Property** is a one-shot signal defined in a **ViewModel**.
 
-## Setting Boolean and Number Inputs
+When fired:
 
-Boolean and number inputs can be read and written at runtime.
-
-Typical uses include:
-- Enabling or disabling animation branches
-- Driving blend values
-- Reacting to gameplay state
-
-Input values are applied immediately and evaluated on the next Artboard tick.
-
----
-
-## Firing Triggers
-
-Triggers represent one-time events.
-
-When a trigger is fired:
-- The state machine evaluates matching transitions
+- The **State Machine** evaluates matching transitions
 - The trigger automatically resets
-- The effect is applied during the next tick
+- Changes take effect during the next tick
 
-Triggers should be fired explicitly and not treated as persistent state.
+Trigger properties replace legacy event-style transitions.
 
----
+<Tip>
+Use **Trigger Properties** for actions.  
+Use boolean and number properties for state.
+</Tip>
 
-## Pointer Input
+## State Machine Evaluation Timing
 
-State machines can respond to pointer interaction.
+Evaluation occurs during the **Artboard** tick.
 
-Supported pointer events include:
-- Pointer down
-- Pointer up
-- Pointer move
-- Pointer exit
+The update order is:
 
-Pointer input is passed to the Artboard and routed to the active state machine.
-
-If pointer input is never forwarded:
-- Hover and press logic will not work
-- Pointer-based transitions will never fire
-
----
-
-## Events
-
-State machines can emit **reported events**.
-
-Events are emitted:
-- During state transitions
-- During animation playback
-- As defined in the Rive file
-
-Events can be:
-- Named
-- Parameterized
-- Used to trigger gameplay or UI logic
-
-Events are delivered as part of the Artboard update.
-
----
-
-## Tick Order and Timing
-
-State machines are evaluated during the Artboard tick.
-
-A typical update sequence is:
-
-1. Input values are set or triggers are fired
-2. The Artboard is advanced
-3. The state machine evaluates transitions
-4. Events are emitted
+1. Unreal modifies **ViewModel** values
+2. The **Artboard** advances
+3. The **State Machine** evaluates transitions
+4. **ViewModel** outputs may change
 5. Rendering occurs
 
-State machines do not update unless the Artboard is ticked.
-
----
+<Warning>
+If the **Artboard** is not ticked, the **State Machine** does not run.
+</Warning>
 
 ## Multiple State Machines
 
-If a Rive file contains multiple state machines:
-- Only one can be active at a time per Artboard
-- Switching state machines resets internal state
-- Inputs are not shared between state machines
+If a **Rive File** contains multiple **State Machines**:
 
-Switching state machines should be done deliberately.
+- Only one may run per **Artboard**
+- Each **Artboard** instance is independent
+- Multiple **Artboards** can run different **State Machines** simultaneously
 
----
+## What State Machines Do Not Do
 
-## Common Pitfalls
+**State Machines** do not:
 
-- Forgetting to select a state machine
-- Setting inputs without ticking the Artboard
-- Expecting triggers to persist
-- Sending pointer input to the wrong Artboard
-- Assuming state machines run automatically
+- Tick automatically
+- Render automatically
+- Persist state after reinitialization
+- Communicate directly with Unreal
 
----
+All communication occurs through **ViewModels**.
+
+## Common Mistakes
+
+- Expecting legacy input setters to drive transitions
+- Forgetting to bind a **ViewModel**
+- Switching **State Machines** without reinitializing data
+- Failing to tick the **Artboard**
+
+## Relationship to Other Systems
+
+- **Artboards** own and evaluate **State Machines**
+- **ViewModels** provide both input and output
+- Property change callbacks expose results back to Unreal
 
 ## Next Steps
 
-- Bind runtime data using **ViewModels**
-- Respond to **Events & Callbacks**
-- Learn when to use **Blueprint vs C++**
+- Bind structured data using **ViewModels & Data Binding**
+- Observe runtime changes via **ViewModel Callbacks**
 - Review **Threading & Safety**
-
