@@ -50,10 +50,19 @@ The file fingerprint just lets the importer quickly sanity check that it's actua
 
 **Major Version**
 
-Runtimes are compatible with only a single Major Rive export format version. The current major format is 7. If a 7 runtime encounters a 6 file, it will immediately error and not attempt to read any further content as the format is understood to be fundamentally different. This is provided as a last resort tool for Rive to fundamentally change its export format if it needs to. We try very hard to do this as rarely as possible. We recently needed to bump from 6 to 7 to add support for the State Machine, but in doing so we changed the format to be more resilient to such changes in the future. The editor currently supports exporting both major version 6 and major version 7 files, however, files exported with major version 6 will not include State Machine support.
+Runtimes are compatible with only a single major Rive export format version. The current major format is 7. If a 7 runtime encounters a 6 file, it will immediately error and not attempt to read any further content, as the format is understood to be fundamentally different. This is provided as a last-resort tool for Rive to fundamentally change its export format if needed, and we try very hard to do this as rarely as possible.
+
+The move from format 6 to format 7 happened years ago, and the editor no longer exports format 6 files.
+
+If a future major format is introduced, runtimes and exports must match major format versions. In practice, this means:
+
+- if you update to runtimes that support a new major format, you must re-export files to that major format
+- if you stay on older runtimes, you must export files in the older compatible major format
+
+If you need to verify a file's format version programmatically, read the `Major Version` and `Minor Version` values from the file header. Rive runtimes also surface a descriptive import error when the file format is incompatible.
 
 <Note>
- Major versions are not cross-compatible. A major version 6 runtime cannot read major version 7 files. Similarly, a major version 7 files cannot read a major version 6 file.
+ Major versions are not cross-compatible. For example, a major version 6 runtime cannot read major version 7 files, and a major version 7 runtime cannot read major version 6 files.
 </Note>
 
 **Minor Version**
