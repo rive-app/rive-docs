@@ -6,10 +6,6 @@ Rive’s Unreal runtime allows you to render and control Rive animations nativel
 
 It integrates directly with Unreal’s object system and rendering pipeline and is designed for real-time use cases.
 
-<Info>
-  The Unreal runtime is C++-first. Blueprint support is provided for reactive logic and UI workflows.
-</Info>
-
 ## Supported Unreal Versions
 
 - Unreal Engine 5.7.3 and above
@@ -31,6 +27,10 @@ Depending on platform and engine configuration, supported backends include:
 
 - DirectX (Windows)
 - Metal (macOS)
+
+<Info>
+  The Unreal runtime uses RHI for rendering backend integration.
+</Info>
 
 Rendering is handled by Rive’s native renderer and coordinated with Unreal’s render thread.
 
