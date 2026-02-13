@@ -1,151 +1,74 @@
 ---
-title: 'Canvas vs WebGL'
-description: ''
+title: "Canvas vs WebGL"
+description: "Choose between @rive-app/webgl2 and @rive-app/canvas, with guidance on performance, package size, and when to use canvas-lite."
 ---
 
-### Background
+### Choose a runtime
 
-The JS/WASM runtime provides various packages which are published to npm. For simple usage and smaller package sizes, we recommend starting with `@rive-app/canvas` (more on that below). On the web, Rive offers the ability to use a backing `CanvasRenderingContext2D` context or `WebGL` context associated with a `<canvas>` element for rendering Rive animations.
+For web, start by choosing one of these two packages:
 
-**Note:** The high-level API and the logic for creating a Rive instance in your script remain the same for the `@rive-app/webgl` and `@rive-app/canvas` packages. That means if you decide one runtime package is better for your use case over the other, you only need to switch the dependency, but not the usage. See more below on each of the different runtimes for JS/WASM and when to use which package.
+- [`@rive-app/webgl2`](https://www.npmjs.com/package/@rive-app/webgl2)
+- [`@rive-app/canvas`](https://www.npmjs.com/package/@rive-app/canvas)
 
-### (Recommended) @rive-app/canvas
+They share the same high-level API, so switching packages does not require changing how you create a `new Rive({...})` instance. The only difference is the renderer used.
+
+### `@rive-app/webgl2` (recommended)
+
+Use `@rive-app/webgl2` if you want the best rendering quality and performance in most cases.
+
+```bash
+npm install @rive-app/webgl2
+```
+
+- Uses the [Rive Renderer](https://rive.app/renderer) for the best rendering performance
+- Supports Rive Renderer-only features (for example, vector feathering)
+
+<Note>
+ WebGL has browser limits on concurrent contexts, which can limit how many `new Rive({...})` instances you can run at once. If you display many graphics on the same page, set `useOffscreenRenderer: true` for each Rive object.
+ This moves rendering work to a shared offscreen WebGL context instead of creating as many separate contexts on visible canvases, which helps avoid context-limit issues and improves stability when many Rive instances are active.
+</Note>
+
+<Note>
+  Enabling the draft
+  [WEBGL_shader_pixel_local_storage](https://www.wikihow.tech/Enable-WebGL-Draft-Extensions-in-Google-Chrome)
+  extension in Chrome improves rendering performance. Without it, Rive falls
+  back to an MSAA-based WebGL2 path. We are actively working with browser
+  vendors to make this enabled by default.
+</Note>
+
+### `@rive-app/canvas`
+
+Use `@rive-app/canvas` when your graphics are less complex and you want a smaller runtime package.
 
 ```bash
 npm install @rive-app/canvas
 ```
 
-An easy-to-use high-level Rive API using a backing [CanvasRenderingContext2D](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API) renderer. This lets Rive use the browser's native high-level vector graphics renderer. Some benefits of this package:
+- Uses the browser's built-in [CanvasRenderingContext2D](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API) renderer
+- Smaller package size than WebGL renderer options
+- Great fit for simpler vector/raster animations
 
-- Small download size without the bloat of a separate renderer dependency
-- Support for [Rive Text](/editor/text/)
-- Great for displaying many animated canvases concurrently on the screen. This is ideal for when you want to render lists or grids of Rive animations on the screen, as there is no context limit by the browser (as opposed to WebGL)
-- Support for simple vector graphics animations and raster
-- Requests the Web Assembly (WASM) backing dependency for you
+### More options after your runtime choice
 
-<Note>
-Want an **even smaller** Rive dependency that doesn't have all the bells/whistles? Consider using `@rive-app/canvas-lite` below 👇
-</Note>
-### @rive-app/canvas-lite
+After choosing `@rive-app/webgl2` or `@rive-app/canvas`, you can use these variants based on packaging needs.
 
-```bash
-npm install @rive-app/canvas-lite
-```
+#### `*-light` variants
 
-A smaller package than that of `@rive-app/canvas` with the same API and backing [CanvasRenderingContext2D](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API), but does not compile and build WASM with certain dependencies in order to keep the package size as small as possible.
+Some runtimes provide a `-lite` variant for smaller package size.
 
-This solution will be preferable if you **do not** have a need for the following features below:
+- Example: [`@rive-app/canvas-lite`](https://www.npmjs.com/package/@rive-app/canvas-lite)
+- Use `-lite` when you want the smallest runtime footprint
+- `-lite` variants remove some features (for example, text, layout, audio, and scripting engines)
 
-- [Rive Text](/editor/text/)
-  - If your Rive file may include Rive Text components, rendering the graphic should not cause any app errors, or cease to render. Rive Text will just not appear within the graphic
-  - You can still make use of text within your graphic by importing text externally as SVG
+#### `*-single` variants
 
-### @rive-app/webgl
+Some runtime packages also provide a `-single` variant, which bundles `rive.wasm` directly into the JavaScript file.
 
+- Example: [`@rive-app/canvas-single`](https://www.npmjs.com/package/@rive-app/canvas-single)
+- Use `-single` if you want to avoid a separate WASM network request
+- Expect a larger JS bundle compared to the standard package
+- ⚠️ Non-`single` variants can cache better across pages, since the WASM is fetched separately
 
-An easy-to-use high-level Rive API using a WebGL2 context. Some benefits of this package:
+### Deprecated package
 
-- Highest fidelity with edit-time experience.
-- Requests the Web Assembly (WASM) backing dependency for you
-- Currently uses Skia for rendering, but in a future major version release will be replaced with the new Rive Renderer
-
-**A note about WebGL:** Most browsers limit the number of concurrent WebGL contexts by page/domain. Using Rive, this means that the browser limit impacts the number of `new Rive({...})` instances created.
-
-If you're planning on displaying Rive content in a list/grid or many times on the same page, it's up to you to manage the lifecycle of the provided context and `canvas` element. If you need to display many animations (i.e grids/lists), consider using the `@rive-app/canvas` package which uses the `CanvasRenderingContext2D` renderer and does not have a context limitation, or consider the `@rive-app/webgl-advanced` package, which will allow you to display multiple Rive graphics on one canvas with full control over the render loop.
-
-<Note>
- It is recommended to set the `useOffscreenRenderer: true` property in the Rive parameters when creating a `new Rive({...})` object, especially when rendering multiple Rive objects on the page.
-</Note>
-### @rive-app/webgl2
-
-<Note>
- This is a preview of using the [Rive Renderer](https://rive.app/renderer) with a WebGL2 context. In a future major release, this package may be deprecated and `@rive-app/webgl` will make use of the Rive Renderer completely, without an added Skia dependency
-</Note>
-
-An easy-to-use high-level Rive API using a WebGL2 context. Some benefits of this package:
-
-- Highest fidelity with edit-time experience.
-- Requests the Web Assembly (WASM) backing dependency for you
-- Uses the new Rive Renderer for best performance
-- A much smaller build than `@rive-app/webgl`, which currently adds a larger Skia dependency
-
-<Note>
- To take advantage of trying out the Rive Renderer, you should [enable the draft](https://www.wikihow.tech/Enable-WebGL-Draft-Extensions-in-Google-Chrome) `WEBGL_shader_pixel_local_storage` Chrome Extension (by adding WebGL Draft Extensions in the link above), otherwise, Rive will fall back to an MSAA solution (also with WebGL2) on browsers without the extension support. Current work is underway with major browsers to support this extension by default in consumer's browsers.
-</Note>
-
-**A note about WebGL:** Most browsers limit the number of concurrent WebGL contexts by page/domain. Using Rive, this means that the browser limit impacts the number of `new Rive({...})` instances created.
-
-If you're planning on displaying Rive content in a list/grid or many times on the same page, it's up to you to manage the lifecycle of the provided context and `canvas` element. If you need to display many animations (i.e grids/lists), consider using the `@rive-app/canvas` package which uses the `CanvasRenderingContext2D` renderer and does not have a context limitation, or consider the `@rive-app/webgl2-advanced` package, which will allow you to display multiple Rive graphics on one canvas with full control over the render loop.
-
-<Note>
- It is recommended to set the `useOffscreenRenderer: true` property in the Rive parameters when creating a `new Rive({...})` object, especially when rendering multiple Rive objects on the page.
-</Note>
-
-For more information about the Rive Renderer, see the [Choose a Renderer](/runtimes/choose-a-renderer/) section.
-
-### @rive-app/webgl2-advanced
-<Note>
- This is a preview of using the [Rive Renderer](https://rive.app/renderer) with a WebGL2 context. In a future major release, this package may be deprecated and `@rive-app/webgl-advanced` will make use of the Rive Renderer completely, without an added Skia dependency
-</Note>
-A low-level Rive API using a WebGL2 context. It has the same benefits as the regular `@rive-app/webgl2` package plus:
-
-- Full control over the update and render loop.
-- Allows for rendering multiple Rive graphics to a single canvas.
-- Uses the new Rive Renderer for best performance
-- A much smaller build than `@rive-app/webgl-advanced`, which currently adds a larger Skia dependency
-- Allows deeper control and manipulation of the components in a Rive hierarchy.
-
-<Note>
- To take advantage of trying out the Rive Renderer, you should enable the draft `WEBGL_shader_pixel_local_storage` Chrome Extension, otherwise, Rive will fall back to an MSAA solution (also with WebGL2) on browsers without the extension support. Current work is underway with major browsers to support this extension by default in consumer's browsers.
-</Note>
-
-This package will be the best way to take advantage of the Rive Renderer's performance, being able to draw a large number of Rive graphics to one canvas.
-
-For more information about the Rive Renderer, see the [Choose a Renderer](/runtimes/choose-a-renderer/) section.
-
-### @rive-app/canvas-advanced
-
-A low-level Rive API using the [CanvasRenderingContext2D](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API) renderer. It has the same benefits as the regular `@rive-app/canvas` package plus:
-
-- Full control over the update and render loop
-- Allows for rendering multiple Rive artboards to a single canvas
-- Allows deeper control and manipulation of the components in a Rive hierarchy
-
-See an example of usage here: [https://codesandbox.io/p/sandbox/canvas-advance-api-example-s6dz3m?file=%2Fsrc%2Findex.ts](#background)
-
-<Note>
- Want an **even smaller** Rive dependency that doesn't have all the bells/whistles? Consider using `@rive-app/canvas-advanced-lite` below👇
-</Note>
-
-### @rive-app/canvas-advanced-lite
-
-```bash
-npm install @rive-app/canvas-advanced-lite
-```
-
-A smaller package than that of `@rive-app/canvas-advanced` with the same API and backing [CanvasRenderingContext2D](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API), but does not compile and build WASM with certain dependencies in order to keep the package size as small as possible.
-
-This solution will be preferable if you **do not** have a need for the following features below:
-
-- [Rive Text](/editor/text/)
-  - If your Rive file may include Rive Text components, rendering the graphic should not cause any app errors, or cease to render. Rive Text will just not appear within the graphic
-  - You can still make use of text within your graphic by importing text externally as SVG
-
-### @rive-app/webgl-advanced
-
-A low-level Rive API using a WebGL2 context. It has the same benefits as the regular `@rive-app/webgl` package plus:
-
-- Full control over the update and render loop.
-- Allows for rendering multiple Rive graphics to a single canvas.
-- Allows deeper control and manipulation of the components in a Rive hierarchy.
-
-### *-single versions
-
-Each of the above NPM packages includes the `rive.wasm` file. In the high-level APIs (`@rive-app/canvas` and `@rive-app/webgl`) the runtime requests this for you so you don't have to, as opposed to their `-advanced` counterparts. We also have alternative versions of each of the above packages on NPM that have the WASM encoded in the JS bundle (excluding the `lite` versions). This means you won't have to make a network request for the WASM that powers the Rive animations, as it's all in one main JS file. This is a solution for if you have issues loading from the CDNs that load in the WASM in your app.
-
-- [@rive-app/canvas-single](https://www.npmjs.com/package/@rive-app/canvas-single)
-- [@rive-app/canvas-advanced-single](https://www.npmjs.com/package/@rive-app/canvas-advanced-single)
-- [@rive-app/webgl-single](https://www.npmjs.com/package/@rive-app/webgl-single)
-- [@rive-app/webgl-advanced-single](https://www.npmjs.com/package/@rive-app/webgl-advanced-single)
-
-While there is no request for WASM here, the JS bundle will be larger than the above packages. The non-single versions may cache better on your web applications, as the WASM gets loaded from the same CDN source if loaded from multiple pages.
+`@rive-app/webgl` is deprecated. Prefer `@rive-app/webgl2`.
