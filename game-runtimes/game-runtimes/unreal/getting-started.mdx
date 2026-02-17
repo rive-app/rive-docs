@@ -1,27 +1,29 @@
 ---
 title: Getting Started
-description: Install the Rive Unreal plugin and render your first Artboard.
+description: Install the Rive Unreal plugin, run your first Artboard via URiveActorComponent, and display it in UMG.
 ---
 
-This guide walks you through installing the Rive Unreal plugin, importing a `.riv` file, and rendering your first **Artboard**.
+# Getting Started
+
+This guide walks you through installing the Rive Unreal plugin, importing a `.riv` file, ticking it via **URiveActorComponent**, and displaying it in UMG.
 
 <Info>
 Supported on Unreal Engine 5.7.3 and above.
 </Info>
 
-## 1. Install the Plugin
+## 1) Install the Plugin
 
 <Tabs>
   <Tab title="Fab (Recommended)">
     <Steps>
       <Step>
-        Open the **Epic Games Launcher** or Unreal Editor.
+        Open the Epic Games Launcher or Unreal Editor.
       </Step>
       <Step>
-        Open **Fab**.
+        Open Fab.
       </Step>
       <Step>
-        Search for **Rive** or go directly to  
+        Search for Rive or go directly to:  
         https://www.fab.com/portal/listings/4a79a0af-7614-42bd-8857-5375c2668706/
       </Step>
       <Step>
@@ -43,7 +45,7 @@ Supported on Unreal Engine 5.7.3 and above.
         ```
       </Step>
       <Step>
-        Copy the **Rive** plugin folder into your project's `Plugins/` directory.
+        Copy the `Rive` plugin folder into your project's `Plugins/` directory.
       </Step>
       <Step>
         Regenerate project files and build.
@@ -52,63 +54,151 @@ Supported on Unreal Engine 5.7.3 and above.
   </Tab>
 </Tabs>
 
-## 2. Enable the Plugin
+## 2) Enable the Plugin
 
-1. Open **Edit → Plugins**.
-2. Locate **Rive** under Runtime.
+1. Open Edit → Plugins.
+2. Locate Rive under Runtime.
 3. Enable the plugin.
 4. Restart the editor if required.
 
-## 3. Import a Rive File
+## 3) Import a Rive File
 
-1. Open the **Content Browser**.
+1. Open the Content Browser.
 2. Drag and drop a `.riv` file into your project.
 
 Unreal creates a **Rive File** asset.
-
-A **Rive File** contains:
-
-- One or more **Artboards**
-- Optional **State Machines**
-- Optional **ViewModels**
 
 <Info>
 A **Rive File** is an Unreal asset. It does not render directly.
 </Info>
 
-## 4. Create and Render an Artboard
+## 4) Run Rive on an Actor (Recommended)
 
-Rendering requires creating a runtime **Artboard** from a **Rive File**.
+The recommended runtime entry point is **URiveActorComponent**.
 
-The high-level flow is:
+It:
 
-1. Load a **Rive File**
-2. Create an **Artboard**
-3. Bind a **ViewModel** (if used)
-4. Tick the **Artboard**
-5. Render the **Artboard**
+- Owns a render target internally
+- Initializes on BeginPlay
+- Ticks every frame
+- Draws the current **Artboard** output to a texture
+
+<Tabs>
+  <Tab title="Blueprint">
+    <Steps>
+      <Step>
+        Create an Actor Blueprint (for example: `BP_RiveHost`).
+      </Step>
+      <Step>
+        Add the **Rive** component (this is **URiveActorComponent**).
+      </Step>
+      <Step>
+        In the component details, set **DefaultRiveDescriptor**:
+        - **RiveFile** (your imported `.riv` asset)
+        - **ArtboardName**
+        - **StateMachineName** (if used)
+      </Step>
+      <Step>
+        Set **Size** to control the render target resolution (for example 512×512).
+      </Step>
+      <Step>
+        Place `BP_RiveHost` in the level (or spawn it at runtime).
+      </Step>
+    </Steps>
+
+    <Tip>
+    If you change the render size at runtime, call `ResizeRenderTarget(SizeX, SizeY)` on the component.
+    </Tip>
+  </Tab>
+
+  <Tab title="C++">
+    ```cpp
+    // RiveHostActor.h
+    #pragma once
+
+    #include "CoreMinimal.h"
+    #include "GameFramework/Actor.h"
+    #include "RiveHostActor.generated.h"
+
+    class URiveActorComponent;
+
+    UCLASS()
+    class ARiveHostActor : public AActor
+    {
+        GENERATED_BODY()
+
+    public:
+        ARiveHostActor();
+
+        UPROPERTY(VisibleAnywhere, Category="Rive")
+        TObjectPtr<URiveActorComponent> Rive;
+    };
+    ```
+
+    ```cpp
+    // RiveHostActor.cpp
+    #include "RiveHostActor.h"
+    #include "Game/RiveActorComponent.h"
+
+    ARiveHostActor::ARiveHostActor()
+    {
+        PrimaryActorTick.bCanEverTick = false;
+
+        Rive = CreateDefaultSubobject<URiveActorComponent>(TEXT("Rive"));
+        // Configure DefaultRiveDescriptor and Size in defaults (Blueprint child) or via UPROPERTY exposure.
+    }
+    ```
+  </Tab>
+</Tabs>
 
 <Warning>
-**Artboards do not tick or render automatically.**  
-You must advance them explicitly each frame.
+**URiveActorComponent** is responsible for ticking and drawing.  
+Do not build per-frame polling loops in UMG or Blueprints to “drive” Rive.
 </Warning>
 
-## 5. Drive Logic with ViewModels
+## 5) Display in UMG (Widget Path)
 
-Interaction is performed through **ViewModels**.
+The widget path is: **UMG displays the texture produced by the Actor component**.
 
-You can:
+**URiveActorComponent** exposes `GetTexture()` which returns a `UTexture*` you can use in a UMG Image brush.
 
-- Set **ViewModel** properties from Unreal
-- Observe **ViewModel** property changes
-- Use **Trigger Properties** for one-shot signals
+<Tabs>
+  <Tab title="Blueprint">
+    <Steps>
+      <Step>
+        Create a Widget Blueprint (for example: `WBP_HUD`).
+      </Step>
+      <Step>
+        Add an Image widget.
+      </Step>
+      <Step>
+        Get a reference to your `BP_RiveHost` Actor, then get its **Rive** component.
+      </Step>
+      <Step>
+        Call `GetTexture()` on the component and assign it to the Image brush resource.
+      </Step>
+    </Steps>
+  </Tab>
 
-Legacy direct inputs and event callbacks are deprecated.
+  <Tab title="C++ (set UImage brush)">
+    ```cpp
+    // Assuming:
+    // - URiveActorComponent* RiveComp (valid)
+    // - UImage* ImageWidget (valid)
+
+    if (UTexture* Tex = RiveComp ? RiveComp->GetTexture() : nullptr)
+    {
+        FSlateBrush Brush;
+        Brush.SetResourceObject(Tex);
+        ImageWidget->SetBrush(Brush);
+    }
+    ```
+  </Tab>
+</Tabs>
 
 ## What’s Next?
 
 - Learn how **Artboards & Rendering** work
 - Understand **State Machines**
 - Use **ViewModels & Data Binding**
-- Observe changes via **ViewModel Callbacks**
-- Review **Threading & Safety**
+- Observe changes via **ViewModel** callbacks

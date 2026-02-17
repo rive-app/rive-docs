@@ -1,6 +1,6 @@
 ---
 title: Artboards & Rendering
-description: Understand how Artboards are created, ticked, and rendered in Unreal.
+description: Understand how Artboards are evaluated and rendered, and how URiveActorComponent drives the runtime.
 ---
 
 # Artboards & Rendering
@@ -29,189 +29,162 @@ An **Artboard**:
 - Owns animation state
 - Evaluates **State Machines**
 - Consumes and modifies **ViewModels**
-- Must be ticked explicitly
-- Must be rendered explicitly
+- Produces render data
+- Does not tick or render on its own
+
+## How Ticking and Rendering Work in Unreal
+
+While an **Artboard** must be advanced and rendered explicitly, most projects should not do this manually.
+
+The recommended runtime driver is:
+
+### **URiveActorComponent**
+
+**URiveActorComponent**:
+
+- Owns a `URiveRenderTarget2D`
+- Initializes on `BeginPlay`
+- Ticks every frame (`TickComponent`)
+- Calls `Draw()` internally
+- Exposes `GetTexture()` for UI display
+
+<Info>
+In most projects, you do not manually tick an **Artboard**.  
+The component handles ticking and rendering for you.
+</Info>
 
 ## Artboard Lifecycle
 
-The typical lifecycle is:
+Internally, the lifecycle still follows:
 
 1. Load a **Rive File**
 2. Create an **Artboard**
 3. Optionally bind a **ViewModel**
-4. Advance the **Artboard** each frame
+4. Advance the **Artboard**
 5. Render the **Artboard**
-6. Destroy the **Artboard** when no longer needed
+6. Destroy when no longer needed
+
+When using **URiveActorComponent**, this lifecycle is managed automatically.
 
 <Warning>
-An **Artboard** does not tick or render automatically.
+If you bypass the component and manage **Artboards** directly, you are responsible for ticking and rendering explicitly.
 </Warning>
 
 ## Selecting an Artboard
 
 A single **Rive File** may contain multiple **Artboards**.
 
-When creating an **Artboard**, you must select:
+When configuring **URiveActorComponent**, you select:
 
-- An artboard by name  
-- Or an artboard by index  
+- **RiveFile**
+- **ArtboardName**
+- **StateMachineName** (optional)
 
-Each created **Artboard** instance is independent and maintains its own animation state.
+Each component instance runs its own **Artboard**.
 
-Multiple **Artboards** can be created from the same **Rive File**.
+Multiple components can reference the same **Rive File**.
 
-## Ticking an Artboard
+## Rendering Model
 
-Ticking advances the internal animation and logic.
+Rendering is performed into an internal **URiveRenderTarget2D**.
 
-Advancing an **Artboard**:
+The output texture is accessible via:
 
-- Evaluates animation timelines
-- Updates **State Machines**
-- Applies **ViewModel** changes
-- Emits property change callbacks
-- Prepares render data
+UTexture* URiveActorComponent::GetTexture()
 
-Ticking should occur once per frame from the game thread.
 
-<Tip>
-Centralize **Artboard** ticking in C++ and keep Blueprint reactive.
-</Tip>
+This texture can be:
 
-## Rendering an Artboard
+- Displayed in UMG
+- Applied to a material
+- Used in a 3D mesh
+- Fed into post-processing
 
-Rendering is explicit.
+Ticking and rendering are coordinated internally with Unreal’s render thread.
 
-Rendering typically involves:
+---
 
-- Applying layout and transforms
-- Drawing into a render target or widget
-- Submitting draw commands through the runtime
+## Display in UMG (Component Path)
 
-The runtime coordinates with Unreal’s render thread internally.
+The correct UMG workflow is:
 
-<Info>
-Rendering does not automatically occur when ticking.  
-Ticking and rendering are separate responsibilities.
-</Info>
-
-## Size and Layout
-
-Each **Artboard** has an intrinsic size defined in the Rive file.
-
-You can:
-
-- Query the original size
-- Set a custom render size
-- Apply transforms
-- Align content within bounds
-
-Layout adjustments affect rendering only and do not modify source data.
-
-## Multiple Artboards
-
-Multiple **Artboards** created from the same **Rive File**:
-
-- Share loaded assets
-- Maintain independent animation state
-- Maintain independent **ViewModel** bindings
-- Can render simultaneously
-
-Memory usage scales with file count, not **Artboard** count.
-
-# Display in UMG
-
-This is the fastest way to get a **Rive** **Artboard** on screen: render it inside a UMG widget.
-
-<Info>
-UMG is Unreal’s standard UI system. If you’re new to UMG, Epic’s docs are the best starting point. :contentReference[oaicite:0]{index=0}
-</Info>
-
-## Blueprint: Create a Rive Widget
-
-Use the built-in Blueprint node **Create Rive Widget** to spawn a widget configured for a `.riv` asset.
+1. Add **URiveActorComponent** to an Actor
+2. Let it tick automatically
+3. Use `GetTexture()` to display the output in a UMG Image
 
 <Tabs>
   <Tab title="Blueprint">
-    1. Create a **Widget Blueprint** (for example: `WBP_MainHUD`).
-    2. In the Designer, add a container (Canvas / Overlay / SizeBox) where you want the Rive to render.
-    3. In the Graph (Event Construct or when you initialize your UI):
-       - Call **Create Rive Widget**
-       - Add it to your layout (for example, add to an Overlay/Canvas slot)
-    4. Set the widget’s Rive configuration (Rive file / artboard / state machine / view model) using the widget’s exposed properties or the helper functions provided by the plugin.
-
-    <Tip>
-    The plugin release notes explicitly call out fixes and defaults around **Create Rive Widget**, so it’s the intended entry-point for UMG. :contentReference[oaicite:1]{index=1}
-    </Tip>
+    1. Create an Actor Blueprint (e.g. `BP_RiveHost`)
+    2. Add the **Rive** component
+    3. Set:
+       - **DefaultRiveDescriptor**
+       - **Size**
+    4. In your Widget Blueprint:
+       - Get reference to `BP_RiveHost`
+       - Get its Rive component
+       - Call `GetTexture()`
+       - Assign to an Image brush
   </Tab>
 
-  <Tab title="C++ (UMG host)">
-    Use C++ to *host* the UI (create and add the Widget Blueprint to the viewport), while letting the Widget Blueprint itself create/configure the Rive widget.
-
+  <Tab title="C++">
     ```cpp
-    // MyHUD.cpp
-    #include "MyHUD.h"
-    #include "Blueprint/UserWidget.h"
+    // Get texture from component
+    UTexture* Tex = RiveComponent->GetTexture();
 
-    void AMyHUD::BeginPlay()
+    if (Tex)
     {
-        Super::BeginPlay();
-
-        if (!MainHudWidgetClass) return;
-
-        UUserWidget* Hud = CreateWidget<UUserWidget>(GetWorld(), MainHudWidgetClass);
-        if (!Hud) return;
-
-        Hud->AddToViewport();
+        FSlateBrush Brush;
+        Brush.SetResourceObject(Tex);
+        ImageWidget->SetBrush(Brush);
     }
     ```
-
-    ```cpp
-    // MyHUD.h
-    #pragma once
-
-    #include "CoreMinimal.h"
-    #include "GameFramework/HUD.h"
-    #include "MyHUD.generated.h"
-
-    UCLASS()
-    class AMyHUD : public AHUD
-    {
-        GENERATED_BODY()
-
-    protected:
-        virtual void BeginPlay() override;
-
-    public:
-        UPROPERTY(EditDefaultsOnly, Category="UI")
-        TSubclassOf<UUserWidget> MainHudWidgetClass;
-    };
-    ```
-
-    <Tip>
-    This pattern keeps Rive configuration and layout in UMG (Blueprint), while keeping creation/ownership in C++ — a common Unreal workflow for UI.
-    </Tip>
   </Tab>
 </Tabs>
 
+<Info>
+UMG does not tick Rive.  
+The Actor Component is responsible for ticking and drawing.
+</Info>
+
+## Size and Resolution
+
+The component exposes a `Size` property that controls the render target resolution.
+
+Changing resolution:
+
+- Affects output texture size
+- Does not change intrinsic **Artboard** layout
+- Can be updated via `ResizeRenderTarget()`
+
+## Multiple Artboards
+
+Multiple **URiveActorComponent** instances:
+
+- Can reference the same **Rive File**
+- Maintain independent animation state
+- Maintain independent **ViewModel** bindings
+- Render independently
+
+Memory usage scales primarily with file count, not instance count.
+
 ## Common Mistakes
 
-- Creating an **Artboard** but never ticking it
-- Rendering without advancing the **Artboard**
-- Destroying a **Rive File** before its **Artboards**
-- Assuming state persists after reinitialization
+- Adding a Rive file but never adding **URiveActorComponent**
+- Trying to tick an **Artboard** manually while also using the component
+- Destroying the owning Actor while still referencing the texture
+- Polling every frame in UMG instead of letting the component drive updates
 
 ## Relationship to Other Concepts
 
 - **State Machines** run inside an **Artboard**
 - **ViewModels** are bound to an **Artboard**
+- **URiveActorComponent** owns and advances the runtime
 - Property change callbacks are emitted during **Artboard** tick
 
-Everything in the runtime flows through the **Artboard**.
+Everything flows through the **Artboard**, but most projects interact through the component.
 
 ## Next Steps
 
 - Learn how **State Machines** evaluate logic
 - Bind data using **ViewModels & Data Binding**
 - Observe runtime changes via **ViewModel Callbacks**
-- Review **Threading & Safety**
