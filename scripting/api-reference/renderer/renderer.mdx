@@ -10,12 +10,50 @@ applying transforms during rendering.
 
 ### `drawPath`
 
-Draws the given path using the specified paint.
+Draws the given [Path](/scripting/api-reference/path/path) using the specified [Paint](/scripting/api-reference/paint/paint).
+
+For a more detailed explanation and working examples, see [Drawing with Node Scripts](/scripting/protocols/node-scripts#drawing).
+```lua
+function draw(self: Rectangle, renderer: Renderer)
+  renderer:drawPath(self.path, self.paint)
+end
+```
 
 
 ### `drawImage`
 
-Draws an image using the specified sampler, blend mode, and opacity.
+Draws an [Image](/scripting/api-reference/image/image) using the [ImageSampler](/scripting/api-reference/image/image-sampler), [BlendMode](/scripting/api-reference/paint/blend-mode), and opacity.
+
+Check out [Scripting demos](https://rive.app/docs/scripting/demos) to see a working example.
+
+```lua highlight={15}
+type DrawImage = {
+  myImage: Image?,
+  sampler: ImageSampler?,
+}
+
+function init(self: DrawImage, context: Context): boolean
+  self.myImage = context:image('myImage')
+  self.sampler = ImageSampler('clamp', 'clamp', 'bilinear')
+
+  return true
+end
+
+function draw(self: DrawImage, renderer: Renderer)
+  if self.myImage and self.sampler then
+    renderer:drawImage(self.myImage, self.sampler, 'srcOver', 1)
+  end
+end
+
+return function(): Node<DrawImage>
+  return {
+    myImage = nil,
+    sampler = nil,
+    init = init,
+    draw = draw,
+  }
+end
+```
 
 
 ### `drawImageMesh`
@@ -26,18 +64,38 @@ coordinates, and triangle indices.
 
 ### `clipPath`
 
-Restricts subsequent drawing to the area defined by the given path.
+Restricts subsequent drawing to the area defined by the given [Path](/scripting/api-reference/path/path).
 Clipping remains in effect until the next restore call.
 
 
 ### `save`
 
 Saves the current rendering state, including transforms and clipping.
+```lua highlight={4}
+function draw(self: MyGame, renderer: Renderer)
+  -- draw each enemy
+  for _, enemy in self.enemies do
+    renderer:save()
+    enemy.artboard:draw(renderer)
+    renderer:restore()
+  end
+end
+```
 
 
 ### `restore`
 
 Restores the most recently saved rendering state.
+```lua highlight={6}
+function draw(self: MyGame, renderer: Renderer)
+  -- draw each enemy
+  for _, enemy in self.enemies do
+    renderer:save()
+    enemy.artboard:draw(renderer)
+    renderer:restore()
+  end
+end
+```
 
 
 ### `transform`
