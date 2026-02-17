@@ -2,7 +2,7 @@
 title: Context
 ---
 
-Content is an object provided to scripted nodes during initialization (via the `init` function).
+Context is an object provided to scripted nodes during initialization (via the `init` function).
 It serves as a bridge between your script and the Rive runtime, giving you access to:
 - Update scheduling — Request that your node be updated on the next frame.
 - Data (ViewModels) — Access the ViewModel data context bound to the node or the root artboard.
@@ -92,7 +92,7 @@ The returned image can be drawn via `drawImage`.
 
 ### `blob`
 
-Returns a blob (raw binary data) asset by name, or nil if not found.
+Returns a [Blob](/scripting/api-reference/interfaces/blob) (raw binary data) asset by name, or nil if not found.
 Useful for loading custom data files embedded in the Rive file.
 
 

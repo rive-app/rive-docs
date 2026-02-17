@@ -2,9 +2,40 @@
 title: DataContext
 ---
 
+Provides access to hierarchical data and its associated ViewModel.
+
+
 ## Methods
 
 ### `parent`
 
+Returns the parent DataContext, if one exists.
+```lua highlight={4}
+function init(self: MyNode, context: Context): boolean
+  local dc = context:dataContext()
+  if dc then
+     local parentDC = dc:parent()
+     local vm = dc:viewModel()
+  end
+
+  return true
+end
+```
+
+
 ### `viewModel`
+
+Returns the ViewModel associated with this context.
+```lua highlight={5}
+function init(self: MyNode, context: Context): boolean
+  local dc = context:dataContext()
+  if dc then
+     local parentDC = dc:parent()
+     local vm = dc:viewModel()
+  end
+
+  return true
+end
+```
+
 
