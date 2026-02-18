@@ -2,6 +2,10 @@
 title: ContourMeasure
 ---
 
+A ContourMeasure is a way to measure and manipulate a single contour within a path.
+A contour is one continuous drawing sequence that starts with a `moveTo` and continues until the next `moveTo` (or the end of the path).
+
+
 ## Fields
 
 ### `next`
@@ -9,5 +13,12 @@ title: ContourMeasure
 Returns the next [ContourMeasure](/scripting/api-reference/path/contour-measure) in the path, or nil if this is the last
 contour. Use this to iterate through all contours in a path after calling
 path:contours().
+```lua
+local contour = pathData:contours()
+while contour do
+  print(contour.length)
+  contour = contour.next
+end
+```
 
 
