@@ -18,6 +18,10 @@ local pathLength = measure.length
 Returns true only if the path has exactly one contour and that contour is
 closed. Paths with multiple contours always return false, even if all
 contours are closed.
+```lua
+local measure = path:measure()
+local isClosed = measure.isClosed
+```
 
 
 ## Methods
