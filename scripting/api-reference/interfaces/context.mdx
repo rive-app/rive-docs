@@ -2,7 +2,7 @@
 title: Context
 ---
 
-Content is an object provided to scripted nodes during initialization (via the `init` function).
+Context is an object provided to scripted nodes during initialization (via the `init` function).
 It serves as a bridge between your script and the Rive runtime, giving you access to:
 - Update scheduling — Request that your node be updated on the next frame.
 - Data (ViewModels) — Access the ViewModel data context bound to the node or the root artboard.
@@ -87,12 +87,45 @@ end
 ### `image`
 
 Returns an image asset by name, or nil if not found.
-The returned image can be drawn via `drawImage`.
+The returned [Image](/scripting/api-reference/image/image) can be drawn via `drawImage`.
+
+See also [ImageSampler](/scripting/api-reference/image/image-sampler).
+
+Check out [Scripting demos](https://rive.app/docs/scripting/demos) to see a working example.
+
+```lua highlight={7,15}
+type DrawImage = {
+  myImage: Image?,
+  sampler: ImageSampler?,
+}
+
+function init(self: DrawImage, context: Context): boolean
+  self.myImage = context:image('myImage')
+  self.sampler = ImageSampler('clamp', 'clamp', 'bilinear')
+
+  return true
+end
+
+function draw(self: DrawImage, renderer: Renderer)
+  if self.myImage and self.sampler then
+    renderer:drawImage(self.myImage, self.sampler, 'srcOver', 1)
+  end
+end
+
+return function(): Node<DrawImage>
+  return {
+    myImage = nil,
+    sampler = nil,
+    init = init,
+    draw = draw,
+  }
+end
+```
 
 
 ### `blob`
 
-Returns a blob (raw binary data) asset by name, or nil if not found.
+Returns a [Blob](/scripting/api-reference/interfaces/blob) (raw binary data) asset by name, or nil if not found.
 Useful for loading custom data files embedded in the Rive file.
 
 

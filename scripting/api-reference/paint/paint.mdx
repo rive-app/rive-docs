@@ -11,16 +11,36 @@ color, gradient, and blending behavior.
 ### `style`
 
 Painting style of type [PaintStyle](/scripting/api-reference/paint/paint-style).
+```lua highlight={3}
+self.paint = Paint.with({
+  color = Color.rgb(255, 100, 50),
+  style = 'stroke',
+})
+```
 
 
 ### `join`
 
 Stroke join behavior for corners. See [StrokeJoin](/scripting/api-reference/paint/stroke-join).
+```lua highlight={3}
+self.paint = Paint.with({
+  color = Color.rgb(255, 100, 50),
+  cap = 'round',
+  style = 'stroke',
+})
+```
 
 
 ### `cap`
 
 Stroke cap used for line endings. See [StrokeCap](/scripting/api-reference/paint/stroke-cap).
+```lua highlight={3}
+self.paint = Paint.with({
+  color = Color.rgb(255, 100, 50),
+  join = 'round',
+  style = 'stroke',
+})
+```
 
 
 ### `thickness`
@@ -115,8 +135,9 @@ local strokePaint = Paint.with({
 
 Returns a new Paint that copies this one, optionally overriding selected
 properties with values from the provided [PaintDefinition](/scripting/api-reference/paint/paint-definition).
+Returns a new [Paint](/scripting/api-reference/paint/paint) instance.
 
-```lua
+```lua highlight={6,7,8,9}
 local base = Paint.with({
   style = 'fill',
   color = Color.rgb(255, 0, 0),
@@ -127,8 +148,5 @@ local outline = base:copy({
   thickness = 4,
 })
 ```
-
-@param values Optional overrides.
-@return A new [Paint](/scripting/api-reference/paint/paint) instance with merged values.
 
 
