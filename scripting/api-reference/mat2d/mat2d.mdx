@@ -4,6 +4,20 @@ title: Mat2D
 
 Represents a 2D transformation matrix with components for scaling,
 rotation, shear, and translation.
+```lua
+-- Construct a matrix manually
+local m = Mat2D.identity()
+
+m.xx = 2    -- scale x
+m.yy = 3    -- scale y
+m.tx = 50   -- translate x
+m.ty = 100  -- translate y
+
+local r = m * Vector.xy(10, 20)
+
+-- (10,20) → (20,60) → (70,160)
+print(r.x, r.y) -- 70, 160
+```
 
 
 ## Fields
@@ -11,47 +25,142 @@ rotation, shear, and translation.
 ### `xx`
 
 The xx component of the matrix.
+```lua highlight={4}
+local m = Mat2D.identity()
+
+-- Double horizontal scale
+m.xx = 2
+
+local r = m * Vector.xy(10, 5)
+print(r.x, r.y) -- 20, 5
+```
 
 
 ### `xy`
 
 The xy component of the matrix.
+```lua highlight={4}
+local m = Mat2D.identity()
+
+-- Add horizontal skew
+m.xy = 1
+
+local r = m * Vector.xy(10, 5)
+-- x = 10 + (1 * 5)
+print(r.x, r.y) -- 15, 5
+```
 
 
 ### `yx`
 
 The yx component of the matrix.
+```lua highlight={4}
+local m = Mat2D.identity()
+
+-- Add vertical skew
+m.yx = 1
+
+local r = m * Vector.xy(10, 5)
+-- y = 5 + (1 * 10)
+print(r.x, r.y) -- 10, 15
+```
 
 
 ### `yy`
 
 The yy component of the matrix.
+```lua highlight={4}
+local m = Mat2D.identity()
+
+-- Triple vertical scale
+m.yy = 3
+
+local r = m * Vector.xy(4, 5)
+print(r.x, r.y) -- 4, 15
+```
 
 
 ### `tx`
 
 Translation along the x-axis.
+```lua highlight={3}
+local m = Mat2D.identity()
+
+m.tx = 50
+
+local r = m * Vector.xy(10, 20)
+print(r.x, r.y) -- 60, 20
+```
 
 
 ### `ty`
 
 Translation along the y-axis.
+```lua highlight={3}
+local m = Mat2D.identity()
+
+m.ty = 100
+
+local r = m * Vector.xy(10, 20)
+print(r.x, r.y) -- 10, 120
+```
 
 
 ### `withTranslation`
 
 Creates a translation matrix from the given x and y values or from a
 [Vector](/scripting/api-reference/vec2d/vector) position.
+```lua highlight={2,6}
+-- From numbers
+local t1 = Mat2D.withTranslation(50, 100)
+
+-- From a Vector
+local pos = Vector.xy(50, 100)
+local t2 = Mat2D.withTranslation(pos)
+```
 
 
 ### `withScale`
 
 Creates a scale matrix from the given x and y values or from a [Vector](/scripting/api-reference/vec2d/vector).
+```lua highlight={2,5,9}
+-- Uniform scale (y defaults to x if omitted)
+local s1 = Mat2D.withScale(2)
+
+-- Non-uniform scale
+local s2 = Mat2D.withScale(2, 3)
+
+-- From a Vector
+local scale = Vector.xy(2, 3)
+local s3 = Mat2D.withScale(scale)
+```
 
 
 ### `withScaleAndTranslation`
 
 Creates a scale-and-translation matrix from numeric values or vectors.
+```lua highlight={4,14}
+-- Numbers Overloaded
+
+-- Scale by (2, 3) then translate by (50, 100)
+local st = Mat2D.withScaleAndTranslation(2, 3, 50, 100)
+
+local p = Vector.xy(10, 20)
+local r = st * p
+
+-- (10,20) -> scaled (20,60) -> translated (70,160)
+print(r.x, r.y) -- 70, 160
+
+-- Vectors Overloaded
+
+local st = Mat2D.withScaleAndTranslation(
+  Vector.xy(2, 3),      -- scale
+  Vector.xy(50, 100)    -- position / translation
+)
+
+local r = st * Vector.xy(10, 20)
+print(r.x, r.y) -- 70, 160
+```
 
 
 ## Constructors
@@ -59,43 +168,97 @@ Creates a scale-and-translation matrix from numeric values or vectors.
 ### `values`
 
 Creates a matrix using the specified components.
+```lua
+-- xx=1, xy=skewX (horizontal skew), yx=skewY (vertical skew), yy=1, tx=0, ty=0Ô
+local newMat = Mat2D.values(1, self.skewY, self.skewX, 1, 0, 0)Ô
+```
 
 
 ### `identity`
 
 Returns the identity matrix.
+```lua
+-- xx = 1, xy = 0, yx = 0, yy = 1, tx = 0, ty = 0
+local newMat = Mat2D.identity()
+```
 
 
 ### `withRotation`
 
 Creates a rotation matrix from the given angle in radians.
+```lua highlight={1}
+local rot = Mat2D.withRotation(math.rad(90))
+local r = rot * Vector.xy(1, 0)
+
+print(math.floor(r.x + 0.5), math.floor(r.y + 0.5)) -- 0, 1
+```
 
 
 ## Methods
 
 ### `invert`
 
-Provides indexed access to the matrix components.
 Returns the inverse of the matrix, or nil if the matrix is not invertible.
+```lua highlight={2}
+local m = Mat2D.withTranslation(50, 100)
+local inv = m:invert()
+
+if inv then
+  local p = Vector.xy(10, 20)
+  local result = inv * (m * p)
+  print(result.x, result.y) -- 10, 20
+end
+```
 
 
 ### `isIdentity`
 
 Returns true if the matrix is the identity transform.
+```lua
+local newMat = Mat2D.identity()
+print(newMat:isIdentity())
+```
 
 
 ### `__eq`
 
 Returns true if all components of the two matrices are equal.
+```lua highlight={4}
+local a = Mat2D.values(1, 0, 0, 1, 0, 0)
+local b = Mat2D.identity()
+
+print(a == b) -- true
+```
 
 
 ### `__mul`
 
-Transforms the given vector by the matrix and returns the result.
+Transforms the given [Vector](/scripting/api-reference/vec2d/vector) by the matrix and returns the result.
+```lua highlight={5}
+local translation = Mat2D.values(1, 0, 0, 1, 50, 100)
+local point = Vector.xy(10, 20)
+
+-- Multiply matrix by vector
+local result = translation * point
+
+print(result.x, result.y) -- 60, 120
+```
 
 
 ### `__mul`
 
 Returns the matrix product of this matrix and the given matrix
+```lua highlight={5}
+local translation = Mat2D.values(1, 0, 0, 1, 50, 100)
+local scale = Mat2D.values(2, 0, 0, 2, 0, 0)
+
+-- Combine transforms
+local combined = translation * scale
+
+local point = Vector.xy(10, 20)
+local result = combined * point
+
+print(result.x, result.y) -- 70, 140
+```
 
 

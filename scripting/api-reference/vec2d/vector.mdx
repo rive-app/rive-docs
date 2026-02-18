@@ -29,9 +29,6 @@ local yValue = v.y  -- -5
 
 ### `xy`
 
-```lua
-xy(x: number, y: number) -> Vector
-```
 Creates a vector with the specified x and y components.
 ```lua
 local v = Vector.xy(5, -2)  -- 5 -2
@@ -75,19 +72,6 @@ local c = Vector.cross(Vector.xy(1, 0), Vector.xy(0, 1))  -- 1
 ## Methods
 
 ### `length`
-
-Provides indexed access to the vector components.
-```lua
-local v = Vector.xy(3, 4)
-print(v[1], v[2]) -- 3 4
-```
-Returns the length of the vector.
-Use `Vector.length(v)` instead for better performance.
-```lua
-local v = Vector.xy(3, 4)
-local len = v:length()  -- 5
-```
-
 
 ### `lengthSquared`
 
