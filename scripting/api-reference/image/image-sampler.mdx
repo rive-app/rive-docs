@@ -4,5 +4,37 @@ title: ImageSampler
 
 Represents sampling parameters applied when drawing an image, including
 wrapping and filtering behaviour.
+See also [ImageSampler](/scripting/api-reference/image/image-sampler), [ImageWrap](/scripting/api-reference/image/image-wrap), and [ImageFilter](/scripting/api-reference/image/image-filter).
+
+Check out [Scripting demos](https://rive.app/docs/scripting/demos) to see a working example.
+
+```lua highlight={3,8,15}
+type DrawImage = {
+  myImage: Image?,
+  sampler: ImageSampler?,
+}
+
+function init(self: DrawImage, context: Context): boolean
+  self.myImage = context:image('myImage')
+  self.sampler = ImageSampler('clamp', 'clamp', 'bilinear')
+
+  return true
+end
+
+function draw(self: DrawImage, renderer: Renderer)
+  if self.myImage and self.sampler then
+    renderer:drawImage(self.myImage, self.sampler, 'srcOver', 1)
+  end
+end
+
+return function(): Node<DrawImage>
+  return {
+    myImage = nil,
+    sampler = nil,
+    init = init,
+    draw = draw,
+  }
+end
+```
 
 

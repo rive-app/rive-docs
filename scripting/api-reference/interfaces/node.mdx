@@ -2,10 +2,11 @@
 title: Node
 ---
 
-A scripted node that can be attached to any Node. The node is rendered
+Node scripts can be used to render shapes, images, text, artboards, and more.
+A scripted node can be attached to any Node and is rendered
 in the local transform space of the hosting Node.
 
-See [Node Scripts](/scripting/protocols/node-scripts).
+For more information, see [Node Scripts](/scripting/protocols/node-scripts).
 
 
 ## Methods
@@ -15,21 +16,267 @@ See [Node Scripts](/scripting/protocols/node-scripts).
 Called once when the node is created. Returns true if initialization
 succeeds.
 
+For a more complete example using `init`, see [Instantiating Components](/scripting/protocols/node-scripts#instantiating-components).
+```lua highlight={5,6,7,12}
+-- Define the script's data and inputs.
+type MyNode = {}
+
+-- Called once when the script initializes.
+function init(self: MyNode, context: Context): boolean
+  return true
+end
+
+-- Return a factory function that Rive uses to build the Node instance.
+return function(): Node<MyNode>
+  return {
+    init = init
+  }
+end
+```
+
 
 ### `advance`
 
 Optional per-frame update. Returns true if the node should continue
 receiving advance calls.
 
+For a more complete example using `advance`, see [Fixed-step Advanced](/scripting/protocols/node-scripts#fixed-step-advance).
+```lua highlight={6,7,8,13}
+-- Define the script's data and inputs.
+type MyNode = {}
+
+-- Called every frame to advance the simulation.
+-- 'seconds' is the elapsed time since the previous frame.
+function advance(self: MyNode, seconds: number): boolean
+  return false
+end
+
+-- Return a factory function that Rive uses to build the Node instance.
+return function(): Node<MyNode>
+  return {
+    advance = advance,
+  }
+end
+```
+
 
 ### `update`
 
 Called when an input value changes.
+```lua highlight={5,6,7,12}
+-- Define the script's data and inputs.
+type MyNode = {}
+
+-- Called when any input value changes.
+function update(self: MyNode)
+  print('An script input value has changed.')
+end
+
+-- Return a factory function that Rive uses to build the Node instance.
+return function(): Node<MyNode>
+  return {
+    update = update,
+  }
+end
+```
 
 
 ### `draw`
 
-Called to render the node using the provided renderer.
+Called to render the node using the provided [Renderer](/scripting/api-reference/renderer/renderer).
+
+For a more complete example using draw, see [Instantiating Components](/scripting/protocols/node-scripts#instantiating-components).
+```lua highlight={5,10}
+-- Define the script's data and inputs.
+type MyNode = {}
+
+-- Called every frame (after advance) to render the content.
+function draw(self: MyNode, renderer: Renderer) end
+
+-- Return a factory function that Rive uses to build the Node instance.
+return function(): Node<MyNode>
+  return {
+    draw = draw,
+  }
+end
+```
+
+
+### `pointerDown`
+
+Pointer event down handler.
+
+```lua
+function handlePointerDown(self: MyGame, event: PointerEvent)
+  print('Pointer Position: ', event.position.x, event.position.y)
+
+  event:hit()
+end
+
+return function(): Node<MyGame>
+    return {
+        init = init,
+        advance = advance,
+        draw = draw,
+        pointerDown = handlePointerDown,
+    }
+end
+```
+
+
+### `pointerMove`
+
+Pointer event move handler.
+
+```lua
+function handlePointerMove(self: MyGame, event: PointerEvent)
+  print('Pointer Position: ', event.position.x, event.position.y)
+
+  event:hit()
+end
+
+return function(): Node<MyGame>
+    return {
+        init = init,
+        advance = advance,
+        draw = draw,
+        pointerMove = handlePointerMove,
+    }
+end
+```
+
+
+### `pointerUp`
+
+Pointer event up handler.
+```lua
+function handlePointerUp(self: MyGame, event: PointerEvent)
+  print('Pointer Position: ', event.position.x, event.position.y)
+
+  event:hit()
+end
+
+return function(): Node<MyGame>
+    return {
+        init = init,
+        advance = advance,
+        draw = draw,
+        pointerUp = handlePointerUp,
+    }
+end
+```
+
+
+### `pointerExit`
+
+Pointer event exit handler.
+```lua
+function handlePointerExit(self: MyGame, event: PointerEvent)
+  print('Pointer Position: ', event.position.x, event.position.y)
+
+  event:hit()
+end
+
+return function(): Node<MyGame>
+    return {
+        init = init,
+        advance = advance,
+        draw = draw,
+        pointerExit = handlePointerExit,
+    }
+end
+```
+
+
+### `init`
+
+Called once when the node is created. Returns true if initialization
+succeeds.
+
+For a more complete example using `init`, see [Instantiating Components](/scripting/protocols/node-scripts#instantiating-components).
+```lua highlight={5,6,7,12}
+-- Define the script's data and inputs.
+type MyNode = {}
+
+-- Called once when the script initializes.
+function init(self: MyNode, context: Context): boolean
+  return true
+end
+
+-- Return a factory function that Rive uses to build the Node instance.
+return function(): Node<MyNode>
+  return {
+    init = init
+  }
+end
+```
+
+
+### `advance`
+
+Optional per-frame update. Returns true if the node should continue
+receiving advance calls.
+
+For a more complete example using `advance`, see [Fixed-step Advanced](/scripting/protocols/node-scripts#fixed-step-advance).
+```lua highlight={6,7,8,13}
+-- Define the script's data and inputs.
+type MyNode = {}
+
+-- Called every frame to advance the simulation.
+-- 'seconds' is the elapsed time since the previous frame.
+function advance(self: MyNode, seconds: number): boolean
+  return false
+end
+
+-- Return a factory function that Rive uses to build the Node instance.
+return function(): Node<MyNode>
+  return {
+    advance = advance,
+  }
+end
+```
+
+
+### `update`
+
+Called when an input value changes.
+```lua highlight={5,6,7,12}
+-- Define the script's data and inputs.
+type MyNode = {}
+
+-- Called when any input value changes.
+function update(self: MyNode)
+  print('An script input value has changed.')
+end
+
+-- Return a factory function that Rive uses to build the Node instance.
+return function(): Node<MyNode>
+  return {
+    update = update,
+  }
+end
+```
+
+
+### `draw`
+
+Called to render the node using the provided [Renderer](/scripting/api-reference/renderer/renderer).
+
+For a more complete example using draw, see [Instantiating Components](/scripting/protocols/node-scripts#instantiating-components).
+```lua highlight={5,10}
+-- Define the script's data and inputs.
+type MyNode = {}
+
+-- Called every frame (after advance) to render the content.
+function draw(self: MyNode, renderer: Renderer) end
+
+-- Return a factory function that Rive uses to build the Node instance.
+return function(): Node<MyNode>
+  return {
+    draw = draw,
+  }
+end
+```
 
 
 ### `pointerDown`

@@ -43,19 +43,18 @@ end
 ### `removeListener`
 
 Removes a previously registered listener.
-```lua highlight={12}
+```lua highlight={6}
 local health = vm:getNumber("health")
 
 if health then
   local function onHealthChanged(prop)
     print("New health:", prop.value)
+    health:removeListener(onHealthChanged)
   end
 
   health:addListener(onHealthChanged)
 
   health.value = 50 -- Triggers listener
-
-  health:removeListener(onHealthChanged)
 end
 ```
 

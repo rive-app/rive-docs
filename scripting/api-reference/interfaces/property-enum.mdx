@@ -22,3 +22,18 @@ end
 ```
 
 
+### `values`
+
+The [EnumValues](/scripting/api-reference/interfaces/enum-values) of the enum.
+```lua highlight={6}
+local vmi = context:viewModel()
+if vmi then
+    local textAlignment = vmi:getEnum('textAlignment')
+
+    if textAlignment then
+        local values = textAlignment:values()
+    end
+end
+```
+
+
