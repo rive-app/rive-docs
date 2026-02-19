@@ -1,17 +1,17 @@
 ---
-title: Observing ViewModel Changes
-description: React to animation and state updates by observing ViewModel property changes.
+title: "Observing ViewModel Changes"
+description: "React to animation and state updates by observing ViewModel property changes."
 ---
 
 # Observing ViewModel Changes
 
 In the Unreal runtime, **ViewModels** are the supported way for Rive content to communicate back to Unreal.
 
-Legacy **State Machine** events and direct callback mechanisms are deprecated.  
+Legacy **State Machine** events and direct callback mechanisms are deprecated.\
 New integrations should observe **ViewModel** property changes instead.
 
 <Info>
-All runtime output from Rive should flow through a **ViewModel Instance**.
+  All runtime output from Rive should flow through a **ViewModel Instance**.
 </Info>
 
 ## How Observation Works
@@ -25,10 +25,6 @@ During the **Artboard** tick:
 5. Rendering occurs
 
 Observation happens synchronously during this update cycle.
-
-<Warning>
-If the **Artboard** is not ticked, property change callbacks will not fire.
-</Warning>
 
 ## Registering Callbacks
 
@@ -64,8 +60,8 @@ When fired:
 - The observer receives the callback
 
 <Tip>
-Use **Trigger Properties** for actions.  
-Use boolean or numeric properties for persistent state.
+  Use **Trigger Properties** for actions.\
+  Use boolean or numeric properties for persistent state.
 </Tip>
 
 ## Observing Structured Data
@@ -101,11 +97,6 @@ Callbacks are synchronous and not asynchronous events.
 
 **ViewModels** are both the input and output boundary of the runtime.
 
-Unreal writes values.  
-The **State Machine** evaluates.  
+Unreal writes values.\
+The **State Machine** evaluates.\
 Unreal observes changes.
-
-## Next Steps
-
-- Understand **Loading Assets**
-- Read the **Migration Guide** if upgrading

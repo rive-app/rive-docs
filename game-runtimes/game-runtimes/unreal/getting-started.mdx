@@ -1,12 +1,12 @@
 ---
-title: Getting Started
-description: Install the Rive Unreal plugin, run your first Artboard via URiveActorComponent, and display it in UMG.
+title: "Getting Started"
+description: "Install the Rive Unreal plugin, run your first Artboard via URiveActorComponent, and display it in UMG."
 ---
 
 This guide walks you through installing the Rive Unreal plugin, importing a `.riv` file, ticking it via **URiveActorComponent**, and displaying it in UMG.
 
 <Info>
-Supported on Unreal Engine 5.7.3 and above.
+  Supported on Unreal Engine 5.7.3 and above.
 </Info>
 
 ## 1) Install the Plugin
@@ -21,7 +21,7 @@ Supported on Unreal Engine 5.7.3 and above.
         Open Fab.
       </Step>
       <Step>
-        Search for Rive or go directly to:  
+        Search for Rive or go directly to:\
         https://www.fab.com/portal/listings/4a79a0af-7614-42bd-8857-5375c2668706/
       </Step>
       <Step>
@@ -32,7 +32,6 @@ Supported on Unreal Engine 5.7.3 and above.
       </Step>
     </Steps>
   </Tab>
-
   <Tab title="GitHub">
     <Steps>
       <Step>
@@ -64,139 +63,35 @@ Supported on Unreal Engine 5.7.3 and above.
 1. Open the Content Browser.
 2. Drag and drop a `.riv` file into your project.
 
-Unreal creates a **Rive File** asset.
+Unreal creates a **Rive File** asset. You can inspect this asset by double-clicking it.
 
 <Info>
-A **Rive File** is an Unreal asset. It does not render directly.
+  A **Rive File** is an Unreal asset. It does not render directly.
 </Info>
 
-## 4) Run Rive on an Actor (Recommended)
+## 5) Create a Widget
 
-The recommended runtime entry point is **URiveActorComponent**.
+1. Right-click on the **Rive file** asset and select **Create Rive Widget** from the context menu.
 
-It:
+<Frame>
+  <img
+    src="/images/Unreal/DuelistContextMenu.png"
+    alt="Duelist Context Menu"
+    className="mx-auto"
+    style={{ width:"73%" }}
+  />
+</Frame>
 
-- Owns a render target internally
-- Initializes on BeginPlay
-- Ticks every frame
-- Draws the current **Artboard** output to a texture
+You can inspect the created widget by double-clicking it.
 
-<Tabs>
-  <Tab title="Blueprint">
-    <Steps>
-      <Step>
-        Create an Actor Blueprint (for example: `BP_RiveHost`).
-      </Step>
-      <Step>
-        Add the **Rive** component (this is **URiveActorComponent**).
-      </Step>
-      <Step>
-        In the component details, set **DefaultRiveDescriptor**:
-        - **RiveFile** (your imported `.riv` asset)
-        - **ArtboardName**
-        - **StateMachineName** (if used)
-      </Step>
-      <Step>
-        Set **Size** to control the render target resolution (for example 512×512).
-      </Step>
-      <Step>
-        Place `BP_RiveHost` in the level (or spawn it at runtime).
-      </Step>
-    </Steps>
+<Frame>
+  ![Duelist Widget Inspector](/images/DuelistWidgetInspector.png)
+</Frame>
 
-    <Tip>
-    If you change the render size at runtime, call `ResizeRenderTarget(SizeX, SizeY)` on the component.
-    </Tip>
-  </Tab>
+## 5) Create a Blueprint
 
-  <Tab title="C++">
-    ```cpp
-    // RiveHostActor.h
-    #pragma once
+1. You can now use the widget in a blueprint just as you would any other widget.
 
-    #include "CoreMinimal.h"
-    #include "GameFramework/Actor.h"
-    #include "RiveHostActor.generated.h"
-
-    class URiveActorComponent;
-
-    UCLASS()
-    class ARiveHostActor : public AActor
-    {
-        GENERATED_BODY()
-
-    public:
-        ARiveHostActor();
-
-        UPROPERTY(VisibleAnywhere, Category="Rive")
-        TObjectPtr<URiveActorComponent> Rive;
-    };
-    ```
-
-    ```cpp
-    // RiveHostActor.cpp
-    #include "RiveHostActor.h"
-    #include "Game/RiveActorComponent.h"
-
-    ARiveHostActor::ARiveHostActor()
-    {
-        PrimaryActorTick.bCanEverTick = false;
-
-        Rive = CreateDefaultSubobject<URiveActorComponent>(TEXT("Rive"));
-        // Configure DefaultRiveDescriptor and Size in defaults (Blueprint child) or via UPROPERTY exposure.
-    }
-    ```
-  </Tab>
-</Tabs>
-
-<Warning>
-**URiveActorComponent** is responsible for ticking and drawing.  
-Do not build per-frame polling loops in UMG or Blueprints to “drive” Rive.
-</Warning>
-
-## 5) Display in UMG (Widget Path)
-
-The widget path is: **UMG displays the texture produced by the Actor component**.
-
-**URiveActorComponent** exposes `GetTexture()` which returns a `UTexture*` you can use in a UMG Image brush.
-
-<Tabs>
-  <Tab title="Blueprint">
-    <Steps>
-      <Step>
-        Create a Widget Blueprint (for example: `WBP_HUD`).
-      </Step>
-      <Step>
-        Add an Image widget.
-      </Step>
-      <Step>
-        Get a reference to your `BP_RiveHost` Actor, then get its **Rive** component.
-      </Step>
-      <Step>
-        Call `GetTexture()` on the component and assign it to the Image brush resource.
-      </Step>
-    </Steps>
-  </Tab>
-
-  <Tab title="C++ (set UImage brush)">
-    ```cpp
-    // Assuming:
-    // - URiveActorComponent* RiveComp (valid)
-    // - UImage* ImageWidget (valid)
-
-    if (UTexture* Tex = RiveComp ? RiveComp->GetTexture() : nullptr)
-    {
-        FSlateBrush Brush;
-        Brush.SetResourceObject(Tex);
-        ImageWidget->SetBrush(Brush);
-    }
-    ```
-  </Tab>
-</Tabs>
-
-## What’s Next?
-
-- Learn how **Artboards & Rendering** work
-- Understand **State Machines**
-- Use **ViewModels & Data Binding**
-- Observe changes via **ViewModel** callbacks
+   <Frame>
+     ![Duelist Add Widget BP](/images/DuelistAddWidgetBP.png)
+   </Frame>
