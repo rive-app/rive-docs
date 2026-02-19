@@ -3,6 +3,34 @@ title: Image
 ---
 
 Represents an image asset that can be drawn by the [Renderer](/scripting/api-reference/renderer/renderer).
+```lua highlight={2,7,15}
+type DrawImage = {
+  myImage: Image?,
+  sampler: ImageSampler?,
+}
+
+function init(self: DrawImage, context: Context): boolean
+  self.myImage = context:image('myImage')
+  self.sampler = ImageSampler('clamp', 'clamp', 'bilinear')
+
+  return true
+end
+
+function draw(self: DrawImage, renderer: Renderer)
+  if self.myImage and self.sampler then
+    renderer:drawImage(self.myImage, self.sampler, 'srcOver', 1)
+  end
+end
+
+return function(): Node<DrawImage>
+  return {
+    myImage = nil,
+    sampler = nil,
+    init = init,
+    draw = draw,
+  }
+end
+```
 
 
 ## Fields
@@ -10,10 +38,24 @@ Represents an image asset that can be drawn by the [Renderer](/scripting/api-ref
 ### `width`
 
 Width of the image.
+```lua highlight={4}
+self.myImage = context:image('myImage')
+
+if self.myImage then
+    print("myImage width:", self.myImage.width)
+end
+```
 
 
 ### `height`
 
 Height of the image.
+```lua highlight={4}
+self.myImage = context:image('myImage')
+
+if self.myImage then
+    print("myImage height:", self.myImage.height    )
+end
+```
 
 
