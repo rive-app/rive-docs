@@ -42,6 +42,12 @@ Callbacks should be:
 - Unregistered before destroying the instance
 - Owned by the same system that owns the instance
 
+  You can use the **Add Field Value Changed Delegate** to trigger events when a value is changed.
+
+  <Frame>
+    ![Duelist Delegate](/images/DuelistDelegate.png)
+  </Frame>
+
 ## Observing Trigger Properties
 
 A **Trigger Property** can be used as a one-shot signal.
@@ -85,13 +91,6 @@ Important rules:
 - Do not assume callbacks persist after **Artboard** reinitialization
 
 Callbacks are synchronous and not asynchronous events.
-
-## Common Mistakes
-
-- Observing a **ViewModel Instance** that is not bound
-- Expecting callbacks without ticking the **Artboard**
-- Using triggers for persistent state
-- Performing heavy logic inside callbacks
 
 ## Summary
 
