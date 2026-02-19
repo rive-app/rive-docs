@@ -1,0 +1,109 @@
+---
+title: "Getting Started"
+description: "Install the Rive Unreal plugin, run your first Artboard via URiveActorComponent, and display it in UMG."
+---
+
+This guide walks you through installing the Rive Unreal plugin, importing a `.riv` file, ticking it via **URiveActorComponent**, and displaying it in UMG.
+
+<Info>
+  Supported on Unreal Engine 5.7.3 and above.
+</Info>
+
+## 1) Install the Plugin
+
+<Tabs>
+  <Tab title="Fab (Recommended)">
+    <Steps>
+      <Step>
+        Open the Epic Games Launcher or Unreal Editor.
+      </Step>
+      <Step>
+        Open Fab.
+      </Step>
+      <Step>
+        Search for Rive or go directly to:\
+        https://www.fab.com/portal/listings/4a79a0af-7614-42bd-8857-5375c2668706/
+      </Step>
+      <Step>
+        Add the plugin to your engine or project.
+      </Step>
+      <Step>
+        Restart Unreal Engine if prompted.
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="GitHub">
+    <Steps>
+      <Step>
+        Clone the repository:
+
+        ```bash
+        git clone https://github.com/rive-app/rive-unreal.git
+        ```
+      </Step>
+      <Step>
+        Copy the `Rive` plugin folder into your project's `Plugins/` directory.
+      </Step>
+      <Step>
+        Regenerate project files and build.
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+## 2) Enable the Plugin
+
+1. Open Edit → Plugins.
+2. Locate Rive under Runtime.
+3. Enable the plugin.
+4. Restart the editor if required.
+
+## 3) Import a Rive File
+
+1. Open the Content Browser.
+2. Drag and drop a `.riv` file into your project.
+
+Unreal creates a **Rive File** asset. You can inspect this asset by double-clicking it.
+
+<Info>
+  A **Rive File** is an Unreal asset. It does not render directly.
+</Info>
+
+## 5) Create a Widget
+
+1. Right-click on the **Rive file** asset and select **Create Rive Widget** from the context menu.
+
+<Frame>
+  <img
+    src="/images/Unreal/DuelistContextMenu.png"
+    alt="Duelist Context Menu"
+    className="mx-auto"
+    style={{ width:"73%" }}
+  />
+</Frame>
+
+You can inspect the created widget by double-clicking it.
+
+<Frame>
+  ![Duelist Widget Inspector](/images/DuelistWidgetInspector.png)
+</Frame>
+
+## 5) Create a Blueprint
+
+1. You can now use the widget in a blueprint just as you would any other widget.
+
+   <Frame>
+     ![Duelist Add Widget BP](/images/DuelistAddWidgetBP.png)
+   </Frame>
+
+## 6) Bind a ViewModel
+
+If the Rive File is not using **autobinding**, you must assign a viewmodel. This can be done in blueprints using the **Make View Model** node.
+
+<Frame>
+  ![Duelist Set View Model](/images/DuelistSetViewModel.png)
+</Frame>
+
+Your **Rive File** is now setup for use in your application. The next page will show you how to observe changes in teh ViewModel.
+
+![Duelist Screenshot UE](/images/DuelistScreenshotUE.png)

@@ -27,14 +27,14 @@ A StateMachine advances (plays) animations in an Artboard.
 
     ```csharp
     [SerializeField] private RiveWidget m_riveWidget;
-
+    
     ...
-
+    
     void OnEnable()
     {
         m_riveWidget.OnWidgetStatusChanged += OnWidgetStatusChanged;
     }
-
+    
     private void OnWidgetStatusChanged()
     {
         // Wait for the Rive Widget to load before accessing the state machine.
@@ -43,8 +43,8 @@ A StateMachine advances (plays) animations in an Artboard.
             StateMachine m_stateMachine = m_riveWidget.StateMachine;
         }
     }
-
-
+    
+    
     void OnDisable()
     {
         m_riveWidget.OnWidgetStatusChanged -= OnWidgetStatusChanged;
@@ -53,14 +53,14 @@ A StateMachine advances (plays) animations in an Artboard.
   </Tab>
   <Tab title="Legacy API">
     <LegacyApiNotice />
-    
+
     State Machines are instantiated from an Arboard instance:
 
     ```csharp
     private StateMachine m_stateMachine;
-
+    
     ...
-
+    
     m_stateMachine = m_artboard?.StateMachine(); // default state machine
     m_stateMachine = m_artboard?.StateMachine(0); // state machine at index
     m_stateMachine = m_artboard?.StateMachine("Name"); // state machine with name
