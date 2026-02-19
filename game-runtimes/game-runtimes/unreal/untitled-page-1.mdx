@@ -1,14 +1,15 @@
 ---
 title: "Migration Guide"
 description: "Migrate from legacy inputs and events to the ViewModel-first Unreal runtime."
+hidden: true
 ---
 
 # Migration Guide
 
-This guide helps you migrate projects built on the legacy Unreal plugin (direct **State Machine** inputs and legacy events) to the current **ViewModel**-first runtime. 
+This guide helps you migrate projects built on the legacy Unreal plugin (direct **State Machine** inputs and legacy events) to the current **ViewModel**-first runtime.
 
 <Info>
-Legacy refers to plugin versions earlier than 0.4.0.
+  Legacy refers to plugin versions earlier than 0.4.0.
 </Info>
 
 <Warning>
@@ -136,26 +137,6 @@ Common patterns:
 <Warning>
   All mutation of **Artboards** and **ViewModel Instances** should occur on the **Game Thread**.
 </Warning>
-
-## Ticking and Rendering (If You Previously Relied on Implicit Behavior)
-
-If your old integration assumed the plugin handled ticking or rendering implicitly, ensure you now:
-
-- Advance the **Artboard** explicitly every frame
-- Render explicitly (or through your chosen integration path)
-- Treat ticking and rendering as separate responsibilities
-
-<Info>
-  No tick means no **State Machine** evaluation and no **ViewModel** callbacks.
-</Info>
-
-## Common Migration Pitfalls
-
-- Updating to the new plugin but keeping old input/event code paths
-- Forgetting to bind the **ViewModel Instance** to the **Artboard**
-- Expecting triggers to persist (they are one-shot)
-- Observing a **ViewModel Instance** that is not bound
-- Not ticking the **Artboard** every frame
 
 ## Recommended Migration Strategy
 
