@@ -7,4 +7,20 @@ Defines how texture coordinates outside the [0, 1] range are handled.
 * `repeat`
 * `mirror`
 
+See [ImageSampler](/scripting/api-reference/image/image-sampler) for usage.
+```lua highlight={5,7}
+function init(self: DrawImage, context: Context): boolean
+  self.myImage = context:image('myImage')
+  self.sampler = ImageSampler(
+    -- Image wrap X
+    'clamp',
+    -- Image wrap Y
+    'clamp',
+    'bilinear'
+  )
+
+  return true
+end
+```
+
 

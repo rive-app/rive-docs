@@ -3,6 +3,7 @@ title: ListenerAction
 ---
 
 An action performed when an associated [State Machine Listener](/editor/state-machine/listeners) is triggered.
+
 For more information, see [Listener Action Scripts](/scripting/protocols/listener-action-scripts).
 
 
@@ -11,15 +12,49 @@ For more information, see [Listener Action Scripts](/scripting/protocols/listene
 ### `init`
 
 Called once when the listener is created or attached.
+```lua highlight={4,5,6,12}
+type MyListenerAction = {}
+
+-- Called once when the script initializes.
+function init(self: MyListenerAction, context: Context): boolean
+  return true
+end
+
+function perform(self: MyListenerAction, pointerEvent: PointerEvent) end
+
+return function(): ListenerAction<MyListenerAction>
+  return {
+    init = init,
+    perform = perform,
+  }
+end
+```
 
 
 ### `perform`
 
 Called when the associated [State Machine Listener](/editor/state-machine/listeners) is triggered.
 This method includes a [PointerEvent](/scripting/api-reference/artboards/pointer-event) parameter containing details about the triggering interaction.
-```lus
+```lua highlight={9,10,11,17}
+type MyListenerAction = {}
+
+function init(self: MyListenerAction, context: Context): boolean
+  return true
+end
+
+-- Add your transition logic here.
+-- `evaluate` is fired every frame while the transition is active.
+-- Returning false prevents a transition, true allows a transition.
 function perform(self: MyListenerAction, pointerEvent: PointerEvent)
-  print(pointerEvent.id)
+  return true
+end
+
+-- Return a factory function that Rive uses to build the Listener Action instance.
+return function(): ListenerAction<MyListenerAction>
+  return {
+    init = init,
+    perform = perform,
+  }
 end
 ```
 

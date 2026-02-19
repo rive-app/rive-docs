@@ -1,0 +1,101 @@
+---
+title: "Observing ViewModel Changes"
+description: "React to animation and state updates by observing ViewModel property changes."
+---
+
+# Observing ViewModel Changes
+
+In the Unreal runtime, **ViewModels** are the supported way for Rive content to communicate back to Unreal.
+
+Legacy **State Machine** events and direct callback mechanisms are deprecated.\
+New integrations should observe **ViewModel** property changes instead.
+
+<Info>
+  All runtime output from Rive should flow through a **ViewModel Instance**.
+</Info>
+
+## How Observation Works
+
+During the **Artboard** tick:
+
+1. Unreal sets **ViewModel** values
+2. The **State Machine** evaluates transitions
+3. The **State Machine** may modify **ViewModel** values
+4. Property change callbacks are emitted
+5. Rendering occurs
+
+Observation happens synchronously during this update cycle.
+
+## Registering Callbacks
+
+Each property on a **ViewModel Instance** can be observed.
+
+When a property changes:
+
+- The callback is invoked
+- The updated value is available
+- Logic can react immediately
+
+Callbacks should be:
+
+- Registered after creating the **ViewModel Instance**
+- Unregistered before destroying the instance
+- Owned by the same system that owns the instance
+
+  You can use the **Add Field Value Changed Delegate** to trigger events when a value is changed.
+
+  <Frame>
+    ![Duelist Delegate](/images/DuelistDelegate.png)
+  </Frame>
+
+## Observing Trigger Properties
+
+A **Trigger Property** can be used as a one-shot signal.
+
+Common use cases:
+
+- Button click notifications
+- Animation milestones
+- State transition signals
+- Gameplay triggers
+
+When fired:
+
+- The trigger activates during the next tick
+- The property resets automatically
+- The observer receives the callback
+
+<Tip>
+  Use **Trigger Properties** for actions.\
+  Use boolean or numeric properties for persistent state.
+</Tip>
+
+## Observing Structured Data
+
+Because **ViewModels** may contain nested structures:
+
+- Nested **ViewModel Instances** can also be observed
+- Changes propagate through the same callback mechanism
+- Observation remains consistent regardless of hierarchy depth
+
+This allows complex UI or gameplay state to remain structured and predictable.
+
+## Lifetime and Safety
+
+Observation follows the lifetime of the **ViewModel Instance**.
+
+Important rules:
+
+- Do not observe destroyed instances
+- Unbind callbacks before destroying instances
+- Do not assume callbacks persist after **Artboard** reinitialization
+
+Callbacks are synchronous and not asynchronous events.
+
+## Summary
+
+**ViewModels** are both the input and output boundary of the runtime.
+
+Unreal writes values.\
+The **State Machine** evaluates.\
+Unreal observes changes.

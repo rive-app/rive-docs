@@ -1,8 +1,71 @@
 ---
-title: "Unreal"
-description: "Unreal runtime for Rive."
+title: "Unreal Engine"
 ---
 
+Rive’s Unreal runtime allows you to render and control Rive animations natively inside Unreal Engine. It integrates directly with Unreal’s object system and rendering pipeline and is designed for real-time use cases.
+
+## Supported Unreal Versions
+
+- Unreal Engine 5.7.3 and above
+
+## Supported Platforms
+
+- Windows
+- macOS
+
 <Warning>
-  The Unreal plugin has been rewritten as of version 0.4.0 (more details [here](https://community.rive.app/c/announcements/rive-x-unreal). Documentation is coming soon.
+  Mobile platform support is planned but not yet available.
 </Warning>
+
+## Rendering Backends
+
+Depending on platform and engine configuration, supported backends include:
+
+- DirectX (Windows)
+- Metal (macOS)
+
+<Info>
+  The Unreal runtime uses RHI for rendering backend integration.
+</Info>
+
+Rendering is handled by Rive’s native renderer and coordinated with Unreal’s render thread.
+
+## Feature Support
+
+| Feature                     | Supported  |
+| --------------------------- | ---------- |
+| Animation playback          | ✅          |
+| State machines              | ✅          |
+| ViewModels (data binding)   | ✅          |
+| Property observation        | ✅          |
+| Text rendering              | ✅          |
+| Image assets                | ✅          |
+| Multiple Artboards per file | ✅          |
+| Scripting                   | ✅          |
+| Legacy state machine events | Deprecated |
+| Legacy direct inputs        | Deprecated |
+
+<Warning>
+  Legacy state machine events and inputs are deprecated.\
+  New integrations should use ViewModels for both input and output.
+</Warning>
+
+## Architecture Overview
+
+The Unreal runtime is built around three core runtime objects:
+
+- **Rive File** — Unreal asset containing imported Rive data
+- **Artboard** — Runtime instance responsible for evaluation and rendering
+- **ViewModel** — Typed data boundary between Unreal and Rive logic
+
+The typical data flow is:
+
+Unreal → ViewModel → State Machine → ViewModel → Unreal
+
+State machines consume and modify ViewModel properties. Unreal observes those changes.
+
+## Support & Community
+
+If you need help:
+
+- Join the Rive Community: https://community.rive.app

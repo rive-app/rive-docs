@@ -12,6 +12,12 @@ next frame to draw it again.
 
 ### `new`
 
+```lua highlight={11}
+local path = Path.new()
+path:moveTo(Vector.xy(0, 0))
+```
+
+
 ## Methods
 
 ### `moveTo`
@@ -131,9 +137,7 @@ end
 
 ### `measure`
 
-measure() → PathMeasure
-```
-Returns a `PathMeasure` that measures the entire path across all contours.
+Returns a [PathMeasure](/scripting/api-reference/path/path-measure) that measures the entire path across all contours.
 This provides the total length and allows operations on the path as a whole.
 ```lua
 local measure = path:measure()

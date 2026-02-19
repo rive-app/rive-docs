@@ -1,0 +1,124 @@
+---
+title: 'Events and Callbacks'
+---
+
+Events allow Rive content to notify your Unreal code or Blueprints when something happens inside an animation or state machine.
+
+They are the primary output mechanism for reacting to Rive-driven logic.
+
+## What Are Events?
+
+An **event** is a signal emitted by Rive content at runtime.
+
+Events are authored in the Rive file and can be emitted:
+- During state machine transitions
+- During animation playback
+- From explicit event nodes in the Rive editor
+
+In Unreal:
+- Events are delivered through the Artboard
+- Events are emitted during the Artboard tick
+- Events do not fire unless the Artboard is advanced
+
+## Event Types
+
+Rive supports **reported events**, which may include:
+
+- A name
+- Optional parameters
+- Timing information
+
+Events are defined entirely in the Rive file.  
+Unreal only receives what the file emits.
+
+## Receiving Events
+
+Events are received by binding callbacks to an Artboard.
+
+Callbacks can be used to:
+- Trigger gameplay logic
+- Update UI
+- Play sounds
+- Drive external systems
+
+Events are delivered in the same frame that the Artboard updates.
+
+## Named Events
+
+Named events allow you to listen for a specific event by name.
+
+This is useful when:
+- A file emits multiple events
+- You only care about a subset
+- You want to route different events to different handlers
+
+Event names must match those authored in the Rive file.
+
+## Event Timing
+
+Events are emitted during the Artboard update cycle.
+
+A typical sequence is:
+
+1. Inputs or ViewModel values are updated
+2. The Artboard is advanced
+3. State machines evaluate transitions
+4. Events are emitted
+5. Rendering occurs
+
+Because of this:
+- Events are never asynchronous
+- Events are never delivered outside of a tick
+- Missed ticks mean missed events
+
+## Callbacks and Lifetime
+
+Event callbacks are runtime bindings.
+
+Important rules:
+- Callbacks must be registered while the Artboard is alive
+- Callbacks should be unbound when no longer needed
+- Destroying an Artboard automatically invalidates its callbacks
+
+Failing to manage callback lifetime can lead to unexpected behavior.
+
+## Blueprint vs C++
+
+Events are available in both Blueprints and C++.
+
+Blueprint usage is appropriate for:
+- UI reactions
+- Simple gameplay responses
+- Prototyping
+
+C++ usage is recommended for:
+- Performance-critical logic
+- Complex event routing
+- Systems-level integration
+
+Both approaches receive the same event data.
+
+## Events vs ViewModel Callbacks
+
+Events and ViewModel callbacks serve different purposes:
+
+- **Events**  
+  Signal that something happened in Rive
+
+- **ViewModel callbacks**  
+  Signal that a bound value changed
+
+Use events for **actions** and ViewModel callbacks for **state changes**.
+
+## Common Pitfalls
+
+- Expecting events without ticking the Artboard
+- Misspelling event names
+- Binding callbacks too late
+- Leaving callbacks bound after Artboard destruction
+- Using events for continuous state instead of ViewModels
+
+## Next Steps
+
+- Decide when to use **Blueprint vs C++**
+- Understand **Threading & Safety**
