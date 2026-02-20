@@ -130,12 +130,20 @@ local len2 = Vector.lengthSquared(Vector.xy(3, 4))  -- 25
 
 ### `length`
 
+<Warning>
+  **Deprecated** - Vector.length
+</Warning>
+
 Returns the length of the vector.
 
 use Vector.length(v) instead.
 
 
 ### `lengthSquared`
+
+<Warning>
+  **Deprecated** - Vector.lengthSquared
+</Warning>
 
 Returns the squared length of the vector.
 
@@ -147,6 +155,10 @@ local len2 = v:lengthSquared()  -- 25
 
 
 ### `normalized`
+
+<Warning>
+  **Deprecated** - Vector.normalized
+</Warning>
 
 Returns a normalized copy of the vector. If the length is zero,
 the result is the zero vector.
@@ -219,6 +231,10 @@ local half = v / 2    -- 3 -2
 
 ### `distance`
 
+<Warning>
+  **Deprecated** - Vector.distance
+</Warning>
+
 Returns the distance to the other vector.
 
 Use `Vector.distance(a, b)` instead for better performance.
@@ -230,6 +246,10 @@ print(a:distance(b))  -- 5
 
 
 ### `distanceSquared`
+
+<Warning>
+  **Deprecated** - Vector.distanceSquared
+</Warning>
 
 Returns the squared distance to the other vector.
 
@@ -243,6 +263,10 @@ print(a:distanceSquared(b))  -- 25
 
 ### `dot`
 
+<Warning>
+  **Deprecated** - Vector.dot
+</Warning>
+
 Returns the dot product of the vector and the other vector.
 
 Use `Vector.dot(a, b)` instead for better performance.
@@ -254,6 +278,10 @@ print(a:dot(b))  -- 11  (1*3 + 2*4)
 
 
 ### `lerp`
+
+<Warning>
+  **Deprecated** - Vector.lerp
+</Warning>
 
 Returns the linear interpolation between the vector and the other
 vector, using t where 0 returns the vector and 1 returns the other.
