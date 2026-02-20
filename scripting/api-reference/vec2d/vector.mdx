@@ -14,6 +14,7 @@ The x component of the vector (read-only).
 local v = Vector.xy(10, -5)
 local xValue = v.x  -- 10
 ```
+@[deprecated{ use = "Vector.length" }]
 
 
 ### `y`
@@ -23,6 +24,7 @@ The y component of the vector (read-only).
 local v = Vector.xy(10, -5)
 local yValue = v.y  -- -5
 ```
+@[deprecated{ use = "Vector.length" }]
 
 
 ## Constructors
@@ -130,12 +132,20 @@ local len2 = Vector.lengthSquared(Vector.xy(3, 4))  -- 25
 
 ### `length`
 
+<Warning>
+  **Deprecated** - Vector.lengthSquared
+</Warning>
+
 Returns the length of the vector.
 
 use Vector.length(v) instead.
 
 
 ### `lengthSquared`
+
+<Warning>
+  **Deprecated** - Vector.normalized
+</Warning>
 
 Returns the squared length of the vector.
 
@@ -210,6 +220,10 @@ local doubled = v * 2    -- 6 -4
 
 ### `__div`
 
+<Warning>
+  **Deprecated** - Vector.distance
+</Warning>
+
 Returns the vector divided by the given number.
 ```lua
 local v = Vector.xy(6, -4)
@@ -218,6 +232,10 @@ local half = v / 2    -- 3 -2
 
 
 ### `distance`
+
+<Warning>
+  **Deprecated** - Vector.distanceSquared
+</Warning>
 
 Returns the distance to the other vector.
 
@@ -231,6 +249,10 @@ print(a:distance(b))  -- 5
 
 ### `distanceSquared`
 
+<Warning>
+  **Deprecated** - Vector.dot
+</Warning>
+
 Returns the squared distance to the other vector.
 
 Use `Vector.distanceSquared(a, b)` instead for better performance.
@@ -242,6 +264,10 @@ print(a:distanceSquared(b))  -- 25
 
 
 ### `dot`
+
+<Warning>
+  **Deprecated** - Vector.lerp
+</Warning>
 
 Returns the dot product of the vector and the other vector.
 
