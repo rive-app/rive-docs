@@ -232,12 +232,28 @@ export const Demos = ({
         editor: "https://rive.app/community/files/25823-text-path-effects/"
       }
     },
-    renderImageWithScripting: {
+    scriptingDrawImage: {
       title: "Render an Image with Scripting",
       image: "https://static.rive.app/docs/render-image-with-scripting.jpg",
       description: "Draw an image from your Assets Panel to your scene.",
       links: {
         editor: "https://rive.app/community/files/26406-49444-draw-an-image-with-scripting/"
+      }
+    },
+    scriptingDrawImageTransforms: {
+      title: "Transform Images with Scripting",
+      image: "https://static.rive.app/docs/render-image-transforms-with-scripting.jpg",
+      description: "Add transforms to your images rendered with Scripting.",
+      links: {
+        editor: "https://rive.app/community/files/26452-49556-transform-an-image"
+      }
+    },
+    scriptingDrawImageMesh: {
+      title: "Draw ImageMeshes with Scripting",
+      image: "https://static.rive.app/docs/render-image-mesh-with-scripting.jpg",
+      description: "Draw image meshes with Scripting.",
+      links: {
+        editor: "https://rive.app/community/files/26451-draw-an-imagemesh-with-scripting"
       }
     },
     scriptingSlotMachine: {
