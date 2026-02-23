@@ -5,6 +5,10 @@ description: "Drag a Rive RenderTarget into the level to create an in-world surf
 
 # World-Space RenderTargets
 
+<Frame>
+  ![Duelist Render Target](/images/Unreal/DuelistRenderTarget.png)
+</Frame>
+
 The fastest way to put Rive content on a mesh in world space is to use a **Rive RenderTarget** asset.
 
 You can drag a **Rive RenderTarget** directly into the level. Unreal will:
@@ -27,11 +31,10 @@ This workflow is ideal for:
 
 ## 1) Create a Rive RenderTarget asset
 
-1. In the Content Browser, click **Add (+)**.
-2. Search for **Rive RenderTarget** (or **Rive Render Target 2D**).
-3. Create the asset (e.g. `RT_RiveScreen`).
+1. Rigt-click on a Rive file asset.
+2. Select **Create Rive Render Target.**
 
-Configure the RenderTarget asset:
+Double clicking the created RenderTarget will open the asset editor in which you can specify:
 
 - **Rive File**
 - **Artboard**
@@ -44,15 +47,7 @@ Configure the RenderTarget asset:
 
 ## 2) Drag it into the Level
 
-Drag `RT_RiveScreen` from the Content Browser into the viewport.
-
-Unreal will automatically create:
-
-- A scene actor that displays the RenderTarget
-- A material that samples the RenderTarget texture
-- A mesh with that material applied
-
-At this point you should see the Rive content on the surface.
+Drag the RednerTarget from the Content Browser into the viewport to apply it to an object. Unreal will automatically create a material that samples the RenderTarget texture. At this point you should see the Rive content on the surface.
 
 ## 3) How updates work (Tick + Draw)
 
@@ -76,9 +71,9 @@ If you are using the RenderTarget workflow, place an Actor in the level that own
 Typical setup:
 
 1. Create an Actor Blueprint (e.g. `BP_RiveRenderDriver`)
-2. Add **URiveActorComponent**
-3. Point it at the same Rive file/artboard/state machine settings
-4. Set the RenderTarget size to match your in-world screen needs
+2. Add a **RiveRenderTargetUpdater** component**.**
+3. Point it at the **RenderTarget** in the details pane.
+4. Set the RenderTarget size to match your in-world screen needs.
 
 <Info>
   **URiveActorComponent** is intended for RenderTargets (world-space textures).\
@@ -90,7 +85,7 @@ Typical setup:
 To change what the world-space screen displays:
 
 - Update the **Rive RenderTarget** asset configuration (file/artboard/state machine)
-- Or update the runtime driver’s configuration (descriptor/view model)
+- Or update the runtime driver’s configuration.
 
 If your Rive content is interactive (state machine + view model):
 
@@ -99,10 +94,3 @@ If your Rive content is interactive (state machine + view model):
 - Fire triggers
 
 The RenderTarget will reflect changes the next time it is driven (tick/draw).
-
-## Common Mistakes
-
-- Dragging a RenderTarget into the level but not having any runtime driver active
-- Using a very large RenderTarget resolution by default (e.g. 2048×2048)
-- Expecting the RenderTarget to update without a tick/draw driver
-- Using **URiveActorComponent** for widgets (it’s for world-space textures)
