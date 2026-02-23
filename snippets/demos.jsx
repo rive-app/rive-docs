@@ -141,7 +141,7 @@ export const Demos = ({
         web: 'https://codesandbox.io/p/sandbox/rive-quick-start-js-xmwcm6?file=%2Fsrc%2Findex.ts',
         react: 'https://codesandbox.io/p/sandbox/rive-react-quick-start-4xy76h?file=%2Fsrc%2FApp.tsx%3A77%2C14',
         reactJs: 'https://codesandbox.io/p/devbox/rive-react-vanilla-js-quick-start-kz66t4?file=%2Fsrc%2FApp.tsx%3A53%2C7',
-        reactNative: 'https://github.com/rive-app/rive-react-native/blob/main/example/app/(examples)/QuickStart.tsx',
+        reactNative: 'https://github.com/rive-app/rive-nitro-react-native/tree/main/example',
         unity: '/game-runtimes/unity/tutorials/health-bar'
       },
       source: [
