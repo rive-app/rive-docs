@@ -24,539 +24,559 @@ export const FeatureSupportGroup = ({
         unreal: "Unreal",
     }
 
+    const titlesOrder = [
+        "webWebGL2",
+        "webCanvas",
+        "webWebGL",
+        "reactWebGL2",
+        "reactCanvas",
+        "reactWebGL",
+        "reactNative",
+        "reactNativeLegacy",
+        "flutter",
+        "flutterRiveNative",
+        "apple",
+        "android",
+        "androidCompose",
+        "androidLegacy",
+        "cpp",
+        "unity",
+        "unreal",
+    ]
+
     const features = {
         scripting: {
             title: "Scripting",
-            runtimes: [
-                { key: "webCanvas", supported: true, version: "2.34.0+" },
-                { key: "webWebGL", supported: true, version: "2.34.0+" },
-                { key: "webWebGL2", supported: true, version: "2.34.0+" },
-                { key: "reactCanvas", supported: true, version: "4.26.0+" },
-                { key: "reactWebGL", supported: true, version: "4.26.0+" },
-                { key: "reactWebGL2", supported: true, version: "4.26.0+" },
-                { key: "reactNative", supported: true, version: "v0.1.5+" },
-                { key: "reactNativeLegacy", supported: true, version: "v9.8.0+" },
-                { key: "flutter", supported: true, version: "0.14.1" },
-                { key: "flutterRiveNative", supported: true, version: "0.1.1" },
-                { key: "apple", supported: true, version: "v6.13.0+" },
-                { key: "android", supported: true, version: "v11.1.0+" },
-                { key: "cpp", supported: true, description: "Supported" },
-                { key: "unity", supported: true, version: "v0.4.1-canary.33+" },
-                { key: "unreal", supported: true, version: "v0.4.20+" }
-            ]
+            runtimes: {
+                webCanvas: { supported: true, version: "2.34.0+" },
+                webWebGL: { supported: true, version: "2.34.0+" },
+                webWebGL2: { supported: true, version: "2.34.0+" },
+                reactCanvas: { supported: true, version: "4.26.0+" },
+                reactWebGL: { supported: true, version: "4.26.0+" },
+                reactWebGL2: { supported: true, version: "4.26.0+" },
+                reactNative: { supported: true, version: "v0.1.5+" },
+                reactNativeLegacy: { supported: true, version: "v9.8.0+" },
+                flutter: { supported: true, version: "0.14.1" },
+                flutterRiveNative: { supported: true, version: "0.1.1" },
+                apple: { supported: true, version: "v6.13.0+" },
+                android: { supported: true, version: "v11.1.0+" },
+                cpp: { supported: true, description: "Supported" },
+                unity: { supported: true, version: "v0.4.1-canary.33+" },
+                unreal: { supported: true, version: "v0.4.20+" }
+            }
         },
         dataBindingListsImagesArtboards: {
             title: "Data Binding - Lists, Images, and Artboards",
-            runtimes: [
-                { key: "webCanvas", supported: true, version: "2.30.3+" },
-                { key: "webWebGL", supported: true, version: "2.30.3+" },
-                { key: "webWebGL2", supported: true, version: "2.30.3+" },
-                { key: "reactCanvas", supported: true, version: "4.22.0+" },
-                { key: "reactWebGL", supported: true, version: "4.22.0+" },
-                { key: "reactWebGL2", supported: true, version: "4.22.0+" },
-                { key: "reactNative", supported: true, version: "v0.1.4+" },
-                { key: "reactNativeLegacy", supported: false, description: "Not yet supported" },
-                { key: "flutter", supported: true, version: "0.14.0-dev.1" },
-                { key: "flutterRiveNative", supported: true, version: "0.0.4" },
-                { key: "apple", supported: true, version: "v6.11.0+" },
-                { key: "android", supported: true, version: "v10.4.0+" },
-                { key: "cpp", supported: true, description: "Supported" },
-                { key: "unity", supported: true, version: "v0.3.7-canary.142" },
-                { key: "unreal", supported: false, description: "Not yet supported" }
-            ]
+            runtimes: {
+                webCanvas: { supported: true, version: "2.30.3+" },
+                webWebGL: { supported: true, version: "2.30.3+" },
+                webWebGL2: { supported: true, version: "2.30.3+" },
+                reactCanvas: { supported: true, version: "4.22.0+" },
+                reactWebGL: { supported: true, version: "4.22.0+" },
+                reactWebGL2: { supported: true, version: "4.22.0+" },
+                reactNative: { supported: true, version: "v0.1.4+" },
+                reactNativeLegacy: { supported: false, description: "Not yet supported" },
+                flutter: { supported: true, version: "0.14.0-dev.1" },
+                flutterRiveNative: { supported: true, version: "0.0.4" },
+                apple: { supported: true, version: "v6.11.0+" },
+                android: { supported: true, version: "v10.4.0+" },
+                cpp: { supported: true, description: "Supported" },
+                unity: { supported: true, version: "v0.3.7-canary.142" },
+                unreal: { supported: false, description: "Not yet supported" }
+            }
         },
         rightToLeftLayoutsText: {
             title: "Right to Left Layouts & Text",
-            runtimes: [
-                { key: "webCanvas", supported: true, version: "2.26.7+" },
-                { key: "webWebGL", supported: true, version: "2.26.7+" },
-                { key: "webWebGL2", supported: true, version: "2.26.7+" },
-                { key: "reactCanvas", supported: true, version: "4.18.6+" },
-                { key: "reactWebGL", supported: true, version: "4.18.6+" },
-                { key: "reactWebGL2", supported: true, version: "4.18.6+" },
-                { key: "reactNative", supported: true, version: "v0.1.4+" },
-                { key: "reactNativeLegacy", supported: true, version: "9.2.1+" },
-                { key: "flutter", supported: true, version: "0.14.0-dev.1" },
-                { key: "flutterRiveNative", supported: true, version: "v0.0.1-dev.7+" },
-                { key: "apple", supported: true, version: "6.7.4+" },
-                { key: "android", supported: true, version: "10.0.4" },
-                { key: "cpp", supported: true, description: "Supported" },
-                { key: "unity", supported: true, version: "0.3.5+" },
-                { key: "unreal", supported: true, version: "0.3.0a-gh" }
-            ]
+            runtimes: {
+                webCanvas: { supported: true, version: "2.26.7+" },
+                webWebGL: { supported: true, version: "2.26.7+" },
+                webWebGL2: { supported: true, version: "2.26.7+" },
+                reactCanvas: { supported: true, version: "4.18.6+" },
+                reactWebGL: { supported: true, version: "4.18.6+" },
+                reactWebGL2: { supported: true, version: "4.18.6+" },
+                reactNative: { supported: true, version: "v0.1.4+" },
+                reactNativeLegacy: { supported: true, version: "9.2.1+" },
+                flutter: { supported: true, version: "0.14.0-dev.1" },
+                flutterRiveNative: { supported: true, version: "v0.0.1-dev.7+" },
+                apple: { supported: true, version: "6.7.4+" },
+                android: { supported: true, version: "10.0.4" },
+                cpp: { supported: true, description: "Supported" },
+                unity: { supported: true, version: "0.3.5+" },
+                unreal: { supported: true, version: "0.3.0a-gh" }
+            }
         },
         textFollowPath: {
             title: "Text Follow Path",
-            runtimes: [
-                { key: "webCanvas", supported: true, version: "2.26.7+" },
-                { key: "webWebGL", supported: true, version: "2.26.7+" },
-                { key: "webWebGL2", supported: true, version: "2.26.7+" },
-                { key: "reactCanvas", supported: true, version: "4.18.6+" },
-                { key: "reactWebGL", supported: true, version: "4.18.6+" },
-                { key: "reactWebGL2", supported: true, version: "4.18.6+" },
-                { key: "reactNative", supported: true, version: "v0.1.4+" },
-                { key: "reactNativeLegacy", supported: true, version: "9.2.1+" },
-                { key: "flutter", supported: true, version: "0.14.0-dev.1" },
-                { key: "flutterRiveNative", supported: true, version: "v0.0.1-dev.7+" },
-                { key: "apple", supported: true, version: "6.7.4+" },
-                { key: "android", supported: true, version: "10.0.4" },
-                { key: "cpp", supported: true, description: "Supported" },
-                { key: "unity", supported: true, version: "0.3.5+" },
-                { key: "unreal", supported: true, version: "0.3.0a-gh" }
-            ]
+            runtimes: {
+                webCanvas: { supported: true, version: "2.26.7+" },
+                webWebGL: { supported: true, version: "2.26.7+" },
+                webWebGL2: { supported: true, version: "2.26.7+" },
+                reactCanvas: { supported: true, version: "4.18.6+" },
+                reactWebGL: { supported: true, version: "4.18.6+" },
+                reactWebGL2: { supported: true, version: "4.18.6+" },
+                reactNative: { supported: true, version: "v0.1.4+" },
+                reactNativeLegacy: { supported: true, version: "9.2.1+" },
+                flutter: { supported: true, version: "0.14.0-dev.1" },
+                flutterRiveNative: { supported: true, version: "v0.0.1-dev.7+" },
+                apple: { supported: true, version: "6.7.4+" },
+                android: { supported: true, version: "10.0.4" },
+                cpp: { supported: true, description: "Supported" },
+                unity: { supported: true, version: "0.3.5+" },
+                unreal: { supported: true, version: "0.3.0a-gh" }
+            }
         },
         dataBinding: {
             title: "Data Binding",
-            runtimes: [
-                { key: "webCanvas", supported: true, version: "2.26.6+" },
-                { key: "webWebGL", supported: true, version: "2.26.6+" },
-                { key: "webWebGL2", supported: true, version: "2.26.6+" },
-                { key: "reactCanvas", supported: true, version: "4.20.0+" },
-                { key: "reactWebGL", supported: true, version: "4.20.0+" },
-                { key: "reactWebGL2", supported: true, version: "4.20.0+" },
-                { key: "reactNative", supported: true, version: "v0.1.4+" },
-                { key: "reactNativeLegacy", supported: true, version: "9.3.0+" },
-                { key: "flutter", supported: true, version: "0.14.0-dev.1" },
-                { key: "flutterRiveNative", supported: true, version: "0.0.1-dev.8+" },
-                { key: "apple", supported: true, version: "6.8.0+" },
-                { key: "android", supported: true, version: "10.1.0+" },
-                { key: "cpp", supported: true, description: "Supported" },
-                { key: "unity", supported: true, version: "0.3.6-canary.27" },
-                { key: "unreal", supported: true, version: "0.3.0a-gh" }
-            ]
+            runtimes: {
+                webCanvas: { supported: true, version: "2.26.6+" },
+                webWebGL: { supported: true, version: "2.26.6+" },
+                webWebGL2: { supported: true, version: "2.26.6+" },
+                reactCanvas: { supported: true, version: "4.20.0+" },
+                reactWebGL: { supported: true, version: "4.20.0+" },
+                reactWebGL2: { supported: true, version: "4.20.0+" },
+                reactNative: { supported: true, version: "v0.1.4+" },
+                reactNativeLegacy: { supported: true, version: "9.3.0+" },
+                flutter: { supported: true, version: "0.14.0-dev.1" },
+                flutterRiveNative: { supported: true, version: "0.0.1-dev.8+" },
+                apple: { supported: true, version: "6.8.0+" },
+                android: { supported: true, version: "10.1.0+" },
+                cpp: { supported: true, description: "Supported" },
+                unity: { supported: true, version: "0.3.6-canary.27" },
+                unreal: { supported: true, version: "0.3.0a-gh" }
+            }
         },
         vectorFeathering: {
             title: "Vector Feathering",
-            runtimes: [
-                { key: "webWebGL2", supported: true, version: "2.26.0+" },
-                { key: "webCanvas", supported: false, description: "Not supported" },
-                { key: "webWebGL", supported: false, description: "Not supported" },
-                { key: "reactWebGL2", supported: true, version: "4.18.0+" },
-                { key: "reactCanvas", supported: false, description: "Not supported" },
-                { key: "reactWebGL", supported: false, description: "Not supported" },
-                { key: "reactNative", supported: true, version: "v0.1.4+" },
-                { key: "reactNativeLegacy", supported: true, version: "9.0.0+" },
-                { key: "flutter", supported: true, version: "0.14.0-dev.1" },
-                { key: "flutterRiveNative", supported: true, version: "0.0.1-dev.6" },
-                { key: "apple", supported: true, version: "6.6.0+" },
-                { key: "android", supported: true, version: "10.0.0+" },
-                { key: "cpp", supported: true, description: "Supported" },
-                { key: "unity", supported: true, version: "0.3.3-canary.72+" },
-                { key: "unreal", supported: true, version: "0.3.0a-gh" }
-            ]
+            runtimes: {
+                webWebGL2: { supported: true, version: "2.26.0+" },
+                webCanvas: { supported: false, description: "Not supported" },
+                webWebGL: { supported: false, description: "Not supported" },
+                reactWebGL2: { supported: true, version: "4.18.0+" },
+                reactCanvas: { supported: false, description: "Not supported" },
+                reactWebGL: { supported: false, description: "Not supported" },
+                reactNative: { supported: true, version: "v0.1.4+" },
+                reactNativeLegacy: { supported: true, version: "9.0.0+" },
+                flutter: { supported: true, version: "0.14.0-dev.1" },
+                flutterRiveNative: { supported: true, version: "0.0.1-dev.6" },
+                apple: { supported: true, version: "6.6.0+" },
+                android: { supported: true, version: "10.0.0+" },
+                cpp: { supported: true, description: "Supported" },
+                unity: { supported: true, version: "0.3.3-canary.72+" },
+                unreal: { supported: true, version: "0.3.0a-gh" }
+            }
         },
         nSlicing: {
             title: "N-Slicing",
-            runtimes: [
-                { key: "webCanvas", supported: true, version: "2.23.11+" },
-                { key: "webWebGL", supported: true, version: "2.23.11+" },
-                { key: "reactCanvas", supported: true, version: "4.16.7+" },
-                { key: "reactWebGL", supported: true, version: "4.16.7+" },
-                { key: "reactWebGL2", supported: true, version: "4.16.7+" },
-                { key: "reactNative", supported: true, version: "v0.1.4+" },
-                { key: "reactNativeLegacy", supported: true, version: "8.2.0+" },
-                { key: "flutter", supported: true, version: "0.14.0-dev.1" },
-                { key: "flutterRiveNative", supported: true, version: "0.0.1-dev.6" },
-                { key: "apple", supported: true, version: "6.4.0+" },
-                { key: "android", supported: true, version: "9.12.0+" },
-                { key: "cpp", supported: true, description: "Supported" },
-                { key: "unity", supported: true, version: "0.2.2-canary.22+" },
-                { key: "unreal", supported: true, version: "0.2.2+" }
-            ]
+            runtimes: {
+                webCanvas: { supported: true, version: "2.23.11+" },
+                webWebGL: { supported: true, version: "2.23.11+" },
+                reactCanvas: { supported: true, version: "4.16.7+" },
+                reactWebGL: { supported: true, version: "4.16.7+" },
+                reactWebGL2: { supported: true, version: "4.16.7+" },
+                reactNative: { supported: true, version: "v0.1.4+" },
+                reactNativeLegacy: { supported: true, version: "8.2.0+" },
+                flutter: { supported: true, version: "0.14.0-dev.1" },
+                flutterRiveNative: { supported: true, version: "0.0.1-dev.6" },
+                apple: { supported: true, version: "6.4.0+" },
+                android: { supported: true, version: "9.12.0+" },
+                cpp: { supported: true, description: "Supported" },
+                unity: { supported: true, version: "0.2.2-canary.22+" },
+                unreal: { supported: true, version: "0.2.2+" }
+            }
         },
         layouts: {
             title: "Layouts",
-            runtimes: [
-                { key: "webCanvas", supported: true, version: "2.23.3+" },
-                { key: "webWebGL", supported: true, version: "2.23.3+" },
-                { key: "reactCanvas", supported: true, version: "4.16.0+" },
-                { key: "reactWebGL", supported: true, version: "4.16.0+" },
-                { key: "reactWebGL2", supported: true, version: "4.16.0+" },
-                { key: "reactNative", supported: true, version: "v0.1.4+" },
-                { key: "reactNativeLegacy", supported: true, version: "8.1.0+" },
-                { key: "flutter", supported: true, version: "0.14.0-dev.1" },
-                { key: "flutterRiveNative", supported: true, version: "0.0.1-dev.6" },
-                { key: "apple", supported: true, version: "6.3.0+" },
-                { key: "android", supported: true, version: "9.10.0+" },
-                { key: "cpp", supported: true, description: "Supported" },
-                { key: "unity", supported: true, version: "0.2.1+" },
-                { key: "unreal", supported: true, version: "0.2.1+" }
-            ]
+            runtimes: {
+                webCanvas: { supported: true, version: "2.23.3+" },
+                webWebGL: { supported: true, version: "2.23.3+" },
+                reactCanvas: { supported: true, version: "4.16.0+" },
+                reactWebGL: { supported: true, version: "4.16.0+" },
+                reactWebGL2: { supported: true, version: "4.16.0+" },
+                reactNative: { supported: true, version: "v0.1.4+" },
+                reactNativeLegacy: { supported: true, version: "8.1.0+" },
+                flutter: { supported: true, version: "0.14.0-dev.1" },
+                flutterRiveNative: { supported: true, version: "0.0.1-dev.6" },
+                apple: { supported: true, version: "6.3.0+" },
+                android: { supported: true, version: "9.10.0+" },
+                cpp: { supported: true, description: "Supported" },
+                unity: { supported: true, version: "0.2.1+" },
+                unreal: { supported: true, version: "0.2.1+" }
+            }
         },
         fallbackFonts: {
             title: "Fallback Fonts",
-            runtimes: [
-                { key: "webCanvas", supported: false, description: "Not yet supported" },
-                { key: "webWebGL", supported: false, description: "Not yet supported" },
-                { key: "reactCanvas", supported: false, description: "Not yet supported" },
-                { key: "reactWebGL", supported: false, description: "Not yet supported" },
-                { key: "reactWebGL2", supported: false, description: "Not yet supported" },
-                { key: "reactNative", supported: false, description: "Not yet supported" },
-                { key: "reactNativeLegacy", supported: false, description: "Not yet supported" },
-                { key: "flutter", supported: false, description: "Not yet supported" },
-                { key: "flutterRiveNative", supported: false, description: "Not yet supported" },
-                { key: "apple", supported: true, version: "6.1.0+" },
-                { key: "android", supported: true, version: "9.7.0+" },
-                { key: "cpp", supported: true, description: "Supported" },
-                { key: "unity", supported: false, description: "Not supported" },
-                { key: "unreal", supported: false, description: "Not Supported" }
-            ]
+            runtimes: {
+                webCanvas: { supported: false, description: "Not yet supported" },
+                webWebGL: { supported: false, description: "Not yet supported" },
+                reactCanvas: { supported: false, description: "Not yet supported" },
+                reactWebGL: { supported: false, description: "Not yet supported" },
+                reactWebGL2: { supported: false, description: "Not yet supported" },
+                reactNative: { supported: false, description: "Not yet supported" },
+                reactNativeLegacy: { supported: false, description: "Not yet supported" },
+                flutter: { supported: false, description: "Not yet supported" },
+                flutterRiveNative: { supported: false, description: "Not yet supported" },
+                apple: { supported: true, version: "6.1.0+" },
+                android: { supported: true, version: "9.7.0+" },
+                cpp: { supported: true, description: "Supported" },
+                unity: { supported: false, description: "Not supported" },
+                unreal: { supported: false, description: "Not Supported" }
+            }
         },
         nestedText: {
             title: "Nested Text",
-            runtimes: [
-                { key: "webCanvas", supported: true, version: "2.21.0+" },
-                { key: "webWebGL", supported: true, version: "2.21.0+" },
-                { key: "reactCanvas", supported: true, version: "4.14.0+" },
-                { key: "reactWebGL", supported: true, version: "4.14.0+" },
-                { key: "reactWebGL2", supported: true, version: "4.14.0+" },
-                { key: "reactNative", supported: true, version: "v0.1.4+" },
-                { key: "reactNativeLegacy", supported: true, version: "5.8.2+" },
-                { key: "flutter", supported: true, version: "0.13.7+" },
-                { key: "flutterRiveNative", supported: true, version: "0.0.1-dev.6" },
-                { key: "apple", supported: true, version: "6.1.0+" },
-                { key: "androidCompose", supported: false, description: "Unsupported" },
-                { key: "androidLegacy", supported: true, version: "9.8.0+" },
-                { key: "cpp", supported: true, description: "Supported" },
-                { key: "unity", supported: true, description: "Supported" },
-                { key: "unreal", supported: true, version: "0.1.14+" }
-            ]
+            runtimes: {
+                webCanvas: { supported: true, version: "2.21.0+" },
+                webWebGL: { supported: true, version: "2.21.0+" },
+                reactCanvas: { supported: true, version: "4.14.0+" },
+                reactWebGL: { supported: true, version: "4.14.0+" },
+                reactWebGL2: { supported: true, version: "4.14.0+" },
+                reactNative: { supported: true, version: "v0.1.4+" },
+                reactNativeLegacy: { supported: true, version: "5.8.2+" },
+                flutter: { supported: true, version: "0.13.7+" },
+                flutterRiveNative: { supported: true, version: "0.0.1-dev.6" },
+                apple: { supported: true, version: "6.1.0+" },
+                androidCompose: { supported: false, description: "Unsupported" },
+                androidLegacy: { supported: true, version: "9.8.0+" },
+                cpp: { supported: true, description: "Supported" },
+                unity: { supported: true, description: "Supported" },
+                unreal: { supported: true, version: "0.1.14+" }
+            }
         },
         nestedInputs: {
             title: "Nested Inputs",
-            runtimes: [
-                { key: "webCanvas", supported: true, version: "2.17.3+" },
-                { key: "webWebGL", supported: true, version: "2.17.3+" },
-                { key: "reactCanvas", supported: true, version: "4.11.3+" },
-                { key: "reactWebGL", supported: true, version: "4.11.3+" },
-                { key: "reactWebGL2", supported: true, version: "4.11.3+" },
-                { key: "reactNative", supported: true, version: "v0.1.4+" },
-                { key: "reactNativeLegacy", supported: true, version: "7.2.0+" },
-                { key: "flutter", supported: true, version: "0.13.7+" },
-                { key: "flutterRiveNative", supported: true, version: "0.0.1-dev.6" },
-                { key: "apple", supported: true, version: "5.13.2+" },
-                { key: "androidCompose", supported: false, description: "Unsupported" },
-                { key: "androidLegacy", supported: true, version: "9.4.2+" },
-                { key: "cpp", supported: true, description: "Supported" },
-                { key: "unity", supported: true, version: "0.1.174+" },
-                { key: "unreal", supported: true, description: "Supported" }
-            ]
+            runtimes: {
+                webCanvas: { supported: true, version: "2.17.3+" },
+                webWebGL: { supported: true, version: "2.17.3+" },
+                reactCanvas: { supported: true, version: "4.11.3+" },
+                reactWebGL: { supported: true, version: "4.11.3+" },
+                reactWebGL2: { supported: true, version: "4.11.3+" },
+                reactNative: { supported: true, version: "v0.1.4+" },
+                reactNativeLegacy: { supported: true, version: "7.2.0+" },
+                flutter: { supported: true, version: "0.13.7+" },
+                flutterRiveNative: { supported: true, version: "0.0.1-dev.6" },
+                apple: { supported: true, version: "5.13.2+" },
+                androidCompose: { supported: false, description: "Unsupported" },
+                androidLegacy: { supported: true, version: "9.4.2+" },
+                cpp: { supported: true, description: "Supported" },
+                unity: { supported: true, version: "0.1.174+" },
+                unreal: { supported: true, description: "Supported" }
+            }
         },
         randomization: {
             title: "Randomization",
-            runtimes: [
-                { key: "webCanvas", supported: true, version: "2.15.6+" },
-                { key: "webWebGL", supported: true, version: "2.15.6+" },
-                { key: "reactCanvas", supported: true, version: "4.9.5+" },
-                { key: "reactWebGL", supported: true, version: "4.9.5+" },
-                { key: "reactWebGL2", supported: true, version: "4.9.5+" },
-                { key: "reactNative", supported: true, version: "v0.1.4+" },
-                { key: "reactNativeLegacy", supported: true, version: "7.0.3+" },
-                { key: "flutter", supported: true, version: "0.13.4+" },
-                { key: "flutterRiveNative", supported: true, version: "0.0.1-dev.6" },
-                { key: "apple", supported: true, version: "5.11.5+" },
-                { key: "android", supported: true, version: "9.3.5+" },
-                { key: "cpp", supported: true, description: "Supported" },
-                { key: "unity", supported: true, description: "Supported" },
-                { key: "unreal", supported: true, description: "Supported" }
-            ]
+            runtimes: {
+                webCanvas: { supported: true, version: "2.15.6+" },
+                webWebGL: { supported: true, version: "2.15.6+" },
+                reactCanvas: { supported: true, version: "4.9.5+" },
+                reactWebGL: { supported: true, version: "4.9.5+" },
+                reactWebGL2: { supported: true, version: "4.9.5+" },
+                reactNative: { supported: true, version: "v0.1.4+" },
+                reactNativeLegacy: { supported: true, version: "7.0.3+" },
+                flutter: { supported: true, version: "0.13.4+" },
+                flutterRiveNative: { supported: true, version: "0.0.1-dev.6" },
+                apple: { supported: true, version: "5.11.5+" },
+                android: { supported: true, version: "9.3.5+" },
+                cpp: { supported: true, description: "Supported" },
+                unity: { supported: true, description: "Supported" },
+                unreal: { supported: true, description: "Supported" }
+            }
         },
         audio: {
             title: "Audio",
-            runtimes: [
-                { key: "webCanvas", supported: true, version: "2.15.6+" },
-                { key: "webWebGL", supported: true, version: "2.15.6+" },
-                { key: "reactCanvas", supported: true, version: "4.9.5+" },
-                { key: "reactWebGL", supported: true, version: "4.9.5+" },
-                { key: "reactWebGL2", supported: true, version: "4.9.5+" },
-                { key: "reactNative", supported: true, version: "v0.1.4+" },
-                { key: "reactNativeLegacy", supported: true, version: "7.0.3+" },
-                { key: "flutter", supported: true, version: "0.13.4+" },
-                { key: "flutterRiveNative", supported: true, version: "0.0.1-dev.6" },
-                { key: "apple", supported: true, version: "5.11.5+" },
-                { key: "android", supported: true, version: "9.3.5+" },
-                { key: "cpp", supported: true, description: "Supported" },
-                { key: "unity", supported: true, description: "Supported" },
-                { key: "unreal", supported: true, description: "Supported" }
-            ]
+            runtimes: {
+                webCanvas: { supported: true, version: "2.15.6+" },
+                webWebGL: { supported: true, version: "2.15.6+" },
+                reactCanvas: { supported: true, version: "4.9.5+" },
+                reactWebGL: { supported: true, version: "4.9.5+" },
+                reactWebGL2: { supported: true, version: "4.9.5+" },
+                reactNative: { supported: true, version: "v0.1.4+" },
+                reactNativeLegacy: { supported: true, version: "7.0.3+" },
+                flutter: { supported: true, version: "0.13.4+" },
+                flutterRiveNative: { supported: true, version: "0.0.1-dev.6" },
+                apple: { supported: true, version: "5.11.5+" },
+                android: { supported: true, version: "9.3.5+" },
+                cpp: { supported: true, description: "Supported" },
+                unity: { supported: true, description: "Supported" },
+                unreal: { supported: true, description: "Supported" }
+            }
         },
         nestedInputsAndEvents: {
             title: "Nested Inputs and Nested Events",
-            runtimes: [
-                { key: "webCanvas", supported: true, version: "2.7.0+" },
-                { key: "webWebGL", supported: true, version: "2.7.0+" },
-                { key: "reactCanvas", supported: true, version: "4.5.0+" },
-                { key: "reactWebGL", supported: true, version: "4.5.0+" },
-                { key: "reactWebGL2", supported: true, version: "4.5.0+" },
-                { key: "reactNative", supported: true, version: "v0.1.4+" },
-                { key: "reactNativeLegacy", supported: true, version: "6.2.0+" },
-                { key: "flutter", supported: true, version: "0.12.3+" },
-                { key: "flutterRiveNative", supported: true, version: "0.0.1-dev.6" },
-                { key: "apple", supported: true, version: "5.6.0+" },
-                { key: "androidCompose", supported: false, description: "Unsupported from API" },
-                { key: "androidLegacy", supported: true, version: "8.7.0+" },
-                { key: "cpp", supported: true, description: "Supported" },
-                { key: "unity", supported: true, description: "Supported" }
-            ]
+            runtimes: {
+                webCanvas: { supported: true, version: "2.7.0+" },
+                webWebGL: { supported: true, version: "2.7.0+" },
+                reactCanvas: { supported: true, version: "4.5.0+" },
+                reactWebGL: { supported: true, version: "4.5.0+" },
+                reactWebGL2: { supported: true, version: "4.5.0+" },
+                reactNative: { supported: true, version: "v0.1.4+" },
+                reactNativeLegacy: { supported: true, version: "6.2.0+" },
+                flutter: { supported: true, version: "0.12.3+" },
+                flutterRiveNative: { supported: true, version: "0.0.1-dev.6" },
+                apple: { supported: true, version: "5.6.0+" },
+                androidCompose: { supported: false, description: "Unsupported from API" },
+                androidLegacy: { supported: true, version: "8.7.0+" },
+                cpp: { supported: true, description: "Supported" },
+                unity: { supported: true, description: "Supported" }
+            }
         },
         outOfBandAssets: {
             title: "Out-of-band Assets",
-            runtimes: [
-                { key: "webCanvas", supported: true, version: "2.7.0+" },
-                { key: "webWebGL", supported: true, version: "2.7.0+" },
-                { key: "reactCanvas", supported: true, version: "4.5.0+" },
-                { key: "reactWebGL", supported: true, version: "4.5.0+" },
-                { key: "reactWebGL2", supported: true, version: "4.5.0+" },
-                { key: "reactNative", supported: true, version: "v0.1.4+" },
-                { key: "reactNativeLegacy", supported: true, version: "8.4.0+" },
-                { key: "flutter", supported: true, version: "0.12.0+" },
-                { key: "flutterRiveNative", supported: true, version: "0.0.1-dev.6" },
-                { key: "apple", supported: true, version: "5.7.0+" },
-                { key: "android", supported: true, version: "8.6.1+" },
-                { key: "cpp", supported: true, description: "Supported" },
-                { key: "unity", supported: true, description: "Supported" },
-                { key: "unreal", supported: true, version: "0.1.14+" }
-            ]
+            runtimes: {
+                webCanvas: { supported: true, version: "2.7.0+" },
+                webWebGL: { supported: true, version: "2.7.0+" },
+                reactCanvas: { supported: true, version: "4.5.0+" },
+                reactWebGL: { supported: true, version: "4.5.0+" },
+                reactWebGL2: { supported: true, version: "4.5.0+" },
+                reactNative: { supported: true, version: "v0.1.4+" },
+                reactNativeLegacy: { supported: true, version: "8.4.0+" },
+                flutter: { supported: true, version: "0.12.0+" },
+                flutterRiveNative: { supported: true, version: "0.0.1-dev.6" },
+                apple: { supported: true, version: "5.7.0+" },
+                android: { supported: true, version: "8.6.1+" },
+                cpp: { supported: true, description: "Supported" },
+                unity: { supported: true, description: "Supported" },
+                unreal: { supported: true, version: "0.1.14+" }
+            }
         },
         events: {
             title: "Events",
-            runtimes: [
-                { key: "webCanvas", supported: true, version: "2.4.3+" },
-                { key: "webWebGL", supported: true, version: "2.4.3+" },
-                { key: "reactCanvas", supported: true, version: "4.3.3+" },
-                { key: "reactWebGL", supported: true, version: "4.3.3+" },
-                { key: "reactWebGL2", supported: true, version: "4.3.3+" },
-                { key: "reactNative", supported: true, version: "v0.1.4+" },
-                { key: "reactNativeLegacy", supported: true, version: "6.1.0+" },
-                { key: "flutter", supported: true, version: "0.11.17+" },
-                { key: "flutterRiveNative", supported: true, version: "0.0.1-dev.6" },
-                { key: "apple", supported: true, version: "5.3.1+" },
-                { key: "androidCompose", supported: false, description: "Unsupported from API" },
-                { key: "androidLegacy", supported: true, version: "8.4.0+" },
-                { key: "cpp", supported: true, description: "Supported" },
-                { key: "unity", supported: true, description: "Supported" },
-                { key: "unreal", supported: true, description: "Supported" }
-            ]
+            runtimes: {
+                webCanvas: { supported: true, version: "2.4.3+" },
+                webWebGL: { supported: true, version: "2.4.3+" },
+                reactCanvas: { supported: true, version: "4.3.3+" },
+                reactWebGL: { supported: true, version: "4.3.3+" },
+                reactWebGL2: { supported: true, version: "4.3.3+" },
+                reactNative: { supported: true, version: "v0.1.4+" },
+                reactNativeLegacy: { supported: true, version: "6.1.0+" },
+                flutter: { supported: true, version: "0.11.17+" },
+                flutterRiveNative: { supported: true, version: "0.0.1-dev.6" },
+                apple: { supported: true, version: "5.3.1+" },
+                androidCompose: { supported: false, description: "Unsupported from API" },
+                androidLegacy: { supported: true, version: "8.4.0+" },
+                cpp: { supported: true, description: "Supported" },
+                unity: { supported: true, description: "Supported" },
+                unreal: { supported: true, description: "Supported" }
+            }
         },
         text: {
             title: "Text",
-            runtimes: [
-                { key: "webCanvas", supported: true, version: "2.1.3+" },
-                { key: "webWebGL", supported: true, version: "2.1.3+" },
-                { key: "reactCanvas", supported: true, version: "4.1.3+" },
-                { key: "reactWebGL", supported: true, version: "4.1.3+" },
-                { key: "reactWebGL2", supported: true, version: "4.1.3+" },
-                { key: "reactNative", supported: true, version: "v0.1.4+" },
-                { key: "reactNativeLegacy", supported: true, version: "6.0.3+" },
-                { key: "flutter", supported: true, version: "0.11.14+" },
-                { key: "flutterRiveNative", supported: true, version: "0.0.1-dev.6" },
-                { key: "apple", supported: true, version: "5.1.5+" },
-                { key: "android", supported: true, version: "8.1.3+" },
-                { key: "cpp", supported: true, description: "Supported" },
-                { key: "unity", supported: true, description: "Supported" },
-                { key: "unreal", supported: true, description: "Supported" }
-            ]
+            runtimes: {
+                webCanvas: { supported: true, version: "2.1.3+" },
+                webWebGL: { supported: true, version: "2.1.3+" },
+                reactCanvas: { supported: true, version: "4.1.3+" },
+                reactWebGL: { supported: true, version: "4.1.3+" },
+                reactWebGL2: { supported: true, version: "4.1.3+" },
+                reactNative: { supported: true, version: "v0.1.4+" },
+                reactNativeLegacy: { supported: true, version: "6.0.3+" },
+                flutter: { supported: true, version: "0.11.14+" },
+                flutterRiveNative: { supported: true, version: "0.0.1-dev.6" },
+                apple: { supported: true, version: "5.1.5+" },
+                android: { supported: true, version: "8.1.3+" },
+                cpp: { supported: true, description: "Supported" },
+                unity: { supported: true, description: "Supported" },
+                unreal: { supported: true, description: "Supported" }
+            }
         },
         followPath: {
             title: "Follow Path",
-            runtimes: [
-                { key: "webCanvas", supported: true, version: "1.2.4+" },
-                { key: "webWebGL", supported: true, version: "1.2.4+" },
-                { key: "reactCanvas", supported: true, version: "3.0.55+" },
-                { key: "reactWebGL", supported: true, version: "3.0.55+" },
-                { key: "reactWebGL2", supported: true, version: "3.0.55+" },
-                { key: "reactNative", supported: true, version: "v0.1.4+" },
-                { key: "reactNativeLegacy", supported: true, version: "5.0.0+" },
-                { key: "flutter", supported: true, version: "0.11.6+" },
-                { key: "flutterRiveNative", supported: true, version: "0.0.1-dev.6" },
-                { key: "apple", supported: true, version: "4.0.5+" },
-                { key: "android", supported: true, version: "6.0.1+" },
-                { key: "cpp", supported: true, description: "Supported" },
-                { key: "unity", supported: true, description: "Supported" },
-                { key: "unreal", supported: true, description: "Supported" }
-            ]
+            runtimes: {
+                webCanvas: { supported: true, version: "1.2.4+" },
+                webWebGL: { supported: true, version: "1.2.4+" },
+                reactCanvas: { supported: true, version: "3.0.55+" },
+                reactWebGL: { supported: true, version: "3.0.55+" },
+                reactWebGL2: { supported: true, version: "3.0.55+" },
+                reactNative: { supported: true, version: "v0.1.4+" },
+                reactNativeLegacy: { supported: true, version: "5.0.0+" },
+                flutter: { supported: true, version: "0.11.6+" },
+                flutterRiveNative: { supported: true, version: "0.0.1-dev.6" },
+                apple: { supported: true, version: "4.0.5+" },
+                android: { supported: true, version: "6.0.1+" },
+                cpp: { supported: true, description: "Supported" },
+                unity: { supported: true, description: "Supported" },
+                unreal: { supported: true, description: "Supported" }
+            }
         },
         interpolationOnStates: {
             title: "Interpolation on States",
-            runtimes: [
-                { key: "webCanvas", supported: true, version: "1.2.1+" },
-                { key: "webWebGL", supported: true, version: "1.2.1+" },
-                { key: "reactCanvas", supported: true, version: "3.0.54+" },
-                { key: "reactWebGL", supported: true, version: "3.0.54+" },
-                { key: "reactWebGL2", supported: true, version: "3.0.54+" },
-                { key: "reactNative", supported: true, version: "v0.1.4+" },
-                { key: "reactNativeLegacy", supported: true, version: "4.1.2+" },
-                { key: "flutter", supported: true, version: "0.11.4+" },
-                { key: "flutterRiveNative", supported: true, version: "0.0.1-dev.6" },
-                { key: "apple", supported: true, version: "4.0.4+" },
-                { key: "android", supported: true, version: "5.1.5+" },
-                { key: "cpp", supported: true, description: "Supported" },
-                { key: "unity", supported: true, description: "Supported" },
-                { key: "unreal", supported: true, description: "Supported" }
-            ]
+            runtimes: {
+                webCanvas: { supported: true, version: "1.2.1+" },
+                webWebGL: { supported: true, version: "1.2.1+" },
+                reactCanvas: { supported: true, version: "3.0.54+" },
+                reactWebGL: { supported: true, version: "3.0.54+" },
+                reactWebGL2: { supported: true, version: "3.0.54+" },
+                reactNative: { supported: true, version: "v0.1.4+" },
+                reactNativeLegacy: { supported: true, version: "4.1.2+" },
+                flutter: { supported: true, version: "0.11.4+" },
+                flutterRiveNative: { supported: true, version: "0.0.1-dev.6" },
+                apple: { supported: true, version: "4.0.4+" },
+                android: { supported: true, version: "5.1.5+" },
+                cpp: { supported: true, description: "Supported" },
+                unity: { supported: true, description: "Supported" },
+                unreal: { supported: true, description: "Supported" }
+            }
         },
         joysticks: {
             title: "Joysticks",
-            runtimes: [
-                { key: "webCanvas", supported: true, version: "1.1.9+" },
-                { key: "webWebGL", supported: true, version: "1.1.9+" },
-                { key: "reactCanvas", supported: true, version: "3.0.49+" },
-                { key: "reactWebGL", supported: true, version: "3.0.49+" },
-                { key: "reactWebGL2", supported: true, version: "3.0.49+" },
-                { key: "reactNative", supported: true, version: "v0.1.4+" },
-                { key: "reactNativeLegacy", supported: true, version: "4.1.0+" },
-                { key: "flutter", supported: true, version: "0.11.1+" },
-                { key: "flutterRiveNative", supported: true, version: "0.0.1-dev.6" },
-                { key: "apple", supported: true, version: "4.0.1+" },
-                { key: "android", supported: true, version: "5.0.0+" },
-                { key: "cpp", supported: true, description: "Supported" },
-                { key: "unity", supported: true, description: "Supported" },
-                { key: "unreal", supported: true, description: "Supported" }
-            ]
+            runtimes: {
+                webCanvas: { supported: true, version: "1.1.9+" },
+                webWebGL: { supported: true, version: "1.1.9+" },
+                reactCanvas: { supported: true, version: "3.0.49+" },
+                reactWebGL: { supported: true, version: "3.0.49+" },
+                reactWebGL2: { supported: true, version: "3.0.49+" },
+                reactNative: { supported: true, version: "v0.1.4+" },
+                reactNativeLegacy: { supported: true, version: "4.1.0+" },
+                flutter: { supported: true, version: "0.11.1+" },
+                flutterRiveNative: { supported: true, version: "0.0.1-dev.6" },
+                apple: { supported: true, version: "4.0.1+" },
+                android: { supported: true, version: "5.0.0+" },
+                cpp: { supported: true, description: "Supported" },
+                unity: { supported: true, description: "Supported" },
+                unreal: { supported: true, description: "Supported" }
+            }
         },
         solos: {
             title: "Solos",
-            runtimes: [
-                { key: "webCanvas", supported: true, version: "1.1.2+" },
-                { key: "webWebGL", supported: true, version: "1.1.2+" },
-                { key: "reactCanvas", supported: true, version: "3.0.42+" },
-                { key: "reactWebGL", supported: true, version: "3.0.42+" },
-                { key: "reactWebGL2", supported: true, version: "3.0.42+" },
-                { key: "reactNative", supported: true, version: "v0.1.4+" },
-                { key: "reactNativeLegacy", supported: true, version: "4.0.4+" },
-                { key: "flutter", supported: true, version: "0.10.4+" },
-                { key: "flutterRiveNative", supported: true, version: "0.0.1-dev.6" },
-                { key: "apple", supported: true, version: "3.1.9+" },
-                { key: "android", supported: true, version: "4.4.0+" },
-                { key: "cpp", supported: true, description: "Supported" },
-                { key: "unity", supported: true, description: "Supported" },
-                { key: "unreal", supported: true, description: "Supported" }
-            ]
+            runtimes: {
+                webCanvas: { supported: true, version: "1.1.2+" },
+                webWebGL: { supported: true, version: "1.1.2+" },
+                reactCanvas: { supported: true, version: "3.0.42+" },
+                reactWebGL: { supported: true, version: "3.0.42+" },
+                reactWebGL2: { supported: true, version: "3.0.42+" },
+                reactNative: { supported: true, version: "v0.1.4+" },
+                reactNativeLegacy: { supported: true, version: "4.0.4+" },
+                flutter: { supported: true, version: "0.10.4+" },
+                flutterRiveNative: { supported: true, version: "0.0.1-dev.6" },
+                apple: { supported: true, version: "3.1.9+" },
+                android: { supported: true, version: "4.4.0+" },
+                cpp: { supported: true, description: "Supported" },
+                unity: { supported: true, description: "Supported" },
+                unreal: { supported: true, description: "Supported" }
+            }
         },
         speedOnStates: {
             title: "Speed on States",
-            runtimes: [
-                { key: "webCanvas", supported: true, version: "1.0.102+" },
-                { key: "webWebGL", supported: true, version: "1.0.98+" },
-                { key: "reactCanvas", supported: true, version: "3.0.38+" },
-                { key: "reactWebGL", supported: true, version: "3.0.38+" },
-                { key: "reactWebGL2", supported: true, version: "3.0.38+" },
-                { key: "reactNative", supported: true, version: "v0.1.4+" },
-                { key: "reactNativeLegacy", supported: true, version: "4.0.1+" },
-                { key: "flutter", supported: true, version: "0.10.3+" },
-                { key: "flutterRiveNative", supported: true, version: "0.0.1-dev.6" },
-                { key: "apple", supported: true, version: "3.1.7+" },
-                { key: "android", supported: true, version: "4.2.7+" },
-                { key: "cpp", supported: true, description: "Supported" },
-                { key: "unity", supported: true, description: "Supported" },
-                { key: "unreal", supported: true, description: "Supported" }
-            ]
+            runtimes: {
+                webCanvas: { supported: true, version: "1.0.102+" },
+                webWebGL: { supported: true, version: "1.0.98+" },
+                reactCanvas: { supported: true, version: "3.0.38+" },
+                reactWebGL: { supported: true, version: "3.0.38+" },
+                reactWebGL2: { supported: true, version: "3.0.38+" },
+                reactNative: { supported: true, version: "v0.1.4+" },
+                reactNativeLegacy: { supported: true, version: "4.0.1+" },
+                flutter: { supported: true, version: "0.10.3+" },
+                flutterRiveNative: { supported: true, version: "0.0.1-dev.6" },
+                apple: { supported: true, version: "3.1.7+" },
+                android: { supported: true, version: "4.2.7+" },
+                cpp: { supported: true, description: "Supported" },
+                unity: { supported: true, description: "Supported" },
+                unreal: { supported: true, description: "Supported" }
+            }
         },
         graphEditor: {
             title: "Graph Editor",
-            runtimes: [
-                { key: "webCanvas", supported: true, version: "1.0.97+" },
-                { key: "webWebGL", supported: true, version: "1.0.93+" },
-                { key: "reactCanvas", supported: true, version: "3.0.34+" },
-                { key: "reactWebGL", supported: true, version: "3.0.34+" },
-                { key: "reactWebGL2", supported: true, version: "3.0.34+" },
-                { key: "reactNative", supported: true, version: "v0.1.4+" },
-                { key: "reactNativeLegacy", supported: true, version: "4.0.1+" },
-                { key: "flutter", supported: true, version: "0.10.0+" },
-                { key: "flutterRiveNative", supported: true, version: "0.0.1-dev.6" },
-                { key: "apple", supported: true, version: "3.1.3+" },
-                { key: "android", supported: true, version: "4.2.2+" },
-                { key: "cpp", supported: true, description: "Supported" },
-                { key: "unity", supported: true, description: "Supported" },
-                { key: "unreal", supported: true, description: "Supported" }
-            ]
+            runtimes: {
+                webCanvas: { supported: true, version: "1.0.97+" },
+                webWebGL: { supported: true, version: "1.0.93+" },
+                reactCanvas: { supported: true, version: "3.0.34+" },
+                reactWebGL: { supported: true, version: "3.0.34+" },
+                reactWebGL2: { supported: true, version: "3.0.34+" },
+                reactNative: { supported: true, version: "v0.1.4+" },
+                reactNativeLegacy: { supported: true, version: "4.0.1+" },
+                flutter: { supported: true, version: "0.10.0+" },
+                flutterRiveNative: { supported: true, version: "0.0.1-dev.6" },
+                apple: { supported: true, version: "3.1.3+" },
+                android: { supported: true, version: "4.2.2+" },
+                cpp: { supported: true, description: "Supported" },
+                unity: { supported: true, description: "Supported" },
+                unreal: { supported: true, description: "Supported" }
+            }
         },
         listeners: {
             title: "Listeners",
-            runtimes: [
-                { key: "webCanvas", supported: true, version: "1.0.65+" },
-                { key: "webWebGL", supported: true, version: "1.0.62+" },
-                { key: "reactCanvas", supported: true, version: "3.0.6+" },
-                { key: "reactWebGL", supported: true, version: "3.0.6+" },
-                { key: "reactWebGL2", supported: true, version: "3.0.6+" },
-                { key: "reactNative", supported: true, version: "v0.1.4+" },
-                { key: "reactNativeLegacy", supported: true, version: "3.0.38+" },
-                { key: "flutter", supported: true, version: "0.9.0+" },
-                { key: "flutterRiveNative", supported: true, version: "0.0.1-dev.6" },
-                { key: "apple", supported: true, version: "2.0.21+" },
-                { key: "android", supported: true, version: "3.0.8+" },
-                { key: "cpp", supported: true, description: "Supported" },
-                { key: "unity", supported: true, description: "Supported" },
-                { key: "unreal", supported: true, description: "Supported" }
-            ]
+            runtimes: {
+                webCanvas: { supported: true, version: "1.0.65+" },
+                webWebGL: { supported: true, version: "1.0.62+" },
+                reactCanvas: { supported: true, version: "3.0.6+" },
+                reactWebGL: { supported: true, version: "3.0.6+" },
+                reactWebGL2: { supported: true, version: "3.0.6+" },
+                reactNative: { supported: true, version: "v0.1.4+" },
+                reactNativeLegacy: { supported: true, version: "3.0.38+" },
+                flutter: { supported: true, version: "0.9.0+" },
+                flutterRiveNative: { supported: true, version: "0.0.1-dev.6" },
+                apple: { supported: true, version: "2.0.21+" },
+                android: { supported: true, version: "3.0.8+" },
+                cpp: { supported: true, description: "Supported" },
+                unity: { supported: true, description: "Supported" },
+                unreal: { supported: true, description: "Supported" }
+            }
         },
         meshDeformation: {
             title: "Mesh Deformation",
-            runtimes: [
-                { key: "webCanvas", supported: true, version: "1.0.47+" },
-                { key: "webWebGL", supported: true, version: "1.0.44+" },
-                { key: "reactCanvas", supported: true, version: "3.0.1+" },
-                { key: "reactWebGL", supported: true, version: "3.0.1+" },
-                { key: "reactWebGL2", supported: true, version: "3.0.1+" },
-                { key: "reactNative", supported: true, version: "v0.1.4+" },
-                { key: "reactNativeLegacy", supported: true, version: "2.1.37+" },
-                { key: "flutter", supported: true, version: "0.8.4+" },
-                { key: "flutterRiveNative", supported: true, version: "0.0.1-dev.6" },
-                { key: "apple", supported: true, version: "1.0.18+" },
-                { key: "android", supported: true, version: "2.0.24+" },
-                { key: "cpp", supported: true, description: "Supported" },
-                { key: "unity", supported: true, description: "Supported" },
-                { key: "unreal", supported: true, description: "Supported" }
-            ]
+            runtimes: {
+                webCanvas: { supported: true, version: "1.0.47+" },
+                webWebGL: { supported: true, version: "1.0.44+" },
+                reactCanvas: { supported: true, version: "3.0.1+" },
+                reactWebGL: { supported: true, version: "3.0.1+" },
+                reactWebGL2: { supported: true, version: "3.0.1+" },
+                reactNative: { supported: true, version: "v0.1.4+" },
+                reactNativeLegacy: { supported: true, version: "2.1.37+" },
+                flutter: { supported: true, version: "0.8.4+" },
+                flutterRiveNative: { supported: true, version: "0.0.1-dev.6" },
+                apple: { supported: true, version: "1.0.18+" },
+                android: { supported: true, version: "2.0.24+" },
+                cpp: { supported: true, description: "Supported" },
+                unity: { supported: true, description: "Supported" },
+                unreal: { supported: true, description: "Supported" }
+            }
         },
         cachingARiveFile: {
             title: "Caching a Rive File",
-            runtimes: [
-                { key: "webCanvas", supported: true, description: "Supported" },
-                { key: "webWebGL", supported: true, description: "Supported" },
-                { key: "webWebGL2", supported: true, description: "Supported" },
-                { key: "reactCanvas", supported: true, description: "Supported" },
-                { key: "reactWebGL", supported: true, description: "Supported" },
-                { key: "reactWebGL2", supported: true, description: "Supported" },
-                { key: "reactNative", supported: true, version: "v0.1.4+" },
-                { key: "reactNativeLegacy", supported: false, description: "Not yet supported" },
-                { key: "flutter", supported: true, description: "Supported" },
-                { key: "flutterRiveNative", supported: true, description: "Supported" },
-                { key: "apple", supported: true, description: "Supported" },
-                { key: "android", supported: true, description: "Supported" },
-                { key: "cpp", supported: true, description: "Supported" },
-                { key: "unity", supported: true, description: "Supported" },
-                { key: "unreal", supported: false, description: "Not yet supported" }
-            ]
+            runtimes: {
+                webCanvas: { supported: true, description: "Supported" },
+                webWebGL: { supported: true, description: "Supported" },
+                webWebGL2: { supported: true, description: "Supported" },
+                reactCanvas: { supported: true, description: "Supported" },
+                reactWebGL: { supported: true, description: "Supported" },
+                reactWebGL2: { supported: true, description: "Supported" },
+                reactNative: { supported: true, version: "v0.1.4+" },
+                reactNativeLegacy: { supported: false, description: "Not yet supported" },
+                flutter: { supported: true, description: "Supported" },
+                flutterRiveNative: { supported: true, description: "Supported" },
+                apple: { supported: true, description: "Supported" },
+                android: { supported: true, description: "Supported" },
+                cpp: { supported: true, description: "Supported" },
+                unity: { supported: true, description: "Supported" },
+                unreal: { supported: false, description: "Not yet supported" }
+            }
         },
         rasterAssets: {
             title: "Raster Assets",
-            runtimes: [
-                { key: "webCanvas", supported: true, version: "1.0.2+" },
-                { key: "webWebGL", supported: true, version: "1.0.2+" },
-                { key: "reactCanvas", supported: true, version: "0.0.28+" },
-                { key: "reactWebGL", supported: true, version: "0.0.28+" },
-                { key: "reactWebGL2", supported: true, version: "0.0.28+" },
-                { key: "reactNative", supported: true, version: "v0.1.4+" },
-                { key: "reactNativeLegacy", supported: true, version: "2.1.36+" },
-                { key: "flutter", supported: true, version: "0.8.1+" },
-                { key: "flutterRiveNative", supported: true, version: "0.0.1-dev.6" },
-                { key: "apple", supported: true, version: "1.0.1+" },
-                { key: "android", supported: true, version: "2.0.5+" },
-                { key: "cpp", supported: true, description: "Supported" },
-                { key: "unity", supported: true, description: "Supported" },
-                { key: "unreal", supported: true, description: "Supported" }
-            ]
+            runtimes: {
+                webCanvas: { supported: true, version: "1.0.2+" },
+                webWebGL: { supported: true, version: "1.0.2+" },
+                reactCanvas: { supported: true, version: "0.0.28+" },
+                reactWebGL: { supported: true, version: "0.0.28+" },
+                reactWebGL2: { supported: true, version: "0.0.28+" },
+                reactNative: { supported: true, version: "v0.1.4+" },
+                reactNativeLegacy: { supported: true, version: "2.1.36+" },
+                flutter: { supported: true, version: "0.8.1+" },
+                flutterRiveNative: { supported: true, version: "0.0.1-dev.6" },
+                apple: { supported: true, version: "1.0.1+" },
+                android: { supported: true, version: "2.0.5+" },
+                cpp: { supported: true, description: "Supported" },
+                unity: { supported: true, description: "Supported" },
+                unreal: { supported: true, description: "Supported" }
+            }
         }
     }
 
     const currentFeature = features[feature]
-    const allSupported = currentFeature.runtimes.every(runtime => runtime.supported === true)
+    const allSupported = Object.values(currentFeature.runtimes).every(runtime => runtime.supported === true)
     const statusEmoji = allSupported ? '✅' : '🟡'
     const titleWithEmoji = `${statusEmoji} ${currentFeature.title}`
 
     return (
-        <Accordion title={titleWithEmoji}>
+        <Accordion title={titleWithEmoji} defaultOpen>
             {children}
             <div
                 data-table-wrapper="true"
@@ -570,20 +590,31 @@ export const FeatureSupportGroup = ({
                     >
                         <thead className="w-full">
                             <tr>
-                                <th className="w-2/3">
+                                <th className="w-1/2">
                                     <strong>Runtime</strong>
                                 </th>
-                                <th className="w-1/3">
+                                <th className="w-1/2">
                                     <strong>Version</strong>
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
                             {
-                                currentFeature.runtimes.map(({ key, supported, version, description }) => {
-                                    return (
+                                titlesOrder.map((runtimeKey) => {
+                                    console.log(runtimeKey)
+                                    const currentRuntime = currentFeature.runtimes[runtimeKey]
+                                    if (!currentRuntime) {
+                                        return (
                                             <tr>
-                                            <td>{titles[key]}</td>
+                                                <td>{titles[runtimeKey]}</td>
+                                                <td>Unknown</td>
+                                            </tr>
+                                        )
+                                    }
+                                    const { supported, version, description } = currentFeature.runtimes[runtimeKey]
+                                    return (
+                                        <tr>
+                                            <td>{titles[runtimeKey]}</td>
                                             {
                                                 version && !description && (
                                                     <td data-numeric="true">
@@ -592,7 +623,7 @@ export const FeatureSupportGroup = ({
                                                     </td>
                                                 )
                                             }
-                                                {
+                                            {
                                                 description && !version && (
                                                     <td>
                                                         {supported && '✅ '}
@@ -600,7 +631,6 @@ export const FeatureSupportGroup = ({
                                                     </td>
                                                 )
                                             }
-
                                         </tr>
                                     )
                                 })
