@@ -24,6 +24,7 @@ export const FeatureSupportGroup = ({
         unreal: "Unreal",
     }
 
+    // Do not include legacy runtimes
     const titlesOrder = [
         "webWebGL2",
         "webCanvas",
@@ -170,6 +171,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: true, version: "2.23.11+" },
                 webWebGL: { supported: true, version: "2.23.11+" },
+                webWebGL2: { supported: true, version: "Supported" },
                 reactCanvas: { supported: true, version: "4.16.7+" },
                 reactWebGL: { supported: true, version: "4.16.7+" },
                 reactWebGL2: { supported: true, version: "4.16.7+" },
@@ -187,6 +189,7 @@ export const FeatureSupportGroup = ({
         layouts: {
             title: "Layouts",
             runtimes: {
+                webWebGL2: { supported: true, version: "Supported" },
                 webCanvas: { supported: true, version: "2.23.3+" },
                 webWebGL: { supported: true, version: "2.23.3+" },
                 reactCanvas: { supported: true, version: "4.16.0+" },
@@ -208,6 +211,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: false, description: "Not yet supported" },
                 webWebGL: { supported: false, description: "Not yet supported" },
+                webWebGL2: { supported: true, version: "Supported" },
                 reactCanvas: { supported: false, description: "Not yet supported" },
                 reactWebGL: { supported: false, description: "Not yet supported" },
                 reactWebGL2: { supported: false, description: "Not yet supported" },
@@ -227,6 +231,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: true, version: "2.21.0+" },
                 webWebGL: { supported: true, version: "2.21.0+" },
+                webWebGL2: { supported: true, version: "Supported" },
                 reactCanvas: { supported: true, version: "4.14.0+" },
                 reactWebGL: { supported: true, version: "4.14.0+" },
                 reactWebGL2: { supported: true, version: "4.14.0+" },
@@ -247,6 +252,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: true, version: "2.17.3+" },
                 webWebGL: { supported: true, version: "2.17.3+" },
+                webWebGL2: { supported: true, version: "Supported" },
                 reactCanvas: { supported: true, version: "4.11.3+" },
                 reactWebGL: { supported: true, version: "4.11.3+" },
                 reactWebGL2: { supported: true, version: "4.11.3+" },
@@ -267,6 +273,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: true, version: "2.15.6+" },
                 webWebGL: { supported: true, version: "2.15.6+" },
+                webWebGL2: { supported: true, version: "Supported" },
                 reactCanvas: { supported: true, version: "4.9.5+" },
                 reactWebGL: { supported: true, version: "4.9.5+" },
                 reactWebGL2: { supported: true, version: "4.9.5+" },
@@ -286,6 +293,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: true, version: "2.15.6+" },
                 webWebGL: { supported: true, version: "2.15.6+" },
+                webWebGL2: { supported: true, version: "Supported" },
                 reactCanvas: { supported: true, version: "4.9.5+" },
                 reactWebGL: { supported: true, version: "4.9.5+" },
                 reactWebGL2: { supported: true, version: "4.9.5+" },
@@ -305,6 +313,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: true, version: "2.7.0+" },
                 webWebGL: { supported: true, version: "2.7.0+" },
+                webWebGL2: { supported: true, version: "Supported" },
                 reactCanvas: { supported: true, version: "4.5.0+" },
                 reactWebGL: { supported: true, version: "4.5.0+" },
                 reactWebGL2: { supported: true, version: "4.5.0+" },
@@ -324,6 +333,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: true, version: "2.7.0+" },
                 webWebGL: { supported: true, version: "2.7.0+" },
+                webWebGL2: { supported: true, version: "Supported" },
                 reactCanvas: { supported: true, version: "4.5.0+" },
                 reactWebGL: { supported: true, version: "4.5.0+" },
                 reactWebGL2: { supported: true, version: "4.5.0+" },
@@ -343,6 +353,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: true, version: "2.4.3+" },
                 webWebGL: { supported: true, version: "2.4.3+" },
+                webWebGL2: { supported: true, version: "Supported" },
                 reactCanvas: { supported: true, version: "4.3.3+" },
                 reactWebGL: { supported: true, version: "4.3.3+" },
                 reactWebGL2: { supported: true, version: "4.3.3+" },
@@ -363,6 +374,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: true, version: "2.1.3+" },
                 webWebGL: { supported: true, version: "2.1.3+" },
+                webWebGL2: { supported: true, version: "Supported" },
                 reactCanvas: { supported: true, version: "4.1.3+" },
                 reactWebGL: { supported: true, version: "4.1.3+" },
                 reactWebGL2: { supported: true, version: "4.1.3+" },
@@ -382,6 +394,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: true, version: "1.2.4+" },
                 webWebGL: { supported: true, version: "1.2.4+" },
+                webWebGL2: { supported: true, version: "Supported" },
                 reactCanvas: { supported: true, version: "3.0.55+" },
                 reactWebGL: { supported: true, version: "3.0.55+" },
                 reactWebGL2: { supported: true, version: "3.0.55+" },
@@ -401,6 +414,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: true, version: "1.2.1+" },
                 webWebGL: { supported: true, version: "1.2.1+" },
+                webWebGL2: { supported: true, version: "Supported" },
                 reactCanvas: { supported: true, version: "3.0.54+" },
                 reactWebGL: { supported: true, version: "3.0.54+" },
                 reactWebGL2: { supported: true, version: "3.0.54+" },
@@ -420,6 +434,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: true, version: "1.1.9+" },
                 webWebGL: { supported: true, version: "1.1.9+" },
+                webWebGL2: { supported: true, version: "Supported" },
                 reactCanvas: { supported: true, version: "3.0.49+" },
                 reactWebGL: { supported: true, version: "3.0.49+" },
                 reactWebGL2: { supported: true, version: "3.0.49+" },
@@ -439,6 +454,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: true, version: "1.1.2+" },
                 webWebGL: { supported: true, version: "1.1.2+" },
+                webWebGL2: { supported: true, version: "Supported" },
                 reactCanvas: { supported: true, version: "3.0.42+" },
                 reactWebGL: { supported: true, version: "3.0.42+" },
                 reactWebGL2: { supported: true, version: "3.0.42+" },
@@ -458,6 +474,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: true, version: "1.0.102+" },
                 webWebGL: { supported: true, version: "1.0.98+" },
+                webWebGL2: { supported: true, version: "Supported" },
                 reactCanvas: { supported: true, version: "3.0.38+" },
                 reactWebGL: { supported: true, version: "3.0.38+" },
                 reactWebGL2: { supported: true, version: "3.0.38+" },
@@ -477,6 +494,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: true, version: "1.0.97+" },
                 webWebGL: { supported: true, version: "1.0.93+" },
+                webWebGL2: { supported: true, version: "Supported" },
                 reactCanvas: { supported: true, version: "3.0.34+" },
                 reactWebGL: { supported: true, version: "3.0.34+" },
                 reactWebGL2: { supported: true, version: "3.0.34+" },
@@ -496,6 +514,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: true, version: "1.0.65+" },
                 webWebGL: { supported: true, version: "1.0.62+" },
+                webWebGL2: { supported: true, version: "Supported" },
                 reactCanvas: { supported: true, version: "3.0.6+" },
                 reactWebGL: { supported: true, version: "3.0.6+" },
                 reactWebGL2: { supported: true, version: "3.0.6+" },
@@ -515,6 +534,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: true, version: "1.0.47+" },
                 webWebGL: { supported: true, version: "1.0.44+" },
+                webWebGL2: { supported: true, version: "Supported" },
                 reactCanvas: { supported: true, version: "3.0.1+" },
                 reactWebGL: { supported: true, version: "3.0.1+" },
                 reactWebGL2: { supported: true, version: "3.0.1+" },
@@ -554,6 +574,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: true, version: "1.0.2+" },
                 webWebGL: { supported: true, version: "1.0.2+" },
+                webWebGL2: { supported: true, version: "Supported" },
                 reactCanvas: { supported: true, version: "0.0.28+" },
                 reactWebGL: { supported: true, version: "0.0.28+" },
                 reactWebGL2: { supported: true, version: "0.0.28+" },
