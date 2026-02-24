@@ -47,7 +47,7 @@ Double clicking the created RenderTarget will open the asset editor in which you
 
 ## 2) Drag it into the Level
 
-Drag the RednerTarget from the Content Browser into the viewport to apply it to an object. Unreal will automatically create a material that samples the RenderTarget texture. At this point you should see the Rive content on the surface.
+Drag the RenderTarget from the Content Browser into the viewport to apply it to a mesh. Unreal will automatically create a material that samples the RenderTarget texture. At this point you should see the Rive content on the surface.
 
 ## 3) How updates work (Tick + Draw)
 
@@ -64,7 +64,7 @@ In practice, you must ensure there is a driver in your scene that:
 
 The recommended driver for RenderTargets is **URiveActorComponent**, which is designed specifically for in-world textures.
 
-## 4) Driving the RenderTarget with URiveActorComponent
+## 4) Driving the RenderTarget with RiveRenderTargetUpdater
 
 If you are using the RenderTarget workflow, place an Actor in the level that owns the runtime and renders to the target.
 
@@ -76,7 +76,7 @@ Typical setup:
 4. Set the RenderTarget size to match your in-world screen needs.
 
 <Info>
-  **URiveActorComponent** is intended for RenderTargets (world-space textures).\
+  **RiveRenderTargetUpdater** is intended for RenderTargets (world-space textures).\
   It is not intended for screen-space widgets.
 </Info>
 
