@@ -4,13 +4,13 @@ export const FeatureSupportGroup = ({
     runtime,
     children
 }) => {
-    const titles = {
-        webCanvas: "Web (Canvas)",
-        webWebGL: "Web (WebGL)",
-        webWebGL2: "Web (WebGL2)",
-        reactCanvas: "React (Canvas)",
-        reactWebGL: "React (WebGL)",
-        reactWebGL2: "React (WebGL2)",
+    const runtimeTitles = {
+        webCanvas: "Web Canvas",
+        webWebGL: "Web WebGL (Legacy)",
+        webWebGL2: "Web WebGL2",
+        reactCanvas: "React Canvas",
+        reactWebGL: "React WebGL (Legacy)",
+        reactWebGL2: "React WebGL2",
         reactNative: "React Native",
         reactNativeLegacy: "React Native (Legacy)",
         flutter: "Flutter",
@@ -25,24 +25,54 @@ export const FeatureSupportGroup = ({
     }
 
     // Do not include legacy runtimes
-    const titlesOrder = [
+    const runtimesInOrder = [
         "webWebGL2",
         "webCanvas",
-        "webWebGL",
         "reactWebGL2",
         "reactCanvas",
-        "reactWebGL",
         "reactNative",
-        "reactNativeLegacy",
         "flutter",
         "flutterRiveNative",
         "apple",
         "android",
         "androidCompose",
-        "androidLegacy",
         "cpp",
         "unity",
         "unreal",
+        "webWebGL",
+        "reactWebGL",
+        "reactNativeLegacy",
+        "androidLegacy",
+    ]
+
+    const featuresInOrder = [
+        "scripting",
+        "dataBindingListsImagesArtboards",
+        "rightToLeftLayoutsText",
+        "textFollowPath",
+        "dataBinding",
+        "vectorFeathering",
+        "nSlicing",
+        "layouts",
+        "fallbackFonts",
+        "nestedText",
+        "nestedInputs",
+        "randomization",
+        "audio",
+        "nestedInputsAndEvents",
+        "outOfBandAssets",
+        "events",
+        "text",
+        "followPath",
+        "interpolationOnStates",
+        "joysticks",
+        "solos",
+        "speedOnStates",
+        "graphEditor",
+        "listeners",
+        "meshDeformation",
+        "cachingARiveFile",
+        "rasterAssets",
     ]
 
     const features = {
@@ -171,7 +201,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: true, version: "2.23.11+" },
                 webWebGL: { supported: true, version: "2.23.11+" },
-                webWebGL2: { supported: true, version: "Supported" },
+                webWebGL2: { supported: true, description: "Supported" },
                 reactCanvas: { supported: true, version: "4.16.7+" },
                 reactWebGL: { supported: true, version: "4.16.7+" },
                 reactWebGL2: { supported: true, version: "4.16.7+" },
@@ -189,7 +219,7 @@ export const FeatureSupportGroup = ({
         layouts: {
             title: "Layouts",
             runtimes: {
-                webWebGL2: { supported: true, version: "Supported" },
+                webWebGL2: { supported: true, description: "Supported" },
                 webCanvas: { supported: true, version: "2.23.3+" },
                 webWebGL: { supported: true, version: "2.23.3+" },
                 reactCanvas: { supported: true, version: "4.16.0+" },
@@ -211,7 +241,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: false, description: "Not yet supported" },
                 webWebGL: { supported: false, description: "Not yet supported" },
-                webWebGL2: { supported: true, version: "Supported" },
+                webWebGL2: { supported: true, description: "Supported" },
                 reactCanvas: { supported: false, description: "Not yet supported" },
                 reactWebGL: { supported: false, description: "Not yet supported" },
                 reactWebGL2: { supported: false, description: "Not yet supported" },
@@ -231,7 +261,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: true, version: "2.21.0+" },
                 webWebGL: { supported: true, version: "2.21.0+" },
-                webWebGL2: { supported: true, version: "Supported" },
+                webWebGL2: { supported: true, description: "Supported" },
                 reactCanvas: { supported: true, version: "4.14.0+" },
                 reactWebGL: { supported: true, version: "4.14.0+" },
                 reactWebGL2: { supported: true, version: "4.14.0+" },
@@ -252,7 +282,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: true, version: "2.17.3+" },
                 webWebGL: { supported: true, version: "2.17.3+" },
-                webWebGL2: { supported: true, version: "Supported" },
+                webWebGL2: { supported: true, description: "Supported" },
                 reactCanvas: { supported: true, version: "4.11.3+" },
                 reactWebGL: { supported: true, version: "4.11.3+" },
                 reactWebGL2: { supported: true, version: "4.11.3+" },
@@ -273,7 +303,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: true, version: "2.15.6+" },
                 webWebGL: { supported: true, version: "2.15.6+" },
-                webWebGL2: { supported: true, version: "Supported" },
+                webWebGL2: { supported: true, description: "Supported" },
                 reactCanvas: { supported: true, version: "4.9.5+" },
                 reactWebGL: { supported: true, version: "4.9.5+" },
                 reactWebGL2: { supported: true, version: "4.9.5+" },
@@ -293,7 +323,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: true, version: "2.15.6+" },
                 webWebGL: { supported: true, version: "2.15.6+" },
-                webWebGL2: { supported: true, version: "Supported" },
+                webWebGL2: { supported: true, description: "Supported" },
                 reactCanvas: { supported: true, version: "4.9.5+" },
                 reactWebGL: { supported: true, version: "4.9.5+" },
                 reactWebGL2: { supported: true, version: "4.9.5+" },
@@ -313,7 +343,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: true, version: "2.7.0+" },
                 webWebGL: { supported: true, version: "2.7.0+" },
-                webWebGL2: { supported: true, version: "Supported" },
+                webWebGL2: { supported: true, description: "Supported" },
                 reactCanvas: { supported: true, version: "4.5.0+" },
                 reactWebGL: { supported: true, version: "4.5.0+" },
                 reactWebGL2: { supported: true, version: "4.5.0+" },
@@ -333,7 +363,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: true, version: "2.7.0+" },
                 webWebGL: { supported: true, version: "2.7.0+" },
-                webWebGL2: { supported: true, version: "Supported" },
+                webWebGL2: { supported: true, description: "Supported" },
                 reactCanvas: { supported: true, version: "4.5.0+" },
                 reactWebGL: { supported: true, version: "4.5.0+" },
                 reactWebGL2: { supported: true, version: "4.5.0+" },
@@ -353,7 +383,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: true, version: "2.4.3+" },
                 webWebGL: { supported: true, version: "2.4.3+" },
-                webWebGL2: { supported: true, version: "Supported" },
+                webWebGL2: { supported: true, description: "Supported" },
                 reactCanvas: { supported: true, version: "4.3.3+" },
                 reactWebGL: { supported: true, version: "4.3.3+" },
                 reactWebGL2: { supported: true, version: "4.3.3+" },
@@ -374,7 +404,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: true, version: "2.1.3+" },
                 webWebGL: { supported: true, version: "2.1.3+" },
-                webWebGL2: { supported: true, version: "Supported" },
+                webWebGL2: { supported: true, description: "Supported" },
                 reactCanvas: { supported: true, version: "4.1.3+" },
                 reactWebGL: { supported: true, version: "4.1.3+" },
                 reactWebGL2: { supported: true, version: "4.1.3+" },
@@ -394,7 +424,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: true, version: "1.2.4+" },
                 webWebGL: { supported: true, version: "1.2.4+" },
-                webWebGL2: { supported: true, version: "Supported" },
+                webWebGL2: { supported: true, description: "Supported" },
                 reactCanvas: { supported: true, version: "3.0.55+" },
                 reactWebGL: { supported: true, version: "3.0.55+" },
                 reactWebGL2: { supported: true, version: "3.0.55+" },
@@ -414,7 +444,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: true, version: "1.2.1+" },
                 webWebGL: { supported: true, version: "1.2.1+" },
-                webWebGL2: { supported: true, version: "Supported" },
+                webWebGL2: { supported: true, description: "Supported" },
                 reactCanvas: { supported: true, version: "3.0.54+" },
                 reactWebGL: { supported: true, version: "3.0.54+" },
                 reactWebGL2: { supported: true, version: "3.0.54+" },
@@ -434,7 +464,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: true, version: "1.1.9+" },
                 webWebGL: { supported: true, version: "1.1.9+" },
-                webWebGL2: { supported: true, version: "Supported" },
+                webWebGL2: { supported: true, description: "Supported" },
                 reactCanvas: { supported: true, version: "3.0.49+" },
                 reactWebGL: { supported: true, version: "3.0.49+" },
                 reactWebGL2: { supported: true, version: "3.0.49+" },
@@ -454,7 +484,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: true, version: "1.1.2+" },
                 webWebGL: { supported: true, version: "1.1.2+" },
-                webWebGL2: { supported: true, version: "Supported" },
+                webWebGL2: { supported: true, description: "Supported" },
                 reactCanvas: { supported: true, version: "3.0.42+" },
                 reactWebGL: { supported: true, version: "3.0.42+" },
                 reactWebGL2: { supported: true, version: "3.0.42+" },
@@ -474,7 +504,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: true, version: "1.0.102+" },
                 webWebGL: { supported: true, version: "1.0.98+" },
-                webWebGL2: { supported: true, version: "Supported" },
+                webWebGL2: { supported: true, description: "Supported" },
                 reactCanvas: { supported: true, version: "3.0.38+" },
                 reactWebGL: { supported: true, version: "3.0.38+" },
                 reactWebGL2: { supported: true, version: "3.0.38+" },
@@ -494,7 +524,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: true, version: "1.0.97+" },
                 webWebGL: { supported: true, version: "1.0.93+" },
-                webWebGL2: { supported: true, version: "Supported" },
+                webWebGL2: { supported: true, description: "Supported" },
                 reactCanvas: { supported: true, version: "3.0.34+" },
                 reactWebGL: { supported: true, version: "3.0.34+" },
                 reactWebGL2: { supported: true, version: "3.0.34+" },
@@ -514,7 +544,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: true, version: "1.0.65+" },
                 webWebGL: { supported: true, version: "1.0.62+" },
-                webWebGL2: { supported: true, version: "Supported" },
+                webWebGL2: { supported: true, description: "Supported" },
                 reactCanvas: { supported: true, version: "3.0.6+" },
                 reactWebGL: { supported: true, version: "3.0.6+" },
                 reactWebGL2: { supported: true, version: "3.0.6+" },
@@ -534,7 +564,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: true, version: "1.0.47+" },
                 webWebGL: { supported: true, version: "1.0.44+" },
-                webWebGL2: { supported: true, version: "Supported" },
+                webWebGL2: { supported: true, description: "Supported" },
                 reactCanvas: { supported: true, version: "3.0.1+" },
                 reactWebGL: { supported: true, version: "3.0.1+" },
                 reactWebGL2: { supported: true, version: "3.0.1+" },
@@ -574,7 +604,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: true, version: "1.0.2+" },
                 webWebGL: { supported: true, version: "1.0.2+" },
-                webWebGL2: { supported: true, version: "Supported" },
+                webWebGL2: { supported: true, description: "Supported" },
                 reactCanvas: { supported: true, version: "0.0.28+" },
                 reactWebGL: { supported: true, version: "0.0.28+" },
                 reactWebGL2: { supported: true, version: "0.0.28+" },
@@ -591,13 +621,88 @@ export const FeatureSupportGroup = ({
         }
     }
 
+    if (runtime) {
+        return (
+            <Accordion title={runtimeTitles[runtime]}>
+                 {children}
+                <div
+                    data-table-wrapper="true"
+                    className="[--page-padding:20px] overflow-x-auto flex my-[1em] py-[1em] max-w-none [contain:inline-size]"
+                >
+                    <div
+                        className="px-[var(--page-padding)] grow max-w-none table"
+                    >
+                        <table
+                            className="m-0 min-w-full w-full max-w-none [&amp;_td]:min-w-[150px] [&amp;_th]:text-left [&amp;_td[data-numeric]]:tabular-nums"
+                        >
+                            <thead className="w-full">
+                                <tr>
+                                    <th className="w-2/3">
+                                        <strong>Feature</strong>
+                                    </th>
+                                    <th className="w-1/3">
+                                        <strong>Version</strong>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {
+                                    featuresInOrder.map((featureKey) => {
+                                        const currentFeature = features[featureKey]
+                                        const runtimeFeatureSupport = currentFeature.runtimes[runtime]
+                                        console.log(runtimeFeatureSupport)
+
+                                        if (!runtimeFeatureSupport) {
+                                            return (
+                                                <tr>
+                                                    <td>{currentFeature.title}</td>
+                                                    <td>Unknown</td>
+                                                </tr>
+                                            )
+                                        }
+
+                                        const { supported, version, description } = runtimeFeatureSupport
+
+                                        return (
+                                            <tr>
+                                                <td>{currentFeature.title}</td>
+                                                {
+                                                    version && !description && (
+                                                        <td data-numeric="true">
+                                                            {supported && '✅ '}
+                                                            <code>{version}</code>
+                                                        </td>
+                                                    )
+                                                }
+                                                {
+                                                    description && !version && (
+                                                        <td>
+                                                            {supported && '✅ '}
+                                                            {description}
+                                                        </td>
+                                                    )
+                                                }
+                                            </tr>
+                                        )
+                                    })
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </Accordion>
+        )
+    }
+
     const currentFeature = features[feature]
     const allSupported = Object.values(currentFeature.runtimes).every(runtime => runtime.supported === true)
     const statusEmoji = allSupported ? '✅' : '🟡'
     const titleWithEmoji = `${statusEmoji} ${currentFeature.title}`
 
     return (
-        <Accordion title={titleWithEmoji} defaultOpen>
+        <Accordion title={titleWithEmoji}>
             {children}
             <div
                 data-table-wrapper="true"
@@ -611,23 +716,22 @@ export const FeatureSupportGroup = ({
                     >
                         <thead className="w-full">
                             <tr>
-                                <th className="w-1/2">
+                                <th className="w-2/3">
                                     <strong>Runtime</strong>
                                 </th>
-                                <th className="w-1/2">
+                                <th className="w-1/3">
                                     <strong>Version</strong>
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
                             {
-                                titlesOrder.map((runtimeKey) => {
-                                    console.log(runtimeKey)
+                                runtimesInOrder.map((runtimeKey) => {
                                     const currentRuntime = currentFeature.runtimes[runtimeKey]
                                     if (!currentRuntime) {
                                         return (
                                             <tr>
-                                                <td>{titles[runtimeKey]}</td>
+                                                <td>{runtimeTitles[runtimeKey]}</td>
                                                 <td>Unknown</td>
                                             </tr>
                                         )
@@ -635,7 +739,7 @@ export const FeatureSupportGroup = ({
                                     const { supported, version, description } = currentFeature.runtimes[runtimeKey]
                                     return (
                                         <tr>
-                                            <td>{titles[runtimeKey]}</td>
+                                            <td>{runtimeTitles[runtimeKey]}</td>
                                             {
                                                 version && !description && (
                                                     <td data-numeric="true">
