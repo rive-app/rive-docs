@@ -3,6 +3,152 @@ title: 'Feature Support'
 description: ''
 ---
 
-import FeaturesSupport from '/snippets/features-support.mdx'
+import { FeatureSupportGroup } from '/snippets/feature-support.jsx'
 
-<FeaturesSupport />
+As our Rive editor adds features for making Rive assets, sometimes our runtimes need to be updated to support these improvements. This may mean new or changed APIs.
+
+Check below to see if a given feature used by your Rive asset is supported yet at runtime. We generally recommend that your project uses the latest version of the runtimes to take advantage of follow-on bug fixes and new features.
+
+<Warning>
+  Certain features require the use of the Rive Renderer at runtime. See our
+  documentation on [choosing a renderer](/runtimes/choose-a-renderer/).
+  Currently, the only feature that requires the Rive Renderer is **[Vector
+  Feathering](https://rive.app/blog/introducing-vector-feathering)**.
+</Warning>
+
+We may include notes on migrating to newer versions if a new feature warrants recent API changes.
+
+<AccordionGroup>
+  <Accordion title="Scripting" defaultOpen>
+      Support for Rive files with <a class="link" href="/docs/scripting">Scripting</a>.
+
+      <FeatureSupportGroup feature="scripting" />
+  </Accordion>
+  <Accordion title="Data Binding - Lists, Images, and Artboards" defaultOpen>
+      Data binding lists, images, and artboards were added after initial data binding support.
+
+      See [Data Binding Overview](/editor/data-binding/overview) and [Data Binding for Runtimes](/runtimes/data-binding).
+
+      <FeatureSupportGroup feature="dataBindingListsImagesArtboards" />
+  </Accordion>
+  <Accordion title="Right to Left Layouts & Text">
+      <FeatureSupportGroup feature="rightToLeftLayoutsText" />
+  </Accordion>
+  <Accordion title="Text Follow Path">
+      <FeatureSupportGroup feature="textFollowPath" />
+  </Accordion>
+  <Accordion title="Data Binding">
+      See [Data Binding Overview](/editor/data-binding/overview) and [Data Binding for Runtimes](/runtimes/data-binding).
+
+      <FeatureSupportGroup feature="dataBinding" />
+  </Accordion>
+  <Accordion title="Vector Feathering">
+      <Warning>
+      This feature is only supported with the Rive Renderer. See [Choose a Renderer](/runtimes/choose-a-renderer/).
+      </Warning>
+
+      <FeatureSupportGroup feature="vectorFeathering" />
+  </Accordion>
+  <Accordion title="N-Slicing">
+      See [N-Slicing](/editor/layouts/n-slicing).
+
+      <FeatureSupportGroup feature="nSlicing" />
+  </Accordion>
+  <Accordion title="Layouts">
+      Allows Rive to automatically update the artboard size as the underlying view/canvas/widget/texture size changes. See [Layouts](/editor/layouts/layouts-overview).
+
+      <FeatureSupportGroup feature="layouts" />
+  </Accordion>
+  <Accordion title="Fallback Fonts">
+      Allows Rive to use a fallback font if a glyph is not available. A default font is automatically chosen, or you can optionally configure the desired fallback font based on various options. See [Fallback Fonts](/runtimes/text#fallback-fonts).
+
+      <FeatureSupportGroup feature="fallbackFonts" />
+  </Accordion>
+  <Accordion title="Nested Text">
+      Enables setting text on component instances. See [Nested Text](/runtimes/text#read-update-nested-text-runs-at-runtime).
+
+      <FeatureSupportGroup feature="nestedText" />
+  </Accordion>
+  <Accordion title="Nested Inputs">
+      Enables setting inputs on component instances. See [Nested Inputs](/runtimes/inputs#nested-inputs).
+
+      <FeatureSupportGroup feature="nestedInputs" />
+  </Accordion>
+  <Accordion title="Randomization">
+      Enables randomizing transitions between animations and customizing the probability.
+
+      <FeatureSupportGroup feature="randomization" />
+  </Accordion>
+  <Accordion title="Audio">
+      See [Rive Events](/runtimes/rive-events) and [Audio Events](/editor/events/audio-events).
+
+      <FeatureSupportGroup feature="audio" />
+  </Accordion>
+  <Accordion title="Nested Inputs and Nested Events">
+      See [Components](/editor/fundamentals/components).
+
+      <FeatureSupportGroup feature="nestedInputsAndEvents" />
+  </Accordion>
+  <Accordion title="Out-of-band Assets">
+      See [Loading Assets](/runtimes/loading-assets).
+
+      <FeatureSupportGroup feature="outOfBandAssets" />
+  </Accordion>
+  <Accordion title="Events">
+      See [Rive Events](/runtimes/rive-events).
+
+      <FeatureSupportGroup feature="events" />
+  </Accordion>
+  <Accordion title="Text">
+      See [Text](/runtimes/text).
+
+      <FeatureSupportGroup feature="text" />
+
+      Note that we will proactively update the above versions as additional APIs on runtimes expose ways to dynamically set text (high and low-level), among other related features.
+  </Accordion>
+  <Accordion title="Follow Path">
+      <FeatureSupportGroup feature="followPath" />
+  </Accordion>
+  <Accordion title="Interpolation on States">
+      <FeatureSupportGroup feature="interpolationOnStates" />
+  </Accordion>
+  <Accordion title="Joysticks">
+      <FeatureSupportGroup feature="joysticks" />
+  </Accordion>
+  <Accordion title="Solos">
+      <FeatureSupportGroup feature="solos" />
+  </Accordion>
+  <Accordion title="Speed on States">
+      <FeatureSupportGroup feature="speedOnStates" />
+  </Accordion>
+  <Accordion title="Graph Editor">
+      <FeatureSupportGroup feature="graphEditor" />
+  </Accordion>
+  <Accordion title="Listeners">
+      <FeatureSupportGroup feature="listeners" />
+
+      No extra code is needed to support listeners, and you do not need to invoke listeners via event listener/detector code at runtime. If the Rive file has a listener as part of the state machine at design time, the runtime library has implicit event listener/detector code to trigger the listeners at the appropriate time.
+
+      ## Notes
+      - `rive-react` - Starting in `v3.0.0` the React runtime has split into two different published packages; `@rive-app/react-canvas` and `@rive-app/react-webgl`, each wrapping the respective `@rive-app/canvas` and `@rive-app/webgl` web runtimes. We recommend using `@rive-app/react-canvas`
+      - `@rive-app/webgl` - There is a new flag here, `useOffscreenRenderer` which is off by default. This flag will allow you to work around the various browser constraints on the number of WebGL contexts created. We **highly recommend** setting this option to `true` when instantiating Rive in the high-level API. See more here: [https://github.com/rive-app/rive-wasm#other-notes](#nested-inputs-and-nested-events).
+      - `rive-react-native` - Starting in `v3.0.0`, it will have a minimum iOS `14.0` support
+  </Accordion>
+  <Accordion title="Mesh Deformation">
+      <FeatureSupportGroup feature="meshDeformation" />
+
+      ## Notes
+      - `rive-react` - Starting in `v3.0.0` the React runtime has split into two different published packages; `@rive-app/react-canvas` and `@rive-app/react-webgl`, each wrapping the respective `@rive-app/canvas` and `@rive-app/webgl` web runtimes. We recommend using `@rive-app/react-canvas`
+      - `@rive-app/webgl` - There is a new flag here, `useOffscreenRenderer` which is off by default. This flag will allow you to work around the various browser constraints on the number of WebGL contexts created. We **highly recommend** setting this option to `true` when instantiating Rive in the high-level API. See more here: [https://github.com/rive-app/rive-wasm#other-notes](#nested-inputs-and-nested-events)
+      - Regarding web-based runtimes and meshes:
+          - Keep in mind that as meshes grow across larger screen areas, they become more resource-heavy on some devices
+          - Avoid complex transforms repeatedly on the `canvas` elements that display Rive animations (or `RiveComponent` in the React runtimes)
+          - We recommend using `@rive-app/webgl` to display mesh on Firefox for best performance
+  </Accordion>
+  <Accordion title="Caching a Rive File">
+      <FeatureSupportGroup feature="cachingARiveFile" />
+  </Accordion>
+  <Accordion title="Raster Assets">
+      <FeatureSupportGroup feature="rasterAssets" />
+  </Accordion>
+</AccordionGroup>
