@@ -176,10 +176,12 @@ export const FeatureSupportGroup = ({
         vectorFeathering: {
             title: "Vector Feathering",
             runtimes: [
-                { title: "Web (@rive-app/webgl2)", supported: true, version: "2.26.0+" },
-                { title: "Web (@rive-app/canvas and @rive-app/webgl)", supported: false, description: "Not supported" },
-                { title: "React (@rive-app/react-webgl2)", supported: true, version: "4.18.0+" },
-                { title: "React (@rive-app/react-canvas and @rive-app/react-webgl)", supported: false, description: "Not supported" },
+                { title: "Web (WebGL2)", supported: true, version: "2.26.0+" },
+                { title: "Web (Canvas)", supported: false, description: "Not supported" },
+                { title: "Web (WebGL)", supported: false, description: "Not supported" },
+                { title: "React (WebGL2)", supported: true, version: "4.18.0+" },
+                { title: "React (Canvas)", supported: false, description: "Not supported" },
+                { title: "React (WebGL)", supported: false, description: "Not supported" },
                 { title: "React Native", supported: true, version: "v0.1.4+" },
                 { title: "React Native (Legacy)", supported: true, version: "9.0.0+" },
                 { title: "Flutter", supported: true, version: "0.14.0-dev.1" },
@@ -194,7 +196,8 @@ export const FeatureSupportGroup = ({
         nSlicing: {
             title: "N-Slicing",
             runtimes: [
-                { title: "Web (@rive-app/canvas and @rive-app/webgl)", supported: true, version: "2.23.11+" },
+                { title: "Web (Canvas)", supported: true, version: "2.23.11+" },
+                { title: "Web (WebGL)", supported: true, version: "2.23.11+" },
                 { title: "React", supported: true, version: "4.16.7+" },
                 { title: "React Native", supported: true, version: "v0.1.4+" },
                 { title: "React Native (Legacy)", supported: true, version: "8.2.0+" },
@@ -210,7 +213,8 @@ export const FeatureSupportGroup = ({
         layouts: {
             title: "Layouts",
             runtimes: [
-                { title: "Web (@rive-app/canvas and @rive-app/webgl)", supported: true, version: "2.23.3+" },
+                { title: "Web (Canvas)", supported: true, version: "2.23.3+" },
+                { title: "Web (WebGL)", supported: true, version: "2.23.3+" },
                 { title: "React", supported: true, version: "4.16.0+" },
                 { title: "React Native", supported: true, version: "v0.1.4+" },
                 { title: "React Native (Legacy)", supported: true, version: "8.1.0+" },
@@ -226,7 +230,8 @@ export const FeatureSupportGroup = ({
         fallbackFonts: {
             title: "Fallback Fonts",
             runtimes: [
-                { title: "Web (@rive-app/canvas and @rive-app/webgl)", supported: false, description: "Not yet supported" },
+                { title: "Web (Canvas)", supported: false, description: "Not yet supported" },
+                { title: "Web (WebGL)", supported: false, description: "Not yet supported" },
                 { title: "React", supported: false, description: "Not yet supported" },
                 { title: "React Native", supported: false, description: "Not yet supported" },
                 { title: "React Native (Legacy)", supported: false, description: "Not yet supported" },
@@ -242,7 +247,8 @@ export const FeatureSupportGroup = ({
         nestedText: {
             title: "Nested Text",
             runtimes: [
-                { title: "Web (@rive-app/canvas and @rive-app/webgl)", supported: true, version: "2.21.0+" },
+                { title: "Web (Canvas)", supported: true, version: "2.21.0+" },
+                { title: "Web (WebGL)", supported: true, version: "2.21.0+" },
                 { title: "React", supported: true, version: "4.14.0+" },
                 { title: "React Native", supported: true, version: "v0.1.4+" },
                 { title: "React Native (Legacy)", supported: true, version: "5.8.2+" },
@@ -259,7 +265,8 @@ export const FeatureSupportGroup = ({
         nestedInputs: {
             title: "Nested Inputs",
             runtimes: [
-                { title: "Web (@rive-app/canvas and @rive-app/webgl)", supported: true, version: "2.17.3+" },
+                { title: "Web (Canvas)", supported: true, version: "2.17.3+" },
+                { title: "Web (WebGL)", supported: true, version: "2.17.3+" },
                 { title: "React", supported: true, version: "4.11.3+" },
                 { title: "React Native", supported: true, version: "v0.1.4+" },
                 { title: "React Native (Legacy)", supported: true, version: "7.2.0+" },
@@ -276,7 +283,8 @@ export const FeatureSupportGroup = ({
         randomization: {
             title: "Randomization",
             runtimes: [
-                { title: "Web (@rive-app/canvas and @rive-app/webgl)", supported: true, version: "2.15.6+" },
+                { title: "Web (Canvas)", supported: true, version: "2.15.6+" },
+                { title: "Web (WebGL)", supported: true, version: "2.15.6+" },
                 { title: "React", supported: true, version: "4.9.5+" },
                 { title: "React Native", supported: true, version: "v0.1.4+" },
                 { title: "React Native (Legacy)", supported: true, version: "7.0.3+" },
@@ -292,7 +300,8 @@ export const FeatureSupportGroup = ({
         audio: {
             title: "Audio",
             runtimes: [
-                { title: "Web (@rive-app/canvas and @rive-app/webgl)", supported: true, version: "2.15.6+" },
+                { title: "Web (Canvas)", supported: true, version: "2.15.6+" },
+                { title: "Web (WebGL)", supported: true, version: "2.15.6+" },
                 { title: "React", supported: true, version: "4.9.5+" },
                 { title: "React Native", supported: true, version: "v0.1.4+" },
                 { title: "React Native (Legacy)", supported: true, version: "7.0.3+" },
@@ -308,7 +317,8 @@ export const FeatureSupportGroup = ({
         nestedInputsAndEvents: {
             title: "Nested Inputs and Nested Events",
             runtimes: [
-                { title: "Web (@rive-app/canvas and @rive-app/webgl)", supported: true, version: "2.7.0+" },
+                { title: "Web (Canvas)", supported: true, version: "2.7.0+" },
+                { title: "Web (WebGL)", supported: true, version: "2.7.0+" },
                 { title: "React", supported: true, version: "4.5.0+" },
                 { title: "React Native", supported: true, version: "v0.1.4+" },
                 { title: "React Native (Legacy)", supported: true, version: "6.2.0+" },
@@ -324,7 +334,8 @@ export const FeatureSupportGroup = ({
         outOfBandAssets: {
             title: "Out-of-band Assets",
             runtimes: [
-                { title: "Web (@rive-app/canvas and @rive-app/webgl)", supported: true, version: "2.7.0+" },
+                { title: "Web (Canvas)", supported: true, version: "2.7.0+" },
+                { title: "Web (WebGL)", supported: true, version: "2.7.0+" },
                 { title: "React", supported: true, version: "4.5.0+" },
                 { title: "React Native", supported: true, version: "v0.1.4+" },
                 { title: "React Native (Legacy)", supported: true, version: "8.4.0+" },
@@ -340,7 +351,8 @@ export const FeatureSupportGroup = ({
         events: {
             title: "Events",
             runtimes: [
-                { title: "Web (@rive-app/canvas and @rive-app/webgl)", supported: true, version: "2.4.3+" },
+                { title: "Web (Canvas)", supported: true, version: "2.4.3+" },
+                { title: "Web (WebGL)", supported: true, version: "2.4.3+" },
                 { title: "React", supported: true, version: "4.3.3+" },
                 { title: "React Native", supported: true, version: "v0.1.4+" },
                 { title: "React Native (Legacy)", supported: true, version: "6.1.0+" },
@@ -357,7 +369,8 @@ export const FeatureSupportGroup = ({
         text: {
             title: "Text",
             runtimes: [
-                { title: "Web (@rive-app/canvas and @rive-app/webgl)", supported: true, version: "2.1.3+" },
+                { title: "Web (Canvas)", supported: true, version: "2.1.3+" },
+                { title: "Web (WebGL)", supported: true, version: "2.1.3+" },
                 { title: "React", supported: true, version: "4.1.3+" },
                 { title: "React Native", supported: true, version: "v0.1.4+" },
                 { title: "React Native (Legacy)", supported: true, version: "6.0.3+" },
@@ -373,7 +386,8 @@ export const FeatureSupportGroup = ({
         followPath: {
             title: "Follow Path",
             runtimes: [
-                { title: "Web (@rive-app/canvas and @rive-app/webgl)", supported: true, version: "1.2.4+" },
+                { title: "Web (Canvas)", supported: true, version: "1.2.4+" },
+                { title: "Web (WebGL)", supported: true, version: "1.2.4+" },
                 { title: "React", supported: true, version: "3.0.55+" },
                 { title: "React Native", supported: true, version: "v0.1.4+" },
                 { title: "React Native (Legacy)", supported: true, version: "5.0.0+" },
@@ -389,7 +403,8 @@ export const FeatureSupportGroup = ({
         interpolationOnStates: {
             title: "Interpolation on States",
             runtimes: [
-                { title: "Web (@rive-app/canvas and @rive-app/webgl)", supported: true, version: "1.2.1+" },
+                { title: "Web (Canvas)", supported: true, version: "1.2.1+" },
+                { title: "Web (WebGL)", supported: true, version: "1.2.1+" },
                 { title: "React", supported: true, version: "3.0.54+" },
                 { title: "React Native", supported: true, version: "v0.1.4+" },
                 { title: "React Native (Legacy)", supported: true, version: "4.1.2+" },
@@ -405,7 +420,8 @@ export const FeatureSupportGroup = ({
         joysticks: {
             title: "Joysticks",
             runtimes: [
-                { title: "Web (@rive-app/canvas and @rive-app/webgl)", supported: true, version: "1.1.9+" },
+                { title: "Web (Canvas)", supported: true, version: "1.1.9+" },
+                { title: "Web (WebGL)", supported: true, version: "1.1.9+" },
                 { title: "React", supported: true, version: "3.0.49+" },
                 { title: "React Native", supported: true, version: "v0.1.4+" },
                 { title: "React Native (Legacy)", supported: true, version: "4.1.0+" },
@@ -421,7 +437,8 @@ export const FeatureSupportGroup = ({
         solos: {
             title: "Solos",
             runtimes: [
-                { title: "Web (@rive-app/canvas and @rive-app/webgl)", supported: true, version: "1.1.2+" },
+                { title: "Web (Canvas)", supported: true, version: "1.1.2+" },
+                { title: "Web (WebGL)", supported: true, version: "1.1.2+" },
                 { title: "React", supported: true, version: "3.0.42+" },
                 { title: "React Native", supported: true, version: "v0.1.4+" },
                 { title: "React Native (Legacy)", supported: true, version: "4.0.4+" },
@@ -437,8 +454,8 @@ export const FeatureSupportGroup = ({
         speedOnStates: {
             title: "Speed on States",
             runtimes: [
-                { title: "Web (@rive-app/canvas)", supported: true, version: "1.0.102+" },
-                { title: "Web (@rive-app/webgl)", supported: true, version: "1.0.98+" },
+                { title: "Web (Canvas)", supported: true, version: "1.0.102+" },
+                { title: "Web (WebGL)", supported: true, version: "1.0.98+" },
                 { title: "React", supported: true, version: "3.0.38+" },
                 { title: "React Native", supported: true, version: "v0.1.4+" },
                 { title: "React Native (Legacy)", supported: true, version: "4.0.1+" },
@@ -454,8 +471,8 @@ export const FeatureSupportGroup = ({
         graphEditor: {
             title: "Graph Editor",
             runtimes: [
-                { title: "Web (@rive-app/canvas)", supported: true, version: "1.0.97+" },
-                { title: "Web (@rive-app/webgl)", supported: true, version: "1.0.93+" },
+                { title: "Web (Canvas)", supported: true, version: "1.0.97+" },
+                { title: "Web (WebGL)", supported: true, version: "1.0.93+" },
                 { title: "React", supported: true, version: "3.0.34+" },
                 { title: "React Native", supported: true, version: "v0.1.4+" },
                 { title: "React Native (Legacy)", supported: true, version: "4.0.1+" },
@@ -471,8 +488,8 @@ export const FeatureSupportGroup = ({
         listeners: {
             title: "Listeners",
             runtimes: [
-                { title: "Web (@rive-app/canvas)", supported: true, version: "1.0.65+" },
-                { title: "Web (@rive-app/webgl)", supported: true, version: "1.0.62+" },
+                { title: "Web (Canvas)", supported: true, version: "1.0.65+" },
+                { title: "Web (WebGL)", supported: true, version: "1.0.62+" },
                 { title: "React", supported: true, version: "3.0.6+" },
                 { title: "React Native", supported: true, version: "v0.1.4+" },
                 { title: "React Native (Legacy)", supported: true, version: "3.0.38+" },
@@ -488,8 +505,8 @@ export const FeatureSupportGroup = ({
         meshDeformation: {
             title: "Mesh Deformation",
             runtimes: [
-                { title: "Web (@rive-app/canvas)", supported: true, version: "1.0.47+" },
-                { title: "Web (@rive-app/webgl)", supported: true, version: "1.0.44+" },
+                { title: "Web (Canvas)", supported: true, version: "1.0.47+" },
+                { title: "Web (WebGL)", supported: true, version: "1.0.44+" },
                 { title: "React", supported: true, version: "3.0.1+" },
                 { title: "React Native", supported: true, version: "v0.1.4+" },
                 { title: "React Native (Legacy)", supported: true, version: "2.1.37+" },
@@ -521,7 +538,8 @@ export const FeatureSupportGroup = ({
         rasterAssets: {
             title: "Raster Assets",
             runtimes: [
-                { title: "Web (@rive-app/canvas and @rive-app/webgl)", supported: true, version: "1.0.2+" },
+                { title: "Web (Canvas)", supported: true, version: "1.0.2+" },
+                { title: "Web (WebGL)", supported: true, version: "1.0.2+" },
                 { title: "React", supported: true, version: "0.0.28+" },
                 { title: "React Native", supported: true, version: "v0.1.4+" },
                 { title: "React Native (Legacy)", supported: true, version: "2.1.36+" },
@@ -556,10 +574,10 @@ export const FeatureSupportGroup = ({
                     >
                         <thead className="w-full">
                             <tr>
-                                <th>
+                                <th className="w-2/3">
                                     <strong>Runtime</strong>
                                 </th>
-                                <th>
+                                <th className="w-1/3">
                                     <strong>Version</strong>
                                 </th>
                             </tr>
