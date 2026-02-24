@@ -1,10 +1,12 @@
 
 export const FeatureSupportGroup = ({
-    feature
+    feature,
+    runtime,
+    children
 }) => {
-
     const features = {
         scripting: {
+            title: "Scripting",
             runtimes: [
                 {
                     title: "Web",
@@ -64,7 +66,7 @@ export const FeatureSupportGroup = ({
             ]
         },
         dataBindingListsImagesArtboards: {
-            description: "Data binding lists, images, and artboards were added after initial data binding support.",
+            title: "Data Binding - Lists, Images, and Artboards",
             runtimes: [
                 {
                     title: "Web",
@@ -124,6 +126,7 @@ export const FeatureSupportGroup = ({
             ]
         },
         rightToLeftLayoutsText: {
+            title: "Right to Left Layouts & Text",
             runtimes: [
                 { title: "Web", supported: true, version: "2.26.7+" },
                 { title: "React", supported: true, version: "4.18.6+" },
@@ -139,6 +142,7 @@ export const FeatureSupportGroup = ({
             ]
         },
         textFollowPath: {
+            title: "Text Follow Path",
             runtimes: [
                 { title: "Web", supported: true, version: "2.26.7+" },
                 { title: "React", supported: true, version: "4.18.6+" },
@@ -154,6 +158,7 @@ export const FeatureSupportGroup = ({
             ]
         },
         dataBinding: {
+            title: "Data Binding",
             runtimes: [
                 { title: "Web", supported: true, version: "2.26.6+" },
                 { title: "React", supported: true, version: "4.20.0+" },
@@ -169,6 +174,7 @@ export const FeatureSupportGroup = ({
             ]
         },
         vectorFeathering: {
+            title: "Vector Feathering",
             runtimes: [
                 { title: "Web (@rive-app/webgl2)", supported: true, version: "2.26.0+" },
                 { title: "Web (@rive-app/canvas and @rive-app/webgl)", supported: false, description: "Not supported" },
@@ -186,6 +192,7 @@ export const FeatureSupportGroup = ({
             ]
         },
         nSlicing: {
+            title: "N-Slicing",
             runtimes: [
                 { title: "Web (@rive-app/canvas and @rive-app/webgl)", supported: true, version: "2.23.11+" },
                 { title: "React", supported: true, version: "4.16.7+" },
@@ -201,6 +208,7 @@ export const FeatureSupportGroup = ({
             ]
         },
         layouts: {
+            title: "Layouts",
             runtimes: [
                 { title: "Web (@rive-app/canvas and @rive-app/webgl)", supported: true, version: "2.23.3+" },
                 { title: "React", supported: true, version: "4.16.0+" },
@@ -216,6 +224,7 @@ export const FeatureSupportGroup = ({
             ]
         },
         fallbackFonts: {
+            title: "Fallback Fonts",
             runtimes: [
                 { title: "Web (@rive-app/canvas and @rive-app/webgl)", supported: false, description: "Not yet supported" },
                 { title: "React", supported: false, description: "Not yet supported" },
@@ -231,6 +240,7 @@ export const FeatureSupportGroup = ({
             ]
         },
         nestedText: {
+            title: "Nested Text",
             runtimes: [
                 { title: "Web (@rive-app/canvas and @rive-app/webgl)", supported: true, version: "2.21.0+" },
                 { title: "React", supported: true, version: "4.14.0+" },
@@ -247,6 +257,7 @@ export const FeatureSupportGroup = ({
             ]
         },
         nestedInputs: {
+            title: "Nested Inputs",
             runtimes: [
                 { title: "Web (@rive-app/canvas and @rive-app/webgl)", supported: true, version: "2.17.3+" },
                 { title: "React", supported: true, version: "4.11.3+" },
@@ -263,6 +274,7 @@ export const FeatureSupportGroup = ({
             ]
         },
         randomization: {
+            title: "Randomization",
             runtimes: [
                 { title: "Web (@rive-app/canvas and @rive-app/webgl)", supported: true, version: "2.15.6+" },
                 { title: "React", supported: true, version: "4.9.5+" },
@@ -278,6 +290,7 @@ export const FeatureSupportGroup = ({
             ]
         },
         audio: {
+            title: "Audio",
             runtimes: [
                 { title: "Web (@rive-app/canvas and @rive-app/webgl)", supported: true, version: "2.15.6+" },
                 { title: "React", supported: true, version: "4.9.5+" },
@@ -293,6 +306,7 @@ export const FeatureSupportGroup = ({
             ]
         },
         nestedInputsAndEvents: {
+            title: "Nested Inputs and Nested Events",
             runtimes: [
                 { title: "Web (@rive-app/canvas and @rive-app/webgl)", supported: true, version: "2.7.0+" },
                 { title: "React", supported: true, version: "4.5.0+" },
@@ -308,6 +322,7 @@ export const FeatureSupportGroup = ({
             ]
         },
         outOfBandAssets: {
+            title: "Out-of-band Assets",
             runtimes: [
                 { title: "Web (@rive-app/canvas and @rive-app/webgl)", supported: true, version: "2.7.0+" },
                 { title: "React", supported: true, version: "4.5.0+" },
@@ -323,6 +338,7 @@ export const FeatureSupportGroup = ({
             ]
         },
         events: {
+            title: "Events",
             runtimes: [
                 { title: "Web (@rive-app/canvas and @rive-app/webgl)", supported: true, version: "2.4.3+" },
                 { title: "React", supported: true, version: "4.3.3+" },
@@ -339,6 +355,7 @@ export const FeatureSupportGroup = ({
             ]
         },
         text: {
+            title: "Text",
             runtimes: [
                 { title: "Web (@rive-app/canvas and @rive-app/webgl)", supported: true, version: "2.1.3+" },
                 { title: "React", supported: true, version: "4.1.3+" },
@@ -354,6 +371,7 @@ export const FeatureSupportGroup = ({
             ]
         },
         followPath: {
+            title: "Follow Path",
             runtimes: [
                 { title: "Web (@rive-app/canvas and @rive-app/webgl)", supported: true, version: "1.2.4+" },
                 { title: "React", supported: true, version: "3.0.55+" },
@@ -369,6 +387,7 @@ export const FeatureSupportGroup = ({
             ]
         },
         interpolationOnStates: {
+            title: "Interpolation on States",
             runtimes: [
                 { title: "Web (@rive-app/canvas and @rive-app/webgl)", supported: true, version: "1.2.1+" },
                 { title: "React", supported: true, version: "3.0.54+" },
@@ -384,6 +403,7 @@ export const FeatureSupportGroup = ({
             ]
         },
         joysticks: {
+            title: "Joysticks",
             runtimes: [
                 { title: "Web (@rive-app/canvas and @rive-app/webgl)", supported: true, version: "1.1.9+" },
                 { title: "React", supported: true, version: "3.0.49+" },
@@ -399,6 +419,7 @@ export const FeatureSupportGroup = ({
             ]
         },
         solos: {
+            title: "Solos",
             runtimes: [
                 { title: "Web (@rive-app/canvas and @rive-app/webgl)", supported: true, version: "1.1.2+" },
                 { title: "React", supported: true, version: "3.0.42+" },
@@ -414,6 +435,7 @@ export const FeatureSupportGroup = ({
             ]
         },
         speedOnStates: {
+            title: "Speed on States",
             runtimes: [
                 { title: "Web (@rive-app/canvas)", supported: true, version: "1.0.102+" },
                 { title: "Web (@rive-app/webgl)", supported: true, version: "1.0.98+" },
@@ -430,6 +452,7 @@ export const FeatureSupportGroup = ({
             ]
         },
         graphEditor: {
+            title: "Graph Editor",
             runtimes: [
                 { title: "Web (@rive-app/canvas)", supported: true, version: "1.0.97+" },
                 { title: "Web (@rive-app/webgl)", supported: true, version: "1.0.93+" },
@@ -446,6 +469,7 @@ export const FeatureSupportGroup = ({
             ]
         },
         listeners: {
+            title: "Listeners",
             runtimes: [
                 { title: "Web (@rive-app/canvas)", supported: true, version: "1.0.65+" },
                 { title: "Web (@rive-app/webgl)", supported: true, version: "1.0.62+" },
@@ -462,6 +486,7 @@ export const FeatureSupportGroup = ({
             ]
         },
         meshDeformation: {
+            title: "Mesh Deformation",
             runtimes: [
                 { title: "Web (@rive-app/canvas)", supported: true, version: "1.0.47+" },
                 { title: "Web (@rive-app/webgl)", supported: true, version: "1.0.44+" },
@@ -478,6 +503,7 @@ export const FeatureSupportGroup = ({
             ]
         },
         cachingARiveFile: {
+            title: "Caching a Rive File",
             runtimes: [
                 { title: "Web", supported: true, description: "Supported" },
                 { title: "React", supported: true, description: "Supported" },
@@ -493,6 +519,7 @@ export const FeatureSupportGroup = ({
             ]
         },
         rasterAssets: {
+            title: "Raster Assets",
             runtimes: [
                 { title: "Web (@rive-app/canvas and @rive-app/webgl)", supported: true, version: "1.0.2+" },
                 { title: "React", supported: true, version: "0.0.28+" },
@@ -509,60 +536,66 @@ export const FeatureSupportGroup = ({
         }
     }
 
-    const runtimes = features[feature].runtimes
+    const currentFeature = features[feature]
+    const allSupported = currentFeature.runtimes.every(runtime => runtime.supported === true)
+    const statusEmoji = allSupported ? '✅' : '🟡'
+    const titleWithEmoji = `${statusEmoji} ${currentFeature.title}`
 
     return (
-        <div
-            data-table-wrapper="true"
-            className="[--page-padding:20px] overflow-x-auto flex my-[1em] py-[1em] max-w-none [contain:inline-size]"
-        >
+        <Accordion title={titleWithEmoji}>
+            {children}
             <div
-                className="px-[var(--page-padding)] grow max-w-none table"
+                data-table-wrapper="true"
+                className="[--page-padding:20px] overflow-x-auto flex my-[1em] py-[1em] max-w-none [contain:inline-size]"
             >
-                <table
-                    className="m-0 min-w-full w-full max-w-none [&amp;_td]:min-w-[150px] [&amp;_th]:text-left [&amp;_td[data-numeric]]:tabular-nums"
+                <div
+                    className="px-[var(--page-padding)] grow max-w-none table"
                 >
-                    <thead className="w-full">
-                        <tr>
-                            <th>
-                                <strong>Runtime</strong>
-                            </th>
-                            <th>
-                                <strong>Version</strong>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            runtimes.map(({ title, supported, version, description }) => {
-                                return (
-                                        <tr>
-                                        <td>{title}</td>
-                                        {
-                                            version && !description && (
-                                                <td data-numeric="true">
-                                                    {supported && '✅ '}
-                                                    <code>{version}</code>
-                                                </td>
-                                            )
-                                        }
+                    <table
+                        className="m-0 min-w-full w-full max-w-none [&amp;_td]:min-w-[150px] [&amp;_th]:text-left [&amp;_td[data-numeric]]:tabular-nums"
+                    >
+                        <thead className="w-full">
+                            <tr>
+                                <th>
+                                    <strong>Runtime</strong>
+                                </th>
+                                <th>
+                                    <strong>Version</strong>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                currentFeature.runtimes.map(({ title, supported, version, description }) => {
+                                    return (
+                                            <tr>
+                                            <td>{title}</td>
                                             {
-                                            description && !version && (
-                                                <td>
-                                                    {supported && '✅ '}
-                                                    {description}
-                                                </td>
-                                            )
-                                        }
+                                                version && !description && (
+                                                    <td data-numeric="true">
+                                                        {supported && '✅ '}
+                                                        <code>{version}</code>
+                                                    </td>
+                                                )
+                                            }
+                                                {
+                                                description && !version && (
+                                                    <td>
+                                                        {supported && '✅ '}
+                                                        {description}
+                                                    </td>
+                                                )
+                                            }
 
-                                    </tr>
-                                )
-                            })
-                        }
+                                        </tr>
+                                    )
+                                })
+                            }
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
+        </Accordion>
     )
 }
