@@ -79,7 +79,10 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
                 A `Worker` must be alive for the duration of Rive usage. A `File` creates a strong reference to a `Worker`, so a `Worker` will at least be alive for the duration of use of a `File`, unless a reference to a `Worker` is kept outside of a file.
 
                 ```swift
-                let worker = Worker()
+                // In an async context
+                let worker = try await Worker()
+                // In a sync context
+                let worker = try Worker()
                 ```
 
                 For more information on threading, see [Threading](#threading).
@@ -93,54 +96,62 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
 
                 <CodeGroup>
                     ```swift Local File
-                    let worker = Worker()
+                    let worker = try await Worker()
+                    // In a sync context
+                    let worker = try Worker()
                     let file = File(source: .local("my_file", Bundle.main), worker: worker)
                     ```
 
                     ```swift Remote URL
-                    let worker = Worker()
+                    let worker = try await Worker()
+                    // In a sync context
+                    let worker = try Worker()
                     let file = File(source: .url(URL(string: "https://example.com/my_file.riv")!, worker: worker))
                     ```
 
                     ```swift Data
-                    let worker = Worker()
+                    let worker = try await Worker()
+                    // In a sync context
+                    let worker = try Worker()
                     let data: Data = ...
                     let file = File(source: .data(data), worker: worker)
                     ```
                 </CodeGroup>
-
-                You can opt-in to creating a worker inline if you are using Rive in its most basic form.
-                
-                ```swift
-                let file = File(source: .local("my_file", Bundle.main), worker: Worker())
-                ```
             </Step>
             <Step title="Add a View">
                 Once you have created a `File`, you can move onto creating a `Rive` object. This object defines the configuration of a view. The most basic implementation is created with just a file; Rive will handle loading the default artboard and state machine for rendering. Additionally, if the artboard contains a default view model instance, it will be bound to the state machine automatically.
 
-                Once you have created a `Rive` object, you can initialize a `RiveUIView`. This view is used both in UIKit _and_ SwiftUI. Bridging to SwiftUI is as easy as calling `.view()`.
+                Once you have created a `Rive` object, you can initialize your view. In UIKit, this is done by creating a `RiveUIView` and adding it to the view hierarchy. In SwiftUI, this is done by using the `RiveUIViewRepresentable` and AsyncRiveUIViewRepresentable` types.
 
-                There is a convenience initializer on `RiveUIView` that runs the closure to create a `Rive` object on the main actor, meeting concurrency requirements.
-                
                 <CodeGroup>
-                    ```swift SwiftUI
-                    var body: some View {
-                        RiveUIView({
-                            let worker = Worker()
-                            let file = File(source: .local("my_file", Bundle.main))
-                            return try await Rive(file: file)
-                        }).view()
-                    }
-                    ```
-
                     ```swift UIKit
                     let riveView = RiveUIView({
-                        let worker = Worker()
+                        let worker = try await Worker()
+                        // In a sync context
+                        let worker = try Worker()
                         let file = File(source: .local("my_file", Bundle.main))
                         return try await Rive(file: file)
                     })
                     view.addSubview(riveView)
                     ```
+
+                    ```swift SwiftUI
+                    var body: some View {
+                        // After having created a `Rive` object, you can initialize your view.
+                        RiveUIViewRepresentable(rive)
+                    }
+                    ```
+                    ```swift SwiftUI (Async)
+                    var body: some View {
+                        // After having created a `Rive` object, you can initialize your view.
+                        AsyncRiveUIViewRepresentable {
+                            let worker = try await Worker()
+                            let file = File(source: .local("my_file", Bundle.main))
+                            return try await Rive(file: file)
+                        }
+                    }
+                    ```
+
                 </CodeGroup>
 
                 The above example uses the default artboard and state machine for the file, binding the default view model instance to the state machine if available. This is the default behavior when initializing a `Rive` object without specifying an artboard or state machine.
@@ -219,6 +230,8 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
                 For basic usage, see the [Marty](https://github.com/rive-app/rive-ios/blob/main/Example-iOS/Source/Examples/Experimental/MartyView.swift) example in our Example app.
 
                 For a more complete example, see the [Quick Start](https://github.com/rive-app/rive-ios/blob/main/Example-iOS/Source/Examples/Experimental/QuickStartView.swift) example in our Example app, which demonstrates how to use data binding.
+
+                For examples on how to pause and resume animations, as well as set frame rate, see the [Player](https://github.com/rive-app/rive-ios/blob/main/Example-iOS/Source/Examples/Experimental/PlayerView.swift) example in our Example app.
             </Step>
         </Steps>
     </Tab>
@@ -311,7 +324,10 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
         The new runtime supports multi-threading through the introduction of `Worker` objects.
 
         ```swift
-        let worker = Worker()
+        // In an async context
+        let worker = try await Worker()
+        // In a sync context
+        let worker = try Worker()
         let file = try await File(source: ..., worker: worker)
         ```
 
