@@ -20,9 +20,46 @@ We may include notes on migrating to newer versions if a new feature warrants re
 
 ## Feature Support by Runtime
 
+<Note>
+    A green checkmark (✅) next to a runtime's name indicates that it supports all modern Rive features, while a yellow circle (🟡) indicates partial support.
+
+    A runtime is still considered fully supported even if it doesn't support legacy features.
+</Note>
+
+### Modern Runtime
+
+<FeatureSupportGroup runtime="webCanvas">
+    For better performance and modern features - like vector feathering - we recommend using the WebGL2 runtime, which uses the Rive Renderer.
+</FeatureSupportGroup>
 <FeatureSupportGroup runtime="webWebGL2" />
+<FeatureSupportGroup runtime="reactCanvas" />
+<FeatureSupportGroup runtime="reactWebGL2" />
+<FeatureSupportGroup runtime="reactNative" />
+<FeatureSupportGroup runtime="flutter" />
+<FeatureSupportGroup runtime="flutterRiveNative" />
+<FeatureSupportGroup runtime="apple" />
+<FeatureSupportGroup runtime="android" />
+<FeatureSupportGroup runtime="androidCompose" />
+<FeatureSupportGroup runtime="cpp" />
+<FeatureSupportGroup runtime="unity" />
+<FeatureSupportGroup runtime="unreal" />
+
+### Legacy Runtimes
+
+<FeatureSupportGroup runtime="webWebGL" />
+<FeatureSupportGroup runtime="reactWebGL" />
+<FeatureSupportGroup runtime="reactNativeLegacy" />
+<FeatureSupportGroup runtime="androidLegacy" />
 
 ## Runtime Support by Feature
+
+<Note>
+    A green checkmark (✅) next to a feature's name indicates that it is supported by all runtimes, while a yellow circle (🟡) indicates partial support.
+
+    A feature is still considered fully supported even if it isn't supported by legacy runtimes
+</Note>
+
+### Modern Features
 
 <FeatureSupportGroup feature="scripting">
 
@@ -48,26 +85,14 @@ We may include notes on migrating to newer versions if a new feature warrants re
 <FeatureSupportGroup feature="fallbackFonts">
     Allows Rive to use a fallback font if a glyph is not available. A default font is automatically chosen, or you can optionally configure the desired fallback font based on various options. See [Fallback Fonts](/runtimes/text#fallback-fonts).
 </FeatureSupportGroup>
-<FeatureSupportGroup feature="nestedText">
-    Enables setting text on component instances. See [Nested Text](/runtimes/text#read-update-nested-text-runs-at-runtime).
-</FeatureSupportGroup>
-<FeatureSupportGroup feature="nestedInputs">
-    Enables setting inputs on component instances. See [Nested Inputs](/runtimes/inputs#nested-inputs).
-</FeatureSupportGroup>
 <FeatureSupportGroup feature="randomization">
     Enables randomizing transitions between animations and customizing the probability.
 </FeatureSupportGroup>
 <FeatureSupportGroup feature="audio">
     See [Rive Events](/runtimes/rive-events) and [Audio Events](/editor/events/audio-events).
 </FeatureSupportGroup>
-<FeatureSupportGroup feature="nestedInputsAndEvents">
-    See [Components](/editor/fundamentals/components).
-</FeatureSupportGroup>
 <FeatureSupportGroup feature="outOfBandAssets">
     See [Loading Assets](/runtimes/loading-assets).
-</FeatureSupportGroup>
-<FeatureSupportGroup feature="events">
-    See [Rive Events](/runtimes/rive-events).
 </FeatureSupportGroup>
 <FeatureSupportGroup feature="text">
     See [Text](/runtimes/text).
@@ -83,13 +108,13 @@ We may include notes on migrating to newer versions if a new feature warrants re
 <FeatureSupportGroup feature="listeners">
     No extra code is needed to support listeners, and you do not need to invoke listeners via event listener/detector code at runtime. If the Rive file has a listener as part of the state machine at design time, the runtime library has implicit event listener/detector code to trigger the listeners at the appropriate time.
 
-    ## Notes
+    **Notes**
     - `rive-react` - Starting in `v3.0.0` the React runtime has split into two different published packages; `@rive-app/react-canvas` and `@rive-app/react-webgl`, each wrapping the respective `@rive-app/canvas` and `@rive-app/webgl` web runtimes. We recommend using `@rive-app/react-canvas`
     - `@rive-app/webgl` - There is a new flag here, `useOffscreenRenderer` which is off by default. This flag will allow you to work around the various browser constraints on the number of WebGL contexts created. We **highly recommend** setting this option to `true` when instantiating Rive in the high-level API. See more here: [https://github.com/rive-app/rive-wasm#other-notes](#nested-inputs-and-nested-events).
     - `rive-react-native` - Starting in `v3.0.0`, it will have a minimum iOS `14.0` support
 </FeatureSupportGroup>
 <FeatureSupportGroup feature="meshDeformation">
-    ## Notes
+    **Notes**
     - `rive-react` - Starting in `v3.0.0` the React runtime has split into two different published packages; `@rive-app/react-canvas` and `@rive-app/react-webgl`, each wrapping the respective `@rive-app/canvas` and `@rive-app/webgl` web runtimes. We recommend using `@rive-app/react-canvas`
     - `@rive-app/webgl` - There is a new flag here, `useOffscreenRenderer` which is off by default. This flag will allow you to work around the various browser constraints on the number of WebGL contexts created. We **highly recommend** setting this option to `true` when instantiating Rive in the high-level API. See more here: [https://github.com/rive-app/rive-wasm#other-notes](#nested-inputs-and-nested-events)
     - Regarding web-based runtimes and meshes:
@@ -100,3 +125,17 @@ We may include notes on migrating to newer versions if a new feature warrants re
 <FeatureSupportGroup feature="cachingARiveFile" />
 <FeatureSupportGroup feature="rasterAssets" />
 
+### Legacy Features
+
+<FeatureSupportGroup feature="events">
+    See [Rive Events](/runtimes/rive-events).
+</FeatureSupportGroup>
+<FeatureSupportGroup feature="nestedText">
+    Enables setting text on component instances. See [Nested Text](/runtimes/text#read-update-nested-text-runs-at-runtime).
+</FeatureSupportGroup>
+<FeatureSupportGroup feature="nestedInputs">
+    Enables setting inputs on component instances. See [Nested Inputs](/runtimes/inputs#nested-inputs).
+</FeatureSupportGroup>
+<FeatureSupportGroup feature="nestedInputsAndEvents">
+    See [Components](/editor/fundamentals/components).
+</FeatureSupportGroup>

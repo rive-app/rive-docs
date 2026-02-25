@@ -4,6 +4,9 @@ export const FeatureSupportGroup = ({
     runtime,
     children
 }) => {
+    // All accordions are expanded by default
+    const defaultOpen = false;
+
     const runtimeTitles = {
         webCanvas: "Web Canvas",
         webWebGL: "Web WebGL (Legacy)",
@@ -45,6 +48,13 @@ export const FeatureSupportGroup = ({
         "androidLegacy",
     ]
 
+    const legacyRuntimes = [
+        "webWebGL",
+        "reactWebGL",
+        "reactNativeLegacy",
+        "androidLegacy",
+    ]
+
     const featuresInOrder = [
         "scripting",
         "dataBindingListsImagesArtboards",
@@ -55,13 +65,9 @@ export const FeatureSupportGroup = ({
         "nSlicing",
         "layouts",
         "fallbackFonts",
-        "nestedText",
-        "nestedInputs",
         "randomization",
         "audio",
-        "nestedInputsAndEvents",
         "outOfBandAssets",
-        "events",
         "text",
         "followPath",
         "interpolationOnStates",
@@ -73,6 +79,17 @@ export const FeatureSupportGroup = ({
         "meshDeformation",
         "cachingARiveFile",
         "rasterAssets",
+        "events",
+        "nestedInputsAndEvents",
+        "nestedText",
+        "nestedInputs",
+    ]
+
+    const legacyFeatures = [
+        "events",
+        "nestedInputsAndEvents",
+        "nestedText",
+        "nestedInputs",
     ]
 
     const features = {
@@ -241,7 +258,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webCanvas: { supported: false, description: "Not yet supported" },
                 webWebGL: { supported: false, description: "Not yet supported" },
-                webWebGL2: { supported: true, description: "Supported" },
+                webWebGL2: { supported: false, description: "Not yet supported" },
                 reactCanvas: { supported: false, description: "Not yet supported" },
                 reactWebGL: { supported: false, description: "Not yet supported" },
                 reactWebGL2: { supported: false, description: "Not yet supported" },
@@ -257,7 +274,7 @@ export const FeatureSupportGroup = ({
             }
         },
         nestedText: {
-            title: "Nested Text",
+            title: "Nested Text (deprecated)",
             runtimes: {
                 webCanvas: { supported: true, version: "2.21.0+" },
                 webWebGL: { supported: true, version: "2.21.0+" },
@@ -278,7 +295,7 @@ export const FeatureSupportGroup = ({
             }
         },
         nestedInputs: {
-            title: "Nested Inputs",
+            title: "Nested Inputs (deprecated)",
             runtimes: {
                 webCanvas: { supported: true, version: "2.17.3+" },
                 webWebGL: { supported: true, version: "2.17.3+" },
@@ -339,7 +356,7 @@ export const FeatureSupportGroup = ({
             }
         },
         nestedInputsAndEvents: {
-            title: "Nested Inputs and Nested Events",
+            title: "Nested Inputs and Nested Events (deprecated)",
             runtimes: {
                 webCanvas: { supported: true, version: "2.7.0+" },
                 webWebGL: { supported: true, version: "2.7.0+" },
@@ -379,7 +396,7 @@ export const FeatureSupportGroup = ({
             }
         },
         events: {
-            title: "Events",
+            title: "Events (deprecated)",
             runtimes: {
                 webCanvas: { supported: true, version: "2.4.3+" },
                 webWebGL: { supported: true, version: "2.4.3+" },
@@ -622,8 +639,18 @@ export const FeatureSupportGroup = ({
     }
 
     if (runtime) {
+        const allFeaturesSupported = featuresInOrder
+            .filter((featureKey) => !legacyFeatures.includes(featureKey))
+            .every((featureKey) => {
+            const currentFeature = features[featureKey]
+            const runtimeFeatureSupport = currentFeature.runtimes[runtime]
+            return runtimeFeatureSupport && runtimeFeatureSupport.supported === true
+        })
+        const runtimeStatusEmoji = allFeaturesSupported ? '✅' : '🟡'
+        const runtimeTitleWithEmoji = `${runtimeStatusEmoji} ${runtimeTitles[runtime]}`
+
         return (
-            <Accordion title={runtimeTitles[runtime]}>
+            <Accordion title={runtimeTitleWithEmoji} defaultOpen={defaultOpen}>
                  {children}
                 <div
                     data-table-wrapper="true"
@@ -697,12 +724,14 @@ export const FeatureSupportGroup = ({
     }
 
     const currentFeature = features[feature]
-    const allSupported = Object.values(currentFeature.runtimes).every(runtime => runtime.supported === true)
+    const allSupported = Object.entries(currentFeature.runtimes)
+        .filter(([runtimeKey]) => !legacyRuntimes.includes(runtimeKey))
+        .every(([, runtimeSupport]) => runtimeSupport.supported === true)
     const statusEmoji = allSupported ? '✅' : '🟡'
     const titleWithEmoji = `${statusEmoji} ${currentFeature.title}`
 
     return (
-        <Accordion title={titleWithEmoji}>
+        <Accordion title={titleWithEmoji} defaultOpen={defaultOpen}>
             {children}
             <div
                 data-table-wrapper="true"
