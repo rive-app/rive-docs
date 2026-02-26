@@ -1,6 +1,6 @@
 ---
-title: "Triggering Events"
-description: "Fire one-shot actions from Blueprints using ViewModel Trigger Properties."
+title: "Using Events"
+description: "Using events from Blueprints using ViewModel Trigger Properties."
 ---
 
 # Triggering Events
@@ -43,6 +43,16 @@ Typical pattern:
 
 The trigger is consumed during the next artboard tick and resets automatically.
 
+In the following image, the trigger "loaded" is being fired from Blueprint:
+<Frame>
+  <img
+    src="/images/unreal/DuelistCallEvent.png"
+    alt="Firing a trigger from Blueprint"
+    className="mx-auto"
+    style={{ width: "80%" }}
+  />
+</Frame>
+
 ## Observing Trigger Results
 
 If Unreal needs to react when the trigger is fired:
@@ -50,6 +60,16 @@ If Unreal needs to react when the trigger is fired:
 - Use **Bind Event to {TriggerName}** on the ViewModel instance.
 - Handle callbacks synchronously during the update cycle.
 - Unbind delegates before destroying the ViewModel instance.
+
+In the following image, the trigger "loaded" is being fired from Blueprint:
+<Frame>
+  <img
+    src="/images/unreal/DuelistBindTrigger.png"
+    alt="Binding a trigger in Blueprint"
+    className="mx-auto"
+    style={{ width: "80%" }}
+  />
+</Frame>
 
 ## Common Patterns
 
