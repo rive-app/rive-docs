@@ -352,7 +352,7 @@ export const FeatureSupportGroup = ({
             title: "Out-of-band Assets",
             runtimes: {
                 webCanvas: { supported: true, version: "2.7.0+" },
-                webCanvasLite: { supported: false, description: "Not supported" },
+                webCanvasLite: { supported: true, version: "2.7.0+"},
                 webWebGL: { supported: true, version: "2.7.0+" },
                 webWebGL2: { supported: true, description: "Supported" },
                 reactCanvas: { supported: true, version: "4.5.0+" },
@@ -367,7 +367,7 @@ export const FeatureSupportGroup = ({
                 android: { supported: true, version: "8.6.1+" },
                 cpp: { supported: true, description: "Supported" },
                 unity: { supported: true, description: "Supported" },
-                unreal: { supported: true, version: "0.1.14+" }
+                unreal: { supported: false, description: "Not yet supported" }
             }
         },
         events: {
