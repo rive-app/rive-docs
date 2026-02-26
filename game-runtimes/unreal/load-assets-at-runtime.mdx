@@ -1,26 +1,24 @@
 ﻿---
 title: "Loading Rive Assets at Runtime"
-description: "Use the current Unreal API to load referenced image and font assets at runtime."
+description: "Load referenced image and font assets at runtime in Unreal."
 ---
 
 ## Overview
 
-The Unreal runtime no longer uses a name-to-resource registration API (for example `SetExternalImage` / `SetExternalFont`).
-
-With the current plugin, referenced assets are represented by Unreal objects, and you load data directly onto those objects:
+Referenced assets are represented by Unreal objects, and you load data directly onto those objects:
 
 - `URiveImageAsset`
 - `URiveFontAsset`
 
-## How Asset Loading Works Now
+## How Asset Loading Works
 
 When a `.riv` contains referenced assets:
 
-- The plugin tracks them by **asset ID** (not by a manual string map you provide at runtime).
+- The plugin tracks them by **asset ID**.
 - Referenced assets are created as Unreal assets alongside your imported `URiveFile`.
-- The runtime decodes and applies bytes through the typed asset classes.
+- The runtime decodes and applies bytes through typed asset classes.
 
-For image/font replacements at runtime, use the asset objects themselves:
+For image/font replacements at runtime, use the asset objects directly:
 
 - Images: `LoadTexture(UTexture2D*)` or `LoadImageBytes(const TArray<uint8>&)`
 - Fonts: `LoadFontFace(UFontFace*)` or `LoadFontBytes(const TArray<uint8>&)`
@@ -53,7 +51,7 @@ Use these headers:
 #include "Rive/Assets/RiveFontAsset.h"
 ```
 
-Current runtime-loading functions:
+Runtime-loading functions:
 
 ```cpp
 URiveImageAsset::LoadTexture(UTexture2D* InTexture);
@@ -65,7 +63,6 @@ URiveFontAsset::LoadFontBytes(const TArray<uint8>& InBytes);
 
 ## Important Notes
 
-- Do not document or rely on old pseudo-APIs like `SetExternalImage`, `SetExternalFont`, or manual name maps.
 - Referenced asset resolution is ID-based inside the plugin.
 - If your project uses image data binding for dynamic visuals, prefer that path for per-instance image changes.
 
