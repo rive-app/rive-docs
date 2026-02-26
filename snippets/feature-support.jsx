@@ -83,11 +83,6 @@ export const FeatureSupportGroup = ({
         "nestedText",
     ]
 
-    const legacyFeatures = [
-        "events",
-        "nestedText",
-    ]
-
     const features = {
         scripting: {
             title: "Scripting",
@@ -642,18 +637,8 @@ export const FeatureSupportGroup = ({
     }
 
     if (runtime) {
-        const allFeaturesSupported = featuresInOrder
-            .filter((featureKey) => !legacyFeatures.includes(featureKey))
-            .every((featureKey) => {
-            const currentFeature = features[featureKey]
-            const runtimeFeatureSupport = currentFeature.runtimes[runtime]
-            return runtimeFeatureSupport && runtimeFeatureSupport.supported === true
-        })
-        const runtimeStatusEmoji = allFeaturesSupported ? '✅' : '🟡'
-        const runtimeTitleWithEmoji = `${runtimeStatusEmoji} ${runtimeTitles[runtime]}`
-
         return (
-            <Accordion title={runtimeTitleWithEmoji} defaultOpen={defaultOpen}>
+            <Accordion title={runtimeTitles[runtime]} defaultOpen={defaultOpen}>
                  {children}
                 <div
                     data-table-wrapper="true"

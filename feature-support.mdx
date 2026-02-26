@@ -21,19 +21,13 @@ When a feature requires API changes, migration notes will be included below.
 
 ## Feature Support by Runtime
 
-<Note>
-    A green checkmark (✅) next to a runtime's name indicates that it supports all modern Rive features, while a yellow circle (🟡) indicates partial support.
-
-    A runtime is still considered fully supported even if it doesn't support legacy features.
-</Note>
-
-### Modern Runtimes
+### Core Runtimes
 
 <FeatureSupportGroup runtime="webWebGL2">
     Choose between @rive-app/webgl2 and @rive-app/canvas, with guidance on performance, package size, and when to use canvas-lite.
 </FeatureSupportGroup>
 <FeatureSupportGroup runtime="webCanvas">
-    For better performance and modern features, like vector feathering, we recommend using the WebGL2 runtime, which uses the Rive Renderer.
+    For better performance and the latest features, like vector feathering, we recommend using the WebGL2 runtime, which uses the Rive Renderer.
 </FeatureSupportGroup>
 <FeatureSupportGroup runtime="reactWebGL2" />
 <FeatureSupportGroup runtime="reactCanvas" />
@@ -59,12 +53,12 @@ When a feature requires API changes, migration notes will be included below.
 
 <FeatureSupportGroup runtime="webWebGL">
     <Warning>
-        The `@rive-app/webgl` runtime is deprecated. For better performance and modern features, use `@rive-app/webgl2`.
+        The `@rive-app/webgl` runtime is deprecated. For better performance and the latest features, use `@rive-app/webgl2`.
     </Warning>
 </FeatureSupportGroup>
 <FeatureSupportGroup runtime="reactWebGL" >
     <Warning>
-        The `@rive-app/react-webgl` runtime is deprecated. For better performance and modern features, use `@rive-app/react-webgl2`.
+        The `@rive-app/react-webgl` runtime is deprecated. For better performance and the latest features, use `@rive-app/react-webgl2`.
     </Warning>
 </FeatureSupportGroup>
 <FeatureSupportGroup runtime="flutterRiveNative">
@@ -72,7 +66,7 @@ When a feature requires API changes, migration notes will be included below.
 </FeatureSupportGroup>
 <FeatureSupportGroup runtime="reactNativeLegacy" >
     <Warning>
-        The `rive-react-native` runtime is deprecated. For better performance and modern features, use `rive-nitro-react-native`.
+        The `rive-react-native` runtime is deprecated. For better performance and the latest features, use `rive-nitro-react-native`.
 
         [Migration guide](/feature-support#react-native-legacy)
     </Warning>
@@ -80,13 +74,18 @@ When a feature requires API changes, migration notes will be included below.
 
 ## Runtime Support by Feature
 
-<Note>
-    A green checkmark (✅) next to a feature's name indicates that it is supported by all runtimes, while a yellow circle (🟡) indicates partial support.
+A green checkmark (✅) indicates that a feature is supported in all current runtimes.
+A yellow circle (🟡) indicates that support varies by runtime or renderer.
 
-    A feature is still considered fully supported even if it isn't supported by legacy runtimes.
+Differences may reflect:
+- Platform limitations (for example, certain features are not possible on HTML canvas),
+- Staggered releases as features roll out across runtimes, or
+- Lightweight (“lite”) builds that intentionally omit some features to reduce package size.
+<Note>
+    A feature may still be considered fully supported even if it is unavailable in legacy runtimes.
 </Note>
 
-### Modern Features
+### Core Features
 
 <FeatureSupportGroup feature="scripting">
   Support for Rive files with [Scripting](/scripting).
