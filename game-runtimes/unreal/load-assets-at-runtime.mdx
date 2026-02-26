@@ -1,86 +1,76 @@
----
+﻿---
 title: "Loading Rive Assets at Runtime"
-description: "How to load Rive assets (images, fonts) at runtime with the Rive plugin in Unreal."
+description: "Use the current Unreal API to load referenced image and font assets at runtime."
 ---
 
 ## Overview
 
-This page explains how to load and supply Rive asset dependencies (images and fonts) to the Rive plugin at runtime in Unreal. Rive `.riv` animations can reference embedded or external image/font assets — when external, the plugin needs a mapping from the resource name used by the `.riv` file to an Unreal asset (for example, a `Texture2D` or a `Font`).
+The Unreal runtime no longer uses a name-to-resource registration API (for example `SetExternalImage` / `SetExternalFont`).
 
-The examples below show the common workflow and a small C++/Blueprint pattern you can adapt to the version of the Rive plugin you have installed.
+With the current plugin, referenced assets are represented by Unreal objects, and you load data directly onto those objects:
 
-## Workflow summary
+- `URiveImageAsset`
+- `URiveFontAsset`
 
-- Import your `.riv` file into the project using the Rive plugin's importer (or keep it as an external runtime asset).
-- Import any image files and font files into the Unreal Content Browser (e.g., `Content/Images/` and `Content/Fonts/`).
-- At runtime, create an instance of the Rive animation object and provide an image provider and font provider (or register mappings) so the Rive renderer can resolve external references by name.
+## How Asset Loading Works Now
 
-## Naming and packaging
+When a `.riv` contains referenced assets:
 
-- The resource key in the `.riv` file (image or font name) must be mapped to an Unreal asset. Common approaches are: name-based mapping (match the names), explicit map tables, or using the plugin's asset-provider API.
-- Ensure the referenced image/font assets are included in packaging (they should be in the Content folder or listed as primary assets).
+- The plugin tracks them by **asset ID** (not by a manual string map you provide at runtime).
+- Referenced assets are created as Unreal assets alongside your imported `URiveFile`.
+- The runtime decodes and applies bytes through the typed asset classes.
 
-## C++ — Example pattern (adapt to plugin API)
+For image/font replacements at runtime, use the asset objects themselves:
 
-Below is a concise example pattern. Replace class/function names to match your installed Rive plugin API.
+- Images: `LoadTexture(UTexture2D*)` or `LoadImageBytes(const TArray<uint8>&)`
+- Fonts: `LoadFontFace(UFontFace*)` or `LoadFontBytes(const TArray<uint8>&)`
+
+## Recommended Workflow
+
+1. In the Rive Editor, set assets to **Referenced** if you want to supply them outside the `.riv`.
+2. Import the `.riv` into Unreal.
+3. Locate generated referenced assets in Content Browser (typically named like `AssetName-AssetId`).
+4. In Blueprint or C++, hold references to those `URiveImageAsset` / `URiveFontAsset` objects.
+5. Before or during playback, call the load function that matches your source data.
+
+## Blueprint Runtime Replacement
+
+Use object references to your Rive asset objects and call:
+
+- `Load Texture` on `RiveImageAsset` for a `Texture2D`
+- `Load Image Bytes` on `RiveImageAsset` for raw encoded image bytes
+- `Load Font Face` on `RiveFontAsset` for a `Font Face`
+- `Load Font Bytes` on `RiveFontAsset` for raw font bytes
+
+After loading, continue rendering with your `RiveFile`/`RiveArtboard` normally.
+
+## C++ API Surface
+
+Use these headers:
 
 ```cpp
-// Load assets by path (synchronously here for brevity)
-UTexture2D* MyTexture = LoadObject<UTexture2D>(nullptr, TEXT("/Game/Images/my_image.my_image"));
-UFont* MyFont = LoadObject<UFont>(nullptr, TEXT("/Game/Fonts/MyFont.MyFont"));
-
-// Create or find the Rive asset (example placeholder type)
-URiveAnimationAsset* RiveAsset = LoadObject<URiveAnimationAsset>(nullptr, TEXT("/Game/Rive/MyAnimation.MyAnimation"));
-
-// Instantiate runtime instance (pseudo-call — adjust to plugin)
-URiveInstance* RiveInstance = URiveRuntime::CreateInstance(RiveAsset);
-
-// Map resources by name (pseudo-method names)
-if (RiveInstance)
-{
-    // Map image named "imageName" in the .riv file to `MyTexture`
-    RiveInstance->SetExternalImage(TEXT("imageName"), MyTexture);
-
-    // Map font named "fontName" in the .riv file to `MyFont`
-    RiveInstance->SetExternalFont(TEXT("fontName"), MyFont);
-
-    // Start or play the animation
-    RiveInstance->Play("animationName");
-}
+#include "Rive/Assets/RiveImageAsset.h"
+#include "Rive/Assets/RiveFontAsset.h"
 ```
 
-Notes:
-- The exact function/class names vary by plugin release. Use this pattern: obtain/create a Rive runtime instance, then register name→asset mappings for images and fonts before rendering or playing the animation.
-- Prefer asynchronous loading for large textures; you can load the `UTexture2D` via `FStreamableManager` and call the mapping method in the load callback.
+Current runtime-loading functions:
 
-## Blueprint — Example steps
+```cpp
+URiveImageAsset::LoadTexture(UTexture2D* InTexture);
+URiveImageAsset::LoadImageBytes(const TArray<uint8>& InBytes);
 
-1. Import your `.riv` asset and any images/fonts into the Content Browser.
-2. In your Blueprint (Actor or Widget), add the Rive component provided by the plugin (for example, `RiveComponent` or `RiveWidget`).
-3. Create variables to hold references to the image and font assets:
-   - `Image` : `Texture2D` (object reference)
-   - `Font`  : `Font` (or `Composite Font`/`Slate Font Asset`, depending on plugin)
-4. Expose a `Map` variable: `Map<string, Texture2D>` for images (or a `Map<string, Font>` for fonts). Add entries mapping the `.riv` resource names (keys) to your imported assets (values).
-5. On `BeginPlay` (or when ready), call the Rive component's node to register mappings — e.g., `Set Image For Name` and `Set Font For Name` — for each entry in your map. If the plugin exposes a single node like `RegisterResourceMap`, pass the map directly.
+URiveFontAsset::LoadFontFace(UFontFace* InFont);
+URiveFontAsset::LoadFontBytes(const TArray<uint8>& InBytes);
+```
 
-Blueprint pseudo-steps:
-- `ForEach` entry in `ImageMap` -> call `RiveComponent.SetImageForName(Key, Value)`
-- `ForEach` entry in `FontMap` -> call `RiveComponent.SetFontForName(Key, Value)`
-- Then call `RiveComponent.Play( "animationName" )` or enable animation playback.
+## Important Notes
 
-## Async loading note
-
-- If you load textures or fonts asynchronously, defer registering the mapping until the asset is loaded, then call the Rive provider registration method from the load callback.
+- Do not document or rely on old pseudo-APIs like `SetExternalImage`, `SetExternalFont`, or manual name maps.
+- Referenced asset resolution is ID-based inside the plugin.
+- If your project uses image data binding for dynamic visuals, prefer that path for per-instance image changes.
 
 ## Troubleshooting
 
-- If an image or font doesn't appear, confirm the key/name in the `.riv` file matches the key you register.
-- Check the plugin logs for missing resource warnings — they often list the unresolved resource name.
-- Ensure the asset types are compatible (e.g., `Texture2D` for raster images, supported font asset types for text).
-
-## Packaging checklist
-
-- Confirm that image and font assets referenced at runtime are included in the cooked build (place them in Content and reference them from maps or asset lists).
-- If loading by path, ensure the referenced paths are correct and the assets are not excluded from packaging by Cooker rules.
-
-If you want, I can update these examples to use exact class/method names from your Rive plugin version — tell me which plugin version or point me to the plugin code/docs in the workspace.
+- If a referenced asset does not update, confirm you are editing the correct generated Rive asset object (`AssetName-AssetId`).
+- If bytes-based loading fails, validate file format and byte contents (supported image/font formats only).
+- Reimporting the `.riv` can regenerate/update metadata; re-check referenced asset objects after reimport.
