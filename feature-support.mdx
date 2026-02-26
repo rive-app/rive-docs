@@ -5,18 +5,19 @@ description: ''
 
 import { FeatureSupportGroup } from '/snippets/feature-support.jsx'
 
-As our Rive editor adds features for making Rive assets, sometimes our runtimes need to be updated to support these improvements. This may mean new or changed APIs.
+As the Rive Editor evolves, some new features require updates to the Rive runtimes. In certain cases, this may introduce new or modified APIs. We recommend staying on the latest runtime version to ensure compatibility, bug fixes, and performance improvements.
 
-Check below to see if a given feature used by your Rive asset is supported yet at runtime. We generally recommend that your project uses the latest version of the runtimes to take advantage of follow-on bug fixes and new features.
+Use the table below to verify whether a feature used in your `.riv` file is supported by your target runtime.
 
 <Warning>
   Certain features require the use of the Rive Renderer at runtime. See our
   documentation on [choosing a renderer](/runtimes/choose-a-renderer/).
+
   Currently, the only feature that requires the Rive Renderer is **[Vector
   Feathering](https://rive.app/blog/introducing-vector-feathering)**.
 </Warning>
 
-We may include notes on migrating to newer versions if a new feature warrants recent API changes.
+When a feature requires API changes, migration notes will be included below.
 
 ## Feature Support by Runtime
 
@@ -26,22 +27,33 @@ We may include notes on migrating to newer versions if a new feature warrants re
     A runtime is still considered fully supported even if it doesn't support legacy features.
 </Note>
 
-### Modern Runtime
+### Modern Runtimes
 
-<FeatureSupportGroup runtime="webCanvas">
-    For better performance and modern features - like vector feathering - we recommend using the WebGL2 runtime, which uses the Rive Renderer.
+<FeatureSupportGroup runtime="webWebGL2">
+    Choose between @rive-app/webgl2 and @rive-app/canvas, with guidance on performance, package size, and when to use canvas-lite.
 </FeatureSupportGroup>
-<FeatureSupportGroup runtime="webWebGL2" />
-<FeatureSupportGroup runtime="reactCanvas" />
+<FeatureSupportGroup runtime="webCanvas">
+    For better performance and modern features, like vector feathering, we recommend using the WebGL2 runtime, which uses the Rive Renderer.
+</FeatureSupportGroup>
 <FeatureSupportGroup runtime="reactWebGL2" />
+<FeatureSupportGroup runtime="reactCanvas" />
+
 <FeatureSupportGroup runtime="reactNative" />
 <FeatureSupportGroup runtime="flutter" />
-<FeatureSupportGroup runtime="flutterRiveNative" />
 <FeatureSupportGroup runtime="apple" />
 <FeatureSupportGroup runtime="android" />
 <FeatureSupportGroup runtime="cpp" />
 <FeatureSupportGroup runtime="unity" />
 <FeatureSupportGroup runtime="unreal" />
+
+### Lite Runtimes
+
+<FeatureSupportGroup runtime="webCanvasLite">
+    This lightweight version uses the same API as `@rive-app/canvas`, but excludes certain features to reduce bundle size.
+</FeatureSupportGroup>
+<FeatureSupportGroup runtime="reactCanvasLite">
+    This lightweight version uses the same API as `@rive-app/react-canvas`, but excludes certain features to reduce bundle size.
+</FeatureSupportGroup>
 
 ### Legacy Runtimes
 
@@ -55,9 +67,14 @@ We may include notes on migrating to newer versions if a new feature warrants re
         The `@rive-app/react-webgl` runtime is deprecated. For better performance and modern features, use `@rive-app/react-webgl2`.
     </Warning>
 </FeatureSupportGroup>
+<FeatureSupportGroup runtime="flutterRiveNative">
+    [Migration Guide](/runtimes/flutter/rive-native)
+</FeatureSupportGroup>
 <FeatureSupportGroup runtime="reactNativeLegacy" >
     <Warning>
         The `rive-react-native` runtime is deprecated. For better performance and modern features, use `rive-nitro-react-native`.
+
+        [Migration guide](/feature-support#react-native-legacy)
     </Warning>
 </FeatureSupportGroup>
 
@@ -66,7 +83,7 @@ We may include notes on migrating to newer versions if a new feature warrants re
 <Note>
     A green checkmark (✅) next to a feature's name indicates that it is supported by all runtimes, while a yellow circle (🟡) indicates partial support.
 
-    A feature is still considered fully supported even if it isn't supported by legacy runtimes
+    A feature is still considered fully supported even if it isn't supported by legacy runtimes.
 </Note>
 
 ### Modern Features
@@ -105,8 +122,6 @@ We may include notes on migrating to newer versions if a new feature warrants re
 </FeatureSupportGroup>
 <FeatureSupportGroup feature="text">
     See [Text](/runtimes/text).
-
-    Note that we will proactively update the above versions as additional APIs on runtimes expose ways to dynamically set text (high and low-level), among other related features.
 </FeatureSupportGroup>
 <FeatureSupportGroup feature="followPath" />
 <FeatureSupportGroup feature="interpolationOnStates" />
@@ -114,23 +129,8 @@ We may include notes on migrating to newer versions if a new feature warrants re
 <FeatureSupportGroup feature="solos" />
 <FeatureSupportGroup feature="speedOnStates" />
 <FeatureSupportGroup feature="graphEditor" />
-<FeatureSupportGroup feature="listeners">
-    No extra code is needed to support listeners, and you do not need to invoke listeners via event listener/detector code at runtime. If the Rive file has a listener as part of the state machine at design time, the runtime library has implicit event listener/detector code to trigger the listeners at the appropriate time.
-
-    **Notes**
-    - `rive-react` - Starting in `v3.0.0` the React runtime has split into two different published packages; `@rive-app/react-canvas` and `@rive-app/react-webgl`, each wrapping the respective `@rive-app/canvas` and `@rive-app/webgl` web runtimes. We recommend using `@rive-app/react-canvas`
-    - `@rive-app/webgl` - There is a new flag here, `useOffscreenRenderer` which is off by default. This flag will allow you to work around the various browser constraints on the number of WebGL contexts created. We **highly recommend** setting this option to `true` when instantiating Rive in the high-level API. See more here: [https://github.com/rive-app/rive-wasm#other-notes](#nested-inputs-and-nested-events).
-    - `rive-react-native` - Starting in `v3.0.0`, it will have a minimum iOS `14.0` support
-</FeatureSupportGroup>
-<FeatureSupportGroup feature="meshDeformation">
-    **Notes**
-    - `rive-react` - Starting in `v3.0.0` the React runtime has split into two different published packages; `@rive-app/react-canvas` and `@rive-app/react-webgl`, each wrapping the respective `@rive-app/canvas` and `@rive-app/webgl` web runtimes. We recommend using `@rive-app/react-canvas`
-    - `@rive-app/webgl` - There is a new flag here, `useOffscreenRenderer` which is off by default. This flag will allow you to work around the various browser constraints on the number of WebGL contexts created. We **highly recommend** setting this option to `true` when instantiating Rive in the high-level API. See more here: [https://github.com/rive-app/rive-wasm#other-notes](#nested-inputs-and-nested-events)
-    - Regarding web-based runtimes and meshes:
-        - Keep in mind that as meshes grow across larger screen areas, they become more resource-heavy on some devices
-        - Avoid complex transforms repeatedly on the `canvas` elements that display Rive animations (or `RiveComponent` in the React runtimes)
-        - We recommend using `@rive-app/webgl` to display mesh on Firefox for best performance
-</FeatureSupportGroup>
+<FeatureSupportGroup feature="listeners" />
+<FeatureSupportGroup feature="meshDeformation" />
 <FeatureSupportGroup feature="cachingARiveFile" />
 <FeatureSupportGroup feature="rasterAssets" />
 
@@ -145,8 +145,8 @@ We may include notes on migrating to newer versions if a new feature warrants re
 </FeatureSupportGroup>
 <FeatureSupportGroup feature="nestedText">
     <Warning>
-        Setting a text, including [nested text](/runtimes/text#read-update-nested-text-runs-at-runtime), at runtime is deprecated and will be removed in a future version.
+        Setting text, including [nested text](/runtimes/text#read-update-nested-text-runs-at-runtime), at runtime is deprecated and will be removed in a future version.
 
-        Instead use [Data Binding](/runtimes/data-binding) to update a string, which is bound to a text run.
+        Instead, use [Data Binding](/runtimes/data-binding) to update a string, which is bound to a text run.
     </Warning>
 </FeatureSupportGroup>
