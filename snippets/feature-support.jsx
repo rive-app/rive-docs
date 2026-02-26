@@ -20,8 +20,6 @@ export const FeatureSupportGroup = ({
         flutterRiveNative: "Flutter (rive_native)",
         apple: "Apple",
         android: "Android",
-        androidCompose: "Android (Compose)",
-        androidLegacy: "Android (Legacy)",
         cpp: "C++",
         unity: "Unity",
         unreal: "Unreal",
@@ -38,21 +36,18 @@ export const FeatureSupportGroup = ({
         "flutterRiveNative",
         "apple",
         "android",
-        "androidCompose",
         "cpp",
         "unity",
         "unreal",
         "webWebGL",
         "reactWebGL",
         "reactNativeLegacy",
-        "androidLegacy",
     ]
 
     const legacyRuntimes = [
         "webWebGL",
         "reactWebGL",
         "reactNativeLegacy",
-        "androidLegacy",
     ]
 
     const featuresInOrder = [
@@ -80,16 +75,12 @@ export const FeatureSupportGroup = ({
         "cachingARiveFile",
         "rasterAssets",
         "events",
-        "nestedInputsAndEvents",
         "nestedText",
-        "nestedInputs",
     ]
 
     const legacyFeatures = [
         "events",
-        "nestedInputsAndEvents",
         "nestedText",
-        "nestedInputs",
     ]
 
     const features = {
@@ -287,32 +278,10 @@ export const FeatureSupportGroup = ({
                 flutter: { supported: true, version: "0.13.7+" },
                 flutterRiveNative: { supported: true, version: "0.0.1-dev.6" },
                 apple: { supported: true, version: "6.1.0+" },
-                androidCompose: { supported: false, description: "Unsupported" },
-                androidLegacy: { supported: true, version: "9.8.0+" },
+                android: { supported: true, version: "9.8.0+" },
                 cpp: { supported: true, description: "Supported" },
                 unity: { supported: true, description: "Supported" },
                 unreal: { supported: true, version: "0.1.14+" }
-            }
-        },
-        nestedInputs: {
-            title: "Nested Inputs (deprecated)",
-            runtimes: {
-                webCanvas: { supported: true, version: "2.17.3+" },
-                webWebGL: { supported: true, version: "2.17.3+" },
-                webWebGL2: { supported: true, description: "Supported" },
-                reactCanvas: { supported: true, version: "4.11.3+" },
-                reactWebGL: { supported: true, version: "4.11.3+" },
-                reactWebGL2: { supported: true, version: "4.11.3+" },
-                reactNative: { supported: true, version: "v0.1.4+" },
-                reactNativeLegacy: { supported: true, version: "7.2.0+" },
-                flutter: { supported: true, version: "0.13.7+" },
-                flutterRiveNative: { supported: true, version: "0.0.1-dev.6" },
-                apple: { supported: true, version: "5.13.2+" },
-                androidCompose: { supported: false, description: "Unsupported" },
-                androidLegacy: { supported: true, version: "9.4.2+" },
-                cpp: { supported: true, description: "Supported" },
-                unity: { supported: true, version: "0.1.174+" },
-                unreal: { supported: true, description: "Supported" }
             }
         },
         randomization: {
@@ -355,26 +324,6 @@ export const FeatureSupportGroup = ({
                 unreal: { supported: true, description: "Supported" }
             }
         },
-        nestedInputsAndEvents: {
-            title: "Nested Inputs and Nested Events (deprecated)",
-            runtimes: {
-                webCanvas: { supported: true, version: "2.7.0+" },
-                webWebGL: { supported: true, version: "2.7.0+" },
-                webWebGL2: { supported: true, description: "Supported" },
-                reactCanvas: { supported: true, version: "4.5.0+" },
-                reactWebGL: { supported: true, version: "4.5.0+" },
-                reactWebGL2: { supported: true, version: "4.5.0+" },
-                reactNative: { supported: true, version: "v0.1.4+" },
-                reactNativeLegacy: { supported: true, version: "6.2.0+" },
-                flutter: { supported: true, version: "0.12.3+" },
-                flutterRiveNative: { supported: true, version: "0.0.1-dev.6" },
-                apple: { supported: true, version: "5.6.0+" },
-                androidCompose: { supported: false, description: "Unsupported from API" },
-                androidLegacy: { supported: true, version: "8.7.0+" },
-                cpp: { supported: true, description: "Supported" },
-                unity: { supported: true, description: "Supported" }
-            }
-        },
         outOfBandAssets: {
             title: "Out-of-band Assets",
             runtimes: {
@@ -409,8 +358,7 @@ export const FeatureSupportGroup = ({
                 flutter: { supported: true, version: "0.11.17+" },
                 flutterRiveNative: { supported: true, version: "0.0.1-dev.6" },
                 apple: { supported: true, version: "5.3.1+" },
-                androidCompose: { supported: false, description: "Unsupported from API" },
-                androidLegacy: { supported: true, version: "8.4.0+" },
+                android: { supported: false, description: "Deprecated and will be removed in future versions" },
                 cpp: { supported: true, description: "Supported" },
                 unity: { supported: true, description: "Supported" },
                 unreal: { supported: true, description: "Supported" }

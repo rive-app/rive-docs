@@ -39,17 +39,27 @@ We may include notes on migrating to newer versions if a new feature warrants re
 <FeatureSupportGroup runtime="flutterRiveNative" />
 <FeatureSupportGroup runtime="apple" />
 <FeatureSupportGroup runtime="android" />
-<FeatureSupportGroup runtime="androidCompose" />
 <FeatureSupportGroup runtime="cpp" />
 <FeatureSupportGroup runtime="unity" />
 <FeatureSupportGroup runtime="unreal" />
 
 ### Legacy Runtimes
 
-<FeatureSupportGroup runtime="webWebGL" />
-<FeatureSupportGroup runtime="reactWebGL" />
-<FeatureSupportGroup runtime="reactNativeLegacy" />
-<FeatureSupportGroup runtime="androidLegacy" />
+<FeatureSupportGroup runtime="webWebGL">
+    <Warning>
+        The `@rive-app/webgl` runtime is deprecated. For better performance and modern features, use `@rive-app/webgl2`.
+    </Warning>
+</FeatureSupportGroup>
+<FeatureSupportGroup runtime="reactWebGL" >
+    <Warning>
+        The `@rive-app/react-webgl` runtime is deprecated. For better performance and modern features, use `@rive-app/react-webgl2`.
+    </Warning>
+</FeatureSupportGroup>
+<FeatureSupportGroup runtime="reactNativeLegacy" >
+    <Warning>
+        The `rive-react-native` runtime is deprecated. For better performance and modern features, use `rive-nitro-react-native`.
+    </Warning>
+</FeatureSupportGroup>
 
 ## Runtime Support by Feature
 
@@ -127,14 +137,16 @@ We may include notes on migrating to newer versions if a new feature warrants re
 ### Legacy Features
 
 <FeatureSupportGroup feature="events">
-    See [Rive Events](/runtimes/rive-events).
+    <Warning>
+        Listening to [Rive Events](/runtimes/rive-events) at runtime is deprecated and will be removed in future versions.
+
+        Use [Data Binding](/runtimes/data-binding) to listen for triggers or changes to properties instead.
+    </Warning>
 </FeatureSupportGroup>
 <FeatureSupportGroup feature="nestedText">
-    Enables setting text on component instances. See [Nested Text](/runtimes/text#read-update-nested-text-runs-at-runtime).
-</FeatureSupportGroup>
-<FeatureSupportGroup feature="nestedInputs">
-    Enables setting inputs on component instances. See [Nested Inputs](/runtimes/inputs#nested-inputs).
-</FeatureSupportGroup>
-<FeatureSupportGroup feature="nestedInputsAndEvents">
-    See [Components](/editor/fundamentals/components).
+    <Warning>
+        Setting a text, including [nested text](/runtimes/text#read-update-nested-text-runs-at-runtime), at runtime is deprecated and will be removed in a future version.
+
+        Instead use [Data Binding](/runtimes/data-binding) to update a string, which is bound to a text run.
+    </Warning>
 </FeatureSupportGroup>
