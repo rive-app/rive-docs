@@ -1,0 +1,70 @@
+---
+title: "Triggering Events"
+description: "Fire one-shot actions from Blueprints using ViewModel Trigger Properties."
+---
+
+# Triggering Events
+
+In the Unreal runtime, "events" should be modeled as **ViewModel Trigger Properties**.
+
+Fire and observe triggers through the **ViewModel Instance**.
+
+<Info>
+  Use **Trigger Properties** for one-shot actions (clicks, milestones, transitions).
+</Info>
+
+## Recommended Flow
+
+1. Define a **Trigger Property** in your Rive ViewModel (for example `OnClick`).
+2. In Unreal, create and bind a **ViewModel Instance** to your Rive widget or artboard.
+3. Fire the trigger from Blueprint using **Call {TriggerName}**.
+4. Respond to the trigger in Blueprint using **Bind Event to {TriggerName}**.
+
+## Blueprint Setup
+
+1. Create a Rive widget from your imported `.riv` file.
+2. Create a **ViewModel Instance** using **Make View Model**.
+3. Assign that instance to the widget/artboard.
+4. Keep a reference to the bound ViewModel instance.
+
+<Tip>
+  Keep ViewModel creation and delegate binding in the same owning Blueprint so lifetime is clear.
+</Tip>
+
+## Firing a Trigger in Blueprint
+
+When you want to fire an event (button press, gameplay action, etc.), call the trigger function exposed on the bound ViewModel instance.
+
+Typical pattern:
+
+1. Get your bound ViewModel instance reference.
+2. Call **Call {TriggerName}** (for example `Call OnClick`).
+3. Pass any required inputs for the generated function signature.
+
+The trigger is consumed during the next artboard tick and resets automatically.
+
+## Observing Trigger Results
+
+If Unreal needs to react when the trigger is fired:
+
+- Use **Bind Event to {TriggerName}** on the ViewModel instance.
+- Handle callbacks synchronously during the update cycle.
+- Unbind delegates before destroying the ViewModel instance.
+
+## Common Patterns
+
+- UI button pressed -> `Call OnClick` + `Bind Event to OnClick`
+- Transition notification -> `Call OnTransition` + `Bind Event to OnTransition`
+- One-shot gameplay signal -> `Call OnAction` + `Bind Event to OnAction`
+
+Use bool/number/enum/string/color fields for persistent state, not triggers.
+
+## Troubleshooting
+
+- Trigger appears to do nothing:
+  - Confirm the ViewModel instance is bound to the active widget/artboard.
+  - Confirm the trigger name matches the ViewModel field in the `.riv`.
+  - Confirm the artboard is ticking.
+- Callback does not fire:
+  - Confirm the delegate is bound to the correct field.
+  - Confirm bindings are still valid after artboard reinitialization.
