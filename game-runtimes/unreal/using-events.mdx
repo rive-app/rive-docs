@@ -61,7 +61,7 @@ If Unreal needs to react when the trigger is fired:
 - Handle callbacks synchronously during the update cycle.
 - Unbind delegates before destroying the ViewModel instance.
 
-In the following image, the trigger "loaded" is being fired from Blueprint:
+In the following image, a custom event is bound to the trigger "loaded":
 <Frame>
   <img
     src="/images/unreal/DuelistBindTrigger.png"
@@ -71,20 +71,3 @@ In the following image, the trigger "loaded" is being fired from Blueprint:
   />
 </Frame>
 
-## Common Patterns
-
-- UI button pressed -> `Call OnClick` + `Bind Event to OnClick`
-- Transition notification -> `Call OnTransition` + `Bind Event to OnTransition`
-- One-shot gameplay signal -> `Call OnAction` + `Bind Event to OnAction`
-
-Use bool/number/enum/string/color fields for persistent state, not triggers.
-
-## Troubleshooting
-
-- Trigger appears to do nothing:
-  - Confirm the ViewModel instance is bound to the active widget/artboard.
-  - Confirm the trigger name matches the ViewModel field in the `.riv`.
-  - Confirm the artboard is ticking.
-- Callback does not fire:
-  - Confirm the delegate is bound to the correct field.
-  - Confirm bindings are still valid after artboard reinitialization.
