@@ -69,6 +69,10 @@ Unreal creates a **Rive File** asset. You can inspect this asset by double-click
   A **Rive File** is an Unreal asset. It does not render directly.
 </Info>
 
+<Warning>
+  The Unreal runtime does not yet support referenced assets. Be sure to embed all assets in the `.riv` file.
+</Warning>
+
 ## 5) Create a Widget
 
 1. Right-click on the **Rive file** asset and select **Create Rive Widget** from the context menu.
@@ -131,7 +135,7 @@ If the Rive File is not using **autobinding**, you must assign a viewmodel. This
   />
 </Frame>
 
-Your **Rive File** is now setup for use in your application. The next page will show you how to observe changes in teh ViewModel.
+Your **Rive File** is now setup for use in your application. The next page will show you how to observe changes in the ViewModel.
 
 <img
   src="/images/unreal/DuelistScreenshotUE.png"
