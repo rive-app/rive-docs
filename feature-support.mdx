@@ -3,6 +3,146 @@ title: 'Feature Support'
 description: ''
 ---
 
-import FeaturesSupport from '/snippets/features-support.mdx'
+import { FeatureSupportGroup } from '/snippets/feature-support.jsx'
 
-<FeaturesSupport />
+As the Rive Editor evolves, some new features require updates to the Rive runtimes. In certain cases, this may introduce new or modified APIs. We recommend staying on the latest runtime version to ensure compatibility, bug fixes, and performance improvements.
+
+Use the table below to verify whether a feature used in your `.riv` file is supported by your target runtime.
+
+<Warning>
+  Certain features require the use of the Rive Renderer at runtime. See our
+  documentation on [choosing a renderer](/runtimes/choose-a-renderer/).
+
+  Currently, the only feature that requires the Rive Renderer is **[Vector
+  Feathering](https://rive.app/blog/introducing-vector-feathering)**.
+</Warning>
+
+When a feature requires API changes, migration notes will be included below.
+
+## Feature Support by Runtime
+
+### Runtimes
+
+<FeatureSupportGroup runtime="webWebGL2">
+    Choose between @rive-app/webgl2 and @rive-app/canvas, with guidance on performance, package size, and when to use canvas-lite.
+</FeatureSupportGroup>
+<FeatureSupportGroup runtime="webCanvas">
+    For better performance and the latest features, like vector feathering, we recommend using the WebGL2 runtime, which uses the Rive Renderer.
+</FeatureSupportGroup>
+<FeatureSupportGroup runtime="reactWebGL2" />
+<FeatureSupportGroup runtime="reactCanvas" />
+
+<FeatureSupportGroup runtime="reactNative" />
+<FeatureSupportGroup runtime="flutter" />
+<FeatureSupportGroup runtime="apple" />
+<FeatureSupportGroup runtime="android" />
+<FeatureSupportGroup runtime="cpp" />
+<FeatureSupportGroup runtime="unity" />
+<FeatureSupportGroup runtime="unreal" />
+
+### Lite Runtimes
+
+<FeatureSupportGroup runtime="webCanvasLite">
+    This lightweight version uses the same API as `@rive-app/canvas`, but excludes certain features to reduce bundle size.
+</FeatureSupportGroup>
+<FeatureSupportGroup runtime="reactCanvasLite">
+    This lightweight version uses the same API as `@rive-app/react-canvas`, but excludes certain features to reduce bundle size.
+</FeatureSupportGroup>
+
+### Legacy Runtimes
+
+<FeatureSupportGroup runtime="webWebGL">
+    <Warning>
+        The `@rive-app/webgl` runtime is deprecated. For better performance and the latest features, use `@rive-app/webgl2`.
+    </Warning>
+</FeatureSupportGroup>
+<FeatureSupportGroup runtime="reactWebGL" >
+    <Warning>
+        The `@rive-app/react-webgl` runtime is deprecated. For better performance and the latest features, use `@rive-app/react-webgl2`.
+    </Warning>
+</FeatureSupportGroup>
+<FeatureSupportGroup runtime="reactNativeLegacy" >
+    <Warning>
+        The `rive-react-native` runtime is deprecated. For better performance and the latest features, use `rive-nitro-react-native`.
+
+        [Migration guide](/feature-support#react-native-legacy)
+    </Warning>
+</FeatureSupportGroup>
+
+## Runtime Support by Feature
+
+A green checkmark (✅) indicates that a feature is supported in all current runtimes.
+A yellow circle (🟡) indicates that support varies by runtime or renderer.
+
+Differences may reflect:
+- Platform limitations (for example, certain features are not possible on HTML canvas),
+- Staggered releases as features roll out across runtimes, or
+- Lightweight (“lite”) builds that intentionally omit some features to reduce package size.
+<Note>
+    A feature may still be considered fully supported even if it is unavailable in legacy runtimes.
+</Note>
+
+### Features
+
+<FeatureSupportGroup feature="scripting">
+  Support for Rive files with [Scripting](/scripting).
+</FeatureSupportGroup>
+<FeatureSupportGroup feature="dataBindingListsImagesArtboards">
+    Data binding lists, images, and artboards were added after initial data binding support.
+
+    See [Data Binding Overview](/editor/data-binding/overview) and [Data Binding for Runtimes](/runtimes/data-binding).
+</FeatureSupportGroup>
+<FeatureSupportGroup feature="rightToLeftLayoutsText" />
+<FeatureSupportGroup feature="textFollowPath" />
+<FeatureSupportGroup feature="dataBinding">
+    See [Data Binding Overview](/editor/data-binding/overview) and [Data Binding for Runtimes](/runtimes/data-binding).
+</FeatureSupportGroup>
+    <FeatureSupportGroup feature="vectorFeathering" />
+<FeatureSupportGroup feature="nSlicing">
+    See [N-Slicing](/editor/layouts/n-slicing).
+</FeatureSupportGroup>
+<FeatureSupportGroup feature="layouts">
+    Allows Rive to automatically update the artboard size as the underlying view/canvas/widget/texture size changes. See [Layouts](/editor/layouts/layouts-overview).
+</FeatureSupportGroup>
+<FeatureSupportGroup feature="fallbackFonts">
+    Allows Rive to use a fallback font if a glyph is not available. A default font is automatically chosen, or you can optionally configure the desired fallback font based on various options. See [Fallback Fonts](/runtimes/text#fallback-fonts).
+</FeatureSupportGroup>
+<FeatureSupportGroup feature="randomization">
+    Enables randomizing transitions between animations and customizing the probability.
+</FeatureSupportGroup>
+<FeatureSupportGroup feature="audio">
+    See [Rive Events](/runtimes/rive-events) and [Audio Events](/editor/events/audio-events).
+</FeatureSupportGroup>
+<FeatureSupportGroup feature="outOfBandAssets">
+    See [Loading Assets](/runtimes/loading-assets).
+</FeatureSupportGroup>
+<FeatureSupportGroup feature="text">
+    See [Text](/runtimes/text).
+</FeatureSupportGroup>
+<FeatureSupportGroup feature="followPath" />
+<FeatureSupportGroup feature="interpolationOnStates" />
+<FeatureSupportGroup feature="joysticks" />
+<FeatureSupportGroup feature="solos" />
+<FeatureSupportGroup feature="speedOnStates" />
+<FeatureSupportGroup feature="graphEditor" />
+<FeatureSupportGroup feature="listeners" />
+<FeatureSupportGroup feature="meshDeformation" />
+<FeatureSupportGroup feature="cachingARiveFile" />
+<FeatureSupportGroup feature="rasterAssets" />
+
+### Legacy Features
+
+<FeatureSupportGroup feature="events">
+    <Warning>
+        Listening to [Rive Events](/runtimes/rive-events) at runtime is deprecated and will be removed in future versions.
+
+        Use [Data Binding](/runtimes/data-binding) to listen for triggers or changes to properties instead.
+    </Warning>
+</FeatureSupportGroup>
+<FeatureSupportGroup feature="nestedText">
+    <Warning>
+        Setting text, including [nested text](/runtimes/text#read-update-nested-text-runs-at-runtime), at runtime is deprecated and will be removed in a future version.
+
+        Instead, use [Data Binding](/runtimes/data-binding) to update a string, which is bound to a text run.
+    </Warning>
+</FeatureSupportGroup>
