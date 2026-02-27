@@ -50,7 +50,7 @@ The file fingerprint just lets the importer quickly sanity check that it's actua
 
 **Major Version**
 
-Runtimes are compatible with only a single major Rive export format version. The current major format is 7. If a 7 runtime encounters a 6 file, it will immediately error and not attempt to read any further content, as the format is understood to be fundamentally different. This is provided as a last-resort tool for Rive to fundamentally change its export format if needed, and we try very hard to do this as rarely as possible.
+Runtimes are compatible with only a single major Rive export format version. The current major format is 7. If a runtime that supports format major 7 encounters a format major 6 file, it will immediately error and not attempt to read any further content, as the format is understood to be fundamentally different. This is provided as a last-resort tool for Rive to fundamentally change its export format if needed, and we try very hard to do this as rarely as possible.
 
 The move from format 6 to format 7 happened years ago, and the editor no longer exports format 6 files.
 
@@ -58,16 +58,25 @@ If a future major format is introduced, runtimes and exports must match major fo
 
 - if you update to runtimes that support a new major format, you must re-export files to that major format
 - if you stay on older runtimes, you must export files in the older compatible major format
+- runtimes that add support for a new file format major version will also ship a major runtime version update
+
+Example: if the Android runtime is currently major version `11`, and support for a new file format major is introduced, Android runtime support for that format will ship in a major `12` release.
+To adopt it, you update to Android runtime `12` and re-export files to the new file format major.
 
 If you need to verify a file's format version programmatically, read the `Major Version` and `Minor Version` values from the file header. Rive runtimes also surface a descriptive import error when the file format is incompatible.
 
 <Note>
- Major versions are not cross-compatible. For example, a major version 6 runtime cannot read major version 7 files, and a major version 7 runtime cannot read major version 6 files.
+ Major versions are not cross-compatible. For example, a runtime that supports format version 6 cannot read format version 7 files, and vice versa.
+ Whenever a new major file format version is introduced, a corresponding major release is issued for all supported runtimes.
 </Note>
 
 **Minor Version**
 
 Minor version changes are compatible with each other provided the major version is the same. However, certain newer features may not be available if the runtime is of a different minor version. For example, major version 7 introduces the State Machine. We're working on adding new state types to the State Machine. A version 7.0 runtime may not be able to load all the states exported in a 7.1 file. However, the runtime will still be able to play the state machine, it'll simply not be able to do anything when it transitions to states it doesn't understand.
+
+<Note>
+When a file uses newer features that an older compatible runtime does not support, the file still loads and supported features continue to work. Unsupported features are treated as no-ops. Rive runtimes are designed to avoid crashes or undefined behavior for this compatibility scenario.
+</Note>
 
 Example Version Compatibility
 
