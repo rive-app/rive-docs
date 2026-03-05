@@ -1,0 +1,73 @@
+﻿---
+title: "Runtime Asset Swapping"
+description: "Load referenced image and font assets at runtime in Unreal."
+---
+
+## Overview
+
+Referenced assets are represented by Unreal objects, and you load data directly onto those objects:
+
+- `URiveImageAsset`
+- `URiveFontAsset`
+
+## How Asset Loading Works
+
+When a `.riv` contains referenced assets:
+
+- The plugin tracks them by **asset ID**.
+- Referenced assets are created as Unreal assets alongside your imported `URiveFile`.
+- The runtime decodes and applies bytes through typed asset classes.
+
+For image/font replacements at runtime, use the asset objects directly:
+
+- Images: `LoadTexture(UTexture2D*)` or `LoadImageBytes(const TArray<uint8>&)`
+- Fonts: `LoadFontFace(UFontFace*)` or `LoadFontBytes(const TArray<uint8>&)`
+
+## Recommended Workflow
+
+1. In the Rive Editor, set assets to **Referenced** if you want to supply them outside the `.riv`.
+2. Import the `.riv` into Unreal.
+3. Locate generated referenced assets in Content Browser (typically named like `AssetName-AssetId`).
+4. In Blueprint or C++, hold references to those `URiveImageAsset` / `URiveFontAsset` objects.
+5. Before or during playback, call the load function that matches your source data.
+
+## Blueprint Runtime Replacement
+
+Use object references to your Rive asset objects and call:
+
+- `Load Texture` on `RiveImageAsset` for a `Texture2D`
+- `Load Image Bytes` on `RiveImageAsset` for raw encoded image bytes
+- `Load Font Face` on `RiveFontAsset` for a `Font Face`
+- `Load Font Bytes` on `RiveFontAsset` for raw font bytes
+
+After loading, continue rendering with your `RiveFile`/`RiveArtboard` normally.
+
+## C++ API Surface
+
+Use these headers:
+
+```cpp
+#include "Rive/Assets/RiveImageAsset.h"
+#include "Rive/Assets/RiveFontAsset.h"
+```
+
+Runtime-loading functions:
+
+```cpp
+URiveImageAsset::LoadTexture(UTexture2D* InTexture);
+URiveImageAsset::LoadImageBytes(const TArray<uint8>& InBytes);
+
+URiveFontAsset::LoadFontFace(UFontFace* InFont);
+URiveFontAsset::LoadFontBytes(const TArray<uint8>& InBytes);
+```
+
+## Important Notes
+
+- Referenced asset resolution is ID-based inside the plugin.
+- If your project uses image data binding for dynamic visuals, prefer that path for per-instance image changes.
+
+## Troubleshooting
+
+- If a referenced asset does not update, confirm you are editing the correct generated Rive asset object (`AssetName-AssetId`).
+- If bytes-based loading fails, validate file format and byte contents (supported image/font formats only).
+- Reimporting the `.riv` can regenerate/update metadata; re-check referenced asset objects after reimport.
