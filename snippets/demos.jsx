@@ -232,6 +232,14 @@ export const Demos = ({
         editor: "https://rive.app/community/files/25823-text-path-effects/"
       }
     },
+    scriptingDrawImages: {
+      title: "Render an Image with Scripting",
+      image: "https://static.rive.app/docs/render-image-with-scripting.jpg",
+      description: "Draw an image, give it transforms, and control its mesh all through scripting.",
+      links: {
+        editor: "https://rive.app/community/files/26406-49444-draw-an-image-with-scripting/"
+      }
+    },
     scriptingSlotMachine: {
       title: "Slot Machine - Complete Game",
       image: "https://static.rive.app/docs/slot-machine.png",
