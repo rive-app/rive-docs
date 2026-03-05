@@ -3,7 +3,7 @@ title: "Getting Started"
 description: "Install the Rive Unreal plugin, run your first Artboard via URiveActorComponent, and display it in UMG."
 ---
 
-This guide walks you through installing the Rive Unreal plugin, importing a `.riv` file, ticking it via **URiveActorComponent**, and displaying it in UMG.
+This guide walks you through installing the Rive Unreal plugin, importing a `.riv` file, and displaying it in UMG.
 
 <Info>
   Supported on Unreal Engine 5.7.3 and above.
@@ -22,7 +22,7 @@ This guide walks you through installing the Rive Unreal plugin, importing a `.ri
       </Step>
       <Step>
         Search for Rive or go directly to:\
-        https://www.fab.com/portal/listings/4a79a0af-7614-42bd-8857-5375c2668706/
+        https://www.fab.com/listings/3a2968c1-4a1d-427c-934e-92e4d8578b77
       </Step>
       <Step>
         Add the plugin to your engine or project.
@@ -68,6 +68,10 @@ Unreal creates a **Rive File** asset. You can inspect this asset by double-click
 <Info>
   A **Rive File** is an Unreal asset. It does not render directly.
 </Info>
+
+<Warning>
+  The Unreal runtime does not yet support referenced assets. Be sure to embed all assets in the `.riv` file.
+</Warning>
 
 ## 5) Create a Widget
 
@@ -131,7 +135,7 @@ If the Rive File is not using **autobinding**, you must assign a viewmodel. This
   />
 </Frame>
 
-Your **Rive File** is now setup for use in your application. The next page will show you how to observe changes in teh ViewModel.
+Your **Rive File** is now setup for use in your application. The next page will show you how to observe changes in the ViewModel.
 
 <img
   src="/images/unreal/DuelistScreenshotUE.png"

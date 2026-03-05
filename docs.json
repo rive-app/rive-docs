@@ -8,6 +8,9 @@
     "dark": "#ffa41c"
   },
   "favicon": "/favicon_black.png",
+  "contextual": {
+    "options": ["copy", "view", "chatgpt", "claude"]
+  },
   "navigation": {
     "global": {
       "anchors": [
@@ -296,9 +299,7 @@
               },
               {
                 "group": "Color",
-                "pages": [
-                  "scripting/api-reference/color/color"
-                ]
+                "pages": ["scripting/api-reference/color/color"]
               },
               {
                 "group": "DataValue",
@@ -355,9 +356,7 @@
               },
               {
                 "group": "Mat2d",
-                "pages": [
-                  "scripting/api-reference/mat2d/mat2d"
-                ]
+                "pages": ["scripting/api-reference/mat2d/mat2d"]
               },
               {
                 "group": "Paint",
@@ -383,15 +382,11 @@
               },
               {
                 "group": "Renderer",
-                "pages": [
-                  "scripting/api-reference/renderer/renderer"
-                ]
+                "pages": ["scripting/api-reference/renderer/renderer"]
               },
               {
                 "group": "Vec2d",
-                "pages": [
-                  "scripting/api-reference/vec2d/vector"
-                ]
+                "pages": ["scripting/api-reference/vec2d/vector"]
               }
             ]
           }
@@ -530,6 +525,7 @@
                   "game-runtimes/unreal/unreal",
                   "game-runtimes/unreal/getting-started",
                   "game-runtimes/unreal/observing-viewmodel-changes",
+                  "game-runtimes/unreal/using-triggers",
                   "game-runtimes/unreal/in-world-textures"
                 ]
               },
@@ -546,11 +542,10 @@
                   "game-runtimes/unity/state-machines",
                   "game-runtimes/unity/data-binding",
                   "game-runtimes/unity/loading-assets",
+                  "game-runtimes/unity/audio",
                   {
                     "group": "Tutorials",
-                    "pages": [
-                      "game-runtimes/unity/tutorials/health-bar"
-                    ]
+                    "pages": ["game-runtimes/unity/tutorials/health-bar"]
                   },
                   "game-runtimes/unity/procedural-rendering",
                   "game-runtimes/unity/runtime-asset-swapping",
@@ -572,19 +567,14 @@
       },
       {
         "tab": "Feature Support",
-        "pages": [
-          "feature-support"
-        ]
+        "pages": ["feature-support"]
       },
       {
         "tab": "Tutorials",
         "groups": [
           {
             "group": "Tutorials",
-            "pages": [
-              "tutorials/learn-rive",
-              "tutorials/awesome-rive"
-            ]
+            "pages": ["tutorials/learn-rive", "tutorials/awesome-rive"]
           }
         ]
       }
@@ -891,6 +881,10 @@
     {
       "source": "/scripting/api-reference/vector",
       "destination": "/scripting/api-reference/vec2d/vector"
+    },
+    {
+      "source": "/game-runtimes/unreal/using-events",
+      "destination": "/game-runtimes/unreal/using-triggers"
     }
   ],
   "integrations": {
