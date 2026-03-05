@@ -33,7 +33,7 @@ export const Demos = ({
         react:
           'https://codesandbox.io/p/sandbox/rive-react-data-binding-artboards-kmvzh8?file=%2Fsrc%2FApp.tsx',
         flutter: 'https://github.com/rive-app/rive-flutter/blob/master/example/lib/examples/databinding_artboards.dart',
-        reactNative: 'https://github.com/rive-app/rive-nitro-react-native/blob/main/example/src/pages/DataBindingArtboardsExample.tsx',
+        reactNative: 'https://github.com/rive-app/rive-nitro-react-native/blob/main/example/src/demos/DataBindingArtboardsExample.tsx',
         android: "https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeArtboardBindingActivity.kt"
       },
       source: [
