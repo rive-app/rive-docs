@@ -1,0 +1,49 @@
+---
+title: "Configuration"
+description: "Customize the Rive code editor with themes, typography, and execution settings."
+---
+
+You can customize the appearance and behavior of the Rive code editor by editing its configuration file. Your settings will be reflected in all code editor views for your user account. 
+
+## Opening the Configuration
+
+Press **⌘ + ,** on macOS or **Ctrl + ,** on Windows to open the editor configuration.
+
+## Editing the Config
+
+The configuration file returns a Lua table. Start with the default configuration and override any settings you want to change.
+
+### Example Configuration
+
+```lua
+-- Import the default configuration
+local config = require('config/default')
+
+config.theme = require('theme/shades-of-purple-super-dark')
+config.code.fontSize = 14
+config.code.lineHeight = 20
+config.code.selectionCornerRadius = 5
+config.code.executionTimeoutMs = 2000
+
+return config
+```
+
+## Available Options
+
+| Option | Description |
+|-------|-------------|
+| `config.theme` | The editor theme. |
+| `config.code.fontSize` | Font size used in the code editor. |
+| `config.code.lineHeight` | Height of each line of code. |
+| `config.code.selectionCornerRadius` | Corner radius of the selection highlight. |
+| `config.code.executionTimeoutMs` | Maximum time a script can run before being stopped. |
+
+<Tip>
+  To browse available themes, type:
+
+  `config.theme = require('theme/')`
+
+  The editor will show the full list through autocomplete.
+
+  ![autocomplete editor themes](/images/scripting/config-theme.png)
+</Tip>
