@@ -435,6 +435,38 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
         The number of `Worker` objects is limited by system availability; specifically, a `Worker` is backed by a `DispatchQueue`, which handles the creation and reuse of threads.
 
         It is important to note that while multi-threading is supported, Rive object API calls must still be made on the main actor. This is enforced at compile time with functions and types marked as `@MainActor`.
+
+        ### Shared Workers
+
+        For cases where you want to share resources between multiple `File` objects (i.e out-of-band / referenced assets), you can use a shared `Worker` object. An example implementation is shown below.
+
+        ```swift
+        actor WorkerProvider {
+            static let shared = WorkerProvider()
+
+            @MainActor
+            private var cachedWorker: Worker?
+
+            @MainActor
+            func worker() async throws -> Worker {
+                if let cachedWorker {
+                    return cachedWorker
+                }
+
+                let worker = try await Worker()
+                cachedWorker = worker
+                return worker
+            }
+        }
+        ```
+
+        Then, when creating a `Rive` object, you can use the shared worker provider to get a worker.
+
+        ```swift
+        let worker = try await WorkerProvider.shared.worker()
+        let file = try await File(source: ..., worker: worker)
+        let rive = try await Rive(file: file)
+        ```
     </Tab>
     <Tab title={Apple.legacyRuntimeName} borderBottom>
         The legacy runtime is currently single-threaded on the main thread. This means that all Rive calls must be made on the main thread. It is recommended that if you are on a background thread, you should dispatch to the main queue before making any Rive calls.
