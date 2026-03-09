@@ -53,7 +53,7 @@ To begin, we need to get a reference to a particular view model. This can be don
     Access a View Model from the created Rive object in the `onLoad` callback:
 
     ```typescript
-    const rive = new rive.Rive({
+    const r = new rive.Rive({
         onLoad: () => {
             // The Rive object is now loaded and ready to use.
         }
@@ -64,15 +64,15 @@ To begin, we need to get a reference to a particular view model. This can be don
 
     ```typescript
     // Get reference by name
-    const namedVM = rive.viewModelByName("My View Model");
+    const namedVM = r.viewModelByName("My View Model");
 
     // Get reference by index
-    for (let i = 0; i < rive.viewModelCount; i++) {
-        const indexedVM = rive.viewModelByIndex(i);
+    for (let i = 0; i < r.viewModelCount; i++) {
+        const indexedVM = r.viewModelByIndex(i);
     }
 
     // Get reference to the default view model
-    const defaultVM = rive.defaultViewModel();
+    const defaultVM = r.defaultViewModel();
     ```
 
     Alternatively, if you have access to the underlying Rive File object you can access the above methods on the file.
@@ -720,14 +720,14 @@ It is preferred to assign to a state machine, as this will automatically apply t
 <Tabs>
   <Tab title="Web">
     ```typescript
-    const rive = new rive.Rive({
+    const r = new rive.Rive({
         autoBind: false, // This should be set to false (default)
         onLoad: () => {
-            const vm = rive.viewModelByName("My View Model");
+            const vm = r.viewModelByName("My View Model");
             const vmi = vm.instanceByName("My Instance");
 
             // Manually bind by applying the instance to the state machine and artboard
-            rive.bindViewModelInstance(vmi);
+            r.bindViewModelInstance(vmi);
         }
     });
     ```
@@ -922,13 +922,13 @@ Alternatively, you may prefer to use auto-binding. This will automatically bind 
 <Tabs>
   <Tab title="Web">
     ```typescript {4}
-    const rive = new rive.Rive({
+    const r = new rive.Rive({
         src: "my_rive_file.riv",
         canvas: document.getElementById("canvas"),
         autoBind: true,
         onLoad: () => {
             // Access the current instance that was auto-bound
-            let boundInstance = rive.viewModelInstance;
+            let boundInstance = r.viewModelInstance;
         }
     });
     ```
@@ -1265,11 +1265,11 @@ Some properties are mutable and have getters, setters, and observer operations f
 <Tabs>
   <Tab title="Web">
     ```typescript
-    const rive = new rive.Rive({
+    const r = new rive.Rive({
         autoBind: true,
         onLoad: () => {
             // Access the current instance that was auto-bound
-            let vmi = rive.viewModelInstance;
+            let vmi = r.viewModelInstance;
 
             // Booleans
             const booleanProperty = vmi.boolean("My Boolean Property");
@@ -1855,11 +1855,11 @@ View models can have properties of type view model, allowing for arbitrary nesti
 <Tabs>
   <Tab title="Web">
     ```typescript
-    const rive = new rive.Rive({
+    const r = new rive.Rive({
         autoBind: true,
         onLoad: () => {
             // Access the current instance that was auto-bound
-            let vmi = rive.viewModelInstance;
+            let vmi = r.viewModelInstance;
 
             const nestedNumberByChain = vmi
                 .viewModel("My Nested View Model")
@@ -2068,11 +2068,11 @@ You can observe changes over time to property values, either by using listeners 
     Example:
 
     ```typescript
-    const rive = new rive.Rive({
+    const r = new rive.Rive({
         autoBind: true,
         onLoad: () => {
             // Access the current instance that was auto-bound
-            let vmi = rive.viewModelInstance;
+            let vmi = r.viewModelInstance;
             const numberProperty = vmi.number("My Number Property");
             // Observe
             numberProperty.on((event) => {
@@ -2441,11 +2441,11 @@ Image properties let you set and replace raster images at runtime, with each ins
         });
     };
 
-    const rive = new rive.Rive({
+    const r = new rive.Rive({
         autoBind: true,
         onLoad: () => {
             // Access the current instance that was auto-bound
-            let vmi = rive.viewModelInstance;
+            let vmi = r.viewModelInstance;
 
             // Get the image property by name
             var imageProperty = vmi.image("bound_image");
@@ -2846,18 +2846,18 @@ For more information on list properties, see the [Data Binding List Property](/e
 <Tabs>
   <Tab title="Web">
     ```javascript
-    const rive = new rive.Rive({
+    const r = new rive.Rive({
         autoBind: true,
         onLoad: () => {
             // Access the current instance that was auto-bound
-            let vmi = rive.viewModelInstance;
+            let vmi = r.viewModelInstance;
 
             // Get the list property by name
             var list = vmi.list("todos");
             console.log("length: ", list.length);
 
             // Get the view model
-            var todoItemVM = riveInstance.viewModelByName("TodoItem");
+            var todoItemVM = r.viewModelByName("TodoItem");
 
             // Create a blank instance from the view model.
             // Do this for each new item you want to add.
@@ -3793,9 +3793,9 @@ Enums are string typed. The Rive file contains a list of enums. Each enum in tur
 <Tabs>
   <Tab title="Web">
     ```typescript
-    const rive = new rive.Rive({
+    const r = new rive.Rive({
         onLoad: () => {
-            const enums = rive.enums();
+            const enums = r.enums();
 
             console.log(enums);
         }
