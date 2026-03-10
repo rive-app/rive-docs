@@ -28,7 +28,65 @@ To avoid missing or invisible glyphs, some platforms support fallback fonts. A f
 </Note>
 
 <Tabs>
+    <Tab title="React Native">
+         <Card
+            title="View the full example"
+            icon="external-link"
+            href="https://github.com/rive-app/rive-nitro-react-native/blob/main/example/src/exercisers/FontFallbackExample.tsx"
+            arrow="true"
+            horizontal
+        >
+            See the complete fallback font example used in the React Native sample app.
+        </Card>
 
+        ## Loading fallback fonts
+
+        Fallback fonts can come from:
+
+        - a bundled native asset
+        - a remote URL
+        - a system font by name
+
+        ```ts
+        import { RiveFonts } from '@rive-app/react-native';
+
+        // Bundled native font
+        const bundled = await RiveFonts.loadFont('kanit_regular.ttf');
+
+        // Remote font
+        const remote = await RiveFonts.loadFont({
+            uri: 'https://raw.githubusercontent.com/google/fonts/main/ofl/kanit/Kanit-Regular.ttf',
+        });
+
+        // System font by name
+        const system = await RiveFonts.loadFont({ name: 'Thonburi' });
+        ```
+
+        ## Setting fallback fonts
+
+        Call RiveFonts.setFallbackFonts() before mounting the Rive view.
+
+        ```ts
+        await RiveFonts.setFallbackFonts({
+            default: [
+                bundled,
+                remote,
+                RiveFonts.systemFallback(),
+            ],
+        });
+        ```
+
+        ## Clearing fallback fonts
+
+        To remove previously configured fallback fonts, call:
+
+        ```ts
+        await RiveFonts.clearFallbackFonts();
+        ```
+
+        This is useful if your app needs to fully reset font configuration before recreating a RiveView.
+
+    </Tab>
     <Tab title="Apple">
 
         As of v6.1, on iOS and macOS, various options for fallbacks can be used. The Apple runtime provides helpers for selecting system fonts based on requested styling. Additionally, UIFonts / NSFonts can be used directly.

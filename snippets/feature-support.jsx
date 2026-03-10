@@ -260,7 +260,7 @@ export const FeatureSupportGroup = ({
                 reactCanvasLite: { supported: false, description: "Not supported" },
                 reactWebGL: { supported: false, description: "Not supported" },
                 reactWebGL2: { supported: false, description: "Not yet supported" },
-                reactNative: { supported: false, description: "Not yet supported" },
+                reactNative: { supported: true, version: "0.2.7+" },
                 reactNativeLegacy: { supported: false, description: "Not supported" },
                 flutter: { supported: false, description: "Not yet supported" },
                 apple: { supported: true, version: "6.1.0+" },
