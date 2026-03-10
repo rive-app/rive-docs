@@ -1,0 +1,7 @@
+## Overview
+
+For more information on designing and building state machines in the Rive editor, please refer to [State Machine Overview](/editor/state-machine).
+
+A Rive state machine is a set of animation states and the transitions between them. At runtime there is limited ability to observe or modify the state directly. This is by design, as this would limit the ability of a designer in Rive to modify the state machine without creating breaking changes. Instead, state machines are indirectly controlled through transitions conditioned on [Data Binding](/runtimes/data-binding) properties.
+
+A designer assigns a default state machine for each artboard in the Rive editor. They may create multiple state machines, each representing a different configuration of states and transitions. When rendering a Rive file and artboard, you may choose which state machine to play. If no state machine is specified, the default state machine for that artboard is used.
