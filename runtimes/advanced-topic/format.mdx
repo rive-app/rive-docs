@@ -168,7 +168,7 @@ Properties are similarly represented by a Core type key. These are unique across
 | 22.0 | 4 byte float | the Y value for the Node |
 | 0 | varuint | Null terminator. Done reading properties and have completed reading Node. |
 
-### Context 
+### Context
 Objects are always provided in context of each other. A Shape will always be provided after an Artboard. The Node's artboard can always be determined by finding the latest read Artboard. This concept is used extensively to provide the context for objects that require it. Another example, a KeyFrame will always be provided after a LinearAnimation, meaning you can always determine which LinearAnimation a KeyFrame belongs to by simply tracking that last read LinearAnimation.
 
 ### Hierarchy
