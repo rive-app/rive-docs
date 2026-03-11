@@ -101,7 +101,7 @@ export const Demos = ({
       description: "How to make an interactive Google App with Rive.",
       image: "/images/runtimes/google-app-ads.png",
       links: {
-        web: "https://github.com/rive-app/rive-use-cases/tree/main/rive-google-ads"
+        mobile: "https://github.com/rive-app/rive-use-cases/tree/main/rive-google-ads"
       },
     },
     layouts: {

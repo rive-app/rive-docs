@@ -33,35 +33,35 @@ export default function Simple() {
 You can manually play and pause the state machine using the `play`, `pause`, and `stop` methods.
 
   ```js
-export default function Simple() {
-  const { rive, RiveComponent } = useRive({
-    src: "https://cdn.rive.app/animations/vehicles.riv",
-    stateMachines: "bumpy",
-    autoplay: true,
-  });
+  export default function Simple() {
+    const { rive, RiveComponent } = useRive({
+      src: "https://cdn.rive.app/animations/vehicles.riv",
+      stateMachines: "bumpy",
+      autoplay: true,
+    });
 
-  const handlePlay = useCallback(() => {
-    rive?.play();
-  }, [rive]);
+    const handlePlay = useCallback(() => {
+      rive?.play();
+    }, [rive]);
 
-  const handlePause = useCallback(() => {
-    rive?.pause();
-  }, [rive]);
+    const handlePause = useCallback(() => {
+      rive?.pause();
+    }, [rive]);
 
-  const handleStop = useCallback(() => {
-    rive?.stop();
-  }, [rive]);
+    const handleStop = useCallback(() => {
+      rive?.stop();
+    }, [rive]);
 
-  return (
-    <div>
-      <RiveComponent />
-      <div style={{ marginTop: 12 }}>
-        <button onClick={handlePlay}>Play</button>
-        <button onClick={handlePause}>Pause</button>
-        <button onClick={handleStop}>Stop</button>
+    return (
+      <div>
+        <RiveComponent />
+        <div style={{ marginTop: 12 }}>
+          <button onClick={handlePlay}>Play</button>
+          <button onClick={handlePause}>Pause</button>
+          <button onClick={handleStop}>Stop</button>
+        </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
 
 ```
