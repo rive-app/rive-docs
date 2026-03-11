@@ -3,217 +3,27 @@ title: 'Artboards'
 description: 'Selecting which artboard to render at runtime'
 ---
 
-import { Apple } from "/snippets/constants.mdx"
+{/*
+  This page previously contained documentation for all runtimes.
+  It has been split into runtime-specific guides.
+*/}
 
-For more information on creating artboards in the Rive editor, please refer to [Artboards](/editor/fundamentals/artboards).
+Documentation for working with **Artboards** has moved to runtime-specific pages.
 
-## Choosing an Artboard
+Select your runtime below to see the relevant guide.
 
-When a Rive object is instantiated or when a Rive file is rendered, you can specify the artboard to use. If no artboard is given, the [default artboard](/editor/fundamentals/artboards#default-state-machine), as set in the Rive editor, is used. If no default artboard is set, the first artboard is used.
+<CardGroup cols={3}>
+  <Card title="Web (JS)" href="/runtimes/web/artboards" />
 
-Only one artboard can be rendered at a time.
+  <Card title="React" href="/runtimes/react/artboards" />
 
-<Tabs>
+  <Card title="React Native" href="/runtimes/react-native/artboards" />
 
-  <Tab title="Web">
-    ```javascript
-    new rive.Rive({
-        src: 'https://cdn.rive.app/animations/vehicles.riv',
-        canvas: document.getElementById('canvas'),
-        artboard: 'Truck',
-        autoplay: true
-    });
-    ```
-  </Tab>
+  <Card title="Flutter" href="/runtimes/flutter/artboards" />
 
-  <Tab title="React">
-    ```javascript
-    export const Simple = () => (
-      <Rive src="https://cdn.rive.app/animations/vehicles.riv" artboard="Truck" />
-    );
+  <Card title="Apple (iOS/macOS)" href="/runtimes/apple/artboards" />
 
-    // With `useRive` Hook:
-    export default function Simple() {
-      const { RiveComponent } = useRive({
-          src: 'https://cdn.rive.app/animations/vehicles.riv',
-          artboard: 'Truck',
-          autoplay: true,
-      });
+  <Card title="Android" href="/runtimes/android/artboards" />
 
-      return <RiveComponent />;
-    }
-    ```
-  </Tab>
-
-  <Tab title="React Native">
-    ```javascript
-    export default function App() {
-      return (
-        <View>
-          <Rive resourceName="my_rive_file" artboardName="My Artboard" autoplay />
-        </View>
-      );
-    }
-    ```
-  </Tab>
-
-  <Tab title="Flutter">
-  Manually create an artboard:
-
-  ```dart
-  // Default artboard
-  final artboard = riveFile.defaultArtboard();
-  // Artboard named
-  final artboard = riveFile.artboard('My Artboard');
-  // Artboard at index
-  final artboard = riveFile.artboardAt(0);
-  ```
-
-  Specify the artboard to use in `RiveWidgetController` or `RiveWidgetBuilder`:
-
-  ```dart
-  // Default artboard
-  final artboardSelector = ArtboardSelector.byDefault();
-  // Artboard named
-  final artboardSelector = ArtboardSelector.byName('My Artboard');
-  // Artboard at index
-  final artboardSelector = ArtboardSelector.byIndex(0);
-
-  // Pass to RiveWidgetController
-  final controller = RiveWidgetController(
-    riveFile,
-    artboardSelector: artboardSelector,
-  );
-
-  // Pass to RiveWidgetBuilder
-  return RiveWidgetBuilder(
-    fileLoader: fileLoader,
-    artboardSelector: ArtboardSelector.byName('My Artboard'),
-    builder: (context, state) {
-      // return a widget
-    },
-  );  
-  ```
-  </Tab>
-
-  <Tab title="Apple">
-    <Tabs>
-      <Tab title={Apple.currentRuntimeName}>
-      The following section assumes that you have read through the [Apple](/runtimes/apple/apple) overview.
-      
-      ### Getting an Artboard
-
-      Once you have created a `File`, you can then retrieve information for and create `Artboard` types.
-
-      ```swift
-      // Get all artboard names in the file
-      let artboardNames = try await file.getArtboardNames()
-      // Get the default artboard for the file
-      let defaultArtboard = try await file.createArtboard()
-      // Get an artboard by name from the file
-      let artboardByName = try await file.createArtboard("Artboard")
-      ```
-
-      Note that these are all async throwing functions marked as `@MainActor`. Since they are functions called on a `File` object, any thrown errors will be of type `FileError`.
-
-      An example of when one of these functions will throw is if you call `.createArtboard(_:)` with a name that is not in the origin `File`, which will throw a `FileError.invalidArtboard(String)`.
-
-      ### Using an Artboard
-
-      Remember that the Rive configuration for a view is the `Rive` type. In the overview, we show initializing a `Rive` object with a file, opting to use the default artboard and state machine. However, you can initialize a `Rive` object with a specific artboard:
-      ```swift
-      let worker = Worker()
-      let file = try await File(source: .local("my_file", Bundle.main))
-      let artboardByName = try await file.createArtboard("Artboard")
-      let rive = try await Rive(file: file, artboard: artboardByName)
-      ```
-
-      Artboards then become the source of truth for state machines. See [State Machine](/runtimes/state-machines) for more details.
-      </Tab>
-      <Tab title={Apple.legacyRuntimeName}>
-      **SwiftUI**
-      ```swift
-      struct AnimationView: View {
-          var body: some View {
-              RiveViewModel(
-                  fileName: "my_rive_file",
-                  artboardName: "My Artboard"
-              ).view()
-          }
-      }
-      ```
-
-      **UIKit**
-      ```swift
-      class AnimationViewController: UIViewController {
-          @IBOutlet weak var riveView: RiveView!
-
-          var bananaVM = RiveViewModel(
-              fileName: "my_rive_file",
-              artboardName: "My Artboard",
-          )
-
-          override func viewDidLoad() {
-              bananaVM.setView(riveView)
-          }
-      }
-      ```
-      </Tab>
-    </Tabs>
-  </Tab>
-
-  <Tab title="Android">
-    <Tabs>
-      <Tab title="Compose">
-        By default, the `Rive` composable will select and create the default artboard specified in the Rive editor. To specify a different artboard, you must first create an `Artboard` object from a loaded `RiveFile`.
-
-        ### Compose
-        Artboard objects can be created in Compose using the `rememberArtboard` function, which takes a Rive file and name of the artboard.
-
-        ```kotlin
-        val artboard = rememberArtboard(myRiveFile, "My Artboard")
-        ```
-        
-        ### Outside of Compose
-        Alternatively, you can create an artboard outside of Compose contexts. Note that with this approach you are responsible for managing the artboard's lifecycle and must eventually close it with `Artboard::close()` when no longer needed, or leveraging its [`AutoClosable`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-auto-closeable.html) interface with a `use` block.
-
-        ```kotlin
-        val artboard = Artboard.fromFile(myRiveFile, "My Artboard")
-        ...
-        artboard.close()
-        ```
-
-        ### Using the Artboard
-        Once you have an artboard, you can pass it to the `Rive` composable via the `artboard` parameter.
-
-        ```kotlin
-        setContent {
-            Rive(
-                myRiveFile,
-                artboard = artboard
-            )
-        }
-        ```
-      </Tab>
-      <Tab title="Legacy">
-        ### Using XML Layouts
-        ```xml
-        <app.rive.runtime.kotlin.RiveAnimationView
-            app:riveResource="@raw/my_rive_file"
-            app:riveArtboard="My Artboard"
-            app:riveAutoPlay="true" />
-        ```
-
-        ### Using Kotlin
-        ```kotlin
-        animationView.setRiveResource(
-            R.raw.my_rive_file,
-            artboardName = "My Artboard",
-            autoplay = true
-        )
-        ```
-      </Tab>
-    </Tabs>
-  </Tab>
-
-</Tabs>
+  <Card title="Unity" href="/game-runtimes/unity/fundamentals#artboards" />
+</CardGroup>
