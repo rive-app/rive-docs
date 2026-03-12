@@ -92,7 +92,21 @@ foreach (var input in inputs)
 
 ## Accessing Nested Inputs
 
-For more information about accessing inputs in components, check out this [example](/runtimes/inputs#nested-inputs).
+![Image](https://ucarecdn.com/2ef96393-bf13-4445-950b-1626235a25eb/)
+set the **Volume** input from the above example:
+
+```csharp
+m_file = Rive.File.Load(asset);
+m_artboard = m_file.Artboard(0);
+m_artboard.SetNumberInputStateAtPath("volume", 80.0f, "Volume Molecule/Volume Component");
+```
+
+**All options:**
+- `void SetNumberInputStateAtPath(string inputName, float value, string path)`
+- `float? GetNumberInputStateAtPath(string inputName, string path)`
+- `void SetBooleanInputStateAtPath(string inputName, bool value, string path)`
+- `bool? GetBooleanInputStateAtPath(string inputName, string path)`
+- `void FireInputStateAtPath(string inputName, string path)`
 
 ### Additional Resources
 
