@@ -105,13 +105,13 @@ Differences may reflect:
     Allows Rive to automatically update the artboard size as the underlying view/canvas/widget/texture size changes. See [Layouts](/editor/layouts/layouts-overview).
 </FeatureSupportGroup>
 <FeatureSupportGroup feature="fallbackFonts">
-    Allows Rive to use a fallback font if a glyph is not available. A default font is automatically chosen, or you can optionally configure the desired fallback font based on various options.
+    Allows Rive to use a fallback font if a glyph is not available. A default font is automatically chosen, or you can optionally configure the desired fallback font based on various options. See [Fallback Fonts](/runtimes/text#fallback-fonts).
 </FeatureSupportGroup>
 <FeatureSupportGroup feature="randomization">
     Enables randomizing transitions between animations and customizing the probability.
 </FeatureSupportGroup>
 <FeatureSupportGroup feature="audio">
-    See [Audio Events](/editor/events/audio-events).
+    See [Rive Events](/runtimes/rive-events) and [Audio Events](/editor/events/audio-events).
 </FeatureSupportGroup>
 <FeatureSupportGroup feature="outOfBandAssets">
     See [Loading Assets](/runtimes/loading-assets).
@@ -134,14 +134,14 @@ Differences may reflect:
 
 <FeatureSupportGroup feature="events">
     <Warning>
-        Listening to Rive Events at runtime is deprecated and will be removed in future versions.
+        Listening to [Rive Events](/runtimes/rive-events) at runtime is deprecated and will be removed in future versions.
 
         Use [Data Binding](/runtimes/data-binding) to listen for triggers or changes to properties instead.
     </Warning>
 </FeatureSupportGroup>
 <FeatureSupportGroup feature="nestedText">
     <Warning>
-        Setting text, including nested text, at runtime is deprecated and will be removed in a future version.
+        Setting text, including [nested text](/runtimes/text#read-update-nested-text-runs-at-runtime), at runtime is deprecated and will be removed in a future version.
 
         Instead, use [Data Binding](/runtimes/data-binding) to update a string, which is bound to a text run.
     </Warning>
