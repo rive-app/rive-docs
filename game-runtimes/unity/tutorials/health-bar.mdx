@@ -23,7 +23,7 @@ To view the completed project, see [HealthBar Demo](https://github.com/rive-app/
 ## Requirements
 
 - A Unity project with the Rive package installed (see [Getting Started](/game-runtimes/unity/getting-started))
-- Familiarity with view models and [data binding](/runtimes/data-binding) in Rive
+- Familiarity with view models and [data binding](/runtimes/unity/data-binding) in Rive
 - A `.riv` file that exposes a view model instance with:
   - `health` (Number)
   - `gameOver` (Trigger)
@@ -50,7 +50,7 @@ The **Rive Widget** should already be configured with the default artboard, stat
 
 <Steps>
   <Step>
-    Select the correct **Artboard Name** and **State Machine Name** for your health bar file. 
+    Select the correct **Artboard Name** and **State Machine Name** for your health bar file.
     For this tutorial, the selected artboard name should be `health_bar_v01` and the state machine name should be `State Machine 1`.
   </Step>
   <Step>
@@ -230,10 +230,10 @@ private void HandleGameOverTriggeredFromRive()
 }
 ```
 <Note>
-  This tutorial file includes a default view model instance. If the widget's **Data Binding Mode** was set to **Manual** or if the file did not have a default view model instance, `m_riveWidget.StateMachine?.ViewModelInstance` would be null. 
-  
+  This tutorial file includes a default view model instance. If the widget's **Data Binding Mode** was set to **Manual** or if the file did not have a default view model instance, `m_riveWidget.StateMachine?.ViewModelInstance` would be null.
+
   In this case, you would need to manually create and bind a new view model instance to the state machine.
-  
+
   Learn more about binding modes and how to configure them in the [Data Binding](/game-runtimes/unity/data-binding#auto-binding-in-the-inspector) documentation.
 </Note>
 
@@ -257,7 +257,7 @@ public float Health
         {
             return m_healthProperty.Value;
         }
-        
+
         // Widget isn't loaded yet, return the starting value
         return m_startingHealth;
     }
@@ -369,7 +369,7 @@ public class GameManager : MonoBehaviour
     {
         // Listen to health value changes
         healthBar.OnHealthChanged.AddListener(HandleHealthChanged);
-        
+
         // Listen to game over trigger
         healthBar.OnGameOver.AddListener(HandleGameOver);
     }
@@ -441,7 +441,7 @@ public class HealthBarController : MonoBehaviour
             {
                 return m_healthProperty.Value;
             }
-            
+
             // Widget isn't loaded yet, return the starting value
             return m_startingHealth;
         }
