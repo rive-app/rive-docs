@@ -71,7 +71,7 @@ export const Demos = ({
       ]
     },
     dataBindingQuickStart: {
-      title: "Data Binding Quick Start",
+      title: "Data Binding",
       description: "Get started with Data Binding at runtime.",
       image: "/images/runtimes/rewards.gif",
       links: {
@@ -134,7 +134,7 @@ export const Demos = ({
       ]
     },
     quickStart: {
-      title: "Quick Start",
+      title: "Data Binding Quick Start",
       image: '/images/runtimes/quick-start.gif',
       description: 'Load and control your Rive (.riv) file.',
       links: {
@@ -149,7 +149,7 @@ export const Demos = ({
       ]
     },
     quickStartReact: {
-      title: "Quick Start",
+      title: "Data Binding Quick Start",
       image: '/images/runtimes/quick-start.gif',
       description: 'Load and control your Rive (.riv) file.',
       links: {
