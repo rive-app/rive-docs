@@ -4,15 +4,13 @@ description: "Connect your code to bound editor elements using View Models"
 ---
 
 import { Runtimes } from '/snippets/runtimes/landing-pages/runtimes.jsx'
+import { Demos } from "/snippets/demos.jsx";
 
-{/*
-  This page previously contained documentation for all runtimes.
-  It has been split into runtime-specific guides.
-*/}
 
-Documentation for working with **Data Binding** has moved to runtime-specific pages.
+[Data Binding](/editor/data-binding/overview) lets your app read and update values in a Rive file at runtime.
+Values exposed in the Editor can be connected to properties such as text, numbers, and booleans.
 
-Select your runtime below to see the relevant guide.
+Each runtime provides APIs for reading and updating these values from your application.
 
 <Runtimes
   runtimes={{
@@ -25,3 +23,7 @@ Select your runtime below to see the relevant guide.
     unity: '/game-runtimes/unity/data-binding'
   }}
 />
+
+## Explore demos
+
+<Demos examples={["quickStart", "dataBindingQuickStart", "dataBindingImages", "dataBindingLists", "dataBindingArtboards"]} />

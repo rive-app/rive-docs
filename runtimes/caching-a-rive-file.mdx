@@ -4,15 +4,12 @@ description: ""
 ---
 
 import { Runtimes } from '/snippets/runtimes/landing-pages/runtimes.jsx'
+import { Demos } from "/snippets/demos.jsx";
 
-{/*
-  This page previously contained documentation for all runtimes.
-  It has been split into runtime-specific guides.
-*/}
 
-Documentation for **Caching a Rive File** has moved to runtime-specific pages.
+Caching a Rive file lets your app reuse a loaded .riv file instead of loading and parsing it again. This can improve performance when the same file is rendered multiple times.
 
-Select your runtime below to see the relevant guide.
+Each runtime provides its own APIs and patterns for loading, reusing, and caching Rive files.
 
 <Runtimes
   runtimes={{
@@ -24,3 +21,7 @@ Select your runtime below to see the relevant guide.
     android: '/runtimes/android/caching-a-rive-file'
   }}
 />
+
+## Explore demos
+
+<Demos examples={["cachingARiveFile"]} />
