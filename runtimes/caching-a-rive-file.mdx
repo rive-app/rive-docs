@@ -3,6 +3,8 @@ title: "Caching a Rive File"
 description: ""
 ---
 
+import { Runtimes } from '/snippets/runtimes/landing-pages/runtimes.jsx'
+
 {/*
   This page previously contained documentation for all runtimes.
   It has been split into runtime-specific guides.
@@ -12,16 +14,13 @@ Documentation for **Caching a Rive File** has moved to runtime-specific pages.
 
 Select your runtime below to see the relevant guide.
 
-<CardGroup cols={3}>
-  <Card title="Web (JS)" href="/runtimes/web/caching-a-rive-file" />
-
-  <Card title="React" href="/runtimes/react/caching-a-rive-file" />
-
-  <Card title="React Native" href="/runtimes/react-native/caching-a-rive-file" />
-
-  <Card title="Flutter" href="/runtimes/flutter/caching-a-rive-file" />
-
-  <Card title="Apple (iOS/macOS)" href="/runtimes/apple/caching-a-rive-file" />
-
-  <Card title="Android" href="/runtimes/android/caching-a-rive-file" />
-</CardGroup>
+<Runtimes
+  runtimes={{
+    web: '/runtimes/web/caching-a-rive-file',
+    react: '/runtimes/react/caching-a-rive-file',
+    reactNative: '/runtimes/react-native/caching-a-rive-file',
+    flutter: '/runtimes/flutter/caching-a-rive-file',
+    apple: '/runtimes/apple/caching-a-rive-file',
+    android: '/runtimes/android/caching-a-rive-file'
+  }}
+/>

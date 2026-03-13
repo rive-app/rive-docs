@@ -3,6 +3,8 @@ title: 'Fonts'
 description: 'Loading and replacing fonts dynamically at runtime.'
 ---
 
+import { Runtimes } from '/snippets/runtimes/landing-pages/runtimes.jsx'
+
 {/*
   This page previously contained documentation for all runtimes.
   It has been split into runtime-specific guides.
@@ -12,16 +14,13 @@ Documentation for working with **Fonts** has moved to runtime-specific pages.
 
 Select your runtime below to see the relevant guide.
 
-<CardGroup cols={3}>
-  <Card title="Web (JS)" href="/runtimes/web/fonts" />
-
-  <Card title="React" href="/runtimes/react/fonts" />
-
-  <Card title="React Native" href="/runtimes/react-native/fonts" />
-
-  <Card title="Flutter" href="/runtimes/flutter/fonts" />
-
-  <Card title="Apple (iOS/macOS)" href="/runtimes/apple/fonts" />
-
-  <Card title="Android" href="/runtimes/android/fonts" />
-</CardGroup>
+<Runtimes
+  runtimes={{
+    web: '/runtimes/web/fonts',
+    react: '/runtimes/react/fonts',
+    reactNative: '/runtimes/react-native/fonts',
+    flutter: '/runtimes/flutter/fonts',
+    apple: '/runtimes/apple/fonts',
+    android: '/runtimes/android/fonts'
+  }}
+/>

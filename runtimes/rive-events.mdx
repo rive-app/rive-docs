@@ -4,6 +4,8 @@ description: "⚠️ DEPRECATED: Use Data Binding instead of Events"
 noindex: true
 ---
 
+import { Runtimes } from '/snippets/runtimes/landing-pages/runtimes.jsx'
+
 {/*
   This page previously contained documentation for all runtimes.
   It has been split into runtime-specific guides.
@@ -13,18 +15,14 @@ Documentation for working with **Rive Events** has moved to runtime-specific pag
 
 Select your runtime below to see the relevant guide.
 
-<CardGroup cols={3}>
-  <Card title="Web (JS)" href="/runtimes/web/rive-events" />
-
-  <Card title="React" href="/runtimes/react/rive-events" />
-
-  <Card title="React Native" href="/runtimes/react-native/rive-events" />
-
-  <Card title="Flutter" href="/runtimes/flutter/rive-events" />
-
-  <Card title="Apple (iOS/macOS)" href="/runtimes/apple/rive-events" />
-
-  <Card title="Android" href="/runtimes/android/rive-events" />
-
-  <Card title="Unity" href="/game-runtimes/unity/rive-events" />
-</CardGroup>
+<Runtimes
+  runtimes={{
+    web: '/runtimes/web/rive-events',
+    react: '/runtimes/react/rive-events',
+    reactNative: '/runtimes/react-native/rive-events',
+    flutter: '/runtimes/flutter/rive-events',
+    apple: '/runtimes/apple/rive-events',
+    android: '/runtimes/android/rive-events',
+    unity: '/game-runtimes/unity/rive-events'
+  }}
+/>

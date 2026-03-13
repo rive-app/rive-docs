@@ -3,27 +3,21 @@ title: 'Artboards'
 description: 'Selecting which artboard to render at runtime'
 ---
 
-{/*
-  This page previously contained documentation for all runtimes.
-  It has been split into runtime-specific guides.
-*/}
+import { Runtimes } from '/snippets/runtimes/landing-pages/runtimes.jsx'
 
-Documentation for working with **Artboards** has moved to runtime-specific pages.
+A Rive file can contain multiple [Artboards](/editor/fundamentals/artboards), each representing a separate animation or interface. When rendering a `.riv` file in your application, you choose which artboard to display using your runtime’s API.
 
 Select your runtime below to see the relevant guide.
 
-<CardGroup cols={3}>
-  <Card title="Web (JS)" href="/runtimes/web/artboards" />
-
-  <Card title="React" href="/runtimes/react/artboards" />
-
-  <Card title="React Native" href="/runtimes/react-native/artboards" />
-
-  <Card title="Flutter" href="/runtimes/flutter/artboards" />
-
-  <Card title="Apple (iOS/macOS)" href="/runtimes/apple/artboards" />
-
-  <Card title="Android" href="/runtimes/android/artboards" />
-
-  <Card title="Unity" href="/game-runtimes/unity/fundamentals#artboards" />
-</CardGroup>
+<Runtimes
+  runtimes={{
+    web: '/runtimes/web/artboards',
+    react: '/runtimes/react/artboards',
+    reactNative: '/runtimes/react-native/artboards',
+    flutter: '/runtimes/flutter/artboards',
+    apple: '/runtimes/apple/artboards',
+    android: '/runtimes/android/artboards',
+    unity: '/game-runtimes/unity/fundamentals#artboards',
+    unreal: '/game-runtimes/unreal/getting-started'
+  }}
+/>

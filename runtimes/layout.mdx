@@ -3,27 +3,27 @@ title: "Layout"
 description: "Control how graphics are laid out within the canvas, view, widget, or texture."
 ---
 
-{/*
-  This page previously contained documentation for all runtimes.
-  It has been split into runtime-specific guides.
-*/}
+import { Runtimes } from '/snippets/runtimes/landing-pages/runtimes.jsx'
+import { Demos } from "/snippets/demos.jsx";
 
-Documentation for working with **Layouts** has moved to runtime-specific pages.
+Layouts control how elements in a Rive artboard respond to different container sizes.
 
+Each runtime provides APIs for configuring layout behavior and controlling how the artboard fits its container.
 Select your runtime below to see the relevant guide.
 
-<CardGroup cols={3}>
-  <Card title="Web (JS)" href="/runtimes/web/layouts" />
+<Runtimes
+  runtimes={{
+    web: '/runtimes/web/layouts',
+    react: '/runtimes/react/layouts',
+    reactNative: '/runtimes/react-native/layouts',
+    flutter: '/runtimes/flutter/layouts',
+    apple: '/runtimes/apple/layouts',
+    android: '/runtimes/android/layouts',
+    unity: '/game-runtimes/unity/layouts'
+  }}
+/>
 
-  <Card title="React" href="/runtimes/react/layouts" />
+## Explore demos
 
-  <Card title="React Native" href="/runtimes/react-native/layouts" />
+<Demos examples={["layouts"]} />
 
-  <Card title="Flutter" href="/runtimes/flutter/layouts" />
-
-  <Card title="Apple (iOS/macOS)" href="/runtimes/apple/layouts" />
-
-  <Card title="Android" href="/runtimes/android/layouts" />
-
-  <Card title="Unity" href="/game-runtimes/unity/layouts" />
-</CardGroup>

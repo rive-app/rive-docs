@@ -3,6 +3,8 @@ title: "Playing Audio"
 description: "Playing Rive audio events"
 ---
 
+import { Runtimes } from '/snippets/runtimes/landing-pages/runtimes.jsx'
+
 {/*
   This page previously contained documentation for all runtimes.
   It has been split into runtime-specific guides.
@@ -12,18 +14,14 @@ Documentation for working with **Playing Audio** has moved to runtime-specific p
 
 Select your runtime below to see the relevant guide.
 
-<CardGroup cols={3}>
-  <Card title="Web (JS)" href="/runtimes/web/playing-audio" />
-
-  <Card title="React" href="/runtimes/react/playing-audio" />
-
-  <Card title="React Native" href="/runtimes/react-native/playing-audio" />
-
-  <Card title="Flutter" href="/runtimes/flutter/playing-audio" />
-
-  <Card title="Apple (iOS/macOS)" href="/runtimes/apple/playing-audio" />
-
-  <Card title="Android" href="/runtimes/android/playing-audio" />
-
-  <Card title="Unity" href="/game-runtimes/unity/audio" />
-</CardGroup>
+<Runtimes
+  runtimes={{
+    web: '/runtimes/web/playing-audio',
+    react: '/runtimes/react/playing-audio',
+    reactNative: '/runtimes/react-native/playing-audio',
+    flutter: '/runtimes/flutter/playing-audio',
+    apple: '/runtimes/apple/playing-audio',
+    android: '/runtimes/android/playing-audio',
+    unity: '/game-runtimes/unity/audio'
+  }}
+/>

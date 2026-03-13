@@ -4,6 +4,8 @@ description: "⚠️ DEPRECATED: Use Data Binding instead of Inputs for controll
 noindex: true
 ---
 
+import { Runtimes } from '/snippets/runtimes/landing-pages/runtimes.jsx'
+
 {/*
   This page previously contained documentation for all runtimes.
   It has been split into runtime-specific guides.
@@ -13,18 +15,14 @@ Documentation for working with **Inputs** has moved to runtime-specific pages.
 
 Select your runtime below to see the relevant guide.
 
-<CardGroup cols={3}>
-  <Card title="Web (JS)" href="/runtimes/web/inputs" />
-
-  <Card title="React" href="/runtimes/react/inputs" />
-
-  <Card title="React Native" href="/runtimes/react-native/inputs" />
-
-  <Card title="Flutter" href="/runtimes/flutter/inputs" />
-
-  <Card title="Apple (iOS/macOS)" href="/runtimes/apple/inputs" />
-
-  <Card title="Android" href="/runtimes/android/inputs" />
-
-  <Card title="Unity" href="/game-runtimes/unity/inputs" />
-</CardGroup>
+<Runtimes
+  runtimes={{
+    web: '/runtimes/web/inputs',
+    react: '/runtimes/react/inputs',
+    reactNative: '/runtimes/react-native/inputs',
+    flutter: '/runtimes/flutter/inputs',
+    apple: '/runtimes/apple/inputs',
+    android: '/runtimes/android/inputs',
+    unity: '/game-runtimes/unity/inputs'
+  }}
+/>

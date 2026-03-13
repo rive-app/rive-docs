@@ -4,6 +4,8 @@ description: "⚠️ DEPRECATED: Use State Machines instead of direct animation 
 noindex: true
 ---
 
+import { Runtimes } from '/snippets/runtimes/landing-pages/runtimes.jsx'
+
 {/*
   This page previously contained documentation for all runtimes.
   It has been split into runtime-specific guides.
@@ -13,16 +15,13 @@ Documentation for working with **Animation Playback** (DEPRECATED) has moved to 
 
 Select your runtime below to see the relevant guide.
 
-<CardGroup cols={3}>
-  <Card title="Web (JS)" href="/runtimes/web/animation-playback" />
-
-  <Card title="React" href="/runtimes/react/animation-playback" />
-
-  <Card title="React Native" href="/runtimes/react-native/animation-playback" />
-
-  <Card title="Flutter" href="/runtimes/flutter/animation-playback" />
-
-  <Card title="Apple (iOS/macOS)" href="/runtimes/apple/animation-playback" />
-
-  <Card title="Android" href="/runtimes/android/animation-playback" />
-</CardGroup>
+<Runtimes
+  runtimes={{
+    web: '/runtimes/web/animation-playback',
+    react: '/runtimes/react/animation-playback',
+    reactNative: '/runtimes/react-native/animation-playback',
+    flutter: '/runtimes/flutter/animation-playback',
+    apple: '/runtimes/apple/animation-playback',
+    android: '/runtimes/android/animation-playback'
+  }}
+/>

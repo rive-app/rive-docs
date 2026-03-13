@@ -4,6 +4,8 @@ description: "⚠️ DEPRECATED: Use Data Binding instead of direct text run man
 noindex: true
 ---
 
+import { Runtimes } from '/snippets/runtimes/landing-pages/runtimes.jsx'
+
 
 {/*
   This page previously contained documentation for all runtimes.
@@ -14,18 +16,14 @@ Documentation for working with **Text** has moved to runtime-specific pages.
 
 Select your runtime below to see the relevant guide.
 
-<CardGroup cols={3}>
-  <Card title="Web (JS)" href="/runtimes/web/text" />
-
-  <Card title="React" href="/runtimes/react/text" />
-
-  <Card title="React Native" href="/runtimes/react-native/text" />
-
-  <Card title="Flutter" href="/runtimes/flutter/text" />
-
-  <Card title="Apple (iOS/macOS)" href="/runtimes/apple/text" />
-
-  <Card title="Android" href="/runtimes/android/text" />
-
-  <Card title="Unity" href="/game-runtimes/unity/text" />
-</CardGroup>
+<Runtimes
+  runtimes={{
+    web: '/runtimes/web/text',
+    react: '/runtimes/react/text',
+    reactNative: '/runtimes/react-native/text',
+    flutter: '/runtimes/flutter/text',
+    apple: '/runtimes/apple/text',
+    android: '/runtimes/android/text',
+    unity: '/game-runtimes/unity/text'
+  }}
+/>

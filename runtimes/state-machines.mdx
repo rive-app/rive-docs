@@ -3,6 +3,8 @@ title: "State Machine Playback"
 description: "Playing a state machine"
 ---
 
+import { Runtimes } from '/snippets/runtimes/landing-pages/runtimes.jsx'
+
 {/*
   This page previously contained documentation for all runtimes.
   It has been split into runtime-specific guides.
@@ -12,18 +14,14 @@ Documentation for working with **State Machines** has moved to runtime-specific 
 
 Select your runtime below to see the relevant guide.
 
-<CardGroup cols={3}>
-  <Card title="Web (JS)" href="/runtimes/web/state-machines" />
-
-  <Card title="React" href="/runtimes/react/state-machines" />
-
-  <Card title="React Native" href="/runtimes/react-native/state-machines" />
-
-  <Card title="Flutter" href="/runtimes/flutter/state-machines" />
-
-  <Card title="Apple (iOS/macOS)" href="/runtimes/apple/state-machines" />
-
-  <Card title="Android" href="/runtimes/android/state-machines" />
-
-  <Card title="Unity" href="/game-runtimes/unity/state-machines" />
-</CardGroup>
+<Runtimes
+  runtimes={{
+    web: '/runtimes/web/state-machines',
+    react: '/runtimes/react/state-machines',
+    reactNative: '/runtimes/react-native/state-machines',
+    flutter: '/runtimes/flutter/state-machines',
+    apple: '/runtimes/apple/state-machines',
+    android: '/runtimes/android/state-machines',
+    unity: '/game-runtimes/unity/state-machines'
+  }}
+/>

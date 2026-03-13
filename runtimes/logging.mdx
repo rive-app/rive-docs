@@ -2,6 +2,9 @@
 title: 'Logging'
 description: ''
 ---
+
+import { Runtimes } from '/snippets/runtimes/landing-pages/runtimes.jsx'
+
 {/*
   This page previously contained documentation for all runtimes.
   It has been split into runtime-specific guides.
@@ -11,8 +14,9 @@ Documentation for working with **Logging** has moved to runtime-specific pages.
 
 Select your runtime below to see the relevant guide.
 
-<CardGroup cols={3}>
-  <Card title="Apple (iOS/macOS)" href="/runtimes/apple/logging" />
-
-  <Card title="Android" href="/runtimes/android/logging" />
-</CardGroup>
+<Runtimes
+  runtimes={{
+    apple: '/runtimes/apple/logging',
+    android: '/runtimes/android/logging'
+  }}
+/>

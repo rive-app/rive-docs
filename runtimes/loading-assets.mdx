@@ -3,6 +3,8 @@ title: "Loading Assets"
 description: "Loading and replacing assets dynamically at runtime"
 ---
 
+import { Runtimes } from '/snippets/runtimes/landing-pages/runtimes.jsx'
+
 {/*
   This page previously contained documentation for all runtimes.
   It has been split into runtime-specific guides.
@@ -12,18 +14,14 @@ Documentation for **Loading Assets** has moved to runtime-specific pages.
 
 Select your runtime below to see the relevant guide.
 
-<CardGroup cols={3}>
-  <Card title="Web (JS)" href="/runtimes/web/loading-assets" />
-
-  <Card title="React" href="/runtimes/react/loading-assets" />
-
-  <Card title="React Native" href="/runtimes/react-native/loading-assets" />
-
-  <Card title="Flutter" href="/runtimes/flutter/loading-assets" />
-
-  <Card title="Apple (iOS/macOS)" href="/runtimes/apple/loading-assets" />
-
-  <Card title="Android" href="/runtimes/android/loading-assets" />
-
-  <Card title="Unity" href="/game-runtimes/unity/loading-assets" />
-</CardGroup>
+<Runtimes
+  runtimes={{
+    web: '/runtimes/web/loading-assets',
+    react: '/runtimes/react/loading-assets',
+    reactNative: '/runtimes/react-native/loading-assets',
+    flutter: '/runtimes/flutter/loading-assets',
+    apple: '/runtimes/apple/loading-assets',
+    android: '/runtimes/android/loading-assets',
+    unity: '/game-runtimes/unity/loading-assets'
+  }}
+/>
