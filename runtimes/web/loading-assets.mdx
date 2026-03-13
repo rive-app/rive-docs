@@ -6,12 +6,9 @@ description: "Loading and replacing assets dynamically at runtime"
 import { YouTube } from "/snippets/youtube.mdx";
 
 import Overview from '/snippets/runtimes/loading-assets/overview.mdx'
-import Methods from '/snippets/runtimes/loading-assets/methods.mdx'
-import Handling from '/snippets/runtimes/loading-assets/handling.mdx'
+import Resources from '/snippets/runtimes/loading-assets/resources.mdx'
 
 <Overview />
-<Methods />
-<Handling />
 
 ### Examples
 
@@ -44,14 +41,14 @@ Example Usage
 
 ```javascript
 import {
-Rive,
-Fit,
-Alignment,
-Layout,
-decodeFont,
-ImageAsset, // Optionally include for type checking
-FontAsset, // Optionally include for type checking
-FileAsset, // Optionally include for type checking
+    Rive,
+    Fit,
+    Alignment,
+    Layout,
+    decodeFont,
+    ImageAsset, // Optionally include for type checking
+    FontAsset, // Optionally include for type checking
+    FileAsset, // Optionally include for type checking
 } from "@rive-app/canvas";
 
 // Load a random asset by using a decodeFont API to feed to a
@@ -94,20 +91,20 @@ autoplay: true,
 // the Rive file that's being loaded in
 assetLoader: (asset, bytes) => {
     console.log("Asset properties to query", {
-    name: asset.name,
-    fileExtension: asset.fileExtension,
-    cdnUuid: asset.cdnUuid,
-    isFont: asset.isFont,
-    isImage: asset.isImage,
-    isAudio: asset.isAudio,
-    bytes,
+        name: asset.name,
+        fileExtension: asset.fileExtension,
+        cdnUuid: asset.cdnUuid,
+        isFont: asset.isFont,
+        isImage: asset.isImage,
+        isAudio: asset.isAudio,
+        bytes,
     });
 
     // If the asset has a `cdnUuid`, return false to let the runtime handle
     // loading it in from a CDN. Or if there are bytes found for the asset
     // (aka, it was embedded), return false as there's no work needed here
     if (asset.cdnUuid.length > 0 || bytes.length > 0) {
-    return false;
+        return false;
     }
 
     // Here, we load a font asset with a random font on load of the Rive file
@@ -125,6 +122,4 @@ onLoad: () => {
 });
 ```
 
-## Additional Resources
-
-<YouTube id="BrWBmZwouQQ" />
+<Resources />

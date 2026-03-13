@@ -1,54 +1,807 @@
 ---
-title: 'Data Binding'
-description: 'Binding Rive Data to Unity and vice versa'
+title: "Data Binding"
+description: "Connect your code to bound editor elements using View Models"
 ---
 
-import LegacyApiNotice from '/snippets/unity/legacy-api-notice.mdx';
-import { Demos } from '/snippets/demos.jsx'
+import Overview from "/snippets/runtimes/data-binding/overview.mdx"
+import ViewModels from "/snippets/runtimes/data-binding/view-models.mdx"
+import ViewModelInstances from "/snippets/runtimes/data-binding/view-model-instances.mdx"
+import Binding from "/snippets/runtimes/data-binding/binding.mdx"
+import AutoBinding from "/snippets/runtimes/data-binding/auto-binding.mdx"
+import Properties from "/snippets/runtimes/data-binding/properties.mdx"
+import ListingProperties from "/snippets/runtimes/data-binding/listing-properties.mdx"
+import ReadingAndWritingProperties from "/snippets/runtimes/data-binding/reading-and-writing-properties.mdx"
+import NestedPropertyPaths from "/snippets/runtimes/data-binding/nested-property-paths.mdx"
+import Observability from "/snippets/runtimes/data-binding/observability.mdx"
+import Images from "/snippets/runtimes/data-binding/images.mdx"
+import Lists from "/snippets/runtimes/data-binding/lists.mdx"
+import Artboards from "/snippets/runtimes/data-binding/artboards.mdx"
+import Enums from "/snippets/runtimes/data-binding/enums.mdx"
 
 
-Data binding allows you to establish connections between your Unity code and your Rive graphics. This creates a two-way reactive system where changes in your code affect the Rive design, and changes in the design can trigger responses in your code.
+import { YouTube } from "/snippets/youtube.mdx";
+import { Demos } from "/snippets/demos.jsx";
 
-<Demos examples={['dataBindingQuickStart']} runtime="unity" />
+<Overview />
+
+<Demos examples={["quickStart", "dataBindingQuickStart"]} runtime="unity" />
+
+<ViewModels />
+
+<Note>
+    These APIs are only needed when the `Data Binding Mode` on the RiveWidget is set to `Manual`.
+
+    Otherwise, you can configure view model binding directly in the Unity Inspector under the Data section.
+</Note>
+```csharp
+private void OnEnable()
+{
+    riveWidget.OnWidgetStatusChanged += HandleWidgetStatusChanged;
+}
+
+private void OnDisable()
+{
+    riveWidget.OnWidgetStatusChanged -= HandleWidgetStatusChanged;
+}
+
+private void HandleWidgetStatusChanged()
+{
+    if (riveWidget.Status == WidgetStatus.Loaded)
+    {
+        File file = riveWidget.File;
+
+        // Get reference by name
+        ViewModel viewModel = file.GetViewModelByName("My View Model");
+
+        // Get reference by index
+        for (int i = 0; i < file.ViewModelCount; i++)
+        {
+            ViewModel indexedVM = file.GetViewModelAtIndex(i);
+        }
+
+        // Get reference to the default view model for an artboard
+        ViewModel defaultVM = riveWidget.Artboard.DefaultViewModel;
+    }
+}
+```
+
+<ViewModelInstances />
+
+<Note>
+    These APIs are only needed when the `Data Binding Mode` on the RiveWidget is set to `Manual`.
+
+    Otherwise, you can configure view model binding directly in the Unity Inspector under the Data section.
+</Note>
+```csharp
+private void OnEnable()
+{
+    riveWidget.OnWidgetStatusChanged += HandleWidgetStatusChanged;
+}
+
+private void OnDisable()
+{
+    riveWidget.OnWidgetStatusChanged -= HandleWidgetStatusChanged;
+}
+
+private void HandleWidgetStatusChanged()
+{
+    if (riveWidget.Status == WidgetStatus.Loaded)
+    {
+        // From a ViewModel reference
+        ViewModel vm = riveWidget.File.GetViewModelByName("My View Model");
+
+        // Create blank
+        ViewModelInstance vmiBlank = vm.CreateInstance();
+
+        // Create default
+        ViewModelInstance vmiDefault = vm.CreateDefaultInstance();
+
+        // Create by index
+        for (int i = 0; i < vm.InstanceCount; i++)
+        {
+            ViewModelInstance vmiIndexed = vm.CreateInstanceAt(i);
+        }
+
+        // Create by name
+        ViewModelInstance vmiNamed = vm.CreateInstanceByName("My Instance");
+    }
+}
+```
+
+<Binding />
+
+```csharp
+// Access the RiveWidget component
+
+// Using the Unity Inspector
+// 1. Select your RiveWidget in the Inspector
+// 2. In the "Data" section, set the Data Binding Mode:
+//    - Auto Bind Default: Automatically binds the default view model instance
+//    - Auto Bind Selected: Uses a specific instance you select in the dropdown
+//    - Manual: Requires you to manually set up binding in code
+
+// Or programmatically if set to Manual or if using the low-level API
+private void OnEnable()
+{
+    riveWidget.OnWidgetStatusChanged += HandleWidgetStatusChanged;
+}
+
+private void OnDisable()
+{
+    riveWidget.OnWidgetStatusChanged -= HandleWidgetStatusChanged;
+}
+
+private void HandleWidgetStatusChanged()
+{
+    if (riveWidget.Status == WidgetStatus.Loaded)
+    {
+        ViewModel vm = riveWidget.Artboard.DefaultViewModel;
+        ViewModelInstance vmi = vm.CreateDefaultInstance();
+
+        // Applying to a state machine will automatically bind to its artboard
+        riveWidget.StateMachine.BindViewModelInstance(vmi);
+    }
+}
+
+```
+
+<AutoBinding />
 
 <Tabs>
   <Tab title="Component API (Recommended)">
-## Auto Binding in the Inspector
+    *Rive Widget** provides both visual and programmatic ways to configure auto-binding. In the Inspector, you can easily set up binding through the Data Binding Mode dropdown:
 
-The simplest way to use data binding is through the Unity Inspector. The **Rive Widget** component includes a **Data Binding Mode** setting that offers three options:
+    ![Data Binding Mode dropdown in Unity Inspector showing Auto Bind options](/images/unity/widget-db-binding-mode-dropdown.jpg)
 
-![Data Binding Mode dropdown in Unity Inspector showing Auto Bind options](/images/unity/widget-db-binding-mode-dropdown.jpg)
+    To enable auto-binding programmatically, use the following APIs:
 
-- **Auto Bind Default**: Automatically binds the default view model instance (marked as "Default" in the Rive editor)
-- **Auto Bind Selected**: Lets you select a specific instance from a dropdown
-- **Manual**: Requires you to set up binding through code (see the [Data Binding documentation](/runtimes/data-binding#binding) for details)
+    ```csharp
+
+    // Before the widget is loaded:
+
+    // Option 1: Auto bind the default instance
+    riveWidget.BindingMode = DataBindingMode.AutoBindDefault;
+
+    // Option 2: Auto bind a specific instance by name
+    riveWidget.BindingMode = DataBindingMode.AutoBindSelected;
+    riveWidget.ViewModelInstanceName = "My Instance";
+
+    // Load the Rive file after setting the binding mode
+    riveWidget.Load(riveFile, artboardName, stateMachineName);
+
+    ...
+    // Access the current instance that was auto-bound
+    ViewModelInstance boundInstance = riveWidget.StateMachine.ViewModelInstance;
+    ```
+
+  </Tab>
+  <Tab title="Legacy API">
+
+    <LegacyApiNotice />
+
+    If you choose to use the low-level API to control the render loop, you'll need to manually set up data binding in your scripts.
+
+    For reference, check this [RiveScreen example](https://github.com/rive-app/rive-unity/blob/main/examples/basic/Assets/GameRuntime/RiveScreen.cs) that demonstrates one way to implement auto binding in a custom render loop.
+
+    <Note>
+      Using the low-level API requires additional implementation effort and understanding of the Rive runtime. Unless you have a specific need to setup a custom render loop, we recommend using the Component API.
+    </Note>
+  </Tab>
+</Tabs>
+
+<Properties />
+
+<ListingProperties />
+
+```csharp
+var vm = riveWidget.File.GetViewModelByName("My View Model");
+
+// A list of properties
+var properties = vm.Properties;
+foreach (var prop in properties)
+{
+    Debug.Log($"Property: {prop.Name}, Type: {prop.Type}");
+}
+```
+
+<ReadingAndWritingProperties />
+
+```csharp
+private void OnEnable()
+{
+    riveWidget.OnWidgetStatusChanged += HandleWidgetStatusChanged;
+}
+
+private void OnDisable()
+{
+    riveWidget.OnWidgetStatusChanged -= HandleWidgetStatusChanged;
+}
+
+private void HandleWidgetStatusChanged()
+{
+    // Check if the widget is loaded before accessing the view model instance
+    if (riveWidget.Status == WidgetStatus.Loaded)
+    {
+        ViewModelInstance viewModelInstance = riveWidget.StateMachine.ViewModelInstance;
+
+        //==========================================================================
+    // STRING PROPERTIES
+    //==========================================================================
+        ViewModelInstanceStringProperty stringProperty = viewModelInstance.GetStringProperty("title");
+        Debug.Log($"String value: {stringProperty.Value}");
+        stringProperty.Value = "New Text";
+
+    //==========================================================================
+    // NUMBER PROPERTIES
+    //==========================================================================
+        ViewModelInstanceNumberProperty numberProperty = viewModelInstance.GetNumberProperty("count");
+        Debug.Log($"Number value: {numberProperty.Value}");
+        numberProperty.Value = 42.5f;
+
+    //==========================================================================
+    // BOOLEAN PROPERTIES
+    //==========================================================================
+        ViewModelInstanceBooleanProperty boolProperty = viewModelInstance.GetBooleanProperty("isActive");
+        Debug.Log($"Boolean value: {boolProperty.Value}");
+        boolProperty.Value = true;
+
+    //==========================================================================
+    // COLOR PROPERTIES
+    //==========================================================================
+        ViewModelInstanceColorProperty colorProperty = viewModelInstance.GetColorProperty("backgroundColor");
+        // Using Unity Color (float values 0-1)
+        Color currentColor = colorProperty.Value;
+        colorProperty.Value = new UnityEngine.Color(1, 0, 0, 1); // Red color
+        // Or using Color32 (byte values 0-255)
+        Color32 currentColor32 = colorProperty.Value32;
+        colorProperty.Value32 = new Color32(0, 255, 0, 255); // Green color
+
+    //==========================================================================
+    // ENUM PROPERTIES
+    //==========================================================================
+        ViewModelInstanceEnumProperty enumProperty = viewModelInstance.GetEnumProperty("category");
+        Debug.Log($"Enum current value: {enumProperty.Value}");
+        Debug.Log($"Enum available values: {string.Join(", ", enumProperty.EnumValues)}");
+        enumProperty.Value = "option_name";
+
+    //==========================================================================
+    // TRIGGER PROPERTIES
+    //==========================================================================
+        ViewModelInstanceTriggerProperty triggerProperty = viewModelInstance.GetTriggerProperty("onSubmit");
+        triggerProperty.Trigger(); // Fire the trigger
+    }
+}
+```
+
+<NestedPropertyPaths />
+
+```csharp
+if (riveWidget.Status == WidgetStatus.Loaded)
+{
+    var viewModelInstance = riveWidget.StateMachine.ViewModelInstance;
+
+    // Accessing nested view models using chaining
+    var nestedNumberByChain = viewModelInstance
+        .GetViewModelInstanceProperty("My Nested View Model")
+        .GetViewModelInstanceProperty("My Second Nested VM")
+        .GetNumberProperty("My Nested Number");
+
+    // Accessing nested properties using path notation
+    var nestedNumberByPath = viewModelInstance
+        .GetNumberProperty("My Nested View Model/My Second Nested VM/My Nested Number");
 
 
-## Working with Data Binding
+}
+```
 
-Once your **Rive Widget** is bound to a view model instance, you can access and modify its properties from your C# scripts.
+<Observability />
 
-For the full data binding API (including detailed ViewModel property types, lists, and artboard binding), see the runtime data binding documentation:
+```csharp
+private ViewModelInstanceNumberProperty numberProperty;
+private ViewModelInstanceStringProperty stringProperty;
+private ViewModelInstanceBooleanProperty boolProperty;
+private ViewModelInstanceColorProperty colorProperty;
+private ViewModelInstanceEnumProperty enumProperty;
+private ViewModelInstanceTriggerProperty triggerProperty;
 
-<CardGroup cols={1}>
-  <Card title="Data Binding Fundamentals" href="/runtimes/data-binding">
-    View model concepts, property types, lists, artboards, and runtime examples across platforms.
-  </Card>
-</CardGroup>
+private void OnEnable()
+{
+    riveWidget.OnWidgetStatusChanged += HandleWidgetStatusChanged;
+}
 
-Explore the **RewardsDataBinding** scene in the [getting-started example project](https://github.com/rive-app/rive-unity-examples) for a practical implementation in Unity.
+private void OnDisable()
+{
+    riveWidget.OnWidgetStatusChanged -= HandleWidgetStatusChanged;
+}
 
-</Tab>
-<Tab title="Legacy API">
+private void HandleWidgetStatusChanged()
+{
+    if (riveWidget.Status == WidgetStatus.Loaded)
+    {
+        ViewModelInstance viewModelInstance = riveWidget.StateMachine.ViewModelInstance;
 
-<LegacyApiNotice />
+        // Add listeners to properties
+        numberProperty = viewModelInstance.GetNumberProperty("count");
+        numberProperty.OnValueChanged += OnNumberPropertyChanged;
 
- If you choose to use the low-level API to control the render loop, you'll need to manually set up data binding in your scripts.
+        stringProperty = viewModelInstance.GetStringProperty("title");
+        stringProperty.OnValueChanged += OnStringPropertyChanged;
 
- For reference, check this [RiveScreen example](https://github.com/rive-app/rive-unity/blob/main/examples/basic/Assets/GameRuntime/RiveScreen.cs) that demonstrates one way to implement auto binding in a custom render loop.
+        boolProperty = viewModelInstance.GetBooleanProperty("isActive");
+        boolProperty.OnValueChanged += OnBoolPropertyChanged;
 
-<Note>
-Using the low-level API requires additional implementation effort and understanding of the Rive runtime. Unless you have a specific need to setup a custom render loop, we recommend using the Component API.
-</Note>
-</Tab>
+        colorProperty = viewModelInstance.GetColorProperty("backgroundColor");
+        colorProperty.OnValueChanged += OnColorPropertyChanged;
+
+        enumProperty = viewModelInstance.GetEnumProperty("category");
+        enumProperty.OnValueChanged += OnEnumPropertyChanged;
+
+        triggerProperty = viewModelInstance.GetTriggerProperty("onSubmit");
+        triggerProperty.OnTriggered += OnTriggerPropertyFired;
+
+
+    }
+}
+
+private void OnNumberPropertyChanged(float newValue)
+{
+    Debug.Log($"Number changed to: {newValue}");
+}
+
+private void OnStringPropertyChanged(string newValue)
+{
+    Debug.Log($"String changed to: {newValue}");
+}
+
+private void OnBoolPropertyChanged(bool newValue)
+{
+    Debug.Log($"Boolean changed to: {newValue}");
+}
+
+private void OnColorPropertyChanged(UnityEngine.Color newValue)
+{
+    Debug.Log($"Color changed to: {ColorUtility.ToHtmlStringRGBA(newValue)}");
+}
+
+private void OnEnumPropertyChanged(string newValue)
+{
+    Debug.Log($"Enum changed to: {newValue}");
+}
+
+private void OnTriggerPropertyFired()
+{
+    Debug.Log("Trigger fired!");
+}
+
+private void OnDestroy()
+{
+    // You should remove listeners when no longer needed,
+    numberProperty.OnValueChanged -= OnNumberPropertyChanged;
+    stringProperty.OnValueChanged -= OnStringPropertyChanged;
+    boolProperty.OnValueChanged -= OnBoolPropertyChanged;
+    colorProperty.OnValueChanged -= OnColorPropertyChanged;
+    enumProperty.OnValueChanged -= OnEnumPropertyChanged;
+    triggerProperty.OnTriggered -= OnTriggerPropertyFired;
+}
+```
+
+<Images />
+
+```csharp
+[SerializeField] private ImageOutOfBandAsset m_lightImageAsset;
+[SerializeField] private ImageOutOfBandAsset m_darkImageAsset;
+
+private ViewModelInstanceImageProperty imageProperty;
+private bool isDarkMode = false;
+
+private void OnEnable()
+{
+    riveWidget.OnWidgetStatusChanged += HandleWidgetStatusChanged;
+}
+
+private void OnDisable()
+{
+    riveWidget.OnWidgetStatusChanged -= HandleWidgetStatusChanged;
+}
+
+private void HandleWidgetStatusChanged()
+{
+    if (riveWidget.Status == WidgetStatus.Loaded)
+    {
+        m_lightImageAsset.Load();
+        m_darkImageAsset.Load();
+        ViewModelInstance viewModelInstance = riveWidget.StateMachine.ViewModelInstance;
+
+        // Get the image property by name
+        imageProperty = viewModelInstance.GetImageProperty("profileImage");
+        // or alternatively:
+        // imageProperty = viewModelInstance.GetProperty<ViewModelInstanceImageProperty>("profileImage");
+
+        // Set up change callback
+        imageProperty.OnValueChanged += OnImageChanged;
+
+        // Set initial image (light mode)
+        imageProperty.Value = m_lightImageAsset;
+    }
+}
+
+private void OnImageChanged()
+{
+    Debug.Log("Image updated!");
+}
+
+// Example method to toggle between light and dark mode images
+public void ToggleTheme()
+{
+    if (imageProperty != null)
+    {
+        isDarkMode = !isDarkMode;
+        imageProperty.Value = isDarkMode ? m_darkImageAsset : m_lightImageAsset;
+    }
+}
+
+// Example method to clear the image
+public void ClearImage()
+{
+    if (imageProperty != null)
+    {
+        imageProperty.Value = null;
+    }
+}
+
+private void OnDestroy()
+{
+    m_lightImageAsset.Unload();
+    m_darkImageAsset.Unload();
+
+    // Remove the event listener
+    if (imageProperty != null)
+    {
+        imageProperty.OnValueChanged -= OnImageChanged;
+    }
+}
+```
+
+For a demo of image data binding in Unity, see the **Image Data Binding** scene in the [Rive Unity Examples repository](https://github.com/rive-app/rive-unity-examples).
+
+<Lists />
+
+```csharp
+private ViewModelInstanceListProperty listProperty;
+
+private void OnEnable()
+{
+    riveWidget.OnWidgetStatusChanged += HandleWidgetStatusChanged;
+}
+
+private void OnDisable()
+{
+    riveWidget.OnWidgetStatusChanged -= HandleWidgetStatusChanged;
+}
+
+private void HandleWidgetStatusChanged()
+{
+    if (riveWidget.Status == WidgetStatus.Loaded)
+    {
+        ViewModelInstance viewModelInstance = riveWidget.StateMachine.ViewModelInstance;
+
+        // Get the list property by name
+        listProperty = viewModelInstance.GetListProperty("todos");
+        // or alternatively:
+        // var listProperty = viewModelInstance.GetProperty<ViewModelInstanceListProperty>("todos");
+
+        Debug.Log($"List count: {listProperty.Count}");
+
+        // Set up change callback
+        listProperty.OnChanged += OnListChanged;
+
+        // Get the view model for creating new instances
+        var todoItemVM = riveWidget.File.GetViewModelByName("TodoItem");
+
+        // Create a blank instance from the view model
+        var newTodo = todoItemVM.CreateInstance();
+        newTodo.GetStringProperty("description").Value = "Buy groceries";
+
+        // Add the newly created instance to the list
+        listProperty.Add(newTodo);
+
+        // Insert an instance at a specific index
+        var anotherTodo = todoItemVM.CreateInstance();
+        listProperty.Insert(anotherTodo, 0); // Insert at beginning
+
+        // Access items by index
+        for (int i = 0; i < listProperty.Count; i++)
+        {
+            var item = listProperty.GetInstanceAt(i);
+            Debug.Log($"Item {i}: {item}");
+        }
+
+        // Remove a specific instance from the list
+        listProperty.Remove(newTodo);
+
+        // Remove instance at index
+        listProperty.RemoveAt(0);
+
+        // Swap two instances in the list at index 0 and 1
+        if (listProperty.Count > 1)
+        {
+            listProperty.Swap(0, 1);
+        }
+    }
+}
+
+private void OnListChanged()
+{
+    Debug.Log("List updated!");
+}
+
+private void OnDestroy()
+{
+    if (listProperty != null)
+    {
+        listProperty.OnChanged -= OnListChanged;
+    }
+}
+```
+
+<Artboards />
+
+Artboard properties work with the `BindableArtboard` class, which is different from the regular `Artboard` class in the package.
+
+`BindableArtboard` is a runtime wrapper for interacting with artboards through data binding. These instances reference existing artboards in your file, so no additional setup is required in the Rive Editor.
+
+```csharp
+[SerializeField] private Asset m_externalRiveAsset;
+
+private ViewModelInstanceArtboardProperty artboardProperty;
+private File externalFile;
+
+private void OnEnable()
+{
+    riveWidget.OnWidgetStatusChanged += HandleWidgetStatusChanged;
+}
+
+private void OnDisable()
+{
+    riveWidget.OnWidgetStatusChanged -= HandleWidgetStatusChanged;
+}
+
+private void HandleWidgetStatusChanged()
+{
+    if (riveWidget.Status == WidgetStatus.Loaded)
+    {
+        ViewModelInstance viewModelInstance = riveWidget.StateMachine.ViewModelInstance;
+
+        // Get the artboard property by name
+        artboardProperty = viewModelInstance.GetArtboardProperty("artboard_1");
+        // or alternatively:
+        // artboardProperty = viewModelInstance.GetProperty<ViewModelInstanceArtboardProperty>("artboard_1");
+
+        // Set up change callback
+        artboardProperty.OnValueChanged += OnArtboardChanged;
+
+        // Set artboard from same file.
+        var blueArtboard = riveWidget.File.BindableArtboard("ArtboardBlue");
+        artboardProperty.Value = blueArtboard;
+
+        // Load external file if needed
+        if (m_externalRiveAsset != null)
+        {
+            externalFile = File.Load(m_externalRiveAsset);
+        }
+    }
+}
+
+private void OnArtboardChanged()
+{
+    Debug.Log("Artboard changed");
+}
+
+// Example method to assign a different artboard from the same file
+public void SwitchToRedArtboard()
+{
+    if (artboardProperty != null)
+    {
+        var redArtboard = riveWidget.File.BindableArtboard("ArtboardRed");
+        artboardProperty.Value = redArtboard;
+    }
+}
+
+// Example method to assign an artboard from a different file
+// This is useful for creating modular components that can be reused across different Rive files.
+public void SwitchToExternalArtboard()
+{
+    if (artboardProperty != null && externalFile != null)
+    {
+        var externalArtboard = externalFile.BindableArtboard("SomeArtboard");
+        artboardProperty.Value = externalArtboard;
+    }
+}
+
+private void OnDestroy()
+{
+    // Clean up external file
+    externalFile?.Dispose();
+
+    // Remove the event listener
+    if (artboardProperty != null)
+    {
+        artboardProperty.OnValueChanged -= OnArtboardChanged;
+    }
+}
+```
+
+### Using Custom View Model Instances with Bindable Artboards
+
+You can link a custom `ViewModelInstance` to a bindable artboard, giving you control over the data being used by that artboard.
+
+To create a bindable artboard with a custom view model instance, use the overload on the `File` instance that contains the artboard:
+
+```csharp
+var file = riveWidget.File;
+var viewModelInstance = file.GetViewModelByName("CharacterData").CreateInstance();
+var bindableArtboard = file.BindableArtboard("FeaturedCharacterCard", viewModelInstance);
+```
+
+**Example: Featured Content Slot**
+
+Imagine you have a home screen with a single "featured" content area that can display different types of promotions. Each content type uses a **different artboard with its own unique data structure**. Your main UI file contains the home screen layout with a featured content slot that you can populate dynamically:
+
+```csharp
+private ViewModelInstanceArtboardProperty featuredContentSlot;
+
+private ViewModelInstance characterData;
+private ViewModelInstance eventData;
+private ViewModelInstance offerData;
+
+private BindableArtboard featuredCharacter;
+private BindableArtboard limitedEvent;
+private BindableArtboard specialOffer;
+
+private void HandleWidgetStatusChanged()
+{
+    if (riveWidget.Status == WidgetStatus.Loaded)
+    {
+        ViewModelInstance viewModelInstance = riveWidget.StateMachine.ViewModelInstance;
+
+        // Get the featured content slot from your main UI
+        featuredContentSlot = viewModelInstance.GetArtboardProperty("featuredContentSlot");
+
+        // Featured Character has its own unique data structure
+        var characterViewModel = riveWidget.File.GetViewModelByName("CharacterData");
+        characterData = characterViewModel.CreateInstance();
+        var charName = characterData.GetStringProperty("name");
+        var charClass = characterData.GetStringProperty("class");
+        var attackPower = characterData.GetNumberProperty("attackPower");
+        var specialAbility = characterData.GetStringProperty("specialAbility");
+        var isUnlocked = characterData.GetBoolProperty("unlocked");
+        charName.Value = "Shadowblade";
+        charClass.Value = "Assassin";
+        attackPower.Value = 92;
+        specialAbility.Value = "Phantom Strike";
+        isUnlocked.Value = false;
+
+        // Limited-Time Event has its own unique data structure
+        var eventViewModel = riveWidget.File.GetViewModelByName("EventData");
+        eventData = eventViewModel.CreateInstance();
+        var eventTitle = eventData.GetStringProperty("title");
+        var eventDescription = eventData.GetStringProperty("description");
+        var hoursRemaining = eventData.GetNumberProperty("hoursRemaining");
+        var participantCount = eventData.GetNumberProperty("participants");
+        var isActive = eventData.GetBoolProperty("active");
+        eventTitle.Value = "Dragon Raid Weekend";
+        eventDescription.Value = "Team up to defeat the ancient dragon";
+        hoursRemaining.Value = 36;
+        participantCount.Value = 1247;
+        isActive.Value = true;
+
+        // Special Offer has its own unique data structure
+        var offerViewModel = riveWidget.File.GetViewModelByName("OfferData");
+        offerData = offerViewModel.CreateInstance();
+        var offerName = offerData.GetStringProperty("itemName");
+        var originalPrice = offerData.GetNumberProperty("originalPrice");
+        var discountPercent = offerData.GetNumberProperty("discount");
+        var currency = offerData.GetStringProperty("currencyType");
+        var timeLeftHours = offerData.GetNumberProperty("expiresInHours");
+        offerName.Value = "Legendary Weapon Pack";
+        originalPrice.Value = 2999;
+        discountPercent.Value = 50;
+        currency.Value = "Gems";
+        timeLeftHours.Value = 12;
+
+        // Create bindable artboards. Each uses a DIFFERENT artboard with unique design
+        featuredCharacter = riveWidget.File.BindableArtboard("FeaturedCharacterCard", characterData);
+        limitedEvent = riveWidget.File.BindableArtboard("EventBanner", eventData);
+        specialOffer = riveWidget.File.BindableArtboard("OfferCard", offerData);
+
+        // Start by showing the featured character
+        featuredContentSlot.Value = featuredCharacter;
+    }
+}
+
+// Switch to showing the limited-time event
+public void ShowLimitedEvent()
+{
+    if (featuredContentSlot != null && limitedEvent != null)
+    {
+        featuredContentSlot.Value = limitedEvent;
+    }
+}
+
+// Switch to showing the special offer
+public void ShowSpecialOffer()
+{
+    if (featuredContentSlot != null && specialOffer != null)
+    {
+        featuredContentSlot.Value = specialOffer;
+    }
+}
+
+// Update event countdown timer
+public void UpdateEventTimer(float deltaTime)
+{
+    if (eventData != null)
+    {
+        var hoursRemaining = eventData.GetNumberProperty("hoursRemaining");
+        hoursRemaining.Value -= (deltaTime / 3600f); // Convert seconds to hours
+    }
+}
+
+private void OnDestroy()
+{
+    // Clean up view model instances
+    characterData?.Dispose();
+    eventData?.Dispose();
+    offerData?.Dispose();
+
+    // Clean up bindable artboards
+    featuredCharacter?.Dispose();
+    limitedEvent?.Dispose();
+    specialOffer?.Dispose();
+
+    // Remove event listeners if any were added
+    if (featuredContentSlot != null)
+    {
+        featuredContentSlot.OnValueChanged -= OnArtboardChanged;
+    }
+}
+```
+
+<Enums />
+
+```csharp
+var viewModelInstance = riveWidget.StateMachine.ViewModelInstance;
+
+// Accessing enums from the file
+var enums = riveWidget.File.ViewModelEnums;
+foreach (var enumType in enums)
+{
+    Debug.Log($"Enum: {enumType.Name}");
+    foreach (var value in enumType.Values)
+    {
+        Debug.Log($" - Value: {value}");
+    }
+}
+
+...
+// Using enum properties
+var enumProperty = viewModelInstance.GetEnumProperty("category");
+Debug.Log($"Current value: {enumProperty.Value}");
+Debug.Log($"Available values: {string.Join(", ", enumProperty.EnumValues)}");
+enumProperty.Value = enumProperty.EnumValues[0]; // Set to first value
+```
+
+# Examples
+
+<Tabs>
+    <Tab title="Compose">
+    See the following examples:
+    - [Data Binding Overview](https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeDataBindingActivity.kt)
+    - [Data Binding Images](https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeImageBindingActivity.kt)
+    - [Data Binding Artboards](https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeArtboardBindingActivity.kt)
+    - [Data Binding Lists](https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeListActivity.kt)
+    </Tab>
+    <Tab title="Legacy">
+    See the [data binding overview example](https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/LegacyDataBindingActivity.kt).
+    </Tab>
 </Tabs>

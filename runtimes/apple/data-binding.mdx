@@ -21,332 +21,596 @@ import Enums from "/snippets/runtimes/data-binding/enums.mdx"
 
 import { YouTube } from "/snippets/youtube.mdx";
 import { Demos } from "/snippets/demos.jsx";
+import { Apple } from "/snippets/constants.mdx"
 
 <Overview />
 
-<Demos examples={["quickStart"]} runtime="apple" />
+<Demos examples={["dataBindingQuickStart"]} runtime="apple" />
 
 <ViewModels />
 
-View models are not their own type; rather, they are a source when creating a view model instance from a `File`.
+<Tabs>
+    <Tab title={Apple.currentRuntimeName}>
+    View models are not their own type; rather, they are a source when creating a view model instance from a `File`.
 
-You can define the source of a view model via the `ViewModelSource` type.
+    You can define the source of a view model via the `ViewModelSource` type.
 
-```swift
-case artboardDefault(Artboard) // References the default view model for an Artboard
-case name(String) // References a view model from a file by name
-```
+    ```swift
+    case artboardDefault(Artboard) // References the default view model for an Artboard
+    case name(String) // References a view model from a file by name
+    ```
 
-These sources are used in conjunction with getting a view model instance. See [View Model Instances](#view-model-instances) for more information.
-</Tab>
-<Tab title={Apple.legacyRuntimeName}>
-```swift
-let riveViewModel = RiveViewModel(...)
-let file = riveViewModel.riveModel!.riveFile
+    These sources are used in conjunction with getting a view model instance. See [View Model Instances](#view-model-instances) for more information.
+    </Tab>
+    <Tab title={Apple.legacyRuntimeName}>
+    ```swift
+    let riveViewModel = RiveViewModel(...)
+    let file = riveViewModel.riveModel!.riveFile
 
-// Data binding view model by name
-let viewModelByName = file.viewModelNamed("...")
+    // Data binding view model by name
+    let viewModelByName = file.viewModelNamed("...")
 
-// Data binding view model by index
-for index in 0..<file.viewModelCount {
-    let viewModelByIndex = file.viewModel(at: index)
-}
+    // Data binding view model by index
+    for index in 0..<file.viewModelCount {
+        let viewModelByIndex = file.viewModel(at: index)
+    }
 
-// Default data binding view model for an artboard
-let artboard = riveViewModel.riveModel!.artboard
-let viewModelForArtboard = file.viewModel(for: artboard)
-```
+    // Default data binding view model for an artboard
+    let artboard = riveViewModel.riveModel!.artboard
+    let viewModelForArtboard = file.viewModel(for: artboard)
+    ```
+    </Tab>
+</Tabs>
 
 <ViewModelInstances />
 
-```typescript
-// Create a blank instance from a view model (ViewModel)
-const vmiBlank = viewModel.instance();
+<Tabs>
+    <Tab title={Apple.currentRuntimeName}>
+        The following section assumes that you have read through the [Apple](/runtimes/apple/apple) overview.
 
-// Create a default instance from a view model (ViewModel)
-const vmiDefault = viewModel.defaultInstance();
+        ```swift
+        // From a file
+        let file: File = ...
 
-// Create an instance by index from a view model (ViewModel)
-for (let i = 0; i < viewModel.instanceCount; i++) {
-    const vmiIndexed = viewModel.instanceByIndex(i);
-}
+        // When using a view model by name:
+        // A blank view model instance
+        var blankInstance = try await file.createViewModelInstance(from: .blank(from: .name("ViewModel")))
+        // The default instance for the view model
+        var defaultInstance = try await file.createViewModelInstance(from: .name("ViewModel"))
+        // An instance by name from the view model
+        var namedInstance = try await file.createViewModelInstance(from: .name("Instance", from: .name("ViewModel")))
 
-// Create an instace by name from a view model (ViewModel)
-const vmiNamed = viewModel.instanceByName("My Instance");
-```
+        // Alternatively, using the default view model for an artboard
+        let artboard: Artboard = ...
+        // A blank view model instance
+        blankInstance = try await file.createViewModelInstance(from: .blank(from: .artboardDefault(Artboard)))
+        // The default instance for the view model
+        defaultInstance = try await file.createViewModelInstance(from: .viewModelDefault(from: .artboardDefault(Artboard)))
+        // An instance by name from the view model
+        namedInstance = try await file.createViewModelInstance(from: .name("Instance", from: .artboardDefault(Artboard)))
+        ```
+    </Tab>
+        <Tab title={Apple.legacyRuntimeName}>
+        ```swift
+        let riveViewModel = RiveViewModel(...)
+        let viewModel = riveViewModel.riveModel!.riveFile.viewModelNamed("...")!
+
+        // Create blank
+        let blankInstance = viewModel.createInstance()
+
+        // Create default
+        let defaultInstance = viewModel.createDefaultInstance()
+
+        // Create by index
+        for index in 0..<viewModel.instanceCount {
+            let instanceByIndex = viewModel.createInstance(fromIndex: index)
+        }
+
+        // Create by name
+        for name in viewModel.instanceNames {
+            let instanceByName = viewModel.createInstance(fromName: name)
+        }
+        ```
+    </Tab>
+</Tabs>
 
 <Binding />
 
-```typescript
-const r = new rive.Rive({
-    autoBind: false, // This should be set to false (default)
-    onLoad: () => {
-        const vm = r.viewModelByName("My View Model");
-        const vmi = vm.instanceByName("My Instance");
+<Tabs>
+    <Tab title={Apple.currentRuntimeName}>
+        Given the following example code:
+        ```swift
+        let file: File = ...
+        let artboard: Artboard = try await file.createArtboard()
+        let stateMachine: StateMachine = try await artboard.createStateMachine()
+        let viewModelInstance = try await file.createViewModelInstance(...)
+        ```
 
-        // Manually bind by applying the instance to the state machine and artboard
-        r.bindViewModelInstance(vmi);
-    }
-});
-```
+        You can manually bind the view model instance to the state machine:
+        ```swift
+        stateMachine.bindViewModelInstance(viewModelInstance)
+        ```
+
+        Alternatively, you can utilize the `Rive` type to (automatically) data bind a view model instance:
+        ```swift
+        // Automatically find a default view model instance to bind. This is the default value, if you do not pass in a dataBind argument.
+        var rive = try await Rive(file: file, artboard: artboard, stateMachine: stateMachine, dataBind: .auto)
+        // Bind a view model instance
+        var rive = try await Rive(file: file, artboard: artboard, stateMachine: stateMachine, dataBind: .viewModelInstance(viewModelInstance))
+        // Do not bind. This assumes you have manually bound a view model instance earlier
+        var rive = try await Rive(file: file, artboard: artboard, stateMachine: stateMachine, dataBind: .none)
+        ```
+    </Tab>
+    <Tab title={Apple.legacyRuntimeName}>
+        ```swift
+        let riveViewModel = RiveViewModel(...)
+        let artboard = riveViewModel.riveModel!.artboard,
+        let instance = riveViewModel.riveModel!.riveFile.defaultViewModel(for: artboard).createDefaultInstance()!
+
+        // Apply the instance to the state machine (preferred)
+        // Applying to a state machine will automatically bind to its artboard
+        riveViewModel.riveModel!.stateMachine.bind(instance)
+
+        // Alternatively, apply the instance to the artboard
+        artboard.bind(viewModelInstance: instance)
+        ```
+    </Tab>
+</Tabs>
 
 <AutoBinding />
 
- ```typescript {4}
-const r = new rive.Rive({
-    src: "my_rive_file.riv",
-    canvas: document.getElementById("canvas"),
-    autoBind: true,
-    onLoad: () => {
-        // Access the current instance that was auto-bound
-        let boundInstance = r.viewModelInstance;
-    }
-});
-```
+<Tabs>
+    <Tab title={Apple.currentRuntimeName}>
+        Given the following example code:
+        ```swift
+        let file: File = ...
+        let artboard: Artboard = try await file.createArtboard()
+        let stateMachine: StateMachine = try await artboard.createStateMachine()
+        let viewModelInstance = try await file.createViewModelInstance(...)
+        ```
+
+        When creating a `Rive` object, you can elect to auto bind:
+        ```swift
+        // Automatically find a default view model instance to bind. This is the default value, if you do not pass in a dataBind argument.
+        var rive = try await Rive(file: file, artboard: artboard, stateMachine: stateMachine, dataBind: .auto)
+        // or
+        var rive = try await Rive(file: file, artboard: artboard, stateMachine: stateMachine)
+        ```
+    </Tab>
+    <Tab title={Apple.legacyRuntimeName}>
+        ```swift
+        let riveViewModel = RiveViewModel(...)
+        riveViewModel.riveModel?.enableAutoBind { instance in
+            // Store a reference to `instance` to later access properties
+            // The instance may change as state machines and artboards change
+        }
+
+        // If you'd like to disable autoBind after enabling…
+        riveViewModel.riveModel!.disableAutoBind()
+        ```
+    </Tab>
+</Tabs>
 
 <Properties />
 
 <ListingProperties />
 
-```typescript
-    // A list of properties on a view model (ViewModel)
-    const properties = viewModel.properties;
-    console.log(properties);
-```
+<Tabs>
+    <Tab title={Apple.currentRuntimeName}>
+        ```swift
+        let file: File = ...
+        let properties = try await file.getProperties(of: "ViewModel")
+        for property in properties {
+            print(property.type) // enum of string, number, boolean, etc
+            print(property.name) // The name of the property within the view model
+            print(property.metaData) // Additional metadata for the property, if available
+        }
+        ```
+    </Tab>
+    <Tab title={Apple.legacyRuntimeName}>
+        ```swift
+        let riveViewModel = RiveViewModel(...)
+        let viewModel = riveViewModel.riveModel!.file.viewModelNamed(...)!
+        for property in viewModel.properties {
+            print(property.type) // String, number, boolean, etc
+            print(property.name) // The name of the property within the view model
+        }
+        ```
+    </Tab>
+</Tabs>
 
 <ReadingAndWritingProperties />
 
-```typescript
-const r = new rive.Rive({
-    autoBind: true,
-    onLoad: () => {
-        // Access the current instance that was auto-bound
-        let vmi = r.viewModelInstance;
+<Tabs>
+    <Tab title={Apple.currentRuntimeName}>
+        Property types are a very thin wrapper around the path and return type of a property.
 
-        // Booleans
-        const booleanProperty = vmi.boolean("My Boolean Property");
-        const booleanValue = booleanProperty.value;
-        booleanProperty.value = true;
+        All property APIs (e.g setters, getters, and triggers) are available as part of a `ViewModelInstance` object.
+
+        <CodeGroup>
+            ```swift String
+            let file: File = ...
+            let viewModelInstance = try await file.createViweModelInstance(...)
+
+            // String
+            let stringProperty = StringProperty(path: "path/to/string")
+            let stringValue = try await viewModelInstance.value(of: stringProperty)
+            viewModelInstance.setValue(of: stringProperty, to: "value")
+            ```
+
+            ```swift Number
+            let file: File = ...
+            let viewModelInstance = try await file.createViweModelInstance(...)
+
+            let numberProperty = NumberProperty(path: "path/to/number")
+            let numberValue = try await viewModelInstance.value(of: numberProperty)
+            viewModelInstance.setValue(of: numberValue, to: 9001)
+            ```
+
+            ```swift Bool
+            let file: File = ...
+            let viewModelInstance = try await file.createViweModelInstance(...)
+
+            let boolProperty = BoolProperty(path: "path/to/bool")
+            let boolValue = try await viewModelInstance.value(of: boolProperty)
+            viewModelInstance.setValue(of: boolProperty, to: true)
+            ```
+
+            ```swift Color
+            let file: File = ...
+            let viewModelInstance = try await file.createViweModelInstance(...)
+
+            let colorProperty = ColorProperty(path: "path/to/color")
+            let colorValue = try await viewModelInstance.value(of: colorProperty)
+            viewModelInstance.setValue(of: colorProperty, to: Color(red: 255, green: 255, blue: 255, alpha: 255))
+            ```
+
+            ```swift Enum
+            let file: File = ...
+            let viewModelInstance = try await file.createViweModelInstance(...)
+
+            let enumProperty = EnumProperty(path: "path/to/enum")
+            let enumValue = try await viewModelInstance.value(of: enumProperty)
+            viewModelInstance.setValue(of: enumProperty, to: "value")
+            ```
+
+            ```swift Trigger
+            let file: File = ...
+            let viewModelInstance = try await file.createViweModelInstance(...)
+
+            let triggerProperty = TriggerProperty(path: "path/to/trigger")
+            viewModelInstance.fire(trigger: triggerProperty)
+            ```
+        </CodeGroup>
+    </Tab>
+    <Tab title={Apple.legacyRuntimeName}>
+        ```swift
+        let riveViewModel = RiveViewModel(...)
+
+        var viewModelInstance: RiveDataBindingViewModel.Instance!
+
+        // You can get the view model instance when enabling auto binding
+        riveViewModel.riveModel?.enableAutoBind { instance in
+            // Store a reference to instance
+            viewModelInstance = instance
+        }
+
+        // Alternatively, you can create a view model instance manually
+        viewModelInstance = riveViewModel.riveModel!.riveFile.viewModelNamed("...")!.createDefaultInstance()!
 
         // Strings
-        const stringProperty = vmi.string("My String Property");
-        const stringValue = stringProperty.value;
-        stringProperty.value = "Hello, Rive!";
+        let stringProperty = instance.stringProperty(fromPath: "...")!
+        // Updating its value
+        stringProperty.value = "Hello, Rive"
+        // Get its value
+        print(stringProperty.value)
+
+        // You can also set and get values without storing a strong reference
+        instance.stringProperty(fromPath: "...").value = "Hello again, Rive"
 
         // Numbers
-        const numberProperty = vmi.number("My Number Property");
-        const numberValue = numberProperty.value;
-        numberProperty.value = 10;
+        let numberProperty = instance.numberProperty(fromPath: "...")!
+        // Updating its value
+        numberProperty.value = 1337
+        // Get its value
+        print(numberProperty.value)
+
+        // You can also set and get values without storing a strong reference
+        instance.numberProperty(fromPath: "...").value = 1337
+
+        // Booleans
+        let booleanProperty = instance.booleanProperty(fromPath: "...")!
+        // Updating its value
+        booleanProperty.value = true
+        // Get its value
+        print(booleanProperty.value)
+
+        // You can also set and get values without storing a strong reference
+        instance.booleanProperty(fromPath: "...").value = true
 
         // Colors
-        const colorProperty = vmi.color("My Color Property");
-        const colorValue = colorProperty.value;
-        colorProperty.value = 0xFF000000; // Set color to black with 100% opacity
+        let colorProperty = instance.colorProperty(fromPath: "...")!
+        // Updating its value, which is a UIColor/NSColor, so all static helpers apply.
+        colorProperty.value = .red
+        // Get its value
+        print(colorProperty.value)
 
-        // Other ways to set color
-        colorProperty.rgb(255, 0, 0); // Set RGB to red
-        colorProperty.rbga(255, 0, 0, 128); // Set RGBA to red with 50% opacity
-        colorProperty.argba(128, 255, 0, 0); // Set RGBA to red with 50% opacity
-        colorProperty.opacity(0.5); // Set opacity to 50%
+        // You can also set and get values without storing a strong reference
+        instance.colorProperty(fromPath: "...").value = .red
 
-        // Triggers
-        const triggerProperty = vmi.trigger("My Trigger Property");
-        triggerProperty.trigger();
+        // Enums
+        let enumProperty = instance.enumProperty(fromPath: "...")!
+        // Updating its value
+        enumProperty.value = "Foo"
+        // Get its value
+        print(enumProperty.value)
+        // Print all possible values
+        print(enumProperty.values)
 
-        // Enumerations
-        const enumProperty = vmi.enum("My Enum Property");
-        const enumValue = enumProperty.value;
-        enumProperty.value = "Option1";
-    }
-});
-```
+        // You can also set and get values without storing a strong reference
+        instance.enumProperty(fromPath: "...").value = "Foo"
+
+        // Trigger
+        let triggerProperty = instance.triggerProperty(fromPath: "...")!
+        // Fire the trigger
+        triggerProperty.trigger()
+        ```
+    </Tab>
+</Tabs>
 
 <NestedPropertyPaths />
 
-```typescript
-const r = new rive.Rive({
-    autoBind: true,
-    onLoad: () => {
-        // Access the current instance that was auto-bound
-        let vmi = r.viewModelInstance;
+<Tabs>
+    <Tab title={Apple.currentRuntimeName}>
+        Property types are no longer reference types, and require the name or full path to a property when initializing the property value type. There is no longer an API to chain nested properties.
 
-        const nestedNumberByChain = vmi
-            .viewModel("My Nested View Model")
-            .viewModel("My Second Nested VM")
-            .number("My Nested Number");
+        See [Properties](#properties) for usage details.
+    </Tab>
+    <Tab title={Apple.legacyRuntimeName}>
+        ```swift
+        let riveViewModel = RiveViewModel(...)
 
-        const nestedNumberByPath = vmi.number("My Nested View Model/My Second Nested VM/My Nested Number");
-    }
-});
-```
+        var viewModelInstance: RiveDataBindingViewModel.Instance!
+
+        // You can get the view model instance when enabling auto binding
+        riveViewModel.riveModel?.enableAutoBind { instance in
+            // Store a reference to instance
+            viewModelInstance = instance
+        }
+
+        // Alternatively, you can create a view model instance manually
+        viewModelInstance = riveViewModel.riveModel!.riveFile.viewModelNamed("...")!.createDefaultInstance()!
+
+        let nestedNumberByChain = instance
+                                    .viewModelInstanceProperty(fromPath: "Nested View Model")
+                                    .viewModelInstanceProperty(fromPath: "Another Nested View Model")
+                                    .numberProperty(fromPath: "Number")
+
+        let nestedNumberByPath = instance.numberProperty(fromPath: "Nested View Model/Another Nested View Model/Number")
+        ```
+    </Tab>
+</Tabs>
 
 <Observability />
 
-Adding an observer to a property is done by calling the `on` method on the property.
+<Tabs>
+    <Tab title={Apple.currentRuntimeName}>
+        Property listeners utilize Swift Concurrency's async throwing stream API. If a property returns a value, you can listen to its changes by calling the `valueStream(of:)` method on a `ViewModelInstance` object.
 
-    ```typescript
-    public on(callback: EventCallback)
-    ```
-
-    The observer can be removed by calling the `off` method on the property and passing the callback function. Alternatively, you can call `off()` without any arguments to remove all observers.
-
-    ```typescript
-    public off(callback?: EventCallback)
-    ```
-
-    Example:
-
-    ```typescript
-    const r = new rive.Rive({
-        autoBind: true,
-        onLoad: () => {
-            // Access the current instance that was auto-bound
-            let vmi = r.viewModelInstance;
-            const numberProperty = vmi.number("My Number Property");
-            // Observe
-            numberProperty.on((event) => {
-                console.log(event.data);
-            });
-            // Remove all listener when done
-            numberProperty.off();
+        ```swift
+        let file: File = ...
+        let viewModelInstance = try await file.createViewModelInstance(...)
+        let stringProperty = StringProperty(path: "path/to/string")
+        let valueStream = viewModelInstance.valueStream(of: stringProperty)
+        do {
+            for try await value in valueStream {
+                print(value)
+            }
+        } catch let error as ViewModelInstanceError {
+            // The thrown error should always be a ViewModelInstanceError type
+            print(error)
+        } catch {
+            print(error)
         }
-    });
-    ```
+        ```
+
+        For triggers, you can listen to them by calling the `stream(of:)` method on a `ViewModelInstance` object. This returns a stream of `Void` values, which can be ignored.
+
+        ```swift
+        let file: File = ...
+        let viewModelInstance = try await file.createViewModelInstance(...)
+        let triggerProperty = TriggerProperty(path: "path/to/trigger")
+        let triggerStream = viewModelInstance.stream(of: triggerProperty)
+        do {
+            for try await _ in triggerStream {
+                print("Trigger fired!")
+            }
+        } catch let error as ViewModelInstanceError {
+            // The thrown error should always be a ViewModelInstanceError type
+            print(error)
+        } catch {
+            print(error)
+        }
+        ```
+    </Tab>
+    <Tab title={Apple.legacyRuntimeName}>
+        ```swift
+        let riveViewModel = RiveViewModel(...)
+
+        var viewModelInstance: RiveDataBindingViewModel.Instance!
+
+        // You can get the view model instance when enabling auto binding
+        riveViewModel.riveModel?.enableAutoBind { instance in
+            // Store a reference to instance
+            viewModelInstance = instance
+        }
+
+        // Alternatively, you can create a view model instance manually
+        viewModelInstance = riveViewModel.riveModel!.riveFile.viewModelNamed("...")!.createDefaultInstance()!
+
+        // Get the string property
+        let stringProperty = instance.stringProperty(fromPath: "...")!
+
+        // Add a listener
+        let listener = stringProperty.addListener { newValue in
+            print(newValue)
+        }
+
+        // Remove a listener, where listener is the return value of addListener
+        stringProperty.removeListener(listener)
+
+        // Trigger properties can also be listened to for when they are triggered
+        instance.triggerProperty(fromPath: "...")!.addListener {
+            print("Triggered!")
+        }
+        ```
+    </Tab>
+</Tabs>
 
 <Images />
 
-```js
-const randomImageAsset = (imageProperty) => {
-    fetch("https://picsum.photos/300/500").then(async (res) => {
-        // Decode the image from the response. This object is used to set the image property.
-        const image = await rive.decodeImage(
-            new Uint8Array(await res.arrayBuffer())
-        );
-        imageProperty.value = image;
-        // Rive will automatically clean this up. But it's good practice to dispose this manually
-        // after you have already set the decoded image. Don't call `unref` if you intend
-        // to use the decoded asset again.
-        image.unref();
-    });
-};
+<Tabs>
+    <Tab title={Apple.currentRuntimeName}>
+        To set an image, you first need to decode an image from a `Worker`. This has to be the `Worker` that was used when initializing a `File`, from which you are setting the image property of a view model instance.
 
-const r = new rive.Rive({
-    autoBind: true,
-    onLoad: () => {
-        // Access the current instance that was auto-bound
-        let vmi = r.viewModelInstance;
+        ```swift
+        let worker = Worker()
+        let file = try await File(source: ..., worker: worker)
+        let viewModelInstance = file.createViewModelInstance(...)
+        let imageProperty = ImageProperty(path: "path/to/image")
+        let imageData: Data = ...
+        let image = try await decodeImage(from: imageData)
+        viewModelInstance.setValue(of: imageProperty, to: image)
+        ```
+    </Tab>
+    <Tab title={Apple.legacyRuntimeName}>
+        ```swift
+        let riveViewModel = RiveViewModel(...)
 
-        // Get the image property by name
-        var imageProperty = vmi.image("bound_image");
+        var viewModelInstance: RiveDataBindingViewModel.Instance!
 
-        // Load random image
-        randomImageAsset(imageProperty);
+        // You can get the view model instance when enabling auto binding
+        riveViewModel.riveModel?.enableAutoBind { instance in
+            // Store a reference to instance
+            viewModelInstance = instance
+        }
 
-        // Clear the image to render nothing
-        imageProperty.value = null;
-    }
-});
-```
+        // Alternatively, you can create a view model instance manually
+        viewModelInstance = riveViewModel.riveModel!.riveFile.viewModelNamed("...")!.createDefaultInstance()!
+
+        // Create a RiveRenderImage from data
+        let data = Data(...)
+        var image = RiveRenderImage(data: data)! // This can return nil if the data is not a valid image
+
+        // Or, create a RiveRenderImage from a UIImage
+        image = RiveRenderImage(image: UIImage(named: "my_image")!, format: .png)! // This can return nil if the image is not a valid jpg or png image
+
+        let imageProperty = viewModelInstance.imageProperty(fromPath: "image")!
+
+        // Once you have your data binding view model instance, you can set the image property value
+        imageProperty.setValue(image)
+
+        // You can also pass nil to clear the image
+        imageProperty.setValue(nil)
+        ```
+    </Tab>
+</Tabs>
 
 <Lists />
 
-```javascript
-const r = new rive.Rive({
-    autoBind: true,
-    onLoad: () => {
-        // Access the current instance that was auto-bound
-        let vmi = r.viewModelInstance;
+<Tabs>
+    <Tab title={Apple.currentRuntimeName}>
+        ```swift
+        let file: File = ...
+        let viewModelInstance = try await file.createViewModelInstance(...)
+        let listProperty = ListProperty(path: "path/to/list")
 
-        // Get the list property by name
-        var list = vmi.list("todos");
-        console.log("length: ", list.length);
+        let size = try await viewModelInstance.size(of: listProperty)
 
-        // Get the view model
-        var todoItemVM = r.viewModelByName("TodoItem");
+        // Result: [newInstance]
+        let newInstance = try await file.createViewModelInstance(...)
+        viewModelInstance.appendInstance(newInstance, to: listProperty)
 
-        // Create a blank instance from the view model.
-        // Do this for each new item you want to add.
-        var myTodo = todoItemVM.instance();
-        myTodo.string("description").value = "Buy groceries";
+        // Result: [insertedInstance, newInstance]
+        let insertedInstance = try await file.createViewModelInstance(...)
+        viewModelInstance.insertInstance(instance, to: listProperty, at: 0)
 
-        // Add the newly created instance to the list
-        list.addInstance(myTodo);
+        // Result: [newInstance, insertedInstance]
+        viewModelInstance.swapInstance(atIndex: 0, withIndex: 1, in: listProperty)
 
-        // Remove a specific instance from the list
-        list.removeInstance(myTodo);
+        // Result: [newInstance]
+        viewModelInstance.removeInstance(at: 1, from: listProperty)
 
-        // Swap two instances in the list at index 0 and 1
-        list.swap(0, 1);
+        // Result: newInstance
+        let _ = viewModelInstance.value(of: listProperty, at: 0)
 
-        // Remove instance at index 0
-        list.removeInstanceAt(0);
-    }
-});
-```
+        // Result: []
+        viewModelInstance.removeInstance(newInstance, from: listProperty)
+
+        // Result: 0
+        let size = try await viewModelInstance.size(of: listProperty)
+        ```
+    </Tab>
+    <Tab title={Apple.legacyRuntimeName}>
+        ```swift
+        let listProperty = viewModelInstance.listProperty(fromPath: "list")!
+
+        // Create a new view model instance and add it to the end of the list
+        let firstInstance = viewModel.createInstanceByName("First Instance")!
+        listProperty.add(firstInstance)
+
+        // Create a new view model instance and add it to the beginning of the list
+        let secondInstance = myViewModel.createInstanceByName("Second Instance")!
+        listProperty.add(secondInstance, atIndex: 0)
+
+        // Swap the first and second instances
+        listProperty.swapInstance(atIndex: 0, withInstanceAtIndex: 1)
+
+        // Remove both instances
+        listProperty.removeInstance(secondInstance)
+        listProperty.removeInstance(atIndex: 0)
+
+        // Get and print the size of the list
+        print(listProperty.size) // Prints 0
+        ```
+    </Tab>
+</Tabs>
 
 <Artboards />
 
-```typescript
-let artboardProperty = null;
-let characterArtboard = null;
+<Tabs>
+    <Tab title={Apple.currentRuntimeName}>
+    ```swift
+    let file: File = ...
+    let viewModelInstance = try await file.createViewModelInstance(...)
+    let artboardProperty = ArtboardProperty(path: "path/to/artboard")
+    let artboard = try await file.createArtboard(...)
+    viewModelInstance.setValue(of: artboardProperty, to: artboard)
+    ```
+    </Tab>
+    <Tab title={Apple.legacyRuntimeName}>
+        Use the `artboardProperty` method on a `RiveDataBindingViewModel.Instance` object to get the artboard property.
 
-function attachCharacter() {
-    // If the artboard property and the character artboard, both exist, set the artboard
-    if (characterArtboard && artboardProperty) {
-        artboardProperty.value = characterArtboard;
-    }
-}
+        Then use the `setValue` method on the artboard property object to set the new artboard value.
 
-const r = new Rive({
-    src: "swap_character_main.riv",
-    autoplay: true,
-    canvas: el,
-    autoBind: true,
-    layout: new Layout({
-        fit: Fit.Layout,
-        layoutScaleFactor: 0.5,
-    }),
-    stateMachines: "State Machine 1",
-    onLoad: () => {
-        r.resizeDrawingSurfaceToCanvas();
+        `setValue` accepts a `RiveBindableArtboard` object, which is a wrapper for an artboard that can be used to set the artboard property value.
 
-        const vmi = r.viewModelInstance;
-        artboardProperty = vmi.artboard("Artboard property");
+        You can get a `RiveBindableArtboard` object by using the `bindableArtboard` methods on a `RiveFile` object.
 
-        attachCharacter();
-    },
-    onLoadError: () => {
-        console.log("error");
-    },
-});
+        ```swift
+        let artboardProperty = instance.artboardProperty(fromPath: "Artboard")!
 
-// Load an external artboard
-const assetsFile = new RiveFile({
-    src: "swap_character_assets.riv",
-    onLoad: () => {
-        characterArtboard = assetsFile.getArtboard("Character 1");
-        attachCharacter();
-    },
-    onLoadError: () => {
-        console.log("error");
-    },
-});
-assetsFile.init();
-```
+        let components = RiveFile(...)
+        let bindableArtboard = components.bindableArtboard(at: 0)!
+        let bindableArtboard2 = components.bindableArtboard(withName: "...")!
+
+        artboardProperty.setValue(bindableArtboard)
+        ```
+    </Tab>
+</Tabs>
 
 <Enums />
 
-```typescript
-const r = new rive.Rive({
-    onLoad: () => {
-        const enums = r.enums();
-
-        console.log(enums);
-    }
-});
-```
-
 # Examples
 
-<YouTube id="y7glxOIFEjg" />
-<YouTube id="1WFtGX2coXM" />
+See the [Data Binding view](https://github.com/rive-app/rive-ios/blob/main/Example-iOS/Source/Examples/SwiftUI/DataBindingView.swift) in the Example app for a demo.
