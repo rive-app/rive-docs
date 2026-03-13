@@ -24,7 +24,22 @@ end
 
 ### `addListener`
 
-Registers a listener that is called whenever the property’s value changes.
+Registers a listener that is called whenever the property's value changes.
+
+This function has two signatures:
+- `addListener(callback)` — Simple form, just pass the callback function.
+- `addListener(anchor, callback)` — Pass an anchor object and a callback.
+The anchor is stored alongside the listener and passed to the callback
+when invoked. This is useful for preventing garbage collection of objects
+you need to keep alive while the listener is active.
+
+**Important:** If you obtain a ViewModel or property using a local variable
+(e.g., `local vm = context:viewModel()`) and add listeners without storing
+the ViewModel elsewhere, it may be garbage collected after the function
+returns. To prevent this, either:
+- Store the ViewModel on `self` (e.g., `self.vm = context:viewModel()`)
+- Pass the ViewModel as the anchor parameter to `addListener`
+
 ```lua highlight={8,10}
 local health = vm:getNumber("health")
 
@@ -39,10 +54,30 @@ if health then
 end
 ```
 
+Using the anchor parameter to keep the ViewModel alive:
+```lua highlight={5}
+local vm = context:viewModel()
+local health = vm:getNumber("health")
+
+if health then
+  health:addListener(vm, function(anchor)
+    -- 'anchor' is the vm we passed, kept alive by the listener
+    print("Health changed!")
+  end)
+end
+```
+
 
 ### `removeListener`
 
 Removes a previously registered listener.
+
+This function has two signatures:
+- `removeListener(callback)` — Pass the callback function to remove.
+- `removeListener(anchor, callback)` — Pass an anchor and the callback.
+The anchor parameter is accepted for API symmetry with `addListener`,
+but only the callback is used for matching.
+
 ```lua highlight={6}
 local health = vm:getNumber("health")
 
