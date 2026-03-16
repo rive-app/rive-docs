@@ -22,7 +22,7 @@ export const Runtimes = ({ runtimes = {}, cols = 3 }) => {
 ]
 
 	const cards = RUNTIME_DEFS.filter((runtime) => Boolean(runtimes[runtime.key]))
-console.log('algo')
+
   if (cards.length === 0) {
 		return null
 	}

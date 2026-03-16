@@ -48,7 +48,7 @@ const onRiveEventReceived = (riveEvent) => {
     } else if (eventData.type === RiveEventType.OpenUrl) {
     console.log("Event name", eventData.name);
     // Handle OpenUrl event manually
-    window.location.href = data.url;
+    window.location.href = eventData.url;
     }
 };
 
