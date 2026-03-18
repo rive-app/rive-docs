@@ -8,11 +8,17 @@ import Overview from "/snippets/runtimes/animation-playback/overview.mdx"
 import ChoosingStartingAnimations from "/snippets/runtimes/animation-playback/choosing-starting-animations.mdx"
 import ControllingPlayback from "/snippets/runtimes/animation-playback/controlling-playback.mdx"
 
+import { Apple } from "/snippets/constants.mdx"
+
 <Overview />
 
 <ChoosingStartingAnimations />
 
 By default, `RiveViewModel` will automatically play the animation or state machine you've given it.
+
+<Warning>
+  This deprecated feature is only supported in the Legacy Runtime, not the {Apple.currentRuntimeName}.
+</Warning>
 
 ### SwiftUI
 ```javascript

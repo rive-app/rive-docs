@@ -1,7 +1,5 @@
 {/* TODO all runtimes have correct default? */}
 { /*
-  autoplay name = autoplay
-  autoplay default = true
   runtime supports stopping = true
 */}
 
@@ -10,7 +8,5 @@
 State machines play by "advancing" over time. This is done once per frame by the amount of time between frames. For example, for a graphic running at 60 frames per second, the state machine would be advanced by approximately 16.67 milliseconds (1/60th of a second) each frame. This advancing evaluates keyframes, transitions, data bindings changes, and ultimately the visible artboard elements to create the illusion of motion over time.
 
 This runtime provides a way to control whether the state machine is playing. When paused or stopped, the state machine does not advance and the last rendered frame remains visible. When playing from pause, the state machine resumes from where it left off, whereas when playing from stop, it restarts from the entry state.
-
-Whether or not a state machine plays automatically depends on the value of the `autoplay`  property. This is `true` by default. It may be useful to set this to `false` if you want to configure the state machine and artboard, e.g. through data bindings, before initial playback.
 
 In addition to the paused/stopped state, state machines may also "settle". This is an optimization where the Rive runtime detects that no further changes will occur (for example, if there are no active transitions or animations). While settled the state machine will also stop advancing. This improves performance and energy use by avoiding unnecessary calculations. State machines are unsettled by external actions that change their state, such as user input or data binding changes. You can additionally force a state machine to unsettle by calling play, though it may immediately re-settle if there is no further work to be done.

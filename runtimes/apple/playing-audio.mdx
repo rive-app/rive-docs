@@ -10,37 +10,15 @@ import ReferencedAssets from "/snippets/runtimes/playing-audio/referenced-assets
 
 <Overview />
 
+<Warning>
+    This feature is currently only supported in the Legacy Runtime.
+</Warning>
+
 <EmbeddedAssets />
 
 <ReferencedAssets />
 
 For more information, see [Loading Assets](/runtimes/apple/loading-assets).
-
-
-```swift IOS
-// Load a referenced audio file, with the same name and extension as added in the editor
-let viewModel = RiveViewModel(fileName: "my_rive_file") { asset, data, factory -> Bool in
-    guard let audioAsset = asset as? RiveAudioAsset else {
-        return false
-    }
-
-    guard let url = Bundle.main.url(
-        forResource: audioAsset.uniqueName(),
-        withExtension: audioAsset.fileExtension()
-    ) else {
-        print("Failed to load asset \(asset.uniqueFilename()) from bundle.")
-        return false
-    }
-
-    guard let data = try? Data(contentsOf: url) else {
-        print("Failed to load \(url) from bundle.")
-        return false
-    }
-
-    audioAsset.audio(factory.decodeAudio(data))
-    return true
-}
-```
 
 ## Audio Settings
 
