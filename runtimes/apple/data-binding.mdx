@@ -474,7 +474,7 @@ import { Apple } from "/snippets/constants.mdx"
         To set an image, you first need to decode an image from a `Worker`. This has to be the `Worker` that was used when initializing a `File`, from which you are setting the image property of a view model instance.
 
         ```swift
-        let worker = Worker()
+        let worker = try await Worker()
         let file = try await File(source: ..., worker: worker)
         let viewModelInstance = file.createViewModelInstance(...)
         let imageProperty = ImageProperty(path: "path/to/image")

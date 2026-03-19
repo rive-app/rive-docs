@@ -1,0 +1,7 @@
+When rending a Rive instance, your browser is making a network request to `https://unpkg.com/@rive-app/canvas@x.x.x/rive.wasm` which retrieves a [Web Assembly](https://developer.mozilla.org/en-US/docs/WebAssembly) (WASM) file that contains Rive-specific APIs to build the render loop. [unkpg](https://unpkg.com/) is a global CDN that quickly allows for loading in NPM packages, which in this case includes a WASM file. This allows for a smaller bundle size when pulling in the Rive JS-based runtimes, while only loading in WASM when Rive instances are created.
+
+While `unpkg` should provide WASM quickly and can cache across sites that load from this CDN, you may want to preload and host the WASM file yourself for any of the following reasons:
+
+- Better reliability of the WASM powering the Rive animations
+- Quicker load times for your animations
+- Control over when resources get loaded into your web apps

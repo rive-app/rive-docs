@@ -7,9 +7,19 @@ import { YouTube } from "/snippets/youtube.mdx";
 import { Apple } from "/snippets/constants.mdx";
 
 import Overview from '/snippets/runtimes/loading-assets/overview.mdx'
+import MethodsForLoadingAssets from '/snippets/runtimes/loading-assets/methods-for-loading.mdx'
+import EmbeddedAssets from '/snippets/runtimes/loading-assets/embedded-assets.mdx'
+import ImageCDNs from '/snippets/runtimes/loading-assets/image-cdns.mdx'
+import ReferenceAssets from '/snippets/runtimes/loading-assets/referenced-assets.mdx'
+import HandlingAssets from '/snippets/runtimes/loading-assets/handling-assets.mdx'
 import Resources from '/snippets/runtimes/loading-assets/resources.mdx'
 
 <Overview />
+<MethodsForLoadingAssets />
+<EmbeddedAssets />
+<ImageCDNs />
+<ReferenceAssets />
+<HandlingAssets />
 
 <Tabs>
     <Tab title={Apple.currentRuntimeName}>
@@ -27,7 +37,7 @@ import Resources from '/snippets/runtimes/loading-assets/resources.mdx'
 
         <CodeGroup>
             ```swift Font
-            let worker = Worker()
+            let worker = try await Worker()
             let fontData: Data = ...
             let font = try await worker.decodeFont(from: fontData)
             worker.addGlobalFontAsset(font, name: "MyFont-1234")
@@ -37,7 +47,7 @@ import Resources from '/snippets/runtimes/loading-assets/resources.mdx'
             ```
 
             ```swift Audio
-            let worker = Worker()
+            let worker = try await Worker()
             let audioData: Data = ...
             let font = try await worker.decodeAudio(from: audioData)
             worker.addGlobalAudioAsset(audio, name: "MyAudio-1234")
@@ -47,7 +57,7 @@ import Resources from '/snippets/runtimes/loading-assets/resources.mdx'
             ```
 
             ```swift Image
-            let worker = Worker()
+            let worker = try await Worker()
             let imageData: Data = ...
             let image = try await worker.decodeImage(from: imageData)
             worker.addGlobalImageAsset(image, name: "MyImage-1234")

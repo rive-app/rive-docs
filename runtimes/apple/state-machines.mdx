@@ -19,14 +19,6 @@ import { Apple } from "/snippets/constants.mdx"
   <Tab title={Apple.currentRuntimeName}>
     By default, the state machine of a `Rive` object will automatically play when in use by a `RiveUIView`.
 
-    <Note>
-      In the { Apple.currentRuntimeName }, there is currently no way of manually playing and pausing a state machine.
-
-      Additionally, the framerate is set to the framerate of the device.
-
-      APIs for manually playing and pausing the state machine and setting a custom frame rate will come in the future.
-    </Note>
-
     The following sections assumes that you have read through the [Getting an Artboard](/runtimes/apple/artboards#getting-an-artboard) overview.
 
     ### Getting a State Machine
@@ -51,7 +43,7 @@ import { Apple } from "/snippets/constants.mdx"
     Remember that the Rive configuration for a view is the `Rive` type. In the overview, we show initializing a `Rive` object with just a file. However, you can initialize a `Rive` object with a specific state machine:
 
     ```swift
-    let worker = Worker()
+    let worker = try await Worker()
     let file = try await File(source: .local("my_file", Bundle.main))
     let artboardByName = try await file.createArtboard("Artboard")
     let stateMachine = try await artboardByName.createStateMachine("StateMachine")
