@@ -29,6 +29,8 @@ local yValue = v.y  -- -5
 
 ### `xy`
 
+to do
+
 Creates a vector with the specified x and y components.
 ```lua
 local v = Vector.xy(5, -2)  -- 5 -2
@@ -36,6 +38,8 @@ local v = Vector.xy(5, -2)  -- 5 -2
 
 
 ### `origin`
+
+to do
 
 Returns the zero vector (0, 0).
 ```lua
@@ -45,6 +49,8 @@ local origin = Vector.origin()  -- 0 0
 
 ### `scaleAndAdd`
 
+to do
+
 Returns a + b * scale.
 ```lua
 local r = Vector.scaleAndAdd(Vector.xy(1,2), Vector.xy(3,4), 2)  -- 7 10
@@ -52,6 +58,8 @@ local r = Vector.scaleAndAdd(Vector.xy(1,2), Vector.xy(3,4), 2)  -- 7 10
 
 
 ### `scaleAndSub`
+
+to do
 
 Returns a - b * scale.
 ```lua
@@ -61,6 +69,8 @@ local r = Vector.scaleAndSub(Vector.xy(7,10), Vector.xy(3,4), 2)  -- 1 2
 
 ### `lerp`
 
+to do
+
 Returns the linear interpolation between the to and from
 vector, using t where 0 returns the vector and 1 returns the other.
 ```lua
@@ -69,6 +79,8 @@ local p = Vector.lerp(Vector.xy(0,0), Vector.xy(8,0), 0.25)  -- 2 0
 
 
 ### `normalized`
+
+to do
 
 Returns a normalized copy of the given vector.
 ```lua
@@ -80,6 +92,8 @@ local n = Vector.normalized(Vector.xy(10, 0))  -- Vector.xy(1, 0)
 
 ### `distance`
 
+to do
+
 Returns the distance between the two vectors.
 ```lua
 local d = Vector.distance(Vector.xy(3, 4), Vector.xy(0, 0))  -- 5
@@ -87,6 +101,8 @@ local d = Vector.distance(Vector.xy(3, 4), Vector.xy(0, 0))  -- 5
 
 
 ### `distanceSquared`
+
+to do
 
 Returns the squared distance between the two vectors.
 ```lua
@@ -96,6 +112,8 @@ local d2 = Vector.distanceSquared(Vector.xy(3,4), Vector.xy(0,0))  -- 25
 
 ### `dot`
 
+to do
+
 Returns the dot product of the two vectors.
 ```lua
 local dp = Vector.dot(Vector.xy(1,2), Vector.xy(3,4))  -- 11 (1*3 + 2*4)
@@ -103,6 +121,8 @@ local dp = Vector.dot(Vector.xy(1,2), Vector.xy(3,4))  -- 11 (1*3 + 2*4)
 
 
 ### `cross`
+
+to do
 
 Returns the cross product of two vectors (z-component of the 3D cross product).
 ```lua
@@ -112,6 +132,8 @@ local c = Vector.cross(Vector.xy(1, 0), Vector.xy(0, 1))  -- 1
 
 ### `length`
 
+to do
+
 Returns the length of the given vector.
 ```lua
 local len = Vector.length(Vector.xy(3, 4))  -- 5
@@ -119,6 +141,8 @@ local len = Vector.length(Vector.xy(3, 4))  -- 5
 
 
 ### `lengthSquared`
+
+to do
 
 Returns the squared length of the given vector.
 ```lua
@@ -130,6 +154,8 @@ local len2 = Vector.lengthSquared(Vector.xy(3, 4))  -- 25
 
 ### `length`
 
+to do
+
 <Warning>
   **Deprecated** - Use `Vector.length` instead.
 </Warning>
@@ -138,6 +164,8 @@ Returns the length of the vector.
 
 
 ### `lengthSquared`
+
+to do
 
 <Warning>
   **Deprecated** - Use `Vector.lengthSquared` instead.
@@ -151,6 +179,8 @@ local len2 = v:lengthSquared()  -- 25
 
 
 ### `normalized`
+
+to do
 
 <Warning>
   **Deprecated** - Use `Vector.normalized` instead.
@@ -166,6 +196,8 @@ local n = v:normalized()  -- 1 0
 
 ### `__eq`
 
+to do
+
 Returns true if the two vectors have equal components.
 ```lua
 local a = Vector.xy(1, 2)
@@ -178,6 +210,8 @@ print(a == c)  -- false
 
 ### `__unm`
 
+to do
+
 Returns the negated vector.
 ```lua
 local v = Vector.xy(2, -3)
@@ -186,6 +220,8 @@ local neg = -v   -- -2 3
 
 
 ### `__add`
+
+to do
 
 Returns the sum of two vectors.
 ```lua
@@ -197,6 +233,8 @@ local c = a + b  -- 1 8
 
 ### `__sub`
 
+to do
+
 Returns the difference between two vectors.
 ```lua
 local a = Vector.xy(2, 3)
@@ -207,6 +245,8 @@ local c = a - b  -- 3 -2
 
 ### `__mul`
 
+to do
+
 Returns the vector scaled by the given number.
 ```lua
 local v = Vector.xy(3, -2)
@@ -216,6 +256,8 @@ local doubled = v * 2    -- 6 -4
 
 ### `__div`
 
+to do
+
 Returns the vector divided by the given number.
 ```lua
 local v = Vector.xy(6, -4)
@@ -224,6 +266,8 @@ local half = v / 2    -- 3 -2
 
 
 ### `distance`
+
+to do
 
 <Warning>
   **Deprecated** - Use `Vector.distance` instead.
@@ -239,6 +283,8 @@ print(a:distance(b))  -- 5
 
 ### `distanceSquared`
 
+to do
+
 <Warning>
   **Deprecated** - Use `Vector.distanceSquared` instead.
 </Warning>
@@ -253,6 +299,8 @@ print(a:distanceSquared(b))  -- 25
 
 ### `dot`
 
+to do
+
 <Warning>
   **Deprecated** - Use `Vector.dot` instead.
 </Warning>
@@ -266,6 +314,8 @@ print(a:dot(b))  -- 11  (1*3 + 2*4)
 
 
 ### `lerp`
+
+to do
 
 <Warning>
   **Deprecated** - Use `Vector.lerp` instead.
