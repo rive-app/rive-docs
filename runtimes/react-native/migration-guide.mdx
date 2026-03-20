@@ -3,6 +3,264 @@ title: "Migration Guide"
 description: "Learn how to migrate your React Native app when upgrading between major versions of the Rive React Native runtime, including breaking changes and new features."
 ---
 
+## Migrating to the Async API (`v0.4.0`+)
+
+This release introduces an **async-first API** to prepare for the new experimental Rive runtime. Synchronous methods that block the JS thread are deprecated and replaced with async equivalents. State machine input and text run methods are deprecated in favor of [data binding](/runtimes/data-binding).
+
+<Note>
+  All your Rive graphics will still look and function the same as they did
+  before. The hooks, components, and data binding patterns are unchanged — only
+  the underlying method signatures are updated.
+</Note>
+
+### What's Changed
+
+- **Async methods** replace all synchronous ViewModel and property accessors
+- **Name-based access** replaces count/index-based ViewModel and artboard lookups
+- **`getValueAsync()` / `set()`** replace `property.value` for reading and writing properties
+- **`useRiveNumber` and similar hooks** now start as `undefined` until the first listener emission
+- **State machine inputs, text runs, and events** are deprecated — use [data binding](/runtimes/data-binding) instead
+
+### Migration Steps
+
+#### 1. ViewModel Access
+
+<Tabs>
+  <Tab title="New API">
+    ```tsx
+    const names = await file.getViewModelNamesAsync();
+    const vm = await file.viewModelByNameAsync('Person');
+    const defaultVM = await file.defaultArtboardViewModelAsync();
+    ```
+
+  </Tab>
+  <Tab title="Deprecated API">
+    ```tsx
+    const count = file.viewModelCount;
+    const vm = file.viewModelByName('Person');
+    const defaultVM = file.defaultArtboardViewModel();
+    ```
+
+  </Tab>
+</Tabs>
+
+#### 2. Instance Creation
+
+<Tabs>
+  <Tab title="New API">
+    ```tsx
+    const instance = await vm.createDefaultInstanceAsync();
+    const named = await vm.createInstanceByNameAsync('player1');
+    const blank = await vm.createBlankInstanceAsync();
+    ```
+
+  </Tab>
+  <Tab title="Deprecated API">
+    ```tsx
+    const instance = vm.createDefaultInstance();
+    const named = vm.createInstanceByName('player1');
+    const blank = vm.createInstance();
+    ```
+
+  </Tab>
+</Tabs>
+
+<Tip>
+  The `useViewModelInstance` hook handles ViewModel resolution and instance
+  creation for you — in most cases you don't need to call these methods
+  directly.
+</Tip>
+
+#### 3. Property Value Access
+
+<Tabs>
+  <Tab title="New API">
+    ```tsx
+    const num = await prop.getValueAsync();
+    prop.set(42);
+    ```
+
+  </Tab>
+  <Tab title="Deprecated API">
+    ```tsx
+    const num = prop.value;
+    prop.value = 42;
+    ```
+
+  </Tab>
+</Tabs>
+
+#### 4. Nested ViewModelInstance Access
+
+<Tabs>
+  <Tab title="New API">
+    ```tsx
+    const nested = await instance.viewModelAsync('Header');
+    ```
+
+  </Tab>
+  <Tab title="Deprecated API">
+    ```tsx
+    const nested = instance.viewModel('Header');
+    ```
+
+  </Tab>
+</Tabs>
+
+#### 5. List Property Access
+
+<Tabs>
+  <Tab title="New API">
+    ```tsx
+    const len = await listProp.getLengthAsync();
+    const item = await listProp.getInstanceAtAsync(0);
+    ```
+
+  </Tab>
+  <Tab title="Deprecated API">
+    ```tsx
+    const len = listProp.length;
+    const item = listProp.getInstanceAt(0);
+    ```
+
+  </Tab>
+</Tabs>
+
+#### 6. Artboard Access
+
+<Tabs>
+  <Tab title="New API">
+    ```tsx
+    const count = await file.getArtboardCountAsync();
+    const names = await file.getArtboardNamesAsync();
+    ```
+
+  </Tab>
+  <Tab title="Deprecated API">
+    ```tsx
+    const count = file.artboardCount;
+    const names = file.artboardNames;
+    ```
+
+  </Tab>
+</Tabs>
+
+#### 7. Hook Value Guarding
+
+Property hooks (`useRiveNumber`, `useRiveString`, `useRiveBoolean`, `useRiveColor`, `useRiveEnum`) now return `undefined` as their initial value until the first listener emission.
+
+<Tabs>
+  <Tab title="New API">
+    ```tsx
+    const { value: count, setValue: setCount } = useRiveNumber(
+      'Counter/Value',
+      instance
+    );
+
+    // Guard for undefined in render
+    <Text>{count !== undefined ? count.toFixed(2) : '...'}</Text>
+
+    // Guard in updater functions
+    setCount((prev) => (prev ?? 0) + 1);
+    ```
+
+  </Tab>
+  <Tab title="Previous API">
+    ```tsx
+    const { value: count, setValue: setCount } = useRiveNumber(
+      'Counter/Value',
+      instance
+    );
+
+    // Previously available synchronously on first render
+    <Text>{count.toFixed(2)}</Text>
+    ```
+
+  </Tab>
+</Tabs>
+
+#### 8. Async Setup Pattern
+
+Synchronous `useMemo` chains for ViewModel setup should be replaced with `useState` + `useEffect`, or simplified with the `useViewModelInstance` hook.
+
+<Tabs>
+  <Tab title="useViewModelInstance (Recommended)">
+    ```tsx
+    const { riveFile } = useRiveFile(require('./animation.riv'));
+    const instance = useViewModelInstance(riveFile);
+
+    const { value: health, setValue: setHealth } = useRiveNumber(
+      'health',
+      instance
+    );
+
+    if (!instance) return <ActivityIndicator />;
+    return <RiveView file={riveFile} dataBind={instance} />;
+    ```
+
+  </Tab>
+  <Tab title="Manual Async Setup">
+    ```tsx
+    const { riveFile } = useRiveFile(require('./animation.riv'));
+    const [instance, setInstance] = useState<ViewModelInstance>();
+
+    useEffect(() => {
+      if (!riveFile) return;
+      let cancelled = false;
+      (async () => {
+        const vm = await riveFile.defaultArtboardViewModelAsync();
+        const vmi = await vm?.createDefaultInstanceAsync();
+        if (!cancelled) setInstance(vmi ?? undefined);
+      })();
+      return () => { cancelled = true; };
+    }, [riveFile]);
+    ```
+
+  </Tab>
+  <Tab title="Deprecated Sync Pattern">
+    ```tsx
+    function Setup({ file }) {
+      const vm = useMemo(() => file.defaultArtboardViewModel(), [file]);
+      const instance = useMemo(
+        () => vm?.createDefaultInstance(),
+        [vm]
+      );
+      if (!instance) return null;
+      return <MyComponent instance={instance} file={file} />;
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+### Quick Reference
+
+| Deprecated | Replacement |
+|---|---|
+| `file.viewModelByName(name)` | `await file.viewModelByNameAsync(name)` |
+| `file.defaultArtboardViewModel()` | `await file.defaultArtboardViewModelAsync()` |
+| `file.viewModelCount` | `(await file.getViewModelNamesAsync()).length` |
+| `file.viewModelByIndex(i)` | `await file.viewModelByNameAsync(name)` |
+| `file.artboardCount` / `artboardNames` | `await file.getArtboardCountAsync()` / `getArtboardNamesAsync()` |
+| `vm.createDefaultInstance()` | `await vm.createDefaultInstanceAsync()` |
+| `vm.createInstanceByName(name)` | `await vm.createInstanceByNameAsync(name)` |
+| `vm.createInstance()` | `await vm.createBlankInstanceAsync()` |
+| `instance.viewModel(path)` | `await instance.viewModelAsync(path)` |
+| `listProp.length` | `await listProp.getLengthAsync()` |
+| `listProp.getInstanceAt(i)` | `await listProp.getInstanceAtAsync(i)` |
+| `prop.value` (read) | `await prop.getValueAsync()` |
+| `prop.value = x` (write) | `prop.set(x)` |
+
+### Platform Caveats
+
+| Limitation | Details |
+|---|---|
+| `replaceViewModel()` | No-op on Android. Works on iOS. |
+| `addListener()` on image/list properties | No-op on both platforms. Poll with `getLengthAsync()` instead. |
+| `addInstanceAt()` / `swap()` return value | Always `true` on iOS. Android returns correct value. |
+| `instanceName` | Empty string except for instances created via `createInstanceByNameAsync()`. |
+| `defaultArtboardViewModel()` on Android | Uses a heuristic. Prefer `viewModelByNameAsync(name)` with an explicit name. |
+
 ## Migrating from `v0.1.0` to `v0.2.0`
 
 This change updates to a new major version of Nitro to resolve a view recycling issue. See the [release](https://github.com/rive-app/rive-nitro-react-native/releases/tag/v0.2.0) for more details.
