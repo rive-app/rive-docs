@@ -13,6 +13,8 @@ For more information, see [Node Scripts](/scripting/protocols/node-scripts).
 
 ### `init`
 
+init((self: T, context: Context) -> boolean)
+
 Called once when the node is created. Returns true if initialization
 succeeds.
 
@@ -36,6 +38,8 @@ end
 
 
 ### `advance`
+
+advance((self: T, seconds: number) -> boolean)
 
 Optional per-frame update. Returns true if the node should continue
 receiving advance calls.
@@ -62,6 +66,8 @@ end
 
 ### `update`
 
+update() -> ()?
+
 Called when an input value changes.
 ```lua highlight={5,6,7,12}
 -- Define the script's data and inputs.
@@ -83,6 +89,8 @@ end
 
 ### `draw`
 
+draw((self: T, renderer: Renderer) ->())
+
 Called to render the node using the provided [Renderer](/scripting/api-reference/renderer/renderer).
 
 For a more complete example using draw, see [Instantiating Components](/scripting/protocols/node-scripts#instantiating-components).
@@ -103,6 +111,8 @@ end
 
 
 ### `pointerDown`
+
+pointerDown(event: PointerEvent) -> ()?
 
 Pointer event down handler.
 
@@ -126,6 +136,8 @@ end
 
 ### `pointerMove`
 
+pointerMove(event: PointerEvent) -> ()?
+
 Pointer event move handler.
 
 ```lua
@@ -148,6 +160,8 @@ end
 
 ### `pointerUp`
 
+pointerUp(event: PointerEvent) -> ()?
+
 Pointer event up handler.
 ```lua
 function handlePointerUp(self: MyGame, event: PointerEvent)
@@ -168,6 +182,8 @@ end
 
 
 ### `pointerExit`
+
+pointerExit(event: PointerEvent) -> ()?
 
 Pointer event exit handler.
 ```lua
