@@ -11,6 +11,8 @@ For more information, see [Listener Action Scripts](/scripting/protocols/listene
 
 ### `init`
 
+init((self: T, context: Context) -> boolean)
+
 Called once when the listener is created or attached.
 ```lua highlight={4,5,6,12}
 type MyListenerAction = {}
@@ -32,6 +34,8 @@ end
 
 
 ### `perform`
+
+perform(pointerEvent: PointerEvent) -> ()
 
 Called when the associated [State Machine Listener](/editor/state-machine/listeners) is triggered.
 This method includes a [PointerEvent](/scripting/api-reference/artboards/pointer-event) parameter containing details about the triggering interaction.

@@ -19,11 +19,15 @@ For more information, see [Converter Scripts](/scripting/protocols/converter-scr
 
 ### `init`
 
+init((self: T, context: Context) -> boolean)
+
 Called once when the converter is created. Returns true if initialization
 succeeds.
 
 
 ### `convert`
+
+convert(input: I) -> O
 
 Converts the input value (a view model property) to an output value.
 The input parameter must be a DataValue type.
@@ -31,11 +35,15 @@ The input parameter must be a DataValue type.
 
 ### `reverseConvert`
 
+reverseConvert(input: O) -> I
+
 Converts the output value back to an input value (a view model property).
 The input parameter must be a DataValue type.
 
 
 ### `advance`
+
+advance((self: T, seconds: number) -> boolean)
 
 Optional per-frame update. Returns true if the converter should continue
 receiving advance calls.
