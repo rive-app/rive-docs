@@ -16,45 +16,63 @@ volume of the sound.
 
 ### `stop`
 
+stop(fadeToStopTime: number?) -> ()
+
 stop the audio.
 
 
 ### `seek`
+
+seek(seconds: number) -> ()
 
 seek the audio to a specific time in seconds.
 
 
 ### `seekFrame`
 
+seekFrame(frame: number) -> ()
+
 seek the audio to a specific time in PCM frames.
 
 
 ### `completed`
+
+completed() -> boolean
 
 Whether the sound has completed playing.
 
 
 ### `time`
 
+time() -> number
+
 Current sound time in seconds.
 
 
 ### `timeFrame`
+
+timeFrame() -> number
 
 Current sound time in PCM frames.
 
 
 ### `pause`
 
+pause() -> ()
+
 pauses the audio.
 
 
 ### `resume`
 
+resume() -> ()
+
 resumes the audio from its current position.
 
 
 ### `play`
+
+play() -> ()
 
 plays the audio.
 
