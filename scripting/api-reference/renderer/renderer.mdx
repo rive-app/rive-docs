@@ -10,6 +10,8 @@ applying transforms during rendering.
 
 ### `drawPath`
 
+drawPath(path: Path, paint: Paint)
+
 Draws the given [Path](/scripting/api-reference/path/path) using the specified [Paint](/scripting/api-reference/paint/paint).
 
 For a more detailed explanation and working examples, see [Drawing with Node Scripts](/scripting/protocols/node-scripts#drawing).
@@ -21,6 +23,8 @@ end
 
 
 ### `drawImage`
+
+drawImage(image: Image, sampler: ImageSampler, blendMode: BlendMode, opacity: number)
 
 Draws an [Image](/scripting/api-reference/image/image) using the [ImageSampler](/scripting/api-reference/image/image-sampler), [BlendMode](/scripting/api-reference/paint/blend-mode), and opacity.
 
@@ -58,17 +62,23 @@ end
 
 ### `drawImageMesh`
 
+drawImageMesh(image: Image, sampler: ImageSampler, vertices: VertexBuffer, uvs: VertexBuffer, triangles: TriangleBuffer, blendMode: BlendMode, opacity: number)
+
 Draws an image using mesh data defined by vertices, texture
 coordinates, and triangle indices.
 
 
 ### `clipPath`
 
+clipPath(path: Path)
+
 Restricts subsequent drawing to the area defined by the given [Path](/scripting/api-reference/path/path).
 Clipping remains in effect until the next restore call.
 
 
 ### `save`
+
+save()
 
 Saves the current rendering state, including transforms and clipping.
 ```lua highlight={4}
@@ -85,6 +95,8 @@ end
 
 ### `restore`
 
+restore()
+
 Restores the most recently saved rendering state.
 ```lua highlight={6}
 function draw(self: MyGame, renderer: Renderer)
@@ -99,6 +111,8 @@ end
 
 
 ### `transform`
+
+transform(transform: Mat2D)
 
 Applies a transform to the current rendering state. Transforms are
 applied cumulatively until restored.
