@@ -24,7 +24,7 @@ description: 'Migrating between major versions of the Apple runtime'
         No breaking API changes!
         </Note>
 
-        There should be no major changes to your code to migrate to `v5.x.x`. Starting in `v5.x.x`, a new text engine dependency to support the new Rive [Text](/runtimes/text) feature, so you may see a slight bump in the size of the package to account for this.
+        There should be no major changes to your code to migrate to `v5.x.x`. Starting in `v5.x.x`, a new text engine dependency to support the new Rive [Text](/runtimes/apple/text) feature, so you may see a slight bump in the size of the package to account for this.
     </Accordion>
     <Accordion title="Migrating from 3.x.x to 4.x.x">
         There should be no major changes to your code to migrate to `v4.x.x`. Starting in `v4.0.1`, you can use the same runtime package `rive-ios` to install `RiveRuntime` into native `macOS` applications. The API usage of `RiveRuntime` in iOS and macOS applications should remain the same. If you do find any discrepancies or issues, please log an issue to [https://github.com/rive-app/rive-ios/issues](https://github.com/rive-app/rive-ios/issues).
@@ -73,7 +73,7 @@ description: 'Migrating between major versions of the Apple runtime'
         | Forwards | `directionForwards` | `forwards` |
         | Auto | `directionAuto` | `autoDirection` |
 
-        ## Default playing behavior 
+        ## Default playing behavior
 
         One changed default behavior in v3 is what plays in the Rive canvas. Before v3, if no state machine or specific animation was specified when setting up the `RiveViewModel`, the first animation made in the Rive file would play.
 
@@ -81,7 +81,7 @@ description: 'Migrating between major versions of the Apple runtime'
     </Accordion>
     <Accordion title="Migrating from 1.x.x to 2.x.x">
         <Info>
-        The Rive Apple runtime has a different API in 2.x.x from 1.x.x that allows for a unified internal model that supports both Storyboard/UIKit and SwiftUI usage. 
+        The Rive Apple runtime has a different API in 2.x.x from 1.x.x that allows for a unified internal model that supports both Storyboard/UIKit and SwiftUI usage.
         </Info>
 
         There are now 3 main pieces of the Rive API to be familiar with for iOS development:
@@ -119,7 +119,7 @@ description: 'Migrating between major versions of the Apple runtime'
         ```javascript
         class SimpleAnimationViewController: UIViewController {
             var viewModel = RiveViewModel(fileName: "truck")
-            
+
             override func viewWillAppear(_ animated: Bool) {
                 let riveView = viewModel.createRiveView()
                 view.addSubview(riveView)
@@ -133,13 +133,13 @@ description: 'Migrating between major versions of the Apple runtime'
         ```javascript
         class MultipleAnimationsController: UIViewController, RivePLayerDelegate {
             @IBOutlet weak var riveView: RiveView!
-            
+
             var viewModel = RiveViewModel(
-                fileName: "multiple_animations", 
-                animationName: "Animation 1", 
+                fileName: "multiple_animations",
+                animationName: "Animation 1",
                 artboardName: "Animation Playground"
             )
-            
+
             override func viewDidLoad() {
                 viewModel.setView(riveView)
             }
@@ -176,7 +176,7 @@ description: 'Migrating between major versions of the Apple runtime'
         - `RiveStateDelegate` - Hook into state changes on a state machine lifecycle
         - `stateChange`: `(_ stateMachineName: String, _ stateName: String) {}`
 
-        ## SwiftUI 
+        ## SwiftUI
 
         v1.x.x had a small wrapper around the existing `RiveView` class to help support Rive in the context of applications written in SwiftUI. v2.x.x now supports a more robust pattern for consuming Rive in your SwiftUI applications that fixes several bugs with the existing wrapper approach and provides a closer experience with the new pattern of SwiftUI.
 

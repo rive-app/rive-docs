@@ -1,0 +1,26 @@
+# View Model Instances
+
+Once we have a reference to a view model, it can be used to create an instance. When creating an instance, you have four options:
+
+1. Create a blank instance - Fill the properties of the created instance with default values as follows:
+
+   | Type              | Value           |
+   | ----------------- | --------------- |
+   | Number            | 0               |
+   | String            | Empty string    |
+   | Boolean           | False           |
+   | Color             | 0xFF000000      |
+   | Trigger           | Untriggered     |
+   | Enum              | The first value |
+   | Image             | No image        |
+   | Artboard          | No artboard     |
+   | List              | Empty list      |
+   | Nested view model | Null            |
+
+2. Create the default instance - Use the instance labelled "Default" in the editor. Usually this is the one a designer intends as the primary one to be used at runtime.
+3. Create by index - Using the order returned when iterating over all available instances. Useful when creating multiple instances by iteration.
+4. Create by name - Use the editor's instance name. Useful when creating a specific instance.
+
+<Note>
+  In some samples, due to the wordiness of "view model instance", we use the abbreviation "VMI", as well as "VM" for "view model".
+</Note>
