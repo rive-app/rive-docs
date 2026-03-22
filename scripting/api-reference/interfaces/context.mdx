@@ -13,6 +13,8 @@ It serves as a bridge between your script and the Rive runtime, giving you acces
 
 ### `markNeedsUpdate`
 
+`markNeedsUpdate()`
+
 Marks the object as needing an update on the next frame.
 Call this when something has changed (e.g., from a listener callback) and you need the runtime to re-invoke your node's update function.
 ```lua highlight={11}
@@ -38,6 +40,8 @@ end
 
 ### `viewModel`
 
+`viewModel()`
+
 Returns the [ViewModel](/scripting/api-reference/interfaces/view-model) bound to the node's immediate data context. This is the most common way
 to read data-bound properties from a script.
 ```lua highlight={2}
@@ -53,6 +57,8 @@ end
 
 
 ### `rootViewModel`
+
+`rootViewModel()`
 
 Returns the [ViewModel](/scripting/api-reference/interfaces/view-model) bound to the root artboard's data context.
 Useful when you need to access top-level data from a deeply nested node.
@@ -70,6 +76,8 @@ end
 
 ### `dataContext`
 
+`dataContext()`
+
 Returns the data context provided to this node.
 ```lua highlight={2}
 function init(self: MyNode, context: Context): boolean
@@ -85,6 +93,8 @@ end
 
 
 ### `image`
+
+`image(name: string)`
 
 Returns an image asset by name, or nil if not found.
 The returned [Image](/scripting/api-reference/image/image) can be drawn via `drawImage`.
@@ -125,11 +135,15 @@ end
 
 ### `blob`
 
+`blob(name: string)`
+
 Returns a [Blob](/scripting/api-reference/interfaces/blob) (raw binary data) asset by name, or nil if not found.
 Useful for loading custom data files embedded in the Rive file.
 
 
 ### `audio`
+
+`audio(name: string)`
 
 Returns an [AudioSource](/scripting/api-reference/interfaces/audio-source) asset by name. The returned source can be played using the global `Audio` API.
 

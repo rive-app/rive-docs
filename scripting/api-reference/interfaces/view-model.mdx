@@ -10,6 +10,8 @@ title: ViewModel
 
 ### `getNumber`
 
+`getNumber(name: string) -> Property<number>?`
+
 Looks up a numeric property by name.
 Returns a [DataValueNumber](/scripting/api-reference/data-value/data-value-number).
 ```lua
@@ -24,6 +26,8 @@ end
 
 
 ### `getTrigger`
+
+`getTrigger(name: string) -> PropertyTrigger?`
 
 Looks up a trigger property by name.
 Returns a [PropertyTrigger](/scripting/api-reference/data-value/property-trigger).
@@ -40,6 +44,8 @@ end
 
 ### `getString`
 
+`getString(name: string) -> Property<string>?`
+
 Looks up a string property by name.
 Returns a [DataValueString](/scripting/api-reference/data-value/data-value-string).
 ```lua
@@ -54,6 +60,8 @@ end
 
 
 ### `getBoolean`
+
+`getBoolean(name: string) -> Property<boolean>?`
 
 Looks up a boolean property by name.
 Returns a [DataValueBoolean](/scripting/api-reference/data-value/data-value-boolean).
@@ -70,6 +78,8 @@ end
 
 ### `getColor`
 
+`getColor(name: string) -> Property<Color>?`
+
 Looks up a color property by name.
 Returns a [DataValueColor](/scripting/api-reference/data-value/data-value-color).
 ```lua
@@ -84,6 +94,8 @@ end
 
 
 ### `getList`
+
+`getList(name: string) -> PropertyList?`
 
 Looks up a List property by name.
 Returns a [PropertyList](/scripting/api-reference/interfaces/property-list).
@@ -100,7 +112,11 @@ end
 
 ### `getViewModel`
 
+`getViewModel(name: string) -> PropertyViewModel?`
+
 ### `getEnum`
+
+`getEnum(name: string) -> PropertyEnum?`
 
 Looks up an enum by name.
 Returns a [PropertyEnum](/scripting/api-reference/interfaces/property-enum).
@@ -113,6 +129,8 @@ end
 
 
 ### `instance`
+
+`instance(instanceName: string?) -> ViewModel`
 
 Creates a new instance of the ViewModel.
 Pass instanceName to specify an existing instance from the file to use as template
