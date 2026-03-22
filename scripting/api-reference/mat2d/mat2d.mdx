@@ -167,6 +167,8 @@ print(r.x, r.y) -- 70, 160
 
 ### `values`
 
+`values(xx: number, xy: number, yx: number, yy: number, tx: number, ty: number) -> Mat2D`
+
 Creates a matrix using the specified components.
 ```lua
 -- xx=1, xy=skewX (horizontal skew), yx=skewY (vertical skew), yy=1, tx=0, ty=0Ô
@@ -176,6 +178,8 @@ local newMat = Mat2D.values(1, self.skewY, self.skewX, 1, 0, 0)Ô
 
 ### `identity`
 
+`identity() -> Mat2D`
+
 Returns the identity matrix.
 ```lua
 -- xx = 1, xy = 0, yx = 0, yy = 1, tx = 0, ty = 0
@@ -184,6 +188,8 @@ local newMat = Mat2D.identity()
 
 
 ### `withRotation`
+
+`withRotation(radians: number) -> Mat2D`
 
 Creates a rotation matrix from the given angle in radians.
 ```lua highlight={1}
@@ -197,6 +203,8 @@ print(math.floor(r.x + 0.5), math.floor(r.y + 0.5)) -- 0, 1
 ## Static Functions
 
 ### `invert`
+
+`invert(output: Mat2D, input: Mat2D) -> boolean`
 
 Writes the inverse of 'input' into 'output'. Returns true if the input
 matrix is invertible.
@@ -219,6 +227,8 @@ print(r.x, r.y) -- 10, 20
 
 ### `invert`
 
+`invert()`
+
 Returns the inverse of the matrix, or nil if the matrix is not invertible.
 ```lua highlight={2}
 local m = Mat2D.withTranslation(50, 100)
@@ -234,6 +244,8 @@ end
 
 ### `isIdentity`
 
+`isIdentity()`
+
 Returns true if the matrix is the identity transform.
 ```lua
 local newMat = Mat2D.identity()
@@ -242,6 +254,8 @@ print(newMat:isIdentity())
 
 
 ### `__eq`
+
+`__eq(rhs: Mat2D)`
 
 Returns true if all components of the two matrices are equal.
 ```lua highlight={4}
@@ -253,6 +267,8 @@ print(a == b) -- true
 
 
 ### `__mul`
+
+`__mul(rhs: Vector)`
 
 Transforms the given [Vector](/scripting/api-reference/vec2d/vector) by the matrix and returns the result.
 ```lua highlight={5}
@@ -267,6 +283,8 @@ print(result.x, result.y) -- 60, 120
 
 
 ### `__mul`
+
+`__mul(rhs: Mat2D)`
 
 Returns the matrix product of this matrix and the given matrix
 ```lua highlight={5}
