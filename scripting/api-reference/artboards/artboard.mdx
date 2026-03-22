@@ -44,10 +44,14 @@ end
 
 ### `draw`
 
+`draw(renderer: Renderer) -> ()`
+
 Draws the artboard using the provided renderer.
 
 
 ### `advance`
+
+`advance(seconds: number) -> boolean`
 
 Advances the artboard by the given time in seconds. Returns true if the
 artboard should continue receiving advance calls.
@@ -55,15 +59,21 @@ artboard should continue receiving advance calls.
 
 ### `instance`
 
+`instance(viewModel: ViewModel?) -> Artboard<T>`
+
 Creates a new instance of the artboard with independent state.
 
 
 ### `animation`
 
+`animation(name: string) -> Animation?`
+
 Creates an animation instance linked to the artboard instance
 
 
 ### `bounds`
+
+`bounds() -> (Vector, Vector)`
 
 Returns the bounding box of the artboard as two [Vector](/scripting/api-reference/vec2d/vector) values: the
 minimum point and the maximum point.
@@ -76,10 +86,14 @@ print("Bounds height", maxPt.y - minPt.y)
 
 ### `node`
 
+`node(name: string) -> NodeData?`
+
 Returns the node with the given name, or nil if no such node exists.
 
 
 ### `pointerDown`
+
+`pointerDown(event: PointerEvent) -> number`
 
 Pointer event down handler. Each returns a hit-test result, where 0
 indicates no hit and non-zero values indicate a hit.
@@ -87,11 +101,15 @@ indicates no hit and non-zero values indicate a hit.
 
 ### `pointerUp`
 
+`pointerUp(event: PointerEvent) -> number`
+
 Pointer event up handler. Each returns a hit-test result, where 0
 indicates no hit and non-zero values indicate a hit.
 
 
 ### `pointerMove`
+
+`pointerMove(event: PointerEvent) -> number`
 
 Pointer event move handler. Each returns a hit-test result, where 0
 indicates no hit and non-zero values indicate a hit.
@@ -99,11 +117,15 @@ indicates no hit and non-zero values indicate a hit.
 
 ### `pointerExit`
 
+`pointerExit(event: PointerEvent) -> number`
+
 Pointer event exit handler. Each returns a hit-test result, where 0
 indicates no hit and non-zero values indicate a hit.
 
 
 ### `addToPath`
+
+`addToPath(path: Path, transform: Mat2D?) -> ()`
 
 Adds the artboard’s geometry to the given path, optionally transformed
 by the provided matrix.

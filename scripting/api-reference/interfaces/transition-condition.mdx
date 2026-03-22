@@ -11,6 +11,8 @@ For more information, see [Transition Condition Scripts](/scripting/protocols/tr
 
 ### `init`
 
+`init((self: T, context: Context) -> boolean)`
+
 Called once when the transition condition is created or attached.
 ``` lua highlight={4,5,6,14}
 type MyTransitionCondition = {}
@@ -34,6 +36,8 @@ end
 
 
 ### `evaluate`
+
+`evaluate() -> boolean`
 
 Called every frame while the transition is active.
 ``` lua highlight={4,5,6,14}
