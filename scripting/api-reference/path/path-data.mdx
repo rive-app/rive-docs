@@ -10,6 +10,13 @@ Both Path and PathData behave like arrays of commands and support iteration via 
 
 ### `__len`
 
+{/* function __len(self): number */}
+<div class="signature">
+```lua
+__len() -> number
+```
+</div>
+
 Each entry is a [PathCommand](/scripting/api-reference/path/path-command) describing one segment or action in the path.
 ```lua
 for i, command in ipairs(pathData) do
@@ -24,6 +31,13 @@ print(count)
 
 
 ### `contours`
+
+{/* contours: (self: PathData) -> ContourMeasure? */}
+<div class="signature">
+```lua
+contours() -> ContourMeasure?
+```
+</div>
 
 Returns a [ContourMeasure](/scripting/api-reference/path/contour-measure) for the first contour in the path. A contour is a
 sequence of path segments starting at a `moveTo` and ending before the next
@@ -40,6 +54,13 @@ end
 
 
 ### `measure`
+
+{/* measure: (self: PathData) -> PathMeasure */}
+<div class="signature">
+```lua
+measure() -> PathMeasure
+```
+</div>
 
 Returns a [PathMeasure](/scripting/api-reference/path/path-measure) that measures the entire path across all contours.
 This provides the total length and allows operations on the path as a whole.
