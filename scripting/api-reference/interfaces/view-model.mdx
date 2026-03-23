@@ -10,6 +10,13 @@ title: ViewModel
 
 ### `getNumber`
 
+{/* getNumber: (self: ViewModel, name:string) -> Property<number>? */}
+<div class="signature">
+```lua
+getNumber(name: string) -> Property<number>?
+```
+</div>
+
 Looks up a numeric property by name.
 Returns a [DataValueNumber](/scripting/api-reference/data-value/data-value-number).
 ```lua
@@ -24,6 +31,13 @@ end
 
 
 ### `getTrigger`
+
+{/* getTrigger: (self: ViewModel, name:string)-> PropertyTrigger? */}
+<div class="signature">
+```lua
+getTrigger(name: string) -> PropertyTrigger?
+```
+</div>
 
 Looks up a trigger property by name.
 Returns a [PropertyTrigger](/scripting/api-reference/data-value/property-trigger).
@@ -40,6 +54,13 @@ end
 
 ### `getString`
 
+{/* getString: (self: ViewModel, name:string) -> Property<string>? */}
+<div class="signature">
+```lua
+getString(name: string) -> Property<string>?
+```
+</div>
+
 Looks up a string property by name.
 Returns a [DataValueString](/scripting/api-reference/data-value/data-value-string).
 ```lua
@@ -54,6 +75,13 @@ end
 
 
 ### `getBoolean`
+
+{/* getBoolean: (self: ViewModel, name:string) -> Property<boolean>? */}
+<div class="signature">
+```lua
+getBoolean(name: string) -> Property<boolean>?
+```
+</div>
 
 Looks up a boolean property by name.
 Returns a [DataValueBoolean](/scripting/api-reference/data-value/data-value-boolean).
@@ -70,6 +98,13 @@ end
 
 ### `getColor`
 
+{/* getColor: (self: ViewModel, name:string) -> Property<Color>? */}
+<div class="signature">
+```lua
+getColor(name: string) -> Property<Color>?
+```
+</div>
+
 Looks up a color property by name.
 Returns a [DataValueColor](/scripting/api-reference/data-value/data-value-color).
 ```lua
@@ -84,6 +119,13 @@ end
 
 
 ### `getList`
+
+{/* getList: (self: ViewModel, name:string) -> PropertyList? */}
+<div class="signature">
+```lua
+getList(name: string) -> PropertyList?
+```
+</div>
 
 Looks up a List property by name.
 Returns a [PropertyList](/scripting/api-reference/interfaces/property-list).
@@ -100,7 +142,21 @@ end
 
 ### `getViewModel`
 
+{/* getViewModel: (self: ViewModel, name:string) -> PropertyViewModel? */}
+<div class="signature">
+```lua
+getViewModel(name: string) -> PropertyViewModel?
+```
+</div>
+
 ### `getEnum`
+
+{/* getEnum: (self: ViewModel, name:string) -> PropertyEnum? */}
+<div class="signature">
+```lua
+getEnum(name: string) -> PropertyEnum?
+```
+</div>
 
 Looks up an enum by name.
 Returns a [PropertyEnum](/scripting/api-reference/interfaces/property-enum).
@@ -113,6 +169,13 @@ end
 
 
 ### `instance`
+
+{/* instance: (self: ViewModel, instanceName: string?) -> ViewModel */}
+<div class="signature">
+```lua
+instance(instanceName: string?) -> ViewModel
+```
+</div>
 
 Creates a new instance of the ViewModel.
 Pass instanceName to specify an existing instance from the file to use as template

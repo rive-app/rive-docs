@@ -13,6 +13,13 @@ It serves as a bridge between your script and the Rive runtime, giving you acces
 
 ### `markNeedsUpdate`
 
+{/* function markNeedsUpdate(self): () */}
+<div class="signature">
+```lua
+markNeedsUpdate() -> ()
+```
+</div>
+
 Marks the object as needing an update on the next frame.
 Call this when something has changed (e.g., from a listener callback) and you need the runtime to re-invoke your node's update function.
 ```lua highlight={11}
@@ -38,6 +45,13 @@ end
 
 ### `viewModel`
 
+{/* function viewModel(self): ViewModel? */}
+<div class="signature">
+```lua
+viewModel() -> ViewModel?
+```
+</div>
+
 Returns the [ViewModel](/scripting/api-reference/interfaces/view-model) bound to the node's immediate data context. This is the most common way
 to read data-bound properties from a script.
 ```lua highlight={2}
@@ -53,6 +67,13 @@ end
 
 
 ### `rootViewModel`
+
+{/* function rootViewModel(self): ViewModel? */}
+<div class="signature">
+```lua
+rootViewModel() -> ViewModel?
+```
+</div>
 
 Returns the [ViewModel](/scripting/api-reference/interfaces/view-model) bound to the root artboard's data context.
 Useful when you need to access top-level data from a deeply nested node.
@@ -70,6 +91,13 @@ end
 
 ### `dataContext`
 
+{/* function dataContext(self): DataContext? */}
+<div class="signature">
+```lua
+dataContext() -> DataContext?
+```
+</div>
+
 Returns the data context provided to this node.
 ```lua highlight={2}
 function init(self: MyNode, context: Context): boolean
@@ -85,6 +113,13 @@ end
 
 
 ### `image`
+
+{/* function image(self, name: string): Image? */}
+<div class="signature">
+```lua
+image(name: string) -> Image?
+```
+</div>
 
 Returns an image asset by name, or nil if not found.
 The returned [Image](/scripting/api-reference/image/image) can be drawn via `drawImage`.
@@ -125,11 +160,25 @@ end
 
 ### `blob`
 
+{/* function blob(self, name: string): Blob? */}
+<div class="signature">
+```lua
+blob(name: string) -> Blob?
+```
+</div>
+
 Returns a [Blob](/scripting/api-reference/interfaces/blob) (raw binary data) asset by name, or nil if not found.
 Useful for loading custom data files embedded in the Rive file.
 
 
 ### `audio`
+
+{/* function audio(self, name: string): AudioSource? */}
+<div class="signature">
+```lua
+audio(name: string) -> AudioSource?
+```
+</div>
 
 Returns an [AudioSource](/scripting/api-reference/interfaces/audio-source) asset by name. The returned source can be played using the global `Audio` API.
 
