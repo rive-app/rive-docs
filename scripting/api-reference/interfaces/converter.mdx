@@ -19,11 +19,23 @@ For more information, see [Converter Scripts](/scripting/protocols/converter-scr
 
 ### `init`
 
+<div class="signature">
+```lua
+init((self: T, context: Context) -> boolean)
+```
+</div>
+
 Called once when the converter is created. Returns true if initialization
 succeeds.
 
 
 ### `convert`
+
+<div class="signature">
+```lua
+convert(input: I) -> O
+```
+</div>
 
 Converts the input value (a view model property) to an output value.
 The input parameter must be a DataValue type.
@@ -31,11 +43,23 @@ The input parameter must be a DataValue type.
 
 ### `reverseConvert`
 
+<div class="signature">
+```lua
+reverseConvert(input: O) -> I
+```
+</div>
+
 Converts the output value back to an input value (a view model property).
 The input parameter must be a DataValue type.
 
 
 ### `advance`
+
+<div class="signature">
+```lua
+advance((self: T, seconds: number) -> boolean)
+```
+</div>
 
 Optional per-frame update. Returns true if the converter should continue
 receiving advance calls.
