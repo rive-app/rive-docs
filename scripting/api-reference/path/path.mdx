@@ -12,6 +12,12 @@ next frame to draw it again.
 
 ### `new`
 
+<div class="signature">
+```lua
+new() -> Path
+```
+</div>
+
 ```lua highlight={11}
 local path = Path.new()
 path:moveTo(Vector.xy(0, 0))
@@ -22,6 +28,12 @@ path:moveTo(Vector.xy(0, 0))
 
 ### `moveTo`
 
+<div class="signature">
+```lua
+moveTo(to: Vector) -> ()
+```
+</div>
+
 Moves the current point to the specified location, starting a new contour.
 ```lua
 path:moveTo(Vector.xy(0, 0))
@@ -30,6 +42,12 @@ path:moveTo(Vector.xy(0, 0))
 
 ### `lineTo`
 
+<div class="signature">
+```lua
+lineTo(to: Vector) -> ()
+```
+</div>
+
 Adds a straight line segment from the current point to the specified point.
 ```lua
 path:lineTo(Vector.xy(10, 0))
@@ -37,6 +55,12 @@ path:lineTo(Vector.xy(10, 0))
 
 
 ### `quadTo`
+
+<div class="signature">
+```lua
+quadTo(control: Vector, to: Vector) -> ()
+```
+</div>
 
 Adds a quadratic Bézier curve from the current point to the specified point,
 using the control point to define the curve shape.
@@ -50,6 +74,12 @@ path:quadTo(
 
 ### `cubicTo`
 
+<div class="signature">
+```lua
+cubicTo(controlOut: Vector, controlIn: Vector, to: Vector) -> ()
+```
+</div>
+
 Adds a cubic Bézier curve from the current point to the specified point,
 using `controlOut` for the start tangent and `controlIn` for the end tangent.
 ```lua
@@ -62,6 +92,12 @@ path:cubicTo(
 
 
 ### `close`
+
+<div class="signature">
+```lua
+close() -> ()
+```
+</div>
 
 Closes the current contour by adding a line segment from the current point
 back to the first point of the contour (the last `moveTo`).
@@ -78,6 +114,12 @@ path:close()
 
 ### `__len`
 
+<div class="signature">
+```lua
+__len() -> number
+```
+</div>
+
 Each entry is a [PathCommand](/scripting/api-reference/path/path-command) describing one segment or action in the path.
 ```lua
 local cmd = path[1]
@@ -92,6 +134,12 @@ print(count)
 
 ### `reset`
 
+<div class="signature">
+```lua
+reset() -> ()
+```
+</div>
+
 Do not mutate or reset a [Path](/scripting/api-reference/path/path) in the same frame after drawing it.
 If you need to change it, wait until the next frame.
 Only call `reset` on subsequent frames if you've called `Renderer.drawPath`
@@ -102,6 +150,12 @@ path:reset()
 
 
 ### `add`
+
+<div class="signature">
+```lua
+add(other: PathData, transform: Mat2D?) -> ()
+```
+</div>
 
 Appends the commands from `other` onto this path. If `transform` is provided,
 the appended commands are transformed as they are added.
@@ -121,6 +175,12 @@ dst:add(src)
 
 ### `contours`
 
+<div class="signature">
+```lua
+contours() -> ContourMeasure?
+```
+</div>
+
 Returns a [ContourMeasure](/scripting/api-reference/path/contour-measure) for the first contour in the path. A contour is a
 sequence of path segments starting at a `moveTo` and ending before the next
 `moveTo` (or end of path). Use the `next` property on the returned
@@ -136,6 +196,12 @@ end
 
 
 ### `measure`
+
+<div class="signature">
+```lua
+measure() -> PathMeasure
+```
+</div>
 
 Returns a [PathMeasure](/scripting/api-reference/path/path-measure) that measures the entire path across all contours.
 This provides the total length and allows operations on the path as a whole.

@@ -10,6 +10,12 @@ title: ViewModel
 
 ### `getNumber`
 
+<div class="signature">
+```lua
+getNumber(name: string) -> Property<number>?
+```
+</div>
+
 Looks up a numeric property by name.
 Returns a [DataValueNumber](/scripting/api-reference/data-value/data-value-number).
 ```lua
@@ -24,6 +30,12 @@ end
 
 
 ### `getTrigger`
+
+<div class="signature">
+```lua
+getTrigger(name: string) -> PropertyTrigger?
+```
+</div>
 
 Looks up a trigger property by name.
 Returns a [PropertyTrigger](/scripting/api-reference/data-value/property-trigger).
@@ -40,6 +52,12 @@ end
 
 ### `getString`
 
+<div class="signature">
+```lua
+getString(name: string) -> Property<string>?
+```
+</div>
+
 Looks up a string property by name.
 Returns a [DataValueString](/scripting/api-reference/data-value/data-value-string).
 ```lua
@@ -54,6 +72,12 @@ end
 
 
 ### `getBoolean`
+
+<div class="signature">
+```lua
+getBoolean(name: string) -> Property<boolean>?
+```
+</div>
 
 Looks up a boolean property by name.
 Returns a [DataValueBoolean](/scripting/api-reference/data-value/data-value-boolean).
@@ -70,6 +94,12 @@ end
 
 ### `getColor`
 
+<div class="signature">
+```lua
+getColor(name: string) -> Property<Color>?
+```
+</div>
+
 Looks up a color property by name.
 Returns a [DataValueColor](/scripting/api-reference/data-value/data-value-color).
 ```lua
@@ -84,6 +114,12 @@ end
 
 
 ### `getList`
+
+<div class="signature">
+```lua
+getList(name: string) -> PropertyList?
+```
+</div>
 
 Looks up a List property by name.
 Returns a [PropertyList](/scripting/api-reference/interfaces/property-list).
@@ -100,7 +136,19 @@ end
 
 ### `getViewModel`
 
+<div class="signature">
+```lua
+getViewModel(name: string) -> PropertyViewModel?
+```
+</div>
+
 ### `getEnum`
+
+<div class="signature">
+```lua
+getEnum(name: string) -> PropertyEnum?
+```
+</div>
 
 Looks up an enum by name.
 Returns a [PropertyEnum](/scripting/api-reference/interfaces/property-enum).
@@ -113,6 +161,12 @@ end
 
 
 ### `instance`
+
+<div class="signature">
+```lua
+instance(instanceName: string?) -> ViewModel
+```
+</div>
 
 Creates a new instance of the ViewModel.
 Pass instanceName to specify an existing instance from the file to use as template

@@ -13,6 +13,12 @@ For more information, see [Node Scripts](/scripting/protocols/node-scripts).
 
 ### `init`
 
+<div class="signature">
+```lua
+init((self: T, context: Context) -> boolean)
+```
+</div>
+
 Called once when the node is created. Returns true if initialization
 succeeds.
 
@@ -36,6 +42,12 @@ end
 
 
 ### `advance`
+
+<div class="signature">
+```lua
+advance((self: T, seconds: number) -> boolean)
+```
+</div>
 
 Optional per-frame update. Returns true if the node should continue
 receiving advance calls.
@@ -62,6 +74,12 @@ end
 
 ### `update`
 
+<div class="signature">
+```lua
+update() -> ()?
+```
+</div>
+
 Called when an input value changes.
 ```lua highlight={5,6,7,12}
 -- Define the script's data and inputs.
@@ -83,6 +101,12 @@ end
 
 ### `draw`
 
+<div class="signature">
+```lua
+draw((self: T, renderer: Renderer) ->())
+```
+</div>
+
 Called to render the node using the provided [Renderer](/scripting/api-reference/renderer/renderer).
 
 For a more complete example using draw, see [Instantiating Components](/scripting/protocols/node-scripts#instantiating-components).
@@ -103,6 +127,12 @@ end
 
 
 ### `pointerDown`
+
+<div class="signature">
+```lua
+pointerDown(event: PointerEvent) -> ()?
+```
+</div>
 
 Pointer event down handler.
 
@@ -126,6 +156,12 @@ end
 
 ### `pointerMove`
 
+<div class="signature">
+```lua
+pointerMove(event: PointerEvent) -> ()?
+```
+</div>
+
 Pointer event move handler.
 
 ```lua
@@ -148,6 +184,12 @@ end
 
 ### `pointerUp`
 
+<div class="signature">
+```lua
+pointerUp(event: PointerEvent) -> ()?
+```
+</div>
+
 Pointer event up handler.
 ```lua
 function handlePointerUp(self: MyGame, event: PointerEvent)
@@ -168,6 +210,12 @@ end
 
 
 ### `pointerExit`
+
+<div class="signature">
+```lua
+pointerExit(event: PointerEvent) -> ()?
+```
+</div>
 
 Pointer event exit handler.
 ```lua
