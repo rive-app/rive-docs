@@ -10,6 +10,13 @@ applying transforms during rendering.
 
 ### `drawPath`
 
+{/* function drawPath(self, path: Path, paint: Paint): () */}
+<div class="signature">
+```lua
+drawPath(path: Path, paint: Paint) -> ()
+```
+</div>
+
 Draws the given [Path](/scripting/api-reference/path/path) using the specified [Paint](/scripting/api-reference/paint/paint).
 
 For a more detailed explanation and working examples, see [Drawing with Node Scripts](/scripting/protocols/node-scripts#drawing).
@@ -21,6 +28,13 @@ end
 
 
 ### `drawImage`
+
+{/* function drawImage(self, image: Image, sampler: ImageSampler,  blendMode: BlendMode, opacity: number): () */}
+<div class="signature">
+```lua
+drawImage(image: Image, sampler: ImageSampler, blendMode: BlendMode, opacity: number) -> ()
+```
+</div>
 
 Draws an [Image](/scripting/api-reference/image/image) using the [ImageSampler](/scripting/api-reference/image/image-sampler), [BlendMode](/scripting/api-reference/paint/blend-mode), and opacity.
 
@@ -58,17 +72,38 @@ end
 
 ### `drawImageMesh`
 
+{/* function drawImageMesh(self, image: Image, sampler: ImageSampler, vertices: VertexBuffer, uvs: VertexBuffer, triangles: TriangleBuffer, blendMode: BlendMode, opacity: number ): () */}
+<div class="signature">
+```lua
+drawImageMesh(image: Image, sampler: ImageSampler, vertices: VertexBuffer, uvs: VertexBuffer, triangles: TriangleBuffer, blendMode: BlendMode, opacity: number) -> ()
+```
+</div>
+
 Draws an image using mesh data defined by vertices, texture
 coordinates, and triangle indices.
 
 
 ### `clipPath`
 
+{/* function clipPath(self, path: Path): () */}
+<div class="signature">
+```lua
+clipPath(path: Path) -> ()
+```
+</div>
+
 Restricts subsequent drawing to the area defined by the given [Path](/scripting/api-reference/path/path).
 Clipping remains in effect until the next restore call.
 
 
 ### `save`
+
+{/* function save(self): () */}
+<div class="signature">
+```lua
+save() -> ()
+```
+</div>
 
 Saves the current rendering state, including transforms and clipping.
 ```lua highlight={4}
@@ -85,6 +120,13 @@ end
 
 ### `restore`
 
+{/* function restore(self): () */}
+<div class="signature">
+```lua
+restore() -> ()
+```
+</div>
+
 Restores the most recently saved rendering state.
 ```lua highlight={6}
 function draw(self: MyGame, renderer: Renderer)
@@ -99,6 +141,13 @@ end
 
 
 ### `transform`
+
+{/* function transform(self, transform: Mat2D): () */}
+<div class="signature">
+```lua
+transform(transform: Mat2D) -> ()
+```
+</div>
 
 Applies a transform to the current rendering state. Transforms are
 applied cumulatively until restored.

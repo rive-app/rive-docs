@@ -9,7 +9,14 @@ PropertyEnum is a [Property](/scripting/api-reference/data-value/property) with 
 
 ### `values`
 
-The [EnumValues](/scripting/api-reference/interfaces/enum-values) of the enum.
+{/* values: (self: PropertyEnum) -> EnumValues */}
+<div class="signature">
+```lua
+values() -> EnumValues
+```
+</div>
+
+Returns the available enum values
 ```lua highlight={6}
 local vmi = context:viewModel()
 if vmi then
