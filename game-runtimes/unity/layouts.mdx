@@ -3,17 +3,18 @@ title: "Layouts"
 description: "Control the layout of your Rive animation in Unity"
 ---
 
+import FitMode from '/snippets/runtimes/layouts/fit-mode.mdx'
+import Alignment from "/snippets/runtimes/layouts/alignment.mdx"
+import ApplyingFitMode from "/snippets/runtimes/layouts/applying-fit-mode.mdx"
 import LegacyApiNotice from '/snippets/unity/legacy-api-notice.mdx';
 
-For more information on Rive Layout see the [runtime documentation](/runtimes/layout).
+For more information on creating Rive Layouts, see the [editor documentation](/editor/layouts/layouts-overview).
 
-<CardGroup col="auto">
-  <Card title="Layout" icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>} href="/runtimes/layout">
-    Rive provides a number of ways to control how your animations are laid out in the canvas or view used to display them. Rive lets you control the fit, alignment, and offset of rendered content.
-  </Card>
-</CardGroup>
+<FitMode />
 
-## Fit and Alignment
+<Alignment />
+
+## Applying the Fit and Alignment
 
 <Tabs>
   <Tab title="Components">
@@ -31,13 +32,13 @@ For more information on Rive Layout see the [runtime documentation](/runtimes/la
     public Alignment alignment = Alignment.Center;
     public RenderTexture renderTexture;
     private Rive.Renderer m_riveRenderer;
-    
+
     ...
-    
+
     m_renderQueue = new Rive.RenderQueue(renderTexture);
     m_riveRenderer = m_renderQueue.Renderer();
     ...
-    
+
     if (m_artboard != null && renderTexture != null)
     {
         m_riveRenderer.Align(fit, alignment, m_artboard);
@@ -47,7 +48,7 @@ For more information on Rive Layout see the [runtime documentation](/runtimes/la
   </Tab>
 </Tabs>
 
-## Responsive Layout
+## Responsive layouts
 
 The `Layout` **Fit** mode lets you display resizable artboards with built-in responsive behavior, configured directly in the graphic. Set a **Fit** of type **Layout** at runtime and the artboard will resize automatically. Optionally, provide a **Layout Scale Factor** to further adjust the scale of the content.
 

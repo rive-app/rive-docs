@@ -42,7 +42,7 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
         <Steps>
             <Step title="Install the Runtime">
                 With CocoaPods going into [maintenance mode](https://blog.cocoapods.org/CocoaPods-Support-Plans/), we recommend using Swift Package Manager.
-                
+
                 To install via Xcode, you can follow Apple's instructions for [adding a package dependency to your app](https://developer.apple.com/documentation/xcode/adding-package-dependencies-to-your-app), with the Apple runtime's GitHub URL: https://github.com/rive-app/rive-ios.
 
                 Alternatively, you can add the dependency manually by adding the following to your `Package.swift` file:
@@ -156,10 +156,10 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
 
                 The above example uses the default artboard and state machine for the file, binding the default view model instance to the state machine if available. This is the default behavior when initializing a `Rive` object without specifying an artboard or state machine.
 
-                Alternatively, you can also specify which artboard and state machine to use. Documentation and examples for manually selecting which artboard to use is available in the [Artboards](/runtimes/artboards#choosing-an-artboard) documentation. Documentation and examples for manually selecting which state machine to use is available in the [State Machines](/runtimes/state-machines#getting-a-state-machine) documentation.
+                Alternatively, you can also specify which artboard and state machine to use. Documentation and examples for manually selecting which artboard to use is available in the [Artboards](/runtimes/apple/artboards#choosing-an-artboard) documentation. Documentation and examples for manually selecting which state machine to use is available in the [State Machines](/runtimes/apple/state-machines#getting-a-state-machine) documentation.
             </Step>
             <Step title="Data Binding">
-                [Data Binding](/runtimes/data-binding) is a feature that allows you to dynamically update your Rive graphics from code. This includes things such as strings, numbers, booleans, and more.
+                [Data Binding](/runtimes/apple/data-binding) is a feature that allows you to dynamically update your Rive graphics from code. This includes things such as strings, numbers, booleans, and more.
 
                 By default, creating a `Rive` object will automatically data bind to the default view model instance for its artboard. However, there are three options for data binding:
 
@@ -174,7 +174,7 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
                     // You can then access the bound view model instance via the `viewModelInstance` property.
                     let viewModelInstance = rive.viewModelInstance
                     ```
-                    
+
                     ```swift Bind Instance
                     let file = try await File(...)
                     let viewModelInstance = try await file.createViewModelInstance(...)
@@ -241,7 +241,7 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
                 **Swift Package Manager**
 
                 To install via Swift Package Manager, in the package finder in Xcode, search for `rive-ios` or the full Github path: `https://github.com/rive-app/rive-ios`
-                
+
                 **Cocoapods**
 
                 Add the following to your Podspec file:
@@ -298,7 +298,7 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
                             }
                             ```
 
-                            
+
                             ```swift Storyboard
                             class AnimationViewController: UIViewController {
                                 @IBOutlet weak var riveView: RiveView!
@@ -344,7 +344,7 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
                     let file = try await File(source: ..., worker: worker)
                     let rive = try await Rive(file: file)
                     return rive
-                } 
+                }
                 .paused(isPaused)
             }
             ```
@@ -392,7 +392,7 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
                     let file = try await File(source: ..., worker: worker)
                     let rive = try await Rive(file: file)
                     return rive
-                } 
+                }
                 .frameRate(.fps(30))
                 // or
                 .frameRate(.range(minimum: 30, maximum: 60))

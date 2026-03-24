@@ -1,0 +1,9 @@
+## Fallback Fonts
+
+When rendering text, not all glyphs (characters) may be available in the active font. This commonly occurs when:
+
+- Using custom fonts that don’t support all languages or Unicode ranges
+- The embedded font is a subset of the font
+- User-generated or dynamic text contains unexpected characters
+
+A fallback font is used automatically when the primary font cannot render a specific glyph. These are typically system fonts, which generally provide broad Unicode coverage.

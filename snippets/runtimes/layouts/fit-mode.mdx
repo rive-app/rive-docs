@@ -1,0 +1,24 @@
+## The Fit Mode
+
+A Rive graphic authored in the editor will not necessarily match the size of the container it is rendered into at runtime. We need to determine the behavior for this scenario, as no one size fits all.
+
+The solution is choosing the fit mode. This is specified on the container and controls how Rive is scaled.
+
+- `Layout`: Use the Rive layout engine to apply responsive layout to the artboard, matching the container dimensions. For this to work, the artboard must be designed with layouts in mind. See [Responsive Layouts](#responsive-layouts) for more information on how to use this option.
+- `Contain`: **(Default)** Preserve aspect ratio and scale the artboard so that its larger dimension matches the corresponding dimension of the container.
+
+  If aspect ratios are not identical, this will leave space on the shorter dimension's axis.
+- `ScaleDown`: Preserve aspect ratio and behave like `Contain` when the artboard is larger than the container. Otherwise, use the artboard's original dimensions.
+- `Cover`: Preserve aspect ratio and scale the artboard so that its smaller dimension matches the corresponding dimension of the container.
+
+  If aspect ratios are not identical, this will clip the artboard on the larger dimension's axis.
+- `FitWidth`: Preserve aspect ratio and scale the artboard width to match the container's width.
+
+  If the aspect ratios between the artboard and container do not match, this will result in either vertical clipping or space in the vertical axis.
+- `FitHeight`: Preserve aspect ratio and scale the artboard height to match the container's height.
+
+  If the aspect ratios between the artboard and container do not match, this will result in either horizontal clipping or space in the horizontal axis.
+- `Fill`: Do not preserve aspect ratio and stretch to the container's dimensions.
+- `None`: Do not scale. Use the artboard's original dimensions.
+
+  For either dimension, if the artboard's dimension is larger, it will be clipped. If it is smaller, it will leave space.
