@@ -98,10 +98,11 @@ actor WorkerProvider {
 ### Shared APIs
 
 The main shared API area is fallback fonts through `RiveFont.fallbackFontsCallback`.
+For fallback font types and behavior, see [Fallback Fonts](/runtimes/fonts#fallback-fonts).
 
 ### RiveViewModel to Rive
 
-The legacy runtime centers around `RiveViewModel` and `RiveView`, while the new runtime centers around `Rive`, `RiveUIView`, and SwiftUI representables.
+Use the sections below as a migration map: [Loading a File from Disk](#loading-a-file-from-disk), [Creating a Rive View](#creating-a-rive-view), and [Data Binding](#data-binding). Legacy `RiveViewModel` flows in these areas become explicit `File` + `Rive` setup, then `RiveUIView`/SwiftUI representables in the new runtime.
 
 ### Loading a File from Disk
 
@@ -127,6 +128,7 @@ let rive = try await Rive(file: file)
 #### {Apple.legacyRuntimeName}
 
 ```swift
+let webURL = URL(string: "https://example.com/my_rive_file.riv")!
 let file = RiveFile(httpUrl: webURL, loadCdn: false, with: self)
 let model = RiveModel(riveFile: file)
 let viewModel = RiveViewModel(model)
@@ -136,8 +138,9 @@ let viewModel = RiveViewModel(model)
 
 ```swift
 let worker = try await WorkerProvider.shared.worker()
+let webURL = URL(string: "https://example.com/my_rive_file.riv")!
 let file = try await File(
-    source: .url(URL(string: "https://example.com/my_rive_file.riv")!),
+    source: .url(webURL),
     worker: worker
 )
 let rive = try await Rive(file: file)
@@ -536,7 +539,10 @@ let noBindingRive = try await Rive(file: file, dataBind: .none)
 
 ### Updating a Data Bind Unsettles the State Machine
 
-Data-bound values are applied when the bound state machine or artboard advances.
+Legacy and new runtime behavior differ here:
+
+- Legacy: after changing a data bound property, you typically call `play()` to advance/unsettle and apply the change if the graphic has settled.
+- New runtime: setting a data bound property no longer requires an explicit `play()` call, simplifying the API.
 
 Best practice for migration: if you need initial values, set them **before** creating and presenting a view.
 
@@ -544,21 +550,25 @@ This avoids showing default values for a frame before your app-provided values a
 
 #### {Apple.legacyRuntimeName}
 
-Set initial values before the view is shown:
+When updating a bound value after the view is created, keep a reference to the instance and call `play()` after mutation:
 
 ```swift
 let viewModel = RiveViewModel(...)
+var instance: RiveDataBindingViewModel.Instance?
+
 viewModel.riveModel?.enableAutoBind { boundInstance in
-    boundInstance.stringProperty(fromPath: "path/to/string")?.value = "Initial Value"
+    instance = boundInstance
 }
 
-// Present the view after initial values are set
 let riveView = viewModel.createRiveView()
+
+instance?.stringProperty(fromPath: "path/to/string")?.value = "Updated Value"
+viewModel.play() // Required to advance/unsettle after mutation
 ```
 
 #### {Apple.currentRuntimeName}
 
-In the new runtime, create/bind the instance, set initial values, then create/present the view.
+In the new runtime, update the bound value after the view is created. No explicit `play()` call is needed.
 
 ```swift
 let worker = try await WorkerProvider.shared.worker()
@@ -566,10 +576,10 @@ let file = try await File(source: .local("my_rive_file", Bundle.main), worker: w
 
 let instance = try await file.createViewModelInstance(from: .name("My View Model"))
 let property = StringProperty(path: "path/to/string")
-instance.setValue(of: property, to: "Initial Value")
-
 let rive = try await Rive(file: file, dataBind: .instance(instance))
-let riveView = RiveUIView(rive: rive) // Present after initial values are set
+let riveView = RiveUIView(rive: rive)
+
+instance.setValue(of: property, to: "Updated Value") // Applies without play()
 ```
 
 ### Playing and Pausing
@@ -767,7 +777,7 @@ Simple event-like behavior can often be modeled with trigger-oriented view model
 
 Legacy integrations can directly target linear animations. In migration, graphics are required to contain a state machine.
 
-For existing files that rely on linear animations, create a state machine in the Editor that with a single state that plays the desired animation.
+For existing files that rely on linear animations, create a state machine in the Editor with a single state that plays the desired animation.
 
 ### Observing State Machine State
 
