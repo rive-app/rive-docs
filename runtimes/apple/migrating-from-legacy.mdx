@@ -692,13 +692,13 @@ RiveLogger.isVerbose = true
 #### {Apple.currentRuntimeName}
 
 ```swift
-RiveLog.logger = .system(levels: .default)
+RiveLog.logger = RiveLog.system(levels: .default)
 
 // Or use your own implementation of RiveLog.Logger
 RiveLog.logger = MyLogger()
 
 // Disable logs
-RiveLog.logger = .none
+RiveLog.logger = RiveLog.none
 ```
 
 ### Fallback Fonts
