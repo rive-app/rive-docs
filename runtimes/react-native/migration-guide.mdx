@@ -3,15 +3,9 @@ title: "Migration Guide"
 description: "Learn how to migrate your React Native app when upgrading between major versions of the Rive React Native runtime, including breaking changes and new features."
 ---
 
-## Migrating to the Async API (`v0.4.0`+)
+## Migrating to the Async API (`v0.3.2`+)
 
-This release introduces an **async-first API** to prepare for the new experimental Rive runtime. Synchronous methods that block the JS thread are deprecated and replaced with async equivalents. State machine input and text run methods are deprecated in favor of [data binding](/runtimes/data-binding).
-
-<Note>
-  All your Rive graphics will still look and function the same as they did
-  before. The hooks, components, and data binding patterns are unchanged — only
-  the underlying method signatures are updated.
-</Note>
+This release introduces an **async-first API** to prepare for the new experimental Rive runtime. Synchronous methods that block the JS thread are deprecated and replaced with async equivalents. State machine input and text run methods are deprecated in favor of [data binding](/runtimes/data-binding) and will be removed entirely in the experimental runtime (and therefore in upcoming `@rive-app/react-native` versions).
 
 ### What's Changed
 
@@ -19,7 +13,7 @@ This release introduces an **async-first API** to prepare for the new experiment
 - **Name-based access** replaces count/index-based ViewModel and artboard lookups
 - **`getValueAsync()` / `set()`** replace `property.value` for reading and writing properties
 - **`useRiveNumber` and similar hooks** now start as `undefined` until the first listener emission
-- **State machine inputs, text runs, and events** are deprecated — use [data binding](/runtimes/data-binding) instead
+- **State machine inputs, text runs, and events** are deprecated and will be removed in the experimental runtime — use [data binding](/runtimes/data-binding) instead
 
 ### Migration Steps
 
