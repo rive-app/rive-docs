@@ -21,9 +21,23 @@ The unique identifier for the pointer.
 
 ### `new`
 
+{/* new: (id: number, position: Vector) -> PointerEvent */}
+<div class="signature">
+```lua
+new(id: number, position: Vector) -> PointerEvent
+```
+</div>
+
 ## Methods
 
 ### `hit`
+
+{/* hit: (self: PointerEvent, isTranslucent:boolean?) -> () */}
+<div class="signature">
+```lua
+hit(isTranslucent: boolean?) -> ()
+```
+</div>
 
 Marks the event as handled. If isTranslucent is true, the event may
 continue to propagate through translucent hit targets.

@@ -13,6 +13,13 @@ The duration of the animation.
 
 ### `advance`
 
+{/* advance: (self: Animation, seconds: number) -> boolean */}
+<div class="signature">
+```lua
+advance(seconds: number) -> boolean
+```
+</div>
+
 Advances the animation by the given time in seconds. Returns true if the
 animation hasn't reached its end. If the animation is set to loop or ping
 pong, it will always return true
@@ -20,15 +27,36 @@ pong, it will always return true
 
 ### `setTime`
 
+{/* setTime: (self: Animation, time: number) -> () */}
+<div class="signature">
+```lua
+setTime(time: number) -> ()
+```
+</div>
+
 set the animation time in seconds
 
 
 ### `setTimeFrames`
 
+{/* setTimeFrames: (self: Animation, frames: number) -> () */}
+<div class="signature">
+```lua
+setTimeFrames(frames: number) -> ()
+```
+</div>
+
 set the animation time in frames
 
 
 ### `setTimePercentage`
+
+{/* setTimePercentage: (self: Animation, percentage: number) -> () */}
+<div class="signature">
+```lua
+setTimePercentage(percentage: number) -> ()
+```
+</div>
 
 set the animation time as a percentage of the duration
 

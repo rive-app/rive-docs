@@ -9,6 +9,13 @@ Provides access to hierarchical data and its associated ViewModel.
 
 ### `parent`
 
+{/* parent: (self: DataContext) -> DataContext? */}
+<div class="signature">
+```lua
+parent() -> DataContext?
+```
+</div>
+
 Returns the parent DataContext, if one exists.
 ```lua highlight={4}
 function init(self: MyNode, context: Context): boolean
@@ -24,6 +31,13 @@ end
 
 
 ### `viewModel`
+
+{/* viewModel: (self: DataContext) -> ViewModel? */}
+<div class="signature">
+```lua
+viewModel() -> ViewModel?
+```
+</div>
 
 Returns the ViewModel associated with this context.
 ```lua highlight={5}
