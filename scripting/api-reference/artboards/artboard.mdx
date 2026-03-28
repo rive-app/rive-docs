@@ -44,10 +44,24 @@ end
 
 ### `draw`
 
+{/* draw: (self: Artboard<T>, renderer: Renderer) -> () */}
+<div class="signature">
+```lua
+draw(renderer: Renderer) -> ()
+```
+</div>
+
 Draws the artboard using the provided renderer.
 
 
 ### `advance`
+
+{/* advance: (self: Artboard<T>, seconds: number) -> boolean */}
+<div class="signature">
+```lua
+advance(seconds: number) -> boolean
+```
+</div>
 
 Advances the artboard by the given time in seconds. Returns true if the
 artboard should continue receiving advance calls.
@@ -55,15 +69,36 @@ artboard should continue receiving advance calls.
 
 ### `instance`
 
+{/* instance: (self: Artboard<T>, viewModel: ViewModel?) -> Artboard<T> */}
+<div class="signature">
+```lua
+instance(viewModel: ViewModel?) -> Artboard<T>
+```
+</div>
+
 Creates a new instance of the artboard with independent state.
 
 
 ### `animation`
 
+{/* animation: (self: Artboard<T>, name: string) -> Animation? */}
+<div class="signature">
+```lua
+animation(name: string) -> Animation?
+```
+</div>
+
 Creates an animation instance linked to the artboard instance
 
 
 ### `bounds`
+
+{/* bounds: (self:Artboard<T>) -> (Vector, Vector) */}
+<div class="signature">
+```lua
+bounds() -> (Vector, Vector)
+```
+</div>
 
 Returns the bounding box of the artboard as two [Vector](/scripting/api-reference/vec2d/vector) values: the
 minimum point and the maximum point.
@@ -76,10 +111,24 @@ print("Bounds height", maxPt.y - minPt.y)
 
 ### `node`
 
+{/* node: (self:Artboard<T>, name:string) -> NodeData? */}
+<div class="signature">
+```lua
+node(name: string) -> NodeData?
+```
+</div>
+
 Returns the node with the given name, or nil if no such node exists.
 
 
 ### `pointerDown`
+
+{/* pointerDown: (self: Artboard<T>, event: PointerEvent) -> number */}
+<div class="signature">
+```lua
+pointerDown(event: PointerEvent) -> number
+```
+</div>
 
 Pointer event down handler. Each returns a hit-test result, where 0
 indicates no hit and non-zero values indicate a hit.
@@ -87,11 +136,25 @@ indicates no hit and non-zero values indicate a hit.
 
 ### `pointerUp`
 
+{/* pointerUp: (self: Artboard<T>, event: PointerEvent) -> number */}
+<div class="signature">
+```lua
+pointerUp(event: PointerEvent) -> number
+```
+</div>
+
 Pointer event up handler. Each returns a hit-test result, where 0
 indicates no hit and non-zero values indicate a hit.
 
 
 ### `pointerMove`
+
+{/* pointerMove: (self: Artboard<T>, event: PointerEvent) -> number */}
+<div class="signature">
+```lua
+pointerMove(event: PointerEvent) -> number
+```
+</div>
 
 Pointer event move handler. Each returns a hit-test result, where 0
 indicates no hit and non-zero values indicate a hit.
@@ -99,11 +162,25 @@ indicates no hit and non-zero values indicate a hit.
 
 ### `pointerExit`
 
+{/* pointerExit: (self: Artboard<T>, event: PointerEvent) -> number */}
+<div class="signature">
+```lua
+pointerExit(event: PointerEvent) -> number
+```
+</div>
+
 Pointer event exit handler. Each returns a hit-test result, where 0
 indicates no hit and non-zero values indicate a hit.
 
 
 ### `addToPath`
+
+{/* addToPath: (self:Artboard<T>, path:Path, transform:Mat2D?) -> () */}
+<div class="signature">
+```lua
+addToPath(path: Path, transform: Mat2D?) -> ()
+```
+</div>
 
 Adds the artboard’s geometry to the given path, optionally transformed
 by the provided matrix.

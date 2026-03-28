@@ -6,6 +6,13 @@ title: Color
 
 ### `lerp`
 
+{/* lerp: (from: Color, to: Color, t:number) -> Color */}
+<div class="signature">
+```lua
+lerp(from: Color, to: Color, t: number) -> Color
+```
+</div>
+
 Linearly interpolates between two colors using the parameter t, where
 t = 0 returns 'from' and t = 1 returns 'to'.
 ```lua highlight={7}
@@ -24,6 +31,13 @@ print(gray)
 
 ### `rgb`
 
+{/* rgb: (r: number, g:number, b:number) -> Color */}
+<div class="signature">
+```lua
+rgb(r: number, g: number, b: number) -> Color
+```
+</div>
+
 Returns a color constructed from red, green, and blue channels. Alpha
 defaults to 255 (fully opaque). Channel values are clamped to [0, 255].
 ```lua
@@ -33,6 +47,13 @@ self.color = Color.rgb(255, 0, 0)
 
 
 ### `rgba`
+
+{/* rgba: (r: number, g:number, b:number, a:number) -> Color */}
+<div class="signature">
+```lua
+rgba(r: number, g: number, b: number, a: number) -> Color
+```
+</div>
 
 Returns a color constructed from red, green, blue, and alpha channels.
 Channel values are clamped to [0, 255].
@@ -45,6 +66,13 @@ self.color = Color.rgba(255, 0, 0, 128)
 ## Static Functions
 
 ### `red`
+
+{/* red: (color: Color, value: number?) -> number | Color */}
+<div class="signature">
+```lua
+red(color: Color, value: number?) -> number | Color
+```
+</div>
 
 Returns the red channel of the color. If a value is
 provided, returns a new color with that channel updated.
@@ -62,6 +90,13 @@ print(Color.red(newColor))
 
 ### `green`
 
+{/* green: (color: Color, value: number?) -> number | Color */}
+<div class="signature">
+```lua
+green(color: Color, value: number?) -> number | Color
+```
+</div>
+
 Returns the green channel of the color. If a value is
 provided, returns a new color with that channel updated.
 ```lua highlight={2,6}
@@ -77,6 +112,13 @@ print(Color.green(newColor))
 
 
 ### `blue`
+
+{/* blue: (color: Color, value: number?) -> number | Color */}
+<div class="signature">
+```lua
+blue(color: Color, value: number?) -> number | Color
+```
+</div>
 
 Returns the blue channel of the color. If a value is
 provided, returns a new color with that channel updated.
@@ -94,6 +136,13 @@ print(Color.blue(newColor))
 
 ### `alpha`
 
+{/* alpha: (color: Color, value: number?) -> number | Color */}
+<div class="signature">
+```lua
+alpha(color: Color, value: number?) -> number | Color
+```
+</div>
+
 Returns the alpha channel of the color, or returns a new color with the
 alpha channel set to the specified value. Values are clamped to [0, 255].
 ```lua highlight={2,6}
@@ -109,6 +158,13 @@ print(Color.alpha(newColor))
 
 
 ### `opacity`
+
+{/* opacity: (color: Color, value: number?) -> number | Color */}
+<div class="signature">
+```lua
+opacity(color: Color, value: number?) -> number | Color
+```
+</div>
 
 Returns the opacity of the color as a normalized value in the range
 [0.0, 1.0], or returns a new color with its alpha set from the specified

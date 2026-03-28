@@ -11,6 +11,13 @@ For more information, see [Listener Action Scripts](/scripting/protocols/listene
 
 ### `init`
 
+{/* init: ((self: T, context: Context) -> boolean)? */}
+<div class="signature">
+```lua
+init(self: T, context: Context) -> boolean
+```
+</div>
+
 Called once when the listener is created or attached.
 ```lua highlight={4,5,6,12}
 type MyListenerAction = {}
@@ -33,6 +40,13 @@ end
 
 ### `perform`
 
+{/* perform: (self: T, pointerEvent: PointerEvent) -> () */}
+<div class="signature">
+```lua
+perform(self: T, pointerEvent: PointerEvent) -> ()
+```
+</div>
+
 Called when the associated [State Machine Listener](/editor/state-machine/listeners) is triggered.
 This method includes a [PointerEvent](/scripting/api-reference/artboards/pointer-event) parameter containing details about the triggering interaction.
 ```lua highlight={9,10,11,17}
@@ -43,8 +57,6 @@ function init(self: MyListenerAction, context: Context): boolean
 end
 
 -- Add your transition logic here.
--- `evaluate` is fired every frame while the transition is active.
--- Returning false prevents a transition, true allows a transition.
 function perform(self: MyListenerAction, pointerEvent: PointerEvent)
   return true
 end
