@@ -47,7 +47,7 @@ Selecting a library listed in the panel will present its available components, v
 
 ![Image](/images/editor/libraries/07-version-dropdown.webp)
 
-With the chosen elements added to your file, you can access and reuse components and view models via the asset and data panels. Elements sourced from a library can be identifed by the library icon appended to the bottom-right corner of the regular icon.
+With the chosen elements added to your file, you can access and reuse components and view models via the asset and data panels. Elements sourced from a library can be identified by the library icon appended to the bottom-right corner of the regular icon.
 
 ![Image](/images/editor/libraries/08-assets.webp)
 
@@ -60,7 +60,7 @@ To update a component, right-click it in asset panel and select **Library Option
 
 ![Image](/images/editor/libraries/10-update.webp)
 
-## Detatching
+## Detaching
 
 <YouTube id="TtOOPSAm6pI" />
 
@@ -73,7 +73,7 @@ After importing a component from a library and creating an instance of it on the
 ## Export Options
 By using libraries, you create a series of dependencies between files. For example, an instance of an imported component depends on the library file it came from, which in turn may depend on an image asset used within the component, or perhaps another component from a different library entirely.
 
-The export options control what and how components and any assets they depend on get exported to a riv file. These options are available across assets and components, with an additonal layer of separation for libraries specifically.
+The export options control what and how components and any assets they depend on get exported to a riv file. These options are available across assets and components, with an additional layer of separation for libraries specifically.
 
 To access the export options for a given component, asset, or library, select it in the asset panel and set the desired options in the inspector.
 
@@ -81,7 +81,7 @@ To access the export options for a given component, asset, or library, select it
 
 - **Automatic:** Include this asset/component in the export if it's being used somewhere on the stage. For assets contained within a library, this option is inherited from the source file.
 - **Force Export:** Export this asset/component, regardless of whether or not it's referenced within the file.
-- **Prevent Export:** Don't include this asset/component in the export, regardless of whether or not it's referened within the file.
+- **Prevent Export:** Don't include this asset/component in the export, regardless of whether or not it's referenced within the file.
 
 You may want to adjust these options to suit your needs at runtime as opposed to design-time. For example, images used within a design are to be supplied from an external source at runtime, and therefore aren't required in the riv file. Or, you intend to use a library component across multiple Rive files at once via data binding. Exporting the library component separately and excluding from the host files prevents it from being duplicated.
 
