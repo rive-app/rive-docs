@@ -1,16 +1,14 @@
 ---
 title: 'Share Links Overview'
 sidebarTitle: 'Overview'
-description: 'Share Links are a fast no-code way to get your Rive files running on a website or to present your graphics to a client.'
+description: 'Share Links are a fast, no-code way to share or embed your Rive files on the web.'
 ---
 
 <Note>Generating share links is available on Voyager and Enterprise plans. [Learn more about our plans and pricing](https://rive.app/pricing).</Note>
 
-Share the current version of the file you're working with share links. Note that this is not the same as giving someone access to the live file with all its revision history. This link will be a frozen version of the file in its current state. If you make changes to the file, you'll need to generate a new share link.
+Share Links let you quickly generate a public version of your file for embedding or sharing.
 
-<Warning>
-Certain features, such as [Vector Feathering](https://rive.app/blog/introducing-vector-feathering), are only supported through the Rive Renderer. See our [Feature Support](/feature-support) page for more information.
-</Warning>
+Unlike [inviting someone to collaborate](/account-admin/workspaces/inviting-workspace-members), a share link is a **snapshot** of your file at the moment it’s generated. If you make changes later, you’ll need to generate a new link to reflect those updates.
 
 ## Creating a share link
 
@@ -28,34 +26,36 @@ Certain features, such as [Vector Feathering](https://rive.app/blog/introducing-
   <Step title="Choose a share link type">
     Once the link is generated, select the option that best fits how you plan to use your file.
 
+    <Note>
+      For more information on using share links with tools like Framer, Webflow, and Notion, see [Integrations](/integrations/).
+    </Note>
+
     ![Generate share link](/images/integrations/html-embed/generate-share-link-3.png)
   </Step>
 </Steps>
 
+### Share link types
+
+- **Hosted link** — Opens your file on a dedicated Rive page with a framed viewer. Ideal for sharing with clients or stakeholders.
+- **Embed link** — Displays your file without the surrounding Rive UI. Useful for platforms that automatically preview links (e.g. Notion, Telegram).
+- **Embed code** — An iframe snippet for embedding your file into sites where you can edit HTML (e.g. WordPress).
+- **Framer code (Deprecated)** — See the new official [Rive Framer Plugin](https://www.framer.com/marketplace/plugins/rive/).
+
 ### Share link options
 
-- **Hosted link** - Displayed within a border frame on the Rive site at a unique URL. Use this for quickly showing off your Rive creation to clients without having to stage it within the context of a web application yourself
-- **Embed link** - Standalone display of your Rive creation without the context of the border frame. Use this link when you want to embed your Rive creation into other 3rd party platforms that support unfurling and displaying your Rive creation still as a preview (i.e Notion, Tome, Telegram)
-- **Embed code** - A code snippet that allows you to embed your Rive creation's embed link in an iframe. This is useful for where you need to drop Rive into a platform where you can edit HTML (i.e Webflow, WordPress, etc.) and you don't want to deal with setting up the creation with a web runtime
-- **Framer code (Deprecated)** - See the new official [Rive Framer Plugin](https://www.framer.com/marketplace/plugins/rive/).
-
-Other options include:
-- **Enable**: Disable the link to prevent others from viewing it.
-- **Rive Renderer**: Toggle between using the Rive Renderer (recommended) and the Canvas renderer.
-- **Multi-touch**: Toggle between supporting Multi-touch.
+- **Enable** — Turn the link on or off to control access.
+- **Rive Renderer** — Use the Rive Renderer (recommended) or Canvas renderer.
+- **Multi-touch** — Enable support for multi-touch interactions.
 
 <Note>Certain features, such as [Vector Feathering](https://rive.app/blog/introducing-vector-feathering), are only available using the Rive Renderer. See our [Feature Support](/feature-support) page for more information.</Note>
 
-## Integrations
 
-For more information on using share links with tools like Framer, Webflow, and Notion, see [Integrations](/integrations/).
+## Sharing on Social Media
 
-### Social Media
-
-1. Copy the *share link*
+1. Copy the **Hosted Link**
 2. Paste it into your favorite platform
 3. See your Rive creation unfurl when you post
 
 ## Managing share links
 
-Visit the [Share Links](https://rive.app/profile/?section=share%20links) section of your settings to manage the links you've generated. You can disable a share link by setting its Active toggle to off.
+Visit the [Share Links](https://rive.app/account/links/) section of your settings to manage the links you've generated. You can disable a share link by setting its Active toggle to off.
