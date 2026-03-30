@@ -11,6 +11,13 @@ For more information, see [Transition Condition Scripts](/scripting/protocols/tr
 
 ### `init`
 
+{/* init: ((self: T, context: Context) -> boolean)? */}
+<div class="signature">
+```lua
+init(self: T, context: Context) -> boolean
+```
+</div>
+
 Called once when the transition condition is created or attached.
 ``` lua highlight={4,5,6,14}
 type MyTransitionCondition = {}
@@ -35,9 +42,16 @@ end
 
 ### `evaluate`
 
+{/* evaluate: (self: T) -> boolean */}
+<div class="signature">
+```lua
+evaluate(self: T) -> boolean
+```
+</div>
+
 Called every frame while the transition is active.
 ``` lua highlight={4,5,6,14}
-type MyTransitionCondition = {10,11,12,17}
+type MyTransitionCondition = {}
 
 function init(self: MyTransitionCondition, context: Context): boolean
   return true

@@ -28,12 +28,26 @@ local isClosed = measure.isClosed
 
 ### `positionAndTangent`
 
+{/* positionAndTangent: (self: PathMeasure, distance: number) -> (Vector, Vector) */}
+<div class="signature">
+```lua
+positionAndTangent(distance: number) -> (Vector, Vector)
+```
+</div>
+
 Returns the position and tangent vector at the given distance along the
 path. The distance is clamped to the valid range [0, length]. Returns two
 [Vector](/scripting/api-reference/vec2d/vector) values: the position and the normalized tangent vector.
 
 
 ### `warp`
+
+{/* warp: (self: PathMeasure, source: Vector) -> Vector */}
+<div class="signature">
+```lua
+warp(source: Vector) -> Vector
+```
+</div>
 
 Warps a point onto the path. The x-coordinate of the source point is
 interpreted as a distance along the path, and the y-coordinate is used as
@@ -42,6 +56,19 @@ an offset along the tangent direction. Returns the warped position as a
 
 
 ### `extract`
+
+{/* extract: (
+		self: PathMeasure,
+		startDistance: number,
+		endDistance: number,
+		destination: Path,
+		startWithMove: boolean?
+	) -> () */}
+<div class="signature">
+```lua
+extract(startDistance: number, endDistance: number, destination: Path, startWithMove: boolean?) -> ()
+```
+</div>
 
 Extracts a sub-section of the path from startDistance to endDistance and
 appends it to the destination path. Distances are clamped to the valid
