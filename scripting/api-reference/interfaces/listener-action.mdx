@@ -40,7 +40,7 @@ end
 
 ### `perform`
 
-{/* perform: (self: T, pointerEvent: PointerEvent) -> () */}
+{/* perform: ((self: T, pointerEvent: PointerEvent) -> ())? */}
 <div class="signature">
 ```lua
 perform(self: T, pointerEvent: PointerEvent) -> ()
@@ -49,6 +49,7 @@ perform(self: T, pointerEvent: PointerEvent) -> ()
 
 Called when the associated [State Machine Listener](/editor/state-machine/listeners) is triggered.
 This method includes a [PointerEvent](/scripting/api-reference/artboards/pointer-event) parameter containing details about the triggering interaction.
+**Deprecated.** Prefer `performAction` with [ListenerContext](/scripting/api-reference/artboards/listener-context); this overload may be removed.
 ```lua highlight={9,10,11,17}
 type MyListenerAction = {}
 
@@ -66,6 +67,41 @@ return function(): ListenerAction<MyListenerAction>
   return {
     init = init,
     perform = perform,
+  }
+end
+```
+
+
+### `performAction`
+
+{/* performAction: ((self: T, listenerContext: ListenerContext) -> ())? */}
+<div class="signature">
+```lua
+performAction(self: T, listenerContext: ListenerContext) -> ()
+```
+</div>
+
+Called when the associated [State Machine Listener](/editor/state-machine/listeners) is triggered.
+This method includes a [ListenerContext](/scripting/api-reference/artboards/listener-context) parameter containing details about the triggering interaction.
+```lua highlight={9,10,11,17}
+type MyListenerAction = {}
+
+function init(self: MyListenerAction, context: Context): boolean
+  return true
+end
+
+-- Add your transition logic here.
+-- `evaluate` is fired every frame while the transition is active.
+-- Returning false prevents a transition, true allows a transition.
+function performAction(self: MyListenerAction, listenerContext: ListenerContext)
+  return true
+end
+
+-- Return a factory function that Rive uses to build the Listener Action instance.
+return function(): ListenerAction<MyListenerAction>
+  return {
+    init = init,
+    performAction = performAction,
   }
 end
 ```
