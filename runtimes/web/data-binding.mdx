@@ -108,6 +108,28 @@ const r = new rive.Rive({
 });
 ```
 
+### Get View Model from Instance
+
+When working with view model instances, you may want to get a reference to the view model the instance came from so you can dynamically create more instances of the same type (i.e. creating instances from lists).
+To do so, first grab the name of the view model the instance came from via the `.viewModelName` property:
+```ts
+const vmi = r.viewModelInstance;
+const vmName = vmi.viewModelName;
+```
+
+Then, once you have the name, you can get a reference to the view model itself and create instances as needed.
+```ts
+const vmi = r.viewModelInstance;
+const mainListProp = vmi.list("todos") as ViewModelInstanceList;
+const vmName = mainListProp.instanceAt(0)?.viewModelName;
+
+const itemVmReference = r.viewModelByName(vmName);
+const instanceCopies = [];
+for (let i = 0; i < 10; i++) {
+    instanceCopies.push(itemVmReference.defaultInstance());
+}
+```
+
 <Properties />
 
 <ListingProperties />
