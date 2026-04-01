@@ -2,9 +2,16 @@
 title: ViewModel
 ---
 
+A [ViewModel](/scripting/api-reference/interfaces/view-model) provides access to named properties used for data binding
+between your application and a Rive file.
+
+
 ## Fields
 
 ### `name`
+
+The name fo the view model.
+
 
 ## Methods
 
@@ -17,8 +24,8 @@ getNumber(name: string) -> Property<number>?
 ```
 </div>
 
-Looks up a numeric property by name.
-Returns a number property.
+Returns the numeric property with the given name, or nil if not found.
+
 ```lua
 local vmi = context:viewModel()
 if vmi then
@@ -148,6 +155,9 @@ end
 getViewModel(name: string) -> PropertyViewModel?
 ```
 </div>
+
+Looks up a view model property by name. Returns a [PropertyViewModel](/scripting/api-reference/interfaces/property-view-model).
+
 
 ### `getEnum`
 

@@ -2,7 +2,12 @@
 title: ListenerContext
 ---
 
-Represents the context of a listener perform action
+Provides access to the context that triggered a listener action.
+
+A [ListenerContext](/scripting/api-reference/artboards/listener-context) can represent different event types (pointer, keyboard,
+text input, focus, view model changes, or reported events). Use the
+`is...` methods to check the type, and the corresponding `as...` methods
+to retrieve the event data.
 
 
 ## Methods
@@ -16,7 +21,7 @@ isPointerEvent() -> boolean
 ```
 </div>
 
-returns true if the perform action was invoked through a pointer event
+Returns true if the action was triggered by a pointer event.
 
 
 ### `isKeyboardEvent`
@@ -28,7 +33,7 @@ isKeyboardEvent() -> boolean
 ```
 </div>
 
-returns true if the perform action was invoked through a keyboard event
+Returns true if the action was triggered by a keyboard event.
 
 
 ### `isTextInput`
@@ -40,7 +45,7 @@ isTextInput() -> boolean
 ```
 </div>
 
-returns true if the perform action was invoked through a text input
+Returns true if the action was triggered by a text input event.
 
 
 ### `isFocus`
@@ -52,7 +57,7 @@ isFocus() -> boolean
 ```
 </div>
 
-returns true if the perform action was invoked through a focus change
+Returns true if the action was triggered by a focus change.
 
 
 ### `isReportedEvent`
@@ -64,7 +69,7 @@ isReportedEvent() -> boolean
 ```
 </div>
 
-returns true if the perform action was invoked through a Rive event
+Returns true if the action was triggered by a reported Rive event.
 
 
 ### `isViewModelChange`
@@ -76,7 +81,7 @@ isViewModelChange() -> boolean
 ```
 </div>
 
-returns true if the perform action was invoked through a view model change
+Returns true if the action was triggered by a view model change.
 
 
 ### `isNone`
@@ -88,7 +93,7 @@ isNone() -> boolean
 ```
 </div>
 
-returns true if the perform action is none of the known types
+Returns true if the action was triggered by an unknown or unsupported event type.
 
 
 ### `asPointerEvent`
@@ -100,7 +105,7 @@ asPointerEvent() -> PointerEvent?
 ```
 </div>
 
-returns a pointer event if context is of type pointer event, null otherwise
+Returns the pointer event if applicable, otherwise nil.
 
 
 ### `asKeyboardEvent`
@@ -112,7 +117,7 @@ asKeyboardEvent() -> KeyboardEvent?
 ```
 </div>
 
-returns a keyboard event if context is of type keyboard event, null otherwise
+Returns the keyboard event if applicable, otherwise nil.
 
 
 ### `asTextInput`
@@ -124,7 +129,7 @@ asTextInput() -> TextInput?
 ```
 </div>
 
-returns a text input event if context is of type text input event, null otherwise
+Returns the text input event if applicable, otherwise nil.
 
 
 ### `asFocus`
@@ -136,7 +141,7 @@ asFocus() -> FocusEvent?
 ```
 </div>
 
-returns a focus event event if context is of type focus event, null otherwise
+Returns the focus event if applicable, otherwise nil.
 
 
 ### `asReportedEvent`
@@ -148,7 +153,7 @@ asReportedEvent() -> ReportedEvent?
 ```
 </div>
 
-returns a reported event if context is of type reported evnet, null otherwise
+Returns the reported event if applicable, otherwise nil.
 
 
 ### `asViewModelChange`
@@ -160,7 +165,7 @@ asViewModelChange() -> ViewModelChange?
 ```
 </div>
 
-returns a view model change if context is of type view model, null otherwise
+Returns the view model change if applicable, otherwise nil.
 
 
 ### `asNone`
@@ -172,6 +177,6 @@ asNone() -> NoneEvent?
 ```
 </div>
 
-returns a noop event if context is of type none, null otherwise
+Returns a none event if applicable, otherwise nil.
 
 
