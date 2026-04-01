@@ -66,11 +66,11 @@ The basic scope naming convention for the runtimes is to use the root directory 
 
 ## Previews
 
-Rive's documentation is powered by [Mintlify](https://mintlify.com). You can preview your changes [locally](https://mintlify.com/docs/development), or via a preview link after creating a pull request.
+Rive's documentation is powered by [Mintlify](https://mintlify.com). You can preview your changes [locally](https://www.mintlify.com/docs/quickstart#make-your-first-change), or via a preview link after creating a pull request.
 
 ### Local Previews
 
-See Mintlify's official documentation on [Local Development](https://mintlify.com/docs/development) for more information on how to preview changes locally.
+See Mintlify's official documentation on [Local Development](https://www.mintlify.com/docs/quickstart#make-your-first-change) for more information on how to preview changes locally.
 
 When previewing locally, make sure to run `mintlify broken-links` before creating your pull request to verify that there are no broken links.
 

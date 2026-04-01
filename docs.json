@@ -209,9 +209,10 @@
                 ]
               },
               {
-                "group": "Share Links",
+                "group": "Embed URLs",
                 "pages": [
-                  "editor/share-links/overview"
+                  "editor/embed-urls/overview",
+                  "editor/embed-urls/framer-and-rive"
                 ]
               },
               "editor/ai-agent/ai-agent",
@@ -265,10 +266,19 @@
                 "pages": [
                   "scripting/api-reference/artboards/animation",
                   "scripting/api-reference/artboards/artboard",
+                  "scripting/api-reference/artboards/focus-event",
+                  "scripting/api-reference/artboards/key-phase",
+                  "scripting/api-reference/artboards/keyboard-event",
+                  "scripting/api-reference/artboards/listener-context",
                   "scripting/api-reference/artboards/node-data",
                   "scripting/api-reference/artboards/node-read-data",
+                  "scripting/api-reference/artboards/none-event",
                   "scripting/api-reference/artboards/pointer-event",
-                  "scripting/api-reference/artboards/view-model"
+                  "scripting/api-reference/artboards/pointer-type",
+                  "scripting/api-reference/artboards/reported-event",
+                  "scripting/api-reference/artboards/text-input",
+                  "scripting/api-reference/artboards/view-model",
+                  "scripting/api-reference/artboards/view-model-change"
                 ]
               },
               {
@@ -722,6 +732,10 @@
     }
   },
   "redirects": [
+    {
+      "source": "/editor/share-links/:slug*",
+      "destination": "/editor/embed-urls/:slug*"
+    },
     {
       "source": "/runtimes/features-support",
       "destination": "/feature-support"
