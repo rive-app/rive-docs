@@ -49,6 +49,7 @@ perform(self: T, pointerEvent: PointerEvent) -> ()
 
 Called when the associated [State Machine Listener](/editor/state-machine/listeners) is triggered.
 This method includes a [PointerEvent](/scripting/api-reference/artboards/pointer-event) parameter containing details about the triggering interaction.
+
 **Deprecated.** Prefer `performAction` with [ListenerContext](/scripting/api-reference/artboards/listener-context); this overload may be removed.
 ```lua highlight={9,10,11,17}
 type MyListenerAction = {}
