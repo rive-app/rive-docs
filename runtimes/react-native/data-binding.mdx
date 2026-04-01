@@ -36,13 +36,13 @@ import { Demos } from "/snippets/demos.jsx";
     const { riveFile } = useRiveFile(require('./my_file.riv'));
 
     // Get reference by name
-    const namedVM = riveFile?.viewModelByName('My View Model');
+    const namedVM = await riveFile?.viewModelByNameAsync('My View Model');
 
-    // Get reference by index
-    const indexVM = riveFile?.viewModelByIndex(0);
+    // Get all view model names
+    const vmNames = await riveFile?.getViewModelNamesAsync(); // ['My View Model', ...]
 
     // Get reference to the default artboard view model
-    const defaultVM = riveFile?.defaultArtboardViewModel();
+    const defaultVM = await riveFile?.defaultArtboardViewModelAsync();
     ```
     </Tab>
     <Tab title="Legacy Runtime">
@@ -85,7 +85,7 @@ import { Demos } from "/snippets/demos.jsx";
     // With onInit to set initial values synchronously
     const { instance } = useViewModelInstance(riveFile, {
         onInit: (vmi) => {
-            vmi.numberProperty('health')!.value = 100;
+            vmi.numberProperty('health')?.set(100);
         },
     });
 
@@ -680,10 +680,10 @@ import { Demos } from "/snippets/demos.jsx";
     } = useRiveList('todos', instance);
 
     // Add a new todo item
-    const handleAddItem = () => {
-        const todoItemViewModel = riveFile?.viewModelByName('TodoItem');
+    const handleAddItem = async () => {
+        const todoItemViewModel = await riveFile?.viewModelByNameAsync('TodoItem');
         if (todoItemViewModel) {
-            const newTodoItem = todoItemViewModel.createInstance();
+            const newTodoItem = await todoItemViewModel.createBlankInstanceAsync();
             if (newTodoItem) {
                 // Set some initial values
                 newTodoItem.stringProperty('description')?.set('Buy groceries');
@@ -693,10 +693,10 @@ import { Demos } from "/snippets/demos.jsx";
     };
 
     // Insert item at specific index
-    const handleInsertItem = () => {
-        const todoItemViewModel = riveFile?.viewModelByName('TodoItem');
+    const handleInsertItem = async () => {
+        const todoItemViewModel = await riveFile?.viewModelByNameAsync('TodoItem');
         if (todoItemViewModel) {
-            const newTodoItem = todoItemViewModel.createInstance();
+            const newTodoItem = await todoItemViewModel.createBlankInstanceAsync();
             if (newTodoItem) {
                 addInstanceAt(newTodoItem, 0); // Insert at beginning
             }
