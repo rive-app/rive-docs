@@ -356,7 +356,7 @@ const r = new Rive({
 const assetsFile = new RiveFile({
     src: "swap_character_assets.riv",
     onLoad: () => {
-        characterArtboard = assetsFile.getArtboard("Character 1");
+        characterArtboard = assetsFile.getBindableArtboard("Character 1");
         attachCharacter();
     },
     onLoadError: () => {
