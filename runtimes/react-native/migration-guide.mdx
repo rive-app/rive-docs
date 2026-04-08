@@ -3,6 +3,91 @@ title: "Migration Guide"
 description: "Learn how to migrate your React Native app when upgrading between major versions of the Rive React Native runtime, including breaking changes and new features."
 ---
 
+## Migrating to `v0.4.0`+
+
+This release improves error transparency and loading semantics for hooks, preparing for the async experimental runtime.
+
+### `useViewModelInstance` Returns `{ instance, error }`
+
+The hook now returns a discriminated union instead of `ViewModelInstance | null`:
+
+- `{ instance: undefined, error: null }` — loading (source not ready)
+- `{ instance: ViewModelInstance, error: null }` — success
+- `{ instance: null, error: null }` — resolved, no ViewModel found
+- `{ instance: null, error: Error }` — lookup failed
+
+<Tabs>
+  <Tab title="New API">
+    ```tsx
+    const { riveFile } = useRiveFile(require('./animation.riv'));
+    const { instance, error } = useViewModelInstance(riveFile);
+
+    if (error) return <Text>{error.message}</Text>;
+    if (!instance) return <ActivityIndicator />;
+    return <RiveView file={riveFile} dataBind={instance} />;
+    ```
+
+  </Tab>
+  <Tab title="Previous API">
+    ```tsx
+    const { riveFile } = useRiveFile(require('./animation.riv'));
+    const instance = useViewModelInstance(riveFile);
+
+    if (!instance) return <ActivityIndicator />;
+    return <RiveView file={riveFile} dataBind={instance} />;
+    ```
+
+  </Tab>
+</Tabs>
+
+### `useRiveFile` Error Is Now `Error`
+
+The `error` field is now an `Error` object instead of a `string`, and `riveFile` is `undefined` while loading (was `null`). `isLoading` is kept for convenience.
+
+<Tabs>
+  <Tab title="New API">
+    ```tsx
+    const { riveFile, isLoading, error } = useRiveFile(require('./animation.riv'));
+
+    if (error) return <Text>{error.message}</Text>;
+    ```
+
+  </Tab>
+  <Tab title="Previous API">
+    ```tsx
+    const { riveFile, isLoading, error } = useRiveFile(require('./animation.riv'));
+
+    if (error) return <Text>{error}</Text>;
+    ```
+
+  </Tab>
+</Tabs>
+
+### Property Hooks Start `undefined`
+
+`useRiveNumber`, `useRiveString`, `useRiveBoolean`, `useRiveColor`, and `useRiveEnum` no longer read `property.value` synchronously on mount. The value starts as `undefined` and arrives via the property listener.
+
+```tsx
+const { value: health } = useRiveNumber('health', instance);
+
+// health is undefined on the first render — guard before using it
+<Text>{health !== undefined ? health.toFixed(2) : '...'}</Text>
+
+// guard in updater functions
+setHealth((prev) => (prev ?? 0) + 1);
+```
+
+### Quick Reference
+
+| Previous | Replacement |
+|---|---|
+| `const instance = useViewModelInstance(file)` | `const { instance, error } = useViewModelInstance(file)` |
+| `{error}` (in JSX, from `useRiveFile`) | `{error?.message}` |
+| `riveFile === null` (loading check) | `riveFile === undefined` or use `isLoading` |
+| `health` available synchronously on first render | Guard for `undefined`: `health !== undefined ? ... : ...` |
+
+---
+
 ## Migrating to the Async API (`v0.3.2`+)
 
 This release introduces an **async-first API** to prepare for the new experimental Rive runtime. Synchronous methods that block the JS thread are deprecated and replaced with async equivalents. State machine input and text run methods are deprecated in favor of [data binding](/runtimes/data-binding) and will be removed entirely in the experimental runtime (and therefore in upcoming `@rive-app/react-native` versions).
@@ -12,7 +97,6 @@ This release introduces an **async-first API** to prepare for the new experiment
 - **Async methods** replace all synchronous ViewModel and property accessors
 - **Name-based access** replaces count/index-based ViewModel and artboard lookups
 - **`getValueAsync()` / `set()`** replace `property.value` for reading and writing properties
-- **`useRiveNumber` and similar hooks** now start as `undefined` until the first listener emission
 - **State machine inputs, text runs, and events** are deprecated and will be removed in the experimental runtime — use [data binding](/runtimes/data-binding) instead
 
 ### Migration Steps
@@ -139,41 +223,7 @@ This release introduces an **async-first API** to prepare for the new experiment
   </Tab>
 </Tabs>
 
-#### 7. Hook Value Guarding
-
-Property hooks (`useRiveNumber`, `useRiveString`, `useRiveBoolean`, `useRiveColor`, `useRiveEnum`) now return `undefined` as their initial value until the first listener emission.
-
-<Tabs>
-  <Tab title="New API">
-    ```tsx
-    const { value: count, setValue: setCount } = useRiveNumber(
-      'Counter/Value',
-      instance
-    );
-
-    // Guard for undefined in render
-    <Text>{count !== undefined ? count.toFixed(2) : '...'}</Text>
-
-    // Guard in updater functions
-    setCount((prev) => (prev ?? 0) + 1);
-    ```
-
-  </Tab>
-  <Tab title="Previous API">
-    ```tsx
-    const { value: count, setValue: setCount } = useRiveNumber(
-      'Counter/Value',
-      instance
-    );
-
-    // Previously available synchronously on first render
-    <Text>{count.toFixed(2)}</Text>
-    ```
-
-  </Tab>
-</Tabs>
-
-#### 8. Async Setup Pattern
+#### 7. Async Setup Pattern
 
 Synchronous `useMemo` chains for ViewModel setup should be replaced with `useState` + `useEffect`, or simplified with the `useViewModelInstance` hook.
 
@@ -181,7 +231,7 @@ Synchronous `useMemo` chains for ViewModel setup should be replaced with `useSta
   <Tab title="useViewModelInstance (Recommended)">
     ```tsx
     const { riveFile } = useRiveFile(require('./animation.riv'));
-    const instance = useViewModelInstance(riveFile);
+    const { instance } = useViewModelInstance(riveFile);
 
     const { value: health, setValue: setHealth } = useRiveNumber(
       'health',
@@ -291,7 +341,7 @@ const [setRiveRef, riveRef] = useRive();
 const [health, setHealth] = useRiveNumber(riveRef, "health");
 
 // New: hooks take viewModelInstance, return objects
-const viewModelInstance = useViewModelInstance(riveFile);
+const { instance: viewModelInstance } = useViewModelInstance(riveFile);
 const { value: health, setValue: setHealth } = useRiveNumber(
   "health",
   viewModelInstance
@@ -499,7 +549,7 @@ Main API changes:
   <Tab title="New Runtime">
     ```tsx
     const { riveFile } = useRiveFile(require('./animation.riv'));
-    const viewModelInstance = useViewModelInstance(riveFile);
+    const { instance: viewModelInstance } = useViewModelInstance(riveFile);
 
     const { value: health, setValue: setHealth } = useRiveNumber('health', viewModelInstance);
     const { value: name, setValue: setName } = useRiveString('Player/Name', viewModelInstance);

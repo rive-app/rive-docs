@@ -17,13 +17,35 @@ The position of the pointer in local coordinates.
 The unique identifier for the pointer.
 
 
+### `type`
+
+The type of event (pointerDown, pointerUp, click, pointerEnter, pointerMove, etc).
+
+
 ## Constructors
 
 ### `new`
 
+{/* new: (id: number, position: Vector) -> PointerEvent */}
+<div class="signature">
+```lua
+new(id: number, position: Vector) -> PointerEvent
+```
+</div>
+
+Creates a new [PointerEvent](/scripting/api-reference/artboards/pointer-event) with the given id and position.
+
+
 ## Methods
 
 ### `hit`
+
+{/* hit: (self: PointerEvent, isTranslucent:boolean?) -> () */}
+<div class="signature">
+```lua
+hit(isTranslucent: boolean?) -> ()
+```
+</div>
 
 Marks the event as handled. If isTranslucent is true, the event may
 continue to propagate through translucent hit targets.

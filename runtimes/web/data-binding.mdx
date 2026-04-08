@@ -75,7 +75,7 @@ for (let i = 0; i < viewModel.instanceCount; i++) {
     const vmiIndexed = viewModel.instanceByIndex(i);
 }
 
-// Create an instace by name from a view model (ViewModel)
+// Create an instance by name from a view model (ViewModel)
 const vmiNamed = viewModel.instanceByName("My Instance");
 ```
 
@@ -106,6 +106,28 @@ const r = new rive.Rive({
         let boundInstance = r.viewModelInstance;
     }
 });
+```
+
+### Get View Model from Instance
+
+When working with view model instances, you may want to get a reference to the view model the instance came from so you can dynamically create more instances of the same type (i.e. creating instances from lists).
+To do so, first grab the name of the view model the instance came from via the `.viewModelName` property:
+```ts
+const vmi = r.viewModelInstance;
+const vmName = vmi.viewModelName;
+```
+
+Then, once you have the name, you can get a reference to the view model itself and create instances as needed.
+```ts
+const vmi = r.viewModelInstance;
+const mainListProp = vmi.list("todos") as ViewModelInstanceList;
+const vmName = mainListProp.instanceAt(0)?.viewModelName;
+
+const itemVmReference = r.viewModelByName(vmName);
+const instanceCopies = [];
+for (let i = 0; i < 10; i++) {
+    instanceCopies.push(itemVmReference.defaultInstance());
+}
 ```
 
 <Properties />
@@ -334,7 +356,7 @@ const r = new Rive({
 const assetsFile = new RiveFile({
     src: "swap_character_assets.riv",
     onLoad: () => {
-        characterArtboard = assetsFile.getArtboard("Character 1");
+        characterArtboard = assetsFile.getBindableArtboard("Character 1");
         attachCharacter();
     },
     onLoadError: () => {

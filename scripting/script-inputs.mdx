@@ -28,7 +28,7 @@ type MyNode = {
   myString: string,
 }
 
-function init(self: SnakeGame): boolean
+function init(self: MyNode): boolean
   print("myString", self.myString)
   print("myNumber", self.myNumber)
   print("myColor", self.myColor)
@@ -108,7 +108,7 @@ function handleMyNumberChanged(myNumber: number)
   print('myNumber changed!', myNumber)
 end
 
-function init(self: MyApp): boolean
+function init(self: MyNode): boolean
   -- handleMyStringChanged fires when self.myString changes
   local myString = self.myString
   myString:addListener(handleMyStringChanged)

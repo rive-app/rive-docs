@@ -145,7 +145,7 @@ Rive won't export properties that have been known to the system since the latest
 
 ## Content
 
-The rest of the file is simply a list of objects, each containing a list of their properties and values. An object is represented as a varuint type key. It is immediately followed by the list of properties. Properties are terminated with a 0 varuint. If a non 0 value is read, it is expected to the the type key for the property. If the runtime knows the type key, it will know the backing type and how to decode it. The bytes following the type key will be one of the binary types specified earlier. If it is unknown, it can determine from the ToC what the backing type is and read past it.
+The rest of the file is simply a list of objects, each containing a list of their properties and values. An object is represented as a varuint type key. It is immediately followed by the list of properties. Properties are terminated with a 0 varuint. If a non 0 value is read, it is expected to be the type key for the property. If the runtime knows the type key, it will know the backing type and how to decode it. The bytes following the type key will be one of the binary types specified earlier. If it is unknown, it can determine from the ToC what the backing type is and read past it.
 
 ### Core
 

@@ -25,8 +25,7 @@
             "group": " ",
             "pages": [
               "getting-started/introduction",
-              "getting-started/best-practices",
-              "getting-started/quick-links"
+              "getting-started/best-practices"
             ]
           },
           {
@@ -209,10 +208,9 @@
                 ]
               },
               {
-                "group": "Share Links",
+                "group": "Embed URLs",
                 "pages": [
-                  "editor/share-links/overview",
-                  "editor/share-links/framer-and-rive"
+                  "editor/embed-urls/overview"
                 ]
               },
               "editor/ai-agent/ai-agent",
@@ -266,10 +264,19 @@
                 "pages": [
                   "scripting/api-reference/artboards/animation",
                   "scripting/api-reference/artboards/artboard",
+                  "scripting/api-reference/artboards/focus-event",
+                  "scripting/api-reference/artboards/key-phase",
+                  "scripting/api-reference/artboards/keyboard-event",
+                  "scripting/api-reference/artboards/listener-context",
                   "scripting/api-reference/artboards/node-data",
                   "scripting/api-reference/artboards/node-read-data",
+                  "scripting/api-reference/artboards/none-event",
                   "scripting/api-reference/artboards/pointer-event",
-                  "scripting/api-reference/artboards/view-model"
+                  "scripting/api-reference/artboards/pointer-type",
+                  "scripting/api-reference/artboards/reported-event",
+                  "scripting/api-reference/artboards/text-input",
+                  "scripting/api-reference/artboards/view-model",
+                  "scripting/api-reference/artboards/view-model-change"
                 ]
               },
               {
@@ -617,18 +624,12 @@
                 ]
               }
             ]
-          }
-        ]
-      },
-      {
-        "tab": "Learn",
-        "groups": [
+          },
           {
-            "group": " ",
+            "group": "Integrations",
             "pages": [
-              "tutorials/learn-rive",
-              "tutorials/blog",
-              "tutorials/awesome-rive"
+              "integrations/overview",
+              "integrations/html-embed"
             ]
           }
         ]
@@ -648,6 +649,10 @@
   },
   "navbar": {
     "links": [
+      {
+        "label": "Learn",
+        "href": "/tutorials/learn-rive"
+      },
       {
         "label": "Support",
         "href": "https://community.rive.app/"
@@ -725,6 +730,10 @@
     }
   },
   "redirects": [
+    {
+      "source": "/editor/share-links/:slug*",
+      "destination": "/editor/embed-urls/:slug*"
+    },
     {
       "source": "/runtimes/features-support",
       "destination": "/feature-support"
@@ -1012,6 +1021,10 @@
     {
       "source": "/runtimes/react-native/runtime-concepts",
       "destination": "/runtimes/react-native/react-native"
+    },
+    {
+      "source": "/getting-started/quick-links",
+      "destination": "/"
     }
   ],
   "integrations": {

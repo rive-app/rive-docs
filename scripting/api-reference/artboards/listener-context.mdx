@@ -1,0 +1,182 @@
+---
+title: ListenerContext
+---
+
+Provides access to the context that triggered a listener action.
+
+A [ListenerContext](/scripting/api-reference/artboards/listener-context) can represent different event types (pointer, keyboard,
+text input, focus, view model changes, or reported events). Use the
+`is...` methods to check the type, and the corresponding `as...` methods
+to retrieve the event data.
+
+
+## Methods
+
+### `isPointerEvent`
+
+{/* isPointerEvent: (self: ListenerContext) -> boolean */}
+<div class="signature">
+```lua
+isPointerEvent() -> boolean
+```
+</div>
+
+Returns true if the action was triggered by a pointer event.
+
+
+### `isKeyboardEvent`
+
+{/* isKeyboardEvent: (self: ListenerContext) -> boolean */}
+<div class="signature">
+```lua
+isKeyboardEvent() -> boolean
+```
+</div>
+
+Returns true if the action was triggered by a keyboard event.
+
+
+### `isTextInput`
+
+{/* isTextInput: (self: ListenerContext) -> boolean */}
+<div class="signature">
+```lua
+isTextInput() -> boolean
+```
+</div>
+
+Returns true if the action was triggered by a text input event.
+
+
+### `isFocus`
+
+{/* isFocus: (self: ListenerContext) -> boolean */}
+<div class="signature">
+```lua
+isFocus() -> boolean
+```
+</div>
+
+Returns true if the action was triggered by a focus change.
+
+
+### `isReportedEvent`
+
+{/* isReportedEvent: (self: ListenerContext) -> boolean */}
+<div class="signature">
+```lua
+isReportedEvent() -> boolean
+```
+</div>
+
+Returns true if the action was triggered by a reported Rive event.
+
+
+### `isViewModelChange`
+
+{/* isViewModelChange: (self: ListenerContext) -> boolean */}
+<div class="signature">
+```lua
+isViewModelChange() -> boolean
+```
+</div>
+
+Returns true if the action was triggered by a view model change.
+
+
+### `isNone`
+
+{/* isNone: (self: ListenerContext) -> boolean */}
+<div class="signature">
+```lua
+isNone() -> boolean
+```
+</div>
+
+Returns true if the action was triggered by an unknown or unsupported event type.
+
+
+### `asPointerEvent`
+
+{/* asPointerEvent: (self: ListenerContext) -> PointerEvent? */}
+<div class="signature">
+```lua
+asPointerEvent() -> PointerEvent?
+```
+</div>
+
+Returns the pointer event if applicable, otherwise nil.
+
+
+### `asKeyboardEvent`
+
+{/* asKeyboardEvent: (self: ListenerContext) -> KeyboardEvent? */}
+<div class="signature">
+```lua
+asKeyboardEvent() -> KeyboardEvent?
+```
+</div>
+
+Returns the keyboard event if applicable, otherwise nil.
+
+
+### `asTextInput`
+
+{/* asTextInput: (self: ListenerContext) -> TextInput? */}
+<div class="signature">
+```lua
+asTextInput() -> TextInput?
+```
+</div>
+
+Returns the text input event if applicable, otherwise nil.
+
+
+### `asFocus`
+
+{/* asFocus: (self: ListenerContext) -> FocusEvent? */}
+<div class="signature">
+```lua
+asFocus() -> FocusEvent?
+```
+</div>
+
+Returns the focus event if applicable, otherwise nil.
+
+
+### `asReportedEvent`
+
+{/* asReportedEvent: (self: ListenerContext) -> ReportedEvent? */}
+<div class="signature">
+```lua
+asReportedEvent() -> ReportedEvent?
+```
+</div>
+
+Returns the reported event if applicable, otherwise nil.
+
+
+### `asViewModelChange`
+
+{/* asViewModelChange: (self: ListenerContext) -> ViewModelChange? */}
+<div class="signature">
+```lua
+asViewModelChange() -> ViewModelChange?
+```
+</div>
+
+Returns the view model change if applicable, otherwise nil.
+
+
+### `asNone`
+
+{/* asNone: (self: ListenerContext) -> NoneEvent? */}
+<div class="signature">
+```lua
+asNone() -> NoneEvent?
+```
+</div>
+
+Returns a none event if applicable, otherwise nil.
+
+
