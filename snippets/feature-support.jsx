@@ -252,14 +252,14 @@ export const FeatureSupportGroup = ({
         fallbackFonts: {
             title: "Fallback Fonts",
             runtimes: {
-                webCanvas: { supported: false, description: "Not yet supported" },
+                webCanvas: { supported: false, description: "2.37.1+" },
                 webCanvasLite: { supported: false, description: "Not supported" },
                 webWebGL: { supported: false, description: "Not supported" },
-                webWebGL2: { supported: false, description: "Not yet supported" },
-                reactCanvas: { supported: false, description: "Not yet supported" },
+                webWebGL2: { supported: false, description: "2.37.1+" },
+                reactCanvas: { supported: false, description: "4.28.0+" },
                 reactCanvasLite: { supported: false, description: "Not supported" },
                 reactWebGL: { supported: false, description: "Not supported" },
-                reactWebGL2: { supported: false, description: "Not yet supported" },
+                reactWebGL2: { supported: false, description: "4.28.0+" },
                 reactNative: { supported: true, version: "0.2.7+" },
                 reactNativeLegacy: { supported: false, description: "Not supported" },
                 flutter: { supported: false, description: "Not yet supported" },
