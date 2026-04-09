@@ -18,7 +18,7 @@ For more information, see [Loading Assets](/runtimes/react/loading-assets).
 
 As of `v4.28.0`, the React runtime provides an API for supplying fallback fonts. When a glyph cannot be rendered with the default font, Rive will invoke a callback you provide to retrieve a list of decoded fonts to try instead. **Importantly**, this callback must be registered before Rive begins rendering.
 
-To start, import `RiveFont` and `decodeFont` from the React package and call `RiveFont.setFallbackFontCallback()` before the Rive component begins rendering.
+To start, import `RiveFont` and `decodeFont` from the React package and call `RiveFont.setFallbackFontCallback()`, passing in the callback before the Rive component begins rendering. The callback receives the glyph that failed to render (as a Unicode code point) and the font weight, and should return a list of fallback fonts. It may be called multiple times if successive fallback fonts also lack support for the glyph.
 
 ```tsx
 import { useEffect } from "react";
