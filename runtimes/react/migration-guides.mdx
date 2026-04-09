@@ -4,12 +4,17 @@ description: 'Migrating between major versions of the Apple runtime'
 ---
 
 <AccordionGroup>
+    <Accordion title={`Migrating from @rive-app/react-webgl to @rive-app/react-webgl2`}>
+        We highly recommend migrating to `@rive-app/react-webgl2` for the best rendering quality and performance in most cases. The `@rive-app/react-webgl` package is deprecated and no longer receives updates after `v4.27.3`.
+
+        No changes to the API are necessary, simply update your package installation and import statements to use `@rive-app/react-webgl2`. This change will allow you to take advantage of the improved rendering capabilities of the [Rive renderer](https://rive.app/renderer) while maintaining compatibility with your existing codebase.
+    </Accordion>
     <Accordion title="Migrating from 3.x.x to 4.x.x">
         Starting in v4 of our React runtimes, Rive will support Rive Text at runtime, which includes the following packages:
 
         - React
         - `@rive-app/react-canvas`
-        - `@rive-app/react-webgl`
+        - `@rive-app/react-webgl2`
 
         ## Major Changes
 
