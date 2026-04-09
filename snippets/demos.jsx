@@ -237,7 +237,7 @@ export const Demos = ({
       image: "https://static.rive.app/docs/render-image-with-scripting.jpg",
       description: "Draw an image, give it transforms, control its mesh, and add clipping all through scripting.",
       links: {
-        editor: "https://rive.app/community/files/26406-49444-draw-an-image-with-scripting/"
+        editor: "https://rive.app/community/files/26406-draw-an-image-with-scripting"
       }
     },
     scriptingSlotMachine: {
@@ -369,7 +369,7 @@ export const Demos = ({
     if (!link) return null
 
     if (runtime === 'editor') {
-      link = `${link}?utm_source=docs&utm_medium=docs_demo_card&utm_campaign=docs_to_marketplace_links`
+      link = `${link}?utm_source=docs&utm_medium=docs_demo_card`
     }
 
     return (
