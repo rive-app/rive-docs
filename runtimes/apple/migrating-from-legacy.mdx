@@ -472,7 +472,7 @@ The new runtime binds artboards with a typed property descriptor and `setValue` 
 ```swift
 let worker = try await WorkerProvider.shared.worker()
 let file = try await File(source: .local("my_rive_file", Bundle.main), worker: worker)
-let viewModelInstance = try await file.createViewModelInstance(from: .name("My View Model"))
+let viewModelInstance = try await file.createViewModelInstance(.viewModelDefault(from: .name("My View Model")))
 
 let artboardProperty = ArtboardProperty(path: "path/to/artboard")
 let artboard = try await file.createArtboard("My Artboard")
@@ -564,7 +564,7 @@ In the new runtime, update the bound value after the view is created. No explici
 let worker = try await WorkerProvider.shared.worker()
 let file = try await File(source: .local("my_rive_file", Bundle.main), worker: worker)
 
-let instance = try await file.createViewModelInstance(from: .name("My View Model"))
+let instance = try await file.createViewModelInstance(.viewModelDefault(from: .name("My View Model")))
 let property = StringProperty(path: "path/to/string")
 let rive = try await Rive(file: file, dataBind: .instance(instance))
 let riveView = RiveUIView(rive: rive)
