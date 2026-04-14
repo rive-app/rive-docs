@@ -14,8 +14,10 @@ Referenced assets are represented by Unreal objects, and you load data directly 
 When databinding images in Rive, textures must use premultiplied alpha.
 Rive renders using a premultiplied alpha pipeline, and Unreal materials using these images should use AlphaComposite blending.
 If a texture is authored with straight alpha, you may see artifacts such as:
-Dark or black fringes around transparent edges
-Incorrect compositing against the background
+- Dark or black fringes around transparent edges
+- Incorrect compositing against the background
+- Removal of alpha from images
+- Extra bright / High saturation images
 To avoid this, export or preprocess textures with premultiplied alpha before importing into Unreal.
 </Warning>
 
