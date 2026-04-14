@@ -5,7 +5,7 @@ description: "Swap image assets at runtime in Unreal via data binding."
 
 ## Overview
 
-To change a Rive file's images at runtime in Unreal, bind a `UTexture` to a ViewModel image property that your designer exposed in the Rive editor. This is the right path for per-instance, dynamic visuals.
+To change a Rive file's images at runtime in Unreal, bind a `UTexture` to a ViewModel image property that your designer exposed in the Rive editor.
 
 <Warning>
 The Rive renderer requires image textures to use **premultiplied alpha** (AlphaComposite-style blending). Textures authored with straight alpha can show:
@@ -16,10 +16,6 @@ The Rive renderer requires image textures to use **premultiplied alpha** (AlphaC
 
 Export or preprocess textures with premultiplied alpha before using them at runtime.
 </Warning>
-
-## Data Binding Images
-
-If your designer has exposed an **image property** on a ViewModel in the Rive editor, use data binding to swap images per instance.
 
 ### Blueprint
 
