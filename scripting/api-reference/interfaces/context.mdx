@@ -126,7 +126,7 @@ The returned [Image](/scripting/api-reference/image/image) can be drawn via `dra
 
 See also [ImageSampler](/scripting/api-reference/image/image-sampler).
 
-Check out [Scripting demos](/scripting/demos) to see a working example.
+Check out [Scripting demos](https://rive.app/docs/scripting/demos) to see a working example.
 
 ```lua highlight={7,15}
 type DrawImage = {
@@ -169,6 +169,30 @@ blob(name: string) -> Blob?
 
 Returns a [Blob](/scripting/api-reference/interfaces/blob) (raw binary data) asset by name, or nil if not found.
 Useful for loading custom data files embedded in the Rive file.
+```lua highlight={6}
+type DrawBlob = {
+    myBlob: Blob?,
+}
+
+function init(self: DrawBlob, context: Context): boolean
+    self.myBlob = context:blob('myBlob')
+
+    if self.myBlob then
+        print('Blob name:', self.myBlob.name)
+        print('Blob size:', self.myBlob.size, 'bytes')
+        print('Blob data buffer:', self.myBlob.data)
+    end
+
+    return true
+end
+
+return function(): Node<DrawBlob>
+    return {
+        myBlob = nil,
+        init = init,
+    }
+end
+```
 
 
 ### `audio`
@@ -181,5 +205,31 @@ audio(name: string) -> AudioSource?
 </div>
 
 Returns an [AudioSource](/scripting/api-reference/interfaces/audio-source) asset by name. The returned source can be played using the global `Audio` API.
+```lua highlight={4,8}
+type AudioExample = {
+  play: Input<Trigger>,
+
+  source: AudioSource?,
+}
+
+function init(self: AudioExample, context: Context): boolean
+  self.source = context:audio("myAudio")
+  return true
+end
+
+function playSound(self: AudioExample)
+  if self.source then
+    Audio.play(self.source)
+  end
+end
+
+return function(): Node<AudioExample>
+  return {
+    play = playSound,
+    source = nil,
+    init = init,
+  }
+end
+```
 
 

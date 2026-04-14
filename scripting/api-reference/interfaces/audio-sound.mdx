@@ -2,7 +2,7 @@
 title: AudioSound
 ---
 
-Provides access to an AudioSound object
+A playback instance returned by `Audio:play*`, with controls for transport and volume.
 
 
 ## Fields
@@ -10,6 +10,14 @@ Provides access to an AudioSound object
 ### `volume`
 
 volume of the sound.
+```lua highlight={4}
+function update(self: AudioScript)
+  -- updates the volume for AudioSound playback when the input is changed
+  if self.soundInstance then
+    self.soundInstance.volume = self.volumeNumber / 100
+  end
+end
+```
 
 
 ## Methods
@@ -23,7 +31,14 @@ stop(fadeToStopTime: number?) -> ()
 ```
 </div>
 
-stop the audio.
+stop the audio
+```lua highlight={3}
+function stopSound(self: AudioScript)
+  if self.soundInstance then
+    self.soundInstance:stop()
+  end
+end
+```
 
 
 ### `seek`
@@ -36,6 +51,11 @@ seek(seconds: number) -> ()
 </div>
 
 seek the audio to a specific time in seconds.
+```lua
+if self.soundInstance then
+  self.soundInstance:seek(self.seekSeconds)
+end
+```
 
 
 ### `seekFrame`
@@ -48,6 +68,11 @@ seekFrame(frame: number) -> ()
 </div>
 
 seek the audio to a specific time in PCM frames.
+```lua
+if self.soundInstance then
+  self.soundInstance:seekFrame(self.seekFrameNumber)
+end
+```
 
 
 ### `completed`
@@ -60,6 +85,14 @@ completed() -> boolean
 </div>
 
 Whether the sound has completed playing.
+```lua highlight={3}
+function advance(self: AudioScript, seconds: number): boolean
+  if self.soundInstance then
+    self.isCompleted = self.soundInstance:completed()      -- whether playback has finished
+  end
+  return true
+end
+```
 
 
 ### `time`
@@ -72,6 +105,14 @@ time() -> number
 </div>
 
 Current sound time in seconds.
+```lua highlight={3}
+function advance(self: AudioScript, seconds: number): boolean
+  if self.soundInstance then
+    self.currentTime = self.soundInstance:time()           -- current playback time in seconds
+  end
+  return true
+end
+```
 
 
 ### `timeFrame`
@@ -84,6 +125,14 @@ timeFrame() -> number
 </div>
 
 Current sound time in PCM frames.
+```lua highlight={3}
+function advance(self: AudioScript, seconds: number): boolean
+  if self.soundInstance then
+    self.currentTimeFrame = self.soundInstance:timeFrame() -- current playback time in PCM frames
+  end
+  return true
+end
+```
 
 
 ### `pause`
@@ -96,6 +145,13 @@ pause() -> ()
 </div>
 
 pauses the audio.
+```lua highlight={3}
+function pauseSound(self: AudioScript)
+  if self.soundInstance then
+    self.soundInstance:pause()
+  end
+end
+```
 
 
 ### `resume`
@@ -108,6 +164,13 @@ resume() -> ()
 </div>
 
 resumes the audio from its current position.
+```lua highlight={3}
+function resumeSound(self: AudioScript)
+  if self.soundInstance then
+    self.soundInstance:resume()
+  end
+end
+```
 
 
 ### `play`
@@ -120,5 +183,12 @@ play() -> ()
 </div>
 
 plays the audio.
+```lua highlight={3}
+function playSound(self: AudioScript)
+  if self.soundInstance then
+    self.soundInstance:play()
+  end
+end
+```
 
 

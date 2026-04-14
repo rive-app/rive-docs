@@ -176,8 +176,8 @@ values(xx: number, xy: number, yx: number, yy: number, tx: number, ty: number) -
 
 Creates a matrix using the specified components.
 ```lua
--- xx=1, xy=skewX (horizontal skew), yx=skewY (vertical skew), yy=1, tx=0, ty=0Ô
-local newMat = Mat2D.values(1, self.skewY, self.skewX, 1, 0, 0)Ô
+-- xx=1, xy=skewX (horizontal skew), yx=skewY (vertical skew), yy=1, tx=0, ty=0
+local newMat = Mat2D.values(1, self.skewY, self.skewX, 1, 0, 0)
 ```
 
 
@@ -254,6 +254,17 @@ invert() -> Mat2D?
 ```
 </div>
 
+Provides indexed access to the matrix components.
+```lua
+local m = Mat2D.identity()
+
+-- Indices map to: xx, xy, yx, yy, tx, ty
+m[1] = 2    -- xx
+m[5] = 50   -- tx
+
+print(m[1], m.xx) -- 2, 2
+print(m[5], m.tx) -- 50, 50
+```
 Returns the inverse of the matrix, or nil if the matrix is not invertible.
 ```lua highlight={2}
 local m = Mat2D.withTranslation(50, 100)

@@ -10,15 +10,81 @@ A blob asset containing raw binary data.
 ### `size`
 
 The size of the blob data in bytes.
+```lua highlight={9}
+type DrawBlob = {
+    myBlob: Blob?,
+}
+
+function init(self: DrawBlob, context: Context): boolean
+    self.myBlob = context:blob('myBlob')
+
+    if self.myBlob then
+        print('Blob size:', self.myBlob.size, 'bytes')
+    end
+
+    return true
+end
+
+return function(): Node<DrawBlob>
+    return {
+        myBlob = nil,
+        init = init,
+    }
+end
+```
 
 
 ### `name`
 
 The name of the blob asset.
+```lua highlight={9}
+type DrawBlob = {
+    myBlob: Blob?,
+}
+
+function init(self: DrawBlob, context: Context): boolean
+    self.myBlob = context:blob('myBlob')
+
+    if self.myBlob then
+        print('Blob name:', self.myBlob.name)
+    end
+
+    return true
+end
+
+return function(): Node<DrawBlob>
+    return {
+        myBlob = nil,
+        init = init,
+    }
+end
+```
 
 
 ### `data`
 
 The raw binary data as a buffer.
+```lua highlight={9}
+type DrawBlob = {
+    myBlob: Blob?,
+}
+
+function init(self: DrawBlob, context: Context): boolean
+    self.myBlob = context:blob('myBlob')
+
+    if self.myBlob then
+        print('Blob data buffer:', self.myBlob.data)
+    end
+
+    return true
+end
+
+return function(): Node<DrawBlob>
+    return {
+        myBlob = nil,
+        init = init,
+    }
+end
+```
 
 
