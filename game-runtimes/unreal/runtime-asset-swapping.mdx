@@ -1,83 +1,44 @@
 ﻿---
 title: "Runtime Asset Swapping"
-description: "Load referenced image and font assets at runtime in Unreal."
+description: "Swap image assets at runtime in Unreal via data binding."
 ---
 
 ## Overview
 
-Referenced assets are represented by Unreal objects, and you load data directly onto those objects:
-
-- `URiveImageAsset`
-- `URiveFontAsset`
+To change a Rive file's images at runtime in Unreal, bind a `UTexture` to a ViewModel image property that your designer exposed in the Rive editor. This is the right path for per-instance, dynamic visuals.
 
 <Warning>
-When databinding images in Rive, textures must use premultiplied alpha; i.e., the textures must be designed for an AlphaComposite material blend mode.
-If a texture is authored with straight alpha, you may see artifacts such as:
+The Rive renderer requires image textures to use **premultiplied alpha** (AlphaComposite-style blending). Textures authored with straight alpha can show:
 - Dark or black fringes around transparent edges
 - Incorrect compositing against the background
-- Removal of alpha from images
-- Extra bright / High saturation images
-To avoid this, export or preprocess textures with premultiplied alpha before importing into Unreal.
+- Loss of alpha
+- Overly bright / oversaturated images
+
+Export or preprocess textures with premultiplied alpha before using them at runtime.
 </Warning>
 
-## How Asset Loading Works
+## Data Binding Images
 
-When a `.riv` contains referenced assets:
+If your designer has exposed an **image property** on a ViewModel in the Rive editor, use data binding to swap images per instance.
 
-- The plugin tracks them by **asset ID**.
-- Referenced assets are created as Unreal assets alongside your imported `URiveFile`.
-- The runtime decodes and applies bytes through typed asset classes.
+### Blueprint
 
-For image/font replacements at runtime, use the asset objects directly:
+Call **Set Image Value** (category *Rive → Data Binding*) on your `RiveViewModel`, passing the property name and a `Texture` reference.
 
-- Images: `LoadTexture(UTexture2D*)` or `LoadImageBytes(const TArray<uint8>&)`
-- Fonts: `LoadFontFace(UFontFace*)` or `LoadFontBytes(const TArray<uint8>&)`
+{/* TODO: Add Blueprint screenshot — "Set Image Value" node on a RiveViewModel, with PropertyName and InImage pins wired up. */}
 
-## Recommended Workflow
-
-1. In the Rive Editor, set assets to **Referenced** if you want to supply them outside the `.riv`.
-2. Import the `.riv` into Unreal.
-3. Locate generated referenced assets in Content Browser (typically named like `AssetName-AssetId`).
-4. In Blueprint or C++, hold references to those `URiveImageAsset` / `URiveFontAsset` objects.
-5. Before or during playback, call the load function that matches your source data.
-
-## Blueprint Runtime Replacement
-
-Use object references to your Rive asset objects and call:
-
-- `Load Texture` on `RiveImageAsset` for a `Texture2D`
-- `Load Image Bytes` on `RiveImageAsset` for raw encoded image bytes
-- `Load Font Face` on `RiveFontAsset` for a `Font Face`
-- `Load Font Bytes` on `RiveFontAsset` for raw font bytes
-
-After loading, continue rendering with your `RiveFile`/`RiveArtboard` normally.
-
-## C++ API Surface
-
-Use these headers:
+### C++
 
 ```cpp
-#include "Rive/Assets/RiveImageAsset.h"
-#include "Rive/Assets/RiveFontAsset.h"
+#include "Rive/RiveViewModel.h"
+
+// ViewModel is a URiveViewModel*, Texture is any UTexture*
+ViewModel->SetImageValue(TEXT("MyImageProperty"), Texture);
 ```
 
-Runtime-loading functions:
-
-```cpp
-URiveImageAsset::LoadTexture(UTexture2D* InTexture);
-URiveImageAsset::LoadImageBytes(const TArray<uint8>& InBytes);
-
-URiveFontAsset::LoadFontFace(UFontFace* InFont);
-URiveFontAsset::LoadFontBytes(const TArray<uint8>& InBytes);
-```
-
-## Important Notes
-
-- Referenced asset resolution is ID-based inside the plugin.
-- If your project uses image data binding for dynamic visuals, prefer that path for per-instance image changes.
+`SetImageValue` accepts any `UTexture` and notifies the state machine that the bound property changed. The property name must match the image property declared on the ViewModel in the editor.
 
 ## Troubleshooting
 
-- If a referenced asset does not update, confirm you are editing the correct generated Rive asset object (`AssetName-AssetId`).
-- If bytes-based loading fails, validate file format and byte contents (supported image/font formats only).
-- Reimporting the `.riv` can regenerate/update metadata; re-check referenced asset objects after reimport.
+- **Image doesn't update:** confirm the property name matches the ViewModel image property declared in the editor, and that your `RiveViewModel` is the one driving the artboard instance on screen.
+- **Image looks wrong (dark fringes, incorrect alpha, oversaturation):** verify the source texture uses premultiplied alpha.
