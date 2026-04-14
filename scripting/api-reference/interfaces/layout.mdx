@@ -26,6 +26,12 @@ When provided this Layout can be intrinsically sized/request
 to be a specific size. This is not guaranteed as the layout
 may have min/max dimensions. Resize will be called with the
 granted size after being measured.
+```lua
+-- Measure the computed size of the layout on resize
+function measure(self: MyLayout): Vector
+  return Vector.xy(100, 100)
+end
+```
 
 
 ### `resize`
@@ -39,5 +45,12 @@ resize(self: T, size: Vector) -> ()
 
 Guaranteed to be called to set initial size and also called
 whenever the size changes.
+```lua
+-- Called when the layout resizes based on the content
+-- This only applies to Layouts with a fit type of Hug
+function resize(self: MyLayout, size: Vector)
+  print('Resize:', size)
+end
+```
 
 

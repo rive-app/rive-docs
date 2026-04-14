@@ -38,7 +38,7 @@ drawImage(image: Image, sampler: ImageSampler, blendMode: BlendMode, opacity: nu
 
 Draws an [Image](/scripting/api-reference/image/image) using the [ImageSampler](/scripting/api-reference/image/image-sampler), [BlendMode](/scripting/api-reference/paint/blend-mode), and opacity.
 
-Check out [Scripting demos](/scripting/demos) to see a working example.
+Check out [Scripting demos](https://rive.app/docs/scripting/demos) to see a working example.
 
 ```lua highlight={15}
 type DrawImage = {
@@ -82,6 +82,23 @@ drawImageMesh(image: Image, sampler: ImageSampler, vertices: VertexBuffer, uvs: 
 Draws an image using mesh data defined by vertices, texture
 coordinates, and triangle indices.
 
+Check out [Scripting demos](https://rive.app/docs/scripting/demos) to see a working example.
+```lua
+function draw(self: DrawImageMesh, renderer: Renderer)
+  if self.myImage and self.sampler and self.vertices and self.uvs and self.triangles then
+    renderer:drawImageMesh(
+      self.myImage,
+      self.sampler,
+      self.vertices,
+      self.uvs,
+      self.triangles,
+      'srcOver',
+      1
+    )
+  end
+end
+```
+
 
 ### `clipPath`
 
@@ -94,6 +111,24 @@ clipPath(path: Path) -> ()
 
 Restricts subsequent drawing to the area defined by the given [Path](/scripting/api-reference/path/path).
 Clipping remains in effect until the next restore call.
+
+Check out [Scripting demos](https://rive.app/docs/scripting/demos) to see a working example.
+```lua highlight={10}
+function draw(self: DrawImageClipped, renderer: Renderer)
+  if self.myImage and self.sampler then
+    local w: number = self.myImage.width
+    local h: number = self.myImage.height
+    local rx: number = (w / 2) * self.clipRadiusX
+    local ry: number = (h / 2) * self.clipRadiusY
+    buildOvalPath(self.clipPath, w / 2, h / 2, rx, ry)
+
+    renderer:save()
+    renderer:clipPath(self.clipPath)
+    renderer:drawImage(self.myImage, self.sampler, 'srcOver', 1)
+    renderer:restore()
+  end
+end
+```
 
 
 ### `save`
@@ -152,9 +187,10 @@ transform(transform: Mat2D) -> ()
 Applies a transform to the current rendering state. Transforms are
 applied cumulatively until restored.
 ```lua highlight={7}
-function draw(self: SkewImage, renderer: Renderer)
+function draw(self: TransformedImage, renderer: Renderer)
   if self.myImage and self.sampler then
     local m = Mat2D.withScale(2, 3)
+    -- Adjust matrix terms directly for additional skew/stretch control.
     m.xx = 5
 
     renderer:save()

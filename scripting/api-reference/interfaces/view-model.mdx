@@ -10,7 +10,9 @@ between your application and a Rive file.
 
 ### `name`
 
-The name fo the view model.
+The name of the view model.
+
+(Coming soon)
 
 
 ## Methods
@@ -53,7 +55,7 @@ local vmi = context:viewModel()
 if vmi then
   local myTrigger = vmi:getTrigger('myTrigger')
   if myTrigger then
-    mytrigger:fire()
+    myTrigger:fire()
   end
 end
 ```
@@ -75,7 +77,7 @@ local vmi = context:viewModel()
 if vmi then
   local heading = vmi:getString('heading')
   if heading then
-    print(heading)
+    print(heading.value)
   end
 end
 ```
@@ -97,7 +99,7 @@ local vmi = context:viewModel()
 if vmi then
   local darkMode = vmi:getBoolean('darkMode')
   if darkMode then
-    print(darkMode)
+    print(darkMode.value)
   end
 end
 ```
@@ -157,6 +159,12 @@ getViewModel(name: string) -> PropertyViewModel?
 </div>
 
 Looks up a view model property by name. Returns a [PropertyViewModel](/scripting/api-reference/interfaces/property-view-model).
+```lua highlight={3}
+local vmi = context:viewModel()
+if vmi then
+    local nestedVM = vmi:getViewModel('MyVM')
+end
+```
 
 
 ### `getEnum`
@@ -189,5 +197,19 @@ instance(instanceName: string?) -> ViewModel
 
 Creates a new instance of the ViewModel.
 Pass instanceName to specify an existing instance from the file to use as template
+```lua highlight={4}
+function init(self: VMNameNode, context: Context): boolean
+  local vm = context:viewModel()
+  if vm then
+    local newInstance = vm:instance()
+    local age = newInstance:getNumber('age')
+    if age then
+      age.value = 99
+    end
+  end
+
+  return true
+end
+```
 
 
