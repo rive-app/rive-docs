@@ -11,8 +11,7 @@ Referenced assets are represented by Unreal objects, and you load data directly 
 - `URiveFontAsset`
 
 <Warning>
-When databinding images in Rive, textures must use premultiplied alpha.
-Rive renders using a premultiplied alpha pipeline, and Unreal materials using these images should use AlphaComposite blending.
+When databinding images in Rive, textures must use premultiplied alpha, i.e., the textures must be designed for  an AlphaComposite material blend mode.
 If a texture is authored with straight alpha, you may see artifacts such as:
 - Dark or black fringes around transparent edges
 - Incorrect compositing against the background
