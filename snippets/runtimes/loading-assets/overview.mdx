@@ -1,0 +1,14 @@
+<Note>
+  If you want to dynamically replace images, use <Link href="data-binding#images">image data binding</Link>.
+</Note>
+
+Some Rive files may contain assets that can be embedded within the actual file binary, such as font, image, or audio files. The Rive runtimes may then load these assets when the Rive file is loaded. While this makes for easy usage of the Rive files/runtimes, there may be opportunities to load these assets in or even replace them at runtime instead of embedding them in the file binary.
+
+There are several benefits to this approach:
+
+- Keep the `.riv` files tiny without potential bloat of larger assets
+- Dynamically load an asset for any reason, such as loading an image with a smaller resolution if the `.riv` is running on a mobile device vs. an image of a larger resolution for desktop devices
+- Preload assets to have available immediately when displaying your `.riv`
+- Use assets already bundled with your application, such as font files
+- Sharing the same asset between multiple `.riv`s
+

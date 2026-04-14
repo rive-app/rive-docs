@@ -4,7 +4,6 @@ description: "React Native runtime for Rive."
 ---
 
 import NoteOnFeatureSupport from "/snippets/runtimes/rendering-feature-support.mdx";
-import Interaction from "/snippets/runtimes/animation-control-and-interaction.mdx";
 import { Demos } from "/snippets/demos.jsx";
 
 <NoteOnFeatureSupport />
@@ -51,7 +50,7 @@ This guide documents how to get started using the Rive React Native runtime. The
     <CardGroup cols={2}>
       <Card
         title="Rive File"
-        href="https://rive.app/marketplace/24637-46037-health-bar-data-binding-quick-start/"
+        href="https://rive.app/marketplace/24637-46037-health-bar-data-binding-quick-start?utm_source=docs&utm_medium=content"
       >
         Remix/download the Rive file used in this quick start guide
       </Card>
@@ -139,7 +138,7 @@ This guide documents how to get started using the Rive React Native runtime. The
           </Card>
           <Card
             title="Caching Rive Files"
-            href="/runtimes/caching-a-rive-file"
+            href="/runtimes/react-native/caching-a-rive-file"
           >
             Cache Rive files for better performance
           </Card>
@@ -164,7 +163,7 @@ This guide documents how to get started using the Rive React Native runtime. The
         <CardGroup cols={1}>
           <Card
             title="Runtime layout"
-            href="/runtimes/layout"
+            href="/runtimes/react-native/layouts"
           >
             Control how Rive graphics fit and align within their containers
           </Card>
@@ -225,7 +224,7 @@ This guide documents how to get started using the Rive React Native runtime. The
             require('path/to/quick_start.riv')
           );
           const { riveViewRef, setHybridRef } = useRive();
-          const viewModelInstance = useViewModelInstance(riveFile, {
+          const { instance: viewModelInstance } = useViewModelInstance(riveFile, {
             onInit: (vmi) => (vmi.numberProperty('health')!.value = 20),
           });
 
@@ -253,7 +252,7 @@ This guide documents how to get started using the Rive React Native runtime. The
             require('path/to/quick_start.riv')
           );
           const { riveViewRef, setHybridRef } = useRive();
-          const viewModelInstance = useViewModelInstance(riveFile, {
+          const { instance: viewModelInstance } = useViewModelInstance(riveFile, {
             onInit: (vmi) => (vmi.numberProperty('health')!.value = 20),
           });
 
@@ -315,7 +314,7 @@ This guide documents how to get started using the Rive React Native runtime. The
       <CardGroup cols={1}>
         <Card
           title="Data binding"
-          href="/runtimes/data-binding"
+          href="/runtimes/react-native/data-binding"
         >
           See the runtime data binding documentation for more information.
         </Card>
@@ -354,7 +353,7 @@ This guide documents how to get started using the Rive React Native runtime. The
     // const { riveFile } = useRiveFile(require('./assets/graphic.riv'));
     ```
 
-    See [loading Rive files](/runtimes/react-native/loading-rive-files) and [caching Rive files](/runtimes/caching-a-rive-file) for more information.
+    See [loading Rive files](/runtimes/react-native/loading-rive-files) and [caching Rive files](/runtimes/react-native/caching-a-rive-file) for more information.
 
     ### `useRive`
 
@@ -369,7 +368,7 @@ This guide documents how to get started using the Rive React Native runtime. The
     />
     ```
 
-    This is a [Nitro Hybrid View](https://nitro.margelo.com/docs/hybrid-views). See the avaiable [view reference methods](/runtimes/react-native/rive-ref-methods).
+    This is a [Nitro Hybrid View](https://nitro.margelo.com/docs/hybrid-views). See the available [view reference methods](/runtimes/react-native/rive-ref-methods).
 
     ### `useViewModelInstance`
 
@@ -377,25 +376,25 @@ This guide documents how to get started using the Rive React Native runtime. The
 
     ```ts
     // From RiveFile — default artboard's ViewModel, default instance
-    const instance = useViewModelInstance(riveFile);
+    const { instance } = useViewModelInstance(riveFile);
 
     // From RiveFile — specify artboard or ViewModel name (mutually exclusive)
-    const instance = useViewModelInstance(riveFile, { artboardName: 'MainArtboard' });
-    const instance = useViewModelInstance(riveFile, { viewModelName: 'Settings' });
+    const { instance } = useViewModelInstance(riveFile, { artboardName: 'MainArtboard' });
+    const { instance } = useViewModelInstance(riveFile, { viewModelName: 'Settings' });
 
     // instanceName can be combined with any of the above to pick a specific instance
-    const instance = useViewModelInstance(riveFile, { instanceName: 'PersonInstance' });
-    const instance = useViewModelInstance(riveFile, { viewModelName: 'Settings', instanceName: 'UserSettings' });
+    const { instance } = useViewModelInstance(riveFile, { instanceName: 'PersonInstance' });
+    const { instance } = useViewModelInstance(riveFile, { viewModelName: 'Settings', instanceName: 'UserSettings' });
 
     // From a ViewModel object
-    const namedInstance = useViewModelInstance(viewModel, { name: 'My Instance' });
-    const newInstance = useViewModelInstance(viewModel, { useNew: true });
+    const { instance: namedInstance } = useViewModelInstance(viewModel, { name: 'My Instance' });
+    const { instance: newInstance } = useViewModelInstance(viewModel, { useNew: true });
 
     // With required: true (throws if null, use with Error Boundary)
-    const instance = useViewModelInstance(riveFile, { required: true });
+    const { instance } = useViewModelInstance(riveFile, { required: true });
 
     // With onInit to set initial values synchronously
-    const instance = useViewModelInstance(riveFile, {
+    const { instance } = useViewModelInstance(riveFile, {
       onInit: (vmi) => {
         vmi.numberProperty('health')!.value = 100;
       },
@@ -418,10 +417,10 @@ This guide documents how to get started using the Rive React Native runtime. The
     import { useRive, useViewModelInstance } from '@rive-app/react-native';
 
     const { riveViewRef, setHybridRef } = useRive();
-    const instance = useViewModelInstance(riveViewRef);
+    const { instance } = useViewModelInstance(riveViewRef);
     ```
 
-    See the [runtime data binding documentation](/runtimes/data-binding) for more information.
+    See the [runtime data binding documentation](/runtimes/react-native/data-binding) for more information.
 
     ## Resources
 

@@ -3,65 +3,15 @@ title: 'Logging'
 description: ''
 ---
 
-import { Apple } from '/snippets/constants.mdx'
+import { Runtimes } from '/snippets/runtimes/landing-pages/runtimes.jsx'
 
-Some Rive runtimes include logging capabilities to help with debugging. These logs are *only* for debugging purposes; nothing is sent over the network, and no personally identifiable information (PII) is logged. The table below showcases the runtimes that support logging.
+Some Rive runtimes include logging capabilities to help with debugging.
 
-<Tabs>
-    <Tab title="Apple">
-        <Tabs>
-            <Tab title={Apple.currentRuntimeName}>
-                The new runtime does not yet include logging, but will be added in the near future.
-            </Tab>
-            <Tab title={Apple.legacyRuntimeName}>
-                ```
-                RiveLogger.isEnabled = true // Enable logging; false by default
-                RiveLogger.levels = [.debug] // Filter logs; all by default
-                RiveLogger.categories = [.viewModel] // Filter categories; all by default
-                RiveLogger.isVerbose = true // Include verbose logs; false by default
-                ```
+Select your runtime below to see the relevant guide.
 
-                ### Levels 
-
-                Logs will be logged at various levels, which are similar to those of `OSLogType` . These levels can be used to additionally filter logs to be logged at certain levels only. Available levels are:
-
-                - Debug: most commonly used, to aid with debugging
-                - Info: logs that provide additional information
-                - Default: the default log level; however, many logs are `debug` level
-                - Error: used when an error occurs
-                - Fault: used when a critical (fatal) error occurs
-
-                ### Categories 
-
-                Logs are split by categories; individual portions of the runtime are split into separate logs to support filtering. Available categories are:
-
-                - State machine: operations that occur within an active state machine, such as receiving events
-                - Artboard: operations that occur within an active artboard, such as advancing (verbose)
-                - View model: operations that occur within a loaded `RiveViewModel` , such as triggering / setting inputs
-                - Model: operations that occur within a loaded `RiveModel` , such as setting state machines / artboards
-                - File: operations that occur within a loaded `RiveFile`, such as asset loading
-                - View: operations that occur within a `RiveView`, such as player events (play / pause / stop / reset)
-
-                ### Verbose Logs 
-
-                Certain logs are verbose, meaning they will stream logs consistently. Examples of these logs are view advances, and drawing validation. Verbose logs are disabled by default; see above for how to enable verbose logging.
-            </Tab>
-        </Tabs>
-    </Tab>
-    <Tab title="Android">
-        <Tabs>
-            <Tab title="Compose">
-                The new runtime includes a fine-grained, flexible logging system that allows you to capture logs at various levels (debug, info, warning, error) and redirect them to your preferred logging framework or sink. This is done by implementing the `RiveLog.Logger` interface and assigning the global `RiveLog.logger` property.
-
-                The library ships with a default implementation that logs to Android Logcat. Enable it with the following:
-
-                ```kotlin
-                RiveLog.logger = RiveLog.LogcatLogger()
-                ```
-            </Tab>
-            <Tab title="Legacy">
-                Fine-grained Logging is not supported in the legacy runtime. We may consider retrofitting more logging capabilities to the legacy runtime in the future, especially if doing so would illuminate a potential source for bugs.
-            </Tab>
-        </Tabs>
-    </Tab>
-</Tabs>
+<Runtimes
+  runtimes={{
+    apple: '/runtimes/apple/logging',
+    android: '/runtimes/android/logging'
+  }}
+/>

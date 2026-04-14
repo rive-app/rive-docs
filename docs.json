@@ -8,41 +8,24 @@
     "dark": "#ffa41c"
   },
   "favicon": "/favicon_black.png",
+  "contextual": {
+    "options": [
+      "copy",
+      "view",
+      "chatgpt",
+      "claude"
+    ]
+  },
   "navigation": {
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Case Studies",
-          "icon": "books",
-          "href": "https://rive.app/blog/case-studies"
-        },
-        {
-          "anchor": "Community",
-          "icon": "circle",
-          "href": "https://community.rive.app"
-        },
-        {
-          "anchor": "Blog",
-          "icon": "newspaper",
-          "href": "https://rive.app/blog"
-        },
-        {
-          "anchor": "Early Access",
-          "icon": "road-barrier",
-          "href": "https://rive.app/blog/early-access-to-unreleased-features"
-        }
-      ]
-    },
     "tabs": [
       {
         "tab": "Home",
         "groups": [
           {
-            "group": "Getting Started",
+            "group": " ",
             "pages": [
               "getting-started/introduction",
-              "getting-started/best-practices",
-              "getting-started/quick-links"
+              "getting-started/best-practices"
             ]
           },
           {
@@ -89,14 +72,6 @@
               "account-admin/pricing",
               "account-admin/bring-your-own-bucket"
             ]
-          },
-          {
-            "group": "Legal",
-            "pages": [
-              "legal/terms-of-service",
-              "legal/acceptable-use-policy",
-              "legal/privacy-policy"
-            ]
           }
         ]
       },
@@ -104,8 +79,9 @@
         "tab": "Editor",
         "groups": [
           {
-            "group": "Editor",
+            "group": " ",
             "pages": [
+              "editor/get-rive",
               {
                 "group": "Interface Overview",
                 "pages": [
@@ -232,10 +208,9 @@
                 ]
               },
               {
-                "group": "Share Links",
+                "group": "Embed URLs",
                 "pages": [
-                  "editor/share-links/overview",
-                  "editor/share-links/framer-and-rive"
+                  "editor/embed-urls/overview"
                 ]
               },
               "editor/ai-agent/ai-agent",
@@ -248,7 +223,7 @@
         "tab": "Scripting",
         "groups": [
           {
-            "group": "Scripting",
+            "group": " ",
             "pages": [
               "scripting/getting-started",
               "scripting/demos",
@@ -277,6 +252,7 @@
                   "scripting/debugging/unit-testing"
                 ]
               },
+              "scripting/configuration",
               "scripting/keyboard-shortcuts"
             ]
           },
@@ -288,10 +264,19 @@
                 "pages": [
                   "scripting/api-reference/artboards/animation",
                   "scripting/api-reference/artboards/artboard",
+                  "scripting/api-reference/artboards/focus-event",
+                  "scripting/api-reference/artboards/key-phase",
+                  "scripting/api-reference/artboards/keyboard-event",
+                  "scripting/api-reference/artboards/listener-context",
                   "scripting/api-reference/artboards/node-data",
                   "scripting/api-reference/artboards/node-read-data",
+                  "scripting/api-reference/artboards/none-event",
                   "scripting/api-reference/artboards/pointer-event",
-                  "scripting/api-reference/artboards/view-model"
+                  "scripting/api-reference/artboards/pointer-type",
+                  "scripting/api-reference/artboards/reported-event",
+                  "scripting/api-reference/artboards/text-input",
+                  "scripting/api-reference/artboards/view-model",
+                  "scripting/api-reference/artboards/view-model-change"
                 ]
               },
               {
@@ -398,23 +383,15 @@
         ]
       },
       {
-        "tab": "App Runtimes",
+        "tab": "Runtimes",
         "groups": [
           {
-            "group": "Runtime Fundamentals",
+            "group": " ",
             "pages": [
               "runtimes/getting-started",
               "runtimes/demos",
+              "feature-support",
               "runtimes/runtime-sizes",
-              "runtimes/artboards",
-              "runtimes/layout",
-              "runtimes/state-machines",
-              "runtimes/data-binding",
-              "runtimes/loading-assets",
-              "runtimes/fonts",
-              "runtimes/caching-a-rive-file",
-              "runtimes/playing-audio",
-              "runtimes/logging",
               {
                 "group": "Choose a Renderer",
                 "pages": [
@@ -422,38 +399,39 @@
                   "runtimes/choose-a-renderer/faq"
                 ]
               },
-              {
-                "group": "Advanced Topics",
-                "pages": [
-                  "runtimes/advanced-topic/rendering-to-a-bitmap",
-                  "runtimes/advanced-topic/format"
-                ]
-              },
-              {
-                "group": "Legacy",
-                "pages": [
-                  "runtimes/animation-playback",
-                  "runtimes/inputs",
-                  "runtimes/text",
-                  "runtimes/rive-events"
-                ]
-              }
+              "runtimes/advanced-topic/format"
             ]
           },
           {
-            "group": "App Runtimes",
+            "group": "Runtimes",
             "pages": [
               {
                 "group": "Web (JS)",
                 "pages": [
                   "runtimes/web/web-js",
-                  "runtimes/web/rive-parameters",
                   "runtimes/web/canvas-vs-webgl",
-                  "runtimes/web/migrating-from-rive-js",
-                  "runtimes/web/faq",
+                  "runtimes/web/rive-parameters",
+                  "runtimes/web/artboards",
+                  "runtimes/web/layouts",
+                  "runtimes/web/state-machines",
+                  "runtimes/web/data-binding",
+                  "runtimes/web/loading-assets",
+                  "runtimes/web/fonts",
                   "runtimes/web/preloading-wasm",
+                  "runtimes/web/caching-a-rive-file",
+                  "runtimes/web/playing-audio",
                   "runtimes/web/low-level-api-usage",
-                  "runtimes/web/migrating-from-v1-to-v2"
+                  {
+                    "group": "Legacy Features",
+                    "pages": [
+                      "runtimes/web/animation-playback",
+                      "runtimes/web/inputs",
+                      "runtimes/web/text",
+                      "runtimes/web/rive-events"
+                    ]
+                  },
+                  "runtimes/web/migration-guides",
+                  "runtimes/web/faq"
                 ]
               },
               {
@@ -461,22 +439,55 @@
                 "pages": [
                   "runtimes/react/react",
                   "runtimes/react/parameters-and-return-values",
-                  "runtimes/react/migrating-from-v0-to-v1",
-                  "runtimes/react/migrating-from-v1-to-v3",
-                  "runtimes/react/migrating-from-v3-to-v4"
+                  "runtimes/react/artboards",
+                  "runtimes/react/layouts",
+                  "runtimes/react/state-machines",
+                  "runtimes/react/data-binding",
+                  "runtimes/react/loading-assets",
+                  "runtimes/react/fonts",
+                  "runtimes/react/preloading-wasm",
+                  "runtimes/react/caching-a-rive-file",
+                  "runtimes/react/playing-audio",
+                  "runtimes/react/rendering-to-a-bitmap",
+                  {
+                    "group": "Legacy Features",
+                    "pages": [
+                      "runtimes/react/animation-playback",
+                      "runtimes/react/inputs",
+                      "runtimes/react/text",
+                      "runtimes/react/rive-events"
+                    ]
+                  },
+                  "runtimes/react/migration-guides"
                 ]
               },
               {
                 "group": "React Native",
                 "pages": [
                   "runtimes/react-native/react-native",
-                  "runtimes/react-native/runtime-concepts",
                   "runtimes/react-native/loading-rive-files",
                   "runtimes/react-native/props",
                   "runtimes/react-native/rive-ref-methods",
                   "runtimes/react-native/error-handling",
                   "runtimes/react-native/adding-rive-to-expo",
                   "runtimes/react-native/native-version-customization",
+                  "runtimes/react-native/artboards",
+                  "runtimes/react-native/layouts",
+                  "runtimes/react-native/state-machines",
+                  "runtimes/react-native/data-binding",
+                  "runtimes/react-native/loading-assets",
+                  "runtimes/react-native/fonts",
+                  "runtimes/react-native/caching-a-rive-file",
+                  "runtimes/react-native/playing-audio",
+                  {
+                    "group": "Legacy Features",
+                    "pages": [
+                      "runtimes/react-native/animation-playback",
+                      "runtimes/react-native/inputs",
+                      "runtimes/react-native/text",
+                      "runtimes/react-native/rive-events"
+                    ]
+                  },
                   "runtimes/react-native/migration-guide"
                 ]
               },
@@ -485,8 +496,26 @@
                 "pages": [
                   "runtimes/flutter/flutter",
                   "runtimes/flutter/rive-native",
+                  "runtimes/flutter/artboards",
+                  "runtimes/flutter/layouts",
+                  "runtimes/flutter/state-machines",
+                  "runtimes/flutter/data-binding",
+                  "runtimes/flutter/loading-assets",
+                  "runtimes/flutter/fonts",
+                  "runtimes/flutter/caching-a-rive-file",
+                  "runtimes/flutter/playing-audio",
+                  {
+                    "group": "Legacy Features",
+                    "pages": [
+                      "runtimes/flutter/animation-playback",
+                      "runtimes/flutter/inputs",
+                      "runtimes/flutter/text",
+                      "runtimes/flutter/rive-events"
+                    ]
+                  },
                   "runtimes/flutter/migration-guide",
-                  "runtimes/flutter/faq"
+                  "runtimes/flutter/faq",
+                  "runtimes/flutter/api-reference"
                 ]
               },
               {
@@ -495,43 +524,53 @@
                   "runtimes/apple/apple",
                   "runtimes/apple/faq",
                   "runtimes/apple/resource-usage",
-                  "runtimes/apple/migration-guides"
+                  "runtimes/apple/artboards",
+                  "runtimes/apple/layouts",
+                  "runtimes/apple/state-machines",
+                  "runtimes/apple/data-binding",
+                  "runtimes/apple/loading-assets",
+                  "runtimes/apple/fonts",
+                  "runtimes/apple/caching-a-rive-file",
+                  "runtimes/apple/playing-audio",
+                  "runtimes/apple/logging",
+                  {
+                    "group": "Legacy Features",
+                    "pages": [
+                      "runtimes/apple/animation-playback",
+                      "runtimes/apple/inputs",
+                      "runtimes/apple/text",
+                      "runtimes/apple/rive-events"
+                    ]
+                  },
+                  "runtimes/apple/migration-guides",
+                  "runtimes/apple/migrating-from-legacy"
                 ]
               },
               {
                 "group": "Android",
                 "pages": [
                   "runtimes/android/android",
-                  "runtimes/android/migrating-from-legacy",
-                  "runtimes/android/legacy-getting-started"
-                ]
-              },
-              {
-                "group": "Community Runtimes",
-                "pages": [
-                  "runtimes/community-runtimes/c-sharp",
-                  "runtimes/community-runtimes/qt-quick"
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Game Runtimes",
-        "groups": [
-          {
-            "group": "Game Runtimes",
-            "pages": [
-              "game-runtimes/game-runtimes/game-runtimes",
-              {
-                "group": "Unreal",
-                "pages": [
-                  "game-runtimes/unreal/unreal",
-                  "game-runtimes/unreal/getting-started",
-                  "game-runtimes/unreal/observing-viewmodel-changes",
-                  "game-runtimes/unreal/using-triggers",
-                  "game-runtimes/unreal/in-world-textures"
+                  "runtimes/android/artboards",
+                  "runtimes/android/layouts",
+                  "runtimes/android/state-machines",
+                  "runtimes/android/data-binding",
+                  "runtimes/android/loading-assets",
+                  "runtimes/android/fonts",
+                  "runtimes/android/caching-a-rive-file",
+                  "runtimes/android/playing-audio",
+                  "runtimes/android/logging",
+                  "runtimes/android/rendering-to-a-bitmap",
+                  {
+                    "group": "Legacy Features",
+                    "pages": [
+                      "runtimes/android/legacy-getting-started",
+                      "runtimes/android/animation-playback",
+                      "runtimes/android/inputs",
+                      "runtimes/android/text",
+                      "runtimes/android/rive-events"
+                    ]
+                  },
+                  "runtimes/android/migrating-from-legacy"
                 ]
               },
               {
@@ -558,7 +597,7 @@
                   "game-runtimes/unity/runtime-asset-swapping",
                   "game-runtimes/unity/faq",
                   {
-                    "group": "Legacy",
+                    "group": "Legacy Features",
                     "pages": [
                       "game-runtimes/unity/inputs",
                       "game-runtimes/unity/text",
@@ -567,25 +606,31 @@
                   }
                 ]
               },
-              "game-runtimes/defold"
+              {
+                "group": "Unreal",
+                "pages": [
+                  "game-runtimes/unreal/unreal",
+                  "game-runtimes/unreal/getting-started",
+                  "game-runtimes/unreal/observing-viewmodel-changes",
+                  "game-runtimes/unreal/using-triggers",
+                  "game-runtimes/unreal/in-world-textures"
+                ]
+              },
+              "game-runtimes/defold",
+              {
+                "group": "Community Runtimes",
+                "pages": [
+                  "runtimes/community-runtimes/c-sharp",
+                  "runtimes/community-runtimes/qt-quick"
+                ]
+              }
             ]
-          }
-        ]
-      },
-      {
-        "tab": "Feature Support",
-        "pages": [
-          "feature-support"
-        ]
-      },
-      {
-        "tab": "Tutorials",
-        "groups": [
+          },
           {
-            "group": "Tutorials",
+            "group": "Integrations",
             "pages": [
-              "tutorials/learn-rive",
-              "tutorials/awesome-rive"
+              "integrations/overview",
+              "integrations/html-embed"
             ]
           }
         ]
@@ -595,7 +640,7 @@
   "logo": {
     "light": "/logo/rive_top_logo_black.svg",
     "dark": "/logo/rive_top_logo_white.svg",
-    "href": "https://rive.app/"
+    "href": "https://rive.app?utm_source=docs&utm_medium=header_nav"
   },
   "appearance": {
     "default": "dark"
@@ -606,14 +651,18 @@
   "navbar": {
     "links": [
       {
+        "label": "Learn",
+        "href": "/tutorials/learn-rive"
+      },
+      {
         "label": "Support",
-        "href": "https://community.rive.app/c/support/"
+        "href": "/community/support"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Get Started",
-      "href": "https://editor.rive.app/"
+      "label": "Get Rive",
+      "href": "https://rive.app/downloads?utm_source=docs&utm_medium=header_nav"
     }
   },
   "footer": {
@@ -623,7 +672,55 @@
       "instagram": "https://www.instagram.com/rive.app/",
       "github": "https://github.com/rive-app",
       "discord": "https://discord.com/invite/FGjmaTr"
-    }
+    },
+    "links": [
+      {
+        "header": "Resources",
+        "items": [
+          {
+            "label": "Community",
+            "href": "https://community.rive.app?utm_source=docs&utm_medium=footer_nav"
+          },
+          {
+            "label": "Blog",
+            "href": "https://rive.app/blog?utm_source=docs&utm_medium=footer_nav"
+          },
+          {
+            "label": "Case Studies",
+            "href": "https://rive.app/blog/case-studies?utm_source=docs&utm_medium=footer_nav"
+          },
+          {
+            "label": "Marketplace",
+            "href": "https://rive.app/marketplace?utm_source=docs&utm_medium=footer_nav"
+          },
+          {
+            "label": "Feature Requests",
+            "href": "https://community.rive.app/c/feature-requests/"
+          }
+        ]
+      },
+      {
+        "header": "Company",
+        "items": [
+          {
+            "label": "Careers",
+            "href": "https://rive.app/careers?utm_source=docs&utm_medium=footer_nav"
+          },
+          {
+            "label": "Terms of Service",
+            "href": "/legal/terms-of-service"
+          },
+          {
+            "label": "Acceptable Use Policy",
+            "href": "/legal/acceptable-use-policy"
+          },
+          {
+            "label": "Privacy Policy",
+            "href": "/legal/privacy-policy"
+          }
+        ]
+      }
+    ]
   },
   "fonts": {
     "heading": {
@@ -634,6 +731,10 @@
     }
   },
   "redirects": [
+    {
+      "source": "/editor/share-links/:slug*",
+      "destination": "/editor/embed-urls/:slug*"
+    },
     {
       "source": "/runtimes/features-support",
       "destination": "/feature-support"
@@ -897,6 +998,34 @@
     {
       "source": "/game-runtimes/unreal/using-events",
       "destination": "/game-runtimes/unreal/using-triggers"
+    },
+    {
+      "source": "/runtimes/react/migrating-from-v0-to-v1",
+      "destination": "/runtimes/react/migration-guides#migrating-from-0-x-x-to-1-x-x"
+    },
+    {
+      "source": "runtimes/react/migrating-from-v1-to-v3",
+      "destination": "/runtimes/react/migration-guides#migrating-from-1-x-x-to-3-x-x"
+    },
+    {
+      "source": "/runtimes/react/migrating-from-v3-to-v4",
+      "destination": "/runtimes/react/migration-guides#migrating-from-3-x-x-to-4-x-x"
+    },
+    {
+      "source": "/runtimes/web/migrating-from-rive-js",
+      "destination": "/runtimes/web/migration-guides#migrating-from-rive-js"
+    },
+    {
+      "source": "/runtimes/web/migrating-from-v1-to-v2",
+      "destination": "/runtimes/web/migration-guides#migrating-from-v1-to-v2"
+    },
+    {
+      "source": "/runtimes/react-native/runtime-concepts",
+      "destination": "/runtimes/react-native/react-native"
+    },
+    {
+      "source": "/getting-started/quick-links",
+      "destination": "/"
     }
   ],
   "integrations": {

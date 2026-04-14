@@ -43,7 +43,7 @@ Additional clips can be created by selecting the source audio asset and repeatin
 
 ### Setting volume
 
-Select an audio asset or corresponding clip to set it's volume in the inspector. Note that volume can't be keyed over time yet. Upcoming audio features including 'Audio Groups' and 'Audio Emitters' will introduce options to key volume, panning, and more.
+Select an audio asset or corresponding clip to set its volume in the inspector. Note that volume can't be keyed over time yet. Upcoming audio features including 'Audio Groups' and 'Audio Emitters' will introduce options to key volume, panning, and more.
 
 ### Export options
 
@@ -59,7 +59,7 @@ Like other asset formats, you can configure export options for your audio assets
 
 <Info>Assets hosted on Rive's CDN can be accessed by anyone with the link.</Info>
 
-<Note>Hosted assets are available on Voyager and Enterprise plans. [Learn more about our plans and pricing](https://rive.app/pricing).</Note>
+<Note>Hosted assets are available on Voyager and Enterprise plans. [Learn more about our plans and pricing](https://rive.app/pricing?utm_source=docs&utm_medium=content).</Note>
 
 **Format:** choose to export your audio file as a `.wav`, `.flac`, or `.mp3`.
 
@@ -69,7 +69,7 @@ Like other asset formats, you can configure export options for your audio assets
 
 ## Creating an audio event
 
-The simplest way to create an audio event is to drag your audio asset or clip directly from the assets panel onto the stage. In doing so, an event is created with the preassigned asset. Alternatively, create a regular event by activating the event tool (`SHFIT + E`) and clicking on the stage. Once created, set the type setting in the inspector to Audio. Additional options to assign an asset and browse the Soundly library will be presented for audio events.
+The simplest way to create an audio event is to drag your audio asset or clip directly from the assets panel onto the stage. In doing so, an event is created with the preassigned asset. Alternatively, create a regular event by activating the event tool (`SHIFT + E`) and clicking on the stage. Once created, set the type setting in the inspector to Audio. Additional options to assign an asset and browse the Soundly library will be presented for audio events.
 
 ## Triggering an audio event
 
@@ -77,8 +77,8 @@ Like regular events, audio events can be triggered in a selection of different w
 
 - **Timeline:** Whilst in animate mode, with a timeline selected, the event inspector will surface a button to key the event. Keying an event causes it to be reported. In the context of an audio event, reporting it will start the playback of the assigned audio asset.
 - **Transitions:** Select a transition node within a State Machine and add an event via the inspector. You can choose whether the event should be reported at the start or at the end of the transition.
-- **Listeners:** Select a listener within a State Machine and add an 'report event' action via the inspector. The pointer option will determine when the audio will play. For example, a pointer down listener with an assigned audio event targeting a shape will start playback when the user clicks on the shape.
+- **Listeners:** Select a listener within a State Machine and add a 'report event' action via the inspector. The pointer option will determine when the audio will play. For example, a pointer down listener with an assigned audio event targeting a shape will start playback when the user clicks on the shape.
 
 ### Monitoring audio
 
-Audio levels can be monitored via the VU meter at the base of the inspector. Use the VU meter to check for clipping. This may occur if multiple audio events are playing at once, causing the overall output to clip. If you notice peak levels turning red, considering lowering the volume of your audio asset to provide more headroom.
+Audio levels can be monitored via the VU meter at the base of the inspector. Use the VU meter to check for clipping. This may occur if multiple audio events are playing at once, causing the overall output to clip. If you notice peak levels turning red, consider lowering the volume of your audio asset to provide more headroom.

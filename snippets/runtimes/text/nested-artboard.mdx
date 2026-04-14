@@ -1,0 +1,39 @@
+## Read/Update Nested Text Runs at Runtime
+
+<Warning>
+  **⚠️ DEPRECATED FEATURE:** Nested Text Runs are part of the legacy Text
+  manipulation system. **Use Data Binding instead** for controlling component
+  text properties at runtime.
+</Warning>
+
+It's possible to set nested text runs at runtime—text that is not on the main artboard but on a [Component](/editor/fundamentals/components). To set a nested text run, you'll need to take note of the path where the input exists at an artboard level.
+
+For example, to get/set the text run named **button_text** on the **Button** artboard, you need to provide the correct path.
+
+![Setting Nested Text Runs ](/images/runtimes/51848b07-5a82-4fc9-ab3f-0505336fcce3.webp)
+_Setting Nested Text Runs_
+
+The artboard names here are:
+
+- **Main** -&gt; **NestedArtboard** -&gt; **Button**
+
+![Image](/images/runtimes/fc5b5be2-546f-44d0-ad85-f7a8da64973b.webp)
+
+However, the path is determined based on the names set in the hierarchy:
+
+- **ArtboardWithUniqueName** -&gt; **ButtonWithUniqueName**
+
+The path is then: `ArtboardWithUniqueName/ButtonWithUniqueName`
+
+<Warning>
+  Be sure to mark the components and text runs as exported.
+  <br />
+  ![Export component
+  name](/images/runtimes/618066cd-2909-420e-b94b-d3eb920fe389.webp) *Export
+  component name*
+</Warning>
+
+<Warning>
+  Do not use "/" in the name for your components, as that will break the search
+  functionality at runtime.
+</Warning>

@@ -36,6 +36,7 @@ export interface RiveParameters {
   onStateChange?: EventCallback,
   onAdvance?: EventCallback,
   assetLoader?: AssetLoadCallback,
+  enablePerfMarks?: boolean,
 }
 ```
 
@@ -82,7 +83,8 @@ export interface RiveParameters {
 - `onLoop?` - *(optional)* Callback that gets fired when the animation completes a loop.
 - `onStateChange?` - *(optional)* Callback that gets fired when a state change occurs.
 - `onAdvance?` - *(optional)* Callback that gets fired every frame when the Artboard has advanced.
-- `assetLoader?` - *(optional)* Callback that gets invoked for every asset detected in a Rive file (whether included or excluded). The callback is passed a reference to a Rive **FileAsset** and associated **bytes** for the file (if the asset is embedded in the file). In this callback, you'll determine whether or not to load the asset in your app yourself, or have Rive do it for you. For more details and examples, see the [Loading Assets](/runtimes/loading-assets) page.
+- `assetLoader?` - *(optional)* Callback that gets invoked for every asset detected in a Rive file (whether included or excluded). The callback is passed a reference to a Rive **FileAsset** and associated **bytes** for the file (if the asset is embedded in the file). In this callback, you'll determine whether or not to load the asset in your app yourself, or have Rive do it for you. For more details and examples, see the [Loading Assets](/runtimes/web/loading-assets) page.
+- `enablePerfMarks?` - *(optional)* Emits `performance.mark` / `performance.measure` entries for key Rive startup events. False by default. Also available on `RuntimeLoader` and `RiveFile`.
 
 ## APIs
 

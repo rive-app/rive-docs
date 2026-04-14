@@ -71,7 +71,7 @@ export const Demos = ({
       ]
     },
     dataBindingQuickStart: {
-      title: "Data Binding Quick Start",
+      title: "Data Binding",
       description: "Get started with Data Binding at runtime.",
       image: "/images/runtimes/rewards.gif",
       links: {
@@ -134,14 +134,14 @@ export const Demos = ({
       ]
     },
     quickStart: {
-      title: "Quick Start",
+      title: "Data Binding Quick Start",
       image: '/images/runtimes/quick-start.gif',
       description: 'Load and control your Rive (.riv) file.',
       links: {
         web: 'https://codesandbox.io/p/sandbox/rive-quick-start-js-xmwcm6?file=%2Fsrc%2Findex.ts',
         react: 'https://codesandbox.io/p/sandbox/rive-react-quick-start-4xy76h?file=%2Fsrc%2FApp.tsx%3A77%2C14',
         reactJs: 'https://codesandbox.io/p/devbox/rive-react-vanilla-js-quick-start-kz66t4?file=%2Fsrc%2FApp.tsx%3A53%2C7',
-        reactNative: 'https://github.com/rive-app/rive-react-native/blob/main/example/app/(examples)/QuickStart.tsx',
+        reactNative: 'https://github.com/rive-app/rive-nitro-react-native/blob/main/example/src/demos/QuickStart.tsx',
         unity: '/game-runtimes/unity/tutorials/health-bar'
       },
       source: [
@@ -149,7 +149,7 @@ export const Demos = ({
       ]
     },
     quickStartReact: {
-      title: "Quick Start",
+      title: "Data Binding Quick Start",
       image: '/images/runtimes/quick-start.gif',
       description: 'Load and control your Rive (.riv) file.',
       links: {
@@ -232,6 +232,14 @@ export const Demos = ({
         editor: "https://rive.app/community/files/25823-text-path-effects/"
       }
     },
+    scriptingDrawImages: {
+      title: "Render an Image with Scripting",
+      image: "https://static.rive.app/docs/render-image-with-scripting.jpg",
+      description: "Draw an image, give it transforms, control its mesh, and add clipping all through scripting.",
+      links: {
+        editor: "https://rive.app/community/files/26406-draw-an-image-with-scripting"
+      }
+    },
     scriptingSlotMachine: {
       title: "Slot Machine - Complete Game",
       image: "https://static.rive.app/docs/slot-machine.png",
@@ -240,13 +248,21 @@ export const Demos = ({
         editor: "https://rive.app/community/files/25759-slot-machine-game-with-scripting/"
       }
     },
+    scriptingLists: {
+      title: "Scripting Lists",
+      image: "/images/runtimes/rive-db-lists.webp",
+      description: "Add, remove, edit, and swap items in your data binding list using Rive scripting.",
+      links: {
+        editor: "https://rive.app/community/files/27098-51051-scripting-lists"
+      }
+    },
     scriptingPlinko: {
       title: "Plinko - Complete Game",
       image: "https://static.rive.app/docs/scripting-plinko-game.png",
       description: "Build a complete Plinko game using Layout, Node, and Path Effect scripts.",
       links: {
         editor: "https://rive.app/marketplace/25772-blinko-scripted-game/"
-      }
+      },
     }
   }
 
@@ -353,7 +369,7 @@ export const Demos = ({
     if (!link) return null
 
     if (runtime === 'editor') {
-      link = `${link}?utm_source=docs&utm_medium=docs_demo_card&utm_campaign=docs_to_marketplace_links`
+      link = `${link}?utm_source=docs&utm_medium=docs_demo_card`
     }
 
     return (

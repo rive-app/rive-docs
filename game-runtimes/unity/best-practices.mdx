@@ -37,7 +37,7 @@ Using lists keeps repeated graphics **inside a single Rive file / widget**, whil
 
 See:
 
-- Concepts + examples: [Data binding lists](/runtimes/data-binding#lists)
+- Concepts + examples: [Data binding lists](/game-runtimes/unity/data-binding#lists)
 - Editor setup: [Lists in the editor](/editor/data-binding/lists)
 
 ### Screen space UI vs world space UI
@@ -67,7 +67,7 @@ The best structure depends on both performance goals and how you want to author 
 - **Pros**: Keep a full UI flow in one place, drive transitions inside Rive, and test the entire experience in the Rive Editor. The file could be loaded once (e.g. at the start of the game) and can be reused across multiple screens or menus.
 - **Tradeoff**: The entire file (including its embedded assets) stays in memory even if you're only using part of it or displaying a single artboard.
 
-#### Multiple files 
+#### Multiple files
 
 For example, one per screen or menu:
 
@@ -83,14 +83,14 @@ If you want modular loading *and* want to stay in a single widget/panel, a hybri
 - Keep a “main” UI file that owns the overall layout and interaction flow.
 - Use data binding to load other artboards (stored in other `.riv` files) into slots at runtime.
 
-This lets you keep UI modular while still rendering through a shared panel and widget. 
+This lets you keep UI modular while still rendering through a shared panel and widget.
 
 The main tradeoff here is that you may need to create more files and manage them more carefully, and you may need to create more data binding properties and logic to manage the different artboards.
 
 See:
 
 - Unity: [Data Binding](/game-runtimes/unity/data-binding)
-- Concepts: [Data binding artboards](/runtimes/data-binding#artboards)
+- Concepts: [Data binding artboards](/game-runtimes/unity/data-binding#artboards)
 
 
 

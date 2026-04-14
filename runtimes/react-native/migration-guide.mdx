@@ -3,6 +3,308 @@ title: "Migration Guide"
 description: "Learn how to migrate your React Native app when upgrading between major versions of the Rive React Native runtime, including breaking changes and new features."
 ---
 
+## Migrating to `v0.4.0`+
+
+This release improves error transparency and loading semantics for hooks, preparing for the async experimental runtime.
+
+### `useViewModelInstance` Returns `{ instance, error }`
+
+The hook now returns a discriminated union instead of `ViewModelInstance | null`:
+
+- `{ instance: undefined, error: null }` — loading (source not ready)
+- `{ instance: ViewModelInstance, error: null }` — success
+- `{ instance: null, error: null }` — resolved, no ViewModel found
+- `{ instance: null, error: Error }` — lookup failed
+
+<Tabs>
+  <Tab title="New API">
+    ```tsx
+    const { riveFile } = useRiveFile(require('./animation.riv'));
+    const { instance, error } = useViewModelInstance(riveFile);
+
+    if (error) return <Text>{error.message}</Text>;
+    if (!instance) return <ActivityIndicator />;
+    return <RiveView file={riveFile} dataBind={instance} />;
+    ```
+
+  </Tab>
+  <Tab title="Previous API">
+    ```tsx
+    const { riveFile } = useRiveFile(require('./animation.riv'));
+    const instance = useViewModelInstance(riveFile);
+
+    if (!instance) return <ActivityIndicator />;
+    return <RiveView file={riveFile} dataBind={instance} />;
+    ```
+
+  </Tab>
+</Tabs>
+
+### `useRiveFile` Error Is Now `Error`
+
+The `error` field is now an `Error` object instead of a `string`, and `riveFile` is `undefined` while loading (was `null`). `isLoading` is kept for convenience.
+
+<Tabs>
+  <Tab title="New API">
+    ```tsx
+    const { riveFile, isLoading, error } = useRiveFile(require('./animation.riv'));
+
+    if (error) return <Text>{error.message}</Text>;
+    ```
+
+  </Tab>
+  <Tab title="Previous API">
+    ```tsx
+    const { riveFile, isLoading, error } = useRiveFile(require('./animation.riv'));
+
+    if (error) return <Text>{error}</Text>;
+    ```
+
+  </Tab>
+</Tabs>
+
+### Property Hooks Start `undefined`
+
+`useRiveNumber`, `useRiveString`, `useRiveBoolean`, `useRiveColor`, and `useRiveEnum` no longer read `property.value` synchronously on mount. The value starts as `undefined` and arrives via the property listener.
+
+```tsx
+const { value: health } = useRiveNumber('health', instance);
+
+// health is undefined on the first render — guard before using it
+<Text>{health !== undefined ? health.toFixed(2) : '...'}</Text>
+
+// guard in updater functions
+setHealth((prev) => (prev ?? 0) + 1);
+```
+
+### Quick Reference
+
+| Previous | Replacement |
+|---|---|
+| `const instance = useViewModelInstance(file)` | `const { instance, error } = useViewModelInstance(file)` |
+| `{error}` (in JSX, from `useRiveFile`) | `{error?.message}` |
+| `riveFile === null` (loading check) | `riveFile === undefined` or use `isLoading` |
+| `health` available synchronously on first render | Guard for `undefined`: `health !== undefined ? ... : ...` |
+
+---
+
+## Migrating to the Async API (`v0.3.2`+)
+
+This release introduces an **async-first API** to prepare for the new experimental Rive runtime. Synchronous methods that block the JS thread are deprecated and replaced with async equivalents. State machine input and text run methods are deprecated in favor of [data binding](/runtimes/data-binding) and will be removed entirely in the experimental runtime (and therefore in upcoming `@rive-app/react-native` versions).
+
+### What's Changed
+
+- **Async methods** replace all synchronous ViewModel and property accessors
+- **Name-based access** replaces count/index-based ViewModel and artboard lookups
+- **`getValueAsync()` / `set()`** replace `property.value` for reading and writing properties
+- **State machine inputs, text runs, and events** are deprecated and will be removed in the experimental runtime — use [data binding](/runtimes/data-binding) instead
+
+### Migration Steps
+
+#### 1. ViewModel Access
+
+<Tabs>
+  <Tab title="New API">
+    ```tsx
+    const names = await file.getViewModelNamesAsync();
+    const vm = await file.viewModelByNameAsync('Person');
+    const defaultVM = await file.defaultArtboardViewModelAsync();
+    ```
+
+  </Tab>
+  <Tab title="Deprecated API">
+    ```tsx
+    const count = file.viewModelCount;
+    const vm = file.viewModelByName('Person');
+    const defaultVM = file.defaultArtboardViewModel();
+    ```
+
+  </Tab>
+</Tabs>
+
+#### 2. Instance Creation
+
+<Tabs>
+  <Tab title="New API">
+    ```tsx
+    const instance = await vm.createDefaultInstanceAsync();
+    const named = await vm.createInstanceByNameAsync('player1');
+    const blank = await vm.createBlankInstanceAsync();
+    ```
+
+  </Tab>
+  <Tab title="Deprecated API">
+    ```tsx
+    const instance = vm.createDefaultInstance();
+    const named = vm.createInstanceByName('player1');
+    const blank = vm.createInstance();
+    ```
+
+  </Tab>
+</Tabs>
+
+<Tip>
+  The `useViewModelInstance` hook handles ViewModel resolution and instance
+  creation for you — in most cases you don't need to call these methods
+  directly.
+</Tip>
+
+#### 3. Property Value Access
+
+<Tabs>
+  <Tab title="New API">
+    ```tsx
+    const num = await prop.getValueAsync();
+    prop.set(42);
+    ```
+
+  </Tab>
+  <Tab title="Deprecated API">
+    ```tsx
+    const num = prop.value;
+    prop.value = 42;
+    ```
+
+  </Tab>
+</Tabs>
+
+#### 4. Nested ViewModelInstance Access
+
+<Tabs>
+  <Tab title="New API">
+    ```tsx
+    const nested = await instance.viewModelAsync('Header');
+    ```
+
+  </Tab>
+  <Tab title="Deprecated API">
+    ```tsx
+    const nested = instance.viewModel('Header');
+    ```
+
+  </Tab>
+</Tabs>
+
+#### 5. List Property Access
+
+<Tabs>
+  <Tab title="New API">
+    ```tsx
+    const len = await listProp.getLengthAsync();
+    const item = await listProp.getInstanceAtAsync(0);
+    ```
+
+  </Tab>
+  <Tab title="Deprecated API">
+    ```tsx
+    const len = listProp.length;
+    const item = listProp.getInstanceAt(0);
+    ```
+
+  </Tab>
+</Tabs>
+
+#### 6. Artboard Access
+
+<Tabs>
+  <Tab title="New API">
+    ```tsx
+    const count = await file.getArtboardCountAsync();
+    const names = await file.getArtboardNamesAsync();
+    ```
+
+  </Tab>
+  <Tab title="Deprecated API">
+    ```tsx
+    const count = file.artboardCount;
+    const names = file.artboardNames;
+    ```
+
+  </Tab>
+</Tabs>
+
+#### 7. Async Setup Pattern
+
+Synchronous `useMemo` chains for ViewModel setup should be replaced with `useState` + `useEffect`, or simplified with the `useViewModelInstance` hook.
+
+<Tabs>
+  <Tab title="useViewModelInstance (Recommended)">
+    ```tsx
+    const { riveFile } = useRiveFile(require('./animation.riv'));
+    const { instance } = useViewModelInstance(riveFile);
+
+    const { value: health, setValue: setHealth } = useRiveNumber(
+      'health',
+      instance
+    );
+
+    if (!instance) return <ActivityIndicator />;
+    return <RiveView file={riveFile} dataBind={instance} />;
+    ```
+
+  </Tab>
+  <Tab title="Manual Async Setup">
+    ```tsx
+    const { riveFile } = useRiveFile(require('./animation.riv'));
+    const [instance, setInstance] = useState<ViewModelInstance>();
+
+    useEffect(() => {
+      if (!riveFile) return;
+      let cancelled = false;
+      (async () => {
+        const vm = await riveFile.defaultArtboardViewModelAsync();
+        const vmi = await vm?.createDefaultInstanceAsync();
+        if (!cancelled) setInstance(vmi ?? undefined);
+      })();
+      return () => { cancelled = true; };
+    }, [riveFile]);
+    ```
+
+  </Tab>
+  <Tab title="Deprecated Sync Pattern">
+    ```tsx
+    function Setup({ file }) {
+      const vm = useMemo(() => file.defaultArtboardViewModel(), [file]);
+      const instance = useMemo(
+        () => vm?.createDefaultInstance(),
+        [vm]
+      );
+      if (!instance) return null;
+      return <MyComponent instance={instance} file={file} />;
+    }
+    ```
+
+  </Tab>
+</Tabs>
+
+### Quick Reference
+
+| Deprecated | Replacement |
+|---|---|
+| `file.viewModelByName(name)` | `await file.viewModelByNameAsync(name)` |
+| `file.defaultArtboardViewModel()` | `await file.defaultArtboardViewModelAsync()` |
+| `file.viewModelCount` | `(await file.getViewModelNamesAsync()).length` |
+| `file.viewModelByIndex(i)` | `await file.viewModelByNameAsync(name)` |
+| `file.artboardCount` / `artboardNames` | `await file.getArtboardCountAsync()` / `getArtboardNamesAsync()` |
+| `vm.createDefaultInstance()` | `await vm.createDefaultInstanceAsync()` |
+| `vm.createInstanceByName(name)` | `await vm.createInstanceByNameAsync(name)` |
+| `vm.createInstance()` | `await vm.createBlankInstanceAsync()` |
+| `instance.viewModel(path)` | `await instance.viewModelAsync(path)` |
+| `listProp.length` | `await listProp.getLengthAsync()` |
+| `listProp.getInstanceAt(i)` | `await listProp.getInstanceAtAsync(i)` |
+| `prop.value` (read) | `await prop.getValueAsync()` |
+| `prop.value = x` (write) | `prop.set(x)` |
+
+### Platform Caveats
+
+| Limitation | Details |
+|---|---|
+| `replaceViewModel()` | No-op on Android. Works on iOS. |
+| `addListener()` on image/list properties | No-op on both platforms. Poll with `getLengthAsync()` instead. |
+| `addInstanceAt()` / `swap()` return value | Always `true` on iOS. Android returns correct value. |
+| `instanceName` | Empty string except for instances created via `createInstanceByNameAsync()`. |
+| `defaultArtboardViewModel()` on Android | Uses a heuristic. Prefer `viewModelByNameAsync(name)` with an explicit name. |
+
 ## Migrating from `v0.1.0` to `v0.2.0`
 
 This change updates to a new major version of Nitro to resolve a view recycling issue. See the [release](https://github.com/rive-app/rive-nitro-react-native/releases/tag/v0.2.0) for more details.
@@ -39,7 +341,7 @@ const [setRiveRef, riveRef] = useRive();
 const [health, setHealth] = useRiveNumber(riveRef, "health");
 
 // New: hooks take viewModelInstance, return objects
-const viewModelInstance = useViewModelInstance(riveFile);
+const { instance: viewModelInstance } = useViewModelInstance(riveFile);
 const { value: health, setValue: setHealth } = useRiveNumber(
   "health",
   viewModelInstance
@@ -195,7 +497,7 @@ See [Rive ref methods](/runtimes/react-native/rive-ref-methods) for more informa
   </Tab>
 </Tabs>
 
-See [state machine inputs](/runtimes/inputs) for more information.
+See [state machine inputs](/runtimes/react-native/inputs) for more information.
 
 #### 7. Rive Events (Deprecated)
 
@@ -226,7 +528,7 @@ See [state machine inputs](/runtimes/inputs) for more information.
   </Tab>
 </Tabs>
 
-See [runtime events](/runtimes/rive-events) for more information.
+See [runtime events](/runtimes/react-native/rive-events) for more information.
 
 #### 8. Data Binding
 
@@ -247,7 +549,7 @@ Main API changes:
   <Tab title="New Runtime">
     ```tsx
     const { riveFile } = useRiveFile(require('./animation.riv'));
-    const viewModelInstance = useViewModelInstance(riveFile);
+    const { instance: viewModelInstance } = useViewModelInstance(riveFile);
 
     const { value: health, setValue: setHealth } = useRiveNumber('health', viewModelInstance);
     const { value: name, setValue: setName } = useRiveString('Player/Name', viewModelInstance);
@@ -273,7 +575,7 @@ Main API changes:
   </Tab>
 </Tabs>
 
-See [data binding](/runtimes/data-binding) for more information.
+See [react-native/data binding](/runtimes/react-native/data-binding) for more information.
 
 #### 9. Out of Band Assets
 
@@ -311,7 +613,7 @@ See [data binding](/runtimes/data-binding) for more information.
   </Tab>
 </Tabs>
 
-See [loading assets](/runtimes/loading-assets) for more information.
+See [loading assets](/runtimes/react-native/loading-assets) for more information.
 
 #### 10. Text Run Updates (Deprecated)
 
@@ -344,7 +646,7 @@ See [loading assets](/runtimes/loading-assets) for more information.
   </Tab>
 </Tabs>
 
-See [text runs](/runtimes/text) for more information.
+See [text runs](/runtimes/react-native/text) for more information.
 
 #### 11. Callbacks
 
@@ -376,14 +678,14 @@ See [text runs](/runtimes/text) for more information.
   </Tab>
 </Tabs>
 
-See [data binding](/runtimes/data-binding) for more information.
+See [data binding](/runtimes/react-native/data-binding) for more information.
 
 ### Getting Help
 
 If you encounter issues:
 
 1. Check the [new runtime documentation](/runtimes/react-native)
-2. Review the [Data Binding guide](/runtimes/data-binding)
+2. Review the [Data Binding guide](/runtimes/react-native/data-binding)
 3. See the [example app](https://github.com/rive-app/rive-nitro-react-native/tree/main/example)
 4. Visit the [Rive community forums](https://community.rive.app)
 5. Report issues on [GitHub](https://github.com/rive-app/rive-nitro-react-native/issues)

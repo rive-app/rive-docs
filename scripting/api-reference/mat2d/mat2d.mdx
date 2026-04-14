@@ -167,14 +167,28 @@ print(r.x, r.y) -- 70, 160
 
 ### `values`
 
+{/* values: (xx:number, xy:number, yx: number, yy: number, tx: number, ty: number) -> Mat2D */}
+<div class="signature">
+```lua
+values(xx: number, xy: number, yx: number, yy: number, tx: number, ty: number) -> Mat2D
+```
+</div>
+
 Creates a matrix using the specified components.
 ```lua
--- xx=1, xy=skewX (horizontal skew), yx=skewY (vertical skew), yy=1, tx=0, ty=0Ô
-local newMat = Mat2D.values(1, self.skewY, self.skewX, 1, 0, 0)Ô
+-- xx=1, xy=skewX (horizontal skew), yx=skewY (vertical skew), yy=1, tx=0, ty=0
+local newMat = Mat2D.values(1, self.skewY, self.skewX, 1, 0, 0)
 ```
 
 
 ### `identity`
+
+{/* identity: () -> Mat2D */}
+<div class="signature">
+```lua
+identity() -> Mat2D
+```
+</div>
 
 Returns the identity matrix.
 ```lua
@@ -184,6 +198,13 @@ local newMat = Mat2D.identity()
 
 
 ### `withRotation`
+
+{/* withRotation: (radians: number) -> Mat2D */}
+<div class="signature">
+```lua
+withRotation(radians: number) -> Mat2D
+```
+</div>
 
 Creates a rotation matrix from the given angle in radians.
 ```lua highlight={1}
@@ -198,9 +219,16 @@ print(math.floor(r.x + 0.5), math.floor(r.y + 0.5)) -- 0, 1
 
 ### `invert`
 
+{/* invert: (output: Mat2D, input: Mat2D) -> boolean */}
+<div class="signature">
+```lua
+invert(output: Mat2D, input: Mat2D) -> boolean
+```
+</div>
+
 Writes the inverse of 'input' into 'output'. Returns true if the input
 matrix is invertible.
-```lua
+```lua highlight={4}
 local m = Mat2D.withTranslation(50, 100)
 
 local inv = Mat2D.identity()
@@ -219,6 +247,24 @@ print(r.x, r.y) -- 10, 20
 
 ### `invert`
 
+{/* function invert(self): Mat2D? */}
+<div class="signature">
+```lua
+invert() -> Mat2D?
+```
+</div>
+
+Provides indexed access to the matrix components.
+```lua
+local m = Mat2D.identity()
+
+-- Indices map to: xx, xy, yx, yy, tx, ty
+m[1] = 2    -- xx
+m[5] = 50   -- tx
+
+print(m[1], m.xx) -- 2, 2
+print(m[5], m.tx) -- 50, 50
+```
 Returns the inverse of the matrix, or nil if the matrix is not invertible.
 ```lua highlight={2}
 local m = Mat2D.withTranslation(50, 100)
@@ -234,6 +280,13 @@ end
 
 ### `isIdentity`
 
+{/* function isIdentity(self): boolean */}
+<div class="signature">
+```lua
+isIdentity() -> boolean
+```
+</div>
+
 Returns true if the matrix is the identity transform.
 ```lua
 local newMat = Mat2D.identity()
@@ -242,6 +295,13 @@ print(newMat:isIdentity())
 
 
 ### `__eq`
+
+{/* function __eq(self, rhs: Mat2D): boolean */}
+<div class="signature">
+```lua
+__eq(rhs: Mat2D) -> boolean
+```
+</div>
 
 Returns true if all components of the two matrices are equal.
 ```lua highlight={4}
@@ -253,6 +313,13 @@ print(a == b) -- true
 
 
 ### `__mul`
+
+{/* function __mul(self, rhs: Vector): Vector */}
+<div class="signature">
+```lua
+__mul(rhs: Vector) -> Vector
+```
+</div>
 
 Transforms the given [Vector](/scripting/api-reference/vec2d/vector) by the matrix and returns the result.
 ```lua highlight={5}
@@ -267,6 +334,13 @@ print(result.x, result.y) -- 60, 120
 
 
 ### `__mul`
+
+{/* function __mul(self, rhs: Mat2D): Mat2D */}
+<div class="signature">
+```lua
+__mul(rhs: Mat2D) -> Mat2D
+```
+</div>
 
 Returns the matrix product of this matrix and the given matrix
 ```lua highlight={5}

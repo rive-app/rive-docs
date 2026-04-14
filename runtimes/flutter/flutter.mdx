@@ -4,7 +4,6 @@ description: "Flutter runtime for Rive."
 ---
 
 import NoteOnFeatureSupport from "/snippets/runtimes/rendering-feature-support.mdx";
-import Interaction from "/snippets/runtimes/animation-control-and-interaction.mdx";
 import { Demos } from "/snippets/demos.jsx";
 
 <NoteOnFeatureSupport />
@@ -327,7 +326,7 @@ Follow the steps below to integrate Rive into your Flutter apps.
 **When to use RivePanel:**
 
 - When displaying multiple `RiveWidget`s in your app and they can be drawn to the same texture
-- When you want to programatically composit a scene that includes multiple Rive graphics (from multiple Rive files/artboards)
+- When you want to programmatically composite a scene that includes multiple Rive graphics (from multiple Rive files/artboards)
 - When using `Factory.rive` (will report errors with `Factory.flutter`) and want to improve performance
 - When you want to reduce the number of textures being drawn to
 - When targeting web platforms to avoid WebGL context limitations through `Factory.rive`
@@ -535,12 +534,6 @@ If you're still having issues, please see the [Troubleshooting section](/runtime
 Rive automatically downloads the native libraries for you as part of the `rive_native` plugin.
 
 However, if you need to manually build the native libraries, see the [build section](/runtimes/flutter/rive-native#building-rive-native) in the Rive Native documentation.
-
-## Next steps
-
-Now that you have Rive integrated into your Flutter app, you can explore more advanced features like:
-
-<Interaction />
 
 ## Resources
 

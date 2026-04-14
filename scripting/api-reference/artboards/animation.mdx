@@ -7,29 +7,147 @@ title: Animation
 ### `duration`
 
 The duration of the animation.
+```lua highlight={3}
+function advance(self: AnimationExample, seconds: number): boolean
+  if self.anim
+    print(self.anim.duration)
+  end
+  return true
+end
+```
 
 
 ## Methods
 
 ### `advance`
 
+{/* advance: (self: Animation, seconds: number) -> boolean */}
+<div class="signature">
+```lua
+advance(seconds: number) -> boolean
+```
+</div>
+
 Advances the animation by the given time in seconds. Returns true if the
 animation hasn't reached its end. If the animation is set to loop or ping
 pong, it will always return true
+```lua highlight={23}
+type AnimationExample = {
+  -- Artboard input, assigned in the Rive editor by the designer
+  character: Input<Artboard<nil>>,
+
+  -- The live instance and its animation
+  artboardInstance: Artboard<nil>?,
+  anim: Animation?,
+}
+
+function init(self: AnimationExample, context: Context): boolean
+  self.artboardInstance = self.character:instance()
+
+  if self.artboardInstance then
+    self.anim = self.artboardInstance:animation('Idle')
+  end
+
+  return true
+end
+
+function advance(self: AnimationExample, seconds: number): boolean
+  if self.anim and self.artboardInstance then
+    -- Advance the animation to apply keyframe values to the artboard
+    self.anim:advance(seconds * 2)
+    -- Advance the artboard with 0 to propagate changes without double-counting time
+    self.artboardInstance:advance(0)
+  end
+  return true
+end
+
+function draw(self: AnimationExample, renderer: Renderer)
+  if self.artboardInstance then
+    renderer:save()
+    self.artboardInstance:draw(renderer)
+    renderer:restore()
+  end
+end
+
+return function(): Node<AnimationExample>
+  return {
+    character = late(),
+    artboardInstance = nil,
+    anim = nil,
+    init = init,
+    advance = advance,
+    draw = draw,
+  }
+end
+```
 
 
 ### `setTime`
 
+{/* setTime: (self: Animation, time: number) -> () */}
+<div class="signature">
+```lua
+setTime(time: number) -> ()
+```
+</div>
+
 set the animation time in seconds
+```lua highlight={4}
+function advance(self: AnimationExample, seconds: number): boolean
+  if self.anim and self.artboardInstance then
+    -- Set the animation to a specific time in seconds
+    self.anim:setTime(0.3)
+    -- Advance the artboard with 0 to propagate changes without double-counting time
+    self.artboardInstance:advance(0)
+  end
+  return true
+end
+```
 
 
 ### `setTimeFrames`
 
+{/* setTimeFrames: (self: Animation, frames: number) -> () */}
+<div class="signature">
+```lua
+setTimeFrames(frames: number) -> ()
+```
+</div>
+
 set the animation time in frames
+```lua highlight={4}
+function advance(self: AnimationExample, seconds: number): boolean
+  if self.anim and self.artboardInstance then
+    -- Set the animation to a specific frame
+    self.anim:setTimeFrames(3)
+    -- Advance the artboard with 0 to propagate changes without double-counting time
+    self.artboardInstance:advance(0)
+  end
+  return true
+end
+```
 
 
 ### `setTimePercentage`
 
+{/* setTimePercentage: (self: Animation, percentage: number) -> () */}
+<div class="signature">
+```lua
+setTimePercentage(percentage: number) -> ()
+```
+</div>
+
 set the animation time as a percentage of the duration
+```lua highlight={4}
+function advance(self: AnimationExample, seconds: number): boolean
+  if self.anim and self.artboardInstance then
+    -- Set the animation to a specific percentage of the duration.
+    self.anim:setTimePercentage(.5)
+    -- Advance the artboard with 0 to propagate changes without double-counting time
+    self.artboardInstance:advance(0)
+  end
+  return true
+end
+```
 
 

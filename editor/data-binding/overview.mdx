@@ -54,8 +54,17 @@ These exported instances can then be assigned to an artboard at runtime by devel
 
 ### Binding
 
-A binding is an association between a property and an editor element. For instance, you might have a property named "Name" bound to a text run's text value.
+A binding is an association between a view model property and an editor element. For instance, you might have a string property called "name" bound to a text run. Once bound, the text run will take the value from the view model property. See [Bind Direction](#bind-direction) for additional options. 
 
+#### Absolute & Relative Binding
+By default, new data binding connections are created as absolute binds.
+
+- Absolute Binding: the bind points the value at a specific property location within the view model tree. For example, "the second property of the first view model". 
+- Relative Binding: the bind finds the value of property with a specific name, regardless of where it falls within the view model tree. For example, a relative binding to "myNumber" will look for a property of that name within the view model available. 
+
+<YouTube id="4LOXhXesG74" />
+
+#### Bind Direction
 Bindings can be source to target, target to source, or bidirectional. In this case, "source" means the property, and "target" means the editor element.
 
 <YouTube id="Syt6i4-Bkm4" />

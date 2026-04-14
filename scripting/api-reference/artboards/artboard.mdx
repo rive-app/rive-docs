@@ -11,20 +11,51 @@ interaction handling, and access to named nodes and data.
 ### `frameOrigin`
 
 If true, the artboard’s origin is treated as the frame origin.
+```lua highlight={6}
+function init(self: RenderInstance, context: Context): boolean
+  local vm = Data.Character.new()
+
+  self.instance = self.character:instance(vm)
+  if self.instance then
+    self.instance.frameOrigin = true
+  end
+
+  return true
+end
+```
 
 
 ### `data`
 
 The typed data associated with the artboard.
+```lua highlight={9,10,11,12}
+function init(self: RenderInstance, context: Context): boolean
+  local vm = Data.Character.new()
+
+  self.instance = self.character:instance(vm)
+
+  if self.instance then
+    self.instance.frameOrigin = true
+
+    local data = self.instance.data
+    if data then
+      print(data.nickname)
+    end
+  end
+
+  return true
+end
+```
 
 
 ### `width`
 
 The width of the artboard.
 ```lua
-self.artboardInstance = self.myArtboard:instance()
-if self.artboardInstance then
-   self.artboardInstance.width = 20
+self.instance = self.character:instance(vm)
+  if self.instance then
+    print(self.instance.width)
+  end
 end
 ```
 
@@ -33,9 +64,10 @@ end
 
 The height of the artboard.
 ```lua
-self.artboardInstance = self.myArtboard:instance()
-if self.artboardInstance then
-   self.artboardInstance.height = 20
+self.instance = self.character:instance(vm)
+  if self.instance then
+    print(self.instance.height)
+  end
 end
 ```
 
@@ -44,31 +76,151 @@ end
 
 ### `draw`
 
+{/* draw: (self: Artboard<T>, renderer: Renderer) -> () */}
+<div class="signature">
+```lua
+draw(renderer: Renderer) -> ()
+```
+</div>
+
 Draws the artboard using the provided renderer.
+```lua highlight={20}
+type RenderInstances = {
+  character: Input<Artboard<Data.Character>>,
+
+  instance: Artboard<Data.Character>?,
+}
+
+function init(self: RenderInstances, context: Context): boolean
+  local vm = Data.Character.new()
+
+  self.instance = self.character:instance(vm)
+
+  return true
+end
+
+function draw(self: RenderInstances, renderer: Renderer)
+  local instance = self.instance
+
+  if instance then
+    renderer:save()
+    instance:draw(renderer)
+    renderer:restore()
+  end
+end
+
+return function(): Node<RenderInstances>
+  return {
+    character = late(),
+    instance = nil,
+    init = init,
+    draw = draw,
+  }
+end
+```
 
 
 ### `advance`
 
+{/* advance: (self: Artboard<T>, seconds: number) -> boolean */}
+<div class="signature">
+```lua
+advance(seconds: number) -> boolean
+```
+</div>
+
 Advances the artboard by the given time in seconds. Returns true if the
 artboard should continue receiving advance calls.
+```lua highlight={17}
+type RenderInstances = {
+  character: Input<Artboard<Data.Character>>,
+
+  instance: Artboard<Data.Character>?,
+}
+
+function init(self: RenderInstances, context: Context): boolean
+  local vm = Data.Character.new()
+
+  self.instance = self.character:instance(vm)
+
+  return true
+end
+
+function advance(self: RenderInstances, seconds: number): boolean
+  if self.instance then
+    return self.instance:advance(seconds)
+  end
+  return true
+end
+
+return function(): Node<RenderInstances>
+  return {
+    character = late(),
+    instance = nil,
+    init = init,
+    advance = advance,
+  }
+end
+```
 
 
 ### `instance`
 
+{/* instance: (self: Artboard<T>, viewModel: ViewModel?) -> Artboard<T> */}
+<div class="signature">
+```lua
+instance(viewModel: ViewModel?) -> Artboard<T>
+```
+</div>
+
 Creates a new instance of the artboard with independent state.
+```lua highlight={8}
+type ViewModelExample = {
+  character: Input<Artboard<Data.Character>>,
+  instance: Artboard<Data.Character>?,
+}
+
+function init(self: ViewModelExample, context: Context): boolean
+  local vm = Data.Character.new()
+  self.instance = self.character:instance(vm)
+  return true
+end
+
+return function(): Node<ViewModelExample>
+  return {
+    character = late(),
+    instance = nil,
+    init = init,
+  }
+end
+```
 
 
 ### `animation`
+
+{/* animation: (self: Artboard<T>, name: string) -> Animation? */}
+<div class="signature">
+```lua
+animation(name: string) -> Animation?
+```
+</div>
 
 Creates an animation instance linked to the artboard instance
 
 
 ### `bounds`
 
+{/* bounds: (self:Artboard<T>) -> (Vector, Vector) */}
+<div class="signature">
+```lua
+bounds() -> (Vector, Vector)
+```
+</div>
+
 Returns the bounding box of the artboard as two [Vector](/scripting/api-reference/vec2d/vector) values: the
 minimum point and the maximum point.
 ```lua
-local minPt, maxPt = self.myArtboard:bounds()
+local minPt, maxPt = self.instance:bounds()
 print("Bounds width", maxPt.x - minPt.x)
 print("Bounds height", maxPt.y - minPt.y)
 ```
@@ -76,36 +228,161 @@ print("Bounds height", maxPt.y - minPt.y)
 
 ### `node`
 
+{/* node: (self:Artboard<T>, name:string) -> NodeData? */}
+<div class="signature">
+```lua
+node(name: string) -> NodeData?
+```
+</div>
+
 Returns the node with the given name, or nil if no such node exists.
+```lua highlight={2}
+if self.instance then
+  local node = self.instance:node('Root')
+  if node then
+    local m = Mat2D.withTranslation(100, 100)
+    node:decompose(m)
+  end
+end
+```
 
 
 ### `pointerDown`
 
-Pointer event down handler. Each returns a hit-test result, where 0
-indicates no hit and non-zero values indicate a hit.
+{/* pointerDown: (self: Artboard<T>, event: PointerEvent) -> number */}
+<div class="signature">
+```lua
+pointerDown(event: PointerEvent) -> number
+```
+</div>
+
+Pointer event down handler. Returns a hit-test result (0 = no hit).
+Only returns a non-zero value if a hit-testable object inside the nested
+artboard is hit.
+```lua highlight={3}
+function handlePointerDown(self: PointerExample, event: PointerEvent)
+  if self.instance then
+    local hit = self.instance:pointerDown(event)
+    if hit ~= 0 then
+      print(event.id)
+      print(event.position)
+    end
+  end
+end
+```
 
 
 ### `pointerUp`
 
-Pointer event up handler. Each returns a hit-test result, where 0
-indicates no hit and non-zero values indicate a hit.
+{/* pointerUp: (self: Artboard<T>, event: PointerEvent) -> number */}
+<div class="signature">
+```lua
+pointerUp(event: PointerEvent) -> number
+```
+</div>
+
+Pointer event up handler. Returns a hit-test result (0 = no hit).
+Only returns a non-zero value if a hit-testable object inside the nested
+artboard is hit.
+```lua highlight={3}
+function handlePointerUp(self: PointerExample, event: PointerEvent)
+  if self.instance then
+    local hit = self.instance:pointerUp(event)
+    if hit ~= 0 then
+      print(event.id)
+      print(event.position)
+    end
+  end
+end
+```
 
 
 ### `pointerMove`
 
-Pointer event move handler. Each returns a hit-test result, where 0
-indicates no hit and non-zero values indicate a hit.
+{/* pointerMove: (self: Artboard<T>, event: PointerEvent) -> number */}
+<div class="signature">
+```lua
+pointerMove(event: PointerEvent) -> number
+```
+</div>
+
+Pointer event move handler. Returns a hit-test result (0 = no hit).
+Only returns a non-zero value if a hit-testable object inside the nested
+artboard is hit.
+```lua highlight={3}
+function handlePointerMove(self: PointerExample, event: PointerEvent)
+  if self.instance then
+    local hit = self.instance:pointerMove(event)
+    if hit ~= 0 then
+      print(event.id)
+      print(event.position)
+    end
+  end
+end
+```
 
 
 ### `pointerExit`
 
-Pointer event exit handler. Each returns a hit-test result, where 0
-indicates no hit and non-zero values indicate a hit.
+{/* pointerExit: (self: Artboard<T>, event: PointerEvent) -> number */}
+<div class="signature">
+```lua
+pointerExit(event: PointerEvent) -> number
+```
+</div>
+
+Pointer event exit handler. Returns a hit-test result (0 = no hit).
+Only returns a non-zero value if a hit-testable object inside the nested
+artboard is hit.
+```lua highlight={3}
+function handlePointerExit(self: PointerExample, event: PointerEvent)
+  if self.instance then
+    local hit = self.instance:pointerExit(event)
+    if hit ~= 0 then
+      print(event.id)
+      print(event.position)
+    end
+  end
+end
+```
 
 
 ### `addToPath`
 
+{/* addToPath: (self:Artboard<T>, path:Path, transform:Mat2D?) -> () */}
+<div class="signature">
+```lua
+addToPath(path: Path, transform: Mat2D?) -> ()
+```
+</div>
+
 Adds the artboard’s geometry to the given path, optionally transformed
 by the provided matrix.
+
+For a complete working example, see the [Add to Path](https://rive.app/community/files/27188-51290-add-to-path-scripting-demo?utm_source=docs&utm_medium=scripting_api&utm_campaign=docs_to_marketplace_links) demo.
+```lua highlight={18}
+function draw(self: AddToPathExample, renderer: Renderer)
+  local instance = self.instance
+  if not instance then
+    return
+  end
+
+  -- Draw the artboard normally first.
+  renderer:save()
+  instance:draw(renderer)
+  renderer:restore()
+
+  -- Reset the path each frame, then rebuild it from the artboard's geometry.
+  self.outlinePath:reset()
+
+  -- Add the artboard's geometry into the path with an optional transform.
+  -- Here we apply a slight offset via Mat2D to show the transform parameter.
+  local transform = Mat2D.withTranslation(8, 8)
+  instance:addToPath(self.outlinePath, transform)
+
+  -- Draw the extracted path with a custom stroke paint as an outline / shadow effect.
+  renderer:drawPath(self.outlinePath, self.outlinePaint)
+end
+```
 
 

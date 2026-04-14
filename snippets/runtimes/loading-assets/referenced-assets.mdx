@@ -1,0 +1,7 @@
+### Referenced Assets
+
+In the Rive editor, you can mark an imported asset as a _"Referenced"_ export type, which means that when you export the `.riv` file, the asset will not be embedded in the file binary, and the responsibility of loading the asset will be handled by your application at runtime. This option enables you to dynamically load in assets via a handler API when the runtime begins loading in the `.riv` file. This option is preferable if you have a need to dynamically load in a specific asset based on any kind of app/game logic, and especially if you want to keep file size small.
+
+All referenced assets, including the `.riv`, will be bundled as a zip file when you export your animation.
+
+**Caveat:** You will need to provide an asset handler API when loading in Rive which should do the work of loading in an asset yourself. See Handling Assets below.

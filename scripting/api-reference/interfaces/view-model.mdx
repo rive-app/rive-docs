@@ -2,16 +2,32 @@
 title: ViewModel
 ---
 
+A [ViewModel](/scripting/api-reference/interfaces/view-model) provides access to named properties used for data binding
+between your application and a Rive file.
+
+
 ## Fields
 
 ### `name`
+
+The name of the view model.
+
+(Coming soon)
+
 
 ## Methods
 
 ### `getNumber`
 
-Looks up a numeric property by name.
-Returns a [DataValueNumber](/scripting/api-reference/data-value/data-value-number).
+{/* getNumber: (self: ViewModel, name:string) -> Property<number>? */}
+<div class="signature">
+```lua
+getNumber(name: string) -> Property<number>?
+```
+</div>
+
+Returns the numeric property with the given name, or nil if not found.
+
 ```lua
 local vmi = context:viewModel()
 if vmi then
@@ -25,6 +41,13 @@ end
 
 ### `getTrigger`
 
+{/* getTrigger: (self: ViewModel, name:string)-> PropertyTrigger? */}
+<div class="signature">
+```lua
+getTrigger(name: string) -> PropertyTrigger?
+```
+</div>
+
 Looks up a trigger property by name.
 Returns a [PropertyTrigger](/scripting/api-reference/data-value/property-trigger).
 ```lua
@@ -32,13 +55,20 @@ local vmi = context:viewModel()
 if vmi then
   local myTrigger = vmi:getTrigger('myTrigger')
   if myTrigger then
-    mytrigger:fire()
+    myTrigger:fire()
   end
 end
 ```
 
 
 ### `getString`
+
+{/* getString: (self: ViewModel, name:string) -> Property<string>? */}
+<div class="signature">
+```lua
+getString(name: string) -> Property<string>?
+```
+</div>
 
 Looks up a string property by name.
 Returns a [DataValueString](/scripting/api-reference/data-value/data-value-string).
@@ -47,13 +77,20 @@ local vmi = context:viewModel()
 if vmi then
   local heading = vmi:getString('heading')
   if heading then
-    print(heading)
+    print(heading.value)
   end
 end
 ```
 
 
 ### `getBoolean`
+
+{/* getBoolean: (self: ViewModel, name:string) -> Property<boolean>? */}
+<div class="signature">
+```lua
+getBoolean(name: string) -> Property<boolean>?
+```
+</div>
 
 Looks up a boolean property by name.
 Returns a [DataValueBoolean](/scripting/api-reference/data-value/data-value-boolean).
@@ -62,13 +99,20 @@ local vmi = context:viewModel()
 if vmi then
   local darkMode = vmi:getBoolean('darkMode')
   if darkMode then
-    print(darkMode)
+    print(darkMode.value)
   end
 end
 ```
 
 
 ### `getColor`
+
+{/* getColor: (self: ViewModel, name:string) -> Property<Color>? */}
+<div class="signature">
+```lua
+getColor(name: string) -> Property<Color>?
+```
+</div>
 
 Looks up a color property by name.
 Returns a [DataValueColor](/scripting/api-reference/data-value/data-value-color).
@@ -85,6 +129,13 @@ end
 
 ### `getList`
 
+{/* getList: (self: ViewModel, name:string) -> PropertyList? */}
+<div class="signature">
+```lua
+getList(name: string) -> PropertyList?
+```
+</div>
+
 Looks up a List property by name.
 Returns a [PropertyList](/scripting/api-reference/interfaces/property-list).
 ```lua
@@ -100,7 +151,30 @@ end
 
 ### `getViewModel`
 
+{/* getViewModel: (self: ViewModel, name:string) -> PropertyViewModel? */}
+<div class="signature">
+```lua
+getViewModel(name: string) -> PropertyViewModel?
+```
+</div>
+
+Looks up a view model property by name. Returns a [PropertyViewModel](/scripting/api-reference/interfaces/property-view-model).
+```lua highlight={3}
+local vmi = context:viewModel()
+if vmi then
+    local nestedVM = vmi:getViewModel('MyVM')
+end
+```
+
+
 ### `getEnum`
+
+{/* getEnum: (self: ViewModel, name:string) -> PropertyEnum? */}
+<div class="signature">
+```lua
+getEnum(name: string) -> PropertyEnum?
+```
+</div>
 
 Looks up an enum by name.
 Returns a [PropertyEnum](/scripting/api-reference/interfaces/property-enum).
@@ -113,4 +187,29 @@ end
 
 
 ### `instance`
+
+{/* instance: (self: ViewModel, instanceName: string?) -> ViewModel */}
+<div class="signature">
+```lua
+instance(instanceName: string?) -> ViewModel
+```
+</div>
+
+Creates a new instance of the ViewModel.
+Pass instanceName to specify an existing instance from the file to use as template
+```lua highlight={4}
+function init(self: VMNameNode, context: Context): boolean
+  local vm = context:viewModel()
+  if vm then
+    local newInstance = vm:instance()
+    local age = newInstance:getNumber('age')
+    if age then
+      age.value = 99
+    end
+  end
+
+  return true
+end
+```
+
 

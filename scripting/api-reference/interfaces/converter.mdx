@@ -19,25 +19,91 @@ For more information, see [Converter Scripts](/scripting/protocols/converter-scr
 
 ### `init`
 
+{/* init: ((self: T, context: Context) -> boolean)? */}
+<div class="signature">
+```lua
+init(self: T, context: Context) -> boolean
+```
+</div>
+
 Called once when the converter is created. Returns true if initialization
 succeeds.
+```lua
+-- Called once when the script initializes.
+function init(self: MyConverter, context: Context): boolean
+
+    -- Return false to stop the script.
+    return true
+end
+```
 
 
 ### `convert`
 
+{/* convert: (self: T, input: I) -> O */}
+<div class="signature">
+```lua
+convert(self: T, input: I) -> O
+```
+</div>
+
 Converts the input value (a view model property) to an output value.
 The input parameter must be a DataValue type.
+```lua
+-- Converts the value when binding from source to target.
+function convert(self: MyConverter, input: DataInputs): DataOutput
+
+  local dv: DataValueNumber = DataValue.number()
+  if input:isNumber() then
+    -- Example: Add 1 to the incoming number
+    dv.value = (input :: DataValueNumber).value + 1
+  end
+  return dv
+end
+```
 
 
 ### `reverseConvert`
 
+{/* reverseConvert: (self: T, input: O) -> I */}
+<div class="signature">
+```lua
+reverseConvert(self: T, input: O) -> I
+```
+</div>
+
 Converts the output value back to an input value (a view model property).
 The input parameter must be a DataValue type.
+```lua
+function reverseConvert(
+  self: MyConverter,
+  input: DataOutput
+): DataInputs
+  local dv: DataValueNumber = DataValue.number()
+  if input:isNumber() then
+    -- Example: Subract 1 from the target number
+    dv.value = (input :: DataValueNumber).value - 1
+  end
+  return dv
+end
+```
 
 
 ### `advance`
 
+{/* advance: ((self: T, seconds: number) -> boolean)? */}
+<div class="signature">
+```lua
+advance(self: T, seconds: number) -> boolean
+```
+</div>
+
 Optional per-frame update. Returns true if the converter should continue
 receiving advance calls.
+```lua
+function advance(self: MyConverter, seconds: number): boolean
+  return false
+end
+```
 
 

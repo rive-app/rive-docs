@@ -2,44 +2,203 @@
 title: PropertyList
 ---
 
+[PropertyList](/scripting/api-reference/interfaces/property-list) is a mutable list of [ViewModel](/scripting/api-reference/interfaces/view-model) items.
+
+Use it to manage repeating data collections from scripts (for example, menu
+items, inventory entries, or dynamic UI rows). A [PropertyList](/scripting/api-reference/interfaces/property-list) supports:
+- Reading item count via `length`
+- 1-based indexed access (`list[1]`, `list[2]`, ...)
+- Mutations (`push`, `insert`, `swap`, `pop`, `shift`, `clear`)
+- Change notifications via `addListener` and `removeListener`
+
+For a complete working example, see the [Scripting Lists](https://rive.app/community/files/27098-51051-scripting-lists/?utm_source=docs&utm_medium=scripting_api&utm_campaign=docs_to_marketplace_links) demo.
+
+
 ## Fields
 
 ### `length`
 
+The current number of items in the list.
+
+```lua highlight={3}
+function handleSwap(self: MenuListController)
+  if self.menu and self.menu.length >= 2 then
+    self.menu:swap(1, 2)
+  end
+end
+```
+
+
 ### `addListener`
 
-attaches a listener to list changes
+Adds a listener that is called when the list changes.
+```lua highlight={6}
+function init(self: MenuListController, context: Context): boolean
+  local vmi = context:rootViewModel() :: Data.Main
+  if vmi then
+    self.menu = vmi.menu
+    self.listChanged = listChanged
+
+    self.menu:addListener(self.listChanged)
+  else
+    print('[MenuListController] Warning: Could not find Main ViewModel.')
+  end
+
+  return true
+end
+```
 
 
 ### `removeListener`
 
-removes a listener from list changes
+Removes a previously added list-change listener.
+```lua highlight={3}
+function handleRemoveListener(self: MenuListController)
+  if self.menu and self.listChanged then
+    self.menu:removeListener(self.listChanged)
+  end
+end
+```
 
 
 ## Methods
 
 ### `push`
 
-add view model at end of list.
+{/* function push(self, vm: ViewModel): () */}
+<div class="signature">
+```lua
+push(vm: ViewModel) -> ()
+```
+</div>
+
+Get the list item by index.
+```lua highlight={3}
+function setItemLabel(menu: PropertyList, index: number, label: string)
+  if index >= 1 and index <= menu.length then
+    local item = menu[index] :: Data.Button
+    local itemLabel = item:getString('label')
+    if itemLabel then
+      itemLabel.value = label
+    end
+  end
+end
+```
+Adds a view model to the end of the list.
+```lua highlight={9}
+function addButton(menu: PropertyList, label: string)
+  local buttonVm = Data.Button.new()
+
+    local buttonLabel = buttonVm:getString('label')
+    if buttonLabel then
+      buttonLabel.value = label
+    end
+
+    menu:push(buttonVm)
+end
+```
 
 
 ### `insert`
 
-add view model at index value
+{/* function insert(self, vm: ViewModel, index: number): () */}
+<div class="signature">
+```lua
+insert(vm: ViewModel, index: number) -> ()
+```
+</div>
+
+Inserts a view model at the given index.
+```lua highlight={10}
+function insertAt(menu: PropertyList, label: string, index: number)
+  local buttonVm = Data.Button.new()
+
+  local buttonLabel = buttonVm:getString('label')
+  if buttonLabel then
+    buttonLabel.value = label
+  end
+
+  local insertIndex = math.max(1, math.min(index, menu.length + 1))
+  menu:insert(buttonVm, insertIndex)
+end
+```
 
 
 ### `swap`
 
-swaps positions of view models at index1 and index2
+{/* function swap(self, index1: number, index2: number): () */}
+<div class="signature">
+```lua
+swap(index1: number, index2: number) -> ()
+```
+</div>
+
+Swaps the positions of the view models at `index1` and `index2`.
+```lua highlight={5}
+function swapItems(menu: PropertyList, index1: number, index2: number)
+  local highestIndex = math.max(index1, index2)
+
+  if menu and menu.length >= highestIndex then
+    menu:swap(index1, index2)
+  end
+end
+```
 
 
 ### `pop`
 
-removes last view model from list
+{/* function pop(self): ViewModel? */}
+<div class="signature">
+```lua
+pop() -> ViewModel?
+```
+</div>
+
+Removes and returns the last view model in the list.
+```lua highlight={3}
+function handlePop(self: MenuListController)
+  if self.menu then
+    self.menu:pop()
+  end
+end
+```
 
 
 ### `shift`
 
-removes first view model from list
+{/* function shift(self): ViewModel? */}
+<div class="signature">
+```lua
+shift() -> ViewModel?
+```
+</div>
+
+Removes and returns the first view model in the list.
+```lua highlight={2}
+function handleShift(self: MenuListController)
+  if self.menu then
+    self.menu:shift()
+  end
+end
+```
+
+
+### `clear`
+
+{/* function clear(self): () */}
+<div class="signature">
+```lua
+clear() -> ()
+```
+</div>
+
+Removes all view models from the list.
+```lua highlight={3}
+function handleClearItems(self: MenuListController)
+  if self.menu then
+    self.menu:clear()
+  end
+end
+```
 
 

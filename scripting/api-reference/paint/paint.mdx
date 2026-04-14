@@ -58,6 +58,14 @@ self.paint = Paint.with({
 ### `blendMode`
 
 Blending mode used when compositing. See [BlendMode](/scripting/api-reference/paint/blend-mode).
+```lua highlight={4}
+-- Create a new paint with a color and multiply blend mode
+self.paint = Paint.with({
+  color = Color.rgb(255, 100, 50),
+  blendMode = 'multiply',
+  style = 'fill',
+})
+```
 
 
 ### `feather`
@@ -105,6 +113,13 @@ self.paint = Paint.with({
 
 ### `new`
 
+{/* new: () -> Paint */}
+<div class="signature">
+```lua
+new() -> Paint
+```
+</div>
+
 Creates a new [Paint](/scripting/api-reference/paint/paint) object with default settings.
 
 ```lua
@@ -115,6 +130,13 @@ paint.color = Color.rgb(255, 200, 80)
 
 
 ### `with`
+
+{/* with: (values:PaintDefinition) -> Paint */}
+<div class="signature">
+```lua
+with(values: PaintDefinition) -> Paint
+```
+</div>
 
 Creates a new Paint initialized from the provided [PaintDefinition](/scripting/api-reference/paint/paint-definition).
 
@@ -132,6 +154,13 @@ local strokePaint = Paint.with({
 ## Methods
 
 ### `copy`
+
+{/* function copy(self, values:PaintDefinition?): Paint */}
+<div class="signature">
+```lua
+copy(values: PaintDefinition?) -> Paint
+```
+</div>
 
 Returns a new Paint that copies this one, optionally overriding selected
 properties with values from the provided [PaintDefinition](/scripting/api-reference/paint/paint-definition).
