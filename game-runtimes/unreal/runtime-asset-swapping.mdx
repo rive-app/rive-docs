@@ -19,9 +19,9 @@ Export or preprocess textures with premultiplied alpha before using them at runt
 
 ### Blueprint
 
-Call **Set Image Value** (category *Rive → Data Binding*) on your `RiveViewModel`, passing the property name and a `Texture` reference.
+Drag off your `RiveViewModel` reference and use the auto-generated **SET w/ Broadcast** node for the image property. Each image property declared on the ViewModel in the Rive editor appears as its own typed setter, with a dropdown to pick the source image asset — no string lookup required.
 
-{/* TODO: Add Blueprint screenshot — "Set Image Value" node on a RiveViewModel, with PropertyName and InImage pins wired up. */}
+![Setting an image property via databinding](/images/unreal/ImageSwapDatabinding.png)
 
 ### C++
 
