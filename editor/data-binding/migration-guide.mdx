@@ -5,7 +5,20 @@ description: "Migrate from State Machine Inputs and Listening to Events at runti
 
 Data binding replaces both **state machine inputs** and **runtime event listeners**, and also removes the need to directly modify elements like text runs from code.
 
-It provides a more flexible, consistent system for both sending data into Rive and reacting to changes from Rive.
+It provides more data types in a more flexible, consistent system for both sending data into Rive and reacting to changes from Rive.
+
+|                        | Inputs | Events | View Model Properties |
+| ---------------------- | :----- | :----- | :-------------------- |
+| Floating point numbers | ✅      | ✅      | ✅                   |
+| Booleans               | ✅      | ✅      | ✅                   |
+| Triggers               | ✅      | ❌      | ✅                   |
+| Strings                | ❌      | ✅      | ✅                   |
+| Enumerations (Enums)   | ❌      | ❌      | ✅                   |
+| Colors                 | ❌      | ❌      | ✅                   |
+| View Model Nesting     | ❌      | ❌      | ✅                   |
+| Lists                  | ❌      | ❌      | ✅                   |
+| Images                 | ❌      | ❌      | ✅                   |
+| Artboards              | ❌      | ❌      | ✅                   |
 
 <Note>
   You do **not** need to update existing files. Inputs and events will continue to work as expected. Data binding is recommended for new work and future updates.
