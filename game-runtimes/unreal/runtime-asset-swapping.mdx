@@ -5,7 +5,7 @@ description: "Swap image assets at runtime in Unreal via data binding."
 
 ## Overview
 
-To change a Rive file's images at runtime in Unreal, bind a `UTexture` to a ViewModel image property that your designer exposed in the Rive editor.
+To change a Rive file's images at runtime in Unreal, bind a `UTexture` to a ViewModel image property exposed via data binding in the Rive editor.
 
 <Warning>
 The Rive renderer requires image textures to use **premultiplied alpha** (AlphaComposite-style blending). Textures authored with straight alpha can show:
@@ -19,7 +19,7 @@ Export or preprocess textures with premultiplied alpha before using them at runt
 
 ### Blueprint
 
-Drag off your `RiveViewModel` reference and use the auto-generated **SET w/ Broadcast** node for the image property. Each image property declared on the ViewModel in the Rive editor appears as its own typed setter, with a dropdown to pick the source image asset — no string lookup required.
+Call **Set Image Value** (category *Rive → Data Binding*) on your `RiveViewModel` reference. Enter the image property name (as exposed on the ViewModel via data binding) and pick the source texture from the *In Image* dropdown.
 
 ![Setting an image property via databinding](/images/unreal/ImageSwapDatabinding.png)
 
@@ -32,9 +32,9 @@ Drag off your `RiveViewModel` reference and use the auto-generated **SET w/ Broa
 ViewModel->SetImageValue(TEXT("MyImageProperty"), Texture);
 ```
 
-`SetImageValue` accepts any `UTexture` and notifies the state machine that the bound property changed. The property name must match the image property declared on the ViewModel in the editor.
+`SetImageValue` accepts any `UTexture` and notifies the state machine that the bound property changed. The property name must match the image property as exposed on the ViewModel via data binding.
 
 ## Troubleshooting
 
-- **Image doesn't update:** confirm the property name matches the ViewModel image property declared in the editor, and that your `RiveViewModel` is the one driving the artboard instance on screen.
+- **Image doesn't update:** confirm the property name matches the ViewModel image property as exposed via data binding, and that your `RiveViewModel` is the one driving the artboard instance on screen.
 - **Image looks wrong (dark fringes, incorrect alpha, oversaturation):** verify the source texture uses premultiplied alpha.
