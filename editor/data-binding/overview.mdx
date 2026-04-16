@@ -54,13 +54,13 @@ These exported instances can then be assigned to an artboard at runtime by devel
 
 ### Binding
 
-A binding is an association between a view model property and an editor element. For instance, you might have a string property called "name" bound to a text run. Once bound, the text run will take the value from the view model property. See [Bind Direction](#bind-direction) for additional options. 
+A binding is an association between a view model property and an editor element. For instance, you might have a string property called "name" bound to a text run. Once bound, the text run will take the value from the view model property. See [Bind Direction](#bind-direction) for additional options.
 
 #### Absolute & Relative Binding
 By default, new data binding connections are created as absolute binds.
 
-- Absolute Binding: the bind points the value at a specific property location within the view model tree. For example, "the second property of the first view model". 
-- Relative Binding: the bind finds the value of property with a specific name, regardless of where it falls within the view model tree. For example, a relative binding to "myNumber" will look for a property of that name within the view model available. 
+- Absolute Binding: the bind points the value at a specific property location within the view model tree. For example, "the second property of the first view model".
+- Relative Binding: the bind finds the value of property with a specific name, regardless of where it falls within the view model tree. For example, a relative binding to "myNumber" will look for a property of that name within the view model available.
 
 <YouTube id="4LOXhXesG74" />
 
@@ -97,63 +97,6 @@ Enum properties can be either a "system" enum, in which case they represent a fi
 A converter is a general purpose way of transforming a binding's value when it is applied. These transformations might involve changing its type. For instance, the "Convert to String" converter can be used to convert a numerical binding to text, so that an object's X position could be applied to a text run.
 
 To apply a converter on a value that already has a binding, right click on the bound property, click Update Bind, and select your converter from the Convert dropdown.
-
-# Comparing to Existing Features
-
-Data binding fills some of the same roles as existing features in Rive. In general, it is considered a more powerful alternative to both inputs and events, and we recommend you adopt it for most use cases going forward. However, this does not mean that you need to retrofit existing files as they will continue to work as expected.
-
-### Type Support
-
-View model properties can represent more types of data compared to inputs and events. See below for a comparison.
-
-|                        | Inputs | Events | View Model Properties |
-| ---------------------- | :----- | :----- | :-------------------- |
-| Floating point numbers | ✅      | ✅      | ✅                     |
-| Booleans               | ✅      | ✅      | ✅                     |
-| Triggers               | ✅      | ❌      | ✅                     |
-| Strings                | ❌      | ✅      | ✅                     |
-| Enumerations (Enums)   | ❌      | ❌      | ✅                     |
-| Colors                 | ❌      | ❌      | ✅                     |
-| View Model Nesting     | ❌      | ❌      | ✅                     |
-| Lists                  | ❌      | ❌      | ✅                     |
-| Images                 | ❌      | ❌      | ✅                     |
-| Artboards              | ❌      | ❌      | ✅                     |
-
-### State Machine Inputs
-
-Before data binding, state machine inputs were the primary way for developers to affect designs. They formed the "input" side of the contract with design. View model properties are a more flexible system.
-
-Inputs can only be used to drive state machine transitions, whereas data binding can be used to drive most editor elements in Rive and state machine transitions.
-
-Inputs must be used as-is where data-bound properties can be converted, either before being used by developers or before being applied to editor elements.
-
-View model properties also support both polling and listening APIs for developers, whereas inputs only support polling. This means that developers can more naturally react to changes in data.
-
-View model properties can also be used in two features currently used by inputs, that being blended states (both Blend 1D and Blend Additive) as the mix parameter and as the receiver for listeners, e.g. setting a value on a mouse click or tap.
-
-### Events
-
-The counterpart to inputs, events were the primary way for developers to receive "outputs" from designs. Data binding is a much richer channel for developers to observe values from the Rive design. Additionally, events were used internally in Rive files to add reactivity using listeners. Both of these use cases are addressed by properties. For developers, the runtime APIs allow you to subscribe to changes to their values. For designers, you can bind reacting elements directly to the property.
-
-Events can only be triggered by timelines, state machine transitions, or listeners. By comparison, data bound properties can be changed from any number of sources.
-
-Events can have keyable properties with values that are passed when triggered. This is limited to being updated by animation keys and can be tricky to "bubble" when the animation exists on a component. By comparison, view model properties carry the most recent data each time they change, from any level of the hierarchy, triggering a developer's listener with the new value.
-
-One use case which events offer functionality not yet supported by data binding is in their ability to play audio.
-
-### Constraints
-
-Constraints allow for a specific kind of binding between two objects, such as Translation for position. This constraint is optimized for that use case, with built in options for local/world space conversion, a strength parameter, minimum and maximum values, etc. For use cases where this is all you need, this is likely to be the more concise option. By comparison, for example, data binding the X and Y positions can be used for a broader range of output behavior, though it may require some setup with converters to achieve.
-
-### Nesting
-
-There are a few use cases related to nesting where you may want to consider updating to use data binding, as it offers a much more straightforward approach:
-
-- Setting nested inputs
-- Setting nested text runs
-- "Bubbling" nested events
-
-These three use cases are unified by view model instances, where components can pull from top-level viewmodels. This simplifies the developer interop, as the structure, naming, and nesting of the file's artboards can change without breaking the code's reference to the data.
 
 # Runtime APIs
 
