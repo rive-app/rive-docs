@@ -21,21 +21,11 @@ This guide covers:
 
 ## Package and Import
 
-The new Apple runtime is available in the same Swift package and CocoaPods pod as the legacy runtime.
-
-The new Apple runtime APIs are currently behind the `@_spi(RiveExperimental)` SPI:
-
-```swift
-@_spi(RiveExperimental) import RiveRuntime
-```
-
-Compared to the legacy runtime:
+The new Apple runtime is available in the same Swift package and CocoaPods pod as the legacy runtime. Both runtime APIs are available in the same package, so you can import the runtime using the same import statement.
 
 ```swift
 import RiveRuntime
 ```
-
-This is a temporary transition mechanism while the new API remains experimental.
 
 ## Asynchronous APIs
 
@@ -482,7 +472,7 @@ The new runtime binds artboards with a typed property descriptor and `setValue` 
 ```swift
 let worker = try await WorkerProvider.shared.worker()
 let file = try await File(source: .local("my_rive_file", Bundle.main), worker: worker)
-let viewModelInstance = try await file.createViewModelInstance(from: .name("My View Model"))
+let viewModelInstance = try await file.createViewModelInstance(.viewModelDefault(from: .name("My View Model")))
 
 let artboardProperty = ArtboardProperty(path: "path/to/artboard")
 let artboard = try await file.createArtboard("My Artboard")
@@ -574,7 +564,7 @@ In the new runtime, update the bound value after the view is created. No explici
 let worker = try await WorkerProvider.shared.worker()
 let file = try await File(source: .local("my_rive_file", Bundle.main), worker: worker)
 
-let instance = try await file.createViewModelInstance(from: .name("My View Model"))
+let instance = try await file.createViewModelInstance(.viewModelDefault(from: .name("My View Model")))
 let property = StringProperty(path: "path/to/string")
 let rive = try await Rive(file: file, dataBind: .instance(instance))
 let riveView = RiveUIView(rive: rive)
