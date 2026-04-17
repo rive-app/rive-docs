@@ -1,0 +1,90 @@
+---
+title: "Enums"
+description: "Use enums to control states, modes, and variants by selecting from a predefined set of options."
+---
+
+import { Marketplace } from '/snippets/marketplace.mdx'
+
+![Enums](/images/editor/data-binding/property-types/enum-preview.gif)
+
+An enum lets you choose one value from a predefined set of options.
+
+Use enums when a property should only ever be one of a few known values—like modes, states, or variants—instead of allowing any arbitrary value like a string.
+
+For example, instead of using a string like "left", "center", or "right", an enum guarantees the value is always one of those valid options.
+
+
+Enums can be:
+
+- System enums — built-in sets of options used by the editor (for example, Horizontal Align)
+- [Custom enums](#custom-enums) — your own defined sets of options for your specific use case
+
+<Marketplace
+  href="https://rive.app/community/files/27312-control-editor-properties-with-enums"
+/>
+
+<Note>
+  **Why not use strings or numbers?**
+
+  Imagine a calendar app that shows different backgrounds based on the day of the week.
+
+  You could use a string like "Monday", but it breaks if someone sets it to "Mon".
+
+  You could use a number, but it’s unclear whether the week starts on Sunday or Monday—or whether the index starts at 0 or 1.
+
+  With an enum, the value must be one of the defined options, so it’s always valid and unambiguous.
+</Note>
+
+## Adding an enum property
+
+![Enums](/images/editor/data-binding/property-types/add-enum.gif)
+
+<Steps>
+  <Step title="Create a new enum property">
+    Create a new enum view model property inside your view model.
+  </Step>
+  <Step title="Set the enum type">
+    Click the dropdown next to the property name and select an enum type.
+  </Step>
+  <Step title="Set the default enum value">
+    Select your enum view model property and in the right sidebar, select the default value.
+  </Step>
+</Steps>
+
+## Binding enums
+
+![Bind an enum](/images/editor/data-binding/property-types/binding-enums.gif)
+
+Enums can be bound to editor properties that use the same set of options. For example, an enum named “Layout Direction” can be bound to a layout’s Direction property.
+
+When binding enums, the System Enum to Uint converter is required and is applied automatically.
+
+## Custom enums
+
+
+![Create custom enum](/images/editor/data-binding/property-types/custom-enum.gif)
+
+<Steps>
+  <Step title="Create a new enum">
+    Open the Data panel, click the `+` icon and select enum.
+  </Step>
+  <Step title="Add enum options">
+    With your enum selected, click the `+` icon in the right sidebar.
+  </Step>
+  <Step title="Assign the enum to a property">
+    Assign your custom enum to your enum view model property.
+  </Step>
+</Steps>
+
+## Controlling Solos with enums
+
+Use an enum to control which Solo is active by mapping each enum value to a Solo.
+
+![Bind enum to solo](/images/editor/data-binding/property-types/bind-enum-to-solo.gif)
+
+
+<Steps>
+  <Step title="Create a matching enum"> Create a [custom enum](#custom-enums) with values that match the **names and order** of your Solos. </Step>
+  <Step title="Bind the enum"> Bind the enum to the Solo’s **Active** property and apply a **Convert to Number** converter. </Step>
+</Steps>
+

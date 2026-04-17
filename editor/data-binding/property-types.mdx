@@ -1,0 +1,66 @@
+---
+title: "Property Types"
+sidebarTitle: "Overview"
+description: ""
+---
+
+import { YouTube } from '/snippets/youtube.mdx'
+import { Marketplace } from '/snippets/marketplace.mdx'
+
+
+| Type                  | Description                         |
+| --------------------- | ----------------------------------- |
+| Number                | Numeric value                       |
+| String                | Text value                          |
+| Boolean               | True/false value                    |
+| Color                 | RGBA color value                    |
+| [Trigger](#trigger)   | Fire-and-forget event               |
+| [Enum](#enum)         | One value from a predefined list    |
+| [Image](#image)       | Image asset reference               |
+| [Artboard](#artboard) | Artboard reference                  |
+| [List](#list)         | Collection of values or view models |
+
+
+## Trigger
+
+Trigger properties represent fire-and-forget events. Use them when you want to signal that something happened, such as a button press or one-time action.
+
+## Enum
+
+Select from a fixed set of options to control states and variants. Use enums when the possible values are known ahead of time.
+
+[Learn more](/editor/data-binding/enums) about enums.
+
+## Image
+
+![Bind an image](/images/editor/data-binding/property-types/image-bind.gif)
+
+Image properties store a reference to an image, allowing you to change which image is displayed.
+
+They are typically bound to image nodes in your design.
+
+Use image properties when each instance needs its own image, such as user avatars, thumbnails, or dynamically loaded content.
+
+For example, in a game or social UI, each player can have their own avatar by binding a different image to the same property.
+
+<Note>
+  Image properties affect a **single instance**.
+
+  If you need to update an image globally across your entire file, use [asset loading instead](/runtimes/loading-assets). Asset loading replaces the underlying asset, updating all instances that use it.
+</Note>
+
+## Artboard
+
+![Bind an artboard](/images/editor/data-binding/property-types/artboards.gif)
+
+Artboard properties let you reference an artboard and dynamically swap it at runtime.
+
+The artboard can come from your current Rive file or be loaded from another .riv file.
+
+To use an artboard as a property, it must first be [converted to a Component](/editor/fundamentals/components#creating-a-component).
+
+## List
+
+List properties store collections of properties.
+
+For more information, see [Lists](/editor/data-binding/lists)
