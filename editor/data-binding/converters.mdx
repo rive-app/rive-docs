@@ -1,0 +1,196 @@
+---
+title: "Converters"
+description: "Transform and adapt data before it’s applied to a binding using built-in and custom converters."
+---
+
+import { YouTube } from '/snippets/youtube.mdx'
+
+<YouTube id="td59TXa_xQI" />
+
+Converters transform values before they are applied to a binding.
+
+Use them to adapt your data to match the property you're binding to—for example, converting numbers to strings, mapping values between ranges, or smoothing changes over time.
+
+## Adding a Converter
+
+![Build and apply a converter](/images/editor/data-binding/converters/add-converter.gif)
+
+<Steps>
+  <Step title="Create a Converter">
+    In the Assets panel, click the `+` button and select a [converter type](#converter-types).
+  </Step>
+  <Step title="Set Converter Options">
+    With the converter selected, update the settings in the right sidebar.
+
+    <Note>
+      Most options can be data bound.
+    </Note>
+  </Step>
+  <Step title="Apply your Converter">
+    When setting or updating a binding, set the **Converter** field..
+  </Step>
+</Steps>
+
+## Converter Types
+
+Converters can be used individually or combined into [groups](#converter-groups) to perform more complex transformations.
+
+| Category | Converter                | Description                               |
+|----------|--------------------------|-------------------------------------------|
+| String   | [Pad](#pad)                      | Add padding to a string                   |
+|          | Trim                     | Remove leading or trailing whitespace     |
+|          | Convert to String        | Convert a value to a string               |
+|          | Remove Trailing Zeros    | Remove unnecessary decimal zeros          |
+| Number   | Round                    | Round to the nearest value                |
+|          | Calculate                | Perform simple calculations               |
+|          | [Range Map](#range-map)                | Map a value from one range to another     |
+|          | [Interpolator](#numeric-interpolator)             | Smoothly interpolate between values       |
+|          | [Formula](#formula)                  | Evaluate a custom expression              |
+|          | Convert to Number        | Convert a value to a number               |
+| Boolean  | Toggle                   | Invert a boolean value                    |
+| List     | [Number to List](#number-to-list)           | Generate a list of components based on a number               |
+|          | List to Length          | Get the number of items in a list         |
+| Color         | [Interpolator](#color-interpolator)             | Smoothly interpolate between colors       |
+| Script     | [Converter Scripts](#converter-scripts)           | Create your own custom converters              |
+
+### Pad
+
+Pads a string to a target length by repeating a value at the start or end.
+
+If the string is shorter than the specified length, the pad value is repeated and added until the target length is reached.
+
+**Example:**
+
+- **Value:** 1
+- **Pad:** "0"
+- **Direction:** Start
+- **Length:** 3
+
+**Result**: "001"
+
+---
+
+### Range Map
+
+Maps a number from one range to another.
+
+Use Range Map when you want to take an input value and convert it into a different scale.
+
+**Example**
+
+Convert a slider value (0–100) into an opacity value (0–1):
+
+- **Input**: 50
+- **Input range**: 0 → 100
+- **Output range**: 0 → 1
+
+**Result**:
+0.5
+
+---
+
+### Numeric Interpolator
+
+![interpolate a shape](/images/editor/data-binding/converters/numeric-interpolator.gif)
+
+Smoothly transitions between number values over time, easing changes instead of jumping instantly.
+
+---
+
+### Formula
+
+![Generate a formula](/images/editor/data-binding/converters/formula.gif)
+
+Formula lets you perform custom calculations using values from your View Model or the input.
+
+You can create a formula in two ways:
+
+**Writing it directly**
+
+```lua
+random({{NumberConvertersVM/circleX}} / {Input}) + 2
+```
+
+<Note>
+  `{Input}` refers to the incoming value, while `{{...}}` references View Model properties.
+</Note>
+
+**Using the editor**
+
+Click the + button to add values, operations, and functions. This builds the formula for you and generates the equivalent expression.
+
+<Tip>
+  **Formulas don't need inputs**
+
+  The following formula would output a random number, regardless of input.
+
+  ```lua
+    random(2)
+  ```
+</Tip>
+
+#### Random Mode
+
+When using `random()` in your formula, the Random Mode determines when a new random value is generated.
+
+- **Once** — Generates a random value only when the formula first runs
+- **Source Change** — Generates a new value each time the input changes
+- **Always** — Continuously generates new values while the input changes and during interpolation
+
+---
+
+### Number to List
+
+The Number to List converter allows you to generate a specified number of Components based on a number.
+
+See [Lists](/editor/data-binding/lists#view-model-number-with-converter) for more information.
+
+---
+
+### Color Interpolator
+
+![interpolate a color](/images/editor/data-binding/converters/color-interpolator.gif)
+
+Smoothly transitions between color values over time, easing changes instead of jumping instantly.
+
+
+---
+
+### Converter Scripts
+
+Scripting lets you create your own custom converters when you need behavior that isn’t covered by the built-in converters.
+
+See [Converter Scripts](/scripting/protocols/converter-scripts) for more information.
+
+## Converter Groups
+
+![Build and converter group](/images/editor/data-binding/converters/group.gif)
+
+Converter groups let you chain multiple converters together, where the output of one becomes the input of the next.
+
+<Steps>
+  <Step title="Create a Converter Group">
+    In the Assets panel, click the `+` button and select Converter > Group.
+  </Step>
+  <Step title="Add a Converter to Your Group">
+    With the group selected, add the `+` button in the right sidebar and select an existing or new converter.
+  </Step>
+</Steps>
+
+When binding a value, your converter group can now be used just like an individual converter.
+
+### How execution works
+
+Converters run from top to bottom:
+
+- The first converter receives the original input
+- Each converter passes its result to the next
+- The final output is the result of the last converter
+
+### Reordering converters
+
+Drag a converter up or down to change when it runs.
+
+Earlier converters affect all converters that follow.
+
+
