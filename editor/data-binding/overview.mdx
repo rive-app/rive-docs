@@ -40,6 +40,12 @@ A view model is a blueprint for a collection of data. Developers might think of 
 
 A view model property is one piece of data within a view model. Developers might think of this as similar to a field in object-oriented programming. Properties have a data type which is selected when they are created and a name which can be referenced in code. Each property can be bound to different editor elements of the same type.
 
+#### Adding View Model properties
+
+In the Data panel, click the **Add View Model Property** button next to the view model name and select your [property type](/editor/data-binding/property-types).
+
+![Create a new Enum](/images/editor/data-binding/property-types/add-property.png)
+
 ### View Model Instance
 
 A view model instance is the living version of a view model with actual values. Developers might think of this as similar to a class instance in object-oriented programming. Instances have the same properties as the view model they are derived from, except now each of these properties has a living value that can change over time.
@@ -82,12 +88,6 @@ Additionally, a binding may be marked as "Bind Once". This means that the initia
 ### View Model Nesting
 
 View models can have another view model as one of their properties. This is referred to as "nesting". This is useful when a parent instance wants to associate with a particular child instance, similar to components.
-
-### Enumeration (Enum)
-
-An enum represents a fixed set of options, similar to a drop-down. Use this property type to constrain the available values to a known, unchanging set.
-
-Enum properties can be either a "system" enum, in which case they represent a fixed set of options in the editor, such as the "Horizontal Align" options, or a "user defined" enum, in which case they can represent any fixed set of options applicable to your use case.
 
 ### Converter
 
