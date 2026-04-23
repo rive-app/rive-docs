@@ -1,11 +1,13 @@
 ---
-title: 'Best Practices'
-description: 'Editor & runtime performance and usage considerations.'
+title: "Best Practices"
+description: "Editor & runtime performance and usage considerations."
 ---
 
 Rive is built to efficiently play interactive graphics in the editor and at runtime in applications and games. However, poorly optimized animations can consume significant resources and cause poor performance, particularly on low-end devices. In the following sections, we will outline important considerations and tips for maintaining optimal performance and minimal resource utilization both during design/animate time in the Rive editor, as well as during runtime in applications.
 
-<Info>We recommend continuous testing of your animations on your target devices/platforms.</Info>
+<Info>
+  We recommend continuous testing of your animations on your target devices/platforms.
+</Info>
 
 ## Design-time Considerations
 
@@ -15,7 +17,9 @@ See below for some techniques to employ in the Rive editor to keep Rive performa
 
 Image, audio, and font assets are often the biggest source of bloat in .riv files. Unoptimized assets increase download size and must be loaded into memory, which can lead to slowdowns—especially on lower-end devices.
 
-<Info>Only assets used in artboards will be compiled for runtime. Items in the Assets panel that aren't used in an artboard will not increase the size of your .riv file.</Info>
+<Info>
+  Only assets used in artboards will be compiled for runtime. Items in the Assets panel that aren't used in an artboard will not increase the size of your .riv file.
+</Info>
 
 #### Fonts
 
@@ -75,7 +79,14 @@ Scenarios: Icons, buttons, graphics that only animate based on user interaction,
 
 A [Solo](/editor/manipulating-shapes/solos) is similar to a group but with the added ability to toggle the rendering of nested objects. It functions like a radio button, deactivating other objects on the same level.
 
-One common use case for Solos is creating different skins for a character that can be easily toggled on and off. Using Solos is much faster than individually animating the opacity of each object. Additionally, it allows the editor and runtimes to optimize your animation by not computing/rendering the deactivated Solos.
+When you're looking to show or hide a specific object, using a Solo can be a more efficient since it stops the rendering of any non active objects.
+
+Solos can also be an effective way to build skins for a character, but it's important to note that this should only be used if your skins require binding and weighting.
+
+**Data Binding Artboards**\
+When looking to build more complex skins (that don't require binding and weighting), or wanting to swap out widgets, icons, ect... data binding an artboard node is the most performant way to do this.\
+\
+In addition to only rendering the things you need, you also save yourself both memory and CPU usage by providing only the graphics you need.
 
 ### Blend States
 
@@ -103,14 +114,11 @@ If you're using the same Rive file in multiple places across your page or app, y
 There are several cases where you may want to pause a state machine configured with Rive programmatically. By pausing the Rive graphic at runtime, you may notice that Rive’s impact on the application has negligible resource consumption (i.e., CPU).
 
 1. Rive graphic is offscreen
-
    a. If a Rive graphic is scrolled offscreen and does not need to continue playing, call the `pause` API on the respective runtime you’re using to prevent Rive from continuing to animate and consume resources when not needed.
-
    b. Call the `play` API to continue playing Rive when the graphic needs to continue animating if back onscreen.
 2. Accessibility
    - If a user has set in device settings that they prefer reduced motion, you may want to read this property at runtime and programmatically either call `pause` or set `autoplay: false` with the Rive runtime to ensure these users have reduced motion when navigating the application. Alternatively, different artboards or state machines can be created and loaded at runtime that function differently.
 3. State machine is idle with static graphics
-
    a. `Pause` when the Rive graphic is idling while it waits for a transition in the state machine from user interaction, data resolving, etc.
 
 ### Low-end devices
