@@ -3,51 +3,153 @@ title: "Semantics"
 description: ""
 ---
 
-TODO
-- Can add semantics to any element
-- Right sidebar
-- Live region - element whose content will change
-- hidden
-  - Hiding a list item auto hides it from semantics
-- Text
-  - inferred
-- Elements
-  - label
-  - expandable, expanded
-  - selectable, selected
-  - checkable, checked
-  - toggleable, toggled
-  - requirable, required
-  - enablable, enabled
-  - hidden
-  - heading (text only)
+Semantics describe what an element is and how it should be understood. Adding semantics makes your experiences accessible, allowing screen readers to correctly describe and navigate your content.
 
+At a high level, semantics are made up of:
 
+- [Type](#semantic-type) — what the element is (for example, button, image, or heading)
+- [Properties](#semantic-properties) — additional information like label, value, or hint
+- [Traits](#traits) — capabilities an element has (for example, selectable or expandable)
+- [State](#state) — the current value of a trait (for example, selected or disabled)
 
-Semantics overview.
 
 <Note>
-  Under the hood web creates divs
+**Semantics at Runtime**
+
+At runtime, semantics are converted into the platform’s accessibility system.
+
+On web, this creates accessible DOM elements (for example, divs with roles and attributes). On iOS and Android, a semantic tree is generated and exposed to the system’s accessibility APIs.
+
+Rive handles mapping your semantics to each platform automatically.
 </Note>
 
-## Adding Semantics to an
+## Adding Semantics
 
-- select an element
-- In the Semantics section of the right sidebar click the `+` button
-  - This makes
+<Steps>
+  <Step title="Add Semantics">
+    Select an element in your scene. In the right sidebar, click the `+` button in the **Semantics** panel to enable semantics for that element.
+  </Step>
+  <Step title="Choose a Type">
+    Use the dropdown to assign a [semantic type](#semantic-type), such as button, image, or heading.
+  </Step>
+  <Step title="Configure Properties">
+    Update the element’s [semantic properties](#semantic-properties), such as label, value, or hint.
+  </Step>
+</Steps>
 
-### Options
+### Semantic Type
 
-#### Type
+The semantic type defines what the element *is* (for example, a button or image). Screen readers use this to describe the element and determine how it should behave.
 
-#### Label
+Each type has different available [properties](#semantic-properties).
 
-#### Traits
+If your element doesn’t match a specific type, you can leave it set to **None**.
 
-#### State
+<Info>
+  Some elements, like text inputs, automatically infer their semantic type.
+</Info>
+
+## Semantic Properties
+
+Semantic properties provide additional information about an element, such as its label, value, or hint.
+
+Available properties vary depending on the selected semantic type.
+
+### Label
+
+The label describes what the element is or does. This is what screen readers announce.
+
+For example, a slider that controls volume might have the label:
+`Volume`
+
+<Info>
+  Avoid including the type in the label (for example, "slider" or "button"). Screen readers already announce the element’s type.
+</Info>
+
+<Info>
+  Text elements automatically use their text content as the label.
+</Info>
+
+### Heading
+
+Text elements can be marked as headings to define structure and hierarchy.
+
+Options include **None** and **Heading 1** through **Heading 6**.
+
+Headings help screen reader users navigate your content more easily.
+
+<Info>
+  On web, Heading 1 maps to an `<h1>` element, Heading 2 to `<h2>`, and so on.
+</Info>
+
+### Value
+
+Some elements, like sliders and switches, have a **Value** property that reflects their current state.
+
+For example, a volume slider might have a value of `70%`.
+
+Use data binding to keep the semantic value in sync with the visual state.
+
+---
+
+## Traits
+
+Traits define what an element *can do*, while states describe what it is doing right now.
+
+Some semantic types include traits, such as **expandable** or **selectable**. Enabling a trait makes its corresponding [state](#state) available.
+
+The lock icon indicates a required trait for that semantic type. For example, a checkbox always includes the **selectable** trait.
 
 
-## Testing
+---
 
-Without selecting an element on the artboard, play your state machine
-In the right sidebar, you'll have controls to simulate focus
+## State
+
+States represent the current value of a trait.
+
+For example, an element with the **selectable** trait will have a **selected** state.
+
+Use data binding to keep semantic states in sync with your Rive file. For example, bind a boolean from your view model to the **toggled** state of a switch.
+
+### Hidden
+
+Hides the element from the accessibility tree.
+
+### Disabled
+
+Marks the element as disabled and not interactive.
+
+### Live Region
+
+Indicates that the element’s content may update dynamically and should be announced by screen readers.
+
+---
+
+## Testing Semantics
+
+Adding semantics is only the first step. You should always test your experience at runtime to make sure it behaves as expected.
+
+Small issues—like a missing label or incorrect state—can make elements confusing or unusable for screen reader users.
+
+### How to Test
+
+The best way to test semantics is by using a screen reader.
+
+- **macOS / iOS**: VoiceOver
+- **Android**: TalkBack
+- **Windows**: Narrator or NVDA
+
+Turn on a screen reader and navigate through your experience:
+- Move between elements
+- Listen to how each element is announced
+- Interact with buttons, sliders, and inputs
+
+### What to Check
+
+As you test, pay attention to:
+
+- **Labels** — Does each element clearly describe what it is or does?
+- **Type** — Is the correct role announced (button, heading, etc.)?
+- **Value** — Do dynamic elements (like sliders) report the correct value?
+- **State** — Are states like selected, disabled, or expanded accurate?
+- **Order** — Does navigation follow a logical flow?
