@@ -39,7 +39,6 @@ export interface RiveParameters {
   shouldDisableRiveListeners?: boolean;
   isTouchScrollEnabled?: boolean;
   automaticallyHandleEvents?: boolean;
-  animations?: string | string[];
   dispatchPointerExit?: boolean;
   enableMultiTouch?: boolean;
   drawingOptions?: DrawOptimizationOptions;
@@ -65,7 +64,7 @@ export interface RiveParameters {
   - `buffer` - *(optional)* `ArrayBuffer` of `.riv` bytes. One of `src`, `buffer`, or `riveFile` must be provided.
   - `riveFile` - *(optional)* Provide a loaded **`RiveFile`** (parsed file + assets) across instances. See [Caching a Rive file](/runtimes/web/caching-a-rive-file).
 - `artboard` - *(optional)* Name of the artboard to use. If not provided, it will pull the default artboard from the exported `.riv` file.
-- `stateMachines` - *(required)* Name of a state machine to load (i.e. `"State Machine 1"`) from the `.riv` file. If not provided, currently Rive will pull the first linear animation it finds (deprecated behavior). In the next major version of the runtime, Rive will default to pulling the default state machine on the artboard.
+- `stateMachines` - *(strongly recommended)* Name of a state machine to load (i.e. `"State Machine 1"`) from the `.riv` file. If not provided, currently Rive will pull the first linear animation it finds (deprecated behavior). In the next major version of the runtime, Rive will default to pulling the default state machine on the artboard.
 
 <Note>
  Note: You should only provide a single state machine string for `stateMachines`. Running multiple state machines of the same artboard at the same time may cause unintended consequences.
