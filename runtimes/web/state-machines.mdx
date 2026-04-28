@@ -51,3 +51,14 @@ const handleStop = () => {
   r.stop()
 }
 ```
+
+#### reset()
+
+To dispose the current artboard / animation / state machine instances and create fresh ones (optionally changing artboard or `stateMachines`), use **`reset()`**. Pass the same kinds of options you use on the constructor. See [Rive Parameters](/runtimes/web/rive-parameters) for the full **`RiveResetParameters`** fields (`artboard`, `stateMachines`, `autoplay`, `autoBind`).
+
+```js
+r.reset({
+  stateMachines: 'bumpy',
+  autoplay: true,
+});
+```
