@@ -78,6 +78,10 @@ Available actions include:
 
 **Listen for Event** – Only visible if the target is an Artboard or Component. If multiple events exist, use the dropdown to select the specific one.
 
+**View Model Property Change** – Triggers when a selected View Model property changes. Only available when the Artboard is set as the Target. Use the dropdown to select the specific property to listen to.
+
+Note that it is not possible to specify an expected value—the listener fires whenever the property changes, regardless of the direction of the change. For example, a Boolean listener will fire whether the value changes from `true` to `false` or from `false` to `true`.
+
 # Listener Action
 
 A Listener Action defines what happens when the user interaction occurs.
