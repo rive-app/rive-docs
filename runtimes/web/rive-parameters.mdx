@@ -7,17 +7,14 @@ This page is a **reference** for constructor options, types, and instance method
 
 **Related guides**
 
-- [Getting started](/runtimes/web/web-js) — install, `src` / public paths, basic `onLoad` + `resizeDrawingSurfaceToCanvas`
-- [Artboards](/runtimes/web/artboards) — choosing artboards in the `.riv` file (pairs with `artboard` / `reset` / `load`)
-- [Layout](/runtimes/web/layouts) — fit, alignment, bounds, responsive `Fit.Layout`, DPR / resize patterns
-- [State machine playback](/runtimes/web/state-machines) — `play` / `pause` / `stop`, **`reset()`** example
-- [Loading assets](/runtimes/web/loading-assets) — **`assetLoader`**, referenced/hosted assets, `decodeFont` / `decodeImage`
+- [Getting started](/runtimes/web/web-js) — start here for a walkthrough of loading Rive into your web applications
+- [Artboards](/runtimes/web/artboards) — choosing artboards to load from the `.riv` file
+- [Layout](/runtimes/web/layouts) — see how to layout your Rive graphic within the canvas and make it responsive to size changes
+- [State machine playback](/runtimes/web/state-machines) — handle playback controls for the Rive state machine
+- [Loading assets](/runtimes/web/loading-assets) — handle asset loading for your Rive file
 - [Caching a Rive file](/runtimes/web/caching-a-rive-file) — **`RiveFile`** + **`riveFile`** for multiple instances
 - [Data binding](/runtimes/web/data-binding) — **`autoBind`**, view models, `bindViewModelInstance`
-- [Rive Events](/runtimes/web/rive-events) — subscribing to **`EventType.RiveEvent`** (legacy events; prefer data binding where possible)
-- [Low-level API](/runtimes/web/low-level-api-usage) — custom render loops, **`resolveAnimationFrame()`** on the WASM runtime
-- [Text](/runtimes/web/text) — text runs vs data binding; nested paths pair with APIs below
-- [Playing audio](/runtimes/web/playing-audio) — artboard **`volume`** and audio behavior in the browser
+- [Playing audio](/runtimes/web/playing-audio) — handling audio assets and controlling volume levels
 
 ## `Rive` constructor parameters
 
@@ -30,7 +27,7 @@ export interface RiveParameters {
   buffer?: ArrayBuffer; // one of src, buffer, or riveFile is required
   riveFile?: RiveFile; // one of src, buffer, or riveFile is required
   artboard?: string;
-  stateMachines?: string | string[];
+  stateMachines?: string | string[]; // strongly recommended setting this property
   layout?: Layout;
   autoplay?: boolean;
   autoBind?: boolean;
@@ -60,9 +57,9 @@ export interface RiveParameters {
 
 - `canvas` - *(required)* Provide a `<canvas>` element to draw Rive animations onto.
 - To load a `.riv` file, one of the following is required:
-  - `src` - *(optional)* Hosted URL or app-relative public path to the `.riv` file. One of `src`, `buffer`, or `riveFile` must be provided. URL vs bundled path, bundler/data-URI setup, and a minimal example are on [Getting started](/runtimes/web/web-js#loading-rive-files).
-  - `buffer` - *(optional)* `ArrayBuffer` of `.riv` bytes. One of `src`, `buffer`, or `riveFile` must be provided.
-  - `riveFile` - *(optional)* Provide a loaded **`RiveFile`** (parsed file + assets) across instances. See [Caching a Rive file](/runtimes/web/caching-a-rive-file).
+  - `src` - *(optional)* Hosted URL or app-relative public path to the `.riv` file. See a minimal example on the [Getting started](/runtimes/web/web-js#loading-rive-files) guide.
+  - `buffer` - *(optional)* `ArrayBuffer` of `.riv` bytes.
+  - `riveFile` - *(optional)* Provide a loaded **`RiveFile`** across instances. See [Caching a Rive file](/runtimes/web/caching-a-rive-file) for more details.
 - `artboard` - *(optional)* Name of the artboard to use. If not provided, it will pull the default artboard from the exported `.riv` file.
 - `stateMachines` - *(strongly recommended)* Name of a state machine to load (i.e. `"State Machine 1"`) from the `.riv` file. If not provided, currently Rive will pull the first linear animation it finds (deprecated behavior). In the next major version of the runtime, Rive will default to pulling the default state machine on the artboard.
 
@@ -70,15 +67,15 @@ export interface RiveParameters {
  Note: You should only provide a single state machine string for `stateMachines`. Running multiple state machines of the same artboard at the same time may cause unintended consequences.
 </Note>
 
-- `layout` - *(optional)* Provide a [`new Layout()`](/runtimes/web/layouts) instance. See that page for fit modes, alignment, bounds, and responsive layout.
+- `layout` - *(optional)* Provide a [`new Layout()`](/runtimes/web/layouts) instance. See that guide for fit modes, alignment, bounds, and responsive layout.
 - `autoplay` - *(optional)* If true, the animation will automatically start playing when loaded. Defaults to false.
-- `useOffscreenRenderer` - *(optional)* Boolean flag to determine whether to use a shared offscreen WebGL2 context rather than create its own WebGL2 context for this instance of Rive. This is only relevant for WebGL-based runtimes such as `@rive-app/webgl2`. If you are displaying multiple Rive animations, it is highly encouraged to set this flag to `true`. Defaults to `false`.
-- `enableRiveAssetCDN` - *(optional)* Allow the runtime to automatically load assets (i.e. fonts) hosted in Rive's CDN. Enabled true by default.
+- `autoBind` - *(optional)* When set to `true`, Rive will automatically look for a default view model and view model instance to bind to the artboard. Defaults to false.
+- `useOffscreenRenderer` - *(optional)* Boolean flag to determine whether to use a shared offscreen WebGL2 context rather than create its own WebGL2 context for this instance of Rive. This is only relevant for WebGL-based runtimes such as `@rive-app/webgl2`. If you are displaying multiple Rive instances on a page, it is highly encouraged to set this flag to `true`. Defaults to `false`.
+- `enableRiveAssetCDN` - *(optional)* Allow the runtime to automatically load assets (i.e. fonts) hosted in Rive's CDN. Defaults to true.
 - `shouldDisableRiveListeners` - *(optional)* Boolean flag to disable setting up Rive Listeners on the `<canvas>` element, thus preventing any event listeners from being set up on the element.
   - **Note:** Rive Listeners by default are not set up on a `<canvas>` element if there is no playing state machine, or a state machine without any Rive Listeners set up on the state machine
 - `isTouchScrollEnabled` - *(optional)* For Rive Listeners, allows scrolling behavior to still occur on canvas elements when a touch/drag action is performed on touch-enabled devices. Otherwise, scroll behavior may be prevented on touch/drag actions on the canvas by default.
 - `automaticallyHandleEvents` - *(optional)* Enable Rive Events to be handled by the runtime. This means any special Rive Event may have a side effect that takes place implicitly. For example, if during the render loop an `OpenUrlEvent` is detected, the browser may try to open the specified URL in the payload. This flag is `false` by default to prevent any unwanted behaviors from taking place. This means any special Rive Event will have to be handled manually by subscribing to `EventType.RiveEvent`
-- `autoBind` - *(optional)* When set to `true`, Rive will automatically look for a default view model and view model instance to bind to the artboard.
 - `dispatchPointerExit` - *(optional)* For Rive Listeners, dispatches a pointer exit event when the pointer exits the canvas. This can be useful for ensuring hover states are properly reset when the user's cursor leaves the canvas area. Defaults to true.
 - `enableMultiTouch` - *(optional)* Enables multi-touch support for Rive Listeners. When enabled, the runtime will track and respond to multiple simultaneous touch points on touch-enabled devices. Defaults to false.
 - `drawingOptions` - *(optional)* An enum (`DrawOptimizationOptions`) that provides drawing optimization options. This can be used to configure rendering performance optimizations. The default is `DrawOptimizationOptions.DrawOnChanged`, which will only submit a draw command if the artboard has visually updated.
@@ -92,7 +89,7 @@ export interface RiveParameters {
 - `onLoop` - *(optional)* Callback that gets fired when the animation completes a loop.
 - `onStateChange` - *(optional)* Callback that gets fired when a state change occurs.
 - `onAdvance` - *(optional)* Callback that gets fired every frame when the Artboard has advanced.
-- `assetLoader` - *(optional)* Per-asset load hook (**`FileAsset`**, **`bytes`**, return boolean). Full patterns and examples: [Loading assets](/runtimes/web/loading-assets).
+- `assetLoader` - *(optional)* Callback to load assets. Full patterns and examples in the [loading assets](/runtimes/web/loading-assets) guide.
 - `enablePerfMarks` - *(optional)* Emits `performance.mark` / `performance.measure` entries for key Rive startup and render events for performance profiling purposes. False by default. Also available on `RuntimeLoader` and `RiveFile`.
 
 ### Deprecated parameters
@@ -107,9 +104,9 @@ The following APIs are available on a `Rive` instance after construction.
 
 ### Data binding (View Models)
 
-View model APIs on `Rive` are documented in depth on [Data binding](/runtimes/web/data-binding). For a quick reference on available APIs on the `Rive` instance, see below:
+View model APIs on `Rive` are documented in depth on the [data binding](/runtimes/web/data-binding) guide. For a quick reference on available APIs on the `Rive` instance, see below:
 
-- `viewModelInstance` (getter) — currently bound instance, if any. From an instance, you can get a reference to view model properties based on type:
+- `viewModelInstance` (getter) — currently bound instance, if any. This is available if `autoBind` is `true` and there is a default View Model instance to reference. From an instance, you can get a reference to view model properties based on type:
   - `.number(path: string): ViewModelInstanceNumber`
   - `.boolean(path: string): ViewModelInstanceBoolean`
   - `.string(path: string): ViewModelInstanceString`
@@ -127,7 +124,7 @@ View model APIs on `Rive` are documented in depth on [Data binding](/runtimes/we
 - `viewModelByName(name: string): ViewModel | null` - returns a `ViewModel` specified by name, or null if it doesn't exist or the file isn't loaded yet
 - `defaultViewModel(): ViewModel | null` - returns the default `ViewModel` for the file, or null if it doesn't exist or the file isn't loaded yet
 - `bindViewModelInstance(instance: ViewModelInstance | null): void` - Binds a `ViewModelInstance` to the state machine. Note that this is taken care of automatically if `autoBind` is `true`.
-- `enums(): DataEnum[]`
+- `enums(): DataEnum[]` - List of enums defined in the file
 - `getBindableArtboard(name: string): BindableArtboard | null` - Returns a named artboard as a `BindableArtboard`, which exposes data-binding APIs. Once you have a bindable artboard, you can set the `.viewModel` property on that artboard to bind a `ViewModelInstance`. Bindable artboards can be set as a value to an artboard property on a different ViewModel. Returns `null` if the artboard doesn't exist or the file isn't loaded.
 - `getDefaultBindableArtboard(): BindableArtboard | null` - Returns the file's default artboard as a `BindableArtboard`, or `null` if not available.
 
@@ -175,7 +172,7 @@ Resets the artboard, timeline animations, and/or state machines from the start (
 
 ### Canvas size and layout
 
-Use these APIs to respond to canvas or window resize changes to ensure Rive content continues to render crisply.
+Use these APIs to respond to canvas or window resize changes to ensure Rive content scales and renders clearly.
 
 #### resizeDrawingSurfaceToCanvas()
 
@@ -187,7 +184,7 @@ Sets the canvas element’s `width` and `height` from its CSS layout size and de
 In a future major version of this runtime, this API may be called internally on initialization by default, with an option to opt-out if you have specific `width` and `height` properties you want to set on the canvas.
 </Note>
 
-Typical usage (e.g. call from `onLoad` once layout is known): [Getting started](/runtimes/web/web-js), [Layout](/runtimes/web/layouts).
+See the [layout](/runtimes/web/layouts) guide for examples on usage.
 
 #### resizeToCanvas()
 
@@ -195,16 +192,15 @@ Typical usage (e.g. call from `onLoad` once layout is known): [Getting started](
 
 Sets layout bounds (`minX`, `minY`, `maxX`, `maxY`) from the current canvas pixel width and height. Call when the canvas backing store size changes.
 
-
-#### devicePixelRatioUsed
-
-Getter/setter for the DPR value applied when sizing the drawing surface (updated by `resizeDrawingSurfaceToCanvas()`).
-
 #### resetArtboardSize()
 
 `resetArtboardSize(): void`
 
 Restores artboard dimensions to the file's original values.
+
+#### devicePixelRatioUsed
+
+Getter/setter for the device pixel ratio (DPR) value applied when sizing the drawing surface (updated by `resizeDrawingSurfaceToCanvas()`).
 
 #### bounds
 
@@ -226,9 +222,9 @@ Avoid setting these manually when using [`resizeDrawingSurfaceToCanvas()`](#resi
 
 #### volume
 
-Getter/setter for artboard audio volume (combined with system audio when applicable). The default value is `1.0`, which means the volume is set by the default level for that artboard.
+Getter/setter for artboard audio volume. The default value is `1.0`, which means the volume is set by the default level for that artboard.
 
-See the [playing audio](/runtimes/web/playing-audio) guide for more details.
+See the [playing audio](/runtimes/web/playing-audio) guide for more details on controlling volume levels.
 
 ---
 
@@ -254,7 +250,7 @@ Unsubscribe using the same `EventType` and callback reference passed to `on()`.
 
 Removes all listeners for a given `EventType`, or all types if `type` is omitted.
 
-#### EventType
+#### Event types and payload
 
 ```typescript
 export enum EventType {
@@ -270,23 +266,17 @@ export enum EventType {
 }
 ```
 
-- **`Draw`** — Fired when a draw pass occurs (useful for advanced instrumentation).
-
-#### Event payload (`event.data`)
-
 The `Event` type is `{ type: EventType; data?: ... }`. The shape of `data` depends on `type`:
 
 - **Load** — `RiveFile`  (the loaded file handle) or the string "buffer" indicating a load from an ArrayBuffer
 - **LoadError** — `string` (error message)
 - **Play**, **Pause**, **Stop** — `string[]` (names of the animations or state machines affected)
-- **Loop** — `LoopEvent` (`{ animation: string; type: LoopType }`)
+- **Loop** — `LoopEvent` (`{ animation: string; type: LoopType }`). `LoopType` is `OneShot`, `Loop`, or `PingPong`.
 - **Advance** — `number` (elapsed seconds for that frame)
 - **StateChange** — `string[]` (state names that changed)
 - **RiveEvent** — custom or built-in Rive event payload (for example open-URL events)
 
-`LoopType` is `OneShot`, `Loop`, or `PingPong`.
-
-For **`EventType.RiveEvent`** listener examples (including `automaticallyHandleEvents`), see [Rive Events](/runtimes/web/rive-events). Prefer [Data binding](/runtimes/web/data-binding) for new work where it applies.
+For **`EventType.RiveEvent`** listener examples, see [Rive Events](/runtimes/web/rive-events). Prefer [Data binding](/runtimes/web/data-binding) for new work where it applies.
 
 ---
 
@@ -313,7 +303,7 @@ interface RiveLoadParameters {
 load(params: RiveLoadParameters): void
 ```
 
-Replaces the current `.riv` source and reinitializes the instance. Stops current playback and clears the previous file reference. One of `src`, `buffer`, or `riveFile` must be provided (same rule as the constructor). WASM is typically already loaded, so you usually only pay network cost if you point at a new URL.
+Replaces the current `.riv` source and reinitializes the instance. This also stops current playback and clears the previous file reference. One of `src`, `buffer`, or `riveFile` must be provided (same rule as the constructor) when resetting. WASM is typically already loaded, so you usually only pay network cost if you point at a new `.riv` hosted location.
 
 #### cleanup()
 
@@ -363,7 +353,8 @@ Not a method on the high-level **`Rive`** class, but available for using the low
 
 ### Rive Listeners
 
-Editor-side setup: [Listeners](/editor/state-machine/listeners) in the state machine. In most cases, this is automatically handled by the runtime.
+In most cases, listeners are automatically set up and handled during instantiation. See the guide on Rive [listeners](/editor/state-machine/listeners) for more details.
+The following APIs are available if you need specific control over Rive intercepting input events on the canvas.
 
 #### setupRiveListeners()
 
@@ -446,8 +437,6 @@ Once Rive is instantiated, you can inspect various properties of the playing ins
 
 When the file has finished loading, `contents` describes artboards, animations, state machines, and each state machine’s inputs. If not loaded, `undefined`.
 
-Shape (conceptual):
-
 ```typescript
 // Documented shape; types may not be exported from the package
 interface RiveFileContents {
@@ -464,6 +453,8 @@ interface RiveFileContents {
 
 ### `enableFPSCounter()` / `disableFPSCounter()`
 
+Enable FPS readouts for the current instance.
+
 ```typescript
 type FPSCallback = (fps: number) => void;
 
@@ -471,7 +462,7 @@ enableFPSCounter(fpsCallback?: FPSCallback): void;
 disableFPSCounter(): void;
 ```
 
-Without a callback, a fixed-position FPS readout may be injected (runtime-dependent).
+Without a callback, a fixed-position FPS readout may be injected in the corner of the viewport.
 
 ### Performance profiling marks
 
@@ -518,7 +509,7 @@ The following below are named exports from the same package.
 ### `RiveFile`
 
 `RiveFile` lets you parse a `.riv` file once and share the result across multiple `Rive` instances — avoiding redundant network fetches and parse overhead. See the full usage guide at [Caching a Rive file](/runtimes/web/caching-a-rive-file).
-In many cases, you may want to load a `RiveFile` before actually rendering the graphic on a canvas, if you want to preload Rive WASM and the `.riv` file ahead of rendering, or to get certain `.riv` file data.
+In many cases, you may want to load a `RiveFile` before actually rendering the graphic on a canvas. This is useful if you want to preload Rive WASM and the `.riv` file ahead of rendering, or to get certain `.riv` file data.
 
 #### `RiveFile` constructor parameters
 

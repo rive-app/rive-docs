@@ -366,6 +366,9 @@ const assetsFile = new RiveFile({
 assetsFile.init();
 ```
 
+In the example above, we load from a separate `swap_character_assets.riv` file to get the `Character 1` bindable artboard. We can then use this value in the main `swap_character_main.riv` file by setting the value of the `artboardProperty` to the loaded `characterArtboard`. This allows us to swap out the artboard being used in the main file at runtime.
+Additionally, you can set an external `ViewModelInstance` to that bindable artboard via the `.viewModel` setter.
+
 <Enums />
 
 ```typescript
