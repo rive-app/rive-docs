@@ -53,6 +53,7 @@ export const FeatureSupportGroup = ({
     ]
 
     const featuresInOrder = [
+        "semantics",
         "scripting",
         "dataBindingListsImagesArtboards",
         "rightToLeftLayoutsText",
@@ -81,6 +82,27 @@ export const FeatureSupportGroup = ({
     ]
 
     const features = {
+        semantics: {
+            title: "Semantics",
+            runtimes: {
+                webCanvas: { supported: false, description: "Not yet supported" },
+                webCanvasLite: { supported: false, description: "Not yet supported" },
+                webWebGL: { supported: false, description: "Not yet supported" },
+                webWebGL2: { supported: false, description: "Not yet supported" },
+                reactCanvas: { supported: false, description: "Not yet supported" },
+                reactCanvasLite: { supported: false, description: "Not yet supported" },
+                reactWebGL: { supported: false, description: "Not yet supported" },
+                reactWebGL2: { supported: false, description: "Not yet supported" },
+                reactNative: { supported: false, description: "Not yet supported" },
+                reactNativeLegacy: { supported: false, description: "Not yet supported" },
+                flutter: { supported: true, version: "0.14.6" },
+                apple: { supported: false, description: "Not yet supported" },
+                android: { supported: false, description: "Not yet supported" },
+                cpp: { supported: false, description: "Not yet supported" },
+                unity: { supported: false, description: "Not yet supported" },
+                unreal: { supported: false, description: "Not yet supported" }
+            }
+        },
         scripting: {
             title: "Scripting",
             runtimes: {
