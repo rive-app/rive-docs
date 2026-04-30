@@ -1,0 +1,37 @@
+---
+title: 'Open URL Events'
+description: "Using events to open URLs at runtime"
+noindex: true;
+---
+
+For general information about adding, creating, and signaling events, see [Rive Events](/editor/events/overview).
+
+### URL Properties
+
+When you select the **Open URL** Event type, additional configuration options become available.
+
+![Image](https://1159711764-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-M3EXlibk6bj2FzPQW-9%2Fuploads%2FrDR98sXAUkNZXqBbv0sy%2FCleanShot%202023-09-18%20at%2013.06.14%402x.png?alt=media&token=0c681b87-2667-48d3-aa24-3b550732032e)
+
+Enter the URL you want to open.
+
+<Info>
+  Include the URL protocol (for example, `http://` or `https://`) when linking to external domains.
+</Info>
+
+The **Target** determines where the URL opens in the browser.
+
+- `Blank` — Opens the link in a new tab or window, depending on browser settings.
+  **Note:** If the Event is not triggered by a user interaction (for example, via a Listener), the browser may block it as a popup.
+- `Parent` — Opens in the parent browsing context. If no parent exists, behaves like `Self`.
+- `Self` — Opens in the current browsing context.
+- `Top` — Opens in the topmost browsing context. If no ancestor exists, behaves like `Self`.
+
+<Info>
+  For security reasons, URLs are not opened by default in embeds or Marketplace posts. This behavior may change in the future.
+</Info>
+
+### Properties (Deprecated)
+
+Properties allow an Event to carry additional data to the runtime.
+
+This feature is deprecated and has been replaced by [Data Binding](/editor/data-binding).

@@ -1,91 +1,73 @@
 ---
 title: 'Events Overview'
 sidebarTitle: 'Overview'
-description: "Creating Rive Events"
+description: "Creating and signaling Rive Events"
 ---
 import { YouTube } from "/snippets/youtube.mdx";
 
+Events live within an artboard and are used to signal that something has happened. They can be fired from timelines, states, transitions, or listeners.
+
+Rive supports several types of Events:
+
+- [Open URL Event](/editor/events/open-url-events) — Opens a URL at runtime
+- [Audio Event](/editor/events/audio-events) — Plays a sound
+- [General Event (deprecated for runtime communication)](/editor/events/general-events) — Previously used to communicate with runtime code
 
 ## Creating an Event
 
-To create an Event, use the Events tool located in the Toolbar. Once the tool is active, click anywhere on the artboard to add a new event.
+<Steps>
+  <Step title="Create an Event">
+    Use the Events tool located in the Toolbar and click anywhere on the artboard.
 
-![Adding a new event](https://ucarecdn.com/4ed6c563-4c59-42c8-b40c-f502d5a8e1a4/)
+    ![Adding a new event](https://ucarecdn.com/4ed6c563-4c59-42c8-b40c-f502d5a8e1a4/)
 
-You'll notice that the Event is displayed on the artboard and in the Hierarchy.
+    You'll notice that the Event is displayed on the artboard and in the Hierarchy.
+  </Step>
+  <Step title="Name your Event">
+    Give your event a name so it’s easy to identify and reference.
 
-## Configuring an Event
+    You can rename it using the **Name** field, or by double-clicking the name directly on the artboard.
 
-Once we've added an event, we need to configure the Event using the Inspector.
+    ![Renaming an Event](https://ucarecdn.com/4558fb61-4649-4210-9ec6-c828c48ab2b2/)
+  </Step>
+  <Step title="Select an Event type">
+    The Type dropdown allows you to change the Event type between Audio, URL, and General.
 
-![Inspector view for the Event](/images/editor/events/45fd9a33-3b9f-4e29-bc82-c0a8dca96abd.webp)
+    ![Image](https://ucarecdn.com/9621c007-de2e-428c-95d7-837615a37caa/)
 
-### Name
+    Each event type has a different set of properties.
+  </Step>
+  <Step title="Set your Event Properties">
+    Each Event type has its own set of properties.
 
-The Name field is where we can give our Event a specific name.
+    For more information on the specific event types, see [Open URL Events](/editor/events/open-url-events), [Audio Events](/editor/events/audio-events), and [General Events (deprecated)](/editor/events/general-events).
+  </Step>
+</Steps>
 
-![Renaming an Event](https://ucarecdn.com/4558fb61-4649-4210-9ec6-c828c48ab2b2/)
-
-You can also rename the Event directly on the artboard.
-
-### Type
-
-The Type dropdown allows you to change the Event type between General and URL.
-
-![Image](https://ucarecdn.com/9621c007-de2e-428c-95d7-837615a37caa/)
-
-
-### URL Properties
-
-When an `Open URL` Event is selected, we have additional configuration options.
-
-Properties for Open URL Event
-
-![Image](https://1159711764-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-M3EXlibk6bj2FzPQW-9%2Fuploads%2FrDR98sXAUkNZXqBbv0sy%2FCleanShot%202023-09-18%20at%2013.06.14%402x.png?alt=media&token=0c681b87-2667-48d3-aa24-3b550732032e)
-
-In the text box, we will add the URL that we want our component to take us.
-
-<Info>Make sure to include the URL Protocol (i.e. "http://" or "https://") if you want to link to a new domain.</Info>
-
-The Target tells the user's browser where this URL should open. We have a few options: Blank, Parent, Self, and Top.
-
-- `Blank` - Usually opens the link in a new tab, but users can configure browsers to open a new window instead. **Note:** if the Event is not signaled from a Rive Listener, the browser may block and notify the user a popup was blocked
-- `Parent` - Opens in the parent browsing context of the current one. If no parent, behaves as `Self`.
-- Self - Opens in the current browsing context
-- Top - Opens in the topmost browsing context (the "highest" context that's an ancestor of the current one). If no ancestors, behaves as `Self`.
-
-<Info>At this time, by default, Rive will not open URLs when this type of event is reported in embed URLs or Marketplace posts due to security considerations. However, this may change in the future</Info>
-
-### Audio Properties
-
-See [Audio Events](/editor/events/audio-events).
-
-### Properties (Deprecated)
-
-Using events to communicate with runtime code is deprecated. When this was still valid, properties were a way to add values to Events.
-
-To communicate with runtime code, [Data Binding](/editor/data-binding) instead.
-
----
 
 ## Signaling an Event
 
-We can signal an event in three ways: via the timeline, on a state, or on a transition.
+We can signal an Event in four ways: from a timeline, a listener, a state, or a transition.
 
 ### Timeline
 
-Signaling an event through the timeline allows us to control the precise moment a piece of code will fire, like a sound effect.
+Signaling an Event from the timeline lets you control the exact moment in an animation when the Event fires.
 
-First, select the timeline you want to add the event to. Next, use the Report Event button in the inspector. Note that this key will be placed at the location of the playhead.
+First, select the timeline you want to add the Event to. Then use the **Report Event** button in the Inspector.
 
 ![Keying an Event on the timeline](https://ucarecdn.com/bd8d36f9-9cd1-4eec-9c37-85d4a0a19643/)
 
 ### Transition & State
 
-You can report an event on a Transition or a State.
+You can report an event on a Transition or a State. To report an event, select the desired State or Transition and use the `+` button next to the Events section in the Inspector.
 
-To report an event, select either the desired State or Transition and use the plus button next to the Events section in the Inspector.
 
 ![Signaling an Event via State or Transition](https://ucarecdn.com/d1a63666-0cce-408f-9364-826eed66b241/)
 
-The dropdown allows us to select any Event we've defined. Now that we've selected the Event, we can decide whether it is signaled at the start or end of the Transition or State.
+Now that we've selected the Event, we can decide whether it is signaled at the start or end of the Transition or State.
+
+### Listeners
+
+With your [Listener](/editor/state-machine/listeners) selected, click the `+` below the State Machine Graph, and select **Report Event**.
+
+![Trigger an Event with a listener](/images/editor/events/trigger-events-with-listeners.gif)
