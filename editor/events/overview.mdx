@@ -1,23 +1,10 @@
 ---
 title: 'Events Overview'
 sidebarTitle: 'Overview'
-description: "⚠️ DEPRECATED: Use Data Binding instead of Events"
+description: "Creating Rive Events"
 ---
 import { YouTube } from "/snippets/youtube.mdx";
 
-<Warning>
-  **DEPRECATION NOTICE:** This entire page documents the legacy Events system.
-  **For new projects:** Use [Data Binding](/runtimes/data-binding) instead.
-  **For existing projects:** Plan to migrate from Events to Data Binding as soon
-  as possible. **This content is provided for legacy support only.**
-</Warning>
-
-
-<YouTube id="M5DIDVtYI_Y" />
-
-Events are a way to send signals to your runtime code to execute a block of code at the right moment. They enhance the communication between designers and developers by passing along useful information. With them, we can do things like go to a URL, play a sound, have some HTML appear, or do anything else we may want to accomplish via code.
-
-Coordinating Rive events at design time and runtime will be important to ensure a successful integration in apps, games, and more.
 
 ## Creating an Event
 
@@ -35,7 +22,7 @@ Once we've added an event, we need to configure the Event using the Inspector.
 
 ### Name
 
-The Name field is where we can give our Event a specific name. It's important to do this so that at runtime, we can hook up the correct bits of code to their corresponding events.
+The Name field is where we can give our Event a specific name.
 
 ![Renaming an Event](https://ucarecdn.com/4558fb61-4649-4210-9ec6-c828c48ab2b2/)
 
@@ -47,19 +34,8 @@ The Type dropdown allows you to change the Event type between General and URL.
 
 ![Image](https://ucarecdn.com/9621c007-de2e-428c-95d7-837615a37caa/)
 
-### Properties
 
-Properties allow us to define extra information being passed to the Runtimes. For example, you may want to pass in the name of an audio file to play when the event is reported at runtime, or perhaps some other metadata for data analytics purposes.
-
-To add a new property, hit the plus button next to the Properties.
-
-![Add New Property](https://ucarecdn.com/d4cd3b8f-3765-4c28-9204-e5daf7fff0d8/)
-
-First, we want to change the name of our property to something identifiable. Next, we need to select what type of value our property will track such as a Number, Boolean, or String.
-
-![Rename and select input](https://ucarecdn.com/73d05fb1-7c9c-4c9c-a17c-51781ef30d0e/)
-
-### URL
+### URL Properties
 
 When an `Open URL` Event is selected, we have additional configuration options.
 
@@ -80,6 +56,18 @@ The Target tells the user's browser where this URL should open. We have a few op
 
 <Info>At this time, by default, Rive will not open URLs when this type of event is reported in embed URLs or Marketplace posts due to security considerations. However, this may change in the future</Info>
 
+### Audio Properties
+
+See [Audio Events](/editor/events/audio-events).
+
+### Properties (Deprecated)
+
+Using events to communicate with runtime code is deprecated. When this was still valid, properties were a way to add values to Events.
+
+To communicate with runtime code, [Data Binding](/editor/data-binding) instead.
+
+---
+
 ## Signaling an Event
 
 We can signal an event in three ways: via the timeline, on a state, or on a transition.
@@ -92,18 +80,12 @@ First, select the timeline you want to add the event to. Next, use the Report Ev
 
 ![Keying an Event on the timeline](https://ucarecdn.com/bd8d36f9-9cd1-4eec-9c37-85d4a0a19643/)
 
-Additionally, you can key a property to let the runtimes know that a particular boolean, number, or string property has a new value.
-
 ### Transition & State
 
-You can report an event on a Transition or a State. We typically do this to signal at runtime contextual information about what is happening in the State Machine. For example, if we want to have some element appear at the end of our Transition, we would want to use an event tied to a Transition to signal this.
+You can report an event on a Transition or a State.
 
 To report an event, select either the desired State or Transition and use the plus button next to the Events section in the Inspector.
 
 ![Signaling an Event via State or Transition](https://ucarecdn.com/d1a63666-0cce-408f-9364-826eed66b241/)
 
 The dropdown allows us to select any Event we've defined. Now that we've selected the Event, we can decide whether it is signaled at the start or end of the Transition or State.
-
-## Events at Runtime
-
-Listening for events at runtime is deprecated. Use [Data Binding](/editor/data-binding) instead.
