@@ -4,7 +4,9 @@ description: "Make your experiences accessible to screen readers by defining sem
 ---
 
 <Note>
-Semantics is currently only available in [Early Access](https://rive.app/downloads?utm_source=docs&utm_medium=content). Runtime support is in development or released as experimental.
+  Semantics is currently only available in [Early Access](https://rive.app/downloads?utm_source=docs&utm_medium=content). Runtime support is in development or released as experimental.
+
+  Have feedback? Join the [Early Access community](https://community.rive.app/c/early-access/) to share your thoughts and help shape the feature.
 </Note>
 
 Semantics describe what an element is and how it should be understood. Adding semantics makes your experiences accessible, allowing screen readers to correctly describe and navigate your content.
@@ -18,13 +20,13 @@ Semantics describe what an element is and how it should be understood. Adding se
 - [Actions](#actions) - interactions triggered by the user (tap, increase, decrease)
 
 <Note>
-**Semantics at Runtime**
+  **Semantics at Runtime**
 
-At runtime, semantics are converted into the platform’s accessibility system.
+  At runtime, semantics are converted into the platform’s accessibility system.
 
-On web, this creates accessible DOM elements (for example, divs with roles and attributes). On iOS and Android, a semantic tree is generated and exposed to the system’s accessibility APIs.
+  On web, this creates accessible DOM elements (for example, divs with roles and attributes). On iOS and Android, a semantic tree is generated and exposed to the system’s accessibility APIs.
 
-Rive handles mapping your semantics to each platform automatically.
+  Rive handles mapping your semantics to each platform automatically. For details on which runtimes currently support semantics, see [Feature Support](/feature-support).
 </Note>
 
 ## Adding Semantics
@@ -39,7 +41,7 @@ Rive handles mapping your semantics to each platform automatically.
     Use the dropdown to assign a [semantic role](#semantic-role), such as button, image, or heading.
   </Step>
   <Step title="Configure Properties">
-    Update the element’s [semantic properties](#semantic-properties), such as label, value, or hint.
+    Update the element’s [semantic properties](#semantic-properties), [Traits](#traits), and [State](#state).
   </Step>
 </Steps>
 
@@ -119,6 +121,12 @@ Keep semantic states in sync with your Rive file. For example, bind a boolean fr
 
 Hides the element from the accessibility tree.
 
+<Note>
+  Elements that are not visible (for example, hidden by layout or soloing) are automatically removed from the accessibility tree and do not require this property.
+
+  Use **Hidden** when an element is still present in the scene (for example, opacity is set to 0) but should not be exposed to assistive technologies.
+</Note>
+
 ### Disabled
 
 Marks the element as disabled and not interactive.
@@ -148,7 +156,7 @@ Semantic actions are interaction events triggered by assistive technologies. You
 
 ### Types of Actions
 
-Actions include **tap**, **increase**, and **decrease**.
+Actions include **tap**, **increase**, and **decrease**. Additional actions may be added in future releases.
 
 #### Tap
 
