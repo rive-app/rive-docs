@@ -114,3 +114,16 @@ You can add interpolation to your transition at the bottom of the Transitions Pa
 Note that the interpolation between states is most effective when your transition duration is longer.
 
 If you are unfamiliar with the basics of Interpolation, read more [Interpolation (Easing)](/editor/animate-mode/interpolation-easing).
+
+## Disabling a Transition
+
+You can temporarily disable a transition without deleting it. A disabled transition is ignored by the state machine — its conditions will not be evaluated and it will not fire — until you re-enable it.
+
+There are two ways to toggle a transition's enabled state:
+
+- **From the transition panel:** select the transition and click the enable/disable icon in the panel.
+- **From the canvas:** right-click the transition and choose **Disable transition** (or **Enable transition** if it's already disabled).
+
+![Disable transition from the right-click menu](/images/editor/state-machine/state-machine-transition-disable.gif)
+
+Both actions do the same thing. Disabling is useful when you want to isolate part of a state machine for testing, or temporarily remove a path without losing its configuration.
