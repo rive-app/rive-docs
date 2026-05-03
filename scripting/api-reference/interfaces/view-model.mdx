@@ -226,3 +226,22 @@ Returns the index.
 Returns -1 if view model does not have an index available.
 
 
+### `getImage`
+
+{/* getImage: (self: ViewModel, name:string) -> Property<Image>? */}
+<div class="signature">
+```lua
+getImage(name: string) -> Property<Image>?
+```
+</div>
+
+Looks up an image by name.
+Returns a `Property<Image>`.
+```lua highlight={3}
+local vmi = context:viewModel()
+if vmi then
+    local image1 = vmi:getImage('avatar')
+end
+```
+
+
