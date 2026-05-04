@@ -53,12 +53,18 @@ for (let i = 0; i < r.viewModelCount; i++) {
 const defaultVM = r.defaultViewModel();
 ```
 
-Alternatively, if you have access to the underlying Rive File object you can access the above methods on the file.
+Alternatively, if you have access to the underlying `RiveFile` object you can access the above methods on the file.
 
 ```typescript
-const namedVM = file.viewModelByName("My View Model");
-const indexedVM = file.viewModelByIndex(0);
-const defaultVM = file.defaultArtboardViewModel(artboard);
+const file = new RiveFile(/** ... */);
+await file.init();
+const vmFromFile = file.viewModelByName("My View Model");
+
+// Or grab the ViewModel via other means from the RiveFile underlying instance
+const fileInstance = file.getInstance();
+const namedVM = fileInstance.viewModelByName("My View Model");
+const indexedVM = fileInstance.viewModelByIndex(0);
+const defaultVM = fileInstance.defaultArtboardViewModel(artboard);
 ```
 
 <ViewModelInstances />
@@ -171,8 +177,8 @@ const r = new rive.Rive({
 
         // Other ways to set color
         colorProperty.rgb(255, 0, 0); // Set RGB to red
-        colorProperty.rbga(255, 0, 0, 128); // Set RGBA to red with 50% opacity
-        colorProperty.argba(128, 255, 0, 0); // Set RGBA to red with 50% opacity
+        colorProperty.rgba(255, 0, 0, 128); // Set RGBA to red with 50% opacity
+        colorProperty.argb(128, 255, 0, 0); // Set ARGB to red with 50% opacity
         colorProperty.opacity(0.5); // Set opacity to 50%
 
         // Triggers
@@ -365,6 +371,9 @@ const assetsFile = new RiveFile({
 });
 assetsFile.init();
 ```
+
+In the example above, we load from a separate `swap_character_assets.riv` file to get the `Character 1` bindable artboard. We can then use this value in the main `swap_character_main.riv` file by setting the value of the `artboardProperty` to the loaded `characterArtboard`. This allows us to swap out the artboard being used in the main file at runtime.
+Additionally, you can set an external `ViewModelInstance` to that bindable artboard via the `.viewModel` setter.
 
 <Enums />
 

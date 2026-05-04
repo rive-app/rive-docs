@@ -24,15 +24,15 @@ With the new listener selected, you’ll see its options displayed in a new pane
 
 # Elements of a Listener
 
-A listener consists of three parts: a Target, a User Action, and a Listener Action.
+A listener consists of three parts: a Target, a Listener Condition, and a Listener Action.
 
 ### Target
 
-The Target determines where to listen for the user action.
+The Target determines where to listen for the Listener Condition.
 
 **Hit Areas**
 
-In most cases the Target defines the interactive area that responds to user actions—similar to a hitbox in game development. When a user interacts with this area (e.g., by clicking or hovering), the associated listener is triggered.
+In most cases the Target defines the interactive area that responds to user interactions—similar to a hitbox in game development. When a user interacts with this area (e.g., by clicking or hovering), the associated listener is triggered.
 
 It's usually best to use shapes as targets—for example, an ellipse or rectangle with 0% opacity. If you use a Group as a target, the shapes within the group will serve as the interactive area.
 
@@ -56,9 +56,9 @@ The Opaque Target option determines whether or not pointer events will pass thro
 
 ![Opaque target](/images/CleanShot2025-06-12at15.11.08.gif)
 
-# User Action
+# Listener Condition
 
-User Actions are the interactions the listener is listening for. The drop-down menu below the Target button allows you to change which User Action the Listener checks for.
+The Listener Condition defines what the listener is listening for. This includes pointer-based interactions as well as data-driven triggers such as View Model property changes. The drop-down menu below the Target button allows you to change which Listener Condition the listener checks for.
 
 ![User action](/images/CleanShot2025-06-12at15.14.19.gif)
 
@@ -77,6 +77,16 @@ Available actions include:
 **Click** – A combination of pointer down and pointer up within the same target area.
 
 **Listen for Event** – Only visible if the target is an Artboard or Component. If multiple events exist, use the dropdown to select the specific one.
+
+**View Model Property Change** – Triggers when a selected View Model property changes. Only available when the Artboard is set as the Target. Use the dropdown to select the specific property to listen to.
+
+Note that it is not possible to specify an expected value—the listener fires whenever the property changes, regardless of the direction of the change. For example, a Boolean listener will fire whether the value changes from `true` to `false` or from `false` to `true`.
+
+![Listener configured to listen for a boolean View Model property change, with the Artboard set as the Target](/images/editor/state-machine/listener-view-model-property-change-boolean.png)
+
+<Info>
+  Since General Events are deprecated, **View Model Property Change** is the recommended way to react to changes happening inside a State Machine. In particular, Triggers are a direct replacement for Events: a Trigger can be fired from within the State Machine (e.g. on a state transition), and a listener set to **View Model Property Change** on that Trigger property will fire in response—giving you the same notification pattern without relying on Events.
+</Info>
 
 # Listener Action
 
@@ -127,11 +137,11 @@ For example, we can set Number to Number, but attach an add one converter. Every
 
 ### **Report Event**
 
-Fires an event each time the user action is triggered. This is the default option when an artboard or component instance is the target of a listener.
+Fires an event each time the Listener Condition is met. This is the default option when an artboard or component instance is the target of a listener.
 
 ### **Align Target**
 
-The Align Target action positions a target object to follow the pointer when the specified user action occurs within the listener area.
+The Align Target action positions a target object to follow the pointer when the Listener Condition is met within the listener area.
 
 Use the Target Picker to select the object you want to align.
 
