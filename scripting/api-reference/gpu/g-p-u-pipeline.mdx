@@ -1,0 +1,59 @@
+---
+title: GPUPipeline
+---
+
+A compiled GPU render pipeline (shaders + fixed-function state).
+
+
+## Constructors
+
+### `new`
+
+{/* new: (desc: {
+        --- Vertex shader (required).
+        vertex: Shader,
+        --- Fragment shader (optional for depth-only passes).
+        fragment: Shader?,
+        --- Vertex buffer layouts. Each entry maps to one buffer slot.
+        vertexLayout: { VertexBufferLayout },
+        --- Optional. Omit to derive a layout per `@group(N)` from the
+        --- shader (WebGPU's `layout: 'auto'`); retrieve via
+        --- `pipeline:getBindGroupLayout(N)` for BindGroup creation.
+        --- Supply explicitly only to share one layout across multiple
+        --- pipelines — e.g. a per-frame camera/lights group reused by
+        --- many materials, so a single BindGroup binds to all of them.
+        bindGroupLayouts: { GPUBindGroupLayout }?,
+        --- Color attachment formats and blend state. Must match the render pass.
+        colorTargets: { ColorTarget }?,
+        --- Depth/stencil state. Omit to disable depth testing entirely.
+        depthStencil: DepthStencilState?,
+        --- Face culling (default 'none').
+        cullMode: CullMode?,
+        --- Primitive topology (default 'triangle-list').
+        topology: PrimitiveTopology?,
+        --- Must match the sampleCount of the render target. Default: 1.
+        sampleCount: number?,
+    }) -> GPUPipeline */}
+<div class="signature">
+```lua
+new(desc: {--- Vertex shader(required). vertex: Shader, --- Fragment shader(optional for depth-only passes). fragment: Shader?, --- Vertex buffer layouts. Each entry maps to one buffer slot. vertexLayout:{VertexBufferLayout}, --- Optional. Omit to derive a layout per `@group(N)` from the --- shader(WebGPU's `layout: 'auto'`); retrieve via --- `pipeline: getBindGroupLayout(N)` for BindGroup creation. --- Supply explicitly only to share one layout across multiple --- pipelines — e.g. a per-frame camera/lights group reused by --- many materials, so a single BindGroup binds to all of them. bindGroupLayouts:{GPUBindGroupLayout}?, --- Color attachment formats and blend state. Must match the render pass. colorTargets:{ColorTarget}?, --- Depth/stencil state. Omit to disable depth testing entirely. depthStencil: DepthStencilState?, --- Face culling(default 'none'). cullMode: CullMode?, --- Primitive topology(default 'triangle-list'). topology: PrimitiveTopology?, --- Must match the sampleCount of the render target. Default: 1. sampleCount: number?,}) -> GPUPipeline
+```
+</div>
+
+## Methods
+
+### `getBindGroupLayout`
+
+{/* function getBindGroupLayout(self, groupIndex: number): GPUBindGroupLayout */}
+<div class="signature">
+```lua
+getBindGroupLayout(groupIndex: number) -> GPUBindGroupLayout
+```
+</div>
+
+Returns the layout the pipeline auto-derived for `@group(N)`.
+Errors if `bindGroupLayouts` was supplied at construction (reuse
+the explicit one) or if N is not bound by the shader. Mirrors
+WebGPU's `pipeline.getBindGroupLayout(index)`.
+
+

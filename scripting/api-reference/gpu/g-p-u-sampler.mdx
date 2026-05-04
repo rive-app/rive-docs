@@ -1,0 +1,36 @@
+---
+title: GPUSampler
+---
+
+GPUTextureView is declared in the shared "rive/gpu_types" builtin
+(loaded before rive/image) so that a single nominal type is used
+everywhere — both Image:view() and GPU render-pass APIs.
+Describes how a texture is sampled in a shader.
+
+
+## Constructors
+
+### `new`
+
+{/* new: (desc: {
+        --- Minification filter (default 'linear').
+        min: Filter?,
+        --- Magnification filter (default 'linear').
+        mag: Filter?,
+        --- Mip-map blending filter (default 'linear').
+        mipmap: Filter?,
+        --- U wrap mode (default 'clamp-to-edge').
+        wrapU: WrapMode?,
+        --- V wrap mode (default 'clamp-to-edge').
+        wrapV: WrapMode?,
+        --- Comparison function for shadow/depth samplers (omit for non-depth samplers).
+        compare: CompareFunction?,
+        --- Anisotropy level 1–16 (default 1).
+        maxAnisotropy: number?,
+    }?) -> GPUSampler */}
+<div class="signature">
+```lua
+new(desc: {--- Minification filter(default 'linear'). min: Filter?, --- Magnification filter(default 'linear'). mag: Filter?, --- Mip-map blending filter(default 'linear'). mipmap: Filter?, --- U wrap mode(default 'clamp-to-edge'). wrapU: WrapMode?, --- V wrap mode(default 'clamp-to-edge'). wrapV: WrapMode?, --- Comparison function for shadow/depth samplers(omit for non-depth samplers). compare: CompareFunction?, --- Anisotropy level 1–16(default 1). maxAnisotropy: number?,}?) -> GPUSampler
+```
+</div>
+

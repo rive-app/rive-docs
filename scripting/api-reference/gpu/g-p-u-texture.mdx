@@ -1,0 +1,106 @@
+---
+title: GPUTexture
+---
+
+A GPU texture (2-D, cube, 3-D, or array).
+
+
+## Fields
+
+### `width`
+
+Width of mip 0 in texels.
+
+
+### `height`
+
+Height of mip 0 in texels.
+
+
+### `format`
+
+Pixel format.
+
+
+## Constructors
+
+### `new`
+
+{/* new: (desc: {
+        width: number,
+        height: number,
+        --- Pixel format (default 'rgba8unorm').
+        format: TextureFormat?,
+        --- Dimensionality (default '2d').
+        type: TextureType?,
+        --- Allow use as a render target color attachment (default false).
+        renderTarget: boolean?,
+        --- Number of mip levels (default 1).
+        mipmaps: number?,
+        --- Array layers or cube faces (default 1).
+        layers: number?,
+        --- MSAA sample count (default 1). Must be >1 only with renderTarget=true.
+        --- MSAA textures cannot have mipmaps or be uploaded/sampled directly —
+        --- they must be resolved to a 1x texture first.
+        sampleCount: number?,
+        --- Debug label for GPU frame-capture tools.
+        label: string?,
+    }) -> GPUTexture */}
+<div class="signature">
+```lua
+new(desc: {width: number, height: number, --- Pixel format(default 'rgba8unorm'). format: TextureFormat?, --- Dimensionality(default '2d'). type: TextureType?, --- Allow use as a render target color attachment(default false). renderTarget: boolean?, --- Number of mip levels(default 1). mipmaps: number?, --- Array layers or cube faces(default 1). layers: number?, --- MSAA sample count(default 1). Must be>1 only with renderTarget=true. --- MSAA textures cannot have mipmaps or be uploaded/sampled directly — --- they must be resolved to a 1x texture first. sampleCount: number?, --- Debug label for GPU frame-capture tools. label: string?,}) -> GPUTexture
+```
+</div>
+
+## Methods
+
+### `view`
+
+{/* function view(self, desc: {
+        --- Reinterpret as a different dimensionality.
+        dimension: TextureType?,
+        --- Planes to expose for depth/stencil textures (default 'all').
+        --- Use 'depth-only' for texture_depth_2d in WGSL.
+        aspect: TextureAspect?,
+        --- First mip level (default 0).
+        baseMipLevel: number?,
+        --- Number of mip levels (default: all remaining).
+        mipCount: number?,
+        --- First array layer / cube face (default 0).
+        baseLayer: number?,
+        --- Number of layers / faces (default: all remaining).
+        layerCount: number?,
+    }?): GPUTextureView */}
+<div class="signature">
+```lua
+view(desc: {--- Reinterpret as a different dimensionality. dimension: TextureType?, --- Planes to expose for depth/stencil textures(default 'all'). --- Use 'depth-only' for texture_depth_2d in WGSL. aspect: TextureAspect?, --- First mip level(default 0). baseMipLevel: number?, --- Number of mip levels(default: all remaining). mipCount: number?, --- First array layer / cube face(default 0). baseLayer: number?, --- Number of layers / faces(default: all remaining). layerCount: number?,}?) -> GPUTextureView
+```
+</div>
+
+Create a view into a sub-range of this texture. All fields optional;
+omit desc entirely for a full-texture view.
+
+
+### `upload`
+
+{/* function upload(self, desc: {
+        --- Raw pixel bytes in the texture's format.
+        data: buffer,
+        --- Mip level (default 0).
+        mipLevel: number?,
+        --- Array layer / cube face (default 0).
+        layer: number?,
+        --- Upload region width (default: full mip width).
+        width: number?,
+        --- Upload region height (default: full mip height).
+        height: number?,
+    }): () */}
+<div class="signature">
+```lua
+upload(desc: {--- Raw pixel bytes in the texture's format. data: buffer, --- Mip level(default 0). mipLevel: number?, --- Array layer / cube face(default 0). layer: number?, --- Upload region width(default: full mip width). width: number?, --- Upload region height(default: full mip height). height: number?,}) -> ()
+```
+</div>
+
+Upload pixel data to a specific mip / layer.
+
+

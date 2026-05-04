@@ -1,0 +1,99 @@
+---
+title: GPUFeatures
+---
+
+Optional GPU capabilities. Returned by `context:features()`.
+
+
+## Fields
+
+### `bc`
+
+BC (S3TC/DXT) compressed texture formats supported.
+
+
+### `etc2`
+
+ETC2 compressed texture formats supported (common on mobile).
+
+
+### `astc`
+
+ASTC compressed texture formats supported.
+
+
+### `maxTextureSize2D`
+
+Maximum 2-D texture width or height in texels.
+
+
+### `maxTextureSizeCube`
+
+Maximum cube-map face size in texels.
+
+
+### `maxTextureSize3D`
+
+Maximum 3-D texture depth / layer count.
+
+
+### `anisotropicFiltering`
+
+Anisotropic texture filtering supported.
+
+
+### `texture3D`
+
+3-D textures supported.
+
+
+### `textureArrays`
+
+Texture arrays supported.
+
+
+### `colorBufferFloat`
+
+Floating-point color render targets supported (e.g. rgba16f as render target).
+
+
+### `perTargetBlend`
+
+Independent blend state per color attachment supported.
+
+
+### `perTargetWriteMask`
+
+Independent write mask per color attachment supported.
+
+
+### `drawBaseInstance`
+
+Non-zero firstInstance in draw calls supported.
+
+
+### `depthBiasClamp`
+
+Depth bias clamping (depthBiasClamp) supported in pipeline state.
+
+
+### `maxColorAttachments`
+
+Maximum number of simultaneous color attachments.
+
+
+### `maxUniformBufferSize`
+
+Maximum uniform buffer binding size in bytes.
+
+
+### `maxSamplers`
+
+Maximum number of samplers per shader stage.
+
+
+### `maxSamples`
+
+Maximum MSAA sample count for color render targets (always a power-of-two: 1, 2, 4, or 8).
+
+
