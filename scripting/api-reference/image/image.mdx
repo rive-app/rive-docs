@@ -59,3 +59,19 @@ end
 ```
 
 
+## Methods
+
+### `view`
+
+{/* function view(self): GPUTextureView */}
+<div class="signature">
+```lua
+view() -> GPUTextureView
+```
+</div>
+
+Returns a GPUTextureView for sampling this image in WGSL shaders.
+The view wraps the underlying GPU texture directly — no copy or decode.
+Requires a GPU context (only available when the file uses GPU canvases).
+
+
