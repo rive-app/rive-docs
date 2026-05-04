@@ -1,0 +1,139 @@
+---
+title: Promise
+---
+
+A value that will be available in the future.
+Use `andThen` to register callbacks, or `await` inside `async` to
+suspend until the value is ready.
+Supports cancellation: call `cancel()` to abort pending work and
+propagate cancellation to chained promises.
+
+
+## Fields
+
+### `andThen`
+
+Register a callback for when the promise fulfills.
+The handler may return a value that becomes the next promise's result.
+
+
+## Constructors
+
+### `new`
+
+{/* new: <T>(executor: (resolve: (value: T) -> (), reject: (error: any) -> (), onCancel: (hook: () -> ()) -> ()) -> ()) -> Promise<T> */}
+<div class="signature">
+```lua
+new(executor: (resolve:(value: T) ->(), reject:(error: any) ->(), onCancel:(hook:() ->()) ->()) ->()) -> Promise<T>
+```
+</div>
+
+Create a new promise with an executor function.
+The executor receives resolve, reject, and onCancel callbacks.
+
+
+### `resolve`
+
+{/* resolve: <T>(value: T?) -> Promise<T> */}
+<div class="signature">
+```lua
+resolve(value: T?) -> Promise<T>
+```
+</div>
+
+Create an already-resolved promise. Resolves with nil if no value given.
+
+
+### `reject`
+
+{/* reject: <T>(error: any?) -> Promise<T> */}
+<div class="signature">
+```lua
+reject(error: any?) -> Promise<T>
+```
+</div>
+
+Create an already-rejected promise. Error can be any Lua value.
+Uses a default reason if no argument is provided.
+
+
+### `all`
+
+{/* all: <T>(promises: {Promise<T>}) -> Promise<{T}> */}
+<div class="signature">
+```lua
+all(promises: {Promise<T>}) -> Promise<{T}>
+```
+</div>
+
+Wait for all promises to resolve; rejects if any rejects.
+On rejection, remaining promises are cancelled.
+
+
+## Methods
+
+### `catch`
+
+{/* catch: (self: Promise<T>, onRejected: (error: any) -> any) -> any */}
+<div class="signature">
+```lua
+catch(onRejected: (error: any) -> any) -> any
+```
+</div>
+
+Register a callback for when the promise rejects.
+Errors can be any Lua value (string, table, number, etc.).
+
+
+### `finally`
+
+{/* finally: (self: Promise<T>, onFinally: () -> ()) -> Promise<T> */}
+<div class="signature">
+```lua
+finally(onFinally: () ->()) -> Promise<T>
+```
+</div>
+
+Register a callback that runs whether the promise fulfills or rejects.
+
+
+### `cancel`
+
+{/* cancel: (self: Promise<T>) -> Promise<T> */}
+<div class="signature">
+```lua
+cancel() -> Promise<T>
+```
+</div>
+
+Cancel this promise. Fires the onCancel hook (if registered),
+propagates cancellation down to chained promises, and propagates
+up to the parent if all its consumers are cancelled.
+No-op if the promise is already settled.
+
+
+### `onCancel`
+
+{/* onCancel: (self: Promise<T>, hook: () -> ()) -> Promise<T> */}
+<div class="signature">
+```lua
+onCancel(hook: () ->()) -> Promise<T>
+```
+</div>
+
+Register a cancellation hook that fires when cancel() is called.
+Used to clean up in-flight work (e.g. abort a network request).
+
+
+### `getStatus`
+
+{/* getStatus: (self: Promise<T>) -> string */}
+<div class="signature">
+```lua
+getStatus() -> string
+```
+</div>
+
+Returns the current state: "Pending", "Fulfilled", "Rejected", or "Cancelled".
+
+
