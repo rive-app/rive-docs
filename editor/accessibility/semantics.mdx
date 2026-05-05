@@ -162,9 +162,11 @@ Actions include **tap**, **increase**, and **decrease**. Additional actions may 
 
 Represents activating an element (similar to a click).
 
-In most cases, **tap** is handled automatically by the platform and triggers standard pointer events. For example, activating a button with a screen reader behaves the same as a click, whether or not a tap listener is present.
+When a user activates an element using a screen reader, a **tap** action is triggered. You should listen for this action and handle it the same way as a standard click or pointer interaction.
 
-You typically only need a tap listener when implementing custom interactions.
+<Note>
+  It’s common to add both a **Click** and a **Semantic Tap** listener to the same element to support pointer and assistive interactions.
+</Note>
 
 #### Increase / Decrease
 
@@ -172,7 +174,7 @@ Used for adjustable elements like sliders.
 
 Users trigger these actions through assistive technologies—for example, by focusing a slider and swiping up or down with a screen reader, or using arrow keys on a keyboard.
 
-Unlike tap, these actions are not handled automatically. You should listen for **increase** and **decrease** and update your value accordingly.
+You should listen for **increase** and **decrease** and update your value accordingly.
 
 
 ### Semantic Inference
