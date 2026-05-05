@@ -1,0 +1,146 @@
+---
+title: GPURenderPass
+---
+
+An active render pass. Issue all draw calls before calling finish().
+
+
+## Methods
+
+### `setPipeline`
+
+{/* function setPipeline(self, pipeline: GPUPipeline): () */}
+<div class="signature">
+```lua
+setPipeline(pipeline: GPUPipeline) -> ()
+```
+</div>
+
+Bind a pipeline for subsequent draw calls.
+
+
+### `setVertexBuffer`
+
+{/* function setVertexBuffer(self, slot: number, buffer: GPUBuffer): () */}
+<div class="signature">
+```lua
+setVertexBuffer(slot: number, buffer: GPUBuffer) -> ()
+```
+</div>
+
+Bind a vertex buffer to slot (0-based).
+
+
+### `setIndexBuffer`
+
+{/* function setIndexBuffer(self, buffer: GPUBuffer, format: ('uint16' | 'uint32')?): () */}
+<div class="signature">
+```lua
+setIndexBuffer(buffer: GPUBuffer, format: ('uint16' | 'uint32')?) -> ()
+```
+</div>
+
+Bind an index buffer. format defaults to 'uint16'.
+
+
+### `setBindGroup`
+
+{/* function setBindGroup(self, groupIndex: number, bg: GPUBindGroup, dynamicOffsets: {number}?): () */}
+<div class="signature">
+```lua
+setBindGroup(groupIndex: number, bg: GPUBindGroup, dynamicOffsets: {number}?) -> ()
+```
+</div>
+
+Bind a pre-created BindGroup to a group slot.
+dynamicOffsets: one byte offset per dynamic UBO in this group
+(dynamic UBOs are declared on the pipeline via
+`BindGroupLayoutEntry.hasDynamicOffset`). Order matches the UBOs' appearance
+in `BindGroupDesc.ubos`. Typical 3D pattern: shared texture
+BindGroup at group 1, per-object UBO dynamic offset at group 0.
+
+
+### `setViewport`
+
+{/* function setViewport(self, x: number, y: number, w: number, h: number): () */}
+<div class="signature">
+```lua
+setViewport(x: number, y: number, w: number, h: number) -> ()
+```
+</div>
+
+Set the render viewport in pixels. Origin is top-left on all backends except GL (bottom-left).
+
+
+### `setScissorRect`
+
+{/* function setScissorRect(self, x: number, y: number, w: number, h: number): () */}
+<div class="signature">
+```lua
+setScissorRect(x: number, y: number, w: number, h: number) -> ()
+```
+</div>
+
+Set the scissor rectangle in pixels.
+
+
+### `setStencilReference`
+
+{/* function setStencilReference(self, ref: number): () */}
+<div class="signature">
+```lua
+setStencilReference(ref: number) -> ()
+```
+</div>
+
+Set the stencil reference value.
+
+
+### `setBlendColor`
+
+{/* function setBlendColor(self, r: number, g: number, b: number, a: number): () */}
+<div class="signature">
+```lua
+setBlendColor(r: number, g: number, b: number, a: number) -> ()
+```
+</div>
+
+Set the constant blend color for 'constant' / 'one-minus-constant' factors.
+
+
+### `draw`
+
+{/* function draw(self, vertexCount: number, instanceCount: number?, firstVertex: number?): () */}
+<div class="signature">
+```lua
+draw(vertexCount: number, instanceCount: number?, firstVertex: number?) -> ()
+```
+</div>
+
+Non-indexed draw. instanceCount defaults to 1, firstVertex to 0.
+
+
+### `drawIndexed`
+
+{/* function drawIndexed(self, indexCount: number, instanceCount: number?, firstIndex: number?): () */}
+<div class="signature">
+```lua
+drawIndexed(indexCount: number, instanceCount: number?, firstIndex: number?) -> ()
+```
+</div>
+
+Indexed draw. instanceCount defaults to 1, firstIndex to 0.
+
+
+### `finish`
+
+{/* function finish(self): () */}
+<div class="signature">
+```lua
+finish() -> ()
+```
+</div>
+
+Submit the pass. Any further method calls on this object will error.
+
+

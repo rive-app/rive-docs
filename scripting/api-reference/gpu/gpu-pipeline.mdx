@@ -1,0 +1,45 @@
+---
+title: GPUPipeline
+---
+
+A compiled GPU render pipeline (shaders + fixed-function state).
+
+
+## Constructors
+
+### `new`
+
+{/* new: (desc: {
+        vertex: Shader,
+        fragment: Shader?,
+        vertexLayout: { VertexBufferLayout },
+        bindGroupLayouts: { GPUBindGroupLayout }?,
+        colorTargets: { ColorTarget }?,
+        depthStencil: DepthStencilState?,
+        cullMode: CullMode?,
+        topology: PrimitiveTopology?,
+        sampleCount: number?,
+    }) -> GPUPipeline */}
+<div class="signature">
+```lua
+new(desc: {vertex: Shader, fragment: Shader?, vertexLayout:{VertexBufferLayout}, bindGroupLayouts:{GPUBindGroupLayout}?, colorTargets:{ColorTarget}?, depthStencil: DepthStencilState?, cullMode: CullMode?, topology: PrimitiveTopology?, sampleCount: number?,}) -> GPUPipeline
+```
+</div>
+
+## Methods
+
+### `getBindGroupLayout`
+
+{/* function getBindGroupLayout(self, groupIndex: number): GPUBindGroupLayout */}
+<div class="signature">
+```lua
+getBindGroupLayout(groupIndex: number) -> GPUBindGroupLayout
+```
+</div>
+
+Returns the layout the pipeline auto-derived for `@group(N)`.
+Errors if `bindGroupLayouts` was supplied at construction (reuse
+the explicit one) or if N is not bound by the shader. Mirrors
+WebGPU's `pipeline.getBindGroupLayout(index)`.
+
+
