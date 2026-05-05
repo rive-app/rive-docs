@@ -54,7 +54,7 @@ Each role has different available [properties](#semantic-properties).
 If your element doesn’t match a specific role, you can leave it set to **None**.
 
 <Info>
-  Some elements, like text inputs, automatically infer their semantic role.
+  Some elements, like text, automatically infer their semantic role. See [Semantic Inference](#semantic-inference) for more info.
 </Info>
 
 ## Semantic Properties
@@ -71,7 +71,7 @@ For example, a slider that controls volume might have the label:
 `Volume`
 
 <Info>
-  Text elements automatically use their text content as the label.
+  Text elements automatically use their text content as the label. See [Semantic Inference](#semantic-inference) for more info.
 </Info>
 
 ### Heading (Text only)
@@ -173,6 +173,13 @@ Used for adjustable elements like sliders.
 Users trigger these actions through assistive technologies—for example, by focusing a slider and swiping up or down with a screen reader, or using arrow keys on a keyboard.
 
 Unlike tap, these actions are not handled automatically. You should listen for **increase** and **decrease** and update your value accordingly.
+
+
+### Semantic Inference
+
+Some roles and properties are inferred based on the element they are applied to.
+
+For example, when adding semantics to a text element, the [Role](#semantic-role) is set to **Text**, and the [Value](#value) is automatically derived from the element’s text content.
 
 ---
 
