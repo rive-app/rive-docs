@@ -2,7 +2,8 @@
 title: Vector
 ---
 
-Represents a vector with x and y components.
+Represents a vector with up to three components. 2D APIs use only
+`x`/`y`; 3D APIs (e.g. `Mat4:transformPoint`) also populate `z`.
 
 
 ## Fields
@@ -22,6 +23,16 @@ The y component of the vector (read-only).
 ```lua
 local v = Vector.xy(10, -5)
 local yValue = v.y  -- -5
+```
+
+
+### `z`
+
+The z component of the vector (read-only). Zero for vectors created
+with `Vector.xy`; populated by 3D APIs that return a [Vector](/scripting/api-reference/vec2d/vector).
+```lua
+local v = m:transformPoint(1, 2, 3)
+local zValue = v.z
 ```
 
 
