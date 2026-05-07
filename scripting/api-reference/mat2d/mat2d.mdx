@@ -109,7 +109,7 @@ print(r.x, r.y) -- 10, 120
 ### `withTranslation`
 
 Creates a translation matrix from the given x and y values or from a
-[Vector](/scripting/api-reference/vec2d/vector) position.
+[Vector](/scripting/api-reference/vector/vector) position.
 ```lua highlight={2,6}
 -- From numbers
 local t1 = Mat2D.withTranslation(50, 100)
@@ -122,7 +122,7 @@ local t2 = Mat2D.withTranslation(pos)
 
 ### `withScale`
 
-Creates a scale matrix from the given x and y values or from a [Vector](/scripting/api-reference/vec2d/vector).
+Creates a scale matrix from the given x and y values or from a [Vector](/scripting/api-reference/vector/vector).
 ```lua highlight={2,5,9}
 -- Uniform scale (y defaults to x if omitted)
 local s1 = Mat2D.withScale(2)
@@ -321,7 +321,7 @@ __mul(rhs: Vector) -> Vector
 ```
 </div>
 
-Transforms the given [Vector](/scripting/api-reference/vec2d/vector) by the matrix and returns the result.
+Transforms the given [Vector](/scripting/api-reference/vector/vector) by the matrix and returns the result.
 ```lua highlight={5}
 local translation = Mat2D.values(1, 0, 0, 1, 50, 100)
 local point = Vector.xy(10, 20)

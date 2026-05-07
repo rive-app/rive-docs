@@ -176,6 +176,25 @@ local proj = Mat4.perspective(math.rad(60), 16 / 9, 0.1, 100)
 ```
 
 
+### `perspectiveReverseZ`
+
+{/* perspectiveReverseZ: (fovY: number, aspect: number, near: number) -> Mat4 */}
+<div class="signature">
+```lua
+perspectiveReverseZ(fovY: number, aspect: number, near: number) -> Mat4
+```
+</div>
+
+Right-handed perspective with reverse-Z (near -> 1, far -> 0) and an
+infinite far plane. Combined with a float depth buffer this gives a
+near-uniform 1/z depth distribution across the entire frustum — the
+best precision an arbitrary scene can achieve. The depth buffer must
+be cleared to 0 (not 1) and the depth test flipped to GREATER.
+```lua
+local proj = Mat4.perspectiveReverseZ(math.rad(60), 16 / 9, 0.1)
+```
+
+
 ### `multiply`
 
 {/* multiply: (output: Mat4, a: Mat4, b: Mat4) -> Mat4 */}
@@ -191,6 +210,29 @@ multiplication. `output` may alias `a` or `b`.
 ```lua
 local out = Mat4.identity()
 for i = 1, 1000 do Mat4.multiply(out, view, model) end
+```
+
+
+### `multiplyAffine`
+
+{/* multiplyAffine: (output: Mat4, a: Mat4, b: Mat4) -> Mat4 */}
+<div class="signature">
+```lua
+multiplyAffine(output: Mat4, a: Mat4, b: Mat4) -> Mat4
+```
+</div>
+
+Like `Mat4.multiply`, but assumes both inputs are affine (bottom row
+[0, 0, 0, 1] — any composition of translation/scale/rotation matrices
+qualifies). Skips the bottom-row work for ~25% fewer FLOPs per
+multiplication. The result is always affine. Caller must ensure both
+inputs are affine; passing a non-affine input gives an incorrect
+result.
+```lua highlight={3}
+local world = Mat4.identity()
+for _, bone in ipairs(bones) do
+    Mat4.multiplyAffine(world, parent, bone.local)
+end
 ```
 
 
@@ -211,6 +253,19 @@ success or false if `input` is singular.
 local inv = Mat4.identity()
 local ok = Mat4.invert(inv, m)
 ```
+
+
+### `invertAffine`
+
+{/* invertAffine: (output: Mat4, input: Mat4) -> boolean */}
+<div class="signature">
+```lua
+invertAffine(output: Mat4, input: Mat4) -> boolean
+```
+</div>
+
+Writes the affine inverse of `input` into `output`. See
+`Mat4:invertAffine` for the contract; faster than `Mat4.invert`.
 
 
 ## Methods
@@ -265,7 +320,7 @@ transformPoint(x: number, y: number, z: number) -> Vector
 </div>
 
 Transforms the given 3D point by the matrix (treating w = 1) and
-returns the result as a [Vector](/scripting/api-reference/vec2d/vector). If the homogeneous w of the result
+returns the result as a [Vector](/scripting/api-reference/vector/vector). If the homogeneous w of the result
 is non-unit (e.g. after a perspective matrix), the returned point is
 divided through.
 ```lua highlight={3}
@@ -338,5 +393,24 @@ __mul(rhs: Mat4) -> Mat4
 Returns the matrix product of two matrices. Useful for composing
 transforms, e.g. `proj * view * model`. Allocates a new [Mat4](/scripting/api-reference/mat4/mat4); in
 tight loops prefer `Mat4.multiply(out, a, b)` to reuse storage.
+
+
+### `invertAffine`
+
+{/* function invertAffine(self): Mat4? */}
+<div class="signature">
+```lua
+invertAffine() -> Mat4?
+```
+</div>
+
+Closed-form inverse for affine matrices (bottom row [0, 0, 0, 1] —
+any composition of `fromTranslation`/`fromScale`/`fromRotationX/Y/Z`
+qualifies). Returns nil if the linear part is singular. Faster than
+`:invert()` and avoids the full 4x4 cofactor work.
+```lua highlight={2}
+local m = Mat4.fromTranslation(3, -4, 5) * Mat4.fromRotationY(0.4)
+local inv = m:invertAffine()
+```
 
 
