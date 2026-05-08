@@ -1,0 +1,416 @@
+---
+title: Mat4
+---
+
+Represents a 4x4 column-major transformation matrix, suitable for 3D
+transforms and direct upload to a GPU uniform buffer.
+```lua
+-- Construct an MVP matrix
+local proj = Mat4.perspective(math.rad(60), 16 / 9, 0.1, 100)
+local view = Mat4.fromTranslation(0, 0, -3) -- camera 3 units back
+local model = Mat4.fromRotationY(angle)
+local mvp = proj * view * model
+
+-- Upload to a uniform buffer (64 bytes, column-major)
+mvp:writeToBuffer(uboBytes, 0)
+```
+
+
+## Fields
+
+### `m11`
+
+Element at row R, column C (1-indexed). For example `m.m12` is the
+entry in row 1, column 2.
+```lua
+local m = Mat4.identity()
+m.m11 = 2 -- scale x
+m.m22 = 3 -- scale y
+m.m14 = 50 -- translate x
+```
+
+
+### `m12`
+
+### `m13`
+
+### `m14`
+
+### `m21`
+
+### `m22`
+
+### `m23`
+
+### `m24`
+
+### `m31`
+
+### `m32`
+
+### `m33`
+
+### `m34`
+
+### `m41`
+
+### `m42`
+
+### `m43`
+
+### `m44`
+
+## Constructors
+
+### `identity`
+
+{/* identity: () -> Mat4 */}
+<div class="signature">
+```lua
+identity() -> Mat4
+```
+</div>
+
+Returns the 4x4 identity matrix.
+
+
+### `values`
+
+{/* values: (
+        c0x: number, c0y: number, c0z: number, c0w: number,
+        c1x: number, c1y: number, c1z: number, c1w: number,
+        c2x: number, c2y: number, c2z: number, c2w: number,
+        c3x: number, c3y: number, c3z: number, c3w: number) -> Mat4 */}
+<div class="signature">
+```lua
+values(c0x: number, c0y: number, c0z: number, c0w: number, c1x: number, c1y: number, c1z: number, c1w: number, c2x: number, c2y: number, c2z: number, c2w: number, c3x: number, c3y: number, c3z: number, c3w: number) -> Mat4
+```
+</div>
+
+Creates a matrix from 16 components, supplied column-major (column 0
+first: c0x, c0y, c0z, c0w, c1x, ...).
+
+
+### `fromTranslation`
+
+{/* fromTranslation: (x: number, y: number, z: number) -> Mat4 */}
+<div class="signature">
+```lua
+fromTranslation(x: number, y: number, z: number) -> Mat4
+```
+</div>
+
+Creates a translation matrix.
+```lua
+local t = Mat4.fromTranslation(10, 20, 30)
+```
+
+
+### `fromScale`
+
+{/* fromScale: (x: number, y: number?, z: number?) -> Mat4 */}
+<div class="signature">
+```lua
+fromScale(x: number, y: number?, z: number?) -> Mat4
+```
+</div>
+
+Creates a scale matrix. If `y` and `z` are omitted, uniform scaling
+by `x` is applied to all axes.
+```lua
+local s1 = Mat4.fromScale(2)        -- uniform 2x
+local s2 = Mat4.fromScale(1, 2, 1)  -- 2x in Y only
+```
+
+
+### `fromRotationX`
+
+{/* fromRotationX: (radians: number) -> Mat4 */}
+<div class="signature">
+```lua
+fromRotationX(radians: number) -> Mat4
+```
+</div>
+
+Creates a rotation matrix around the X axis (radians).
+
+
+### `fromRotationY`
+
+{/* fromRotationY: (radians: number) -> Mat4 */}
+<div class="signature">
+```lua
+fromRotationY(radians: number) -> Mat4
+```
+</div>
+
+Creates a rotation matrix around the Y axis (radians).
+
+
+### `fromRotationZ`
+
+{/* fromRotationZ: (radians: number) -> Mat4 */}
+<div class="signature">
+```lua
+fromRotationZ(radians: number) -> Mat4
+```
+</div>
+
+Creates a rotation matrix around the Z axis (radians).
+
+
+### `perspective`
+
+{/* perspective: (fovY: number, aspect: number, near: number, far: number) -> Mat4 */}
+<div class="signature">
+```lua
+perspective(fovY: number, aspect: number, near: number, far: number) -> Mat4
+```
+</div>
+
+Creates a right-handed perspective projection matrix that maps z to
+the [0, 1] NDC depth range. `fovY` is in radians; `near` and `far`
+are positive distances.
+```lua
+local proj = Mat4.perspective(math.rad(60), 16 / 9, 0.1, 100)
+```
+
+
+### `perspectiveReverseZ`
+
+{/* perspectiveReverseZ: (fovY: number, aspect: number, near: number) -> Mat4 */}
+<div class="signature">
+```lua
+perspectiveReverseZ(fovY: number, aspect: number, near: number) -> Mat4
+```
+</div>
+
+Right-handed perspective with reverse-Z (near -> 1, far -> 0) and an
+infinite far plane. Combined with a float depth buffer this gives a
+near-uniform 1/z depth distribution across the entire frustum — the
+best precision an arbitrary scene can achieve. The depth buffer must
+be cleared to 0 (not 1) and the depth test flipped to GREATER.
+```lua
+local proj = Mat4.perspectiveReverseZ(math.rad(60), 16 / 9, 0.1)
+```
+
+
+### `multiply`
+
+{/* multiply: (output: Mat4, a: Mat4, b: Mat4) -> Mat4 */}
+<div class="signature">
+```lua
+multiply(output: Mat4, a: Mat4, b: Mat4) -> Mat4
+```
+</div>
+
+Writes `a * b` into `output`, reusing its storage. Returns `output`.
+Use this in tight loops to avoid allocating a new [Mat4](/scripting/api-reference/mat4/mat4) per
+multiplication. `output` may alias `a` or `b`.
+```lua
+local out = Mat4.identity()
+for i = 1, 1000 do Mat4.multiply(out, view, model) end
+```
+
+
+### `multiplyAffine`
+
+{/* multiplyAffine: (output: Mat4, a: Mat4, b: Mat4) -> Mat4 */}
+<div class="signature">
+```lua
+multiplyAffine(output: Mat4, a: Mat4, b: Mat4) -> Mat4
+```
+</div>
+
+Like `Mat4.multiply`, but assumes both inputs are affine (bottom row
+[0, 0, 0, 1] — any composition of translation/scale/rotation matrices
+qualifies). Skips the bottom-row work for ~25% fewer FLOPs per
+multiplication. The result is always affine. Caller must ensure both
+inputs are affine; passing a non-affine input gives an incorrect
+result.
+```lua highlight={3}
+local world = Mat4.identity()
+for _, bone in ipairs(bones) do
+    Mat4.multiplyAffine(world, parent, bone.local)
+end
+```
+
+
+## Static Functions
+
+### `invert`
+
+{/* invert: (output: Mat4, input: Mat4) -> boolean */}
+<div class="signature">
+```lua
+invert(output: Mat4, input: Mat4) -> boolean
+```
+</div>
+
+Writes the inverse of `input` into `output`, returning true on
+success or false if `input` is singular.
+```lua
+local inv = Mat4.identity()
+local ok = Mat4.invert(inv, m)
+```
+
+
+### `invertAffine`
+
+{/* invertAffine: (output: Mat4, input: Mat4) -> boolean */}
+<div class="signature">
+```lua
+invertAffine(output: Mat4, input: Mat4) -> boolean
+```
+</div>
+
+Writes the affine inverse of `input` into `output`. See
+`Mat4:invertAffine` for the contract; faster than `Mat4.invert`.
+
+
+## Methods
+
+### `invert`
+
+{/* function invert(self): Mat4? */}
+<div class="signature">
+```lua
+invert() -> Mat4?
+```
+</div>
+
+Linear column-major access. Indices 1..4 are column 0, 5..8 are
+column 1, 9..12 are column 2, 13..16 are column 3 (translation).
+```lua
+local m = Mat4.identity()
+m[13] = 50 -- translate x
+m[14] = 100 -- translate y
+m[15] = 25 -- translate z
+```
+Returns the inverse of the matrix, or `nil` if the matrix is singular.
+```lua highlight={2}
+local m = Mat4.fromTranslation(50, 100, 25)
+local inv = m:invert()
+```
+
+
+### `transpose`
+
+{/* function transpose(self): Mat4 */}
+<div class="signature">
+```lua
+transpose() -> Mat4
+```
+</div>
+
+Returns the transpose of the matrix.
+```lua highlight={2}
+local m = Mat4.fromRotationY(math.rad(45))
+local t = m:transpose()
+```
+
+
+### `transformPoint`
+
+{/* function transformPoint(self, x: number, y: number, z: number): Vector */}
+<div class="signature">
+```lua
+transformPoint(x: number, y: number, z: number) -> Vector
+```
+</div>
+
+Transforms the given 3D point by the matrix (treating w = 1) and
+returns the result as a [Vector](/scripting/api-reference/vector/vector). If the homogeneous w of the result
+is non-unit (e.g. after a perspective matrix), the returned point is
+divided through.
+```lua highlight={3}
+local m = Mat4.fromTranslation(10, 20, 30)
+local p = m:transformPoint(1, 2, 3)
+print(p.x, p.y, p.z) -- 11, 22, 33
+```
+
+
+### `transformVec4`
+
+{/* function transformVec4(
+        self, x: number, y: number, z: number, w: number): (number, number, number, number) */}
+<div class="signature">
+```lua
+transformVec4(x: number, y: number, z: number, w: number) -> (number, number, number, number)
+```
+</div>
+
+Transforms the given homogeneous 4D vector by the matrix and returns
+the four components as multiple values, without perspective divide.
+Use this when the caller needs to inspect or carry the homogeneous
+`w` (e.g. clip-space coordinates).
+```lua highlight={2}
+local mvp = proj * view * model
+local x, y, z, w = mvp:transformVec4(px, py, pz, 1)
+```
+
+
+### `writeToBuffer`
+
+{/* function writeToBuffer(self, buf: buffer, byteOffset: number): () */}
+<div class="signature">
+```lua
+writeToBuffer(buf: buffer, byteOffset: number) -> ()
+```
+</div>
+
+Writes the matrix as 64 bytes (column-major, 16 float32 entries) into
+the given buffer at `byteOffset`. The buffer must have at least 64
+bytes available from the offset.
+```lua highlight={3}
+local mvp = Mat4.identity()
+local ubo = buffer.create(64)
+mvp:writeToBuffer(ubo, 0)
+```
+
+
+### `__eq`
+
+{/* function __eq(self, rhs: Mat4): boolean */}
+<div class="signature">
+```lua
+__eq(rhs: Mat4) -> boolean
+```
+</div>
+
+Returns true if all 16 components of the two matrices are equal.
+
+
+### `__mul`
+
+{/* function __mul(self, rhs: Mat4): Mat4 */}
+<div class="signature">
+```lua
+__mul(rhs: Mat4) -> Mat4
+```
+</div>
+
+Returns the matrix product of two matrices. Useful for composing
+transforms, e.g. `proj * view * model`. Allocates a new [Mat4](/scripting/api-reference/mat4/mat4); in
+tight loops prefer `Mat4.multiply(out, a, b)` to reuse storage.
+
+
+### `invertAffine`
+
+{/* function invertAffine(self): Mat4? */}
+<div class="signature">
+```lua
+invertAffine() -> Mat4?
+```
+</div>
+
+Closed-form inverse for affine matrices (bottom row [0, 0, 0, 1] —
+any composition of `fromTranslation`/`fromScale`/`fromRotationX/Y/Z`
+qualifies). Returns nil if the linear part is singular. Faster than
+`:invert()` and avoids the full 4x4 cofactor work.
+```lua highlight={2}
+local m = Mat4.fromTranslation(3, -4, 5) * Mat4.fromRotationY(0.4)
+local inv = m:invertAffine()
+```
+
+

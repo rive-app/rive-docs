@@ -1,0 +1,85 @@
+---
+title: GPUTexture
+---
+
+A GPU texture (2-D, cube, 3-D, or array).
+
+
+## Fields
+
+### `width`
+
+Width of mip 0 in texels.
+
+
+### `height`
+
+Height of mip 0 in texels.
+
+
+### `format`
+
+Pixel format.
+
+
+## Constructors
+
+### `new`
+
+{/* new: (desc: {
+        width: number,
+        height: number,
+        format: TextureFormat?,
+        type: TextureType?,
+        renderTarget: boolean?,
+        mipmaps: number?,
+        layers: number?,
+        sampleCount: number?,
+        label: string?,
+    }) -> GPUTexture */}
+<div class="signature">
+```lua
+new(desc: {width: number, height: number, format: TextureFormat?, type: TextureType?, renderTarget: boolean?, mipmaps: number?, layers: number?, sampleCount: number?, label: string?,}) -> GPUTexture
+```
+</div>
+
+## Methods
+
+### `view`
+
+{/* function view(self, desc: {
+        dimension: TextureType?,
+        aspect: TextureAspect?,
+        baseMipLevel: number?,
+        mipCount: number?,
+        baseLayer: number?,
+        layerCount: number?,
+    }?): GPUTextureView */}
+<div class="signature">
+```lua
+view(desc: {dimension: TextureType?, aspect: TextureAspect?, baseMipLevel: number?, mipCount: number?, baseLayer: number?, layerCount: number?,}?) -> GPUTextureView
+```
+</div>
+
+Create a view into a sub-range of this texture. All fields optional;
+omit desc entirely for a full-texture view.
+
+
+### `upload`
+
+{/* function upload(self, desc: {
+        data: buffer,
+        mipLevel: number?,
+        layer: number?,
+        width: number?,
+        height: number?,
+    }): () */}
+<div class="signature">
+```lua
+upload(desc: {data: buffer, mipLevel: number?, layer: number?, width: number?, height: number?,}) -> ()
+```
+</div>
+
+Upload pixel data to a specific mip / layer.
+
+

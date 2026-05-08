@@ -1,0 +1,64 @@
+---
+title: Canvas
+---
+
+A Rive 2-D renderer canvas. Use `.image` with `renderer:drawImage()`.
+Call `beginFrame()` to get a Renderer, issue draw calls, then `endFrame()`.
+
+
+## Fields
+
+### `image`
+
+Backing image for `renderer:drawImage()`.
+
+
+### `width`
+
+Width in pixels.
+
+
+### `height`
+
+Height in pixels.
+
+
+## Methods
+
+### `resize`
+
+{/* function resize(self, width: number, height: number): () */}
+<div class="signature">
+```lua
+resize(width: number, height: number) -> ()
+```
+</div>
+
+Resize the canvas. Must not be called between beginFrame() and endFrame().
+
+
+### `beginFrame`
+
+{/* function beginFrame(self, desc: { clearColor: Color? }?): Renderer */}
+<div class="signature">
+```lua
+beginFrame(desc: {clearColor: Color?}?) -> Renderer
+```
+</div>
+
+Begin a Rive frame. Returns a Renderer valid until endFrame().
+clearColor is an ARGB integer (e.g. 0xFF000000 = opaque black; default transparent).
+
+
+### `endFrame`
+
+{/* function endFrame(self): () */}
+<div class="signature">
+```lua
+endFrame() -> ()
+```
+</div>
+
+Flush draw calls to the backing texture and release the Renderer.
+
+

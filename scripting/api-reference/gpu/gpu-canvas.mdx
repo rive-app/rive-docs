@@ -1,0 +1,75 @@
+---
+title: GPUCanvas
+---
+
+A GPU canvas. Use `.image` with `renderer:drawImage()` to composite
+the result. Issue GPU draw calls via `beginRenderPass()`.
+
+
+## Fields
+
+### `image`
+
+Backing image for `renderer:drawImage()`.
+
+
+### `width`
+
+Width in pixels.
+
+
+### `height`
+
+Height in pixels.
+
+
+### `format`
+
+Native pixel format of the canvas backing texture ('bgra8unorm' on D3D, 'rgba8unorm' elsewhere).
+MSAA resolve requires source and target to have identical formats — always
+derive GPUTexture and pipeline formats from this value:
+```lua
+  local fmt = canvas.format
+  GPUPipeline.new({ colorTargets = {{ format = fmt }}, sampleCount = 4 })
+```
+
+
+## Methods
+
+### `resize`
+
+{/* function resize(self, width: number, height: number): () */}
+<div class="signature">
+```lua
+resize(width: number, height: number) -> ()
+```
+</div>
+
+Resize the canvas. Recreates the backing texture and any depth buffer.
+
+
+### `beginRenderPass`
+
+{/* function beginRenderPass(self, desc: RenderPassDesc?): GPURenderPass */}
+<div class="signature">
+```lua
+beginRenderPass(desc: RenderPassDesc?) -> GPURenderPass
+```
+</div>
+
+Begin a GPU render pass targeting this canvas.
+Omitting desc.color renders to the canvas's own backing texture.
+
+
+### `colorView`
+
+{/* function colorView(self): GPUTextureView */}
+<div class="signature">
+```lua
+colorView() -> GPUTextureView
+```
+</div>
+
+View of the canvas backing texture. Use as a sampler input in a subsequent pass.
+
+

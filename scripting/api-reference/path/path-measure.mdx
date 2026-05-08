@@ -62,7 +62,7 @@ positionAndTangent(distance: number) -> (Vector, Vector)
 
 Returns the position and tangent vector at the given distance along the
 path. The distance is clamped to the valid range [0, length]. Returns two
-[Vector](/scripting/api-reference/vec2d/vector) values: the position and the normalized tangent vector.
+[Vector](/scripting/api-reference/vector/vector) values: the position and the normalized tangent vector.
 ```lua highlight={10}
 function draw(self: PathMeasureDemo, renderer: Renderer)
   -- Draw the base path
@@ -94,7 +94,7 @@ warp(source: Vector) -> Vector
 Warps a point onto the path. The x-coordinate of the source point is
 interpreted as a distance along the path, and the y-coordinate is used as
 an offset along the tangent direction. Returns the warped position as a
-[Vector](/scripting/api-reference/vec2d/vector).
+[Vector](/scripting/api-reference/vector/vector).
 ```lua highlight={17}
 function draw(self: PathMeasureDemo, renderer: Renderer)
   -- Draw the base path

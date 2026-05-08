@@ -1,0 +1,28 @@
+---
+title: BindGroupLayoutDesc
+---
+
+Descriptor for creating a GPUBindGroupLayout. Always derived from a
+shader — the binding map walks shader → kind / visibility / texture
+metadata / native slots so callers don't have to know any of them.
+
+
+## Fields
+
+### `shader`
+
+Source shader. Layouts cannot be built without one.
+
+
+### `groupIndex`
+
+WGSL `@group(N)` this layout describes. Valid range [0, 4).
+
+
+### `dynamicUBOs`
+
+WGSL @binding values whose UBO entries should set hasDynamicOffset.
+
+
+### `label`
+

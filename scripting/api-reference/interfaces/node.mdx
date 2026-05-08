@@ -130,6 +130,19 @@ end
 ```
 
 
+### `drawCanvas`
+
+{/* drawCanvas: ((self: T) -> ())? */}
+<div class="signature">
+```lua
+drawCanvas(self: T) -> ()
+```
+</div>
+
+Called during the drawCanvases pass (before draw).
+All canvas beginFrame/beginRenderPass calls must happen here.
+
+
 ### `pointerDown`
 
 {/* pointerDown: (self: T, event:PointerEvent) -> ()? */}

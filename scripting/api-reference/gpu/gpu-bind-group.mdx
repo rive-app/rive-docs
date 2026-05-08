@@ -1,0 +1,21 @@
+---
+title: GPUBindGroup
+---
+
+Pre-baked resource bindings reusable across many draw calls.
+Avoids creating new bind groups every draw — critical for 3D scene
+performance. Holds strong references to all bound resources (Buffer,
+TextureView, Sampler), keeping them alive for the BindGroup's lifetime.
+
+
+## Constructors
+
+### `new`
+
+{/* new: (desc: BindGroupDesc) -> GPUBindGroup */}
+<div class="signature">
+```lua
+new(desc: BindGroupDesc) -> GPUBindGroup
+```
+</div>
+
