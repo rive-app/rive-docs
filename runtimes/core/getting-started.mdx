@@ -1,0 +1,176 @@
+---
+title: "Getting Started"
+description: "Build rive-cpp and render a .riv file."
+---
+
+This guide walks you through cloning the runtime, compiling it, and getting a
+`.riv` file on screen with a real GPU backend.
+
+## Prerequisites
+
+- A recent **clang** or **MSVC** that supports C++17.
+- [**premake5**](https://premake.github.io/) on your `PATH`.
+- Platform SDK for your renderer of choice (Windows SDK for D3D, Xcode for
+  Metal, Vulkan SDK for Vulkan, etc).
+
+<Note>
+  Rive uses clang [vector
+  builtins](https://reviews.llvm.org/D111529). When building with clang, use the
+  latest version available — older toolchains may fail to compile the renderer.
+</Note>
+
+## 1. Clone and build the runtime
+
+<CodeGroup>
+```bash macOS / Linux
+git clone https://github.com/rive-app/rive-runtime.git
+cd rive-runtime
+./build.sh release
+```
+
+```powershell Windows
+git clone https://github.com/rive-app/rive-runtime.git
+cd rive-runtime
+# premake5 generates a .sln you can open in Visual Studio,
+# or you can drive the build with msbuild / clang directly.
+premake5 vs2022
+```
+</CodeGroup>
+
+Build artifacts land in `out/release/`. The library you'll link against is
+`librive.a` (or `rive.lib` on Windows), plus the per-backend renderer
+libraries (`librive_pls_renderer.a`, etc).
+
+## 2. Add headers to your project
+
+The public include roots are:
+
+```
+rive-runtime/include            # rive-cpp core
+rive-runtime/renderer/include   # GPU renderer (only if you use rive::gpu)
+```
+
+A minimal CMake snippet:
+
+```cmake
+target_include_directories(my_app PRIVATE
+  ${RIVE}/include
+  ${RIVE}/renderer/include
+)
+
+target_link_libraries(my_app PRIVATE
+  rive
+  rive_pls_renderer
+  # plus your backend, e.g. d3d11, dxgi on Windows
+)
+```
+
+## 3. Load a `.riv` file
+
+```cpp
+#include "rive/file.hpp"
+#include <fstream>
+#include <vector>
+
+using namespace rive;
+
+std::vector<uint8_t> readFile(const char* path) {
+    std::ifstream in(path, std::ios::binary);
+    return {std::istreambuf_iterator<char>(in), {}};
+}
+
+// `factory` is a Factory* — usually your RenderContext (which inherits Factory).
+auto bytes = readFile("hero.riv");
+
+ImportResult result;
+rcp<File> file = File::import(bytes, factory, &result);
+if (!file || result != ImportResult::success) {
+    // Bad file or unsupported version.
+    return;
+}
+```
+
+## 4. Pick an artboard and a scene
+
+```cpp
+#include "rive/artboard.hpp"
+#include "rive/scene.hpp"
+
+std::unique_ptr<ArtboardInstance> artboard = file->artboardDefault();
+
+// Prefer a state machine — it's the only Scene that handles pointer events.
+std::unique_ptr<Scene> scene = artboard->defaultStateMachine();
+if (!scene) {
+    scene = artboard->defaultScene(); // falls back to first animation
+}
+```
+
+## 5. Advance and draw
+
+A render loop has three phases each frame: **advance**, **draw**, **flush**.
+
+```cpp
+#include "rive/renderer/rive_renderer.hpp"
+#include "rive/renderer/render_context.hpp"
+
+void renderFrame(float dt) {
+    scene->advanceAndApply(dt);
+
+    RenderContext::FrameDescriptor frame{};
+    frame.renderTargetWidth  = windowWidth;
+    frame.renderTargetHeight = windowHeight;
+    frame.clearColor         = 0xff202020;   // ARGB
+    renderContext->beginFrame(frame);
+
+    RiveRenderer renderer(renderContext.get());
+    renderer.save();
+    renderer.align(Fit::contain,
+                   Alignment::center,
+                   AABB(0, 0, windowWidth, windowHeight),
+                   artboard->bounds());
+    scene->draw(&renderer);
+    renderer.restore();
+
+    RenderContext::FlushResources flush{};
+    flush.renderTarget = renderTarget.get();
+    renderContext->flush(flush);
+}
+```
+
+<Tip>
+  Use a **fixed timestep** for `advanceAndApply` (e.g. 1/120s) and accumulate
+  real elapsed time. State machines are deterministic at fixed steps, which
+  makes playback reproducible across machines and frame rates. See
+  [Rendering Loop](/runtimes/cpp/rendering-loop).
+</Tip>
+
+## 6. Forward input (optional)
+
+If you used a state machine, route pointer events back through the scene so
+listeners and hit-testing work:
+
+```cpp
+Mat2D align = computeAlignment(Fit::contain,
+                               Alignment::center,
+                               AABB(0, 0, w, h),
+                               artboard->bounds());
+
+Vec2D toArtboard(int x, int y) {
+    return align.invertOrIdentity() * Vec2D{(float)x, (float)y};
+}
+
+scene->pointerMove(toArtboard(mouseX, mouseY));
+scene->pointerDown(toArtboard(mouseX, mouseY));
+scene->pointerUp(toArtboard(mouseX, mouseY));
+```
+
+## What's next
+
+<CardGroup cols={2}>
+  <Card title="Renderers" icon="microchip" href="/runtimes/cpp/renderers">
+    Wire up your platform's GPU backend.
+  </Card>
+  <Card title="State Machines" icon="diagram-project" href="/runtimes/cpp/state-machines">
+    Read & write inputs, listen for events, control transitions.
+  </Card>
+</CardGroup>
