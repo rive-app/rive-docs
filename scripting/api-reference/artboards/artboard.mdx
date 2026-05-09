@@ -120,6 +120,20 @@ end
 ```
 
 
+### `drawCanvas`
+
+{/* drawCanvas: (self: Artboard<T>) -> () */}
+<div class="signature">
+```lua
+drawCanvas() -> ()
+```
+</div>
+
+Use this method to call drawCanvas on instances that
+are created dynamically. This must only be called during an active
+canvas drawing phase, such as from within a drawCanvas callback.
+
+
 ### `advance`
 
 {/* advance: (self: Artboard<T>, seconds: number) -> boolean */}
