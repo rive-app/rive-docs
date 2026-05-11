@@ -100,12 +100,24 @@ SMIBool*    isOpen   = scene->getBool("Open");
 SMINumber*  progress = scene->getNumber("Progress");
 SMITrigger* fire     = scene->getTrigger("Fire");
 
-isOpen->value(true);
-progress->value(0.42f);
-fire->fire();        // edge-triggered
+if (isOpen != nullptr) {
+    isOpen->value(true);
+}
+if (progress != nullptr) {
+    progress->value(0.42f);
+}
+if (fire != nullptr) {
+    fire->fire();    // edge-triggered
+}
 
-bool   currentOpen     = isOpen->value();
-float  currentProgress = progress->value();
+bool  currentOpen     = false;
+float currentProgress = 0.0f;
+if (isOpen != nullptr) {
+    currentOpen = isOpen->value();
+}
+if (progress != nullptr) {
+    currentProgress = progress->value();
+}
 ```
 
 `getBool` / `getNumber` / `getTrigger` return `nullptr` if the named input
