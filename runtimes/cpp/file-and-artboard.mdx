@@ -56,7 +56,7 @@ std::string name = file->artboardNameAt(0);
 
 Artboard* byName = file->artboard("Hero");          // by name
 Artboard* byIndex = file->artboard(size_t{0});      // by index
-Artboard* first = file->artboard();                 // backboard's first
+Artboard* first = file->artboard();                 // file's first artboard
 ```
 
 `Artboard*` returned by these accessors is **read-only metadata** — do not
