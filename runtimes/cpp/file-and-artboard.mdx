@@ -69,8 +69,8 @@ advance or draw it. To play an artboard, create an instance.
 std::unique_ptr<ArtboardInstance> ab = file->artboardDefault();
 
 // Or by name / index:
-auto ab = file->artboardNamed("Hero");
-auto ab = file->artboardAt(2);
+auto namedAb = file->artboardNamed("Hero");
+auto indexedAb = file->artboardAt(2);
 ```
 
 Each call returns a **fresh, independent copy**. You can have many instances of
