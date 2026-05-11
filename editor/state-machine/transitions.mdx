@@ -7,7 +7,7 @@ import { YouTube } from '/snippets/youtube.mdx'
 
 <YouTube id="C4KNgrrqt7k" />
 
-Transitions supply the logical map for the state machine to follow. There are a number of considerations and configurable properties for transitions that we will cover below. Note that we’ll briefly discuss Inputs as well, so be sure to read more about those as well here.
+Transitions define how and when a State Machine moves between states. They can use [Conditions](#conditions) to determine when a transition occurs and [Actions](#actions) to perform behavior during the transition.
 
 ## Creating a new Transition
 
@@ -65,7 +65,7 @@ The Pause When Exiting option pauses the animation you are leaving from during t
 
 As we discussed in the duration section, when a transition happens, properties from the first state are mixed with the first key of the next state. In reality, the animation your state machine leaves from continues to play as the transition happens.
 
-### Conditions
+## Conditions
 
 <YouTube id="30HJo_DaLDk" />
 
@@ -73,7 +73,7 @@ Conditions are the rules for our transitions. Without conditions, our transition
 
 ![Conditions](/images/editor/state-machine/a5336985-e1d4-4892-a04a-deee93e6a8b1.webp)
 
-#### Adding a new condition
+### Adding a new condition
 
 To add a new condition to a transition, hit the plus button next to the Conditions section.
 
@@ -85,29 +85,66 @@ Each new condition provides a dropdown showing all of the inputs you’ve added 
 
 Note that you can add multiple conditions to a single transition to create an “and” transition.
 
-#### Configuring a Boolean
+### Configuring a Boolean
 
 When you configure a boolean, you can decide if the transition happens when said boolean is either true or false.
 
 ![Configure a boolean](https://ucarecdn.com/8443963d-69c7-44a7-9ced-b01d28210b5e/)
 
-#### Configuring a Number
+### Configuring a Number
 
 When you configure a number input, you can tell the transition to happen when a numerical condition happens such as equalling a specific number, being greater than or less than a specific number.
 
 ![Configure number input](https://ucarecdn.com/3b6da0a7-b56f-4cb1-89f0-831af97fdbce/)
 
-#### Configuring a Trigger
+### Configuring a Trigger
 
 When you add a trigger input to a transition, you are telling the transition to fire when that trigger occurs.
 
 ![Configuring triggers](https://ucarecdn.com/c8c6a924-f62a-4e3a-80cb-83c758a37343/)
 
-#### Custom Transitions
+### Custom Transitions
 
 [Transition Condition Scripts](/scripting/protocols/transition-condition-scripts) let you define custom conditions when built-in comparisons aren’t enough—such as transitions that depend on complex logic or multiple view model properties evaluated together.
 
-### Interpolation
+## Actions
+
+Transitions can also perform actions when the transition occurs.
+
+Unlike conditions, which determine whether a transition can happen, actions perform an operation when the transition is triggered.
+
+Actions can be used to:
+
+- Set property values
+- Report events
+- Align targets
+- Control focus
+- Fire a scripted action
+
+### Action Timing
+
+Each action can run at either:
+
+- **Start** — Runs when the transition begins
+- **End** — Runs after the transition completes
+
+This allows you to control exactly when the action occurs relative to the blend between states.
+
+
+### Creating an Action
+
+![Creating an transition action](/images/editor/state-machine/transitions/transition-action.gif)
+
+<Steps>
+  <Step title="Add an action">
+    With a transition selected, go to the Actions tab and click the `+` button, and select an action type.
+  </Step>
+  <Step title="Configure the action">
+    Configure the action based on the action type.
+  </Step>
+</Steps>
+
+## Interpolation
 
 You can add interpolation to your transition at the bottom of the Transitions Panel. By default, the interpolation is set to linear, but you can use the cubic and hold interpolations.
 
