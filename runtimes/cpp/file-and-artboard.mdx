@@ -54,9 +54,9 @@ captures.
 size_t count = file->artboardCount();
 std::string name = file->artboardNameAt(0);
 
-Artboard* artboard = file->artboard("Hero");        // by name
-Artboard* artboard = file->artboard(size_t{0});     // by index
-Artboard* artboard = file->artboard();              // backboard's first
+Artboard* byName = file->artboard("Hero");          // by name
+Artboard* byIndex = file->artboard(size_t{0});      // by index
+Artboard* first = file->artboard();                 // backboard's first
 ```
 
 `Artboard*` returned by these accessors is **read-only metadata** — do not
