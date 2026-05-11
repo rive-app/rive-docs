@@ -167,5 +167,8 @@ anim->advanceAndApply(dt);
 artboard->draw(&renderer);    // animations draw via the artboard
 ```
 
-`LinearAnimationInstance` is also a `Scene`, so you can use it polymorphically
-with the same `advanceAndApply` / `draw` calls.
+`LinearAnimationInstance` is also a `Scene`, so you can handle it
+polymorphically anywhere you work with a `Scene*` and call
+`advanceAndApply(...)`. Rendering still happens through the artboard, as shown
+above, because the animation instance applies its pose to that artboard before
+it is drawn.
