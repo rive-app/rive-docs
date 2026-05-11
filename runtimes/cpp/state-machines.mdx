@@ -140,14 +140,14 @@ editor.
 ## Reading state changes
 
 After each `advanceAndApply` you can introspect what happened on a
-`StateMachineInstance` (downcast from `Scene` if you need this):
+`StateMachineInstance`. If you only have a `Scene*`, use a checked downcast:
 
 ```cpp
-auto* sm = static_cast<StateMachineInstance*>(scene.get());
-
-for (size_t i = 0, n = sm->stateChangedCount(); i < n; ++i) {
-    const LayerState* s = sm->stateChangedByIndex(i);
-    // s->name(), s->is<AnimationState>(), etc.
+if (auto* sm = dynamic_cast<StateMachineInstance*>(scene.get())) {
+    for (size_t i = 0, n = sm->stateChangedCount(); i < n; ++i) {
+        const LayerState* s = sm->stateChangedByIndex(i);
+        // s->name(), s->is<AnimationState>(), etc.
+    }
 }
 ```
 
