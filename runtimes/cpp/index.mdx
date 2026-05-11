@@ -45,26 +45,7 @@ library. Reach for it directly when you are:
 
 ## Architecture at a glance
 
-```
-┌────────────────────────────────────────────────────────────┐
-│  Your application                                          │
-└─────────────┬──────────────────────────────────────────────┘
-              │
-        ┌─────▼──────┐    ┌──────────────────┐
-        │   File     │    │  RenderContext   │  ← GPU backend
-        │ (.riv data)│    │  (D3D/Metal/Vk…) │     (rive::gpu)
-        └─────┬──────┘    └─────┬────────────┘
-              │                 │
-        ┌─────▼──────────┐      │
-        │ ArtboardInstance│     │
-        └─────┬──────────┘      │
-              │                 │
-        ┌─────▼──────┐    ┌─────▼────────┐
-        │   Scene    │───▶│ RiveRenderer │──▶ pixels
-        │ (StateMach.│    └──────────────┘
-        │  or LinAnim│
-        └────────────┘
-```
+![Rive runtime rendering pipeline: your application owns a File (.riv data) and a RenderContext (D3D/Metal/Vulkan/...); File produces an ArtboardInstance, which produces a Scene (state machine or linear animation), which feeds the RiveRenderer along with the RenderContext to produce pixels.](/images/cpp/rive_pipeline.png)
 
 The split is deliberate: **`File` / `Artboard` / `Scene` know nothing about the
 GPU**, and `Renderer` / `RenderContext` know nothing about Rive content. You can

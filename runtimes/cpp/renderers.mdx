@@ -7,15 +7,7 @@ description: "Set up the GPU backend for your platform."
 renderer. You create one of the per-backend `*Impl::MakeContext` factories,
 hand it to your render loop, and the rest of the C++ API stays identical.
 
-```
-RenderContext   ←  beginFrame / flush  (your code)
-     │
-     ▼
-RenderContextImpl   ←  D3D11, D3D12, Metal, Vulkan, GL
-     │
-     ▼
-GPU API (DXGI, IOSurface, VkSwapchain, …)
-```
+![RenderContext layering: your code drives RenderContext via beginFrame/flush; RenderContext delegates to a per-backend RenderContextImpl (D3D11, D3D12, Metal, Vulkan, GL), which in turn talks to the underlying GPU API (DXGI, IOSurface, VkSwapchain, ...).](/images/cpp/rendercontext_layers.png)
 
 `RenderContext` also implements `rive::Factory`, so the same object you pass to
 `File::import` is the one that owns your GPU resources.
