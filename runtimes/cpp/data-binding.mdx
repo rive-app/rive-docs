@@ -32,8 +32,9 @@ then create a default instance from it:
 #include "rive/viewmodel/runtime/viewmodel_runtime.hpp"
 
 ViewModelRuntime* vm = file->defaultArtboardViewModel(artboard.get());
-rcp<ViewModelInstanceRuntime> instance = vm->createDefaultInstance();
+if (!vm) return;   // artboard has no default view model
 
+rcp<ViewModelInstanceRuntime> instance = vm->createDefaultInstance();
 if (instance) {
     artboard->bindViewModelInstance(instance->instance());
     scene  ->bindViewModelInstance(instance->instance());
@@ -45,6 +46,8 @@ create instances from it:
 
 ```cpp
 ViewModelRuntime* vm = file->viewModelByName("Card");
+if (!vm) return;   // no view model with that name
+
 size_t propCount = vm->propertyCount();
 size_t instCount = vm->instanceCount();
 
@@ -54,6 +57,7 @@ rcp<ViewModelInstanceRuntime> instance = vm->createInstanceFromName("Hero");
 rcp<ViewModelInstanceRuntime> instance = vm->createInstanceFromIndex(0);
 rcp<ViewModelInstanceRuntime> instance = vm->createInstance();   // empty
 
+if (!instance) return;
 artboard->bindViewModelInstance(instance->instance());
 scene  ->bindViewModelInstance(instance->instance());
 ```
