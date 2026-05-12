@@ -130,9 +130,9 @@ hand it to your render loop, and the rest of the C++ API stays identical.
       and `safeFrameNumber` to the most recent frame whose fence you've waited on.
 
     <Note>
-      Vulkan is the only backend that supports `FrameDescriptor::renderTargetTileSize`
-      (frame splitting), useful for letting other workloads pre-empt Rive on
-      tiled GPUs.
+      Vulkan is the only backend that supports `FrameDescriptor::virtualTileWidth`
+      / `virtualTileHeight` (frame splitting), useful for letting other
+      workloads pre-empt Rive on tiled GPUs.
     </Note>
   </Tab>
 
@@ -141,6 +141,7 @@ hand it to your render loop, and the rest of the C++ API stays identical.
 
     ```cpp
     #include "rive/renderer/gl/render_context_gl_impl.hpp"
+    #include "rive/renderer/gl/render_target_gl.hpp"
 
     using namespace rive::gpu;
 
@@ -150,14 +151,24 @@ hand it to your render loop, and the rest of the C++ API stays identical.
     std::unique_ptr<RenderContext> rc = RenderContextGLImpl::MakeContext(opts);
     ```
 
-    Render targets wrap an existing FBO:
+    Construct a render target that wraps either an external texture or an
+    existing FBO — the doc graph stays the same, only the binding differs:
 
     ```cpp
-    auto* impl = rc->static_impl_cast<RenderContextGLImpl>();
-    rcp<RenderTargetGL> target =
-        impl->wrapDefaultFramebuffer(width, height);
-    // or impl->wrapFramebuffer(fboId, width, height);
+    // Render into a texture you own.
+    rcp<TextureRenderTargetGL> target =
+        make_rcp<TextureRenderTargetGL>(width, height);
+    target->setTargetTexture(externalTextureID);   // GLuint, you keep ownership
+
+    // Or, render into an existing FBO you own.
+    rcp<FramebufferRenderTargetGL> target =
+        make_rcp<FramebufferRenderTargetGL>(
+            width, height, fboId, sampleCount);
     ```
+
+    Prefer `TextureRenderTargetGL` when you can — `FramebufferRenderTargetGL`
+    often has to render to an offscreen texture and blit back, because the
+    external FBO is usually not readable.
 
     Capability tiers Rive will auto-select between:
     - **Pixel Local Storage** (best — Apple GPUs, modern mobile).

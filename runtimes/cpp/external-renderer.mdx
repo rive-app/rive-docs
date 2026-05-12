@@ -116,7 +116,7 @@ public:
                  float ix, float iy,
                  float x,  float y) override { /* … */ }
     void close() override { /* … */ }
-    void addRenderPath(const RenderPath*, const Mat2D&) override { /* … */ }
+    void addRenderPath(RenderPath*, const Mat2D&) override { /* … */ }
     void addRawPath(const RawPath&) override { /* … */ }
 };
 
@@ -133,8 +133,9 @@ public:
 };
 ```
 
-(Method signatures match `rive/command_path.hpp` and
-`rive/shapes/paint/render_paint.hpp` — read those for the full set.)
+(Method signatures match `rive/command_path.hpp` (for `CommandPath`) and
+`rive/renderer.hpp` (for `RenderPath` and `RenderPaint`) — read those for
+the full set.)
 
 ## Wiring it up
 
