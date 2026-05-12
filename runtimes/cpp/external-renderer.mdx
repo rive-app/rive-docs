@@ -97,9 +97,10 @@ Things to keep in mind:
 - `decodeImage` is called with raw PNG / JPEG / WebP bytes, etc. Decode in
   whatever pixel format your renderer prefers and wrap the result in a
   subclass of `RenderImage`.
-- The non-virtual `decodeFont` / `decodeAudio` helpers fan out to Rive's
-  built-in HarfBuzz / miniaudio paths. Override them in your subclass if
-  you have your own font shaping or audio engine.
+- `decodeFont` / `decodeAudio` are non-virtual helpers that fan out to
+  Rive's built-in HarfBuzz / miniaudio paths. They are not subclass
+  override points; use the actual virtual `Factory` extension points for
+  custom font shaping or audio integration.
 
 ## RenderPath / RenderPaint subclasses
 

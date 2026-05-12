@@ -100,12 +100,24 @@ SMIBool*    isOpen   = scene->getBool("Open");
 SMINumber*  progress = scene->getNumber("Progress");
 SMITrigger* fire     = scene->getTrigger("Fire");
 
-isOpen->value(true);
-progress->value(0.42f);
-fire->fire();        // edge-triggered
+if (isOpen != nullptr) {
+    isOpen->value(true);
+}
+if (progress != nullptr) {
+    progress->value(0.42f);
+}
+if (fire != nullptr) {
+    fire->fire();    // edge-triggered
+}
 
-bool   currentOpen     = isOpen->value();
-float  currentProgress = progress->value();
+bool  currentOpen     = false;
+float currentProgress = 0.0f;
+if (isOpen != nullptr) {
+    currentOpen = isOpen->value();
+}
+if (progress != nullptr) {
+    currentProgress = progress->value();
+}
 ```
 
 `getBool` / `getNumber` / `getTrigger` return `nullptr` if the named input
@@ -128,14 +140,14 @@ editor.
 ## Reading state changes
 
 After each `advanceAndApply` you can introspect what happened on a
-`StateMachineInstance` (downcast from `Scene` if you need this):
+`StateMachineInstance`. If you only have a `Scene*`, use a checked downcast:
 
 ```cpp
-auto* sm = static_cast<StateMachineInstance*>(scene.get());
-
-for (size_t i = 0, n = sm->stateChangedCount(); i < n; ++i) {
-    const LayerState* s = sm->stateChangedByIndex(i);
-    // s->name(), s->is<AnimationState>(), etc.
+if (auto* sm = dynamic_cast<StateMachineInstance*>(scene.get())) {
+    for (size_t i = 0, n = sm->stateChangedCount(); i < n; ++i) {
+        const LayerState* s = sm->stateChangedByIndex(i);
+        // s->name(), s->is<AnimationState>(), etc.
+    }
 }
 ```
 
@@ -155,5 +167,8 @@ anim->advanceAndApply(dt);
 artboard->draw(&renderer);    // animations draw via the artboard
 ```
 
-`LinearAnimationInstance` is also a `Scene`, so you can use it polymorphically
-with the same `advanceAndApply` / `draw` calls.
+`LinearAnimationInstance` is also a `Scene`, so you can handle it
+polymorphically anywhere you work with a `Scene*` and call
+`advanceAndApply(...)`. Rendering still happens through the artboard, as shown
+above, because the animation instance applies its pose to that artboard before
+it is drawn.
