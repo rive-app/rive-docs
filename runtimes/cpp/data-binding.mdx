@@ -52,10 +52,10 @@ size_t propCount = vm->propertyCount();
 size_t instCount = vm->instanceCount();
 
 rcp<ViewModelInstanceRuntime> instance = vm->createDefaultInstance();
-// or:
-rcp<ViewModelInstanceRuntime> instance = vm->createInstanceFromName("Hero");
-rcp<ViewModelInstanceRuntime> instance = vm->createInstanceFromIndex(0);
-rcp<ViewModelInstanceRuntime> instance = vm->createInstance();   // empty
+// alternatives — pick one and replace the line above:
+// rcp<ViewModelInstanceRuntime> instance = vm->createInstanceFromName("Hero");
+// rcp<ViewModelInstanceRuntime> instance = vm->createInstanceFromIndex(0);
+// rcp<ViewModelInstanceRuntime> instance = vm->createInstance();   // no editor preset; properties at type defaults
 
 if (!instance) return;
 artboard->bindViewModelInstance(instance->instance());
