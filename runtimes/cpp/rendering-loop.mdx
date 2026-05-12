@@ -122,6 +122,9 @@ viewport. Stash the matrix — you'll need its inverse to convert pointer
 coordinates back into artboard-space.
 
 ```cpp
+#include "rive/layout.hpp"
+#include "rive/math/mat2d.hpp"
+
 Mat2D align = computeAlignment(
     Fit::contain, Alignment::center,
     AABB(0, 0, w, h),

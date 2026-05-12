@@ -114,6 +114,8 @@ bool loadContents(FileAsset& asset, Span<const uint8_t>, Factory* factory) overr
     rcp<ImageAsset> keepAlive = ref_rcp(image);
 
     fetchAsync(image->cdnUuidStr(), [keepAlive, factory](std::vector<uint8_t> bytes) {
+        // Assumes this callback is dispatched to the render thread — see the
+        // warning below about decoder thread-safety.
         rcp<RenderImage> ri =
             factory->decodeImage({bytes.data(), bytes.size()});
         keepAlive->renderImage(std::move(ri));

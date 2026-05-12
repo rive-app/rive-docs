@@ -13,31 +13,35 @@ on the next `advanceAndApply`.
 
 - `ViewModelRuntime` — schema for a view model defined in the editor. Lives
   in the `File`.
-- `ViewModelInstanceRuntime` — a mutable instance of that schema. You own it
-  via `rcp<>` and bind it to artboards or state machines.
+- `ViewModelInstanceRuntime` — typed wrapper around an instance of that
+  schema. Exposes the property API (`propertyNumber`, `propertyString`, etc).
+  You own it via `rcp<>`.
+- `ViewModelInstance` — the underlying bindable instance. `Artboard` and
+  `Scene` bind to this type. Get one from a `ViewModelInstanceRuntime` with
+  `.instance()`.
 - `ViewModelInstance*Runtime` — typed handles for individual properties
   (`…NumberRuntime`, `…StringRuntime`, etc).
 
 ## Creating an instance
 
-The simplest path is to ask the file for the artboard's default view model
-instance:
+The simplest path is to ask the file for the artboard's default view model,
+then create a default instance from it:
 
 ```cpp
 #include "rive/file.hpp"
 #include "rive/viewmodel/runtime/viewmodel_runtime.hpp"
 
-rcp<ViewModelInstance> vmi =
-    file->createDefaultViewModelInstance(artboard.get());
+ViewModelRuntime* vm = file->defaultArtboardViewModel(artboard.get());
+rcp<ViewModelInstanceRuntime> instance = vm->createDefaultInstance();
 
-if (vmi) {
-    artboard->bindViewModelInstance(vmi);
-    scene->bindViewModelInstance(vmi);
+if (instance) {
+    artboard->bindViewModelInstance(instance->instance());
+    scene  ->bindViewModelInstance(instance->instance());
 }
 ```
 
-For full control, look up the view model schema and create instances by
-index or by name:
+For full control, look up a specific view model schema by index or name and
+create instances from it:
 
 ```cpp
 ViewModelRuntime* vm = file->viewModelByName("Card");
