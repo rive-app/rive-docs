@@ -9,7 +9,7 @@ This guide walks you through cloning the runtime, compiling it, and getting a
 ## Prerequisites
 
 - A recent **clang** or **MSVC** that supports C++17.
-- [**premake5**](https://premake.github.io/) on your `PATH`.
+- **git** — the build script will clone and bootstrap `premake5` itself.
 - Platform SDK for your renderer of choice (Windows SDK for D3D, Xcode for
   Metal, Vulkan SDK for Vulkan, etc).
 
@@ -21,25 +21,36 @@ This guide walks you through cloning the runtime, compiling it, and getting a
 
 ## 1. Clone and build the runtime
 
+```bash
+git clone https://github.com/rive-app/rive-runtime.git
+cd rive-runtime/renderer
+```
+
+The runtime ships a build helper at `build/build_rive.sh` (with a
+PowerShell wrapper `build_rive.ps1` for Windows). It installs the pinned
+`premake5` version on first run and dispatches to the right build system
+for your platform (gmake2 on macOS/Linux, MSBuild on Windows, etc).
+
 <CodeGroup>
 ```bash macOS / Linux
-git clone https://github.com/rive-app/rive-runtime.git
-cd rive-runtime
-./build.sh release
+../build/build_rive.sh release
 ```
 
 ```powershell Windows
-git clone https://github.com/rive-app/rive-runtime.git
-cd rive-runtime
-# premake5 generates a .sln you can open in Visual Studio,
-# or you can drive the build with msbuild / clang directly.
-premake5 vs2022
+..\build\build_rive.ps1 release
 ```
 </CodeGroup>
 
-Build artifacts land in `out/release/`. The library you'll link against is
-`librive.a` (or `rive.lib` on Windows), plus the per-backend renderer
-libraries (`librive_pls_renderer.a`, etc).
+Common variants:
+- `build_rive.sh` (no args) — debug build for the host.
+- `build_rive.sh release clean` — clean rebuild.
+- `build_rive.sh ninja release` — use Ninja instead of make.
+- `build_rive.sh ios release` / `build_rive.sh android release` —
+  cross-compile.
+
+Build artifacts land in `out/release/` (or `out/debug/`). You'll link
+against `librive.a` (or `rive.lib` on Windows), plus the per-backend
+renderer libraries like `librive_pls_renderer.a`.
 
 ## 2. Add headers to your project
 
