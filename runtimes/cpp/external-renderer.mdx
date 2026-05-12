@@ -159,13 +159,14 @@ you want).
 
 ## Existing implementations to crib from
 
+All paths below are in the [rive-runtime](https://github.com/rive-app/rive-runtime) repo.
+
 | Project | Uses | Where |
 | ------- | ---- | ----- |
-| `rive::gpu::RenderContext` | Pixel-local-storage GPU renderer | `packages/runtime/renderer/` |
-| `rive_skia` | Skia | (deprecated, but a reference implementation) |
-| Flutter runtime | Flutter Canvas | `packages/runtime_flutter` |
-| Unity runtime  | Unity GraphicsBuffer / Mesh | `packages/runtime_unity` |
-| Unreal runtime | Unreal RHI | `packages/runtime_unreal` |
+| `rive::gpu::RenderContext` | Pixel-local-storage GPU renderer | `renderer/src/` |
+| `SkiaFactory` / `SkiaRenderer` | Skia | `skia/renderer/` |
+| `CGFactory` / `CGRenderer` | CoreGraphics | `cg_renderer/` |
+| `SokolFactory` | Sokol (tessellation) | `tess/src/sokol/` |
 
-The Skia and Flutter implementations are the most direct templates for a
-"forward to an existing 2D engine" `Renderer`.
+The Skia and CoreGraphics implementations are the most direct templates for
+a "forward to an existing 2D engine" `Renderer`.

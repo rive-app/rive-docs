@@ -47,8 +47,9 @@ hand it to your render loop, and the rest of the C++ API stays identical.
     - Set `options.isIntel = true` on Intel HD Graphics — works around a driver
       bug in pixel-local-storage emulation.
 
-    See [`packages/sample_win32_d3d11/main.cpp`](https://github.com/rive-app/rive-runtime/blob/main/packages/sample_win32_d3d11/main.cpp)
-    for a complete working sample.
+    See [`renderer/path_fiddle/fiddle_context_d3d.cpp`](https://github.com/rive-app/rive-runtime/blob/main/renderer/path_fiddle/fiddle_context_d3d.cpp)
+    for a working reference — it's a multi-backend test harness rather than a
+    minimal sample, but the D3D11 wiring is complete and copy-pasteable.
   </Tab>
 
   <Tab title="D3D12">
