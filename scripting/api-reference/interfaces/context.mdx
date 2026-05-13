@@ -22,6 +22,7 @@ markNeedsUpdate() -> ()
 
 Marks the object as needing an update on the next frame.
 Call this when something has changed (e.g., from a listener callback) and you need the runtime to re-invoke your node's update function.
+Note: Calls to `markNeedsUpdate` from inside `update()` are ignored. Use it from `init()`, `advance()`, listener callbacks, or event handlers instead.
 ```lua highlight={11}
 function init(self: MyNode, context: Context): boolean
     self.context = context
