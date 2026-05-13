@@ -1,6 +1,6 @@
 ---
 title: "State Machines"
-description: "Advance scenes, forward input, and read inputs."
+description: "Advance scenes and forward pointer events."
 ---
 
 `Scene` is the unit of playback. Whether you're running a state machine or a
@@ -17,14 +17,11 @@ public:
     virtual HitResult pointerMove(Vec2D, float timeStamp = 0, int pointerId = 0);
     virtual HitResult pointerUp(Vec2D, int pointerId = 0);
     virtual HitResult pointerExit(Vec2D, int pointerId = 0);
-
-    virtual size_t     inputCount() const;
-    virtual SMIInput*  input(size_t index) const;
-    virtual SMIBool*   getBool(const std::string&) const;
-    virtual SMINumber* getNumber(const std::string&) const;
-    virtual SMITrigger* getTrigger(const std::string&) const;
 };
 ```
+
+To drive a state machine — set values, fire triggers, react to changes —
+use **Data Binding**. See [Data Binding](/runtimes/cpp/data-binding).
 
 ## Advancing
 
@@ -82,59 +79,18 @@ scene->pointerUp(toArtboard(mx, my));
 scene->pointerExit(toArtboard(mx, my));
 ```
 
-`HitResult` tells you whether the event hit a listener, was consumed, or
-fell through — useful for routing the same event to other UI when nothing
-in Rive caught it.
+`HitResult` returns one of three values, which tells you how to route the
+same event to other UI behind Rive:
+
+- `none` — the event passed through Rive without firing a listener.
+  Forward it to whatever UI is behind.
+- `hit` — a listener fired, but the shape it's on is transparent. Rive
+  isn't blocking the event; forward it as well.
+- `hitOpaque` — a listener fired and the shape is opaque. Rive consumed
+  the event; don't forward.
 
 `LinearAnimationInstance` inherits the pointer methods but ignores them.
 Only state machines have listeners.
-
-## Reading & writing inputs
-
-State machines expose three input types. Look them up by name once and cache
-the pointer — names are matched against the file at every call:
-
-```cpp
-SMIBool*    isOpen   = scene->getBool("Open");
-SMINumber*  progress = scene->getNumber("Progress");
-SMITrigger* fire     = scene->getTrigger("Fire");
-
-if (isOpen != nullptr) {
-    isOpen->value(true);
-}
-if (progress != nullptr) {
-    progress->value(0.42f);
-}
-if (fire != nullptr) {
-    fire->fire();    // edge-triggered
-}
-
-bool  currentOpen     = false;
-float currentProgress = 0.0f;
-if (isOpen != nullptr) {
-    currentOpen = isOpen->value();
-}
-if (progress != nullptr) {
-    currentProgress = progress->value();
-}
-```
-
-`getBool` / `getNumber` / `getTrigger` return `nullptr` if the named input
-doesn't exist on this state machine.
-
-### Inputs on nested artboards
-
-`ArtboardInstance` has path-aware overloads that descend into nested
-artboards:
-
-```cpp
-SMIBool*    nested  = artboard->getBool   ("Open",     "Card/Header");
-SMINumber*  nestedN = artboard->getNumber ("Progress", "Card/Header");
-SMITrigger* nestedT = artboard->getTrigger("Fire",     "Card/Header");
-```
-
-The path is `/`-separated, matching the nested-artboard names from the
-editor.
 
 ## Reading state changes
 
@@ -150,10 +106,10 @@ if (auto* sm = dynamic_cast<StateMachineInstance*>(scene.get())) {
 }
 ```
 
-This is the hook you use to react in C++ to states the designer set up — log
-analytics, play a sound, fire a callback into your engine.
+This is the hook you use to react in C++ to states defined in the `.riv`
+file — log analytics, play a sound, fire a callback into your engine.
 
-## Linear animations directly
+## Running Linear Animations
 
 If you don't want a state machine, get a `LinearAnimationInstance`:
 
