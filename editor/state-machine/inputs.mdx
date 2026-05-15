@@ -46,3 +46,41 @@ Triggers are similar to booleans, but can only become true for a short time.
 A number input give you a number box that can be any integer.
 
 ![Number input for rating animation](https://ucarecdn.com/dbd19760-02e4-4d37-a3a8-627ce8e0b65c/)
+
+## Exposing Inputs and Events
+
+Expose the Inputs and/or Events of a Component to control them from a parent/host Artboard. This allows you to control one Component with another via a State Machine.
+
+### How to Expose an Input
+
+Exposing an Input allows the parent artboard to access and manipulate it. To do this, select the desired input, then check the expose to main artboard option in the inspector.
+
+![Image](https://ucarecdn.com/251b0247-ae05-4f58-8858-8e7a21abd816/)
+
+After creating a Component, you’ll see any exposed inputs in the Inspector via the options panel and in the Inputs panel.
+
+### Using Inputs on a Parent Artboard
+
+Exposed inputs can be found in the Inputs panel or in the inspector. You can use them through listeners, an event, or by keying them on a timeline.
+
+![Image](https://ucarecdn.com/ee1dd959-9fba-45c9-a74b-1173cd71e894/)
+
+#### Via a Listener
+
+When you create a listener, you’ll find all exposed Inputs as a set input property of a Listener. This option lets you, for example, change the boolean input of multiple artboards simultaneously.
+
+![Image](https://ucarecdn.com/2349fdd6-5a5a-434e-a1dc-3974e6f1e01c/)
+
+#### Using Events
+
+Additionally, we can use Listeners to listen for Events firing from our Component, and change inputs accordingly.
+
+![Image](https://ucarecdn.com/2b1ddae6-31c9-41be-969c-86a59b2206cd/)
+
+To see an Event associated with an Artboard, you’ll need to set the Artboard as a target of the Listener. The Event will now be listed as a listener action.
+
+#### Keying on the State Machine
+
+You can key exposed inputs on the parent artboard via the options panel in the inspector.
+
+This is a handy trick when you, for example, want to set the text value within an Instance.

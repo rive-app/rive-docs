@@ -7,7 +7,7 @@ import { YouTube } from '/snippets/youtube.mdx'
 
 <YouTube id="C4KNgrrqt7k" />
 
-Transitions supply the logical map for the state machine to follow. There are a number of considerations and configurable properties for transitions that we will cover below. Note that we’ll briefly discuss Inputs as well, so be sure to read more about those as well here.
+Transitions supply the logical map for the state machine to follow. There are a number of considerations and configurable properties for transitions that we will cover below.
 
 ## Creating a new Transition
 
@@ -69,7 +69,7 @@ As we discussed in the duration section, when a transition happens, properties f
 
 <YouTube id="30HJo_DaLDk" />
 
-Conditions are the rules for our transitions. Without conditions, our transitions would continuously fire and our state machine would likely look either glitchy, or only play a single animation. Conditions require us to define some inputs, which you can read more about [here](/editor/state-machine/inputs).
+Conditions are the rules for our transitions. Without conditions, our transitions would continuously fire and our state machine would likely look either glitchy, or only play a single animation.
 
 ![Conditions](/images/editor/state-machine/a5336985-e1d4-4892-a04a-deee93e6a8b1.webp)
 
@@ -81,7 +81,7 @@ To add a new condition to a transition, hit the plus button next to the Conditio
 
 Adding a new Condition
 
-Each new condition provides a dropdown showing all of the inputs you’ve added to the State Machine. The configuration options will be different depending on the input type you select.
+Each new condition provides a dropdown showing all of the options, including view model properties. The configuration options will be different depending on the type you select.
 
 Note that you can add multiple conditions to a single transition to create an “and” transition.
 
@@ -93,13 +93,13 @@ When you configure a boolean, you can decide if the transition happens when said
 
 #### Configuring a Number
 
-When you configure a number input, you can tell the transition to happen when a numerical condition happens such as equalling a specific number, being greater than or less than a specific number.
+When you configure a number property, you can tell the transition to happen when a numerical condition happens such as equalling a specific number, being greater than or less than a specific number.
 
-![Configure number input](https://ucarecdn.com/3b6da0a7-b56f-4cb1-89f0-831af97fdbce/)
+![Configure number property](https://ucarecdn.com/3b6da0a7-b56f-4cb1-89f0-831af97fdbce/)
 
 #### Configuring a Trigger
 
-When you add a trigger input to a transition, you are telling the transition to fire when that trigger occurs.
+When you add a trigger property to a transition, you are telling the transition to fire when that trigger occurs.
 
 ![Configuring triggers](https://ucarecdn.com/c8c6a924-f62a-4e3a-80cb-83c758a37343/)
 
