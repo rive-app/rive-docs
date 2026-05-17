@@ -2,8 +2,12 @@
 title: GPUCanvas
 ---
 
-A GPU canvas. Use `.image` with `renderer:drawImage()` to composite
-the result. Issue GPU draw calls via `beginRenderPass()`.
+A GPU canvas — a 1× presentation target, same role as a WebGPU surface
+texture. Use `.image` with `renderer:drawImage()` to composite the
+result. Render to it via `context:beginRenderPass({ color = {{ view =
+canvas:colorView(), ... }} })`. MSAA requires a user-allocated
+`GPUTexture.new({ sampleCount = N, renderTarget = true })` as the
+color view, with the canvas's `colorView()` set as `resolveTarget`.
 
 
 ## Fields
@@ -45,20 +49,9 @@ resize(width: number, height: number) -> ()
 ```
 </div>
 
-Resize the canvas. Recreates the backing texture and any depth buffer.
-
-
-### `beginRenderPass`
-
-{/* function beginRenderPass(self, desc: RenderPassDesc?): GPURenderPass */}
-<div class="signature">
-```lua
-beginRenderPass(desc: RenderPassDesc?) -> GPURenderPass
-```
-</div>
-
-Begin a GPU render pass targeting this canvas.
-Omitting desc.color renders to the canvas's own backing texture.
+Resize the canvas. Recreates the 1× backing texture. Any
+user-allocated MSAA / depth textures must be recreated by the
+script to match the new dimensions.
 
 
 ### `colorView`
@@ -70,6 +63,7 @@ colorView() -> GPUTextureView
 ```
 </div>
 
-View of the canvas backing texture. Use as a sampler input in a subsequent pass.
+View of the canvas backing texture. Use as a color attachment, an
+MSAA resolve target, or a sampler input in a subsequent pass.
 
 
