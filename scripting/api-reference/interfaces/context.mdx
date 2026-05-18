@@ -256,20 +256,35 @@ Use beginFrame/endFrame inside drawCanvas to render.
 {/* function gpuCanvas(self, desc: {
         width: number,
         height: number,
-        sampleCount: number?,
     }): GPUCanvas */}
 <div class="signature">
 ```lua
-gpuCanvas(desc: {width: number, height: number, sampleCount: number?,}) -> GPUCanvas
+gpuCanvas(desc: {width: number, height: number,}) -> GPUCanvas
 ```
 </div>
 
-Create a GPU canvas for custom GPU rendering.
-Use beginRenderPass inside drawCanvas to render.
-Pass `sampleCount` (2, 4, or 8) to enable MSAA on the canvas backing
-texture. When set, beginRenderPass automatically routes rendering
-through the MSAA color texture and resolves to the 1× backing —
-no extra setup needed in the script.
+Create a GPU canvas — a 1× presentation target. Render to it via
+`context:beginRenderPass(...)` using `canvas:colorView()` as a
+color attachment. For MSAA, allocate the multisampled color and
+depth textures yourself with `GPUTexture.new({ sampleCount = N,
+renderTarget = true })` and pass them in the descriptor.
+
+
+### `beginRenderPass`
+
+{/* function beginRenderPass(self, desc: RenderPassDesc): GPURenderPass */}
+<div class="signature">
+```lua
+beginRenderPass(desc: RenderPassDesc) -> GPURenderPass
+```
+</div>
+
+Open a GPU render pass. The descriptor must include at least one
+color attachment or a depthStencil attachment; every attachment
+carries its own GPUTextureView. The pass's sampleCount is derived
+from the attachments (WebGPU rules: all must share one
+sampleCount). Must be called inside a drawCanvas phase. Issue
+draw calls on the returned pass, then call `:finish()`.
 
 
 ### `features`
