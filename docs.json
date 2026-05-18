@@ -88,98 +88,112 @@
                   "editor/interface-overview/overview",
                   "editor/interface-overview/toolbar",
                   "editor/interface-overview/hierarchy",
+                  "editor/tagging",
                   "editor/interface-overview/inspector",
-                  "editor/interface-overview/stage"
+                  "editor/interface-overview/stage",
+                  "editor/keyboard-shortcuts",
+                  "editor/fundamentals/design-vs-animate-mode"
                 ]
-              },
+              }
+            ]
+          },
+          {
+            "group": "Fundamentals",
+            "pages": [
               {
-                "group": "Fundamentals",
+                "group": "Design",
                 "pages": [
-                  "editor/fundamentals/overview",
-                  "editor/fundamentals/design-vs-animate-mode",
                   "editor/fundamentals/artboards",
                   "editor/fundamentals/components",
-                  "editor/fundamentals/pen-tool-overview",
-                  "editor/fundamentals/shapes-and-paths-overview",
-                  "editor/fundamentals/procedural-shapes",
-                  "editor/fundamentals/groups",
-                  "editor/fundamentals/selecting-and-navigating-groups",
-                  "editor/fundamentals/transform-spaces",
-                  "editor/fundamentals/fill-and-stroke",
-                  "editor/fundamentals/edit-vertices",
-                  "editor/fundamentals/freeze-and-origin",
+                  {
+                    "group": "Drawing",
+                    "pages": [
+                      "editor/fundamentals/shapes-and-paths-overview",
+                      "editor/fundamentals/procedural-shapes",
+                      "editor/fundamentals/pen-tool-overview",
+                      "editor/fundamentals/fill-and-stroke",
+                      "editor/fundamentals/edit-vertices",
+                      "editor/manipulating-shapes/trim-path",
+                      "editor/manipulating-shapes/clipping"
+                    ]
+                  },
+                  {
+                    "group": "Text",
+                    "pages": [
+                      "editor/text/text-overview",
+                      "editor/text/text-runs",
+                      "editor/text/text-styles",
+                      "editor/text/text-modifiers",
+                      "editor/text/fonts"
+                    ]
+                  },
+                  {
+                    "group": "Hierarchical Relationships",
+                    "pages": [
+                      "editor/fundamentals/groups",
+                      "editor/fundamentals/selecting-and-navigating-groups",
+                      "editor/manipulating-shapes/solos",
+                      "editor/fundamentals/transform-spaces",
+                      "editor/fundamentals/freeze-and-origin",
+                      "editor/animate-mode/animating-draw-order"
+                    ]
+                  },
+                  {
+                    "group": "Responsive Design",
+                    "pages": [
+                      "editor/layouts/layouts-overview",
+                      "editor/layouts/layout-tools",
+                      "editor/layouts/layout-parameters",
+                      "editor/layouts/layout-styles",
+                      "editor/layouts/layout-animation",
+                      "editor/layouts/n-slicing",
+                      "editor/layouts/scrolling"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Assets",
+                "pages": [
                   "editor/fundamentals/importing-assets",
-                  "editor/fundamentals/revision-history"
+                  "editor/libraries"
                 ]
               },
               {
-                "group": "Manipulating Shapes",
-                "pages": [
-                  "editor/manipulating-shapes/manipulating-shapes",
-                  "editor/manipulating-shapes/bones",
-                  "editor/manipulating-shapes/bone-tips",
-                  "editor/manipulating-shapes/meshes",
-                  "editor/manipulating-shapes/clipping",
-                  "editor/manipulating-shapes/solos",
-                  "editor/manipulating-shapes/trim-path",
-                  "editor/manipulating-shapes/joysticks"
-                ]
-              },
-              {
-                "group": "Text",
-                "pages": [
-                  "editor/text/text-overview",
-                  "editor/text/text-runs",
-                  "editor/text/text-styles",
-                  "editor/text/text-modifiers",
-                  "editor/text/fonts"
-                ]
-              },
-              {
-                "group": "Constraints",
-                "pages": [
-                  "editor/constraints/constraints-overview",
-                  "editor/constraints/ik-constraint",
-                  "editor/constraints/distance-constraint",
-                  "editor/constraints/scale-constraint",
-                  "editor/constraints/rotation-constraint",
-                  "editor/constraints/transform-constraint",
-                  "editor/constraints/translation-constraint",
-                  "editor/constraints/follow-path-constraint",
-                  "editor/constraints/scroll-constraint"
-                ]
-              },
-              {
-                "group": "Animate Mode",
+                "group": "Animation",
                 "pages": [
                   "editor/animate-mode/animate-mode-overview",
                   "editor/animate-mode/timeline",
                   "editor/animate-mode/keys",
-                  "editor/animate-mode/animation-mixing",
-                  "editor/animate-mode/interpolation-easing",
-                  "editor/animate-mode/animating-draw-order"
+                  "editor/animate-mode/interpolation-easing"
                 ]
               },
               {
-                "group": "State Machines",
+                "group": "Interaction",
                 "pages": [
-                  "editor/state-machine/state-machine",
-                  "editor/state-machine/states",
-                  "editor/state-machine/transitions",
+                  {
+                    "group": "State Machines",
+                    "pages": [
+                      "editor/state-machine/state-machine",
+                      "editor/state-machine/states",
+                      "editor/state-machine/transitions",
+                      "editor/state-machine/layers",
+                      "editor/animate-mode/animation-mixing"
+                    ]
+                  },
                   "editor/state-machine/listeners",
-                  "editor/state-machine/layers"
+                  {
+                    "group": "Events",
+                    "pages": [
+                      "editor/events/overview",
+                      "editor/events/open-url-events",
+                      "editor/events/audio-events"
+                    ]
+                  }
                 ]
               },
               {
-                "group": "Events",
-                "pages": [
-                  "editor/events/overview",
-                  "editor/events/open-url-events",
-                  "editor/events/audio-events"
-                ]
-              },
-              {
-                "group": "Data Binding",
+                "group": "Data",
                 "pages": [
                   "editor/data-binding/overview",
                   {
@@ -196,41 +210,51 @@
                 ]
               },
               {
-                "group": "Layouts",
+                "group": "Publishing",
                 "pages": [
-                  "editor/layouts/layouts-overview",
-                  "editor/layouts/layout-tools",
-                  "editor/layouts/layout-parameters",
-                  "editor/layouts/layout-styles",
-                  "editor/layouts/layout-animation",
-                  "editor/layouts/n-slicing",
-                  "editor/layouts/scrolling"
+                  "editor/exporting/exporting-for-runtime",
+                  "editor/exporting/exporting-for-video-and-static-design",
+                  "editor/exporting/exporting-for-backup",
+                  "editor/embed-urls/overview"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Advanced Topics",
+            "pages": [
+              {
+                "group": "Rigging & Control",
+                "pages": [
+                  "editor/manipulating-shapes/manipulating-shapes",
+                  "editor/manipulating-shapes/bones",
+                  "editor/manipulating-shapes/bone-tips",
+                  "editor/manipulating-shapes/meshes",
+                  "editor/manipulating-shapes/joysticks",
+                  {
+                    "group": "Constraints",
+                    "pages": [
+                      "editor/constraints/constraints-overview",
+                      "editor/constraints/ik-constraint",
+                      "editor/constraints/distance-constraint",
+                      "editor/constraints/scale-constraint",
+                      "editor/constraints/rotation-constraint",
+                      "editor/constraints/transform-constraint",
+                      "editor/constraints/translation-constraint",
+                      "editor/constraints/follow-path-constraint",
+                      "editor/constraints/scroll-constraint"
+                    ]
+                  }
                 ]
               },
+              "editor/fundamentals/revision-history",
               {
                 "group": "Accessibility",
                 "pages": [
                   "editor/accessibility/semantics"
                 ]
               },
-              "editor/libraries",
-              "editor/keyboard-shortcuts",
-              {
-                "group": "Exporting",
-                "pages": [
-                  "editor/exporting/exporting-for-runtime",
-                  "editor/exporting/exporting-for-video-and-static-design",
-                  "editor/exporting/exporting-for-backup"
-                ]
-              },
-              {
-                "group": "Embed URLs",
-                "pages": [
-                  "editor/embed-urls/overview"
-                ]
-              },
               "editor/ai-agent/ai-agent",
-              "editor/tagging",
               {
                 "group": "Legacy Features",
                 "pages": [
@@ -410,6 +434,7 @@
                   "scripting/api-reference/interfaces/decoded-image",
                   "scripting/api-reference/interfaces/enum-values",
                   "scripting/api-reference/interfaces/input",
+                  "scripting/api-reference/interfaces/interpolator",
                   "scripting/api-reference/interfaces/layout",
                   "scripting/api-reference/interfaces/listener-action",
                   "scripting/api-reference/interfaces/node",

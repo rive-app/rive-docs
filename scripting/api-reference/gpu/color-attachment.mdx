@@ -2,19 +2,20 @@
 title: ColorAttachment
 ---
 
-Color attachment descriptor for beginRenderPass.
+Color attachment descriptor for context:beginRenderPass.
 
 
 ## Fields
 
 ### `view`
 
-Explicit render target view; defaults to canvas backing texture.
+Required render target view. Use GPUCanvas:colorView() for the
+canvas's 1× presentation target, or any GPUTexture:view().
 
 
 ### `resolveTarget`
 
-1x resolve target for MSAA (formats must match).
+1× resolve target for MSAA (formats must match `view`).
 
 
 ### `loadOp`

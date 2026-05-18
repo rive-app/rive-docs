@@ -7,7 +7,7 @@ import { YouTube } from "/snippets/youtube.mdx";
 
 Events live within an artboard and are used to signal that something has happened. They can be fired from timelines, states, transitions, or listeners.
 
-Rive supports three types of events:
+Rive supports three types of Events:
 
 - [Open URL Event](/editor/events/open-url-events) — Opens a URL at runtime
 - [Audio Event](/editor/events/audio-events) — Plays a sound
@@ -17,26 +17,26 @@ Rive supports three types of events:
 
 <Steps>
   <Step title="Create an Event">
-    Use the Events tool located in the toolbar and click anywhere on the artboard.
+    Use the Events tool located in the Toolbar and click anywhere on the artboard.
 
     ![Adding a new event](https://ucarecdn.com/4ed6c563-4c59-42c8-b40c-f502d5a8e1a4/)
 
-    You'll notice that the event is displayed on the artboard and in the Hierarchy.
+    You'll notice that the Event is displayed on the artboard and in the Hierarchy.
   </Step>
   <Step title="Name your Event">
     Give your event a name so it’s easy to identify and reference.
 
     You can rename it using the **Name** field, or by double-clicking the name directly on the artboard.
 
-    ![Renaming an event](https://ucarecdn.com/4558fb61-4649-4210-9ec6-c828c48ab2b2/)
+    ![Renaming an Event](https://ucarecdn.com/4558fb61-4649-4210-9ec6-c828c48ab2b2/)
   </Step>
   <Step title="Select an Event type">
-    The Type dropdown allows you to change the event type between Audio, URL, and General.
+    The Type dropdown allows you to change the Event type between Audio, URL, and General.
 
     ![Image](https://ucarecdn.com/9621c007-de2e-428c-95d7-837615a37caa/)
   </Step>
   <Step title="Set your Event Properties">
-    Each event type has its own set of properties.
+    Each Event type has its own set of properties.
 
     For more information on the specific event types, see [Open URL Events](/editor/events/open-url-events), [Audio Events](/editor/events/audio-events), and [General Events (deprecated)](/editor/events/general-events).
   </Step>
@@ -45,27 +45,27 @@ Rive supports three types of events:
 
 ## Signaling an Event
 
-We can signal an event in four ways: from a timeline, a listener, a state, or a transition.
+We can signal an Event in four ways: from a timeline, a listener, a state, or a transition.
 
 ### Timeline
 
-Signaling an event from the timeline lets you control the exact moment in an animation when the event fires.
+Signaling an Event from the timeline lets you control the exact moment in an animation when the Event fires.
 
-First, select the timeline you want to add the event to. Then use the **Report Event** button in the Inspector.
+First, select the timeline you want to add the Event to. Then use the **Report Event** button in the Inspector.
 
 ![Keying an Event on the timeline](https://ucarecdn.com/bd8d36f9-9cd1-4eec-9c37-85d4a0a19643/)
 
 ### Transition & State
 
-You can report an event on a transition or a state. To report an event, select the desired state or transition and use the `+` button next to the Events section in the Inspector.
+You can report an event on a Transition or a State. To report an event, select the desired State or Transition and use the `+` button next to the Events section in the Inspector.
 
 
-![Signaling an event via state or transition](https://ucarecdn.com/d1a63666-0cce-408f-9364-826eed66b241/)
+![Signaling an Event via State or Transition](https://ucarecdn.com/d1a63666-0cce-408f-9364-826eed66b241/)
 
-Now that we've selected the event, we can decide whether it is signaled at the start or end of the transition or state.
+Now that we've selected the Event, we can decide whether it is signaled at the start or end of the Transition or State.
 
 ### Listeners
 
 With your [Listener](/editor/state-machine/listeners) selected, click the `+` below the State Machine Graph, and select **Report Event**.
 
-![Trigger an event with a listener](/images/editor/events/trigger-events-with-listeners.gif)
+![Trigger an Event with a listener](/images/editor/events/trigger-events-with-listeners.gif)
