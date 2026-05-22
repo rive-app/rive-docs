@@ -1,0 +1,67 @@
+---
+title: 'Exporting Names'
+sidebarTitle: null
+description: 'Make object names available at runtime'
+---
+
+Object names are not available at runtime by default. Exporting a name makes an object's human-readable name accessible to runtimes.
+
+You may want to export names when:
+
+- Using a data binding enum to control a Solo.
+- Referencing or controlling an object from a script.
+
+<Note>
+  Exporting names slightly increases file size. Only export names for objects you need to access at runtime.
+</Note>
+
+## Export a Name
+
+![Export name](/images/editor/exporting/export-name.gif)
+
+<Steps>
+  <Step title="Export the object name">
+    In the Hierarchy, right-click the object and select **Export Name**.
+  </Step>
+
+  <Step title="Verify the name is exported">
+    Exported object names appear surrounded by brackets in the Hierarchy.
+  </Step>
+</Steps>
+
+## Export All Names
+
+Exports the names of all objects in the file.
+
+<Warning>
+  Exporting all names is not recommended because it will increase the size of your exported `.riv` file.
+</Warning>
+
+<Steps>
+  <Step title="Open Export Options">
+    Open the hamburger menu and select **Export Options**.
+  </Step>
+
+  <Step title="Export all names">
+    Enable **Export All Names**.
+  </Step>
+</Steps>
+
+## Remove Name Exports
+
+Removes all exported names from the file.
+
+<Steps>
+  <Step title="Open Export Options">
+    Open the hamburger menu and select **Export Options**.
+  </Step>
+
+  <Step title="Remove exported names">
+    Select **Remove Name Exports**.
+  </Step>
+</Steps>
+
+
+
+
+
