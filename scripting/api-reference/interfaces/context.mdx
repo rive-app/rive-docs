@@ -240,15 +240,23 @@ end
         width: number,
         height: number,
         clearColor: Color?,
-    }): Canvas */}
+    }?): Canvas */}
 <div class="signature">
 ```lua
-canvas(desc: {width: number, height: number, clearColor: Color?,}) -> Canvas
+canvas(desc: {width: number, height: number, clearColor: Color?,}?) -> Canvas
 ```
 </div>
 
 Create a 2D canvas for Rive Renderer drawing.
 Use beginFrame/endFrame inside drawCanvas to render.
+
+The descriptor is optional. Omitting it (or passing width/height of
+0) creates a deferred canvas with no backing texture — useful in
+layout scripts that don't know their size at init. Call
+`canvas:resize(w, h)` once the real size is known. While deferred,
+`canvas.image` is nil and `width`/`height` report 0; calling
+`beginFrame()` raises an error pointing to `resize()`. Check
+`canvas.width > 0` to gate work.
 
 
 ### `gpuCanvas`
@@ -256,35 +264,25 @@ Use beginFrame/endFrame inside drawCanvas to render.
 {/* function gpuCanvas(self, desc: {
         width: number,
         height: number,
-    }): GPUCanvas */}
+    }?): GPUCanvas */}
 <div class="signature">
 ```lua
-gpuCanvas(desc: {width: number, height: number,}) -> GPUCanvas
+gpuCanvas(desc: {width: number, height: number,}?) -> GPUCanvas
 ```
 </div>
 
 Create a GPU canvas — a 1× presentation target. Render to it via
-`context:beginRenderPass(...)` using `canvas:colorView()` as a
-color attachment. For MSAA, allocate the multisampled color and
-depth textures yourself with `GPUTexture.new({ sampleCount = N,
-renderTarget = true })` and pass them in the descriptor.
+`canvas:beginRenderPass(...)`. For MSAA, allocate the multisampled
+color and depth textures yourself with `GPUTexture.new({
+sampleCount = N, renderTarget = true })` and pass them in the
+descriptor.
 
-
-### `beginRenderPass`
-
-{/* function beginRenderPass(self, desc: RenderPassDesc): GPURenderPass */}
-<div class="signature">
-```lua
-beginRenderPass(desc: RenderPassDesc) -> GPURenderPass
-```
-</div>
-
-Open a GPU render pass. The descriptor must include at least one
-color attachment or a depthStencil attachment; every attachment
-carries its own GPUTextureView. The pass's sampleCount is derived
-from the attachments (WebGPU rules: all must share one
-sampleCount). Must be called inside a drawCanvas phase. Issue
-draw calls on the returned pass, then call `:finish()`.
+The descriptor is optional. Omitting it (or passing width/height of
+0) creates a deferred canvas with no backing texture — useful in
+layout scripts that don't know their size at init. Call
+`canvas:resize(w, h)` once the real size is known. While deferred,
+`width`/`height` report 0 and calling `colorView()` raises an error
+pointing to `resize()`. Check `canvas.width > 0` to gate work.
 
 
 ### `features`
