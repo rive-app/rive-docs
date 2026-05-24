@@ -22,7 +22,7 @@ on the next `advanceAndApply`.
 - `ViewModelInstance*Runtime` — typed handles for individual properties
   (`…NumberRuntime`, `…StringRuntime`, etc).
 
-## Creating an instance
+## Creating an Instance
 
 The simplest path is to ask the file for the artboard's default view model,
 then create a default instance from it:
@@ -68,7 +68,7 @@ scene  ->bindViewModelInstance(instance->instance());
   drives state-machine inputs and listener conditions.
 </Note>
 
-## Reading & writing properties
+## Reading & Writing Properties
 
 All accessors are path-based — `/`-separated for nested view models.
 
@@ -107,7 +107,7 @@ if (auto* mood = card->propertyEnum("mood")) {
 }
 ```
 
-### Nested view models
+### Nested View Models
 
 ```cpp
 // Option 1: deep path string.
@@ -144,7 +144,7 @@ rcp<ViewModelInstanceRuntime> row = items->instanceAt(0);
 List items are themselves `ViewModelInstanceRuntime`s — same property API as
 above.
 
-### Image & artboard properties
+### Image & Artboard Properties
 
 ```cpp
 auto* image = card->propertyImage("avatar");
@@ -164,7 +164,7 @@ artboardRef->value(file->bindableArtboardNamed("Badge"));   // rcp<BindableArtbo
 - After mutating properties, the next `scene->advanceAndApply(dt)` propagates
   the changes through data binds and into rendering.
 
-## When properties don't exist
+## When Properties Don't Exist
 
 Every `propertyX(name)` getter returns `nullptr` if the name doesn't
 resolve, so you can probe an instance safely:

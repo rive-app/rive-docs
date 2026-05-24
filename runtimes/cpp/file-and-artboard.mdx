@@ -8,7 +8,7 @@ A Rive `.riv` file is a binary container of **artboards**, **animations**,
 read-only access to that container (`File`, `Artboard`) and mutable instances
 you can advance and draw (`ArtboardInstance`, `Scene`).
 
-## Importing a file
+## Importing a File
 
 ```cpp
 #include "rive/file.hpp"
@@ -48,7 +48,7 @@ A static flag that forces a fixed RNG seed and timestamp-driven scrolling for
 all subsequent loads. Useful for golden-image tests and frame-by-frame
 captures.
 
-## Querying artboards
+## Querying Artboards
 
 ```cpp
 size_t count = file->artboardCount();
@@ -114,7 +114,7 @@ if (auto sm = ab->defaultStateMachine()) {
 `defaultScene()` is the one-call shortcut — it returns the default state
 machine, then the first state machine, then the first animation, then nullptr.
 
-## Sizing & layout
+## Sizing & Layout
 
 Artboards have an intrinsic size set in the editor, plus an optional layout
 mode (Yoga-driven). For non-layout fits the artboard stays at its intrinsic
@@ -137,7 +137,7 @@ scene->advanceAndApply(0.f);
 `Artboard::bounds()` returns the current rect — feed it to `computeAlignment`
 to map artboard-space into your viewport.
 
-## File lifetime
+## File Lifetime
 
 Reference-counted ownership keeps lifetimes simple:
 
