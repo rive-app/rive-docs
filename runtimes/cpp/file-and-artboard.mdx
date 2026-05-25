@@ -32,10 +32,11 @@ the assets imported in-band. Keep it alive for as long as any artboard
 instance derived from it is alive.
 
 <Warning>
-  The `Factory*` you pass in becomes load-bearing for every `RenderPath`,
-  `RenderPaint`, `RenderImage`, font, and audio source decoded from the file.
-  When using Rive's GPU renderer, this is your `RenderContext`. When using a
-  custom renderer, it is your `Factory` implementation.
+  The `Factory*` you pass in is responsible for constructing every
+  `RenderPath`, `RenderPaint`, `RenderImage`, font, and audio source the
+  file produces. When using Rive's GPU renderer, this is your
+  `RenderContext`. When using a custom renderer, it is your `Factory`
+  implementation.
 </Warning>
 
 ## Determinism
