@@ -89,30 +89,20 @@ int defaultIdx = ab->defaultStateMachineIndex();   // -1 if none
 
 ## Picking a `Scene`
 
-`Scene` is the abstract base of anything you can advance + draw. Two concrete
-flavors ship with the runtime:
-
-- `StateMachineInstance` — interactive, responds to pointer events.
-- `LinearAnimationInstance` — a single timeline, no input.
+`Scene` is the abstract base of anything you can advance and draw. The
+concrete flavor you'll work with is `StateMachineInstance`.
 
 ```cpp
 #include "rive/scene.hpp"
 
 std::unique_ptr<Scene> scene;
 
-// Preferred: a state machine.
 if (auto sm = ab->defaultStateMachine()) {
     scene = std::move(sm);
 } else if (ab->stateMachineCount() > 0) {
     scene = ab->stateMachineAt(0);
-} else {
-    // Falls back to the first animation — no input handling.
-    scene = ab->defaultScene();
 }
 ```
-
-`defaultScene()` is the one-call shortcut — it returns the default state
-machine, then the first state machine, then the first animation, then nullptr.
 
 ## Sizing & Layout
 

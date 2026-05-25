@@ -3,9 +3,7 @@ title: "State Machines"
 description: "Advance scenes and forward pointer events."
 ---
 
-`Scene` is the unit of playback. Whether you're running a state machine or a
-linear animation, the loop is the same: **advance** the scene, then **draw**
-it.
+`Scene` is the unit of playback.
 
 ```cpp
 class Scene {
@@ -89,9 +87,6 @@ same event to other UI behind Rive:
 - `hitOpaque` — a listener fired and the shape is opaque. Rive consumed
   the event; don't forward.
 
-`LinearAnimationInstance` inherits the pointer methods but ignores them.
-Only state machines have listeners.
-
 ## Reading State Changes
 
 After each `advanceAndApply` you can introspect what happened on a
@@ -109,21 +104,3 @@ if (auto* sm = dynamic_cast<StateMachineInstance*>(scene.get())) {
 This is the hook you use to react in C++ to states defined in the `.riv`
 file — log analytics, play a sound, fire a callback into your engine.
 
-## Running Linear Animations
-
-If you don't want a state machine, get a `LinearAnimationInstance`:
-
-```cpp
-#include "rive/animation/linear_animation_instance.hpp"
-
-auto anim = artboard->animationNamed("Idle");
-anim->loopValue(static_cast<int>(Loop::loop));
-anim->advanceAndApply(dt);
-artboard->draw(&renderer);    // animations draw via the artboard
-```
-
-`LinearAnimationInstance` is also a `Scene`, so you can handle it
-polymorphically anywhere you work with a `Scene*` and call
-`advanceAndApply(...)`. Rendering still happens through the artboard, as shown
-above, because the animation instance applies its pose to that artboard before
-it is drawn.
