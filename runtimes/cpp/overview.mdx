@@ -6,8 +6,9 @@ sidebarTitle: "Overview"
 
 The Rive C++ runtime (`rive-cpp`) is the lowest-level Rive runtime. It loads
 `.riv` files, advances state machines and animations, and draws into any
-[Renderer](/runtimes/cpp/external-renderer) — including Rive's own GPU
-[Renderer](/runtimes/cpp/renderers) (Metal, Vulkan, D3D11, D3D12, OpenGL/WebGL).
+`Renderer` — the
+[Rive renderer](/runtimes/cpp/renderers) (Metal, Vulkan, D3D11, D3D12,
+OpenGL/WebGL) or [your own implementation](/runtimes/cpp/external-renderer).
 
 Higher level Rive runtimes (Apple, Android, Flutter, Unity, Unreal) wrap this
 library.
