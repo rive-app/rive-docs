@@ -23,7 +23,7 @@ Implement both and Rive will route everything through them.
   `Renderer` that records command counts.
 
 If you only need Rive on Windows / macOS / iOS / Linux / Web / Android,
-prefer the [first-party renderers](/runtimes/cpp/renderers) — they're
+prefer the [built-in renderers](/runtimes/cpp/renderers) — they're
 faster and feature-complete.
 
 ## The `Renderer` Interface
@@ -104,7 +104,7 @@ Things to keep in mind:
 
 ## RenderPath / RenderPaint Subclasses
 
-Each is just a typed bag of state for your backend to consume:
+Each holds the state your backend reads during drawing:
 
 ```cpp
 class MyPath : public RenderPath {
@@ -157,7 +157,7 @@ There's no `RenderContext` in this path — your `Renderer` is responsible
 for making the GPU calls (or buffering them, or counting them, or whatever
 you want).
 
-## Existing Implementations to Crib From
+## Reference Implementations
 
 All paths below are in the [rive-runtime](https://github.com/rive-app/rive-runtime) repo.
 
