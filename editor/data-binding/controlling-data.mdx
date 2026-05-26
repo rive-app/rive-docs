@@ -1,0 +1,60 @@
+---
+title: "Controlling Data"
+description: "Update and react to data from within Rive or from your application code."
+---
+
+Once you've bound data to properties in your file, changing that data will automatically update the connected elements.
+
+You can control data from within your Rive file, or from your application at runtime.
+
+## Controlling data within Rive
+
+Rive includes several ways to update data directly inside your file:
+
+<CardGroup cols="2">
+  <Card
+    title="State machine actions"
+    href="/editor/state-machine/states#actions"
+  >
+    Update property values when [transitions](/editor/state-machine/transitions#actions) or [state changes](/editor/state-machine/states#actions) occur.
+  </Card>
+
+  <Card
+    title="Listener actions"
+    href="/editor/listeners"
+  >
+    Update data in response to interactions and events.
+  </Card>
+
+  <Card
+    title="Scripting"
+    href="/scripting/data-binding"
+  >
+    Write custom logic that reads and updates data.
+  </Card>
+
+  <Card
+    title="Target-to-source Binding"
+    href="/editor/data-binding/overview#bind-direction"
+  >
+    Update data using an element's property value.
+  </Card>
+
+  <Card
+    title="Property Groups"
+    href="/editor/data-binding/property-groups"
+  >
+    Animate values and bind them back to data.
+  </Card>
+</CardGroup>
+
+## Controlling data from code
+
+Your application can also update data at runtime. For example, you might:
+
+- Update a player's score
+- Change a username or profile image
+- Display live stock prices
+- Trigger UI states based on user interaction
+
+See the [Runtime Data Binding Overview](/runtimes/data-binding) for implementation details.
