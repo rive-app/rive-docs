@@ -1,0 +1,31 @@
+---
+title: "Binding Data"
+description: ""
+---
+
+import { YouTube } from '/snippets/youtube.mdx'
+
+Binding is how you connect data to properties and elements in your Rive file.
+
+For example, if you have a `teamName` property bound to a text run in your scene, changing the `teamName` value updates the displayed text automatically.
+
+You can change property values in the editor or at runtime, allowing you to create dynamic experiences that adapt to each user.
+
+Bindings are not limited to visual properties. You can bind values throughout your file, including transforms, animation speeds, [converter values](/editor/data-binding/converters#converter-types), [script inputs](/scripting/script-inputs#data-binding-inputs), [transition condition values](/editor/state-machine/transitions), and more.
+
+This allows the same data to drive behavior, animation, and logic across your scene, helping keep everything in sync.
+
+## Binding a Property to an Element
+
+## Bind Direction
+
+
+
+## Absolute vs Relative Binding
+
+<YouTube id="4LOXhXesG74" />
+
+By default, new data binding connections are created as absolute binds.
+
+- Absolute Binding: the bind points the value at a specific property location within the view model tree. For example, "the second property of the first view model".
+- Relative Binding: the bind finds the value of property with a specific name, regardless of where it falls within the view model tree. For example, a relative binding to "myNumber" will look for a property of that name within the view model available.

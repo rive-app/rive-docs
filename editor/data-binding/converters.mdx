@@ -35,6 +35,10 @@ Use them to adapt your data to match the property you're binding to—for exampl
 
 Converters can be used individually or combined into [groups](#converter-groups) to perform more complex transformations.
 
+Each converter has its own set of properties, many of which can be bound to other View Model properties.
+This allows converter behavior to update dynamically. For example, you could bind the maximum value of a range map, a multiplier in a formula, or the padding amount in a string converter.
+
+
 | Category | Converter                | Description                               |
 |----------|--------------------------|-------------------------------------------|
 | String   | [Pad](#pad)                      | Add padding to a string                   |
@@ -192,5 +196,3 @@ Converters run from top to bottom:
 Drag a converter up or down to change when it runs.
 
 Earlier converters affect all converters that follow.
-
-
