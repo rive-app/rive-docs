@@ -71,14 +71,12 @@ For example, a `Player` View Model could contain a `Team` View Model property, a
 You can bind to and update properties on nested View Models just like top-level properties.
 
 <Note>
-  If you want to assign a View Model instance to a nested component, that instance must be reachable from your main View Model.
-
-  Only View Model instances connected to the main View Model hierarchy are exported. Standalone instances that are not referenced will not be available at runtime.
+  If you want to assign a View Model instance to a nested component, that instance must be referenced from your main View Model.
 </Note>
 
 ## List
 
-List properties store collections of view models, which can be associated with specific artboards.
+List properties store collections of view model instances, which can be associated with specific artboards.
 
 Lists are commonly used for repeating content, such as inventory items, players, messages, or generated UI elements.
 
