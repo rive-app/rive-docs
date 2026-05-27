@@ -21,19 +21,9 @@ If your render loop and your app logic are already on the same thread,
 prefer the direct API — `CommandQueue` adds indirection and listener
 plumbing you don't need.
 
-## Mental Model
+## Architecture
 
-```
-┌──────────────────┐                   ┌────────────────────┐
-│  App thread      │   loadFile()      │ Render thread      │
-│                  │   advance()       │                    │
-│  CommandQueue ───┼──────────────────►│ CommandServer      │
-│                  │                   │   ↓                │
-│  Listeners ◄─────┼───── results ─────┤   owns File +      │
-│                  │                   │   ArtboardInstance │
-└──────────────────┘                   │   + StateMachine   │
-                                       └────────────────────┘
-```
+![CommandQueue architecture: an app-thread CommandQueue sends commands across to a render-thread CommandServer, which owns the real File, ArtboardInstance, and StateMachineInstance objects; the server returns results to listeners on the app thread.](/images/runtimes/cpp/command_queue.png)
 
 - `CommandQueue` is **reference-counted** (`rcp<CommandQueue>`) and
   thread-safe. The app thread keeps one; the server holds the other end.
