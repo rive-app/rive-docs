@@ -102,18 +102,17 @@ if (!file || result != ImportResult::success) {
 }
 ```
 
-## 4. Pick an Artboard and a Scene
+## 4. Pick an Artboard and a State Machine
 
 ```cpp
 #include "rive/artboard.hpp"
-#include "rive/scene.hpp"
+#include "rive/animation/state_machine_instance.hpp"
 
 std::unique_ptr<ArtboardInstance> artboard = file->artboardDefault();
 
-// Prefer a state machine — it's the only Scene that handles pointer events.
-std::unique_ptr<Scene> scene = artboard->defaultStateMachine();
-if (!scene) {
-    scene = artboard->defaultScene(); // falls back to first animation
+std::unique_ptr<StateMachineInstance> sm = artboard->defaultStateMachine();
+if (!sm && artboard->stateMachineCount() > 0) {
+    sm = artboard->stateMachineAt(0);
 }
 ```
 
@@ -126,7 +125,7 @@ A render loop has three phases each frame: **advance**, **draw**, **flush**.
 #include "rive/renderer/render_context.hpp"
 
 void renderFrame(float dt) {
-    scene->advanceAndApply(dt);
+    sm->advanceAndApply(dt);
 
     RenderContext::FrameDescriptor frame{};
     frame.renderTargetWidth  = windowWidth;
@@ -140,7 +139,7 @@ void renderFrame(float dt) {
                    Alignment::center,
                    AABB(0, 0, windowWidth, windowHeight),
                    artboard->bounds());
-    scene->draw(&renderer);
+    sm->draw(&renderer);
     renderer.restore();
 
     RenderContext::FlushResources flush{};
@@ -156,9 +155,9 @@ void renderFrame(float dt) {
   [Rendering Loop](/runtimes/cpp/rendering-loop).
 </Tip>
 
-## 6. Forward Input (Optional)
+## 6. Forward Input
 
-If you used a state machine, route pointer events back through the scene so
+Route pointer events back through the state machine so
 listeners and hit-testing work:
 
 ```cpp
@@ -173,9 +172,9 @@ Vec2D toArtboard(int x, int y) {
     return align.invertOrIdentity() * Vec2D{(float)x, (float)y};
 }
 
-scene->pointerMove(toArtboard(mouseX, mouseY));
-scene->pointerDown(toArtboard(mouseX, mouseY));
-scene->pointerUp(toArtboard(mouseX, mouseY));
+sm->pointerMove(toArtboard(mouseX, mouseY));
+sm->pointerDown(toArtboard(mouseX, mouseY));
+sm->pointerUp(toArtboard(mouseX, mouseY));
 ```
 
 ## What's Next
@@ -185,6 +184,6 @@ scene->pointerUp(toArtboard(mouseX, mouseY));
     Wire up your platform's GPU backend.
   </Card>
   <Card title="State Machines" icon="diagram-project" href="/runtimes/cpp/state-machines">
-    Advance scenes, forward pointer events, and react to state changes.
+    Advance state machines, forward pointer events, and react to state changes.
   </Card>
 </CardGroup>

@@ -17,8 +17,8 @@ on the next `advanceAndApply`.
   schema. Exposes the property API (`propertyNumber`, `propertyString`, etc).
   You own it via `rcp<>`.
 - `ViewModelInstance` — the underlying bindable instance. `Artboard` and
-  `Scene` bind to this type. Get one from a `ViewModelInstanceRuntime` with
-  `.instance()`.
+  `StateMachineInstance` bind to this type. Get one from a
+  `ViewModelInstanceRuntime` with `.instance()`.
 - `ViewModelInstance*Runtime` — typed handles for individual properties
   (`…NumberRuntime`, `…StringRuntime`, etc).
 
@@ -37,7 +37,7 @@ if (!vm) return;   // artboard has no default view model
 rcp<ViewModelInstanceRuntime> instance = vm->createDefaultInstance();
 if (instance) {
     artboard->bindViewModelInstance(instance->instance());
-    scene  ->bindViewModelInstance(instance->instance());
+    sm     ->bindViewModelInstance(instance->instance());
 }
 ```
 
@@ -59,12 +59,12 @@ rcp<ViewModelInstanceRuntime> instance = vm->createDefaultInstance();
 
 if (!instance) return;
 artboard->bindViewModelInstance(instance->instance());
-scene  ->bindViewModelInstance(instance->instance());
+sm     ->bindViewModelInstance(instance->instance());
 ```
 
 <Note>
-  Bind the same `ViewModelInstance` to **both** the artboard and the scene.
-  The artboard binding drives layout-affecting properties; the scene binding
+  Bind the same `ViewModelInstance` to **both** the artboard and the state machine.
+  The artboard binding drives layout-affecting properties; the state-machine binding
   drives state-machine transitions and listener conditions.
 </Note>
 
@@ -161,7 +161,7 @@ artboardRef->value(file->bindableArtboardNamed("Badge"));   // rcp<BindableArtbo
 - Property handles (`ViewModelInstanceNumberRuntime*`, etc) are owned by
   the parent instance. Cache the pointer — it stays valid for the
   instance's lifetime.
-- After mutating properties, the next `scene->advanceAndApply(dt)` propagates
+- After mutating properties, the next `sm->advanceAndApply(dt)` propagates
   the changes through data binds and into rendering.
 
 ## When Properties Don't Exist

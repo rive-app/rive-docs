@@ -48,11 +48,11 @@ Use the C++ runtime when you are:
 
 ## Architecture at a Glance
 
-![Rive runtime rendering pipeline: your application owns a File (.riv data) and a RenderContext (D3D/Metal/Vulkan/...); File produces an ArtboardInstance, which produces a Scene (state machine or linear animation), which feeds the RiveRenderer along with the RenderContext to produce pixels.](/images/runtimes/cpp/rive_pipeline.png)
+![Rive runtime rendering pipeline: your application owns a File (.riv data) and a RenderContext (D3D/Metal/Vulkan/...); File produces an ArtboardInstance, which produces a StateMachineInstance, which feeds the RiveRenderer along with the RenderContext to produce pixels.](/images/runtimes/cpp/rive_pipeline.png)
 
-**`File` / `Artboard` / `Scene` know nothing about the GPU**, and
-`Renderer` / `RenderContext` know nothing about Rive content. Either half
-works on its own — render Rive content through your own `Renderer`
+**`File` / `Artboard` / `StateMachineInstance` know nothing about the GPU**,
+and `Renderer` / `RenderContext` know nothing about Rive content. Either
+half works on its own — render Rive content through your own `Renderer`
 implementation, or drive `RiveRenderer` with non-Rive draw commands.
 
 ## Supported Platforms & APIs

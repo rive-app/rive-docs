@@ -5,14 +5,14 @@ description: "What happens between beginFrame and flush — and how to drive it.
 
 Each frame goes through three phases:
 
-1. **Advance.** `scene->advanceAndApply(dt)` updates state machines, animations, layout, and data bindings.
+1. **Advance.** `sm->advanceAndApply(dt)` updates state machines, animations, layout, and data bindings.
 2. **Record.** `RiveRenderer` records draw commands into the active `RenderContext`.
 3. **Submit.** `renderContext->flush(...)` builds the GPU work and lets the
    backend submit it.
 
 ```cpp
 // 1. Advance.
-scene->advanceAndApply(dt);
+sm->advanceAndApply(dt);
 
 // 2. Record draws.
 RenderContext::FrameDescriptor frame{};
@@ -25,7 +25,7 @@ RiveRenderer renderer(renderContext.get());
 renderer.save();
 renderer.align(Fit::contain, Alignment::center,
                AABB(0, 0, w, h), artboard->bounds());
-scene->draw(&renderer);
+sm->draw(&renderer);
 renderer.restore();
 
 // 3. Submit.
@@ -78,7 +78,7 @@ void tick(float realDt) {
     if (realDt > kMaxFrameDt) realDt = kMaxFrameDt;
     accumulator += realDt;
     while (accumulator >= kFixedSimDt) {
-        scene->advanceAndApply(kFixedSimDt);
+        sm->advanceAndApply(kFixedSimDt);
         accumulator -= kFixedSimDt;
     }
     drawFrame();
@@ -111,7 +111,7 @@ void onResize(uint32_t w, uint32_t h) {
     } else {
         artboard->resetSize();
     }
-    scene->advanceAndApply(0.f);
+    sm->advanceAndApply(0.f);
 }
 ```
 
@@ -131,28 +131,28 @@ Mat2D align = computeAlignment(
 
 renderer.save();
 renderer.transform(align);
-scene->draw(&renderer);
+sm->draw(&renderer);
 renderer.restore();
 
 // Later, on input:
 Vec2D pt = align.invertOrIdentity() * Vec2D{(float)mx, (float)my};
-scene->pointerMove(pt);
+sm->pointerMove(pt);
 ```
 
 ## When to Skip a Frame
 
-`advanceAndApply` returns `true` if the scene has more work; `false` if
+`advanceAndApply` returns `true` if the state machine has more work; `false` if
 everything has settled. For animations that have looped to rest, you can
 skip both the advance step and the draw call, dropping CPU/GPU usage to
 zero between user inputs.
 
-Pointer events and external view-model writes can wake the scene back up —
+Pointer events and external view-model writes can wake the state machine back up —
 re-draw at least once after each.
 
 ## Tear-Down
 
 ```cpp
-scene.reset();
+sm.reset();
 artboard.reset();
 file = nullptr;
 renderTarget = nullptr;

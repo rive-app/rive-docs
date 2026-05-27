@@ -4,8 +4,8 @@ description: "Plug Rive into your own GPU backend or 2D engine."
 ---
 
 `RiveRenderer` and `rive::gpu::RenderContext` are one possible backend. The
-core runtime is renderer-agnostic — anything you pass to `Scene::draw` only
-has to implement two interfaces:
+core runtime is renderer-agnostic — anything you pass to
+`StateMachineInstance::draw` only has to implement two interfaces:
 
 - **`rive::Renderer`** — receives draw / clip / save / restore commands.
 - **`rive::Factory`** — creates `RenderPath`, `RenderPaint`, `RenderImage`,
@@ -146,11 +146,11 @@ MyFactory factory;
 rcp<File> file = File::import(bytes, &factory);
 
 auto artboard = file->artboardDefault();
-auto scene    = artboard->defaultScene();
+auto sm       = artboard->defaultStateMachine();
 
 MyRenderer renderer;
-scene->advanceAndApply(dt);
-scene->draw(&renderer);
+sm->advanceAndApply(dt);
+sm->draw(&renderer);
 ```
 
 There's no `RenderContext` in this path — your `Renderer` is responsible

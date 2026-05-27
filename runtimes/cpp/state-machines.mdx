@@ -1,20 +1,20 @@
 ---
 title: "State Machines"
-description: "Advance scenes and forward pointer events."
+description: "Advance state machines and forward pointer events."
 ---
 
-`Scene` is the unit of playback.
+`StateMachineInstance` is the unit of playback in C++:
 
 ```cpp
-class Scene {
+class StateMachineInstance {
 public:
-    virtual bool  advanceAndApply(float elapsedSeconds) = 0;
-    void          draw(Renderer*);
+    bool advanceAndApply(float elapsedSeconds);
+    void draw(Renderer*);
 
-    virtual HitResult pointerDown(Vec2D, int pointerId = 0);
-    virtual HitResult pointerMove(Vec2D, float timeStamp = 0, int pointerId = 0);
-    virtual HitResult pointerUp(Vec2D, int pointerId = 0);
-    virtual HitResult pointerExit(Vec2D, int pointerId = 0);
+    HitResult pointerDown(Vec2D, int pointerId = 0);
+    HitResult pointerMove(Vec2D, float timeStamp = 0, int pointerId = 0);
+    HitResult pointerUp(Vec2D, int pointerId = 0);
+    HitResult pointerExit(Vec2D, int pointerId = 0);
 };
 ```
 
@@ -28,11 +28,11 @@ bindings) for `dt` seconds and applies the results to the artboard's
 component graph. Call it before every draw:
 
 ```cpp
-scene->advanceAndApply(deltaSeconds);
-scene->draw(&renderer);
+sm->advanceAndApply(deltaSeconds);
+sm->draw(&renderer);
 ```
 
-A return value of `true` means the scene is still animating and the next
+A return value of `true` means the state machine is still animating and the next
 frame should re-draw. `false` means everything has settled.
 
 <Tip>
@@ -49,7 +49,7 @@ resizing the window or changing the artboard's `width()` / `height()`:
 ```cpp
 artboard->width(newWidth);
 artboard->height(newHeight);
-scene->advanceAndApply(0.f);
+sm->advanceAndApply(0.f);
 ```
 
 ## Pointer Events
@@ -71,10 +71,10 @@ Vec2D toArtboard(int x, int y) {
     return align.invertOrIdentity() * Vec2D{(float)x, (float)y};
 }
 
-scene->pointerMove(toArtboard(mx, my));
-scene->pointerDown(toArtboard(mx, my));
-scene->pointerUp(toArtboard(mx, my));
-scene->pointerExit(toArtboard(mx, my));
+sm->pointerMove(toArtboard(mx, my));
+sm->pointerDown(toArtboard(mx, my));
+sm->pointerUp(toArtboard(mx, my));
+sm->pointerExit(toArtboard(mx, my));
 ```
 
 `HitResult` returns one of three values, which tells you how to route the
@@ -90,14 +90,12 @@ same event to other UI behind Rive:
 ## Reading State Changes
 
 After each `advanceAndApply` you can introspect what happened on a
-`StateMachineInstance`. If you only have a `Scene*`, use a checked downcast:
+`StateMachineInstance`. Call directly on your `StateMachineInstance`:
 
 ```cpp
-if (auto* sm = dynamic_cast<StateMachineInstance*>(scene.get())) {
-    for (size_t i = 0, n = sm->stateChangedCount(); i < n; ++i) {
-        const LayerState* s = sm->stateChangedByIndex(i);
-        // s->name(), s->is<AnimationState>(), etc.
-    }
+for (size_t i = 0, n = sm->stateChangedCount(); i < n; ++i) {
+    const LayerState* s = sm->stateChangedByIndex(i);
+    // s->name(), s->is<AnimationState>(), etc.
 }
 ```
 

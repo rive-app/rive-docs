@@ -6,7 +6,7 @@ description: "Importing .riv data and instancing artboards."
 A Rive `.riv` file is a binary container of **artboards**, **animations**,
 **state machines**, **view models**, and **assets**. The C++ API gives you
 read-only access to that container (`File`, `Artboard`) and mutable instances
-you can advance and draw (`ArtboardInstance`, `Scene`).
+you can advance and draw (`ArtboardInstance`, `StateMachineInstance`).
 
 ## Importing a File
 
@@ -88,20 +88,17 @@ std::string smName   = ab->stateMachineNameAt(0);
 int defaultIdx = ab->defaultStateMachineIndex();   // -1 if none
 ```
 
-## Picking a `Scene`
+## Creating a State Machine
 
-`Scene` is the abstract base of anything you can advance and draw. The
-concrete flavor you'll work with is `StateMachineInstance`.
+`StateMachineInstance` is the unit of playback in C++ — what you advance
+each frame, draw, and forward pointer events to.
 
 ```cpp
-#include "rive/scene.hpp"
+#include "rive/animation/state_machine_instance.hpp"
 
-std::unique_ptr<Scene> scene;
-
-if (auto sm = ab->defaultStateMachine()) {
-    scene = std::move(sm);
-} else if (ab->stateMachineCount() > 0) {
-    scene = ab->stateMachineAt(0);
+std::unique_ptr<StateMachineInstance> sm = ab->defaultStateMachine();
+if (!sm && ab->stateMachineCount() > 0) {
+    sm = ab->stateMachineAt(0);
 }
 ```
 
@@ -122,7 +119,7 @@ if (fit == Fit::layout) {
 }
 
 // Re-evaluate layout before the next draw.
-scene->advanceAndApply(0.f);
+sm->advanceAndApply(0.f);
 ```
 
 `Artboard::bounds()` returns the current 'rect' — feed it to `computeAlignment`
