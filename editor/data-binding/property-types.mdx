@@ -18,7 +18,8 @@ import { Marketplace } from '/snippets/marketplace.mdx'
 | [Enum](#enum)         | One value from a predefined list    |
 | [Image](#image)       | Image asset reference               |
 | [Artboard](#artboard) | Artboard reference                  |
-| [List](#list)         | Collection of values or view models |
+| [View Model](#view-model) | Nested View Model instance                  |
+| [List](#list)         | Collection of view models |
 
 
 ## Trigger
@@ -59,8 +60,26 @@ The artboard can come from your current Rive file or be loaded from another .riv
 
 To use an artboard as a property, it must first be [converted to a Component](/editor/fundamentals/components#creating-a-component).
 
+## View Model
+
+View Model properties store a reference to a View Model instance.
+
+They are used to create nested data structures by connecting one View Model instance to another.
+
+For example, a `Player` View Model could contain a `Team` View Model property, allowing you to access properties such as the team's name, logo, and colors.
+
+You can bind to and update properties on nested View Models just like top-level properties.
+
+<Note>
+  If you want to assign a View Model instance to a nested component, that instance must be reachable from your main View Model.
+
+  Only View Model instances connected to the main View Model hierarchy are exported. Standalone instances that are not referenced will not be available at runtime.
+</Note>
+
 ## List
 
-List properties store collections of properties.
+List properties store collections of view models, which can be associated with specific artboards.
 
-For more information, see [Lists](/editor/data-binding/lists)
+Lists are commonly used for repeating content, such as inventory items, players, messages, or generated UI elements.
+
+For more information, see [Lists](/editor/data-binding/lists).
