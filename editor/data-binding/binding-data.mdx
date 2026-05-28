@@ -18,6 +18,8 @@ This allows the same data to drive behavior, animation, and logic across your sc
 
 Let's control the `X` position of a circle using `circleX`, which is a Number property in our View Model.
 
+![Bind a property](/images/editor/data-binding/binding-data/bind-value.gif)
+
 <Steps>
   <Step title="Bind the property">
     With your circle selected, right-click the `X` field, and select **Data Bind**.
@@ -27,9 +29,11 @@ Let's control the `X` position of a circle using `circleX`, which is a Number pr
   </Step>
 </Steps>
 
+The `X` field should now be highlighted in green, indicating that it's bound to a value.
+
 The circle's horizontal position is now driven by the `circleX` property. Any time the property's value changes, the circle updates automatically.
 
-The `X` field should now be highlighted in green, indicating that it's bound to a value.
+![Bind a property](/images/editor/data-binding/binding-data/updating-values.gif)
 
 <Warning>
   If the field has a yellow border, there is a problem with the binding.
@@ -43,15 +47,21 @@ The `X` field should now be highlighted in green, indicating that it's bound to 
   By default, your data only controls your elements when the state machine is playing.
 
   To preview your data-bound values, turn on the **Data Binding Preview Toggle**.
+
+  ![Preview data binding](/images/editor/data-binding/binding-data/preview-data-binding.gif)
 </Tip>
 
 ### Updating a Binding
 
 Right-click the bound element and select **Update Bind**.
 
+![Update a binding](/images/editor/data-binding/binding-data/update-bind.gif)
+
 ### Removing a Binding
 
 Right-click the bound element and select **Unbind**.
+
+![Remove a binding](/images/editor/data-binding/binding-data/unbind.gif)
 
 ## Binding Options
 
@@ -61,11 +71,15 @@ Each binding has the following properties.
 
 The View Model property the target is connected to.
 
+![Property field](/images/editor/data-binding/binding-data/property.png)
+
 ### Path
 
 When binding to nested View Models, there may be multiple properties with the same name available.
 
 The path determines which specific property instance the binding should use.
+
+![Preview data binding](/images/editor/data-binding/binding-data/path.gif)
 
 See also [Absolute vs Relative Binding](#absolute-vs-relative-binding).
 
@@ -79,6 +93,8 @@ By default, the View Model property (**source**) controls the bound element or v
 
 When a binding has `Target to Source` toggled on, a change to the element will update the view model property.
 
+![Target to source](/images/editor/data-binding/binding-data/target-to-source.png)
+
 <UseCase
   title="Tracking Positions"
 >
@@ -91,6 +107,12 @@ When a binding has `Target to Source` toggled on, a change to the element will u
 
 A change to the view model property will update the element **AND** a change to the element will update the view model property.
 
+![Bidirectional data binding](/images/editor/data-binding/binding-data/bidirectional.gif)
+
+Clicking the **Bidirectional** toggle multiple times will cycle between **Bidirectional (prefer target value)** and **Bidirectional (prefer source value)**.
+
+In rare cases, both the source and target may change at the same time. This setting determines which value wins when a conflict occurs.
+
 <UseCase
   title="Checkers"
 >
@@ -101,17 +123,13 @@ A change to the view model property will update the element **AND** a change to 
   As the piece is dragged, the piece itself (target) updates those property values (target to source).
 </UseCase>
 
-**Prefer Target or Source**
-
-Clicking the **Bidirectional** toggle multiple times will cycle between **Bidirectional (prefer target value)** and **Bidirectional (prefer source value)**.
-
-In rare cases, both the source and target may change at the same time. This setting determines which value wins when a conflict occurs.
-
 ### Bind Once
 
 <YouTube id="Syt6i4-Bkm4" timestamp="152" />
 
 When **Bind Once** is enabled, the binding only applies the value a single time when the scene starts or the binding is created.
+
+![Bind once](/images/editor/data-binding/binding-data/bind-once.png)
 
 After the initial value is applied, future changes to the source or target are ignored.
 
