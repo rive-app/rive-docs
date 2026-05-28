@@ -4,8 +4,40 @@ description: "Rive files are fully functional real-time graphics designed for ru
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
+import { VideoEmbed } from '/snippets/video-embed.jsx'
 import { RiveCard } from '/snippets/rive-card.jsx'
 import { RiveFile } from '/snippets/rive-file.jsx'
+import { CardGroupCustom } from '/snippets/card-group-custom.jsx'
+
+<CardGroupCustom cols="3">
+  <RiveCard>
+    <VideoEmbed src="https://framerusercontent.com/assets/LbCLJ75AO7l248pdkB0P0EFisbE.mp4" />
+  </RiveCard>
+  <RiveCard>
+    <VideoEmbed src="https://cdn.rive.app/framer/figma_rive.mp4" />
+  </RiveCard>
+  <RiveCard>
+    <VideoEmbed src="https://cdn.rive.app/framer/product_ui2.mp4" />
+  </RiveCard>
+  <RiveCard>
+    <VideoEmbed src="https://cdn.rive.app/framer/broadcast.mp4" />
+  </RiveCard>
+  <RiveCard>
+    <VideoEmbed src="https://cdn.rive.app/framer/data_driven2.mp4" />
+  </RiveCard>
+  <RiveCard>
+    <VideoEmbed src="https://cdn.rive.app/framer/joel_home.mp4" />
+  </RiveCard>
+  <RiveCard>
+    <VideoEmbed src="https://framerusercontent.com/assets/RROO3gsepwxfYDx3dsxJfx8HDzE.mp4" />
+  </RiveCard>
+  <RiveCard>
+    <VideoEmbed src="https://framerusercontent.com/assets/ECBYGU97tURypreR5jen03aJ4xQ.mp4" />
+  </RiveCard>
+  <RiveCard>
+    <VideoEmbed src="https://cdn.rive.app/framer/territory_sequence.mp4" />
+  </RiveCard>
+</CardGroupCustom>
 
 ## Rive at a Glance
 
@@ -16,15 +48,15 @@ import { RiveFile } from '/snippets/rive-file.jsx'
     aspect3by2
   >
     <RiveFile
-      src="https://static.rive.app/rivs/webdocgraphics.riv"
+      src="https://static.rive.app/rivs/web_doc_graphics.riv"
       id="design-rive"
       artboard="Main-Design"
       autoBind={false}
     />
   </RiveCard>
 
-  <Card title="2. Animate" img="/images/introduction/animation.gif">
-    Bring your designs to life with timelines, keyframes, blending, and smooth interpolation.
+  <Card title="2. Animate" img="/images/introduction/animation.gif" >
+    Bring your designs to life with timelines, keyframes, and smooth interpolation.
   </Card>
 
   <RiveCard
@@ -33,17 +65,17 @@ import { RiveFile } from '/snippets/rive-file.jsx'
     aspect3by2
   >
     <RiveFile
-      src="https://static.rive.app/rivs/webdocgraphics.riv"
+      src="https://static.rive.app/rivs/web_doc_graphics.riv"
       id="state-machine-rive"
       artboard="MAIN-SM"
     />
   </RiveCard>
 
   <Card title="4. Control using Data" img="/images/introduction/data-binding.gif">
-    Connect animations, text, colors, layouts, and other properties to real-time data from your app or game.
+     Connect animations, text, colors, layouts, and other properties to real-time data.
   </Card>
 
-  <Card title="5. Scripting" img="/images/introduction/animation.gif">
+  <Card title="5. Scripting" img="/images/introduction/scripting.gif">
      Use scripting to create custom interactions, procedural animation, and behaviors that go beyond the built-in tools.
   </Card>
 
