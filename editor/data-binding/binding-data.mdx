@@ -1,11 +1,10 @@
 ---
 title: "Binding Data"
-description: ""
+description: "Binding is how you connect data to properties and elements in your Rive file."
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
-
-Binding is how you connect data to properties and elements in your Rive file.
+import { UseCase } from '/snippets/use-case.mdx'
 
 For example, if you have a `teamName` property bound to a text run in your scene, changing the `teamName` value updates the displayed text automatically.
 
@@ -15,17 +14,119 @@ Bindings are not limited to visual properties. You can bind values throughout yo
 
 This allows the same data to drive behavior, animation, and logic across your scene, helping keep everything in sync.
 
-## Binding a Property to an Element
+## Binding a Property
 
-## Bind Direction
+Let's control the `X` position of a circle using `circleX`, which is a Number property in our View Model.
 
+<Steps>
+  <Step title="Bind the property">
+    With your circle selected, right-click the `X` field, and select **Data Bind**.
+  </Step>
+  <Step title="Select the property">
+    In the **Property** dropdown, select `circleX`.
+  </Step>
+</Steps>
 
+The circle's horizontal position is now driven by the `circleX` property. Any time the property's value changes, the circle updates automatically.
 
-## Absolute vs Relative Binding
+The `X` field should now be highlighted in green, indicating that it's bound to a value.
+
+<Warning>
+  If the field has a yellow border, there is a problem with the binding.
+
+  In most cases, the property type is incompatible with the target value. For example, the `X` position of an element can only be bound to a Number property.
+</Warning>
+
+<Tip>
+  **Previewing Bindings**
+
+  By default, your data only controls your elements when the state machine is playing.
+
+  To preview your data-bound values, turn on the **Data Binding Preview Toggle**.
+</Tip>
+
+### Updating a Binding
+
+Right-click the bound element and select **Update Bind**.
+
+### Removing a Binding
+
+Right-click the bound element and select **Unbind**.
+
+## Binding Options
+
+Each binding has the following properties.
+
+### Property
+
+The View Model property the target is connected to.
+
+### Path
+
+When binding to nested View Models, there may be multiple properties with the same name available.
+
+The path determines which specific property instance the binding should use.
+
+See also [Absolute vs Relative Binding](#absolute-vs-relative-binding).
+
+### Bind Direction
+
+By default, the View Model property (**source**) controls the bound element or value (**target**), but it can also work the other way around.
+
+<YouTube id="Syt6i4-Bkm4" />
+
+#### Target to Source
+
+When a binding has `Target to Source` toggled on, a change to the element will update the view model property.
+
+<UseCase
+  title="Tracking Positions"
+>
+  Let's say you have a walk cycle animation and you want to track the exact Y position of the head as it bobs up and down.
+
+  With the head's `Y` position bound to `headY` using **Target to Source**, the `headY` property updates automatically as the head moves.
+</UseCase>
+
+#### Bidirectional
+
+A change to the view model property will update the element **AND** a change to the element will update the view model property.
+
+<UseCase
+  title="Checkers"
+>
+  Let's say you're building a game of checkers and need to create logic for dragging and dropping each piece.
+
+  The initial position of each piece is determined by the `piecePositionX` and `piecePositionY` properties (source to target).
+
+  As the piece is dragged, the piece itself (target) updates those property values (target to source).
+</UseCase>
+
+**Prefer Target or Source**
+
+Clicking the **Bidirectional** toggle multiple times will cycle between **Bidirectional (prefer target value)** and **Bidirectional (prefer source value)**.
+
+In rare cases, both the source and target may change at the same time. This setting determines which value wins when a conflict occurs.
+
+### Bind Once
+
+<YouTube id="Syt6i4-Bkm4" timestamp="152" />
+
+When **Bind Once** is enabled, the binding only applies the value a single time when the scene starts or the binding is created.
+
+After the initial value is applied, future changes to the source or target are ignored.
+
+<UseCase>
+  Let's say you're creating a particle effect and want each particle to start with a random rotation value.
+
+  You could bind the particle's rotation to a random number property using **Bind Once**. Each particle would receive its initial rotation value, but future changes to the property would not affect existing particles.
+</UseCase>
+
+### Absolute vs Relative Binding
 
 <YouTube id="4LOXhXesG74" />
 
 By default, new data binding connections are created as absolute binds.
 
-- Absolute Binding: the bind points the value at a specific property location within the view model tree. For example, "the second property of the first view model".
-- Relative Binding: the bind finds the value of property with a specific name, regardless of where it falls within the view model tree. For example, a relative binding to "myNumber" will look for a property of that name within the view model available.
+- **Absolute Binding**: The binding points to a specific property instance within the View Model hierarchy.
+- **Relative Binding**: The binding searches for a property with a matching name relative to the current context.
+
