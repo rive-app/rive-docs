@@ -53,7 +53,7 @@ viewModel() -> ViewModel?
 ```
 </div>
 
-Returns the [ViewModel](/scripting/api-reference/interfaces/view-model) bound to the node's immediate data context. This is the most common way
+Returns the [ViewModel](/scripting/api-reference/artboards/view-model) bound to the node's immediate data context. This is the most common way
 to read data-bound properties from a script.
 ```lua highlight={2}
 function init(self: MyNode, context: Context): boolean
@@ -76,7 +76,7 @@ rootViewModel() -> ViewModel?
 ```
 </div>
 
-Returns the [ViewModel](/scripting/api-reference/interfaces/view-model) bound to the root artboard's data context.
+Returns the [ViewModel](/scripting/api-reference/artboards/view-model) bound to the root artboard's data context.
 Useful when you need to access top-level data from a deeply nested node.
 ```lua highlight={2}
 function init(self: MyNode, context: Context): boolean
