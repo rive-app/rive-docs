@@ -2,13 +2,11 @@ export const CardGroupCustom = ({ children }) => {
   return (
     <div
       className="
-        columns
         prose
         dark:prose-invert
         grid
         max-w-none
         gap-4
-        grid
         grid-cols-2
         md:grid-cols-3
         columns
