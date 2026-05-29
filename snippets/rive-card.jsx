@@ -1,4 +1,4 @@
-export const RiveCard = ({ title, description, links, children, source, aspect3by2, href}) => {
+export const RiveCard = ({ title, description, links, children, source, aspect3by2}) => {
 
   const runtimesInOrder = ['web', 'react', 'reactNative', 'flutter', 'apple', 'android', 'unity', 'unreal']
   const runtimeTitles = {
@@ -28,33 +28,9 @@ export const RiveCard = ({ title, description, links, children, source, aspect3b
     )
   }
 
-  const LinkContainer = ({ cardHref, children }) => {
-    if (href) {
-      return (
-          <Link
-            className="rive-card-link-container flex flex-grow flex-col px-6 py-5 relative border-b-0"
-            tabIndex={0}
-            href={href}
-            data-component-part="card-content-container"
-          >
-          {children}
-        </Link>
-      )
-    }
-
-    return (
-      <div
-        className="flex flex-grow flex-col px-6 py-5 relative"
-        data-component-part="card-content-container"
-      >
-        {children}
-      </div>
-    )
-  }
-
   return (
     <div
-      className="rive-card flex flex-col card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full"
+      className="flex flex-col card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full"
     >
 
       {
@@ -75,7 +51,7 @@ export const RiveCard = ({ title, description, links, children, source, aspect3b
 
       {
         hasContent && (
-          <LinkContainer cardHref={href}>
+          <div className="flex flex-grow flex-col px-6 py-5 relative" data-component-part="card-content-container">
             <div className="flex flex-col grow">
               <h2 className="not-prose font-semibold text-base text-gray-800 dark:text-white" data-component-part="card-title">{title}</h2>
               <div className="flex flex-col grow prose mt-1 font-normal text-sm leading-6 text-gray-600 dark:text-gray-400" data-component-part="card-content">
@@ -112,7 +88,7 @@ export const RiveCard = ({ title, description, links, children, source, aspect3b
                 </div>
               </div>
             </div>
-          </LinkContainer>
+          </div>
         )
       }
     </div>
