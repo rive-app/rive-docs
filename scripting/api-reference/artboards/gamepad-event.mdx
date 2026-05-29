@@ -1,0 +1,120 @@
+---
+title: GamepadEvent
+---
+
+One field change on an already-connected gamepad (`gamepadEvent`); includes
+the full post-update state and optional standard-layout intent.
+
+(Coming soon)
+
+
+## Fields
+
+### `changeKind`
+
+W3C change kind: `"button"` or `"axis"`.
+
+
+### `changeIndex`
+
+1-based W3C button or axis index for this change.
+
+
+### `changeValue`
+
+### `hasStandardButtonIntent`
+
+### `hasStandardAxisIntent`
+
+### `intentButton`
+
+### `intentAxis`
+
+### `deviceId`
+
+Read-only full device state after the change (same fields as [GamepadConnected]).
+
+
+### `buttonMask`
+
+### `buttons`
+
+### `axes`
+
+### `isStandardMapping`
+
+### `mapping`
+
+### `gamepadMapping`
+
+### `west`
+
+### `south`
+
+### `north`
+
+### `east`
+
+### `leftShoulder`
+
+### `rightShoulder`
+
+### `back`
+
+### `forward`
+
+### `leftStickButton`
+
+### `rightStickButton`
+
+### `dpadUp`
+
+### `dpadDown`
+
+### `dpadLeft`
+
+### `dpadRight`
+
+### `start`
+
+### `leftStick`
+
+### `rightStick`
+
+### `leftTrigger`
+
+### `rightTrigger`
+
+### `leftTriggerPressed`
+
+### `rightTriggerPressed`
+
+## Methods
+
+### `buttonPressed`
+
+{/* buttonPressed: (self: GamepadEvent, index: number) -> boolean */}
+<div class="signature">
+```lua
+buttonPressed(index: number) -> boolean
+```
+</div>
+
+### `buttonValue`
+
+{/* buttonValue: (self: GamepadEvent, index: number) -> number */}
+<div class="signature">
+```lua
+buttonValue(index: number) -> number
+```
+</div>
+
+### `axis`
+
+{/* axis: (self: GamepadEvent, index: number) -> number */}
+<div class="signature">
+```lua
+axis(index: number) -> number
+```
+</div>
+

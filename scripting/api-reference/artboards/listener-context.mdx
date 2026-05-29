@@ -86,6 +86,33 @@ isViewModelChange() -> boolean
 Returns true if the action was triggered by a view model change.
 
 
+### `isGamepadConnected`
+
+{/* isGamepadConnected: (self: ListenerContext) -> boolean */}
+<div class="signature">
+```lua
+isGamepadConnected() -> boolean
+```
+</div>
+
+### `isGamepadEvent`
+
+{/* isGamepadEvent: (self: ListenerContext) -> boolean */}
+<div class="signature">
+```lua
+isGamepadEvent() -> boolean
+```
+</div>
+
+### `isGamepadDisconnected`
+
+{/* isGamepadDisconnected: (self: ListenerContext) -> boolean */}
+<div class="signature">
+```lua
+isGamepadDisconnected() -> boolean
+```
+</div>
+
 ### `isNone`
 
 {/* isNone: (self: ListenerContext) -> boolean */}
@@ -169,6 +196,33 @@ asViewModelChange() -> ViewModelChange?
 
 Returns the view model change if applicable, otherwise nil.
 
+
+### `asGamepadConnected`
+
+{/* asGamepadConnected: (self: ListenerContext) -> GamepadConnected? */}
+<div class="signature">
+```lua
+asGamepadConnected() -> GamepadConnected?
+```
+</div>
+
+### `asGamepadEvent`
+
+{/* asGamepadEvent: (self: ListenerContext) -> GamepadEvent? */}
+<div class="signature">
+```lua
+asGamepadEvent() -> GamepadEvent?
+```
+</div>
+
+### `asGamepadDisconnected`
+
+{/* asGamepadDisconnected: (self: ListenerContext) -> GamepadDisconnected? */}
+<div class="signature">
+```lua
+asGamepadDisconnected() -> GamepadDisconnected?
+```
+</div>
 
 ### `asNone`
 
