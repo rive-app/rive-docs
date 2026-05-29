@@ -327,17 +327,18 @@ self.pipeline = GPUPipeline.new({ colorTargets = {{ format = fmt }}, ... })
 ```
 
 
-### `loadShader`
+### `shader`
 
-{/* function loadShader(self, name: string): Shader? */}
+{/* function shader(self, name: string): Shader? */}
 <div class="signature">
 ```lua
-loadShader(name: string) -> Shader?
+shader(name: string) -> Shader?
 ```
 </div>
 
-Load a compiled shader by asset name. Returns a Shader ready for use
-in GPUPipeline.new(), or nil if the named shader is not found.
+Get a compiled shader by asset name (the name as added in the editor,
+with no ".wgsl" extension). Returns a Shader ready for use in
+GPUPipeline.new(), or nil if the named shader is not found.
 
 
 ### `decodeImage`
