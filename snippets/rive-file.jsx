@@ -49,15 +49,15 @@ export const RiveFile = ({
         },
       });
 
-
-      window.addEventListener("resize", () => {
+      const onResize = () => {
         r.resizeDrawingSurfaceToCanvas();
-      });
+      };
+
+      window.addEventListener("resize", onResize);
 
       return () => {
-        window.removeEventListener("resize", () => {
-          r.resizeDrawingSurfaceToCanvas();
-        });
+        window.removeEventListener("resize", onResize);
+        r.cleanup();
 
       };
 
