@@ -2,22 +2,9 @@
 title: Shader
 ---
 
-An opaque compiled shader module. Create via `context:loadShader`.
-
-
-## Constructors
-
-### `new`
-
-{/* new: (wgslAssetName: string) -> Shader */}
-<div class="signature">
-```lua
-new(wgslAssetName: string) -> Shader
-```
-</div>
-
-Load a pre-compiled WGSL shader embedded in the Rive file.
-The name must match a shader asset added in the editor (e.g. "myEffect.wgsl").
-Raw WGSL source strings are not accepted at runtime.
+An opaque compiled shader module. Get one with `context:shader(name)`,
+where `name` is the shader asset's name as added in the editor (e.g.
+"myEffect" — no ".wgsl" extension). Raw WGSL source strings are not
+accepted at runtime.
 
 
