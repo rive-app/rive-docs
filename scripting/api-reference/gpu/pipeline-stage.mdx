@@ -1,0 +1,10 @@
+---
+title: PipelineStage
+---
+
+A pipeline stage: a Shader, or WebGPU-style `{ module = Shader,
+entryPoint = name }`. The Shader's `@vertex`/`@fragment` functions are the
+selectable entry points; omit `entryPoint` to use the first one of that
+stage (like WebGPU). Vertex and fragment may come from different Shaders.
+
+

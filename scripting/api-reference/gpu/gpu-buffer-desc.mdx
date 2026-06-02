@@ -1,0 +1,35 @@
+---
+title: GPUBufferDesc
+---
+
+Descriptor for `GPUBuffer.new`.
+
+
+## Fields
+
+### `size`
+
+Size in bytes.
+
+
+### `usage`
+
+How the buffer will be used.
+
+
+### `data`
+
+Optional initial contents. Required when `immutable` is true; its
+length must equal `size`.
+
+
+### `immutable`
+
+When true the buffer is GPU-only and cannot be written after creation.
+
+
+### `label`
+
+Optional debug name.
+
+
