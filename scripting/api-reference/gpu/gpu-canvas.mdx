@@ -31,7 +31,8 @@ Height in pixels.
 
 ### `format`
 
-Native pixel format of the canvas backing texture ('bgra8unorm' on D3D, 'rgba8unorm' elsewhere).
+Pixel format of the canvas backing texture, always 'rgba8unorm'. A
+deferred canvas reports this before its texture is allocated.
 MSAA resolve requires source and target to have identical formats — always
 derive GPUTexture and pipeline formats from this value:
 ```lua
