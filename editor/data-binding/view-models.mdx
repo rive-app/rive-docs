@@ -6,9 +6,11 @@ import { UseCase } from '/snippets/use-case.mdx'
 
 A View Model defines the structure of your data. It acts as a reusable blueprint that contains a collection of properties, such as a car's color, speed, and damage.
 
+Each property has a type, such as Number, String, Boolean, Color, Enum, or List (For more information, see [View Model Properties](/editor/data-binding/view-model-properties)).
+
 View Models do not store values themselves. Instead, values are stored in one or more View Model Instances that are created from the View Model.
 
-If your were building a racing game, you might have a Car **view model** with the following [properties](/editor/data-binding/view-model-properties):
+For example, if you were building a racing game, you might create a Car View Model with the following [properties](/editor/data-binding/view-model-properties):
 
 ```jsx
 Car (View Model)
@@ -18,7 +20,7 @@ Car (View Model)
   speed: number
 ```
 
-A single View Model can be used to create multiple View Model Instances, all sharing the same structure while storing different values.
+A single View Model can be used to create many View Model Instances. Each instance shares the same structure but stores its own values.
 
 ```jsx
 Car1 (View Model Instance)
@@ -34,9 +36,11 @@ Car2 (View Model Instance)
   speed: 0
 ```
 
-The data stored in your view model instances can be used to control your Rive file.
+These instances can then be bound to your designs, allowing text, images, colors, animations, state machines, and other properties to react to data changes automatically.
 
 ### Creating a View Model
+
+A View Model defines the structure of your data. Before creating View Model Instances or setting up data bindings, you'll first need to create a View Model and add properties to it.
 
 <Note>
   New Rive files come with a default view model called "ViewModel1" that is already attached to the main artboard.
@@ -49,21 +53,27 @@ The data stored in your view model instances can be used to control your Rive fi
     In the Data panel Click the `+` icon and select **View Model**.
   </Step>
   <Step title="Add Properties">
-    Add [Properties](/data-binding/view-model-properties) to your view model.
+    Click the Add View Model Properties button to add [Properties](/data-binding/view-model-properties) to your view model.
   </Step>
 </Steps>
 
-## Managing View Model Instances
+## Creating and Editing Instances
+
+Once your View Model has been created, you can create one or more View Model Instances that store actual values for those properties.
+
+### Creating a View Model Instance
+
+A View Model can have multiple instances. Each instance contains its own set of property values while sharing the same structure defined by the View Model.
 
 <Note>
-When creating a new view model, Rive will automatically create a default view model instance named "Instance".
+When creating a new View Model, Rive automatically creates a View Model Instance named "Instance" so you can immediately begin testing bindings and previewing data.
 </Note>
 
 ![Create a View Model Instance](/images/editor/data-binding/view-models/manage-instances.gif)
 
 <Steps>
   <Step title="View existing instances">
-    With the view model in the data panel selected, in the right sidebar, select the Controls icon next to the view model instance name.
+    Select a View Model in the Data panel, then click the Controls icon next to the instance name in the Inspector.
 
     <Tip>
       To see all of your view model instances and values at once, click the Open Table Data button.
@@ -88,9 +98,15 @@ When creating a new view model, Rive will automatically create a default view mo
 
 Click the `-` icon next to the instance name to delete it.
 
+![Remove a View Model Instance](/images/editor/data-binding/view-models/remove-view-model-instance.gif)
+
+<Note>
+  Deleting a View Model Instance does not remove the View Model or its properties. It only removes that instance's stored values.
+</Note>
+
 ### Exporting Instances
 
-Toggling Export Instance will determine whether or not this view model instance will be embedded in the exported .riv file.
+By default, exported View Model Instances are included in the .riv file. Disable Export Instance when the data is only needed during authoring and will be supplied by your application at runtime.
 
 ![Create a View Model Instance](/images/editor/data-binding/view-models/export-instance.png)
 
@@ -100,39 +116,81 @@ Toggling Export Instance will determine whether or not this view model instance 
   In this case embedding the example data just increases your .riv file size.
 </UseCase>
 
-## Connecting Instances to Artboards
+## Connecting View Model Instances to Artboards
 
-<Note>
-  New Rive files come with a default view model called "ViewModel1" that is already attached to the artboard.
-</Note>
+Before binding data, you'll need to decide where the data should live.
 
-![Create a View Model Instance](/images/editor/data-binding/view-models/attaching-vmi.gif)
+Rive supports three common patterns:
 
-<Steps>
-  <Step title="Select a View Model">
-    With an artboard selected, in the right sidebar, select your view model from from the Model dropdown.
-  </Step>
-  <Step title="Select a View Model Instance">
-    Select your view model instance from the Instance dropdown.
-  </Step>
-</Steps>
+| Pattern |	Best for |
+| :------------- | :----------- |
+| Top-Level Artboard Instances	| Shared data used throughout a Rive file |
+| Nested components |	instances	Parent-controlled collections of data |
+| Stateless nested components |	Self-contained reusable components |
 
-You can now bind the data from this view model to any element in this artboard or any nested artboards.
+## Top-Level Artboard View Model Instances
 
-### Nested Components
+Attach a View Model Instance directly to the top-level artboard when the data should be available to the entire artboard and its children.
 
-Nested components can also have their own view model instance. For example, you might have 10 copies of a Button component, each controlled by their own view model instance.
+```
+GameVM
+├─ health
+└─ score
+└─ avatar
+```
 
-![Add instance to nested component](/images/editor/data-binding/view-models/nested-vm.gif)
+Any binding within the artboard hierarchy can reference the View Model's properties.
 
-<Steps>
-  <Step title="Add a view model property">
-    In your main view model, create a new property of type View Model. Select the instance that you'd like to attache to your nested component.
-  </Step>
-  <Step title="Add a nested component">
-    Use the [Nested Component](/editor/fundamentals/components) tool to add a nested component to your artboard.
-  </Step>
-  <Step title="">
+<UseCase title="Game">
+A game might use a single GameVM instance that provides the player's health, score, and avatar information to multiple elements throughout the interface.
+</UseCase>
 
-  </Step>
-</Steps>
+### Nested Component Instances
+
+Components can also have their own View Model Instances.
+
+In this pattern, the parent View Model stores references to child instances, either directly or through a list.
+
+```
+GameVM
+├─ health
+└─ score
+└─ avatar
+└─ inventory (stores an instance of InventoryVM)
+
+InventoryVM
+├─ Sword
+├─ Shield
+└─ Potion
+```
+
+Each component instance receives its own View Model Instance.
+
+This approach is useful when a parent artboard needs to manage a collection of items while still allowing each component to maintain its own data.
+
+<UseCase title="Inventory Grid">
+An inventory screen might contain a list of Item View Model Instances, with each inventory slot component bound to a different item.
+</UseCase>
+
+Because each instance must be created and connected explicitly, this pattern provides strong runtime control at the cost of additional setup.
+
+### Stateless Components
+
+Stateless Components automatically create a View Model Instance for each component instance.
+
+```
+Chat Message
+├─ Message #1
+├─ Message #2
+└─ Message #3
+```
+
+Unlike traditional component View Model Instances, these instances do not need to be created or referenced by the parent View Model.
+
+This makes stateless components easier to design and reuse because each instance manages its own local state automatically.
+
+<UseCase title="Reusable Cards">
+A card component used throughout a design can maintain its own state without requiring the parent artboard to track every individual card instance.
+</UseCase>
+
+The tradeoff is that runtime code has less direct control over individual instances since they are generated automatically.
