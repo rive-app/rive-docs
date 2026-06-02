@@ -15,6 +15,10 @@ Data binding is a powerful way to create reactive connections between editor ele
 
 # Why Use Data Binding?
 
+Why not store data directly in
+
+---------
+
 Data binding decouples design and code by introducing intermediate data that both sides can bind to. This forms the "contract" between designers and developers. Once this contract is in place, both sides can iterate independently, speeding your ability to deliver new features and experiment with what's possible.
 
 Within the editor, data binding allows for more reactivity in your designs. You can establish relationships between objects and ensure that certain invariants hold true, no matter the state of the artboard. The data binding system will ensure that these relationships are always up to date as animations and calls from code change the values.
@@ -33,17 +37,6 @@ For the purposes of data binding, an "editor element" simply refers to an editab
 
 A view model is a blueprint for a collection of data. Developers might think of this as similar to a class in object-oriented programming. View models typically describe all of the associated data with a given use case - commonly one per artboard. View models themselves don't have concrete values. For that, you must have [an instance](#view-model-instance).
 
-### View Model Property
-
-<YouTube id="NrGz_thkD0g" />
-
-A view model property is one piece of data within a view model. Developers might think of this as similar to a field in object-oriented programming. Properties have a data type which is selected when they are created and a name which can be referenced in code. Each property can be bound to different editor elements of the same type.
-
-#### Adding View Model properties
-
-In the Data panel, click the **Add View Model Property** button next to the view model name and select your [property type](/editor/data-binding/property-types).
-
-![Create a new Enum](/images/editor/data-binding/property-types/add-property.png)
 
 ### View Model Instance
 

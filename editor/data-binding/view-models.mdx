@@ -1,0 +1,138 @@
+---
+title: "View Models & Instances"
+---
+
+import { UseCase } from '/snippets/use-case.mdx'
+
+A View Model defines the structure of your data. It acts as a reusable blueprint that contains a collection of properties, such as a car's color, speed, and damage.
+
+View Models do not store values themselves. Instead, values are stored in one or more View Model Instances that are created from the View Model.
+
+If your were building a racing game, you might have a Car **view model** with the following [properties](/editor/data-binding/view-model-properties):
+
+```jsx
+Car (View Model)
+  color: Color
+  damage: number
+  make: string
+  speed: number
+```
+
+A single View Model can be used to create multiple View Model Instances, all sharing the same structure while storing different values.
+
+```jsx
+Car1 (View Model Instance)
+  color: 0xFFFF0000
+  damage: 0
+  make: "Subaru"
+  speed: 0
+
+Car2 (View Model Instance)
+  color: 0xFFFF00FF
+  damage: .9
+  make: "Honda"
+  speed: 0
+```
+
+The data stored in your view model instances can be used to control your Rive file.
+
+### Creating a View Model
+
+<Note>
+  New Rive files come with a default view model called "ViewModel1" that is already attached to the main artboard.
+</Note>
+
+![Create a View Model](/images/editor/data-binding/view-models/create-view-model.gif)
+
+<Steps>
+  <Step title="Add a View Model">
+    In the Data panel Click the `+` icon and select **View Model**.
+  </Step>
+  <Step title="Add Properties">
+    Add [Properties](/data-binding/view-model-properties) to your view model.
+  </Step>
+</Steps>
+
+## Managing View Model Instances
+
+<Note>
+When creating a new view model, Rive will automatically create a default view model instance named "Instance".
+</Note>
+
+![Create a View Model Instance](/images/editor/data-binding/view-models/manage-instances.gif)
+
+<Steps>
+  <Step title="View existing instances">
+    With the view model in the data panel selected, in the right sidebar, select the Controls icon next to the view model instance name.
+
+    <Tip>
+      To see all of your view model instances and values at once, click the Open Table Data button.
+
+      ![Open table data](/images/editor/data-binding/view-models/open-table-data.png)
+    </Tip>
+  </Step>
+  <Step title="Add an instance">
+    Click the `+` icon to add a new instance.
+  </Step>
+  <Step title="Name the instance">
+    Double click the instance's name to rename it.
+  </Step>
+  <Step title="Update the instance data">
+    With the instance selected, change any of its properties.
+
+    Note that this changes **only** the values on the selected view model instance.
+  </Step>
+</Steps>
+
+### Removing Instances
+
+Click the `-` icon next to the instance name to delete it.
+
+### Exporting Instances
+
+Toggling Export Instance will determine whether or not this view model instance will be embedded in the exported .riv file.
+
+![Create a View Model Instance](/images/editor/data-binding/view-models/export-instance.png)
+
+<UseCase title="High Score">
+  Let's say you're building a high score screen in Rive. While designing, you'll use fake score high data, but when your game is live, the high scores will be populated using real data from a database or another source.
+
+  In this case embedding the example data just increases your .riv file size.
+</UseCase>
+
+## Connecting Instances to Artboards
+
+<Note>
+  New Rive files come with a default view model called "ViewModel1" that is already attached to the artboard.
+</Note>
+
+![Create a View Model Instance](/images/editor/data-binding/view-models/attaching-vmi.gif)
+
+<Steps>
+  <Step title="Select a View Model">
+    With an artboard selected, in the right sidebar, select your view model from from the Model dropdown.
+  </Step>
+  <Step title="Select a View Model Instance">
+    Select your view model instance from the Instance dropdown.
+  </Step>
+</Steps>
+
+You can now bind the data from this view model to any element in this artboard or any nested artboards.
+
+### Nested Components
+
+Nested components can also have their own view model instance. For example, you might have 10 copies of a Button component, each controlled by their own view model instance.
+
+![Add instance to nested component](/images/editor/data-binding/view-models/nested-vm.gif)
+
+<Steps>
+  <Step title="Add a view model property">
+    In your main view model, create a new property of type View Model. Select the instance that you'd like to attache to your nested component.
+  </Step>
+  <Step title="Add a nested component">
+    Use the [Nested Component](/editor/fundamentals/components) tool to add a nested component to your artboard.
+  </Step>
+  <Step title="">
+
+  </Step>
+</Steps>
