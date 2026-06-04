@@ -1,0 +1,56 @@
+---
+title: "Stateful Components"
+description: ""
+---
+
+import { YouTube } from '/snippets/youtube.mdx'
+
+Stateful components let you expose specific view model properties directly on a nested component, so each instance can have its own values. This makes it faster to create and iterate on designs that reuse the same component with different content or styling — without wiring up a separate nested view model instance for each one.
+
+<YouTube id="unMfjqrKjNc" />
+
+### Setting Up a Component for Stateful Use
+
+Before a component can be used statefully, its artboard needs a view model with the properties you want to expose.
+
+1. Create or open the artboard you want to use as a component.
+2. Add a view model and bind the relevant properties to elements in the artboard (for example, a label string bound to a text run, or a background color bound to a fill).
+3. Mark the artboard as a component using the component toggle in the inspector, or press Shift + N.
+4. In the inspector, find the Properties section. Click + to add the view model properties you want to expose.
+5. For each property, choose whether it's an Input or an Output:
+  • Input — the value can be set on each instance when nested as a stateful component.
+  • Output — the value is read-only when nested; it reports back to the parent.
+
+![Image](/images/editor/data-binding/stateful-components/stateful-input-and-output-props.png)
+
+### Using a Stateful Component
+
+When you nest a component (press N and select it from the menu), it comes in as a stateless component by default. Switch it to a stateful component in the inspector.
+
+![Image](/images/editor/data-binding/stateful-components/stateful-selection-icon.png)
+
+Once switched to stateful, the nested view model instance selector goes away, and you'll see the exposed properties instead. Set override values directly in the inspector. Each instance of the component can have its own values for those properties.
+
+Because the values are owned by the component instance, you don't need a separate view model instance for each one.
+
+### Nesting Stateful Components
+
+Stateful components can be nested inside other components. For example, a card component might contain a stateful button component.
+
+If you want the card's parent to be able to override the button's properties, add those properties to the card's view model and data bind them to the button's stateful properties. Once added to the card's Properties panel as inputs, they'll be available to override when the card is nested.
+
+### Output Properties
+
+Output properties report a value out of a component when it's nested. They appear with a lock icon in the inspector and are marked as read-only — you can interact with the component, but you can't set the value from outside.
+
+![Image](/images/editor/data-binding/stateful-components/stateful-locked-output.png)
+
+To read an output value in the parent artboard, add a property to the parent's view model and data bind it (target to source) to the component's output property. The value will update in real time as the state machine runs.
+
+### Keying Input Properties on Timelines
+
+Input properties can be keyed on a timeline. Open the timeline view with a stateful component selected and you'll see a key indicator next to each exposed input property. Key the values at different points in the timeline to animate them on a loop or as part of a sequence.
+
+![Image](/images/editor/data-binding/stateful-components/stateful-keyed-input.png)
+
+<YouTube id="unMfjqrKjNc" />

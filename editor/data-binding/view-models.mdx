@@ -36,7 +36,7 @@ Car2 (View Model Instance)
   speed: 0
 ```
 
-These instances can then be bound to your designs, allowing text, images, colors, animations, state machines, and other properties to react to data changes automatically.
+The properties in your instances can then be bound to elements in your designs, allowing text, images, colors, animations, state machines, and other properties to react to data changes automatically.
 
 ### Creating a View Model
 
@@ -101,14 +101,14 @@ Click the `-` icon next to the instance name to delete it.
 ![Remove a View Model Instance](/images/editor/data-binding/view-models/remove-view-model-instance.gif)
 
 <Note>
-  Deleting a View Model Instance does not remove the View Model or its properties. It only removes that instance's stored values.
+  Deleting a View Model Instance does not remove the View Model or its properties. It only removes that instance and its stored values.
 </Note>
 
 ### Exporting Instances
 
-By default, exported View Model Instances are included in the .riv file. Disable Export Instance when the data is only needed during authoring and will be supplied by your application at runtime.
+By default, exported View Model Instances are included in the .riv file. Disable Export Instance when the data is only needed during development, not in your application at runtime.
 
-![Create a View Model Instance](/images/editor/data-binding/view-models/export-instance.png)
+![Export an Instance](/images/editor/data-binding/view-models/export-instance.png)
 
 <UseCase title="High Score">
   Let's say you're building a high score screen in Rive. While designing, you'll use fake score high data, but when your game is live, the high scores will be populated using real data from a database or another source.
@@ -122,11 +122,11 @@ Before binding data, you'll need to decide where the data should live.
 
 Rive supports three common patterns:
 
-| Pattern |	Best for |
+| Pattern |	 |
 | :------------- | :----------- |
-| Top-Level Artboard Instances	| Shared data used throughout a Rive file |
-| Nested components |	instances	Parent-controlled collections of data |
-| Stateless nested components |	Self-contained reusable components |
+| [Top-Level Instance](#top-level-artboard-view-model-instances)	| The data lives on the top-level artboard and its values can be used throughout the Rive file |
+| [Nested components](#nested-component-instances) |	The parent view model instance stores a reference to a nested view model instance, which can be applied to a nested component |
+| [Stateful nested components](#stateful-components) |	Self-contained, reusable components that store their own unique data |
 
 ### Top-Level Artboard View Model Instances
 
@@ -139,10 +139,10 @@ GameVM
 └─ avatar
 ```
 
-Any binding within the artboard hierarchy can reference the View Model's properties.
+![Main VM](/images/editor/data-binding/view-models/main-vm.png)
 
 <UseCase title="Game">
-A game might use a single GameVM instance that provides the player's health, score, and avatar information to multiple elements throughout the interface.
+A game's main view model might contain a score property. This property might be used by various nested components, like the header and within the high scores modal.
 </UseCase>
 
 ### Nested Component Instances
@@ -164,7 +164,9 @@ InventoryVM
 └─ Potion
 ```
 
-Each component instance receives its own View Model Instance.
+Each component instance can have its own view model instance attached to it.
+
+![Attach instance to component](/images/editor/data-binding/view-models/connect-instance-to-nested-component.png)
 
 This approach is useful when a parent artboard needs to manage a collection of items while still allowing each component to maintain its own data.
 
@@ -174,23 +176,14 @@ An inventory screen might contain a list of Item View Model Instances, with each
 
 Because each instance must be created and connected explicitly, this pattern provides strong runtime control at the cost of additional setup.
 
-### Stateless Components
+### Stateful Components
 
-Stateless Components automatically create a View Model Instance for each component instance.
+A stateful component is an instance of a component that maintains its own data.
 
-```
-Chat Message
-├─ Message #1
-├─ Message #2
-└─ Message #3
-```
+Unlike traditional component View Model Instances, these instances do not need to be created or referenced by the parent View Model. Instead their properties are exposed in the sidebar.
 
-Unlike traditional component View Model Instances, these instances do not need to be created or referenced by the parent View Model.
+![Stateful components](/images/editor/data-binding/view-models/stateful-components.png)
 
-This makes stateless components easier to design and reuse because each instance manages its own local state automatically.
+For more information, see [Stateful Components](/editor/data-binding/stateful-components).
 
-<UseCase title="Reusable Cards">
-A card component used throughout a design can maintain its own state without requiring the parent artboard to track every individual card instance.
-</UseCase>
 
-The tradeoff is that runtime code has less direct control over individual instances since they are generated automatically.
