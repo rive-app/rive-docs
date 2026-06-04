@@ -66,7 +66,7 @@ There are two types of blend states; 1D and Direct Blend states.
 
 #### 1D Blend state:
 
-A 1D Blend State allows us to mix multiple timelines together with a single numerical input. This state works by ramping up one animation and ramping down the other while you increase or decrease a number input. Note that this mixing is not linear, but is additive and could give you unexpected results.
+A 1D Blend State allows us to mix multiple timelines together with a single numerical view model property. This state works by ramping up one animation and ramping down the other while you increase or decrease a number value. Note that this mixing is not linear, but is additive and could give you unexpected results.
 
 ![Health bar using Blend state](https://ucarecdn.com/875b9ed6-41c7-4023-aaad-f38d2042dca7/)
 
@@ -82,11 +82,11 @@ After adding a 1D Blend State to the graph, use the Inspector to configure the s
 
 ![Add Blend state](https://ucarecdn.com/266c2c6d-6719-4b65-b06a-b1ca35d2eb86/)
 
-First, add the number input you want to drive the blend using the dropdown. If you haven’t created one yet, you’ll notice that nothing appears here.
+First, add the number property you want to drive the blend using the dropdown. If you haven’t created one yet, you’ll notice that nothing appears here.
 
-![Create and add number input to Blend state](https://ucarecdn.com/baf39e65-5bf1-44ed-bd2e-b0f0afa24ded/)
+![Create and add number property to Blend state](https://ucarecdn.com/baf39e65-5bf1-44ed-bd2e-b0f0afa24ded/)
 
-The plus button that appears below the number input allows you to add timelines to your blend state. Use the dropdown to assign a specific timeline. Note that you can add as many timelines as you’d like.
+The plus button that appears below the number property allows you to add timelines to your blend state. Use the dropdown to assign a specific timeline. Note that you can add as many timelines as you’d like.
 
 ![Add timelines to the Blend state](https://ucarecdn.com/fe5d4505-8290-4be9-b0d6-58f13d1df553/)
 
@@ -94,25 +94,25 @@ Next, you need to define a numerical range that your blend state will work betwe
 
 ![Image](https://ucarecdn.com/6a92f242-2979-44c7-bb95-fc51ebeeda5d/)
 
-Notice that once you define the range, a graphic appears above the input dropdown, visually representing how your animations will mix. When the state machine is active, as you increase or decrease your input within the defined range, you’ll see a visual representation move across that graph, showing you the mix of your timelines.
+Notice that once you define the range, a graphic appears above the property dropdown, visually representing how your animations will mix. When the state machine is active, as you increase or decrease your property within the defined range, you’ll see a visual representation move across that graph, showing you the mix of your timelines.
 
 ![Blend State in action](https://ucarecdn.com/44a40cb9-90d9-4aca-920f-6042cc52340f/)
 
 #### Additive Blend state:
 
-An Additive Blend state allows you to blend together multiple timelines using multiple number inputs. This allows us to create unique poses and facial positions by mixing multiple animations together. While working with an Additive Blend, you’ll either be mixing an animation by value or input. Read more below.
+An Additive Blend state allows you to blend together multiple timelines using multiple number properties. This allows us to create unique poses and facial positions by mixing multiple animations together. While working with an Additive Blend, you’ll either be mixing an animation by value or property. Read more below.
 
 ![Using Additive Blend for facial animations](https://ucarecdn.com/71cf4345-b728-47a4-946c-e08de2eb86dd/)
 
-**Value vs Input blend**
+**Value vs Property blend**
 
-When adding animations to an Additive blend state, you’ll be prompted to either add a Blend by Value animation or a Blend by Input animation.
+When adding animations to an Additive blend state, you’ll be prompted to either add a Blend by Value animation or a Blend by Property animation.
 
 ![Adding timeline to Additive Blend](https://ucarecdn.com/8e2c7380-85cf-4e41-8dd8-82e98f34d1bd/)
 
-A Blend by Value timeline can be thought of as the baseline animation, or default pose. This value is not tied to an input, so it can’t be used to control the state machine. Instead, this value describes its mix weighting.
+A Blend by Value timeline can be thought of as the baseline animation, or default pose. This value is not tied to a property, so it can’t be used to control the state machine. Instead, this value describes its mix weighting.
 
-An Input blend is an animation that is mixed with the default pose or motion via a number input. Each of your different Input blends should have their own number input.
+A view model property blend is an animation that is mixed with the default pose or motion via a number property. Each of your different property blends should have their own number property.
 
 ## Additional State Options
 

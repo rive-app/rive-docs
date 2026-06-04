@@ -44,9 +44,16 @@ Most of these parameters come from the underlying web runtime configuration item
 <Note>
  In most cases, you will just need to grab the `RiveComponent` and `rive` return values from the `useRive` hook. Setting the canvas ref and container ref is only needed if you need to control the canvas/containing element yourself.
 </Note>
+
 ### useStateMachineInput
 
-The `useStateMachineInput` hook is the recommended way to grab references to Rive State Machine inputs, both for reading input values, and setting (or triggering) them. See below for parameters to pass in and the return value.
+<Warning>
+**Deprecated**
+
+State machine inputs are deprecated. For new work, use [Data Binding](/runtimes/web/data-binding). This hook remains available for legacy projects.
+</Warning>
+
+The `useStateMachineInput` hook can be used to grab references to Rive State Machine inputs, both for reading input values, and setting (or triggering) them. See below for parameters to pass in and the return value.
 
 `useStateMachineInput(rive: Rive | null, stateMachineName?: string, inputName?: string, initialValue?: number | boolean): StateMachineInput | null`
 

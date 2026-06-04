@@ -10,8 +10,8 @@ A compiled GPU render pipeline (shaders + fixed-function state).
 ### `new`
 
 {/* new: (desc: {
-        vertex: Shader,
-        fragment: Shader?,
+        vertex: PipelineStage,
+        fragment: PipelineStage?,
         vertexLayout: { VertexBufferLayout },
         bindGroupLayouts: { GPUBindGroupLayout }?,
         colorTargets: { ColorTarget }?,
@@ -22,7 +22,7 @@ A compiled GPU render pipeline (shaders + fixed-function state).
     }) -> GPUPipeline */}
 <div class="signature">
 ```lua
-new(desc: {vertex: Shader, fragment: Shader?, vertexLayout:{VertexBufferLayout}, bindGroupLayouts:{GPUBindGroupLayout}?, colorTargets:{ColorTarget}?, depthStencil: DepthStencilState?, cullMode: CullMode?, topology: PrimitiveTopology?, sampleCount: number?,}) -> GPUPipeline
+new(desc: {vertex: PipelineStage, fragment: PipelineStage?, vertexLayout:{VertexBufferLayout}, bindGroupLayouts:{GPUBindGroupLayout}?, colorTargets:{ColorTarget}?, depthStencil: DepthStencilState?, cullMode: CullMode?, topology: PrimitiveTopology?, sampleCount: number?,}) -> GPUPipeline
 ```
 </div>
 
