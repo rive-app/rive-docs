@@ -240,15 +240,23 @@ end
         width: number,
         height: number,
         clearColor: Color?,
-    }): Canvas */}
+    }?): Canvas */}
 <div class="signature">
 ```lua
-canvas(desc: {width: number, height: number, clearColor: Color?,}) -> Canvas
+canvas(desc: {width: number, height: number, clearColor: Color?,}?) -> Canvas
 ```
 </div>
 
 Create a 2D canvas for Rive Renderer drawing.
 Use beginFrame/endFrame inside drawCanvas to render.
+
+The descriptor is optional. Omitting it (or passing width/height of
+0) creates a deferred canvas with no backing texture — useful in
+layout scripts that don't know their size at init. Call
+`canvas:resize(w, h)` once the real size is known. While deferred,
+`canvas.image` is nil and `width`/`height` report 0; calling
+`beginFrame()` raises an error pointing to `resize()`. Check
+`canvas.width > 0` to gate work.
 
 
 ### `gpuCanvas`
@@ -256,20 +264,25 @@ Use beginFrame/endFrame inside drawCanvas to render.
 {/* function gpuCanvas(self, desc: {
         width: number,
         height: number,
-        sampleCount: number?,
-    }): GPUCanvas */}
+    }?): GPUCanvas */}
 <div class="signature">
 ```lua
-gpuCanvas(desc: {width: number, height: number, sampleCount: number?,}) -> GPUCanvas
+gpuCanvas(desc: {width: number, height: number,}?) -> GPUCanvas
 ```
 </div>
 
-Create a GPU canvas for custom GPU rendering.
-Use beginRenderPass inside drawCanvas to render.
-Pass `sampleCount` (2, 4, or 8) to enable MSAA on the canvas backing
-texture. When set, beginRenderPass automatically routes rendering
-through the MSAA color texture and resolves to the 1× backing —
-no extra setup needed in the script.
+Create a GPU canvas — a 1× presentation target. Render to it via
+`canvas:beginRenderPass(...)`. For MSAA, allocate the multisampled
+color and depth textures yourself with `GPUTexture.new({
+sampleCount = N, renderTarget = true })` and pass them in the
+descriptor.
+
+The descriptor is optional. Omitting it (or passing width/height of
+0) creates a deferred canvas with no backing texture — useful in
+layout scripts that don't know their size at init. Call
+`canvas:resize(w, h)` once the real size is known. While deferred,
+`width`/`height` report 0 and calling `colorView()` raises an error
+pointing to `resize()`. Check `canvas.width > 0` to gate work.
 
 
 ### `features`
@@ -285,46 +298,18 @@ Query GPU capabilities. Returns a table of supported features
 and limits for the current backend.
 
 
-### `preferredCanvasFormat`
+### `shader`
 
-{/* function preferredCanvasFormat(self): TextureFormat */}
+{/* function shader(self, name: string): Shader? */}
 <div class="signature">
 ```lua
-preferredCanvasFormat() -> TextureFormat
+shader(name: string) -> Shader?
 ```
 </div>
 
-Returns the native canvas texture format for the current platform.
-
-This is the format that `context:gpuCanvas(...)` backing textures use,
-and therefore what `canvas.format` will report. Equivalent to WebGPU's
-`navigator.gpu.getPreferredCanvasFormat()`.
-
-- Metal (macOS/iOS): `'rgba8unorm'` (off-screen canvas, not a CAMetalLayer surface)
-- D3D11/D3D12 (Windows): `'bgra8unorm'`
-- Vulkan, OpenGL, WebGPU: `'rgba8unorm'` (safe default; actual surface format
-may vary — use `canvas.format` for the authoritative value once a
-canvas exists)
-
-Use this at init time to create [GPUTexture](/scripting/api-reference/gpu/gpu-texture) and [GPUPipeline](/scripting/api-reference/gpu/gpu-pipeline)
-with a matching format before any canvas is drawn:
-```lua
-local fmt = context:preferredCanvasFormat()
-self.pipeline = GPUPipeline.new({ colorTargets = {{ format = fmt }}, ... })
-```
-
-
-### `loadShader`
-
-{/* function loadShader(self, name: string): Shader? */}
-<div class="signature">
-```lua
-loadShader(name: string) -> Shader?
-```
-</div>
-
-Load a compiled shader by asset name. Returns a Shader ready for use
-in GPUPipeline.new(), or nil if the named shader is not found.
+Get a compiled shader by asset name (the name as added in the editor,
+with no ".wgsl" extension). Returns a Shader ready for use in
+GPUPipeline.new(), or nil if the named shader is not found.
 
 
 ### `decodeImage`

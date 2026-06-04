@@ -1,0 +1,145 @@
+---
+title: GamepadConnected
+---
+
+Full gamepad state when a device is first seen (`gamepadConnected`).
+Aligned with W3C Standard Gamepad when `mapping` is `'standard'`.
+
+(Coming soon)
+
+
+## Fields
+
+### `deviceId`
+
+Embedder-stable device id for this logical gamepad session.
+
+
+### `buttonMask`
+
+Bit *i* set when W3C standard button index *i* is pressed.
+
+
+### `buttons`
+
+Analog value per button (0–1), same order as W3C `buttons[]` / `buttonValues` (1-based).
+
+
+### `axes`
+
+Analog axes (1-based). Standard layout uses at least six entries (sticks and triggers).
+
+
+### `isStandardMapping`
+
+Whether the embedder normalized to the standard layout.
+
+
+### `mapping`
+
+`'standard'` or `'unknown'` (semantic names match only when standard).
+
+
+### `gamepadMapping`
+
+Raw enum value: 0 = standard, 1 = unknown (same as [GamepadMappingKind](/scripting/api-reference/artboards/gamepad-mapping-kind) order).
+
+
+### `west`
+
+Face buttons (standard mapping only; otherwise false).
+
+
+### `south`
+
+### `north`
+
+### `east`
+
+### `leftShoulder`
+
+### `rightShoulder`
+
+### `back`
+
+Select / Start (W3C back / forward).
+
+
+### `forward`
+
+### `leftStickButton`
+
+Stick click buttons.
+
+
+### `rightStickButton`
+
+### `dpadUp`
+
+### `dpadDown`
+
+### `dpadLeft`
+
+### `dpadRight`
+
+### `start`
+
+### `leftStick`
+
+Left and right analog stick deflection (axes 0–3 when standard).
+
+
+### `rightStick`
+
+### `leftTrigger`
+
+Analog shoulder triggers (axes 4–5 when standard).
+
+
+### `rightTrigger`
+
+### `leftTriggerPressed`
+
+Digital trigger buttons (indices 6–7 when standard).
+
+
+### `rightTriggerPressed`
+
+## Methods
+
+### `buttonPressed`
+
+{/* buttonPressed: (self: GamepadConnected, index: number) -> boolean */}
+<div class="signature">
+```lua
+buttonPressed(index: number) -> boolean
+```
+</div>
+
+True if W3C button index `index` is pressed (1-based, matches `buttons` / bitmask).
+
+
+### `buttonValue`
+
+{/* buttonValue: (self: GamepadConnected, index: number) -> number */}
+<div class="signature">
+```lua
+buttonValue(index: number) -> number
+```
+</div>
+
+`GamepadButton.value` for the given 1-based button index.
+
+
+### `axis`
+
+{/* axis: (self: GamepadConnected, index: number) -> number */}
+<div class="signature">
+```lua
+axis(index: number) -> number
+```
+</div>
+
+Axis value for the given 1-based axis index.
+
+

@@ -2,8 +2,14 @@
 title: GPUCanvas
 ---
 
-A GPU canvas. Use `.image` with `renderer:drawImage()` to composite
-the result. Issue GPU draw calls via `beginRenderPass()`.
+A GPU canvas — a 1× presentation target, same role as a WebGPU surface
+texture. Use `.image` with `renderer:drawImage()` to composite the
+result. Render to it via `canvas:beginRenderPass({ color = {{ loadOp =
+'clear', storeOp = 'store', ... }} })` — the color attachment's `view`
+defaults to this canvas's own colorView when omitted. MSAA requires a
+user-allocated `GPUTexture.new({ sampleCount = N, renderTarget = true
+})` as the explicit color view, with the canvas's `colorView()` as
+`resolveTarget`.
 
 
 ## Fields
@@ -25,7 +31,8 @@ Height in pixels.
 
 ### `format`
 
-Native pixel format of the canvas backing texture ('bgra8unorm' on D3D, 'rgba8unorm' elsewhere).
+Pixel format of the canvas backing texture, always 'rgba8unorm'. A
+deferred canvas reports this before its texture is allocated.
 MSAA resolve requires source and target to have identical formats — always
 derive GPUTexture and pipeline formats from this value:
 ```lua
@@ -45,20 +52,9 @@ resize(width: number, height: number) -> ()
 ```
 </div>
 
-Resize the canvas. Recreates the backing texture and any depth buffer.
-
-
-### `beginRenderPass`
-
-{/* function beginRenderPass(self, desc: RenderPassDesc?): GPURenderPass */}
-<div class="signature">
-```lua
-beginRenderPass(desc: RenderPassDesc?) -> GPURenderPass
-```
-</div>
-
-Begin a GPU render pass targeting this canvas.
-Omitting desc.color renders to the canvas's own backing texture.
+Resize the canvas. Recreates the 1× backing texture. Any
+user-allocated MSAA / depth textures must be recreated by the
+script to match the new dimensions.
 
 
 ### `colorView`
@@ -70,6 +66,26 @@ colorView() -> GPUTextureView
 ```
 </div>
 
-View of the canvas backing texture. Use as a sampler input in a subsequent pass.
+View of the canvas backing texture. Use as a color attachment, an
+MSAA resolve target, or a sampler input in a subsequent pass.
+
+
+### `beginRenderPass`
+
+{/* function beginRenderPass(self, desc: RenderPassDesc): GPURenderPass */}
+<div class="signature">
+```lua
+beginRenderPass(desc: RenderPassDesc) -> GPURenderPass
+```
+</div>
+
+Open a GPU render pass targeting this canvas. The descriptor must
+include at least one color attachment or a depthStencil attachment.
+Color attachment views default to this canvas's colorView when
+omitted; provide them explicitly when rendering to a different
+target (e.g. MSAA). The pass's sampleCount is derived from the
+attachments (WebGPU rule: all attachments share one sampleCount).
+Must be called inside a drawCanvas phase. Issue draw calls on the
+returned pass, then call `:finish()`.
 
 
