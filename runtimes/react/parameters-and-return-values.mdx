@@ -50,10 +50,10 @@ Most of these parameters come from the underlying web runtime configuration item
 <Warning>
 **Deprecated**
 
-State machine inputs are deprecated. Use data binding instead.
+State machine inputs are deprecated. For new work, use [Data Binding](/runtimes/web/data-binding). This hook remains available for legacy projects.
 </Warning>
 
-The `useStateMachineInput` hook is the recommended way to grab references to Rive State Machine inputs, both for reading input values, and setting (or triggering) them. See below for parameters to pass in and the return value.
+The `useStateMachineInput` hook can be used to grab references to Rive State Machine inputs, both for reading input values, and setting (or triggering) them. See below for parameters to pass in and the return value.
 
 `useStateMachineInput(rive: Rive | null, stateMachineName?: string, inputName?: string, initialValue?: number | boolean): StateMachineInput | null`
 
