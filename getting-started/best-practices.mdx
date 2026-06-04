@@ -71,7 +71,7 @@ Unused artboards are still included in the compiled .riv file and are parsed whe
 
 ### Idle Animations
 
-If you have idle animation states where the graphic remains static at a given state in a state machine, consider using a "one-shot" animation and ensuring that the timeline animation is not unnecessarily long. At runtime in a state machine, if no looping animations or active blend states are playing, the runtime will preemptively “pause” itself until a transition to another state. This is useful because resource consumption (i.e., CPU usage) may decrease to the point of making Rive impact on resources negligent on applications.
+If you have idle animation states where the graphic remains static at a given state in a state machine, consider using a "one-shot" animation and ensuring that the timeline animation is not unnecessarily long. At runtime in a state machine, if no looping animations or active blend states are playing, the runtime will preemptively “pause” itself until a transition to another state. This is useful because resource consumption (i.e., CPU usage) may decrease to the point of making Rive impact on resources negligible in applications.
 
 Scenarios: Icons, buttons, graphics that only animate based on user interaction, etc.
 
