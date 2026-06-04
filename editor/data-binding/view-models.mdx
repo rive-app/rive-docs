@@ -53,7 +53,7 @@ A View Model defines the structure of your data. Before creating View Model Inst
     In the Data panel Click the `+` icon and select **View Model**.
   </Step>
   <Step title="Add Properties">
-    Click the Add View Model Properties button to add [Properties](/data-binding/view-model-properties) to your view model.
+    In the Data panel, click the **Add View Model Property** button next to the view model name and select your [property type](/editor/data-binding/property-types).
   </Step>
 </Steps>
 
@@ -128,7 +128,7 @@ Rive supports three common patterns:
 | Nested components |	instances	Parent-controlled collections of data |
 | Stateless nested components |	Self-contained reusable components |
 
-## Top-Level Artboard View Model Instances
+### Top-Level Artboard View Model Instances
 
 Attach a View Model Instance directly to the top-level artboard when the data should be available to the entire artboard and its children.
 
@@ -149,7 +149,7 @@ A game might use a single GameVM instance that provides the player's health, sco
 
 Components can also have their own View Model Instances.
 
-In this pattern, the parent View Model stores references to child instances, either directly or through a list.
+In this pattern, the parent View Model stores references to child instances, either directly or through a [list](/editor/data-binding/lists).
 
 ```
 GameVM
