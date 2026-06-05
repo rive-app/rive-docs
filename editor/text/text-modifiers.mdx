@@ -15,10 +15,10 @@ By combining ranges, falloff, and animated offsets, you can create effects such 
 
 A Text Modifier Group combines a **Range** and a set of **Properties**.
 
-- **Properties** determine what changes (scale, position, rotation, opacity, follow path etc.).
-- The **Range** determines which glyphs, words, or lines are affected.
+- **Properties** determine what changes, such as position, rotation, scale, opacity, or follow path.
+- The **Range** determines which characters, words, or lines are affected.
 
-A single modifier group can affect multiple properties all sharing the same range.
+A single modifier group can affect multiple properties that share the same range.
 
 Multiple modifier groups can be combined to create layered effects. For example, one modifier group might animate character scale while another animates position.
 
@@ -34,25 +34,25 @@ Properties determine how the text is modified.
 
 Each modifier group can modify one or more of the following properties:
 
-- Position - Move text along the X and Y axes.
-- Rotation - Rotate text around its origin.
-- Scale - Change the size of the text.
-- Origin - Adjust the pivot point used for rotation and scale.
-- [Opacity](#opacity) - Change the transparency of the text.
-- [Follow Path](#follow-path) - Align text to a path and control how glyphs follow its direction.
-- Variables - Adjust variable font axes such as weight or width. Requires a variable font that supports the selected axis.
+- **Position** - Move text along the X and Y axes.
+- **Rotation** - Rotate text around its origin.
+- **Scale** - Change the size of the text.
+- **Origin** - Adjust the pivot point used for rotation and scale.
+- **[Opacity](#opacity)** - Change the transparency of the text.
+- **[Follow Path](#follow-path)** - Align text to a path and control how glyphs follow its direction.
+- **Variables** - Adjust variable font axes such as weight or width. Requires a variable font that supports the selected axis.
 
 Multiple properties can be combined within a single modifier group to create more complex effects.
 
 #### Adding a Property
 
-Select a text object, then click the `+` button in the **Modifier Group**. Each property has its own settings that can be adjusted and animated.
+Select a text object, then click the `+` button in the **Modifier Group**. Each property has its own settings, which can be adjusted and animated.
 
 ![Adding Properties](/images/editor/text/add-modifier-property.gif)
 
 #### Opacity
 
-The Opacity value controls the opacity of text within the modifier's range.
+The Opacity value controls the opacity of text within the modifier group's range.
 
 The Invert option controls the opacity of text outside the range:
 
@@ -77,13 +77,8 @@ The Follow Path modifier allows text to follow the shape of a vector path. This 
 - **Offset** - Where along the path to start.
 - **Strength** - Controls how strongly the text follows the path. At 0%, text stays in its original position. At 100%, text follows the path completely. Animate Strength to transition text onto or off of a path.
 - **Auto Orient Glyphs** - Make the rotation of the glyph follow the path.
-- **Auto Orient Lines** - TODO
+- **Auto Orient Lines** - Rotates each line to follow the direction of the path.
 
-### Run
-
-Determines whether the modifier is applied to the entire text object or only to a specific text run.
-
-When a text object contains multiple text runs, modifiers can be limited to a single run instead of affecting all text.
 
 ### Range
 
@@ -101,6 +96,12 @@ You can see a visual representation of the range via a shaded area on the stage.
 
 Multiple ranges can be added to a single modifier group to create complex effects.
 
+#### Run
+
+Determines whether the modifier is applied to the entire text object or only to a specific text run.
+
+When a text object contains multiple text runs, modifiers can be limited to a single run instead of affecting all text.
+
 #### Falloff
 
 Use the falloff values to add interpolation to the applied modifier properties. For example, a modifier group that scales glyphs to 200% with a range from 0% to 100% and a falloff of 25% to 75% will gradually scale glyphs up from 100% to 200% over the first quarter of the text, and back down again over the last quarter of the text.
@@ -111,7 +112,7 @@ The falloff can be visualized via the darker shading on the stage guide.
 
 #### Offset
 
-Use the offset value to move the range along the text. Try animating the offset value to create wipe effects along a text value. For example, a scale modifier can animate the offset to make individual glyphs scale up and back down again.
+Use Offset to move the range along the text. Try animating the offset value to create wipe effects along a text value. For example, a scale modifier can animate the offset to make individual glyphs scale up and back down again.
 
 ![Text Runs Modifiers Offset](/images/editor/text/text-runs-modifiers-offset.gif)
 
