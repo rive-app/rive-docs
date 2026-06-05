@@ -1,12 +1,18 @@
 ---
-title: "Property Types"
-sidebarTitle: "Overview"
+title: "View Model Properties"
 description: ""
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
 import { Marketplace } from '/snippets/marketplace.mdx'
 
+A view model property is one piece of data within a view model. Developers might think of this as similar to a field in object-oriented programming. Properties have a data type, which is selected when they are created, and a name which can be referenced in code. Each property can be bound to different editor elements of the same type or used as conditions within a state machine.
+
+## Adding View Model properties
+
+In the Data panel, click the **Add View Model Property** button next to the view model name and select your property type.
+
+![Create a new Enum](/images/editor/data-binding/property-types/add-property.png)
 
 | Type                  | Description                         |
 | --------------------- | ----------------------------------- |
@@ -21,18 +27,19 @@ import { Marketplace } from '/snippets/marketplace.mdx'
 | [View Model](#view-model) | Nested View Model instance                  |
 | [List](#list)         | Collection of view models |
 
+## Property Types
 
-## Trigger
+### Trigger
 
 Trigger properties represent fire-and-forget events. Use them when you want to signal that something happened, such as a button press or one-time action.
 
-## Enum
+### Enum
 
 Select from a fixed set of options to control states and variants. Use enums when the possible values are known ahead of time.
 
 [Learn more](/editor/data-binding/enums) about enums.
 
-## Image
+### Image
 
 ![Bind an image](/images/editor/data-binding/property-types/image-bind.gif)
 
@@ -50,7 +57,7 @@ For example, in a game or social UI, each player can have their own avatar by bi
   If you need to update an image globally across your entire file, use [asset loading instead](/runtimes/loading-assets). Asset loading replaces the underlying asset, updating all instances that use it.
 </Note>
 
-## Artboard
+### Artboard
 
 ![Bind an artboard](/images/editor/data-binding/property-types/artboards.gif)
 
@@ -60,7 +67,7 @@ The artboard can come from your current Rive file or be loaded from another .riv
 
 To use an artboard as a property, it must first be [converted to a Component](/editor/fundamentals/components#creating-a-component).
 
-## View Model
+### View Model
 
 View Model properties store a reference to a View Model instance.
 
@@ -74,7 +81,7 @@ You can bind to and update properties on nested View Models just like top-level 
   If you want to assign a View Model instance to a nested component, that instance must be referenced from your main View Model.
 </Note>
 
-## List
+### List
 
 List properties store collections of view model instances, which can be associated with specific artboards.
 
