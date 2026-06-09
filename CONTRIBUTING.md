@@ -1,20 +1,83 @@
 # Contributing
 
-Welcome to the official repository for Rive's documentation, available at [https://rive.app/docs](https://rive.app/docs). Below are details for those interested in contributing to our documentation.
+Welcome to the official repository for Rive's documentation, available at [https://rive.app/docs](https://rive.app/docs).
 
-## Forking
+We welcome any and all external contributions.
 
-Before creating your pull request, make sure to [fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) the [rive-app/rive-docs](https://github.com/rive-app/rive-docs) repository, and branch off of `main`.
+## How to contribute
 
-## Images
+
+### 1. Find something to work on
+
+Start with the [Contributing backlog](https://github.com/rive-app/rive-docs/issues/725) or browse issues labeled [good first issue]((https://github.com/rive-app/rive-docs/issues?q=is%3Aissue%20state%3Aopen%20label%3A%22good%20first%20issue%22)).
+
+Before starting, comment on the issue to claim it.
+
+### 2. Fork the repository
+
+[Fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) the [rive-app/rive-docs](https://github.com/rive-app/rive-docs) repository to your GitHub account.
+
+After forking, clone your fork locally and create a branch from main.
+
+```bash
+git clone https://github.com/YOUR_USERNAME/rive-docs.git
+cd rive-docs
+git checkout main
+git pull origin main
+git checkout -b docs/my-change
+```
+
+### 3. Make your changes
+
+Make your updates in the relevant documentation files.
+
+### 4. Preview your changes
+
+Rive uses [Mintlify](https://mintlify.com) for documentation. Follow Mintlify's [Local Development](https://www.mintlify.com/docs/quickstart#make-your-first-change) guide to set up your local environment for previewing your changes locally.
+
+### 5. Commit your changes
+
+Commit messages should follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification.
+
+For most documentation changes, use the docs type.
+
+```bash
+git add .
+git commit -m "docs(editor): update hierarchy documentation"
+```
+
+### 6. Open a pull request
+
+Push your branch to your fork and open a pull request against rive-app/rive-docs.
+
+```bash
+git push origin docs/my-change
+```
+
+When creating your pull request, make sure `main` is selected as the base branch.
+
+Your pull request should include:
+
+- A clear title that summarizes the full change
+- A brief description of what changed
+- Links to any related issues
+- Screenshots or preview links, when helpful
+
+### 7. Review and merge
+
+Reviewers will automatically be assigned following the assignments in [CODEOWNERS](/.github/CODEOWNERS).
+
+After your pull request is approved, the Rive team will merge it. Commits are squashed when merging, so make sure your pull request title clearly summarizes the full change.
+
+## Best Practices
+
+### Images
 
 When adding images, add them to the `images` folder, in a subdirectory similar to the file structure for documentation.
 
-When naming images, use a descriptive name relative to the functionality you are documenting.
-
 When embedding images, make sure to add descriptive [alt-text](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#images).
 
-### Example Image Directories:
+**Example Image Directories:**
 
 - All runtimes: `images/runtimes/my-image.jpg`
 - All game runtimes: `images/game-runtimes/my-image.jpg`
@@ -36,60 +99,3 @@ When adding links to another page within the documentation, make sure the url is
 [Hierarchy](/editor/interface-overview/hierarchy)
 ```
 
-## Making Commits
-
-Commit messages should follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification.
-
-When selecting a type, select one that is applicable to the changes you made. Since this is a repository for documentation, it's likely that you'll use `docs` consistently.
-
-### Types
-
-Below are some suggestions for a Conventional Commit message type to use when writing your commit message.
-
-- `docs`: Used when adding or updating documentation.
-- `project`: Used when making documentation-wide changes, such as updates to `mint.json`.
-- `fix`: Used when making fixes to existing documentation, such as broken links.
-
-### Scopes
-
-Below are some suggestions for a Conventional Commit message scope to use when writing your commit message.
-
-- `editor`: Changes that apply to the editor as a whole.
-- `runtimes`: Changes that apply to (most) runtimes as a whole.
-- `ios`: Changes that apply to the Apple runtimes.
-- `android`: Changes that apply to the Android runtime.
-- `game-runtimes`: Changes that apply to (most) game runtimes as a whole.
-- `unity`: Changes that apply to the Unity runtime.
-- `unreal`: Changes that apply to the Unreal runtime.
-
-The basic scope naming convention for the runtimes is to use the root directory of a change if the change applies to more than one runtime, otherwise use the name of the runtime. Otherwise, the basic scope naming convention is to use the root directory (e.g `editor` or `getting-started`).
-
-## Previews
-
-Rive's documentation is powered by [Mintlify](https://mintlify.com). You can preview your changes [locally](https://www.mintlify.com/docs/quickstart#make-your-first-change), or via a preview link after creating a pull request.
-
-### Local Previews
-
-See Mintlify's official documentation on [Local Development](https://www.mintlify.com/docs/quickstart#make-your-first-change) for more information on how to preview changes locally.
-
-When previewing locally, make sure to run `mintlify broken-links` before creating your pull request to verify that there are no broken links.
-
-### Preview Links
-
-After creating a pull request, Mintlify will automatically create and deploy a staging URL. You can then preview your changes by clicking **View Deployment**.
-
-![Mintlify Staging Deployment](https://github.com/user-attachments/assets/5dbb590b-33f8-438d-95f1-30207119c2f6)
-
-## Creating your Pull Request
-
-When creating a pull request, ensure that `main` is selected as the base branch. Your pull request title should follow the same naming convention as commits; the difference here is that the pull request title should acknowledge all changes as a whole.
-
-In addition to a good pull request title, ensure that your pull request description contains a (brief) overview of all changes made. When merging, all commits will be squashed, and the pull request title will be used as the squash commit message by default, and the pull request description will be the commit body.
-
-## Requesting a Review
-
-Reviewers will automatically be assigned following the assignments in [CODEOWNERS](/.github/CODEOWNERS).
-
-## Merging
-
-Once reviewed, if approved, the Rive team will handle merging the pull request. Commits will be squashed when merging, so make sure to follow the tips outlined in [Creating your Pull Request](#creating-your-pull-request).
