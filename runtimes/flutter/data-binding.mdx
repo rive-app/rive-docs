@@ -117,7 +117,7 @@ If you're using `RiveWidgetController` the binding happens automatically when yo
 viewModelInstance = controller.dataBind(DataBind.auto());
 viewModelInstance = controller.dataBind(DataBind.byName('My View Model'));
 viewModelInstance = controller.dataBind(DataBind.byIndex(0));
-viewModelInstnace = controller.dataBind(someViewModelInstance);
+viewModelInstnace = controller.dataBind(DataBind.byInstance(someViewModelInstance));
 ```
 
 Else, you need to make sure to bind the view model instance to the state machine, or artboard.
