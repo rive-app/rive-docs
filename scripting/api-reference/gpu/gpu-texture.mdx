@@ -63,6 +63,9 @@ view(desc: {dimension: TextureType?, aspect: TextureAspect?, baseMipLevel: numbe
 
 Create a view into a sub-range of this texture. All fields optional;
 omit desc entirely for a full-texture view.
+Views are immutable. Create them once at init next to the texture and
+reuse them every frame. Calling view() in a per-frame draw callback
+creates and destroys a native GPU object each frame.
 
 
 ### `upload`
