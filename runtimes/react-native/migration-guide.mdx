@@ -292,6 +292,11 @@ Synchronous `useMemo` chains for ViewModel setup should be replaced with `useSta
 | `instance.viewModel(path)` | `await instance.viewModelAsync(path)` |
 | `listProp.length` | `await listProp.getLengthAsync()` |
 | `listProp.getInstanceAt(i)` | `await listProp.getInstanceAtAsync(i)` |
+| `listProp.addInstance(inst)` | `await listProp.addInstanceAsync(inst)` |
+| `listProp.addInstanceAt(inst, i)` | `await listProp.addInstanceAtAsync(inst, i)` |
+| `listProp.removeInstance(inst)` | `await listProp.removeInstanceAsync(inst)` |
+| `listProp.removeInstanceAt(i)` | `await listProp.removeInstanceAtAsync(i)` |
+| `listProp.swap(i, j)` | `await listProp.swapAsync(i, j)` |
 | `prop.value` (read) | `await prop.getValueAsync()` |
 | `prop.value = x` (write) | `prop.set(x)` |
 
