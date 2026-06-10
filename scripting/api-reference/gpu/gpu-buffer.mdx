@@ -1,0 +1,41 @@
+---
+title: GPUBuffer
+---
+
+A GPU buffer for vertex, index, or uniform data.
+
+
+## Fields
+
+### `size`
+
+Size in bytes.
+
+
+## Constructors
+
+### `new`
+
+{/* new: (desc: GPUBufferDesc) -> GPUBuffer */}
+<div class="signature">
+```lua
+new(desc: GPUBufferDesc) -> GPUBuffer
+```
+</div>
+
+## Methods
+
+### `write`
+
+{/* function write(self, data: buffer, offset: number?): () */}
+<div class="signature">
+```lua
+write(data: buffer, offset: number?) -> ()
+```
+</div>
+
+Copy CPU data into the buffer.
+@param data   Source bytes.
+@param offset Byte offset into the GPU buffer (default 0).
+
+

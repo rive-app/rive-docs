@@ -130,6 +130,19 @@ end
 ```
 
 
+### `drawCanvas`
+
+{/* drawCanvas: ((self: T) -> ())? */}
+<div class="signature">
+```lua
+drawCanvas(self: T) -> ()
+```
+</div>
+
+Called during the drawCanvases pass (before draw).
+All canvas:beginFrame / canvas:beginRenderPass calls must happen here.
+
+
 ### `pointerDown`
 
 {/* pointerDown: (self: T, event:PointerEvent) -> ()? */}
@@ -243,4 +256,31 @@ return function(): Node<MyGame>
 end
 ```
 
+
+### `gamepadConnected`
+
+{/* gamepadConnected: (self: T, event:GamepadConnected) -> ()? */}
+<div class="signature">
+```lua
+gamepadConnected(self: T, event: GamepadConnected) -> ()
+```
+</div>
+
+### `gamepadEvent`
+
+{/* gamepadEvent: (self: T, event:GamepadEvent) -> ()? */}
+<div class="signature">
+```lua
+gamepadEvent(self: T, event: GamepadEvent) -> ()
+```
+</div>
+
+### `gamepadDisconnected`
+
+{/* gamepadDisconnected: (self: T, event:GamepadDisconnected) -> ()? */}
+<div class="signature">
+```lua
+gamepadDisconnected(self: T, event: GamepadDisconnected) -> ()
+```
+</div>
 

@@ -1,4 +1,4 @@
-export const Marketplace = ({ href }) => {
+export const Marketplace = ({ href, children }) => {
   const hrefWithTracking = `${href}?utm_source=docs&utm_medium=docs_link_card&utm_campaign=docs_to_marketplace_links`
 
   return (
@@ -9,7 +9,12 @@ export const Marketplace = ({ href }) => {
       arrow="true"
       horizontal
     >
-      Open this file on Marketplace, then click Remix to experiment in the Rive Editor.
+      {
+      children ? (
+        children
+      ) : "Open this file on Marketplace, then click Remix to experiment in the Rive Editor."
+    }
+
     </Card>
   );
 };

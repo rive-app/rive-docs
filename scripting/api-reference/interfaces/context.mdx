@@ -22,6 +22,7 @@ markNeedsUpdate() -> ()
 
 Marks the object as needing an update on the next frame.
 Call this when something has changed (e.g., from a listener callback) and you need the runtime to re-invoke your node's update function.
+Note: Calls to `markNeedsUpdate` from inside `update()` are ignored. Use it from `init()`, `advance()`, listener callbacks, or event handlers instead.
 ```lua highlight={11}
 function init(self: MyNode, context: Context): boolean
     self.context = context
@@ -169,6 +170,30 @@ blob(name: string) -> Blob?
 
 Returns a [Blob](/scripting/api-reference/interfaces/blob) (raw binary data) asset by name, or nil if not found.
 Useful for loading custom data files embedded in the Rive file.
+```lua highlight={6}
+type DrawBlob = {
+    myBlob: Blob?,
+}
+
+function init(self: DrawBlob, context: Context): boolean
+    self.myBlob = context:blob('myBlob')
+
+    if self.myBlob then
+        print('Blob name:', self.myBlob.name)
+        print('Blob size:', self.myBlob.size, 'bytes')
+        print('Blob data buffer:', self.myBlob.data)
+    end
+
+    return true
+end
+
+return function(): Node<DrawBlob>
+    return {
+        myBlob = nil,
+        init = init,
+    }
+end
+```
 
 
 ### `audio`
@@ -181,5 +206,123 @@ audio(name: string) -> AudioSource?
 </div>
 
 Returns an [AudioSource](/scripting/api-reference/interfaces/audio-source) asset by name. The returned source can be played using the global `Audio` API.
+```lua highlight={4,8}
+type AudioExample = {
+  play: Input<Trigger>,
+
+  source: AudioSource?,
+}
+
+function init(self: AudioExample, context: Context): boolean
+  self.source = context:audio("myAudio")
+  return true
+end
+
+function playSound(self: AudioExample)
+  if self.source then
+    Audio.play(self.source)
+  end
+end
+
+return function(): Node<AudioExample>
+  return {
+    play = playSound,
+    source = nil,
+    init = init,
+  }
+end
+```
+
+
+### `canvas`
+
+{/* function canvas(self, desc: {
+        width: number,
+        height: number,
+        clearColor: Color?,
+    }?): Canvas */}
+<div class="signature">
+```lua
+canvas(desc: {width: number, height: number, clearColor: Color?,}?) -> Canvas
+```
+</div>
+
+Create a 2D canvas for Rive Renderer drawing.
+Use beginFrame/endFrame inside drawCanvas to render.
+
+The descriptor is optional. Omitting it (or passing width/height of
+0) creates a deferred canvas with no backing texture — useful in
+layout scripts that don't know their size at init. Call
+`canvas:resize(w, h)` once the real size is known. While deferred,
+`canvas.image` is nil and `width`/`height` report 0; calling
+`beginFrame()` raises an error pointing to `resize()`. Check
+`canvas.width > 0` to gate work.
+
+
+### `gpuCanvas`
+
+{/* function gpuCanvas(self, desc: {
+        width: number,
+        height: number,
+    }?): GPUCanvas */}
+<div class="signature">
+```lua
+gpuCanvas(desc: {width: number, height: number,}?) -> GPUCanvas
+```
+</div>
+
+Create a GPU canvas — a 1× presentation target. Render to it via
+`canvas:beginRenderPass(...)`. For MSAA, allocate the multisampled
+color and depth textures yourself with `GPUTexture.new({
+sampleCount = N, renderTarget = true })` and pass them in the
+descriptor.
+
+The descriptor is optional. Omitting it (or passing width/height of
+0) creates a deferred canvas with no backing texture — useful in
+layout scripts that don't know their size at init. Call
+`canvas:resize(w, h)` once the real size is known. While deferred,
+`width`/`height` report 0 and calling `colorView()` raises an error
+pointing to `resize()`. Check `canvas.width > 0` to gate work.
+
+
+### `features`
+
+{/* function features(self): GPUFeatures */}
+<div class="signature">
+```lua
+features() -> GPUFeatures
+```
+</div>
+
+Query GPU capabilities. Returns a table of supported features
+and limits for the current backend.
+
+
+### `shader`
+
+{/* function shader(self, name: string): Shader? */}
+<div class="signature">
+```lua
+shader(name: string) -> Shader?
+```
+</div>
+
+Get a compiled shader by asset name (the name as added in the editor,
+with no ".wgsl" extension). Returns a Shader ready for use in
+GPUPipeline.new(), or nil if the named shader is not found.
+
+
+### `decodeImage`
+
+{/* function decodeImage(self, data: buffer): Promise<DecodedImage> */}
+<div class="signature">
+```lua
+decodeImage(data: buffer) -> Promise<DecodedImage>
+```
+</div>
+
+Decode compressed image data (PNG, JPEG, WebP) into premultiplied RGBA8 pixels.
+Returns a Promise that resolves with a DecodedImage table.
+Use with await() inside async(), or chain with :andThen().
 
 

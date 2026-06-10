@@ -235,9 +235,9 @@ export const Demos = ({
     scriptingDrawImages: {
       title: "Render an Image with Scripting",
       image: "https://static.rive.app/docs/render-image-with-scripting.jpg",
-      description: "Draw an image, give it transforms, and control its mesh all through scripting.",
+      description: "Draw an image, give it transforms, control its mesh, and add clipping all through scripting.",
       links: {
-        editor: "https://rive.app/community/files/26406-49444-draw-an-image-with-scripting/"
+        editor: "https://rive.app/community/files/26406-draw-an-image-with-scripting"
       }
     },
     scriptingSlotMachine: {
@@ -248,13 +248,21 @@ export const Demos = ({
         editor: "https://rive.app/community/files/25759-slot-machine-game-with-scripting/"
       }
     },
+    scriptingLists: {
+      title: "Scripting Lists",
+      image: "/images/runtimes/rive-db-lists.webp",
+      description: "Add, remove, edit, and swap items in your data binding list using Rive scripting.",
+      links: {
+        editor: "https://rive.app/community/files/27098-51051-scripting-lists"
+      }
+    },
     scriptingPlinko: {
       title: "Plinko - Complete Game",
       image: "https://static.rive.app/docs/scripting-plinko-game.png",
       description: "Build a complete Plinko game using Layout, Node, and Path Effect scripts.",
       links: {
         editor: "https://rive.app/marketplace/25772-blinko-scripted-game/"
-      }
+      },
     }
   }
 
@@ -361,7 +369,7 @@ export const Demos = ({
     if (!link) return null
 
     if (runtime === 'editor') {
-      link = `${link}?utm_source=docs&utm_medium=docs_demo_card&utm_campaign=docs_to_marketplace_links`
+      link = `${link}?utm_source=docs&utm_medium=docs_demo_card`
     }
 
     return (

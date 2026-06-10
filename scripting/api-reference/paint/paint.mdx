@@ -58,6 +58,14 @@ self.paint = Paint.with({
 ### `blendMode`
 
 Blending mode used when compositing. See [BlendMode](/scripting/api-reference/paint/blend-mode).
+```lua highlight={4}
+-- Create a new paint with a color and multiply blend mode
+self.paint = Paint.with({
+  color = Color.rgb(255, 100, 50),
+  blendMode = 'multiply',
+  style = 'fill',
+})
+```
 
 
 ### `feather`

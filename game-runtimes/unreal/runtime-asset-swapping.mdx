@@ -1,73 +1,40 @@
 ﻿---
 title: "Runtime Asset Swapping"
-description: "Load referenced image and font assets at runtime in Unreal."
+description: "Swap image assets at runtime in Unreal via data binding."
 ---
 
 ## Overview
 
-Referenced assets are represented by Unreal objects, and you load data directly onto those objects:
+To change a Rive file's images at runtime in Unreal, bind a `UTexture` to a ViewModel image property exposed via data binding in the Rive editor.
 
-- `URiveImageAsset`
-- `URiveFontAsset`
+<Warning>
+The Rive renderer requires image textures to use **premultiplied alpha** (AlphaComposite-style blending). Textures authored with straight alpha can show:
+- Dark or black fringes around transparent edges
+- Incorrect compositing against the background
+- Loss of alpha
+- Overly bright / oversaturated images
 
-## How Asset Loading Works
+Export or preprocess textures with premultiplied alpha before using them at runtime.
+</Warning>
 
-When a `.riv` contains referenced assets:
+### Blueprint
 
-- The plugin tracks them by **asset ID**.
-- Referenced assets are created as Unreal assets alongside your imported `URiveFile`.
-- The runtime decodes and applies bytes through typed asset classes.
+Call **Set Image Value** (category *Rive → Data Binding*) on your `RiveViewModel` reference. Enter the image property name (as exposed on the ViewModel via data binding) and pick the source texture from the *In Image* dropdown.
 
-For image/font replacements at runtime, use the asset objects directly:
+![Setting an image property via databinding](/images/unreal/ImageSwapDatabinding1.png)
 
-- Images: `LoadTexture(UTexture2D*)` or `LoadImageBytes(const TArray<uint8>&)`
-- Fonts: `LoadFontFace(UFontFace*)` or `LoadFontBytes(const TArray<uint8>&)`
-
-## Recommended Workflow
-
-1. In the Rive Editor, set assets to **Referenced** if you want to supply them outside the `.riv`.
-2. Import the `.riv` into Unreal.
-3. Locate generated referenced assets in Content Browser (typically named like `AssetName-AssetId`).
-4. In Blueprint or C++, hold references to those `URiveImageAsset` / `URiveFontAsset` objects.
-5. Before or during playback, call the load function that matches your source data.
-
-## Blueprint Runtime Replacement
-
-Use object references to your Rive asset objects and call:
-
-- `Load Texture` on `RiveImageAsset` for a `Texture2D`
-- `Load Image Bytes` on `RiveImageAsset` for raw encoded image bytes
-- `Load Font Face` on `RiveFontAsset` for a `Font Face`
-- `Load Font Bytes` on `RiveFontAsset` for raw font bytes
-
-After loading, continue rendering with your `RiveFile`/`RiveArtboard` normally.
-
-## C++ API Surface
-
-Use these headers:
+### C++
 
 ```cpp
-#include "Rive/Assets/RiveImageAsset.h"
-#include "Rive/Assets/RiveFontAsset.h"
+#include "Rive/RiveViewModel.h"
+
+// ViewModel is a URiveViewModel*, Texture is any UTexture*
+ViewModel->SetImageValue(TEXT("MyImageProperty"), Texture);
 ```
 
-Runtime-loading functions:
-
-```cpp
-URiveImageAsset::LoadTexture(UTexture2D* InTexture);
-URiveImageAsset::LoadImageBytes(const TArray<uint8>& InBytes);
-
-URiveFontAsset::LoadFontFace(UFontFace* InFont);
-URiveFontAsset::LoadFontBytes(const TArray<uint8>& InBytes);
-```
-
-## Important Notes
-
-- Referenced asset resolution is ID-based inside the plugin.
-- If your project uses image data binding for dynamic visuals, prefer that path for per-instance image changes.
+`SetImageValue` accepts any `UTexture` and notifies the state machine that the bound property changed. The property name must match the image property as exposed on the ViewModel via data binding.
 
 ## Troubleshooting
 
-- If a referenced asset does not update, confirm you are editing the correct generated Rive asset object (`AssetName-AssetId`).
-- If bytes-based loading fails, validate file format and byte contents (supported image/font formats only).
-- Reimporting the `.riv` can regenerate/update metadata; re-check referenced asset objects after reimport.
+- **Image doesn't update:** confirm the property name matches the ViewModel image property as exposed via data binding, and that your `RiveViewModel` is the one driving the artboard instance on screen.
+- **Image looks wrong (dark fringes, incorrect alpha, oversaturation):** verify the source texture uses premultiplied alpha.

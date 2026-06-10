@@ -11,46 +11,115 @@ access to parent and child nodes.
 ### `position`
 
 The local position of the node.
+```lua highlight={4}
+if self.instance then
+  local node = self.instance:node('Hips')
+  if node then
+    node.position = Vector.xy(199, 299)
+  end
+end
+```
 
 
 ### `rotation`
 
 The local rotation of the node in radians.
+```lua highlight={4}
+if self.instance then
+  local node = self.instance:node('Hips')
+  if node then
+    node.rotation = math.rad(45)
+  end
+end
+```
 
 
 ### `scale`
 
 The local scale of the node.
+```lua highlight={4}
+if self.instance then
+  local node = self.instance:node('Hips')
+  if node then
+    node.scale = Vector.xy(1.4, 2)
+  end
+end
+```
 
 
 ### `worldTransform`
 
-The world transform of the node.
+The read-only world transform of the node.
+```lua highlight={4,5,6,7}
+if self.instance then
+  local node = self.instance:node('Hips')
+  if node then
+    local wt = node.worldTransform
+    print("world xx:", wt.xx, "xy:", wt.xy)
+    print("world yx:", wt.yx, "yy:", wt.yy)
+    print("world tx:", wt.tx, "ty:", wt.ty)
+  end
+end
+```
 
 
 ### `x`
 
 The x-coordinate of the local position.
+```lua highlight={4}
+if self.instance then
+  local node = self.instance:node('Hips')
+  if node then
+    node.x = 100
+  end
+end
+```
 
 
 ### `y`
 
 The y-coordinate of the local position.
+```lua highlight={4}
+if self.instance then
+  local node = self.instance:node('Hips')
+  if node then
+    node.y = 200
+  end
+end
+```
 
 
 ### `scaleX`
 
 The x component of the local scale.
+```lua highlight={4}
+if self.instance then
+  local node = self.instance:node('Hips')
+  if node then
+    node.scaleX = 2
+  end
+end
+```
 
 
 ### `scaleY`
 
 The y component of the local scale.
+```lua highlight={4}
+if self.instance then
+  local node = self.instance:node('Hips')
+  if node then
+    node.scaleY = 2
+  end
+end
+```
 
 
 ### `paint`
 
 If node is a Path, paint trait is available with paint data
+
+(Coming soon)
 
 
 ## Methods
@@ -64,7 +133,21 @@ asPath() -> PathData?
 ```
 </div>
 
-If node is a Path, returns the node as PathData
+If node is a Path, returns the node as [PathData](/scripting/api-reference/path/path-data).
+```lua highlight={5}
+function pointerDown(self: PaintInstance, event: PointerEvent)
+  if self.instance then
+    local myPath = self.instance:node('MyPath')
+    if myPath then
+      local path = myPath:asPath()
+      if path then
+        local cmd: PathCommand = path[1]
+        print(cmd.type) -- moveTo
+      end
+    end
+  end
+end
+```
 
 
 ### `asPaint`
@@ -76,6 +159,8 @@ asPaint() -> Paint?
 ```
 </div>
 
-If node is a ShapePaint (Fill or Stroke), returns node as Paint
+If node is a ShapePaint (Fill or Stroke), returns node as [Paint](/scripting/api-reference/paint/paint)
+
+(Coming soon)
 
 

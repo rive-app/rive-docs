@@ -3,5 +3,24 @@ title: Input
 ---
 
 Represents a typed input value.
+```lua highlight={3,4,5,6}
+-- Define the script's data and inputs.
+type MyNode = {
+  speed: Input<number>,
+  title: Input<string>,
+  enabled: Input<boolean>,
+  onReset: Input<Trigger>,
+}
+
+-- Return a factory function that Rive uses to build the Node instance.
+return function(): Node<MyNode>
+  return {
+    speed = 1,
+    title = 'Rive so coooool!',
+    enabled = false,
+    onReset = function() end,
+  }
+end
+```
 
 

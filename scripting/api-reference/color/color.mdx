@@ -184,3 +184,20 @@ print(Color.opacity(newColor))
 ```
 
 
+### `toFloat`
+
+{/* toFloat: (color: Color) -> { number } */}
+<div class="signature">
+```lua
+toFloat(color: Color) -> {number}
+```
+</div>
+
+Convert a Color (ARGB packed integer) to an {r, g, b, a} table
+with values in 0–1 range. Use with `clearColor` in render passes.
+```lua
+local cc = Color.toFloat(Color.rgba(255, 0, 0, 128))
+-- cc = {1.0, 0.0, 0.0, 0.502}
+```
+
+

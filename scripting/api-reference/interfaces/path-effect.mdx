@@ -23,6 +23,14 @@ init(self: T, context: Context) -> boolean
 
 Called once when the effect is created or attached.
 Return `true` to keep the effect active, or `false` to disable it.
+```lua
+-- Called once when the script initializes.
+function init(self: MyPathEffect, context: Context): boolean
+
+    -- Return false to stop the script.
+    return true
+end
+```
 
 
 ### `update`
@@ -37,6 +45,12 @@ update(self: T, path: PathData, node: NodeReadData) -> PathData
 Called any time an input changes.
 You receive the original [PathData](/scripting/api-reference/path/path-data) and must return the path
 that should be used for rendering.
+```lua
+function update(self: MyPathEffect, inPath: PathData): PathData
+    local path = Path.new()
+    return path
+end
+```
 
 
 ### `advance`
@@ -51,5 +65,10 @@ advance(self: T, seconds: number) -> boolean
 Called every frame to advance the effect over time.
 `seconds` is the time delta since the last frame.
 Return `true` to keep the effect active, or `false` to disable it.
+```lua
+function advance(self: MyPathEffect, seconds: number): boolean
+  return false
+end
+```
 
 

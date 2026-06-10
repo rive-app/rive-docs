@@ -25,8 +25,7 @@
             "group": " ",
             "pages": [
               "getting-started/introduction",
-              "getting-started/best-practices",
-              "getting-started/quick-links"
+              "getting-started/best-practices"
             ]
           },
           {
@@ -89,134 +88,184 @@
                   "editor/interface-overview/overview",
                   "editor/interface-overview/toolbar",
                   "editor/interface-overview/hierarchy",
+                  "editor/tagging",
                   "editor/interface-overview/inspector",
-                  "editor/interface-overview/stage"
+                  "editor/interface-overview/stage",
+                  "editor/keyboard-shortcuts",
+                  "editor/fundamentals/design-vs-animate-mode"
                 ]
-              },
+              }
+            ]
+          },
+          {
+            "group": "Fundamentals",
+            "pages": [
               {
-                "group": "Fundamentals",
+                "group": "Design",
                 "pages": [
-                  "editor/fundamentals/overview",
-                  "editor/fundamentals/design-vs-animate-mode",
                   "editor/fundamentals/artboards",
                   "editor/fundamentals/components",
-                  "editor/fundamentals/pen-tool-overview",
-                  "editor/fundamentals/shapes-and-paths-overview",
-                  "editor/fundamentals/procedural-shapes",
-                  "editor/fundamentals/groups",
-                  "editor/fundamentals/selecting-and-navigating-groups",
-                  "editor/fundamentals/transform-spaces",
-                  "editor/fundamentals/fill-and-stroke",
-                  "editor/fundamentals/edit-vertices",
-                  "editor/fundamentals/freeze-and-origin",
-                  "editor/fundamentals/importing-assets",
-                  "editor/fundamentals/revision-history"
+                  {
+                    "group": "Drawing",
+                    "pages": [
+                      "editor/fundamentals/shapes-and-paths-overview",
+                      "editor/fundamentals/procedural-shapes",
+                      "editor/fundamentals/pen-tool-overview",
+                      "editor/fundamentals/fill-and-stroke",
+                      "editor/fundamentals/edit-vertices",
+                      "editor/manipulating-shapes/trim-path",
+                      "editor/manipulating-shapes/clipping"
+                    ]
+                  },
+                  {
+                    "group": "Text",
+                    "pages": [
+                      "editor/text/text-overview",
+                      "editor/text/text-runs",
+                      "editor/text/text-styles",
+                      "editor/text/text-modifiers",
+                      "editor/text/fonts"
+                    ]
+                  },
+                  {
+                    "group": "Hierarchical Relationships",
+                    "pages": [
+                      "editor/fundamentals/groups",
+                      "editor/fundamentals/selecting-and-navigating-groups",
+                      "editor/manipulating-shapes/solos",
+                      "editor/fundamentals/transform-spaces",
+                      "editor/fundamentals/freeze-and-origin",
+                      "editor/animate-mode/animating-draw-order"
+                    ]
+                  },
+                  {
+                    "group": "Responsive Design",
+                    "pages": [
+                      "editor/layouts/layouts-overview",
+                      "editor/layouts/layout-tools",
+                      "editor/layouts/layout-parameters",
+                      "editor/layouts/layout-styles",
+                      "editor/layouts/layout-animation",
+                      "editor/layouts/n-slicing",
+                      "editor/layouts/scrolling"
+                    ]
+                  }
                 ]
               },
               {
-                "group": "Manipulating Shapes",
+                "group": "Assets",
+                "pages": [
+                  "editor/fundamentals/importing-assets",
+                  "editor/libraries"
+                ]
+              },
+              {
+                "group": "Animation",
+                "pages": [
+                  "editor/animate-mode/animate-mode-overview",
+                  "editor/animate-mode/timeline",
+                  "editor/animate-mode/keys",
+                  "editor/animate-mode/interpolation-easing"
+                ]
+              },
+              {
+                "group": "Interaction",
+                "pages": [
+                  {
+                    "group": "State Machines",
+                    "pages": [
+                      "editor/state-machine/state-machine",
+                      "editor/state-machine/states",
+                      "editor/state-machine/transitions",
+                      "editor/state-machine/layers",
+                      "editor/animate-mode/animation-mixing"
+                    ]
+                  },
+                  "editor/state-machine/listeners",
+                  {
+                    "group": "Events",
+                    "pages": [
+                      "editor/events/overview",
+                      "editor/events/open-url-events",
+                      "editor/events/audio-events"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Data",
+                "pages": [
+                  "editor/data-binding/overview",
+                  "editor/data-binding/view-models",
+                  "editor/data-binding/property-types",
+                  "editor/data-binding/binding-data",
+                  "editor/data-binding/controlling-data",
+                  {
+                    "group": "Advanced Data Binding",
+                    "pages": [
+                      "editor/data-binding/enums",
+                      "editor/data-binding/lists",
+                      "editor/data-binding/converters",
+                      "editor/data-binding/stateful-components",
+                      "editor/data-binding/property-groups",
+                      "editor/data-binding/migration-guide"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Publishing",
+                "pages": [
+                  "editor/exporting/exporting-for-runtime",
+                  "editor/exporting/exporting-for-video-and-static-design",
+                  "editor/exporting/exporting-for-backup",
+                  "editor/embed-urls/overview"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Advanced Topics",
+            "pages": [
+              {
+                "group": "Rigging & Control",
                 "pages": [
                   "editor/manipulating-shapes/manipulating-shapes",
                   "editor/manipulating-shapes/bones",
                   "editor/manipulating-shapes/bone-tips",
                   "editor/manipulating-shapes/meshes",
-                  "editor/manipulating-shapes/clipping",
-                  "editor/manipulating-shapes/solos",
-                  "editor/manipulating-shapes/trim-path",
-                  "editor/manipulating-shapes/joysticks"
+                  "editor/manipulating-shapes/joysticks",
+                  {
+                    "group": "Constraints",
+                    "pages": [
+                      "editor/constraints/constraints-overview",
+                      "editor/constraints/ik-constraint",
+                      "editor/constraints/distance-constraint",
+                      "editor/constraints/scale-constraint",
+                      "editor/constraints/rotation-constraint",
+                      "editor/constraints/transform-constraint",
+                      "editor/constraints/translation-constraint",
+                      "editor/constraints/follow-path-constraint",
+                      "editor/constraints/scroll-constraint"
+                    ]
+                  }
                 ]
               },
+              "editor/fundamentals/revision-history",
               {
-                "group": "Text",
+                "group": "Accessibility",
                 "pages": [
-                  "editor/text/text-overview",
-                  "editor/text/text-runs",
-                  "editor/text/text-styles",
-                  "editor/text/text-modifiers",
-                  "editor/text/fonts"
-                ]
-              },
-              {
-                "group": "Constraints",
-                "pages": [
-                  "editor/constraints/constraints-overview",
-                  "editor/constraints/ik-constraint",
-                  "editor/constraints/distance-constraint",
-                  "editor/constraints/scale-constraint",
-                  "editor/constraints/rotation-constraint",
-                  "editor/constraints/transform-constraint",
-                  "editor/constraints/translation-constraint",
-                  "editor/constraints/follow-path-constraint",
-                  "editor/constraints/scroll-constraint"
-                ]
-              },
-              {
-                "group": "Animate Mode",
-                "pages": [
-                  "editor/animate-mode/animate-mode-overview",
-                  "editor/animate-mode/timeline",
-                  "editor/animate-mode/keys",
-                  "editor/animate-mode/animation-mixing",
-                  "editor/animate-mode/interpolation-easing",
-                  "editor/animate-mode/animating-draw-order"
-                ]
-              },
-              {
-                "group": "State Machines",
-                "pages": [
-                  "editor/state-machine/state-machine",
-                  "editor/state-machine/states",
-                  "editor/state-machine/inputs",
-                  "editor/state-machine/transitions",
-                  "editor/state-machine/listeners",
-                  "editor/state-machine/layers"
-                ]
-              },
-              {
-                "group": "Events",
-                "pages": [
-                  "editor/events/overview",
-                  "editor/events/audio-events"
-                ]
-              },
-              {
-                "group": "Data Binding",
-                "pages": [
-                  "editor/data-binding/overview",
-                  "editor/data-binding/lists"
-                ]
-              },
-              {
-                "group": "Layouts",
-                "pages": [
-                  "editor/layouts/layouts-overview",
-                  "editor/layouts/layout-tools",
-                  "editor/layouts/layout-parameters",
-                  "editor/layouts/layout-styles",
-                  "editor/layouts/layout-animation",
-                  "editor/layouts/n-slicing",
-                  "editor/layouts/scrolling"
-                ]
-              },
-              "editor/libraries",
-              "editor/keyboard-shortcuts",
-              {
-                "group": "Exporting",
-                "pages": [
-                  "editor/exporting/exporting-for-runtime",
-                  "editor/exporting/exporting-for-video-and-static-design",
-                  "editor/exporting/exporting-for-backup"
-                ]
-              },
-              {
-                "group": "Embed URLs",
-                "pages": [
-                  "editor/embed-urls/overview",
-                  "editor/embed-urls/framer-and-rive"
+                  "editor/accessibility/semantics"
                 ]
               },
               "editor/ai-agent/ai-agent",
-              "editor/tagging"
+              {
+                "group": "Legacy Features",
+                "pages": [
+                  "editor/state-machine/inputs",
+                  "editor/events/general-events"
+                ]
+              }
             ]
           }
         ]
@@ -262,11 +311,23 @@
             "group": "Scripting API",
             "pages": [
               {
+                "group": "@luau",
+                "pages": [
+                  "scripting/api-reference/luau/date-type-arg",
+                  "scripting/api-reference/luau/date-type-result",
+                  "scripting/api-reference/luau/vector"
+                ]
+              },
+              {
                 "group": "Artboards",
                 "pages": [
                   "scripting/api-reference/artboards/animation",
                   "scripting/api-reference/artboards/artboard",
                   "scripting/api-reference/artboards/focus-event",
+                  "scripting/api-reference/artboards/gamepad-connected",
+                  "scripting/api-reference/artboards/gamepad-disconnected",
+                  "scripting/api-reference/artboards/gamepad-event",
+                  "scripting/api-reference/artboards/gamepad-mapping-kind",
                   "scripting/api-reference/artboards/key-phase",
                   "scripting/api-reference/artboards/keyboard-event",
                   "scripting/api-reference/artboards/listener-context",
@@ -301,6 +362,62 @@
                 ]
               },
               {
+                "group": "GPU",
+                "pages": [
+                  "scripting/api-reference/gpu/bind-group-desc",
+                  "scripting/api-reference/gpu/bind-group-layout-desc",
+                  "scripting/api-reference/gpu/blend-factor",
+                  "scripting/api-reference/gpu/blend-op",
+                  "scripting/api-reference/gpu/blend-state",
+                  "scripting/api-reference/gpu/buffer-usage",
+                  "scripting/api-reference/gpu/buffer-usage-arg",
+                  "scripting/api-reference/gpu/canvas",
+                  "scripting/api-reference/gpu/color-attachment",
+                  "scripting/api-reference/gpu/color-target",
+                  "scripting/api-reference/gpu/compare-function",
+                  "scripting/api-reference/gpu/cull-mode",
+                  "scripting/api-reference/gpu/depth-stencil-attachment",
+                  "scripting/api-reference/gpu/depth-stencil-state",
+                  "scripting/api-reference/gpu/filter",
+                  "scripting/api-reference/gpu/gpu-bind-group",
+                  "scripting/api-reference/gpu/gpu-bind-group-layout",
+                  "scripting/api-reference/gpu/gpu-buffer",
+                  "scripting/api-reference/gpu/gpu-buffer-desc",
+                  "scripting/api-reference/gpu/gpu-canvas",
+                  "scripting/api-reference/gpu/gpu-color",
+                  "scripting/api-reference/gpu/gpu-features",
+                  "scripting/api-reference/gpu/gpu-pipeline",
+                  "scripting/api-reference/gpu/gpu-render-pass",
+                  "scripting/api-reference/gpu/gpu-sampler",
+                  "scripting/api-reference/gpu/gpu-texture",
+                  "scripting/api-reference/gpu/load-op",
+                  "scripting/api-reference/gpu/pipeline-stage",
+                  "scripting/api-reference/gpu/primitive-topology",
+                  "scripting/api-reference/gpu/render-pass-desc",
+                  "scripting/api-reference/gpu/sampler-entry",
+                  "scripting/api-reference/gpu/shader",
+                  "scripting/api-reference/gpu/store-op",
+                  "scripting/api-reference/gpu/texture-aspect",
+                  "scripting/api-reference/gpu/texture-entry",
+                  "scripting/api-reference/gpu/texture-type",
+                  "scripting/api-reference/gpu/ubo-entry",
+                  "scripting/api-reference/gpu/vertex-attribute",
+                  "scripting/api-reference/gpu/vertex-buffer-layout",
+                  "scripting/api-reference/gpu/vertex-format",
+                  "scripting/api-reference/gpu/wrap-mode"
+                ]
+              },
+              {
+                "group": "GPU Types",
+                "pages": [
+                  "scripting/api-reference/gpu_types/color-format",
+                  "scripting/api-reference/gpu_types/compressed-format",
+                  "scripting/api-reference/gpu_types/depth-format",
+                  "scripting/api-reference/gpu_types/gpu-texture-view",
+                  "scripting/api-reference/gpu_types/texture-format"
+                ]
+              },
+              {
                 "group": "Gradient",
                 "pages": [
                   "scripting/api-reference/gradient/gradient",
@@ -325,8 +442,10 @@
                   "scripting/api-reference/interfaces/context",
                   "scripting/api-reference/interfaces/converter",
                   "scripting/api-reference/interfaces/data-context",
+                  "scripting/api-reference/interfaces/decoded-image",
                   "scripting/api-reference/interfaces/enum-values",
                   "scripting/api-reference/interfaces/input",
+                  "scripting/api-reference/interfaces/interpolator",
                   "scripting/api-reference/interfaces/layout",
                   "scripting/api-reference/interfaces/listener-action",
                   "scripting/api-reference/interfaces/node",
@@ -344,6 +463,12 @@
                 "group": "Mat2d",
                 "pages": [
                   "scripting/api-reference/mat2d/mat2d"
+                ]
+              },
+              {
+                "group": "Mat4",
+                "pages": [
+                  "scripting/api-reference/mat4/mat4"
                 ]
               },
               {
@@ -369,15 +494,21 @@
                 ]
               },
               {
+                "group": "Promise",
+                "pages": [
+                  "scripting/api-reference/promise/promise"
+                ]
+              },
+              {
                 "group": "Renderer",
                 "pages": [
                   "scripting/api-reference/renderer/renderer"
                 ]
               },
               {
-                "group": "Vec2d",
+                "group": "Vector",
                 "pages": [
-                  "scripting/api-reference/vec2d/vector"
+                  "scripting/api-reference/vector/vector"
                 ]
               }
             ]
@@ -516,7 +647,8 @@
                     ]
                   },
                   "runtimes/flutter/migration-guide",
-                  "runtimes/flutter/faq"
+                  "runtimes/flutter/faq",
+                  "runtimes/flutter/api-reference"
                 ]
               },
               {
@@ -614,30 +746,42 @@
                   "game-runtimes/unreal/getting-started",
                   "game-runtimes/unreal/observing-viewmodel-changes",
                   "game-runtimes/unreal/using-triggers",
+                  "game-runtimes/unreal/runtime-asset-swapping",
                   "game-runtimes/unreal/in-world-textures"
+                ]
+              },
+              {
+                "group": "C++",
+                "pages": [
+                  "runtimes/cpp/overview",
+                  "runtimes/cpp/getting-started",
+                  "runtimes/cpp/file-and-artboard",
+                  "runtimes/cpp/state-machines",
+                  "runtimes/cpp/data-binding",
+                  "runtimes/cpp/asset-loading",
+                  "runtimes/cpp/rendering-loop",
+                  "runtimes/cpp/command-queue",
+                  "runtimes/cpp/renderers",
+                  "runtimes/cpp/external-renderer"
                 ]
               },
               "game-runtimes/defold",
               {
                 "group": "Community Runtimes",
                 "pages": [
+                  "runtimes/community-runtimes/angular",
                   "runtimes/community-runtimes/c-sharp",
-                  "runtimes/community-runtimes/qt-quick"
+                  "runtimes/community-runtimes/qt-quick",
+                  "runtimes/community-runtimes/rive-cmp"
                 ]
               }
             ]
-          }
-        ]
-      },
-      {
-        "tab": "Learn",
-        "groups": [
+          },
           {
-            "group": " ",
+            "group": "Integrations",
             "pages": [
-              "tutorials/learn-rive",
-              "tutorials/blog",
-              "tutorials/awesome-rive"
+              "integrations/overview",
+              "integrations/html-embed"
             ]
           }
         ]
@@ -647,7 +791,7 @@
   "logo": {
     "light": "/logo/rive_top_logo_black.svg",
     "dark": "/logo/rive_top_logo_white.svg",
-    "href": "https://rive.app/"
+    "href": "https://rive.app?utm_source=docs&utm_medium=header_nav"
   },
   "appearance": {
     "default": "dark"
@@ -658,14 +802,18 @@
   "navbar": {
     "links": [
       {
+        "label": "Learn",
+        "href": "/tutorials/learn-rive"
+      },
+      {
         "label": "Support",
-        "href": "https://community.rive.app/"
+        "href": "/community/support"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Get Rive",
-      "href": "https://rive.app/downloads"
+      "href": "https://rive.app/downloads?utm_source=docs&utm_medium=header_nav"
     }
   },
   "footer": {
@@ -682,19 +830,19 @@
         "items": [
           {
             "label": "Community",
-            "href": "https://community.rive.app/"
+            "href": "https://community.rive.app?utm_source=docs&utm_medium=footer_nav"
           },
           {
             "label": "Blog",
-            "href": "https://rive.app/blog"
+            "href": "https://rive.app/blog?utm_source=docs&utm_medium=footer_nav"
           },
           {
             "label": "Case Studies",
-            "href": "https://rive.app/blog/case-studies"
+            "href": "https://rive.app/blog/case-studies?utm_source=docs&utm_medium=footer_nav"
           },
           {
             "label": "Marketplace",
-            "href": "https://rive.app/marketplace"
+            "href": "https://rive.app/marketplace?utm_source=docs&utm_medium=footer_nav"
           },
           {
             "label": "Feature Requests",
@@ -707,19 +855,19 @@
         "items": [
           {
             "label": "Careers",
-            "href": "https://rive.app/careers"
+            "href": "https://rive.app/careers?utm_source=docs&utm_medium=footer_nav"
           },
           {
             "label": "Terms of Service",
-            "href": "/legal/terms-of-service"
+            "href": "/docs/legal/terms-of-service"
           },
           {
             "label": "Acceptable Use Policy",
-            "href": "/legal/acceptable-use-policy"
+            "href": "/docs/legal/acceptable-use-policy"
           },
           {
             "label": "Privacy Policy",
-            "href": "/legal/privacy-policy"
+            "href": "/docs/legal/privacy-policy"
           }
         ]
       }
@@ -1025,6 +1173,18 @@
     {
       "source": "/runtimes/react-native/runtime-concepts",
       "destination": "/runtimes/react-native/react-native"
+    },
+    {
+      "source": "/getting-started/quick-links",
+      "destination": "/"
+    },
+    {
+      "source": "/scripting/api-reference/vec2d/vector",
+      "destination": "/scripting/api-reference/vector/vector"
+    },
+    {
+      "source": "/editor/data-binding/view-model-properties",
+      "destination": "/editor/data-binding/property-types"
     }
   ],
   "integrations": {

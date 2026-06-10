@@ -53,6 +53,7 @@ export const FeatureSupportGroup = ({
     ]
 
     const featuresInOrder = [
+        "semantics",
         "scripting",
         "dataBindingListsImagesArtboards",
         "rightToLeftLayoutsText",
@@ -81,6 +82,27 @@ export const FeatureSupportGroup = ({
     ]
 
     const features = {
+        semantics: {
+            title: "Semantics",
+            runtimes: {
+                webCanvas: { supported: false, description: "Coming soon" },
+                webCanvasLite: { supported: false, description: "Not supported" },
+                webWebGL: { supported: false, description: "Not supported" },
+                webWebGL2: { supported: false, description: "Coming soon" },
+                reactCanvas: { supported: false, description: "Coming soon" },
+                reactCanvasLite: { supported: false, description: "Not supported" },
+                reactWebGL: { supported: false, description: "Not supported" },
+                reactWebGL2: { supported: false, description: "Coming soon" },
+                reactNative: { supported: false, description: "Coming soon" },
+                reactNativeLegacy: { supported: false, description: "Not supported" },
+                flutter: { supported: true, version: "0.14.6" },
+                apple: { supported: false, description: "Coming soon" },
+                android: { supported: false, description: "Coming soon" },
+                cpp: { supported: true, description: "Supported" },
+                unity: { supported: false, description: "Not yet supported" },
+                unreal: { supported: false, description: "Not yet supported" }
+            }
+        },
         scripting: {
             title: "Scripting",
             runtimes: {
@@ -252,14 +274,14 @@ export const FeatureSupportGroup = ({
         fallbackFonts: {
             title: "Fallback Fonts",
             runtimes: {
-                webCanvas: { supported: false, description: "Not yet supported" },
+                webCanvas: { supported: true, version: "2.37.1+" },
                 webCanvasLite: { supported: false, description: "Not supported" },
                 webWebGL: { supported: false, description: "Not supported" },
-                webWebGL2: { supported: false, description: "Not yet supported" },
-                reactCanvas: { supported: false, description: "Not yet supported" },
+                webWebGL2: { supported: true, version: "2.37.1+" },
+                reactCanvas: { supported: true, version: "4.28.0+" },
                 reactCanvasLite: { supported: false, description: "Not supported" },
                 reactWebGL: { supported: false, description: "Not supported" },
-                reactWebGL2: { supported: false, description: "Not yet supported" },
+                reactWebGL2: { supported: true, version: "4.28.0+" },
                 reactNative: { supported: true, version: "0.2.7+" },
                 reactNativeLegacy: { supported: false, description: "Not supported" },
                 flutter: { supported: false, description: "Not yet supported" },

@@ -6,7 +6,13 @@ description: "Install the Rive Unreal plugin, run your first Artboard via URiveA
 This guide walks you through installing the Rive Unreal plugin, importing a `.riv` file, and displaying it in UMG.
 
 <Info>
-  Supported on Unreal Engine 5.7.3 and above.
+  **Prerequisites**
+  - Unreal Engine 5.6 or above.
+  - A C++ toolchain. The Rive plugin is a C++ plugin, so it's compiled as part
+    of your project regardless of how you install it:
+    - **Windows**: Visual Studio 2022 with the **Game development with C++**
+      workload (it includes the Windows SDK and .NET components Unreal needs).
+    - **macOS**: Xcode with the command-line tools (`xcode-select --install`).
 </Info>
 
 ## 1) Install the Plugin
@@ -44,21 +50,54 @@ This guide walks you through installing the Rive Unreal plugin, importing a `.ri
       <Step>
         Copy the `Rive` plugin folder into your project's `Plugins/` directory.
       </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+## 2) Build the Project
+
+The Rive plugin is C++, so your project must be compiled before the editor
+can load it.
+
+<Tabs>
+  <Tab title="Windows">
+    <Steps>
       <Step>
-        Regenerate project files and build.
+        Right-click your `.uproject` file and choose **Generate Visual Studio
+        project files**.
+      </Step>
+      <Step>
+        Open the generated `.sln` in Visual Studio 2022.
+      </Step>
+      <Step>
+        Set the configuration to **Development Editor** / **Win64** and build.
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="macOS">
+    <Steps>
+      <Step>
+        Right-click your `.uproject` file and choose **Generate Xcode
+        project**.
+      </Step>
+      <Step>
+        Open the generated project in Xcode and build the editor target.
       </Step>
     </Steps>
   </Tab>
 </Tabs>
 
-## 2) Enable the Plugin
+Alternatively, double-click the `.uproject` directly — if the plugin modules
+aren't built, Unreal offers to rebuild them; click **Yes**.
+
+## 3) Enable the Plugin
 
 1. Open Edit → Plugins.
 2. Locate Rive under Runtime.
 3. Enable the plugin.
 4. Restart the editor if required.
 
-## 3) Import a Rive File
+## 4) Import a Rive File
 
 1. Open the Content Browser.
 2. Drag and drop a `.riv` file into your project.
@@ -101,7 +140,7 @@ You can inspect the created widget by double-clicking it.
   />
 </Frame>
 
-## 5) Create a Blueprint
+## 6) Create a Blueprint
 
 1. You can now use the widget in a blueprint just as you would any other widget.
 
@@ -118,7 +157,7 @@ You can inspect the created widget by double-clicking it.
      />
    </Frame>
 
-## 6) Bind a ViewModel
+## 7) Bind a ViewModel
 
 If the Rive File is not using **autobinding**, you must assign a viewmodel. This can be done in blueprints using the **Make View Model** node.
 

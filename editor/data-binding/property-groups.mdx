@@ -1,0 +1,98 @@
+---
+title: "Property Groups"
+description: "Create local values that can be keyed, animated, and bound to View Model properties."
+---
+
+import { YouTube } from '/snippets/youtube.mdx'
+import { Marketplace } from '/snippets/marketplace.mdx'
+
+Property Groups are local, artboard-level values that can be keyed, animated, and bound to View Model properties.
+
+View Model properties are global and shared, while timelines and state machines are local. Property Groups bridge that gap, allowing local animation and logic to read from or drive global data.
+
+## Creating a Property Group
+
+<Steps>
+  <Step title="Create a Property Group">
+    Select your Property Group tool and click the stage to add one to your artboard.
+    ![Create property group](/images/editor/data-binding/property-groups/create-a-group.png)
+  </Step>
+  <Step title="Add a property">
+    Select your Property Group and in the right sidebar, click the `+` icon and select your property type.
+    ![Add property to group](/images/editor/data-binding/property-groups/new-property.png)
+  </Step>
+</Steps>
+
+
+## Common Use Cases
+
+### Controlling a View Model Property with a Timeline
+
+You can’t key a View Model property directly in the timeline. Instead, you key a Property Group value, then bind that value to a View Model property.
+
+This lets you use [Keyframes](/editor/animate-mode/keys) in a timeline to update View Model data at runtime.
+
+<Info>
+  **Why can't I key View Model Properties directly?**
+
+  View Model properties represent global data shared across your app, while keyframes are local to a timeline—so they can’t be keyed directly.
+</Info>
+
+<YouTube id="V7GYhd8ZHYg" />
+
+<Marketplace
+  href="https://rive.app/community/files/27294-property-groups-demo"
+/>
+
+<Steps>
+  <Step title="Key a property">
+      With the Property Group selected, move the timeline playhead and change the property value to create keyframes.
+
+      ![New Property](/images/editor/data-binding/property-groups/key-property.png)
+  </Step>
+  <Step title="Bind the property">
+      Right-click the property and select the View Model property you want to control. Set the direction to Target → Source so the keyed value drives the View Model property.
+
+      ![Bind Property](/images/editor/data-binding/property-groups/bind-property.png)
+  </Step>
+</Steps>
+
+When you run your state machine, the View Model property updates based on the keyed Property Group values.
+
+### Controlling one View Model Property with another
+
+You can't directly control one View Model Property with another View Model Property. Instead, you can use a Property Group value that reads one View Model Property and sets another.
+
+<Info>
+  **Why can't I control one View Model property with another?**
+
+  Allowing View Model properties to control each other would create hidden dependencies and update loops, so relationships between values are handled explicitly through bindings.
+</Info>
+
+In this example we'll have two Number View Model Properties called `myNumber` and `myOtherNumber`, which will be `myNumber` doubled.
+
+<Marketplace
+  href="https://rive.app/community/files/27294-property-groups-demo"
+/>
+
+<Steps>
+  <Step title="Create a Formula Converter">
+    Create a new Converter of type Numeric > Formula and add a number value, a multiply operation, and another number.
+
+    ![Add property to group](/images/editor/data-binding/property-groups/number-converter.png)
+  </Step>
+  <Step title="Bind the number value">
+    Bind the first number to `myNumber`.
+
+    ![Bind the first number](/images/editor/data-binding/property-groups/bind-my-number.png)
+  </Step>
+  <Step title="Control the View Model Property">
+    Select the Property Group, right-click the property, and bind it to the `myOtherNumber` value using the converter. Set the direction to Target → Source so the converted value drives the View Model property.
+
+    ![Control a View Model Property](/images/editor/data-binding/property-groups/bind-my-number.png)
+  </Step>
+</Steps>
+
+When you run your state machine, you should see that `myOtherNumber` is double `myNumber`.
+
+![Doubled](/images/editor/data-binding/property-groups/doubled.png)
