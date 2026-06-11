@@ -7,52 +7,30 @@ import { YouTube } from '/snippets/youtube.mdx'
 
 <YouTube id="M6goAzrDop4" />
 
-Data binding is a powerful way to create reactive connections between editor elements, data, and code. For instance, you might:
+Data binding connects data stored in View Models to properties in your Rive scene.
 
-- Bind the color of an icon to a color data property that can be adjusted by a developer at runtime
-- Bind the X-position of an animated object so that it can be followed with an offset by another object
-- Listen for a click event on two buttons to increment and decrement a counter
+When data changes, your scene updates automatically. Likewise, changes made in your scene can be written back to your data.
 
-# Why Use Data Binding?
+For example, you might:
 
-Data binding decouples design and code by introducing intermediate data that both sides can bind to. This forms the "contract" between designers and developers. Once this contract is in place, both sides can iterate independently, speeding your ability to deliver new features and experiment with what's possible.
+- Bind an enemy's X and Y position so it can be controlled at runtime.
+- Bind the color of multiple icons to a single color property.
+- Bind a `health` value to a health bar in the UI and to the character.
+- Swap images, artboards, or components based on your application's state.
 
-Within the editor, data binding allows for more reactivity in your designs. You can establish relationships between objects and ensure that certain invariants hold true, no matter the state of the artboard. The data binding system will ensure that these relationships are always up to date as animations and calls from code change the values.
+## Why Use Data Binding?
 
-It also offers the opportunity to shift more logic into the Rive file and out of code. You will need to decide whether a piece of logic lives in code or data binding for your given use case, but one consideration is that any data binding logic will be universal across runtimes, rather than needing separate re-implementations.
+Data binding lets you organize your data independently from your scene hierarchy.
 
-# Glossary
+For example, you might have a `health` property stored at the top level of your data, while the health bar that displays it is nested several layers deep inside components.
 
-Data binding introduces a number of concepts that you will need to familiarize yourself with. The names of these concepts are loosely derived from the Model, View, Viewmodel (MVVM) pattern in software development.
+Once the property is bound, the hierarchy no longer matters. You can move elements, reorganize components, or rename properties without rewriting runtime code.
 
-### Editor Element
+## Core Concepts
 
-For the purposes of data binding, an "editor element" simply refers to an editable UI element in the editor with a value that can have a binding attached to it.
+1. [View Models](/editor/data-binding/view-models) define the structure of your data.
+2. View Model Instances store actual values for that data.
+3. [Bindings](/editor/data-binding/binding-data) connect View Model data to properties in your scene.
+4. [Data can be updated](/editor/data-binding/controlling-data) from the Editor, runtime code, state machines, or scripting.
+5. When data changes, bound elements automatically update to reflect the new values.
 
-### View Model
-
-A view model is a blueprint for a collection of data. Developers might think of this as similar to a class in object-oriented programming. View models typically describe all of the associated data with a given use case - commonly one per artboard. View models themselves don't have concrete values. For that, you must have [an instance](#view-model-instance).
-
-### View Model Property
-
-<YouTube id="NrGz_thkD0g" />
-
-A view model property is one piece of data within a view model. Developers might think of this as similar to a field in object-oriented programming. Properties have a data type which is selected when they are created and a name which can be referenced in code. Each property can be bound to different editor elements of the same type.
-
-#### Adding View Model properties
-
-In the Data panel, click the **Add View Model Property** button next to the view model name and select your [property type](/editor/data-binding/property-types).
-
-![Create a new Enum](/images/editor/data-binding/property-types/add-property.png)
-
-### View Model Instance
-
-A view model instance is the living version of a view model with actual values. Developers might think of this as similar to a class instance in object-oriented programming. Instances have the same properties as the view model they are derived from, except now each of these properties has a living value that can change over time.
-
-You may create as many instances as you'd like from a given view model. Each can be given a unique name associated with what those values represent. Each can have different initial values for its properties, representing a design-time configuration. For example, if you had a menu with three buttons with icons: 🏠 Home, 👤 Profile, and ❓ About, you might have a single artboard representing the menu item, but three view model instances, each with the menu item's label and associated icon, that can be applied to that artboard to configure the buttons.
-
-Artboards are assigned an instance to populate the data bindings. Changing which instance is applied will change the initial state of the properties and all associated bound elements.
-
-In order for an instance to be visible to developers, it must be marked as Exported. Otherwise, it is considered internal to the file. One reason you may want to keep it internal is if you only use the instance to test your design when it is configured with a given set of values, including edge cases.
-
-These exported instances can then be assigned to an artboard at runtime by developers. Alternatively, developers can create empty instances which have default values, such as zero for numbers and empty strings. Once the instance is assigned, its values will begin updating according to the bindings.

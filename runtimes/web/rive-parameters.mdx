@@ -49,6 +49,8 @@ export interface RiveParameters {
   onAdvance?: EventCallback;
   assetLoader?: AssetLoadCallback;
   enablePerfMarks?: boolean;
+  tabIndex?: number;
+  focusOptions?: RiveFocusOptions;
 
   // Deprecated parameters
   animations?: string | string[]; // deprecated in favor of stateMachines
@@ -91,6 +93,9 @@ export interface RiveParameters {
 - `onAdvance` - *(optional)* Callback that gets fired every frame when the Artboard has advanced.
 - `assetLoader` - *(optional)* Callback to load assets. Full patterns and examples in the [loading assets](/runtimes/web/loading-assets) guide.
 - `enablePerfMarks` - *(optional)* Emits `performance.mark` / `performance.measure` entries for key Rive startup and render events for performance profiling purposes. False by default. Also available on `RuntimeLoader` and `RiveFile`.
+- `tabIndex` - *(optional)* The tab index of the canvas element. Useful for specifying tab index for focus management. Alternatively, you may set the `tabindex` attribute directly on the `<canvas>` itself.
+- `focusOptions` - *(optional)* Options for focus management.
+  - `allowFocusInterrupt` - *(optional)* Allows browser focus to be interrupted and set on the Rive canvas if Rive detects focus change inherently. Defaults to false.
 
 ### Deprecated parameters
 - `animations` - *(optional)* Deprecated in favor of `stateMachines`. Name of a singular timeline animation to load from the `.riv` file. If not provided, Rive will pull the first linear animation it finds. In the next major version of the runtime, Rive will default to pulling the default state machine on the artboard.

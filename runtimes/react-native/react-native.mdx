@@ -225,7 +225,7 @@ This guide documents how to get started using the Rive React Native runtime. The
           );
           const { riveViewRef, setHybridRef } = useRive();
           const { instance: viewModelInstance } = useViewModelInstance(riveFile, {
-            onInit: (vmi) => (vmi.numberProperty('health')!.value = 20),
+            onInit: (vmi) => vmi.numberProperty('health')!.set(20),
           });
 
           return (
@@ -253,7 +253,7 @@ This guide documents how to get started using the Rive React Native runtime. The
           );
           const { riveViewRef, setHybridRef } = useRive();
           const { instance: viewModelInstance } = useViewModelInstance(riveFile, {
-            onInit: (vmi) => (vmi.numberProperty('health')!.value = 20),
+            onInit: (vmi) => vmi.numberProperty('health')!.set(20),
           });
 
           const { value: health, setValue: setHealth } = useRiveNumber(
@@ -396,7 +396,7 @@ This guide documents how to get started using the Rive React Native runtime. The
     // With onInit to set initial values synchronously
     const { instance } = useViewModelInstance(riveFile, {
       onInit: (vmi) => {
-        vmi.numberProperty('health')!.value = 100;
+        vmi.numberProperty('health')!.set(100);
       },
     });
     ```
