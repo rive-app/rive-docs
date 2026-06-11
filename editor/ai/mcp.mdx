@@ -3,13 +3,11 @@ title: "Rive MCP Integration"
 sidebarTitle: "MCP Integration"
 ---
 
-<Warning>
-   MCP Integration was an experimental feature and is deprecated. Please use the [AI Agent](/editor/ai-agent/) instead.
-</Warning>
-
-## Getting started
+import { YouTube } from '/snippets/youtube.mdx'
 
 You can connect the Rive Editor to AI tools through MCP (Model Context Protocol). The first set of tools are designed to let AI handle repetitive tasks, like creating complex View Models, State Machines with hundreds of states/layers, Layouts, Shapes, and more.
+
+<YouTube id="_a2Y4vzuGAs" />
 
 <Note>
    This initial iteration works with a limited number of AI tools, specifically those supporting MCP. We recommend using Cursor for now, but the list will expand.
@@ -21,10 +19,18 @@ You can connect the Rive Editor to AI tools through MCP (Model Context Protocol)
 
 <Steps>
   <Step title="Install Rive Early Access">
-    Install the latest version of the [Rive Early Access](https://rive.app/downloads) desktop app for Mac.
+    Install and open the latest version of the [Rive Early Access](https://rive.app/downloads) desktop app for Mac.
   </Step>
   <Step title="Set up Cursor">
     Create a [Cursor](https://www.cursor.com/) account and install the app.
+  </Step>
+  <Step title="Open Cursor settings">
+    Open Cursor and navigate to the settings panel in the top right corner.
+    ![](/images/editor/cursor-settings-button.png)
+  </Step>
+  <Step title="Add custom MCP">
+    Open the Tools & MCPs tab and click Add Custom MCP.
+      ![](/images/editor/cursor-mcp-settings.png)
   </Step>
   <Step title="Save the configuration">
     Save the following JSON snippet to your computer as `mcp.json`.
@@ -32,41 +38,25 @@ You can connect the Rive Editor to AI tools through MCP (Model Context Protocol)
   {
     "mcpServers": {
         "rive": {
-            "url": "http://localhost:9791/sse"
+            "url": "http://127.0.0.1:9791/mcp"
         }
     }
   }
   ```
   </Step>
-  <Step title="Configure MCP">
-    If you have hidden files and folders enabled in Finder, move `mcp.json` to the `.cursor` folder in your home directory.
-    Otherwise, you can use Terminal. Open Terminal.app and run the following command:
-    ```bash
-    cp /path/to/mcp.json ~/.cursor
-    ```
+  <Step title="Enable connection">
+    Turn the MCP connection `On`
   </Step>
-  <Step title="Enable in Cursor">
-    <Steps>
-      <Step title="Open settings">
-        Open Cursor and navigate to the settings panel in the top right corner
-        ![](/images/editor/cursor-settings-button.png)
-      </Step>
-      <Step title="Navigate to the MCP section">
-      ![](/images/editor/cursor-mcp-settings.png)
-      </Step>
-      <Step title="Verify connection">
-        If everything was installed correctly, you should see Rive as an available MCP server
-        ![](/images/editor/cursor-mcp-connection.png)
 
-        <Note>
-        For the Rive server to be available, you must have the Rive Early Access app opened.
-        </Note>
-      </Step>
-      <Step title="Enable connection">
-        Turn the MCP connection `On`
-      </Step>
-    </Steps>
+  <Step title="Verify connection">
+    If everything was installed correctly, you should see Rive as an available MCP server.
+    ![](/images/editor/cursor-mcp-connection.png)
+
+    <Note>
+    For the Rive server to be available, you must have the Rive Early Access app opened.
+    </Note>
   </Step>
+
 </Steps>
 
 Additional information on setting up MCP can be found [here](https://docs.cursor.com/context/model-context-protocol).
