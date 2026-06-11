@@ -1,0 +1,19 @@
+export const ExperimentalFeature = ({ defineSymbol = "RIVE_USING_EXPERIMENTAL", children }) => {
+  return (
+    <Warning>
+      <strong>Experimental Feature</strong>
+      <br /><br />
+      This feature is not enabled out of the box. Add <code>{defineSymbol}</code> under <strong>Project Settings → Player → Scripting Define Symbols</strong> to use it.
+      <br /><br />
+      These APIs are still in development and may change before they become stable.
+      <br /><br />
+      Unity applies scripting defines per platform. If you ship to multiple targets (Standalone, iOS, Android, and so on), add the define on each platform tab where you need this feature.
+      {children && (
+        <>
+          <br /><br />
+          {children}
+        </>
+      )}
+    </Warning>
+  );
+};
