@@ -1,5 +1,7 @@
 ---
+
 title: "Listeners"
+description: "Respond to interactions, property changes, and events in your Rive file."
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
@@ -9,9 +11,9 @@ Listeners let you respond to interactions, property changes, and other events in
 
 A listener has three main parts:
 
-- [Target](#target): what the listener watches
-- [Listen To](#listen-to): what needs to happen to trigger the listener
-- [Action](#listener-actions): what happens in response
+* [Target](#target): what the listener watches
+* [Listen To](#listen-to): what needs to happen to trigger the listener
+* [Action](#listener-actions): what happens in response
 
 Use listeners to create dynamic experiences that react to user input and changes in state.
 
@@ -21,37 +23,41 @@ Use listeners to create dynamic experiences that react to user input and changes
 
 <Steps>
   <Step>
-    Select the element you want to attach your listener to.
+    Select the element you want the listener to respond to.
 
-    <Info> To listen for a view model property change or Rive event, select the artboard or nested component instead.</Info>
+```
+<Info>
+  To listen for a view model property change or Rive event, select the artboard or nested component instead.
+</Info>
+```
+
   </Step>
   <Step>
-    In the **Animations** panel, click the icon next to your **State Machine** to see Listeners.
+    In the **Animations** panel, click the icon next to the **State Machine** to show listeners.
   </Step>
   <Step>
     Click the **+** icon to create a new listener and select the action the listener should perform.
   </Step>
   <Step>
-    With the listener selected, set its options in the right sidebar.
+    With the listener selected, set its **Target**, **Listen To**, and other options in the right sidebar.
   </Step>
 </Steps>
 
 <VideoEmbed src="https://static.rive.app/video/docs/create-new-listener-6.mp4" />
 
-
 With a listener selected, you’ll see its options in the right sidebar.
 
 ## Target
 
-The Target determines what the listener watches. The target can be an element in your scene or the artboard itself.
+The **Target** determines what the listener watches. The target can be an element in your scene, an artboard, or a nested component.
 
-Use an element as the target when you want to listen for interactions on that element, such as clicks or drags. Use the artboard or nested component as the target when you want to listen for view model property changes, Rive events, or other events that belong to that artboard or component.
+Use an element as the target when you want to listen for interactions on that element, such as clicks or drags. Use an artboard or nested component as the target when you want to listen for view model property changes, Rive events, or other events that belong to that artboard or component.
 
 ### Opaque Target
 
-Opaque Target controls whether pointer events stop at this listener's hit area or continue through to elements behind it.
+**Opaque Target** controls whether pointer events stop at this listener's hit area or continue through to elements behind it.
 
-When Opaque Target is enabled, pointer events stop at the target. When it's disabled, pointer events can pass through the target and trigger other listeners underneath.
+When **Opaque Target** is enabled, pointer events stop at the target. When it's disabled, pointer events can pass through the target and trigger other listeners underneath.
 
 <VideoEmbed src="https://static.rive.app/video/docs/listener-opaque-target.mp4" />
 
@@ -61,32 +67,32 @@ When Opaque Target is enabled, pointer events stop at the target. When it's disa
 
 **Listen To** options include:
 
-- Pointer events, such as Click and Pointer Up
-- View model property changes, when the target is an artboard or nested component
-- Rive events, when the target is an artboard or nested component
+* Pointer events, such as **Click** and **Pointer Up**
+* View model property changes, when the target is an artboard or nested component
+* Rive events, when the target is an artboard or nested component
 
 <Info>
-  We strongly recommend using data binding to communicate between artboards, rather than relying on nested Events.
+  We strongly recommend using data binding to communicate between artboards instead of relying on nested Rive events.
 </Info>
 
 <Note>
-  Note that it is not possible to specify an expected value—the listener fires whenever the property changes, regardless of the direction of the change. For example, a Boolean listener will fire whether the value changes from true to false or from false to true.
+  You can't specify an expected value for a view model property change. The listener fires whenever the property changes, regardless of the direction of the change. For example, a Boolean listener fires whether the value changes from true to false or from false to true.
 </Note>
 
 ## Listener Actions
 
-A Listener Action lets you perform an action when a listener is triggered.
+A listener action runs when a listener is triggered.
 
 Actions include:
-- Changing a view model property
-- [Aligning an element to a target](#align-target)
-- Reporting an event
-- Triggering a scripted action
-- Updating an input value (deprecated)
-- Firing a Rive event
 
-To add a Listener Action, click the plus icon in the panel below the State Machine Graph.
+* Changing a view model property
+* [Aligning an element to a target](#align-target)
+* Reporting an event
+* Triggering a scripted action
+* Updating an input value (deprecated)
+* Firing a Rive event
 
+To add a listener action, click the **+** icon in the panel below the state machine graph.
 
 <VideoEmbed src="https://static.rive.app/video/docs/add-action-to-listener.mp4" />
 
@@ -98,8 +104,8 @@ You can add multiple actions to a single listener.
 
 ### Align Target
 
-The Align Target action positions a target object to follow the pointer when the Listener Condition is met within the listener area.
+The **Align Target** action positions an object so it follows the pointer when the listener is triggered within the listener area.
 
-Use the Target Picker to select the object you want to align.
+Use the **Target Picker** to select the object you want to align.
 
-Enable Preserve Offset to maintain the original distance between the object and the pointer when the action was triggered. When unchecked, the object will align directly to the pointer’s center.
+Enable **Preserve Offset** to maintain the original distance between the object and the pointer when the action is triggered. When **Preserve Offset** is disabled, the object aligns directly to the pointer.
