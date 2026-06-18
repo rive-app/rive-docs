@@ -64,6 +64,20 @@ Select the font in the **Assets** panel and change the **Type** option to define
 
 ---
 
+### Export Behavior
+
+Alongside the **Type**, each font has an export **Behavior** that controls *whether* the font is written into the export at all. Select the font in the **Assets** panel to find this option in the Inspector.
+
+- **Automatic:** Include the font in the export if a text run references it somewhere in the file. For fonts contained within a library, this option is inherited from the source file.
+- **Force Export:** Export the font regardless of whether or not it's referenced within the file.
+- **Prevent Export:** Don't include the font in the export, regardless of whether or not it's referenced within the file.
+
+<Warning>
+  **Prevent Export** removes the font — and its asset reference — from the `.riv` entirely. If a font is set to **Referenced** but its Behavior is **Prevent Export**, the runtime has no asset to request: the [asset loader](/runtimes/web/loading-assets) is never called for that font, and any text using it renders blank. For referenced or hosted fonts you intend to supply at runtime, keep the Behavior on **Automatic** (or **Force Export**).
+</Warning>
+
+---
+
 ### Glyph / Script Selection
 
 Alongside the font location, you can configure the glyphs you wish to be included. Removing unnecessary glyphs and scripts will reduce the size of the font file (referenced/hosted) or Rive file (embedded). Deciding which scripts to include will depend on whether you want to dynamically update text at runtime, and the languages you want to support.
