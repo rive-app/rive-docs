@@ -6,9 +6,7 @@ sidebarTitle: "MCP Integration"
 import { YouTube } from '/snippets/youtube.mdx'
 
 <Note>
-  MCP Integration is currently only available in [Early Access](https://rive.app/downloads?utm_source=docs&utm_medium=content).
-
-  Have feedback? Join the [Early Access community](https://community.rive.app/c/early-access/) to share your thoughts and help shape the feature.
+  MCP integration is currently available only in the desktop Editor for Windows and macOS.
 </Note>
 
 You can connect the Rive Editor to AI tools through MCP (Model Context Protocol). The first set of tools are designed to let AI handle repetitive tasks, like creating complex View Models, State Machines with hundreds of states/layers, Layouts, Shapes, and more.
@@ -30,20 +28,22 @@ You can connect the Rive Editor to AI tools through MCP (Model Context Protocol)
 
 ## Installation
 
+### Using Cursor
+
 <Steps>
-  <Step title="Install Rive Early Access">
-    Install and open the latest version of the [Rive Early Access](https://rive.app/downloads) desktop app for Mac or Windows.
+  <Step title="Open Rive">
+    Install and open the latest version of the [Rive](https://rive.app/downloads) desktop app for Mac or Windows.
   </Step>
   <Step title="Set up Cursor">
     Create a [Cursor](https://www.cursor.com/) account and install the app.
   </Step>
   <Step title="Open Cursor settings">
     Open Cursor and navigate to the settings panel in the top right corner.
-    ![](/images/editor/cursor-settings-button.png)
+    ![Open cursor settings](/images/editor/cursor-settings-button.png)
   </Step>
   <Step title="Add custom MCP">
     Open the Tools & MCPs tab and click Add Custom MCP.
-      ![](/images/editor/cursor-mcp-settings.png)
+      ![Open Cursor MCPs tab](/images/editor/cursor-mcp-settings.png)
   </Step>
   <Step title="Save the configuration">
     Save the following JSON snippet to your computer as `mcp.json`.
@@ -63,16 +63,41 @@ You can connect the Rive Editor to AI tools through MCP (Model Context Protocol)
 
   <Step title="Verify connection">
     If everything was installed correctly, you should see Rive as an available MCP server.
-    ![](/images/editor/cursor-mcp-connection.png)
+    ![Cursor verified](/images/editor/cursor-mcp-connection.png)
 
     <Note>
-    For the Rive server to be available, you must have the Rive Early Access app opened.
+      For the Rive server to be available, you must have the Rive Early Access app opened.
     </Note>
   </Step>
 
 </Steps>
 
 Additional information on setting up MCP can be found [here](https://docs.cursor.com/context/model-context-protocol).
+
+### Using Claude in Terminal
+
+<YouTube id="5_h51PdNhsU" />
+
+<Steps>
+  <Step title="Open Rive">
+    Install and open the latest version of the [Rive desktop app](https://rive.app/downloads) for macOS or Windows.
+  </Step>
+  <Step title="Add the MCP server">
+    Run the following command in your terminal:
+
+    ```shell
+    claude mcp add --transport http rive http://127.0.0.1:9791/mcp
+    ```
+  </Step>
+  <Step title="Start Claude">
+    Run Claude and follow the prompts:
+
+    ```shell
+    claude
+    ```
+  </Step>
+</Steps>
+
 
 ## What can it do?
 
