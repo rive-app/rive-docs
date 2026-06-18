@@ -53,27 +53,29 @@ When inputting values manually, use a comma or a space to separate each of the f
 
 ![Image](https://ucarecdn.com/b8f9898c-ea40-404f-8749-daf1fec86325/)
 
-## The Graph editor
+## The Graph Editor
 
 <YouTube id="yfC6_1yS_vE" />
 
 
-Rive's Graph editor visually represents how an object's properties change over time. Using this graph, we can edit the rate of change and the values being interpolated.
+Rive's Graph Editor visually represents how an object's properties change over time. Using this graph, we can edit the rate of change and the values being interpolated.
 
-### Enabling the Graph editor
+### Enabling the Graph Editor
 
-Use the Graph Editor button on the timeline to enable the Graph Editor. You'll notice that the Graph editor replaces the timeline.
+Use the Graph Editor button on the timeline to enable the Graph Editor. You'll notice that the Graph Editor replaces the timeline.
 
-Note that only objects that are selected will appear on the graph editor.
+Note that only objects that are selected will appear on the Graph Editor.
 
 ### Using the Graph Editor
 
-The graph editor gives a visual representation of the current interpolation. You have two ways to edit the interpolation on the graph.
+The Graph Editor gives a visual representation of the current interpolation. You have two ways to edit the interpolation on the graph.
 
-#### Using Cubic Interpolation
+#### Using Cubic interpolation
 
-If you use the cubic interpolation in the interpolation panel, you'll need to adjust your interpolation in the interpolation panel.
+Cubic interpolation describes the easing function applied between one key and the next, much like a cubic Bezier easing curve in CSS. It shapes how fast the value changes over time, but it always lands exactly on the values you keyed. Adjust a Cubic curve from the Interpolation Panel; the Graph Editor shows the curve, but you set it from the panel.
 
-#### Using Cubic value
+#### Using Cubic Value
 
-Using the cubic value option in the interpolation panel will enable you to adjust the interpolation directly on the graph. Unlike cubic interpolation, cubic values can effect the actual value of an animated property.
+Cubic Value gives you draggable Bezier handles directly on the Graph Editor, similar to After Effects. Because Rive stores the X and Y position of each handle, it uses a little more data than Cubic, but it gives you much more control over the motion, including the ability to overshoot a value before settling on the final key.
+
+That overshoot is the key difference. Cubic interpolation can only move between the values you key, so animating a property from 0 to 0 produces no motion at all. Cubic Value lets you pull the handles so the curve travels past 0 and back, creating real movement even when the start and end values are identical. This makes Cubic Value ideal for bounces, anticipation, and other effects that need to push beyond the final value.
