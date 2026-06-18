@@ -5,12 +5,6 @@ sidebarTitle: "MCP Integration"
 
 import { YouTube } from '/snippets/youtube.mdx'
 
-<Note>
-  MCP Integration is currently only available in [Early Access](https://rive.app/downloads?utm_source=docs&utm_medium=content).
-
-  Have feedback? Join the [Early Access community](https://community.rive.app/c/early-access/) to share your thoughts and help shape the feature.
-</Note>
-
 You can connect the Rive Editor to AI tools through MCP (Model Context Protocol). The first set of tools are designed to let AI handle repetitive tasks, like creating complex View Models, State Machines with hundreds of states/layers, Layouts, Shapes, and more.
 
 <YouTube id="_a2Y4vzuGAs" />
@@ -25,7 +19,7 @@ You can connect the Rive Editor to AI tools through MCP (Model Context Protocol)
 - **Edit scripts and shaders** — manage Luau scripts and WGSL shaders, update source code, run diagnostics, recompile, test, search code, and read console output.
 
 <Info>
-   This list of features will evolve over time as more tools are added.
+  This list of features will evolve over time as more tools are added.
 </Info>
 
 ## Installation
@@ -38,38 +32,34 @@ You can connect the Rive Editor to AI tools through MCP (Model Context Protocol)
     Create a [Cursor](https://www.cursor.com/) account and install the app.
   </Step>
   <Step title="Open Cursor settings">
-    Open Cursor and navigate to the settings panel in the top right corner.
-    ![](/images/editor/cursor-settings-button.png)
+    Open Cursor and navigate to the settings panel in the top right corner. <img src="/images/editor/cursor-settings-button.png" />
   </Step>
   <Step title="Add custom MCP">
-    Open the Tools & MCPs tab and click Add Custom MCP.
-      ![](/images/editor/cursor-mcp-settings.png)
+    Open the Tools & MCPs tab and click Add Custom MCP. <img src="/images/editor/cursor-mcp-settings.png" />
   </Step>
   <Step title="Save the configuration">
     Save the following JSON snippet to your computer as `mcp.json`.
-  ```json
-  {
-    "mcpServers": {
-        "rive": {
-            "url": "http://127.0.0.1:9791/mcp"
-        }
+
+    ```json
+    {
+      "mcpServers": {
+          "rive": {
+              "url": "http://127.0.0.1:9791/mcp"
+          }
+      }
     }
-  }
-  ```
+    ```
   </Step>
   <Step title="Enable connection">
     Turn the MCP connection `On`
   </Step>
-
   <Step title="Verify connection">
-    If everything was installed correctly, you should see Rive as an available MCP server.
-    ![](/images/editor/cursor-mcp-connection.png)
+    If everything was installed correctly, you should see Rive as an available MCP server. <img src="/images/editor/cursor-mcp-connection.png" />
 
     <Note>
-    For the Rive server to be available, you must have the Rive Early Access app opened.
+      For the Rive server to be available, you must have the Rive Early Access app opened.
     </Note>
   </Step>
-
 </Steps>
 
 Additional information on setting up MCP can be found [here](https://docs.cursor.com/context/model-context-protocol).
@@ -86,7 +76,8 @@ Once Cursor is installed and everything is set up correctly, it's time to start 
     Type your prompt into the chat UI and hit enter. The AI will take a moment to process the request.
 
     Example prompt:
-    ```
+
+    ```text
     Create a State Machine about birds with 20 states and 2 layers
     ```
   </Step>
