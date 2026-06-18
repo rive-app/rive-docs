@@ -28,9 +28,11 @@ You can connect the Rive Editor to AI tools through MCP (Model Context Protocol)
 
 ## Installation
 
+### Using Cursor
+
 <Steps>
-  <Step title="Install Rive Early Access">
-    Install and open the latest version of the [Rive Early Access](https://rive.app/downloads) desktop app for Mac or Windows.
+  <Step title="Open Rive">
+    Install and open the latest version of the [Rive](https://rive.app/downloads) desktop app for Mac or Windows.
   </Step>
   <Step title="Set up Cursor">
     Create a [Cursor](https://www.cursor.com/) account and install the app.
@@ -71,6 +73,31 @@ You can connect the Rive Editor to AI tools through MCP (Model Context Protocol)
 </Steps>
 
 Additional information on setting up MCP can be found [here](https://docs.cursor.com/context/model-context-protocol).
+
+### Using Claude in Terminal
+
+<YouTube id="5_h51PdNhsU" />
+
+<Steps>
+  <Step title="Open Rive">
+    Install and open the latest version of the [Rive desktop app](https://rive.app/downloads) for macOS or Windows.
+  </Step>
+  <Step title="Add the MCP server">
+    Run the following command in your terminal:
+
+    ```shell
+    claude mcp add --transport http rive http://127.0.0.1:9791/mcp
+    ```
+  </Step>
+  <Step title="Start Claude">
+    Run Claude and follow the prompts:
+
+    ```shell
+    claude
+    ```
+  </Step>
+</Steps>
+
 
 ## What can it do?
 
