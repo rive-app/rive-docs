@@ -1,148 +1,108 @@
 ---
 title: "Listeners"
-description: "Listeners let designers create interactive behavior without the use of code."
+description: "Respond to interactions, property changes, and events in your Rive file."
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
+import { VideoEmbed } from '/snippets/video-embed.jsx'
 
-Listeners let designers create interactive behaviors—like clicks, hovers, and drags—directly within Rive, without needing code. For example, you can attach Pointer Enter, Pointer Exit, and Click listeners to a button. When triggered, these listeners can update data bindings, fire events, and more—enabling dynamic, interactive experiences at runtime.
+Listeners let you respond to interactions, property changes, and other events in your Rive file. When a listener is triggered, it can perform actions such as updating property values, firing Rive events, or running other logic.
+
+A listener has three main parts:
+
+* [Target](#target): what the listener watches
+* [Listen to](#listen-to): what needs to happen to trigger the listener
+* [Action](#listener-actions): what happens in response
+
+Use listeners to create dynamic experiences that react to user input and changes in state.
 
 <YouTube id="25uQiqdmT9c" />
 
-#### Creating a new Listener
+## Creating a Listener
 
-1. In the Animations tab, select your State Machine.
-2. In the Listeners tab, click the plus icon.
+<Steps>
+  <Step>
+    Select the element you want the listener to respond to.
 
-<Info>
-  If you have an object selected when creating a listener, it will automatically be designated as the target.
-</Info>
+    <Info>
+      To listen for a view model property change or Rive event, select the artboard or nested component instead.
+    </Info>
 
-![New listener](/images/CleanShot2025-06-12at14.46.58.gif)
+  </Step>
+  <Step>
+    In the **Animations** panel, click the icon next to the **State Machine** to show listeners.
+  </Step>
+  <Step>
+    Click the **+** icon to create a new listener and select the action the listener should perform.
+  </Step>
+  <Step>
+    With the listener selected, set its **Target**, **Listen To**, and other options in the right sidebar.
+  </Step>
+</Steps>
 
-With the new listener selected, you’ll see its options displayed in a new panel at the bottom of the State Machine Graph and to the right of the Graph.
+<VideoEmbed src="https://static.rive.app/video/docs/create-new-listener-6.mp4" />
 
-# Elements of a Listener
+With a listener selected, you’ll see its options in the right sidebar.
 
-A listener consists of three parts: a Target, a Listener Condition, and a Listener Action.
+## Target
 
-### Target
+The **Target** determines what the listener watches. The target can be an element in your scene, an artboard, or a nested component.
 
-The Target determines where to listen for the Listener Condition.
+Use an element as the target when you want to listen for interactions on that element, such as clicks or drags. Use an artboard or nested component as the target when you want to listen for view model property changes, Rive events, or other events that belong to that artboard or component.
 
-**Hit Areas**
+### Opaque Target
 
-In most cases the Target defines the interactive area that responds to user interactions—similar to a hitbox in game development. When a user interacts with this area (e.g., by clicking or hovering), the associated listener is triggered.
+**Opaque Target** controls whether pointer events stop at this listener's hit area or continue through to elements behind it.
 
-It's usually best to use shapes as targets—for example, an ellipse or rectangle with 0% opacity. If you use a Group as a target, the shapes within the group will serve as the interactive area.
+When **Opaque Target** is enabled, pointer events stop at the target. When it's disabled, pointer events can pass through the target and trigger other listeners underneath.
 
-To select a target, click the Target icon and choose an object from the artboard or the Hierarchy panel.
+<VideoEmbed src="https://static.rive.app/video/docs/listener-opaque-target.mp4" />
 
-![Choose target](/images/CleanShot2025-06-12at14.52.27.gif)
+## Listen To
 
-Note that having an object selected when you create a listener will automatically assign the selected object as the target of the listener.
+**Listen to** is the condition the listener watches for. When the condition is met, the listener is triggered.
 
-**Listening to Events on Components**
+**Listen to** options include:
 
-<Info>
-  We strongly recommend using data binding to communicate between artboards, rather than relying on nested Events.
-</Info>
-
-Setting an Artboard or Component as the target allows you to listen for Events fired from that Artboard.
-
-**Opaque Target**
-
-The Opaque Target option determines whether or not pointer events will pass through the hit area, potentially triggering multiple Listeners at once.
-
-![Opaque target](/images/CleanShot2025-06-12at15.11.08.gif)
-
-# Listener Condition
-
-The Listener Condition defines what the listener is listening for. This includes pointer-based interactions as well as data-driven triggers such as View Model property changes. The drop-down menu below the Target button allows you to change which Listener Condition the listener checks for.
-
-![User action](/images/CleanShot2025-06-12at15.14.19.gif)
-
-Available actions include:
-
-**Pointer Down** – Mouse down or finger press.
-
-**Pointer Up** – Releasing a mouse click or finger press.
-
-**Pointer Enter** – A mouse or finger entering the target area.
-
-**Pointer Exit** – A mouse or finger exiting the target area.
-
-**Pointer Move** – Any mouse or finger movement within the target area.
-
-**Click** – A combination of pointer down and pointer up within the same target area.
-
-**Listen for Event** – Only visible if the target is an Artboard or Component. If multiple events exist, use the dropdown to select the specific one.
-
-**View Model Property Change** – Triggers when a selected View Model property changes. Only available when the Artboard is set as the Target. Use the dropdown to select the specific property to listen to.
-
-Note that it is not possible to specify an expected value—the listener fires whenever the property changes, regardless of the direction of the change. For example, a Boolean listener will fire whether the value changes from `true` to `false` or from `false` to `true`.
-
-![Listener configured to listen for a boolean View Model property change, with the Artboard set as the Target](/images/editor/state-machine/listener-view-model-property-change-boolean.png)
+* Pointer events, such as **Click** and **Pointer Up**
+* View model property changes, when the target is an artboard or nested component
+* Rive events, when the target is an artboard or nested component
 
 <Info>
-  Since General Events are deprecated, **View Model Property Change** is the recommended way to react to changes happening inside a State Machine. In particular, Triggers are a direct replacement for Events: a Trigger can be fired from within the State Machine (e.g. on a state transition), and a listener set to **View Model Property Change** on that Trigger property will fire in response—giving you the same notification pattern without relying on Events.
+  We strongly recommend using [Data Binding](/editor/data-binding/overview) to communicate between artboards instead of relying on nested Rive events.
 </Info>
 
-# Listener Action
+<Note>
+  You can't specify an expected value for a view model property change. The listener fires whenever the property changes, regardless of the direction of the change. For example, a Boolean listener fires whether the value changes from true to false or from false to true.
+</Note>
 
-A Listener Action defines what happens when the user interaction occurs.
+## Listener Actions
 
-To add a Listener Action, click the plus icon in the panel below the State Machine Graph. You can add multiple actions to a single listener.
+A listener action runs when a listener is triggered.
 
-![Listener action](/images/CleanShot2025-06-12at15.16.20.gif)
+Actions include:
 
-## **View Model Change**
+* Changing a view model property
+* [Aligning an element to a target](#align-target)
+* Reporting an event
+* Triggering a scripted action
+* Firing a Rive event
+* Updating an input value (deprecated)
 
-Updates values within your View Model Instance. This is the preferred way to communicate from your Rive file to your runtime code. By default, listeners are set to View Model Change, unless an artboard or component instance is the target of the Listener.
+To add a listener action, click the **+** icon in the panel below the **State Machine Graph**.
 
-### **View Model Dropdown**
+<VideoEmbed src="https://static.rive.app/video/docs/add-action-to-listener.mp4" />
 
-The View Model Dropdown lets you select which View Model Property you want the Listener to change.
+You can add multiple actions to a single listener.
 
-![View model dropdown](/images/CleanShot2025-06-12at15.18.21.gif)
+<Tip>
+  You can data bind values in listener actions.
+</Tip>
 
-Note that listeners can change the properties of any View Model in the file, even if it isn't assigned to the Artboard.
+### Align Target
 
-### **Value vs Property**
+The **Align Target** action positions an object so it follows the pointer when the listener is triggered within the listener area.
 
-Once you've selected which property you'd like the Listener to modify, you can set it to a specific Value or to equal a different view model property.
+Use the **Target Picker** to select the object you want to align.
 
-**Value**
-
-If you select Value, you can use the dropdown to change the specific value you'd like the property set to. The value type changes depending on the property.
-
-![Value](/images/CleanShot2025-06-12at15.24.51.gif)
-
-**View Model Property**
-
-Selecting a property will set the View Model Property in the listener equal to another.
-
-![View model property](/images/CleanShot2025-06-12at15.31.06.gif)
-
-Note that we can set the View Model Property to be equal to itself.
-
-**Adding a Converter**
-
-If we choose to set a View Model Property equal to another View Model Property, the converter icon appears to the right of the View Model Property. This lets us apply a converter to a property.
-
-![Adding a converter](/images/CleanShot2025-06-12at15.37.13.gif)
-
-\
-For example, we can set Number to Number, but attach an add one converter. Every time this listener fires, we can increase our Number property by one.
-
-### **Report Event**
-
-Fires an event each time the Listener Condition is met. This is the default option when an artboard or component instance is the target of a listener.
-
-### **Align Target**
-
-The Align Target action positions a target object to follow the pointer when the Listener Condition is met within the listener area.
-
-Use the Target Picker to select the object you want to align.
-
-Enable Preserve Offset to maintain the original distance between the object and the pointer when the action was triggered. When unchecked, the object will align directly to the pointer’s center.
+Enable **Preserve Offset** to maintain the original distance between the object and the pointer when the action is triggered. When **Preserve Offset** is disabled, the object aligns directly to the pointer.
