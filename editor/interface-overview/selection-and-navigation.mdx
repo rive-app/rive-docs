@@ -1,0 +1,90 @@
+---
+title: "Selection and Navigation"
+description: "Select objects, move through nested groups, and navigate the stage."
+---
+
+import { YouTube } from '/snippets/youtube.mdx'
+
+Use selection and navigation controls to choose objects, move through nested groups, and move around the stage.
+
+<Tip>
+  For a complete list of shortcuts, see [Keyboard Shortcuts](/editor/keyboard-shortcuts).
+</Tip>
+
+## Selecting Objects
+
+<YouTube id="xQK498Y1J8M" />
+
+Click an object to select it. To select multiple objects, drag over them to create a marquee selection.
+
+Hold `Shift` while clicking or dragging to add objects to the current selection or remove selected objects.
+
+### Select Objects Inside Groups
+
+To select an object inside a group, double-click the object. This moves you one level down in the hierarchy, so you can select objects inside that group.
+
+![Double Click](/images/editor/fundamentals/DoubleClick2.gif)
+
+### Deep Select
+
+To select an object inside nested groups, hold `⌘` on macOS or `Ctrl` on Windows, then click the object.
+
+Deep select lets you select an object directly, even when it is inside multiple groups.
+
+<Note>
+  [Targets](/editor/fundamentals/groups#target) are directly selectable on the stage. You don't need to use **Deep Select** to select them.
+</Note>
+
+![Deep Select](/images/editor/fundamentals/DeepSelect.gif)
+
+### Select Behind
+
+When you hover over an object on the stage, Rive outlines the object that will be selected if you click.
+
+If multiple objects overlap, press `Alt` to cycle through objects under the cursor. When the object you want is outlined, click to select it.
+
+![Select behind](/images/editor/interface-overview/select-behind.gif)
+
+### Moving Up and Down the Hierarchy
+
+Use `Enter` and `Esc` to move through nested objects in the hierarchy.
+
+* Press `Enter` to move down into the selected group and select its first child.
+* Press `Esc` to move up and select the parent of the current selection.
+
+![Enter And Escape](/images/editor/fundamentals/EnterAndEscape.gif)
+
+## Navigating the Stage
+
+### Pan
+
+To pan the stage, right-click and drag.
+
+You can also hold `Spacebar` to temporarily switch to the Pan tool, then click and drag to move around the stage.
+
+If you're using a trackpad, scroll left or right to pan horizontally.
+
+![Select behind](/images/editor/interface-overview/pan.gif)
+
+### Zoom
+
+To zoom in or out, place your cursor over the stage, then hold `⌘` on macOS or `Ctrl` on Windows and scroll.
+![Zooming the ](/images/editor/interface-overview/zoom.gif)
+
+You can also use keyboard shortcuts:
+
+* Press `+` to zoom in.
+* Press `-` to zoom out.
+* Press `⌘` + `0` on macOS or `Ctrl` + `0` on Windows to return to 100%.
+
+### Fit Selection
+
+Press `F` to fit the current selection in the viewable stage area.
+
+![Fitting the selected object in view](/images/editor/interface-overview/fit-selection.gif)
+
+If an object is selected, Rive fits that object in view. If an artboard is selected, Rive fits the artboard in view.
+
+<Tip>
+  If you lose track of an artboard or object on the stage, select it in the hierarchy and press `F` to fit it in view.
+</Tip>
