@@ -1,15 +1,28 @@
 ---
 title: 'Exporting for Runtime'
-description: ''
+description: 'Export a .riv file to use in apps, games, websites, and other supported runtimes.'
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
 
 <Note>Exporting for runtime is available on paid plans. [Learn more about our plans and pricing](https://rive.app/pricing?utm_source=docs&utm_medium=content).</Note>
 
+A `.riv` file is the final Rive file you load at runtime. You can use the same exported file across supported runtimes, including web, mobile, game engines, and other platforms.
+
+## Exporting a .riv File
+
 <YouTube id="H_px35jTqhg" />
 
+To export a file for runtime, click the blue **Publish** button on the right side of the toolbar, or go to **Export** > **For runtime** from the left toolbar menu.
 
-To export a file for runtime, select the blue export action on the right-hand side of the toolbar or navigate to `Export` &gt; `For runtime` via the left-hand toolbar menu. You can load the exported `.riv` file into your app, game, or website via any of our [open source runtimes](/runtimes/).
+You can load the exported `.riv` file into your app, game, or website with any of Rive's [open source runtimes](/runtimes/).
 
 ![Image](/images/editor/exporting/94fc0d7c-cc7e-4b17-a6f7-0a00c98db70e.webp)
+
+## Using newer files with older runtimes
+
+Rive files are built for backwards compatibility. A file exported from the latest version of the editor can still load in older runtimes.
+
+If a file uses a feature that was added after your runtime version was released, that specific feature may be skipped, while the rest of the file continues to run.
+
+For full [feature support](/feature-support), fixes, and performance improvements, keep your runtime up to date.
