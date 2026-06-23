@@ -18,7 +18,7 @@ import Lists from "/snippets/runtimes/data-binding/lists.mdx"
 import Artboards from "/snippets/runtimes/data-binding/artboards.mdx"
 import Enums from "/snippets/runtimes/data-binding/enums.mdx"
 
-import { ExperimentalFeature } from "/snippets/experimental-feature.mdx";
+import ExperimentalFeature from "/snippets/experimental-feature.mdx";
 import { YouTube } from "/snippets/youtube.mdx";
 import { Demos } from "/snippets/demos.jsx";
 
@@ -598,7 +598,7 @@ To avoid requiring every project to handle these fixes manually, the default `Te
 
 | Mode | Behavior |
 | --- | --- |
-| `Auto` | Apply orientation and color fixes when needed. Default. |
+| `Auto` | Apply orientation and color fixes when needed. This is the default processing mode. |
 | `Orientation` | Flip upside-down textures on backends that store texels top-down. Leave color alone. |
 | `Color` | Re-encode to gamma in Linear projects so colors composite correctly. Leave orientation alone. |
 | `None` | Bind the source render texture directly with no intermediate blit. Use this when your texture is already correctly oriented and encoded. |
@@ -619,7 +619,7 @@ var directSource = new RenderTextureImageSource(
 
 | Mode | Behavior |
 | --- | --- |
-| `PerFrame` | Rebuild and re-push every frame. Default. Use for live sources such as video or camera output. |
+| `PerFrame` | Rebuild and re-push every frame. This is the default refresh mode. Use for live sources such as video or camera output. |
 | `Manual` | Update only when you call `Refresh()`. Use for snapshots, baked textures, or content that isn't updated very often. |
 
 ```csharp
