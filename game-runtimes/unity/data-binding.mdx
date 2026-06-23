@@ -18,9 +18,9 @@ import Lists from "/snippets/runtimes/data-binding/lists.mdx"
 import Artboards from "/snippets/runtimes/data-binding/artboards.mdx"
 import Enums from "/snippets/runtimes/data-binding/enums.mdx"
 
-import ExperimentalFeature from "/snippets/experimental-feature.mdx";
-import { YouTube } from "/snippets/youtube.mdx";
-import { Demos } from "/snippets/demos.jsx";
+import ExperimentalFeature from "/snippets/experimental-feature.mdx"
+import { YouTube } from "/snippets/youtube.mdx"
+import { Demos } from "/snippets/demos.jsx"
 
 <Overview />
 
@@ -521,8 +521,6 @@ public class VideoImageBinding : MonoBehaviour
             yield return null;
         }
 
-        renderTextureSource = new RenderTextureImageSource(videoTexture, processingMode);
-
         ViewModelInstance viewModelInstance = riveWidget.StateMachine.ViewModelInstance;
         if (viewModelInstance == null)
         {
@@ -538,6 +536,7 @@ public class VideoImageBinding : MonoBehaviour
             yield break;
         }
 
+        renderTextureSource = new RenderTextureImageSource(videoTexture, processingMode);
         imageProperty.SetFromRenderTextureImageSource(renderTextureSource);
         videoPlayer.Play();
     }
