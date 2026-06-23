@@ -1,89 +1,69 @@
 ---
 title: "Toolbar"
-description: "Access file, design, rigging, and export tools and options from the Rive Editor toolbar."
+description: "Access file, design, rigging, preview, and export tools from the Rive editor toolbar."
 ---
 
 ![Toolbar](/images/interface/toolbar.png)
 
 Use the toolbar to switch tools, create objects, adjust view options, invite collaborators, publish your file, and access file-level actions.
 
-Common toolbar areas include:
+## Editor Menu
 
-- **Editor Menu**: file settings, [revision history](/editor/fundamentals/revision-history), [export for runtime](/editor/exporting/exporting-for-runtime), [export for backup](/editor/exporting/exporting-for-backup), [share](/editor/embed-urls/overview), [rendering to video and image](/editor/exporting/exporting-for-video-and-static-design), and support links
-- **Transform Tools**: Select, transform, rotate, scale, and [freeze](/editor/fundamentals/freeze-and-origin).
-- **Arrangement Tools**: Create [artboards](/editor/fundamentals/artboards), [layouts](/editor/layouts/layouts-overview), [groups](/editor/fundamentals/groups), and [solos](/editor/manipulating-shapes/solos).
-- **Create Tools** - [Pen](/editor/fundamentals/pen-tool-overview) and [Shapes tools](/editor/fundamentals/procedural-shapes).
+![Editor menu](/images/interface/editor-menu.png)
 
+The **Editor menu** contains file-level actions and editor settings.
 
-- **Tools**: [add rigging](/editor/manipulating-shapes/manipulating-shapes), and more
-- **Invite**: Invite users to collaborate on this file
-- **Publish**: [export](/editor/exporting/exporting-for-runtime), [embed](/editor/embed-urls/overview), publish to a [library](/editor/libraries), and publish to the [marketplace](/community/marketplace-overview#marketplace-overview)
-- [**Data Bind Preview Toggle**](#data-binding-preview-toggle): preview bound data while editing
+Common actions include:
 
+* [Revision History](/editor/fundamentals/revision-history)
+* [Export for Runtime](/editor/exporting/exporting-for-runtime)
+* [Export for Backup](/editor/exporting/exporting-for-backup)
+* [Share and Embed](/editor/embed-urls/overview)
+* [Render to Video or Image](/editor/exporting/exporting-for-video-and-static-design)
 
+## Tools
 
+![Toolbar tools](/images/interface/toolbar-tools.png)
 
----------
----------
+The **Tools** area lets you select, transform, draw, create objects, add rigging, and preview interactions.
 
+Common tools include:
 
+* Select, translate, rotate, and scale tools
+* [Artboards](/editor/fundamentals/artboards) and [components](/editor/fundamentals/components)
+* [Shape and drawing tools](/editor/fundamentals/shapes-and-paths-overview)
+* [Bones tools](/editor/manipulating-shapes/manipulating-shapes)
+* Play the [state machine](//editor/state-machine/state-machine)
 
-## Transform Tools menu
+## Invite
 
-The Transform Tools menu houses tools that allow you to alter the transform properties of an object on the [Stage](/editor/interface-overview/stage).
+![Invite members button](/images/interface/toolbar-invite.png)
 
+Use **Invite** to add collaborators to the file.
 
-![Select](/images/select.png)
+## Publish
 
-**Select Tool**
+![Publish button](/images/interface/toolbar-publish.png)
 
-The Select tool allows you to select objects and manipulate all their transform properties with the gizmo that appears. You can also click and drag in an empty space to select multiple objects with a marquee.
+Use **Publish** to export, embed, or publish your file.
 
-In most cases, you'll probably be **using** the Select tool, though we also currently offer a dedicated Translate, Scale and Rotation tools.
+* [Export a .riv for runtime](/editor/exporting/exporting-for-runtime)
+* Publish to a [library](/editor/libraries)
+* [Embed](/editor/embed-urls/overview)
+* Publish to the [marketplace](/community/marketplace-overview#marketplace-overview)
 
-![Image](/images/editor/interface-overview/5cfc252a-8d52-4751-9064-4c6a1acb6f34.webp)
+## Preview Bound Values
 
-The gizmo allows you to manipulate the position, rotation, and scale properties of a selection.
+By default, data-bound values update while the state machine is playing.
 
-**Translate Tool**
+Turn on the **Data Binding Preview Toggle** to preview bound values while editing.
 
-The Translate tool allows you to click on the gizmo or in an empty space to modify the position of your selected object without losing selection.
+![Preview data binding](/images/editor/data-binding/binding-data/preview-data-binding.gif)
 
+## Mode Toggle
 
-**Rotate Tool**
+Use the **Mode Toggle** to switch between **Design** and **Animate** mode.
 
-The Rotate tool allows you to click on the gizmo or in an empty space to modify the rotation of your selected object without losing selection.
+Press `Tab` to switch modes quickly.
 
-
-**Scale Tool**
-
-
-The Scale tool allows you to click on the gizmo or in an empty space to modify the Scale of your selected object without losing selection.
-
-
-## Artboard, Layout, and Groups menu
-
-Learn about Artboards, Components, Layouts and Groups.
-
-![Artboard](/images/artboard.png)
-
-<CardGroup cols={4}>
-  <Card title="Artboards" icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>} iconType="solid" href="../fundamentals/artboards">
-    Artboards are the foundation of your composition across both design and animate mode.
-  </Card>
-  <Card title="Components" icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>} iconType="solid" href="../fundamentals/components">
-    Components can speed up your workflow by allowing you to reuse animations and State Machines.
-  </Card>
-  <Card title="Groups" icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>} iconType="solid" href="../fundamentals/groups">
-    Use groups to organize your graphics or to add extra transform spaces.
-  </Card>
-  <Card title="Layouts" icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>} iconType="solid" href="/editor/layouts/layouts-overview">
-    Layouts let you make responsive designs.
-  </Card>
-</CardGroup>
-
-## Mode toggle
-
-The mode toggle allows you to switch between Design and Animate mode. Press `Tab` to quickly switch modes.
-
-![Switch](/images/switch.gif)
+![Switching between Design and Animate mode](/images/switch.gif)
