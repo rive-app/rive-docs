@@ -176,6 +176,15 @@ export const Demos = ({
         editor: "https://rive.app/community/files/25826-masonry-layout/"
       }
     },
+    scriptingParticleEmitter: {
+      title: "Particle Emitter",
+      riv: "https://static.rive.app/rivs/particle-demo.riv",
+      artboard: "Demo",
+      description: "A small, self contained particle system for Rive node and layout scripts.",
+      links: {
+        editor: "https://rive.app/community/files/28062-53012-particle-librar/"
+      }
+    },
     scriptingTippingConverter: {
       title: "Custom Converter",
       image: "https://static.rive.app/docs/tipping-scripting-converter.gif",
@@ -316,6 +325,7 @@ export const Demos = ({
             stateMachines,
             canvas,
             artboard,
+            autoBind: true,
             autoplay: true,
             Layout: new rive.Layout({
               fit: rive.Fit.Layout,
