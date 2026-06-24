@@ -7,51 +7,40 @@ import { YouTube } from '/snippets/youtube.mdx'
 
 <YouTube id="7Vb1LosMzwk" />
 
-A layer on the state machine allows you to play a single animation at a time. For this reason, you can create multiple layers if you wish to mix multiple animations or add additional interactions to a state machine.
+A state machine layer can play one state at a time. Add multiple layers when you want a state machine to play multiple animations or interactions at once.
 
-This example uses layers to mix different background animations, and add multiple interactions onto a single artboard.
+For example, one layer might control a character's idle and walk animations, while another layer controls a separate hover or selected state.
 
-![Using multiple Layers](https://ucarecdn.com/aeedde5a-598f-42b3-a5df-81212757395e/)
+## Creating a new layer
 
-### Creating a new layer
+To create a layer, click the **+** button in the **Layers** tab.
 
-To create a new layer, use the plus button on the Layers Tab.
+![Adding a new layer](/images/editor/state-machine/state-machine-layer-create.gif)
 
-![Add a new Layer](/images/editor/state-machine/state-machine-layer-create.gif)
+## Layer Order
 
-Notice that each new tab that you create comes with the Default States.
+Layer order determines which layer takes priority when multiple layers animate the same property.
 
-### Layer Order
-
-It may not be obvious, but the order of your Layers matter, with Layers to the right taking priority over the Layers to the left. In most cases, this won’t matter, but if your Layers have States that control the same object properties, the animations in the right most layer will take priority over the layers to the left as they mix.
+Layers farther to the right take priority over layers to the left. In most cases, this does not matter. However, if multiple layers control the same object property, the animation in the rightmost layer takes priority as the layers mix.
 
 <YouTube id="Fc9MutscvAo" />
 
-**Changing layer order**
 
-You can change the layer order by dragging and dropping your layers around on the Layers tab.
+### Changing layer order
 
-<img
-  src="/images/editor/state-machine/state-machine-layer-order.gif"
-  alt="Move layers"
-  title=""
-  style={{ width:"100%" }}
-/>
+To change layer order, drag layers up or down in the **Layers** tab.
 
-**Delete layer**
+![Reorder state machine layers](/images/editor/state-machine/state-machine-layer-order.gif)
 
-You can delete a layer with right click over the name and selecting the option "Delete Layer".
+## Layer Menu
 
-![Delete layer](/images/editor/state-machine/state-machine-layer-delete.gif)
+Click the **...** button next to a layer name to open the layer menu.
 
-**Duplicate layer**
+![Layer menu](/images/editor/state-machine/layer-menu.png)
 
-You can delete a layer with right click over the name and selecting the option "Delete Layer".
-
-![Duplicate layer](/images/editor/state-machine/state-machine-layer-duplicate.gif)
-
-**Disable and Enable layer**
-
-You can delete a layer with right click over the name and selecting the option "Delete Layer".
-
-![Disable and Enable layer](/images/editor/state-machine/state-machine-layer-disable.gif)
+| Option        | Description                                                           |
+| ------------- | --------------------------------------------------------------------- |
+| **Delete**    | Deletes the layer.                                                    |
+| **Duplicate** | Creates a copy of the layer.                                          |
+| **Disable**   | Disables the layer without deleting it.                               |
+| **Snapping**  | Enables or disables snapping for states and transitions in the layer. |
