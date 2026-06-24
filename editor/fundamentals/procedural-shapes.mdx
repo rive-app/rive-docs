@@ -1,35 +1,59 @@
 ---
-title: "Procedural Shapes"
+title: "Shape Tools"
+description: "Create editable shapes with adjustable properties."
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
 
+Shape tools let you create common shapes, such as rectangles, ellipses, polygons, and stars. These shapes keep editable properties, such as width, height, corner radius, and number of points, until you convert them to custom paths.
+
 <YouTube id="vU5SrgymGD8" />
 
-## Creating a procedural shape
+## Creating a Procedural Shape
 
-![Procedural Shapes Menu](/images/editor/fundamentals/procedural-shapes-menu.png)
+![Procedural Shapes menu](/images/editor/fundamentals/procedural-shapes-menu.png)
 
-Under the Create Tools menu, you will find shape tools that are defined by procedural properties like width, height, corner radius, number of points, and more.
+Procedural shape tools are available from the **Create Tools** menu.
 
-![Create Shape](/images/editor/fundamentals/procedural-shapes-create.gif)
+<Steps>
+  <Step>
+    Open the **Create Tools** menu and select a shape tool.
+  </Step>
+  <Step>
+    Click and drag inside an artboard to draw the shape.
+  </Step>
+</Steps>
 
-Select the tool then click and drag anywhere inside an artboard. Hold `shift` to constrain the proportions of the shape.
+Hold `Shift` while dragging to constrain the shape's proportions.
 
-### Convert a procedural path to a custom path
+![Creating a procedural shape](/images/editor/fundamentals/procedural-shapes-create.gif)
 
-![Convert a procedural path to a custom path](/images/editor/fundamentals/procedural-shapes-convert.gif)
+<Info>
+  See [Freeze and Origin](/editor/fundamentals/freeze-and-origin) to learn how to change the center point of a shape.
+</Info>
 
-To edit the vertices of a procedural path, press `Enter` on your keyboard. This will convert the path into a custom path and allow you to modify the position of each vertex. Procedural properties (e.g. width, height, number of points) will no longer be available. Keep in mind that any animations applied to these properties will also be removed once the procedural path is converted to a custom path.
+## Shape Properties
 
-### Origin of a procedural path
+You can update a shape's properties in the inspector. Available properties depend on the selected shape type.
 
-The [origin](/editor/fundamentals/freeze-and-origin) of a procedural path determines where its properties originate from. For example, changing the width on a rectangle with its origin in the middle (50% X and 50% Y) causes it to grow from its center.
+- **Size**: the width and height of the shape
+- **Origin**: the [origin](/editor/fundamentals/freeze-and-origin) point of the shape
+- **Corner**: the corner radius for rectangles
+- **Radius**: the radius value for polygons and stars
+- **Points**: the number of points on polygons and stars
 
-![Change size of procedural shape](/images/editor/fundamentals/procedural-shapes-size.gif)
+## Converting a Shape to a Custom Path
 
-Changing the width of a rectangle with its origin on the left side (0% X) causes it to grow from its left.
+To edit individual vertices, convert the shape to a custom path.
 
-![Origin in procedural shapes](/images/editor/fundamentals/procedural-shapes-origin.gif)
+![Converting a procedural path to a custom path](/images/editor/fundamentals/procedural-shapes-convert.gif)
 
-This is particularly useful when animating paths that have other procedural properties enabled, such as rounded corners.
+Press `Enter` to convert the selected procedural path to a custom path. After conversion, you can edit each vertex directly.
+
+<Note>
+  Converting a procedural path to a custom path removes its procedural properties, such as width, height, corner radius, and number of points. Any animations applied to those properties are also removed.
+</Note>
+
+<Info>
+  To edit a custom path, see [Edit Vertices](/editor/fundamentals/edit-vertices).
+</Info>
