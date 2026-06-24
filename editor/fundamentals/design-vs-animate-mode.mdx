@@ -1,31 +1,49 @@
 ---
-title: "Design vs Animate Mode"
-description: "The Rive Editor has two distinct modes, Design and Animate. Switching between modes changes the interface to show the appropriate tools and options."
+title: "Design and Animate Modes"
+description: "Understand when changes edit your design and when they create animation keys."
 ---
 
-## Design Mode
+Rive has two main editing modes: **Design** and **Animate**.
 
-Use Design Mode to prepare your graphics for animation. This is where you can design your own graphics with Rive's [tools](/editor/interface-overview/toolbar), [import graphics from other software](/editor/fundamentals/importing-assets), or rig your graphics with [bones](/editor/manipulating-shapes/bones), [transform spaces](/editor/fundamentals/transform-spaces), [layouts](/editor/layouts/layouts-overview), [joysticks](/editor/manipulating-shapes/joysticks), and [constraints](/editor/constraints/constraints-overview).
+- **Design Mode** is for creating, editing, importing, and rigging objects.
+- **Animate Mode** is for creating timelines, state machines, keys, and animation logic.
 
-![Image](/images/editor/fundamentals/Design_Mode.png)
+Use the **Mode Toggle** in the toolbar, or press `Tab`, to switch between modes.
 
-Design Mode is the default mode for any file that doesn't have any animations created. The mode exists because Rive allows you to attach multiple animations to a single artboard, so you need a place to set up and create those graphics.
+![Switching between Design and Animate mode](/images/switch.gif)
 
-## Animate Mode
+## Avoiding Accidental Keys
 
-Use [Animate Mode](/editor/animate-mode/animate-mode-overview) to create all of the [States](/editor/state-machine/states) and [State Machine](/editor/state-machine/state-machine) for your artboard.
+When you're in **Animate Mode**, some edits can create animation keys depending on what is selected.
 
-When you switch to Animate Mode, the UI updates to display a list of Timelines and State Machine associated with the [active artboard](/editor/fundamentals/artboards#active-artboard). The [Inspector](/editor/interface-overview/inspector) also updates to show key buttons next to any property that can be animated.
+If a **timeline** is selected, changes to animatable properties may be keyed automatically. This can happen when you move, resize, rotate, recolor, or otherwise edit an object while working in a timeline.
 
-![Animate Mode](/images/editor/fundamentals/Animate_Mode.png)
+<Warning>
+  Before making design changes, make sure you're in **Design Mode**, or make sure a timeline is not selected.
+</Warning>
 
-Selecting any Animation from the Animations list will bring up a timeline view, while selecting a state machine will replace the timeline with the graph view.
+## When to Use Design Mode
+
+Use **Design Mode** when you want to change the default design of your file.
+
+Common design changes include:
+
+- Creating or deleting objects
+- Moving, resizing, or rotating objects
+- Editing fills, strokes, and shape properties
+- Importing assets
+- Adding bones, constraints, or other rigging
+
+## When to Use Animate Mode
+
+Use **Animate Mode** when you want to create animation behavior.
 
 ![State Machine](/images/editor/fundamentals/State_Machine.png)
 
-## Creating Assets in Animate Mode
+Common animation tasks include:
 
-While there are separate modes, graphics can be created and changed in both modes, but it's important to keep a few things in mind.
-
-1. If a Timeline is selected, graphics, both procedural and custom paths, can be created. While graphics can be created, any changes to the path, shape, or its properties will automatically be keyed on the timeline. Because of this, we recommend not making any assets when a timeline is selected.
-2. Animate Mode works like Design Mode if a State Machine is selected. Asset creation, rigging, and other design changes will not be automatically keyed. This lets you make any design changes you want without switching between the different modes, though you do lose some screen real estate due to the graph. We recommend making vast changes in Design mode while using Animate mode only to add quick adjustments like hit boxes or layouts.
+- Creating timelines
+- Creating state machines
+- Adding keys
+- Editing key values
+- Setting up transitions, listeners, and animation logic
