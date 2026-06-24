@@ -1,177 +1,69 @@
 ---
 title: "Toolbar"
-description: "Access file, design, rigging, and export tools and options from the Rive Editor toolbar."
+description: "Access file, design, rigging, preview, and export tools from the Rive editor toolbar."
 ---
 
-## Editor menu
+![Toolbar](/images/interface/toolbar.png)
 
-The Editor menu is located to the left of the Transform Tools menu. This menu gives you access to a number of file level options including revision history, export options, ways to share your file, render options, sounds, and shortcuts.
+Use the toolbar to switch tools, create objects, adjust view options, invite collaborators, publish your file, and access file-level actions.
 
-![File menu](/images/filemenu.png)
+## Editor Menu
 
-**Revision History**
+![Editor menu](/images/interface/editor-menu.png)
 
-Rive automatically saves your revision history. You can view your view or reinstate any instance of your files revision history through the revision history option.
+The **Editor menu** contains file-level actions and editor settings.
 
-![Revision](/images/revision.png)
+Common actions include:
 
-Additionally, you can create a new, custom revision using the Create Revision option.
+* [Revision History](/editor/fundamentals/revision-history)
+* [Export for Runtime](/editor/exporting/exporting-for-runtime)
+* [Export for Backup](/editor/exporting/exporting-for-backup)
+* [Share and Embed](/editor/embed-urls/overview)
+* [Render to Video or Image](/editor/exporting/exporting-for-video-and-static-design)
 
-Read more about revision history [here](https://rive.app/docs/editor/fundamentals/revision-history).
+## Tools
 
-**Export**
+![Toolbar tools](/images/interface/toolbar-tools.png)
 
-The export section allows you to both export your Rive file, and [export or remove all names](/editor/exporting/exporting-names) for the exported file.
+The **Tools** area lets you select, transform, draw, create objects, add rigging, and preview interactions.
 
-![Export Options](/images/export_Options.png)
+Common tools include:
 
-Read more about exporting a Rive file and its contents [here](/editor/exporting/exporting-for-runtime).
+* Select, translate, rotate, and scale tools
+* [Artboards](/editor/fundamentals/artboards) and [components](/editor/fundamentals/components)
+* [Shape and drawing tools](/editor/fundamentals/shapes-and-paths-overview)
+* [Bones tools](/editor/manipulating-shapes/manipulating-shapes)
+* Play the [State Machine](/editor/state-machine/state-machine)
 
-**Generate Embed URL**
+## Invite
 
-<Note>Generating embed URLs is available on Voyager and Enterprise plans. [Learn more about our plans and pricing](https://rive.app/pricing?utm_source=docs&utm_medium=content).</Note>
+![Invite members button](/images/interface/toolbar-invite.png)
 
-Embed URLs are a fast no-code way to get your Rive files running on a website or to present your graphics to a client.
+Use **Invite** to add collaborators to the file.
 
-![Embed URL](/images/sharelink.gif)
+## Publish
 
-Share the current version of the file you’re working with embed URLs. Note that this is not the same as giving someone access to the live file with all its revision history. This link will be a frozen version of the file in its current state. If you make changes to the file, you’ll need to generate a new embed URL.
+![Publish button](/images/interface/toolbar-publish.png)
 
-Learn more about embed URLs [here](/editor/embed-urls/overview).
+Use **Publish** to export, embed, or publish your file.
 
-**Publish to Marketplace**
+* [Export a .riv for runtime](/editor/exporting/exporting-for-runtime)
+* Publish to a [library](/editor/libraries)
+* [Embed](/editor/embed-urls/overview)
+* Publish to the [marketplace](/community/marketplace-overview#marketplace-overview)
 
-The Marketplace is where you can share files with the entire Rive community.
+## Preview Bound Values
 
-![Publish](/images/publish.gif)
+By default, data-bound values update while the state machine is playing.
 
-Learn more about sharing your file to the Marketplace here.
+Turn on the **Data Binding Preview Toggle** to preview bound values while editing.
 
-**Cloud Renderer**
+![Preview data binding](/images/editor/data-binding/binding-data/preview-data-binding.gif)
 
-The file menu give you a way to both view and add new animation or presets to the render queue.
+## Mode Toggle
 
-![Render](/images/render.png)
+Use the **Mode Toggle** to switch between **Design** and **Animate** mode.
 
-Learn more about using our Cloud renderer [here](/editor/exporting/exporting-for-video-and-static-design).
+Press `Tab` to switch modes quickly.
 
-**Browse Sounds**
-
-Rive allows you to add and play different sound effects in your file through Events. This option allows you to browse through our sound library.
-
-![Sounds](/images/sounds.png)
-
-Read more about adding sound to your Rive file [here](/editor/events/audio-events).
-
-**Show Shortcuts**
-
-The Show Shortcuts option allows you to view and search through all shortcuts in the Rive editor.
-
-![Shortcuts](/images/shortcuts.png)
-
-**Documentation**
-
-The Documentation option brings you directly to the Rive documentation.
-
-**Send Feedback**
-
-If you have thoughts on ways for us to improve Rive, the Send Feedback button will link you directly to our Requests page on our Community.
-
-
-## Transform Tools menu
-
-The Transform Tools menu houses tools that allow you to alter the transform properties of an object on the [Stage](/editor/interface-overview/stage).
-
-
-![Select](/images/select.png)
-
-**Select Tool**
-
-The Select tool allows you to select objects and manipulate all their transform properties with the gizmo that appears. You can also click and drag in an empty space to select multiple objects with a marquee.
-
-In most cases, you'll probably be using the Select tool, though we also currently offer a dedicated Translate, Scale and Rotation tools.
-
-![Image](/images/editor/interface-overview/5cfc252a-8d52-4751-9064-4c6a1acb6f34.webp)
-
-The gizmo allows you to manipulate the position, rotation, and scale properties of a selection.
-
-**Translate Tool**
-
-The Translate tool allows you to click on the gizmo or in an empty space to modify the position of your selected object without losing selection.
-
-
-**Rotate Tool**
-
-The Rotate tool allows you to click on the gizmo or in an empty space to modify the rotation of your selected object without losing selection.
-
-
-**Scale Tool**
-
-
-The Scale tool allows you to click on the gizmo or in an empty space to modify the Scale of your selected object without losing selection.
-
-**Freeze Mode**
-
-Freeze mode allows you to modify the position of origins, groups, and bones without affecting the underlying objects associated with them.
-
-Learn more about Origin and Freeze mode [here](/editor/fundamentals/freeze-and-origin).
-
-## Artboard, Layout, and Groups menu
-
-Learn about Artboards, Components, Layouts and Groups.
-
-![Artboard](/images/artboard.png)
-
-<CardGroup cols={4}>
-  <Card title="Artboards" icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>} iconType="solid" href="../fundamentals/artboards">
-    Artboards are the foundation of your composition across both design and animate mode.
-  </Card>
-  <Card title="Components" icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>} iconType="solid" href="../fundamentals/components">
-    Components can speed up your workflow by allowing you to reuse animations and State Machines.
-  </Card>
-  <Card title="Groups" icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>} iconType="solid" href="../fundamentals/groups">
-    Use groups to organize your graphics or to add extra transform spaces.
-  </Card>
-  <Card title="Layouts" icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>} iconType="solid" href="/editor/layouts/layouts-overview">
-    Layouts let you make responsive designs.
-  </Card>
-</CardGroup>
-
-## Vector Tools menu
-
-Design in Rive using the [Pen Tool](/editor/fundamentals/pen-tool-overview) and [procedural shapes](/editor/fundamentals/procedural-shapes). The Vector Tools menu houses all of the tools you'll need to create vector artwork.
-
-![Create tools](/images/createtools.png)
-
-## Bones menu
-
-Access the [Bone](/editor/manipulating-shapes/bones) and Weight tool (when binding).
-
-![Bones](/images/bones.png)
-
-## Events and Joystick Menu
-
-The Events and Joysticks menu lets you add new Events and Joysticks to your File
-
-![Events](/images/events.png)
-
-<CardGroup cols="2">
-  <Card title="Events" icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>} iconType="solid" href="/editor/events/overview">
-    Events let you provide additional information to both the runtimes and in the editor.
-  </Card>
-  <Card title="Joysticks" icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>} iconType="solid" href="/editor/manipulating-shapes/joysticks">
-    Joysticks are a rigging tool that gives you stage controls that allow you to pan through connected timelines.
-  </Card>
-</CardGroup>
-
-## Publish Button
-
-The Export button allows you to create [Embed URLs](/editor/embed-urls/overview), [publish a file to the Marketplace](/community/marketplace-overview#marketplace-overview), [download a `.riv` file](/editor/exporting/exporting-for-runtime), and [publish a library](/editor/libraries).
-
-![Export](/images/export.png)
-
-## Mode toggle
-
-The mode toggle allows you to switch between Design and Animate mode. Press `Tab` to quickly switch modes.
-
-![Switch](/images/switch.gif)
+![Switching between Design and Animate mode](/images/switch.gif)
