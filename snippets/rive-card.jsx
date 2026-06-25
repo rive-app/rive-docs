@@ -63,14 +63,14 @@ export const RiveCard = ({ title, description, links, children, source, aspect3b
                         {
                           source.map((item, index) => {
                             if (source.length == 1) {
-                              return <>Open the <a  href={item}>Rive file</a>.</>
+                              return <>Open the <a className="underline" href={item}>Rive file</a>.</>
                             }
 
                             if (index == 0) {
-                              return <>Open <a  href={item}>Rive file 1</a></>
+                              return <>Open <a className="underline" href={item}>Rive file 1</a></>
                             }
 
-                            return <>, <a href={item}>file {index + 1}</a></>
+                            return <>, <a className="underline" href={item}>file {index + 1}</a></>
                           })
                         }
                       </p>

@@ -70,6 +70,14 @@ export const Demos = ({
         "https://rive.app/marketplace/25474-47539-data-binding-lists/"
       ]
     },
+    dataBindingEditorQuickStart: {
+      title: "Data Binding",
+      description: "Get started with Data Binding at runtime.",
+      image: "/images/runtimes/rewards.gif",
+      links: {
+        editor: "https://rive.app/marketplace/25475-47540-data-binding-demo/"
+      }
+    },
     dataBindingQuickStart: {
       title: "Data Binding",
       description: "Get started with Data Binding at runtime.",
@@ -467,14 +475,14 @@ export const Demos = ({
                               {
                                 source.map((item, index) => {
                                   if (source.length == 1) {
-                                    return <>Open the <a  href={item}>Rive file</a>.</>
+                                    return <>Open the <a href={item} className="underline">Rive file</a>.</>
                                   }
 
                                   if (index == 0) {
-                                    return <>Open <a  href={item}>Rive file 1</a></>
+                                    return <>Open <a href={item} className="underline">Rive file 1</a></>
                                   }
 
-                                  return <>, <a href={item}>file {index + 1}</a></>
+                                  return <>, <a href={item} className="underline">file {index + 1}</a></>
                                 })
                               }
                             </p>

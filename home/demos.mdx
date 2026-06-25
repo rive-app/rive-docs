@@ -1,0 +1,61 @@
+---
+title: "Rive Demos"
+sidebarTitle: "Demos"
+description: "Explore demos that show how Rive files can respond to data, code, user input, and runtime events."
+mode: 'wide'
+---
+
+import { Demos } from '/snippets/demos.jsx'
+import { RiveCard } from '/snippets/rive-card.jsx'
+import { ExampleEyeFollow } from '/snippets/example-eye-follow.jsx'
+
+<CardGroup cols={2}>
+  <Card
+    title="View All Scripting Demos"
+    href="/scripting/demos"
+  />
+
+  <Card
+    title="View All Runtime Demos"
+    href="/runtimes/demos"
+  />
+</CardGroup>
+
+<br/>
+
+<Demos
+  examples={[
+    "dataBindingEditorQuickStart",
+    "scriptingSlotMachine",
+    "scriptingParticleEmitter",
+    "scriptingTextPathEffect",
+    "scriptingLists",
+    "scriptingMasonry"
+  ]}
+  columns={3}
+/>
+
+## Runtime Demos
+
+
+<Demos
+  examples={[
+    "dataBindingQuickStart",
+    "layouts",
+  ]}
+  columns={3}
+  childrenIndex={1}
+>
+  <RiveCard
+    title="Follow the Cursor"
+    description="Track the cursor, even if it's outside the bounds of the Rive instance."
+    links={{
+      web: "https://codesandbox.io/p/sandbox/rive-web-track-your-mouse-n38gdd"
+    }}
+    source={["https://rive.app/marketplace/24639-46040-cat-follow-cursor-demo?utm_source=docs&utm_medium=docs_card_demo"]}
+  >
+    <ExampleEyeFollow />
+  </RiveCard>
+</Demos>
+
+See more [Runtime Demos](/runtimes/demos)
