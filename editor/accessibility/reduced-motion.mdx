@@ -1,0 +1,81 @@
+---
+title: "Reduced Motion"
+description: "Make Rive animations more comfortable for users who prefer reduced motion."
+---
+
+Reduced motion preferences let users request less non-essential motion in apps and operating systems.
+
+Rive can’t automatically decide which motion should be reduced because motion may be decorative, functional, or part of the meaning of an interaction. To support reduced motion, pass the user’s motion preference into your Rive file with a data binding property, such as `prefersReducedMotion`. Then use that property to decide how your state machine, timelines, and bound properties should behave.
+
+<Info>
+  Reduced motion preferences are usually detected by the app or platform, then passed into the Rive file at runtime. For web, this often starts with the `prefers-reduced-motion` media feature. See [WCAG’s reduced motion technique](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/%40media/prefers-reduced-motion?utm_source=chatgpt.com) for accessibility guidance.
+</Info>
+
+## Common Strategies
+
+### Use a Separate Reduced-Motion Path
+
+For complex interactions and decorative motion, create separate state machine paths for full motion and reduced motion. Use a `prefersReducedMotion` Boolean property to choose which path runs.
+
+This works well when the reduced-motion version needs different timing, different animation states, or a different interaction flow.
+
+![Use a separate state machine path for reduced motion](/images/accessibility/reduced-motion/reduced-motion-state-machine.png)
+
+### Reduce or Disable Animation Speed
+
+For simpler cases, bind transition durations, timeline speeds, or animation speeds to a property that changes when reduced motion is enabled.
+
+For example, full motion might use a normal speed value, while reduced motion uses `0` or a lower value.
+
+<Tip>
+  Use [Converters](/editor/data-binding/converters) to convert your `prefersReducedMotion` boolean to a value of 0.
+
+  <Steps>
+    <Step title="Create a new converter">
+      Create a new converter group called `BooleanToSpeed`.
+
+      ![Create converter group](/images/accessibility/reduced-motion/create-converter-group.png)
+    </Step>
+    <Step title="Add a Toggle converter">
+      This will toggle the boolean so that when `prefersReducedMotion` is `true`, the output will be `false`.
+
+      ![Add a Toggle converter](/images/accessibility/reduced-motion/create-toggle-converter.png)
+    </Step>
+    <Step title="Add a Convert to Number converter">
+      This transforms a `boolean` to a number where `true = 1` and `false = 0`.
+
+      ![Add a Convert to Number converter](/images/accessibility/reduced-motion/create-convert-to-number.png)
+    </Step>
+    <Step title="Data bind the animation speed">
+      With the nested component selected, data bind the **Speed** value to `prefersReducedMotion` and add the `BooleanToSpeed` converter.
+
+      ![Data bind your speed value](/images/accessibility/reduced-motion/boolean-to-speed.png)
+    </Step>
+  </Steps>
+
+  Now when `prefersReducedMotion` is `true`, the animation speed will be 0.
+</Tip>
+
+### Replace Motion With Non-Motion Feedback
+
+Reduced motion does not always mean removing feedback. Instead of movement, scale, rotation, or bounce, use changes in opacity, or color.
+
+### Reduce Distance
+
+Large spatial movement can be difficult even when it is slow. Consider reducing the distance an object travels, or replacing large movement with a small offset and fade.
+
+## Runtime Setup
+
+At runtime, use [data binding](/runtimes/data-binding) to pass the user’s motion preference into the Rive file.
+
+For example:
+
+```js
+prefersReducedMotion = true
+```
+
+The Rive file should use that property to control state machine transitions, timeline speeds, or bound animation properties.
+
+<Note>
+  Rive does not automatically apply reduced motion. File authors need to decide which motion is essential, which motion is decorative, and what the reduced-motion experience should be.
+</Note>
