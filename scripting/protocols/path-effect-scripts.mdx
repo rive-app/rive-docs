@@ -70,6 +70,30 @@ return function(): PathEffect<MyPathEffect>
 end
 ```
 
+<Note>
+  If a Path Effect script changes over time, call `markNeedsUpdate()` on the effect context from `advance()`. This tells Rive to recalculate the effect on the next frame, even when the source path itself has not changed.
+
+  Without this, the effect may appear to freeze because Rive has no signal that the path output is changing. This is especially important for animated path effects inside nested components, where the source path may remain static while the script continues updating its own internal values.
+
+  ```lua highlight={11}
+  local function init(self: WaveyEffect, context: Context): boolean
+    self.context = context
+    self.time = 0.0
+    return true
+  end
+
+  local function advance(self: WaveyEffect, seconds: number): boolean
+    self.time += seconds * math. clamp(self. speed, 0.0, 20.0)
+
+    if self. context then
+      self.context: markNeedsUpdate()
+    end
+
+    return true
+  end
+  ```
+</Note>
+
 
 ## Add the Scripted Path Effect to a Stroke
 
