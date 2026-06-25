@@ -62,19 +62,26 @@ When **Opaque Target** is enabled, pointer events stop at the target. When it's 
 
 **Listen to** is the condition the listener watches for. When the condition is met, the listener is triggered.
 
-**Listen to** options include:
+| Listen To                   | Description                                           |
+| --------------------------- | ----------------------------------------------------- |
+| **View Model Property Change*** | Fires whenever the selected view model property changes.** |
+| **Rive Event***                 | Fires when a Rive event is fired.                     |
+| **Pointer Enter**               | Fires when the pointer enters the target area.        |
+| **Pointer Exit**                | Fires when the pointer leaves the target area.        |
+| **Pointer Move**                | Fires repeatedly while the pointer moves over the target area.    |
+| **Pointer Down**                | Fires when the pointer is pressed down on the target. |
+| **Pointer Up**                  | Fires when the pointer is released over the target.   |
+| **Click**                       | Fires when the target is clicked or tapped.           |
 
-* Pointer events, such as **Click** and **Pointer Up**
-* View model property changes, when the target is an artboard or nested component
-* Rive events, when the target is an artboard or nested component
+
+_* Available when the listener target is an artboard or nested component._ <br/>
+_** View Model Property Change listeners fire whenever the selected property changes. You can’t specify an expected value or direction of change. For example, a Boolean listener fires when the value changes from true to false or from false to true._<br/>
+
+<Note> **Pointer Exit** only fires while Rive can read the pointer position. If the target touches the edge of the canvas or container, moving the pointer out of the container may not trigger **Pointer Exit** because the pointer has left the area Rive is tracking. </Note>
 
 <Info>
   We strongly recommend using [Data Binding](/editor/data-binding/overview) to communicate between artboards instead of relying on nested Rive events.
 </Info>
-
-<Note>
-  You can't specify an expected value for a view model property change. The listener fires whenever the property changes, regardless of the direction of the change. For example, a Boolean listener fires whether the value changes from true to false or from false to true.
-</Note>
 
 ## Listener Actions
 
