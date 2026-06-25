@@ -3,6 +3,9 @@ title: "Reduced Motion"
 description: "Make Rive animations more comfortable for users who prefer reduced motion."
 ---
 
+import { VideoEmbed } from '/snippets/video-embed.jsx'
+import { Demos } from "/snippets/demos.jsx";
+
 Reduced motion preferences let users request less non-essential motion in apps and operating systems.
 
 Rive can’t automatically decide which motion should be reduced because motion may be decorative, functional, or part of the meaning of an interaction. To support reduced motion, pass the user’s motion preference into your Rive file with a data binding property, such as `prefersReducedMotion`. Then use that property to decide how your state machine, timelines, and bound properties should behave.
@@ -11,15 +14,15 @@ Rive can’t automatically decide which motion should be reduced because motion 
   Reduced motion preferences are usually detected by the app or platform, then passed into the Rive file at runtime. For web, this often starts with the `prefers-reduced-motion` media feature. See [WCAG’s reduced motion technique](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/%40media/prefers-reduced-motion?utm_source=chatgpt.com) for accessibility guidance.
 </Info>
 
+<Demos examples={['accessibilityReducedMotion']} />
+
 ## Common Strategies
 
 ### Use a Separate Reduced-Motion Path
 
 For complex interactions and decorative motion, create separate state machine paths for full motion and reduced motion. Use a `prefersReducedMotion` Boolean property to choose which path runs.
 
-This works well when the reduced-motion version needs different timing, different animation states, or a different interaction flow.
-
-![Use a separate state machine path for reduced motion](/images/accessibility/reduced-motion/reduced-motion-state-machine.png)
+<VideoEmbed src="https://static.rive.app/video/reduced-motion-state-machine.mp4" />
 
 ### Reduce or Disable Animation Speed
 
@@ -59,6 +62,8 @@ For example, full motion might use a normal speed value, while reduced motion us
 ### Replace Motion With Non-Motion Feedback
 
 Reduced motion does not always mean removing feedback. Instead of movement, scale, rotation, or bounce, use changes in opacity, or color.
+
+<VideoEmbed src="https://static.rive.app/video/reduced-motion-non-motion.mp4" />
 
 ### Reduce Distance
 
