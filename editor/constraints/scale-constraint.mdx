@@ -4,10 +4,13 @@ description: "The Scale Constraint allows you to set limits on an object's scale
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
+import { Demos } from "/snippets/demos.jsx";
 
 <YouTube id="4fFuGQHAiIQ" />
 
-## How to create a Scale Constraint 
+<Demos examples={["constraints"]} learnByExample />
+
+## How to create a Scale Constraint
 
 <Steps>
     <Step title="Add a Scale Constraint to an object">
@@ -27,7 +30,7 @@ import { YouTube } from '/snippets/youtube.mdx'
     </Step>
 </Steps>
 
-## Strength 
+## Strength
 
 The Strength property determines how much the constrained object is affected.
 
@@ -35,16 +38,16 @@ A Strength of 0% means the constraint won't have any effect.
 
 A Strength of 50% means half the value from the target will be applied.
 
-## Transform Space 
+## Transform Space
 
-### Source Space 
+### Source Space
 
 Choose whether this constraint should use World or Local coordinates for the Source Space.
 
-### Destination Space 
+### Destination Space
 
 Choose whether this constraint should use World or Local coordinates for the Destination Space.
 
-### Min/Max Space 
+### Min/Max Space
 
 Choose whether this constraint should use World or Local coordinates for the Min/Max Space.
