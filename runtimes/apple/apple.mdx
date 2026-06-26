@@ -5,7 +5,6 @@ description: 'Apple runtime for Rive. '
 
 import NoteOnFeatureSupport from "/snippets/runtimes/rendering-feature-support.mdx"
 import { Demos } from '/snippets/demos.jsx'
-import { Apple } from "/snippets/constants.mdx"
 
 <NoteOnFeatureSupport/>
 
@@ -34,7 +33,7 @@ Most APIs are marked as `throws`, with `Error` types available for the different
 Follow the steps below for a quick start on integrating Rive into your Apple app.
 
 <Tabs>
-    <Tab title={Apple.currentRuntimeName}>
+    <Tab title={"{{runtimeCurrentNameApple}}"}>
         <Steps>
             <Step title="Install the Runtime">
                 With CocoaPods going into [maintenance mode](https://blog.cocoapods.org/CocoaPods-Support-Plans/), we recommend using Swift Package Manager.
@@ -222,7 +221,7 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
             </Step>
         </Steps>
     </Tab>
-    <Tab title={Apple.legacyRuntimeName}>
+    <Tab title={"{{runtimeLegacyNameApple}}"}>>
         <Steps>
             <Step title="Install the Runtime">
                 **Swift Package Manager**
@@ -307,7 +306,7 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
 ## Playing / Pausing
 
 <Tabs>
-    <Tab title={Apple.currentRuntimeName}>
+    <Tab title={"{{runtimeCurrentNameApple}}"}>
         <CodeGroup>
             ```swift UIKit
             let rive = try await Rive(...)
@@ -337,7 +336,7 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
             ```
         </CodeGroup>
     </Tab>
-    <Tab title={Apple.legacyRuntimeName}>
+    <Tab title={"{{runtimeLegacyNameApple}}"}>>
         ```swift
         let viewModel = RiveViewModel(fileName: "...")
         viewModel.pause() // or play() to resume
@@ -348,7 +347,7 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
 ## Frame Rate
 
 <Tabs>
-    <Tab title={Apple.currentRuntimeName}>
+    <Tab title={"{{runtimeCurrentNameApple}}"}>
         <CodeGroup>
             ```swift UIKit
             let rive = try await Rive(...)
@@ -389,7 +388,7 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
             ```
         </CodeGroup>
     </Tab>
-    <Tab title={Apple.legacyRuntimeName}>
+    <Tab title={"{{runtimeLegacyNameApple}}"}>>
         ```swift
         let viewModel = RiveViewModel(fileName: "...")
         viewModel.setPreferredFramesPerSecond(preferredFramesPerSecond: 30)
@@ -402,7 +401,7 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
 ## Threading
 
 <Tabs>
-    <Tab title={Apple.currentRuntimeName}>
+    <Tab title={"{{runtimeCurrentNameApple}}"}>
         The new runtime supports multi-threading through the introduction of `Worker` objects.
 
         ```swift
@@ -453,7 +452,7 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
         let rive = try await Rive(file: file)
         ```
     </Tab>
-    <Tab title={Apple.legacyRuntimeName} borderBottom>
+    <Tab title={"{{runtimeLegacyNameApple}}"}> borderBottom>
         The legacy runtime is currently single-threaded on the main thread. This means that all Rive calls must be made on the main thread. It is recommended that if you are on a background thread, you should dispatch to the main queue before making any Rive calls.
     </Tab>
 </Tabs>
@@ -461,10 +460,10 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
 ## Logging
 
 <Tabs>
-    <Tab title={Apple.currentRuntimeName}>
+    <Tab title={"{{runtimeCurrentNameApple}}"}>
         The new runtime does not yet include logging, but will be added in the near future.
     </Tab>
-    <Tab title={Apple.legacyRuntimeName}>
+    <Tab title={"{{runtimeLegacyNameApple}}"}>>
         Enabling logging is as simple as setting `RiveLogger.isEnabled` to `true`.
 
         ```swift

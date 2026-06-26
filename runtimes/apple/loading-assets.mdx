@@ -4,7 +4,6 @@ description: "Loading and replacing assets dynamically at runtime"
 ---
 
 import { YouTube } from "/snippets/youtube.mdx";
-import { Apple } from "/snippets/constants.mdx";
 
 import Overview from '/snippets/runtimes/loading-assets/overview.mdx'
 import MethodsForLoadingAssets from '/snippets/runtimes/loading-assets/methods-for-loading.mdx'
@@ -22,7 +21,7 @@ import Resources from '/snippets/runtimes/loading-assets/resources.mdx'
 <HandlingAssets />
 
 <Tabs>
-    <Tab title={Apple.currentRuntimeName}>
+    <Tab title={"{{runtimeCurrentNameApple}}"}>
         This section assumes that you have read through the [Apple](/runtimes/apple/apple) overview.
 
         Referenced assets can be added using the global asset APIs of a `Worker`.
@@ -67,7 +66,7 @@ import Resources from '/snippets/runtimes/loading-assets/resources.mdx'
             ```
         </CodeGroup>
     </Tab>
-    <Tab title={Apple.legacyRuntimeName}>
+    <Tab title={"{{runtimeLegacyNameApple}}"}>>
         ### Examples
 
         - [(SwiftUI) Swap out images and fonts](https://github.com/rive-app/rive-ios/blob/main/Example-iOS/Source/Examples/SwiftUI/SwiftSimpleAssets.swift)
