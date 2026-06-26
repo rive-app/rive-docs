@@ -14,7 +14,6 @@ Rive can’t automatically decide which motion should be reduced because motion 
   Reduced motion preferences are usually detected by the app or platform, then passed into the Rive file at runtime. For web, this often starts with the `prefers-reduced-motion` media feature. See [MDN’s `prefers-reduced-motion` documentation](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/%40media/prefers-reduced-motion) for accessibility guidance.
 </Info>
 
-
 ## Common Strategies
 
 <Demos examples={['accessibilityReducedMotion']} />
@@ -73,6 +72,10 @@ Large spatial movement can be difficult even when it is slow. Consider reducing 
 ## Runtime Setup
 
 At runtime, use [data binding](/runtimes/data-binding) to pass the user’s motion preference into the Rive file.
+
+<Info>
+  In the future, runtimes may expose a built-in reduced motion value that can be read directly by the `.riv` file. For now, pass the user’s motion preference into the file yourself.
+</Info>
 
 The Rive file should use that property to control state machine transitions, timeline speeds, or bound animation properties.
 
