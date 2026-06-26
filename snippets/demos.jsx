@@ -15,7 +15,7 @@ export const Demos = ({
       riv: 'https://static.rive.app/rivs/accessibility_reduced_motion.riv',
       stateMachines: "State Machine 1",
       links: {
-        editor: "https://rive.app/community/files/28077-53035-accessibility-reduced-momtion/"
+        editor: "https://rive.app/community/files/28077-53052-accessibility-reduced-motion"
       },
     },
     cachingARiveFile: {
