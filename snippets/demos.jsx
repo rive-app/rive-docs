@@ -9,6 +9,15 @@ export const Demos = ({
   childrenIndex = 0
 }) => {
   const examplesData = {
+    ikConstraint: {
+      title: 'IK Constraints',
+      description: 'Check out this example to see IK constraints in action.',
+      image: "https://static.rive.app/docs/ik-constraint.gif",
+      stateMachines: "State Machine 1",
+      links: {
+        editor: "https://rive.app/community/files/28080-53039-ik-constraint/",
+      }
+    },
     cachingARiveFile: {
       title: 'Caching a Rive File',
       description: 'Load the .riv into memory once, use it multiple times.',
