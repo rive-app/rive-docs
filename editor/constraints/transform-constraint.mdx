@@ -4,10 +4,13 @@ description: 'The Transform Constraint allows its owner to copy all the transfor
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
+import { Demos } from "/snippets/demos.jsx";
 
 <YouTube id="pJfWNtVBrvM" />
 
-## How to create a Transform Constraint 
+<Demos examples={["constraints"]} learnByExample />
+
+## How to create a Transform Constraint
 
 <Steps>
     <Step title="Add a Transform Constraint to an object">
@@ -27,7 +30,7 @@ import { YouTube } from '/snippets/youtube.mdx'
     </Step>
 </Steps>
 
-## Strength 
+## Strength
 
 The Strength property determines how much the constrained object is affected.
 
@@ -37,17 +40,17 @@ A Strength of 50% means half the value from the target will be applied.
 
 ![50% Strength](https://ucarecdn.com/73b4a724-6707-4cd0-80a0-5e6813327a5a/)
 
-## Transform Space 
+## Transform Space
 
-### Source Space 
+### Source Space
 
 Choose whether this constraint should use World or Local coordinates for the Source Space.
 
-### Destination Space 
+### Destination Space
 
 Choose whether this constraint should use World or Local coordinates for the Destination Space.
 
-## Example: mechanical arm 
+## Example: mechanical arm
 
 Consider the package resting on the table and the mechanical arm below.
 

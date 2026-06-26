@@ -4,12 +4,15 @@ description: ''
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
+import { Demos } from "/snippets/demos.jsx";
 
 The Translation Constraint allows you to set limits on an object's position and/or copy the position properties from a target object. These properties can be independently activated.
 
 <YouTube id="i6OAPcqcPBw" />
 
-## How to create a Translation Constraint  
+<Demos examples={["constraints"]} learnByExample />
+
+## How to create a Translation Constraint
 
 <Steps>
     <Step title="Add a Translation Constraint to an object">
@@ -29,7 +32,7 @@ The Translation Constraint allows you to set limits on an object's position and/
     </Step>
 </Steps>
 
-## Strength 
+## Strength
 
 The Strength property determines how much the constrained object is affected.
 
@@ -37,13 +40,13 @@ A Strength of 0% means the constraint won't have any effect.
 
 A Strength of 50% means half the value from the target will be applied.
 
-## Transform Space 
+## Transform Space
 
-### Source Space 
+### Source Space
 
 Choose whether this constraint should use World or Local coordinates for the Source Space.
 
-### Destination Space 
+### Destination Space
 
 Choose whether this constraint should use World or Local coordinates for the Destination Space.
 
@@ -51,16 +54,16 @@ Choose whether this constraint should use World or Local coordinates for the Des
 
 Choose whether this constraint should use World or Local coordinates for the Min/Max Space.
 
-## Offset 
+## Offset
 
 Allows the constraint owner to be manually offset from the constraint source.
 
 ![Image](https://ucarecdn.com/caac6969-e4b6-4bdb-877d-fe548833fd90/)
 
-## Copy X &Y 
+## Copy X &Y
 
 Allows you to decide if the constraint owner will copy the translation in the X and Y direction. Additionally, use the numerical value to define the rate at which it copies the value.
 
-## Max/Min 
+## Max/Min
 
 Use the numerical values to define the minimum and maximum limits of the constraint.
