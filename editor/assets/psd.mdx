@@ -1,0 +1,41 @@
+---
+title: 'Photoshop Files'
+description: 'Using layered Photoshop files in Rive.'
+---
+
+import { YouTube } from '/snippets/youtube.mdx'
+
+<YouTube id="Mlo9mQBUaTE" />
+
+## Importing PSD Files
+
+Drag a PSD file into Rive or import it from the Assets panel. When you import a PSD file, Rive adds its visible image layers to the Assets panel so you can place individual layers or the full composition on an artboard.
+
+<Note>
+  Hidden layers in the PSD are not imported into Rive.
+</Note>
+
+## Using PSD Layers
+
+You can use PSD layers individually or as a full composition.
+
+- Drag a layer onto an artboard to place that layer.
+- Drag the entire PSD onto an artboard to create a group containing all imported layers.
+
+## Asset Settings
+
+PSD layers use the same asset settings as raster images. You can configure settings for individual layers or apply settings to all layers in the PSD.
+
+## Export Behavior
+
+Only PSD layers used in the Rive file are included in the exported `.riv` file by default.
+
+You can adjust export options for individual layers or for all layers in the PSD. See [Assets](/editor/assets/assets#export-options) for more about export behavior.
+
+## Reimporting PSD Files
+
+You can replace or reimport a PSD to update its layers in Rive.
+
+<Warning>
+  Keep PSD layer names consistent when reimporting. If you rename a layer in Photoshop and reimport the PSD, Rive treats it as a new layer. Any objects using the old layer may lose their asset reference.
+</Warning>

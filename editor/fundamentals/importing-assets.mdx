@@ -5,55 +5,8 @@ description: 'Import your assets by dragging and dropping them onto the Rive Edi
 
 import { YouTube } from '/snippets/youtube.mdx'
 
-## Assets Panel
-
-<YouTube id="B9uD-Gh8zjg" />
-<YouTube id="vH9UHmdVwx4" />
-
-<YouTube id="hPbgPGJNE78" />
-
-After dragging in your graphics, they now appear in the Assets Panel, located in the left side of the editor UI. Drag and drop them onto an artboard to begin using them.
-
-## Importing Custom Font
-
-For Pro customers, you can add custom fonts to be used with our Text tool. Drag and drop your `.OTF` or `.TTF` file into the editor, or use the plus button next to the Font section.
-
-## Updating image assets
 
 
-You can make updates to your images after they've been imported.
-
-Do this by selecting the image in the Assets Panel; the asset's properties appear in the Inspector, and a "Replace" button will be available for raster assets (PNG, JPG, PSD).
-
-Hit the replace button, and when prompted, select the updated image. You'll notice that this updates all instances of the graphic used in the file.
-
-## Supported formats
-
-Rive supports importing SVG (see limitations below), JSON, PNG, PSD, and JPG formats.
-
-#### Copy and paste directly from Figma
-
-You can use "copy as SVG" and paste it directly into the Rive editor.
-
-![Image](https://ucarecdn.com/ec7e980c-ea0a-4147-96df-f29b7dc2be2c/)
-
-#### Import Lottie file
-
-<Note>
-  Importing Lottie files is available on the Enterprise plan. [Learn more about our plans and pricing](https://rive.app/pricing?utm_source=docs&utm_medium=content).
-
-  This workflow can introduce risks that vary across customer setups, and implementing them without our guidance can lead to issues in performance, security, or reliability. Helping customers assess and mitigate these risks takes significant time and effort, which is why this level of support is only available on Enterprise.
-</Note>
-
-You can import your Lottie animations into Rive. To get started, drag and drop your Lottie JSON file into the Rive editor. This adds it to your Assets panel.
-
-![Image](/images/editor/fundamentals/12a13a71-d5d0-4ed2-a1b1-2fe49bbbb9df.webp)
-
-From there, you can drag it into an existing Artboard or drag it into an empty space to create a new Artboard.
-
-![Image](/images/editor/fundamentals/49c02a1d-18d9-4937-8ea1-bad52ba9ce4e.webp)
-
-<Note>If you run into issues at runtime, you may need to convert any `Plus`, `Add`, or `Hard Mix` layer blend modes to a blend mode supported by the Rive runtimes.</Note>
 
 ## SVG Tips
 
@@ -68,14 +21,6 @@ When exporting from other design tools, look for the option to retain the IDs an
 ### Photoshop
 
 <YouTube id="Mlo9mQBUaTE" />
-
-When exporting from Photoshop, make sure you're only using vector layers. Don't convert or flatten anything to raster.
-
-### Illustrator
-
-When using "Save As" to export an SVG from Illustrator, set the CSS Properties in the SVG Options to "Presentation Attributes" instead of the default setting. Similarly, when using "Export As" to export an SVG from Illustrator, set Styling to "Presentation Attributes" in the SVG Options. Note that Illustrator uses the "Export As" SVG Options when copying directly from Illustrator, so if you are copy-pasting from Illustrator to the Rive editor, be sure to set Styling to "Presentation Attributes" in the SVG Options.
-
-Additionally, disable the "Preserve Illustrator Editing Capabilities" option, as this will make your file much larger and add data that our importer does not recognize.
 
 ### Known Issues
 
