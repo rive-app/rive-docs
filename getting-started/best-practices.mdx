@@ -45,12 +45,6 @@ For the smallest image file size and best performance, we recommend exporting as
 
 Be efficient with the number of vertices in your vector image. While a few extra vertices won’t have much of an impact, thousands might. Be especially careful when importing vectors that were generated with AI, converted from raster images, or were created in drawing apps.
 
-### Importing Lottie Files
-
-While Rive provides a Lottie converter for easy .riv file export, recreating graphics and animations directly in Rive often results in significantly smaller file sizes. If you're importing a Lottie file, you can further reduce the .riv file size by converting images from PNG to WebP and choosing to export only the necessary glyphs for font files. Additionally, you can [load assets out of band](#out-of-band-assets) to reuse fonts and images across multiple .riv files, optimizing storage.
-
-Working directly in Rive is generally preferable as it allows for file optimization based on your animation requirements. For instance, using bones and constraints to create rigs will result in fewer keys in the animation compared to converting directly from Lottie.
-
 ### Layer Blend Modes for Web
 
 Blend modes are particularly expensive on the web because WebGL doesn’t expose mechanisms for accessing the framebuffer. To apply a blend mode, Rive must copy rendered pixels into a separate texture before compositing, which introduces significant performance and memory overhead.
