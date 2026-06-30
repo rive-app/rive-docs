@@ -21,7 +21,6 @@ import Enums from "/snippets/runtimes/data-binding/enums.mdx"
 
 import { YouTube } from "/snippets/youtube.mdx";
 import { Demos } from "/snippets/demos.jsx";
-import { Apple } from "/snippets/constants.mdx"
 
 <Overview />
 
@@ -30,7 +29,7 @@ import { Apple } from "/snippets/constants.mdx"
 <ViewModels />
 
 <Tabs>
-    <Tab title={Apple.currentRuntimeName}>
+    <Tab title={"{{runtimeCurrentNameApple}}"}>
     View models are not their own type; rather, they are a source when creating a view model instance from a `File`.
 
     You can define the source of a view model via the `ViewModelSource` type.
@@ -42,7 +41,7 @@ import { Apple } from "/snippets/constants.mdx"
 
     These sources are used in conjunction with getting a view model instance. See [View Model Instances](#view-model-instances) for more information.
     </Tab>
-    <Tab title={Apple.legacyRuntimeName}>
+    <Tab title={"{{runtimeLegacyNameApple}}"}>>
     ```swift
     let riveViewModel = RiveViewModel(...)
     let file = riveViewModel.riveModel!.riveFile
@@ -65,7 +64,7 @@ import { Apple } from "/snippets/constants.mdx"
 <ViewModelInstances />
 
 <Tabs>
-    <Tab title={Apple.currentRuntimeName}>
+    <Tab title={"{{runtimeCurrentNameApple}}"}>
         The following section assumes that you have read through the [Apple](/runtimes/apple/apple) overview.
 
         ```swift
@@ -90,7 +89,7 @@ import { Apple } from "/snippets/constants.mdx"
         namedInstance = try await file.createViewModelInstance(.name("Instance", from: .artboardDefault(Artboard)))
         ```
     </Tab>
-        <Tab title={Apple.legacyRuntimeName}>
+        <Tab title={"{{runtimeLegacyNameApple}}"}>>
         ```swift
         let riveViewModel = RiveViewModel(...)
         let viewModel = riveViewModel.riveModel!.riveFile.viewModelNamed("...")!
@@ -117,7 +116,7 @@ import { Apple } from "/snippets/constants.mdx"
 <Binding />
 
 <Tabs>
-    <Tab title={Apple.currentRuntimeName}>
+    <Tab title={"{{runtimeCurrentNameApple}}"}>
         Given the following example code:
         ```swift
         let file: File = ...
@@ -141,7 +140,7 @@ import { Apple } from "/snippets/constants.mdx"
         var rive = try await Rive(file: file, artboard: artboard, stateMachine: stateMachine, dataBind: .none)
         ```
     </Tab>
-    <Tab title={Apple.legacyRuntimeName}>
+    <Tab title={"{{runtimeLegacyNameApple}}"}>>
         ```swift
         let riveViewModel = RiveViewModel(...)
         let artboard = riveViewModel.riveModel!.artboard,
@@ -160,7 +159,7 @@ import { Apple } from "/snippets/constants.mdx"
 <AutoBinding />
 
 <Tabs>
-    <Tab title={Apple.currentRuntimeName}>
+    <Tab title={"{{runtimeCurrentNameApple}}"}>
         Given the following example code:
         ```swift
         let file: File = ...
@@ -177,7 +176,7 @@ import { Apple } from "/snippets/constants.mdx"
         var rive = try await Rive(file: file, artboard: artboard, stateMachine: stateMachine)
         ```
     </Tab>
-    <Tab title={Apple.legacyRuntimeName}>
+    <Tab title={"{{runtimeLegacyNameApple}}"}>>
         ```swift
         let riveViewModel = RiveViewModel(...)
         riveViewModel.riveModel?.enableAutoBind { instance in
@@ -196,7 +195,7 @@ import { Apple } from "/snippets/constants.mdx"
 <ListingProperties />
 
 <Tabs>
-    <Tab title={Apple.currentRuntimeName}>
+    <Tab title={"{{runtimeCurrentNameApple}}"}>
         ```swift
         let file: File = ...
         let properties = try await file.getProperties(of: "ViewModel")
@@ -207,7 +206,7 @@ import { Apple } from "/snippets/constants.mdx"
         }
         ```
     </Tab>
-    <Tab title={Apple.legacyRuntimeName}>
+    <Tab title={"{{runtimeLegacyNameApple}}"}>>
         ```swift
         let riveViewModel = RiveViewModel(...)
         let viewModel = riveViewModel.riveModel!.file.viewModelNamed(...)!
@@ -222,7 +221,7 @@ import { Apple } from "/snippets/constants.mdx"
 <ReadingAndWritingProperties />
 
 <Tabs>
-    <Tab title={Apple.currentRuntimeName}>
+    <Tab title={"{{runtimeCurrentNameApple}}"}>
         Property types are a very thin wrapper around the path and return type of a property.
 
         All property APIs (e.g setters, getters, and triggers) are available as part of a `ViewModelInstance` object.
@@ -283,7 +282,7 @@ import { Apple } from "/snippets/constants.mdx"
             ```
         </CodeGroup>
     </Tab>
-    <Tab title={Apple.legacyRuntimeName}>
+    <Tab title={"{{runtimeLegacyNameApple}}"}>>
         ```swift
         let riveViewModel = RiveViewModel(...)
 
@@ -361,12 +360,12 @@ import { Apple } from "/snippets/constants.mdx"
 <NestedPropertyPaths />
 
 <Tabs>
-    <Tab title={Apple.currentRuntimeName}>
+    <Tab title={"{{runtimeCurrentNameApple}}"}>
         Property types are no longer reference types, and require the name or full path to a property when initializing the property value type. There is no longer an API to chain nested properties.
 
         See [Properties](#properties) for usage details.
     </Tab>
-    <Tab title={Apple.legacyRuntimeName}>
+    <Tab title={"{{runtimeLegacyNameApple}}"}>>
         ```swift
         let riveViewModel = RiveViewModel(...)
 
@@ -394,7 +393,7 @@ import { Apple } from "/snippets/constants.mdx"
 <Observability />
 
 <Tabs>
-    <Tab title={Apple.currentRuntimeName}>
+    <Tab title={"{{runtimeCurrentNameApple}}"}>
         Property listeners utilize Swift Concurrency's async throwing stream API. If a property returns a value, you can listen to its changes by calling the `valueStream(of:)` method on a `ViewModelInstance` object.
 
         ```swift
@@ -433,7 +432,7 @@ import { Apple } from "/snippets/constants.mdx"
         }
         ```
     </Tab>
-    <Tab title={Apple.legacyRuntimeName}>
+    <Tab title={"{{runtimeLegacyNameApple}}"}>>
         ```swift
         let riveViewModel = RiveViewModel(...)
 
@@ -470,7 +469,7 @@ import { Apple } from "/snippets/constants.mdx"
 <Images />
 
 <Tabs>
-    <Tab title={Apple.currentRuntimeName}>
+    <Tab title={"{{runtimeCurrentNameApple}}"}>
         To set an image, you first need to decode an image from a `Worker`. This has to be the `Worker` that was used when initializing a `File`, from which you are setting the image property of a view model instance.
 
         ```swift
@@ -483,7 +482,7 @@ import { Apple } from "/snippets/constants.mdx"
         viewModelInstance.setValue(of: imageProperty, to: image)
         ```
     </Tab>
-    <Tab title={Apple.legacyRuntimeName}>
+    <Tab title={"{{runtimeLegacyNameApple}}"}>>
         ```swift
         let riveViewModel = RiveViewModel(...)
 
@@ -519,7 +518,7 @@ import { Apple } from "/snippets/constants.mdx"
 <Lists />
 
 <Tabs>
-    <Tab title={Apple.currentRuntimeName}>
+    <Tab title={"{{runtimeCurrentNameApple}}"}>
         ```swift
         let file: File = ...
         let viewModelInstance = try await file.createViewModelInstance(...)
@@ -551,7 +550,7 @@ import { Apple } from "/snippets/constants.mdx"
         let size = try await viewModelInstance.size(of: listProperty)
         ```
     </Tab>
-    <Tab title={Apple.legacyRuntimeName}>
+    <Tab title={"{{runtimeLegacyNameApple}}"}>>
         ```swift
         let listProperty = viewModelInstance.listProperty(fromPath: "list")!
 
@@ -579,7 +578,7 @@ import { Apple } from "/snippets/constants.mdx"
 <Artboards />
 
 <Tabs>
-    <Tab title={Apple.currentRuntimeName}>
+    <Tab title={"{{runtimeCurrentNameApple}}"}>
     ```swift
     let file: File = ...
     let viewModelInstance = try await file.createViewModelInstance(...)
@@ -588,7 +587,7 @@ import { Apple } from "/snippets/constants.mdx"
     viewModelInstance.setValue(of: artboardProperty, to: artboard)
     ```
     </Tab>
-    <Tab title={Apple.legacyRuntimeName}>
+    <Tab title={"{{runtimeLegacyNameApple}}"}>>
         Use the `artboardProperty` method on a `RiveDataBindingViewModel.Instance` object to get the artboard property.
 
         Then use the `setValue` method on the artboard property object to set the new artboard value.

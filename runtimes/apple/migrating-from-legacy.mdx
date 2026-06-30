@@ -4,8 +4,6 @@ sidebarTitle: "Migrating from Legacy"
 description: "A guide to help you transition from the legacy Rive Apple runtime to the new runtime."
 ---
 
-import { Apple } from "/snippets/constants.mdx"
-
 ## Overview
 
 The [new Rive Apple runtime](/runtimes/apple/apple) is a **near-complete rewrite** of both the public API and the internal architecture. While conceptually most operations have an equivalent, the two APIs are incompatible. Any existing work in the legacy API that you would like to migrate must be rebuilt using the new API.
@@ -96,7 +94,7 @@ Use the sections below as a migration map: [Loading a File from Disk](#loading-a
 
 ### Loading a File from Disk
 
-#### {Apple.legacyRuntimeName}
+#### {{runtimeLegacyNameApple}}
 
 ```swift
 // Cache this file for reuse
@@ -105,7 +103,7 @@ let model = RiveModel(riveFile: file)
 let viewModel = RiveViewModel(model)
 ```
 
-#### {Apple.currentRuntimeName}
+#### {{runtimeCurrentNameApple}}
 
 ```swift
 let worker = try await WorkerProvider.shared.worker()
@@ -115,7 +113,7 @@ let rive = try await Rive(file: file)
 
 ### Loading a File from URL
 
-#### {Apple.legacyRuntimeName}
+#### {{runtimeLegacyNameApple}}
 
 ```swift
 let webURL = URL(string: "https://example.com/my_rive_file.riv")!
@@ -124,7 +122,7 @@ let model = RiveModel(riveFile: file)
 let viewModel = RiveViewModel(model)
 ```
 
-#### {Apple.currentRuntimeName}
+#### {{runtimeCurrentNameApple}}
 
 ```swift
 let worker = try await WorkerProvider.shared.worker()
@@ -138,7 +136,7 @@ let rive = try await Rive(file: file)
 
 ### Loading a File from Data (Bytes)
 
-#### {Apple.legacyRuntimeName}
+#### {{runtimeLegacyNameApple}}
 
 ```swift
 let data: Data = ...
@@ -147,7 +145,7 @@ let model = RiveModel(riveFile: file)
 let viewModel = RiveViewModel(model)
 ```
 
-#### {Apple.currentRuntimeName}
+#### {{runtimeCurrentNameApple}}
 
 Use the `.data` file source when your `.riv` bytes are already available in memory.
 
@@ -165,7 +163,7 @@ For common setup operations (loading files, creating artboards, creating state m
 - Legacy runtime: many lookup APIs return optionals (`nil` on failure), so handle with `guard let` / fallback logic.
 - New runtime: APIs throw errors, so use `do/catch`.
 
-#### {Apple.legacyRuntimeName}
+#### {{runtimeLegacyNameApple}}
 
 Legacy APIs commonly return `nil` for lookup/create-style operations:
 
@@ -183,7 +181,7 @@ guard let stateMachine = artboard.defaultStateMachine() else {
 }
 ```
 
-#### {Apple.currentRuntimeName}
+#### {{runtimeCurrentNameApple}}
 
 New runtime APIs throw errors, so failure handling moves to `do/catch`:
 
@@ -211,7 +209,7 @@ This pattern applies equally in UIKit and SwiftUI. The key migration change is o
   For more information, see state machines documentation for more details.
 </Card>
 
-#### {Apple.legacyRuntimeName}
+#### {{runtimeLegacyNameApple}}
 
 ```swift
 let file = try RiveFile(name: "my_rive_file")
@@ -220,7 +218,7 @@ model.setArtboard("My Artboard")
 model.setStateMachine("My State Machine")
 ```
 
-#### {Apple.currentRuntimeName}
+#### {{runtimeCurrentNameApple}}
 
 ```swift
 let worker = try await WorkerProvider.shared.worker()
@@ -232,7 +230,7 @@ let rive = try await Rive(file: file, artboard: artboard, stateMachine: stateMac
 
 ### Creating a Rive View
 
-#### {Apple.legacyRuntimeName}
+#### {{runtimeLegacyNameApple}}
 
 ```swift
 let viewModel = RiveViewModel(...)
@@ -246,7 +244,7 @@ var body: some View {
 }
 ```
 
-#### {Apple.currentRuntimeName}
+#### {{runtimeCurrentNameApple}}
 
 ```swift
 let worker = try await WorkerProvider.shared.worker()
@@ -284,7 +282,7 @@ var body: some View {
   For more information, see the layout docs for all fit and alignment options.
 </Card>
 
-#### {Apple.legacyRuntimeName}
+#### {{runtimeLegacyNameApple}}
 
 ```swift
 let viewModel = RiveViewModel(
@@ -308,7 +306,7 @@ viewModel.layoutScaleFactor = RiveViewModel.layoutScaleFactorAutomatic // defaul
 viewModel.layoutScaleFactor = 2.0
 ```
 
-#### {Apple.currentRuntimeName}
+#### {{runtimeCurrentNameApple}}
 
 ```swift
 let worker = try await WorkerProvider.shared.worker()
@@ -334,11 +332,11 @@ rive.fit = .layout(scaleFactor: .explicit(2.0))
 
 When using layout fit, both runtimes support automatic and explicit scale factors.
 
-#### {Apple.legacyRuntimeName}
+#### {{runtimeLegacyNameApple}}
 
 Use `RiveViewModel.layoutScaleFactorAutomatic` (default) or set an explicit numeric value on `layoutScaleFactor`.
 
-#### {Apple.currentRuntimeName}
+#### {{runtimeCurrentNameApple}}
 
 Use `.layout(scaleFactor: .automatic)` or `.layout(scaleFactor: .explicit(...))` on `Rive.fit`.
 
@@ -348,7 +346,7 @@ Use `.layout(scaleFactor: .automatic)` or `.layout(scaleFactor: .explicit(...))`
   For more information, see the data binding docs for complete view model instance APIs.
 </Card>
 
-#### {Apple.legacyRuntimeName}
+#### {{runtimeLegacyNameApple}}
 
 In legacy, view models are queried from `RiveFile`, then instances are created from that queried view model.
 
@@ -366,7 +364,7 @@ let defaultInstance = viewModel.createDefaultInstance()
 let namedInstance = viewModel.createInstance(fromName: "My Instance")
 ```
 
-#### {Apple.currentRuntimeName}
+#### {{runtimeCurrentNameApple}}
 
 In the new runtime, the view model is represented as source metadata passed directly into `createViewModelInstance`.
 
@@ -397,7 +395,7 @@ let defaultFromArtboard = try await file.createViewModelInstance(
 
 ### View Model Instance Properties
 
-#### {Apple.legacyRuntimeName}
+#### {{runtimeLegacyNameApple}}
 
 Legacy data-binding instances expose typed property objects that you query from the instance.
 
@@ -419,7 +417,7 @@ stringProperty.value = "Hello, Rive"
 let currentValue = stringProperty.value
 ```
 
-#### {Apple.currentRuntimeName}
+#### {{runtimeCurrentNameApple}}
 
 The new runtime uses typed path descriptors with methods on `ViewModelInstance` for set/get/observe.
 
@@ -447,7 +445,7 @@ for try await updatedValue in valueStream {
 
 ### Bindable Artboards
 
-#### {Apple.legacyRuntimeName}
+#### {{runtimeLegacyNameApple}}
 
 Legacy artboard property binding uses a bindable artboard wrapper type.
 
@@ -465,7 +463,7 @@ guard let bindableArtboard = components.bindableArtboard(withName: "My Artboard"
 artboardProperty.setValue(bindableArtboard)
 ```
 
-#### {Apple.currentRuntimeName}
+#### {{runtimeCurrentNameApple}}
 
 The new runtime binds artboards with a typed property descriptor and `setValue` on the instance.
 
@@ -485,7 +483,7 @@ viewModelInstance.setValue(of: artboardProperty, to: artboard)
   For more information, see the data binding docs for full API coverage.
 </Card>
 
-#### {Apple.legacyRuntimeName}
+#### {{runtimeLegacyNameApple}}
 
 ```swift
 let file = try RiveFile(...)
@@ -507,7 +505,7 @@ guard let instance = viewModel.createDefaultInstance() else { return }
 stateMachine.bindViewModelInstance(instance) // bound successfully
 ```
 
-#### {Apple.currentRuntimeName}
+#### {{runtimeCurrentNameApple}}
 
 ```swift
 let worker = try await WorkerProvider.shared.worker()
@@ -538,7 +536,7 @@ Best practice for migration: if you need initial values, set them **before** cre
 
 This avoids showing default values for a frame before your app-provided values are applied.
 
-#### {Apple.legacyRuntimeName}
+#### {{runtimeLegacyNameApple}}
 
 When updating a bound value after the view is created, keep a reference to the instance and call `play()` after mutation:
 
@@ -556,7 +554,7 @@ instance?.stringProperty(fromPath: "path/to/string")?.value = "Updated Value"
 viewModel.play() // Required to advance/unsettle after mutation
 ```
 
-#### {Apple.currentRuntimeName}
+#### {{runtimeCurrentNameApple}}
 
 In the new runtime, update the bound value after the view is created. No explicit `play()` call is needed.
 
@@ -578,14 +576,14 @@ instance.setValue(of: property, to: "Updated Value") // Applies without play()
   For more information, see playback controls in the Apple runtime guide.
 </Card>
 
-#### {Apple.legacyRuntimeName}
+#### {{runtimeLegacyNameApple}}
 
 ```swift
 let viewModel = RiveViewModel(fileName: "...")
 viewModel.pause() // or play() to resume
 ```
 
-#### {Apple.currentRuntimeName}
+#### {{runtimeCurrentNameApple}}
 
 ```swift
 let rive = try await Rive(...)
@@ -603,14 +601,14 @@ RiveUIViewRepresentable(rive)
   For more information, see frame rate controls and ProMotion notes.
 </Card>
 
-#### {Apple.legacyRuntimeName}
+#### {{runtimeLegacyNameApple}}
 
 ```swift
 let viewModel = RiveViewModel(fileName: "...")
 viewModel.setPreferredFramesPerSecond(preferredFramesPerSecond: 30)
 ```
 
-#### {Apple.currentRuntimeName}
+#### {{runtimeCurrentNameApple}}
 
 ```swift
 let rive = try await Rive(...)
@@ -624,7 +622,7 @@ riveView.frameRate = .default
 
 ### Loading Referenced Assets
 
-#### {Apple.legacyRuntimeName}
+#### {{runtimeLegacyNameApple}}
 
 The legacy runtime uses a pull model via a callback that resolves assets on demand.
 
@@ -648,7 +646,7 @@ let viewModel = RiveViewModel(fileName: "my_rive_file") { asset, _, factory in
 }
 ```
 
-#### {Apple.currentRuntimeName}
+#### {{runtimeCurrentNameApple}}
 
 The new runtime uses a push model, where assets are registered on the worker ahead of use.
 
@@ -670,7 +668,7 @@ worker.addGlobalAudioAsset(audio, name: "MyAudio-1234")
   For more information, see the logging guide for shared concepts and filtering options.
 </Card>
 
-#### {Apple.legacyRuntimeName}
+#### {{runtimeLegacyNameApple}}
 
 ```swift
 RiveLogger.isEnabled = true
@@ -679,7 +677,7 @@ RiveLogger.categories = [.stateMachine, .artboard, .viewModel]
 RiveLogger.isVerbose = true
 ```
 
-#### {Apple.currentRuntimeName}
+#### {{runtimeCurrentNameApple}}
 
 ```swift
 RiveLog.logger = RiveLog.system(levels: .default)
