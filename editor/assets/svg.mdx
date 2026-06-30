@@ -1,0 +1,55 @@
+---
+title: 'SVG & Vector Assets'
+description: 'Import and customize fonts.'
+---
+
+SVG is one of the easiest ways to bring existing vector artwork into Rive.
+
+When you import an SVG, Rive converts the SVG into native Rive vector objects. After import, the artwork is no longer an SVG—it becomes editable shapes, paths, fills, strokes, and groups that behave like any artwork created directly in Rive.
+
+
+## Importing SVG Files
+
+You can import SVG files or copy vector artwork from design tools like Figma and Illustrator.
+
+For general importing steps, see [Assets overview](/editor/assets/overview).
+
+### Importing from Figma
+
+You can use **Copy as SVG** and paste it directly into the Rive editor.
+
+![Copy as SVG from Figma](https://ucarecdn.com/ec7e980c-ea0a-4147-96df-f29b7dc2be2c/)
+
+### Importing from Illustrator
+
+When exporting or copying SVGs from Illustrator, use **Presentation Attributes** for styling.
+
+* If you use **Save As**, open **SVG Options** and set **CSS Properties** to **Presentation Attributes**.
+* If you use **Export As**, open **SVG Options** and set **Styling** to **Presentation Attributes**.
+* If you copy and paste directly from Illustrator into Rive, Illustrator uses the **Export As SVG** options, so make sure Styling is set to **Presentation Attributes** there.
+
+Also disable **Preserve Illustrator Editing Capabilities**. This adds extra Illustrator data that can make the SVG much larger and may include data Rive’s importer does not recognize.
+
+## Export Behavior
+
+SVG assets only use **Automatic** export behavior.
+
+Rive converts SVGs into native vector objects before runtime export. The original SVG file is not included in the `.riv`, and runtimes do not currently convert SVG assets at runtime.
+
+## Unsupported Features
+
+Most SVG artwork imports without issue, but some SVG features do not have direct equivalents in Rive and are imported differently or ignored.
+
+| SVG Feature | Import Behavior |
+| --- | --- |
+| Embedded images | Ignored. |
+| Gradient transforms | Ignored. Linear and radial gradients are still supported. |
+| `stroke-dasharray` | Imported as a solid stroke. |
+| `mask` | Imported as clipping. |
+| `filter` | Not supported. |
+| `skew` transforms | Not supported. |
+| Inherited fills and strokes (`inherit`) | Inherited colors default to white. |
+
+<Note>
+If your artwork relies on unsupported SVG features, consider converting them to editable paths in your design tool before importing into Rive.
+</Note>
