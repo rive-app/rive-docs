@@ -8,11 +8,9 @@ import WebWarning from "/snippets/runtimes/playing-audio/web-warning.mdx"
 import EmbeddedAssets from "/snippets/runtimes/playing-audio/embedded-assets.mdx"
 import ReferencedAssets from "/snippets/runtimes/playing-audio/referenced-assets.mdx"
 
-<Overview />
+import { Apple } from "/snippets/constants.mdx"
 
-<Warning>
-    This feature is currently only supported in the Legacy Runtime.
-</Warning>
+<Overview />
 
 <EmbeddedAssets />
 
@@ -35,8 +33,34 @@ AVAudioSession.sharedInstance().setCategory(category, options: options)
 
 An artboard is capable of setting its volume. A parent artboard will set the volume of all component instances; however, setting a component's volume will **not** update the parent's volume.
 
-```swift IOS
-// Set the current artboard's volume to 50%
-let viewModel = RiveViewModel(fileName: "my_rive_file")
-viewModel.riveModel?.volume = 0.5
-```
+<Tabs>
+  <Tab title={Apple.currentRuntimeName}>
+  Once you have created an `Artboard`, you can set its volume with `setVolume(_:)` and read the current volume with `volume()`. Volume is propagated to all nested artboards.
+
+  ```swift
+  let worker = try await Worker()
+  let file = try await File(source: .local("my_rive_file", Bundle.main), worker: worker)
+  let artboard = try await file.createArtboard()
+
+  // `setVolume(_:)` is a @MainActor method on `Artboard`.
+  // Set the artboard's volume to 50% (0.0 = muted, 1.0 = full volume)
+  artboard.setVolume(0.5)
+
+  // `volume()` is a @MainActor async throwing method that throws
+  // an `ArtboardError` if the request fails.
+  do {
+      let volume = try await artboard.volume()
+      print("Current volume: \(volume)")
+  } catch let error as ArtboardError {
+      print("Failed to read volume: \(error)")
+  }
+  ```
+  </Tab>
+  <Tab title={Apple.legacyRuntimeName}>
+  ```swift
+  // Set the current artboard's volume to 50%
+  let viewModel = RiveViewModel(fileName: "my_rive_file")
+  viewModel.riveModel?.volume = 0.5
+  ```
+  </Tab>
+</Tabs>
