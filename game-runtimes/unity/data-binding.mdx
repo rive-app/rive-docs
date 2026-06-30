@@ -18,9 +18,9 @@ import Lists from "/snippets/runtimes/data-binding/lists.mdx"
 import Artboards from "/snippets/runtimes/data-binding/artboards.mdx"
 import Enums from "/snippets/runtimes/data-binding/enums.mdx"
 
-
-import { YouTube } from "/snippets/youtube.mdx";
-import { Demos } from "/snippets/demos.jsx";
+import ExperimentalFeature from "/snippets/experimental-feature.mdx"
+import { YouTube } from "/snippets/youtube.mdx"
+import { Demos } from "/snippets/demos.jsx"
 
 <Overview />
 
@@ -461,8 +461,241 @@ private void OnDestroy()
     }
 }
 ```
-
 For a demo of image data binding in Unity, see the **Image Data Binding** scene in the [Rive Unity Examples repository](https://github.com/rive-app/rive-unity-examples).
+
+### Render Textures
+<ExperimentalFeature />
+
+The examples above use `ImageOutOfBandAsset` to bind static raster images loaded from disk. Use `RenderTextureImageSource` when the image comes from a live Unity `RenderTexture` instead, such as `VideoPlayer` output, a camera render target, or custom GPU content you change each frame.
+
+`RenderTextureImageSource` wraps the texture as a native Rive image and binds it to a view model image property through `SetFromRenderTextureImageSource`. Once bound, the runtime keeps the visuals up to date for you.
+
+The example below binds a `VideoPlayer` render target to a view model image property named `"video"`. Wait until the Rive widget is loaded before binding, then call `SetFromRenderTextureImageSource` once. The runtime handles per-frame updates after that.
+
+```csharp
+#if RIVE_USING_EXPERIMENTAL
+using System.Collections;
+using UnityEngine;
+using UnityEngine.Video;
+using Rive;
+using Rive.Components;
+
+public class VideoImageBinding : MonoBehaviour
+{
+    [SerializeField] private RiveWidget riveWidget;
+    [SerializeField] private RenderTexture videoTexture;
+    [SerializeField] private string viewModelImagePath = "video";
+    [SerializeField] private VideoPlayer videoPlayer;
+
+    [Tooltip("How the video is adapted before Rive samples it.")]
+    [SerializeField]
+    private RenderTextureImageSource.TextureProcessingMode processingMode =
+        RenderTextureImageSource.TextureProcessingMode.Auto;
+
+    private RenderTextureImageSource renderTextureSource;
+
+    private void Start()
+    {
+        if (videoTexture == null || riveWidget == null || videoPlayer == null)
+        {
+            Debug.LogWarning("Assign videoTexture, riveWidget, and videoPlayer in the Inspector.");
+            return;
+        }
+
+        videoPlayer.renderMode = VideoRenderMode.RenderTexture;
+        videoPlayer.targetTexture = videoTexture;
+        videoPlayer.prepareCompleted += OnVideoPrepared;
+        videoPlayer.Prepare();
+    }
+
+    private void OnVideoPrepared(VideoPlayer source)
+    {
+        StartCoroutine(BindAndPlay());
+    }
+
+    private IEnumerator BindAndPlay()
+    {
+        while (riveWidget.Status != WidgetStatus.Loaded ||
+               riveWidget.StateMachine == null)
+        {
+            yield return null;
+        }
+
+        ViewModelInstance viewModelInstance = riveWidget.StateMachine.ViewModelInstance;
+        if (viewModelInstance == null)
+        {
+            Debug.LogWarning("No ViewModelInstance on the widget.");
+            yield break;
+        }
+
+        ViewModelInstanceImageProperty imageProperty =
+            viewModelInstance.GetImageProperty(viewModelImagePath);
+        if (imageProperty == null)
+        {
+            Debug.LogWarning($"Image property '{viewModelImagePath}' not found.");
+            yield break;
+        }
+
+        renderTextureSource = new RenderTextureImageSource(videoTexture, processingMode);
+        imageProperty.SetFromRenderTextureImageSource(renderTextureSource);
+        videoPlayer.Play();
+    }
+
+    private void OnDestroy()
+    {
+        if (videoPlayer != null)
+        {
+            videoPlayer.prepareCompleted -= OnVideoPrepared;
+            videoPlayer.Stop();
+            videoPlayer.targetTexture = null;
+        }
+
+        renderTextureSource?.Dispose();
+    }
+}
+#endif
+```
+
+#### When to use it
+
+| Approach | Use when |
+| --- | --- |
+| `ImageOutOfBandAsset` | You have a static image file (PNG, JPG, WebP, etc.) loaded at runtime |
+| `RenderTextureImageSource` | You already have a Unity `RenderTexture` whose contents change over time |
+
+Both APIs bind to the same view model image property type. A property can only be driven by one source at a time. Assigning an `ImageOutOfBandAsset` through `Value` automatically unbinds an active render-texture source, and vice versa.
+
+#### Requirements and limitations
+
+The source must be a stable, user-allocated 2D `RenderTexture`. Do not use transient RenderGraph resources. Their backing memory can be reused and produce stale samples or crashes.
+
+Supported source formats:
+
+* Single-sample, non-MSAA
+* 2D only (not cube, array, or 3D)
+* Created and kept alive for as long as the binding is active
+
+Supported graphics backends:
+
+| Backend | Supported |
+| --- | --- |
+| Metal | Yes |
+| Direct3D 11 | Yes |
+| Direct3D 12 | Yes |
+| Vulkan | Yes |
+| OpenGL / WebGL | No |
+
+On unsupported backends, binding safe-fails: the property stays empty and an error is logged.
+
+Rive composites through an 8-bit internal render target, so HDR source values above 1.0 are clamped at the Rive layer.
+
+#### Texture processing
+
+Unity backends differ in whether render texture texels are stored top-down or bottom-up. In Linear color space projects, Unity may also hand Rive gamma-encoded values that get decoded twice when the panel composites.
+
+To avoid requiring every project to handle these fixes manually, the default `TextureProcessingMode.Auto` blits through an owned intermediate render texture and applies a flip and/or gamma re-encode only when the active backend or project settings actually need it.
+
+| Mode | Behavior |
+| --- | --- |
+| `Auto` | Apply orientation and color fixes when needed. This is the default processing mode. |
+| `Orientation` | Flip upside-down textures on backends that store texels top-down. Leave color alone. |
+| `Color` | Re-encode to gamma in Linear projects so colors composite correctly. Leave orientation alone. |
+| `None` | Bind the source render texture directly with no intermediate blit. Use this when your texture is already correctly oriented and encoded. |
+
+```csharp
+// Default: let the runtime decide what processing is needed
+var source = new RenderTextureImageSource(renderTexture);
+
+// Opt out when you already produce a correctly oriented, correctly encoded texture
+var directSource = new RenderTextureImageSource(
+    renderTexture,
+    RenderTextureImageSource.TextureProcessingMode.None);
+```
+
+#### Refresh behavior
+
+`RenderTextureImageSource` controls how often the bound image property is updated from the source texture.
+
+| Mode | Behavior |
+| --- | --- |
+| `PerFrame` | Rebuild and re-push every frame. This is the default refresh mode. Use for live sources such as video or camera output. |
+| `Manual` | Update only when you call `Refresh()`. Use for snapshots, baked textures, or content that isn't updated very often. |
+
+```csharp
+// Live source (default)
+var liveSource = new RenderTextureImageSource(
+    renderTexture,
+    refreshMode: RenderTextureImageSource.RefreshMode.PerFrame);
+
+// Snapshot / on-demand source
+var snapshotSource = new RenderTextureImageSource(
+    renderTexture,
+    refreshMode: RenderTextureImageSource.RefreshMode.Manual);
+
+// After writing new content into the render texture:
+snapshotSource.Refresh();
+```
+
+#### Clearing and switching images
+
+To clear a render-texture-backed image:
+
+```csharp
+imageProperty.SetFromRenderTextureImageSource(null);
+```
+
+To switch back to a regular image asset:
+
+```csharp
+imageAsset.Load();
+imageProperty.Value = imageAsset;
+```
+
+Assigning `Value` automatically detaches any active `RenderTextureImageSource` binding on that property.
+
+#### Lifecycle and teardown
+
+While a `RenderTextureImageSource` is bound to at least one image property, the runtime keeps it alive and updating.
+
+When you are done with a source, call `Dispose()` to stop updates and release any intermediate GPU resources owned by Rive.
+
+##### Recommended teardown order
+
+`RenderTextureImageSource` does not own your `RenderTexture`. When shutting down, use this order:
+
+1. **Stop producers.** Stop or disconnect anything still writing into the texture (`VideoPlayer`, camera, custom blit loop, etc.).
+2. **Unbind and dispose the image source.** Call `Dispose()` on the `RenderTextureImageSource`, or call `SetFromRenderTextureImageSource(null)` and then `Dispose()`.
+3. **Release your render texture (if you created it).** If you allocated the `RenderTexture` at runtime, call `Release()` and then `Destroy()` on it.
+
+```csharp
+private void OnDestroy()
+{
+    // 1. Stop writing into the texture
+    if (videoPlayer != null)
+    {
+        videoPlayer.Stop();
+        videoPlayer.targetTexture = null;
+    }
+
+    // 2. Unbind and dispose the Rive image source
+    renderTextureSource?.Dispose();
+    renderTextureSource = null;
+
+    // 3. Only if you created the RenderTexture at runtime
+    if (ownsRenderTexture && renderTexture != null)
+    {
+        renderTexture.Release();
+        Destroy(renderTexture);
+    }
+}
+```
+
+<Note>
+  If your `RenderTexture` is a project asset assigned in the Inspector (as in the video example above), you only need steps 1 and 2. Do not call `Destroy()` on shared or asset-backed render textures.
+</Note>
+
+Destroying or releasing the source texture before step 2 is tolerated (the bound property clears on the next tick), but disposing the image source first is the safer path. It avoids Rive attempting to wrap a texture that is already being released.
+
 
 <Lists />
 

@@ -4,8 +4,9 @@ Welcome to the official repository for Rive's documentation, available at [https
 
 We welcome any and all external contributions.
 
-## How to contribute
+Before you start making any changes, check out the [STYLEGUIDE.md](./STYLEGUIDE.md).
 
+## How to contribute
 
 ### 1. Find something to work on
 
@@ -68,34 +69,3 @@ Your pull request should include:
 Reviewers will automatically be assigned following the assignments in [CODEOWNERS](/.github/CODEOWNERS).
 
 After your pull request is approved, the Rive team will merge it. Commits are squashed when merging, so make sure your pull request title clearly summarizes the full change.
-
-## Best Practices
-
-### Images
-
-When adding images, add them to the `images` folder, in a subdirectory similar to the file structure for documentation.
-
-When embedding images, make sure to add descriptive [alt-text](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#images).
-
-**Example Image Directories:**
-
-- All runtimes: `images/runtimes/my-image.jpg`
-- All game runtimes: `images/game-runtimes/my-image.jpg`
-- iOS: `images/runtimes/apple/my-image.jpg`
-- Android: `images/runtimes/android/my-image.jpg`
-- Web: `images/runtimes/web/my-image.jpg`
-- Unity: `images/game-runtimes/unity/my-image.jpg`
-- Unreal: `images/game-runtimes/unreal/my-image.jpg`
-
-### Links:
-
-When adding links to another page within the documentation, make sure the url is relative to the root.
-
-```js
-// Don't
-[Hierarchy](../editor/interface-overview/hierarchy)
-
-// Do
-[Hierarchy](/editor/interface-overview/hierarchy)
-```
-

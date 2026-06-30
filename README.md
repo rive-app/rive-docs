@@ -4,7 +4,7 @@ Welcome to the official repository for Rive's documentation, available at [https
 
 ## Contributing
 
-We welcome any and all external contributions. For more information, see [CONTRIBUTING.md](./CONTRIBUTING.md).
+We welcome any and all external contributions. For more information, see [CONTRIBUTING.md](./CONTRIBUTING.md) and [STYLEGUIDE.md](./STYLEGUIDE.md).
 
 ## Getting Started
 
