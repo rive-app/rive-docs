@@ -11,19 +11,31 @@ import { Apple } from "/snippets/constants.mdx"
   Have feedback? Join the [Early Access community](https://community.rive.app/c/early-access/) to share your thoughts and help shape the feature.
 </Note>
 
-Semantics describe what the elements of your scene *are* — a button, a checkbox, a tab, an image — so that screen readers can describe and navigate your content. You define semantics in the Rive Editor, and at runtime the {Apple.currentRuntimeName} exposes them to [VoiceOver](https://support.apple.com/guide/iphone/turn-on-and-practice-voiceover-iph3e2e415f/ios).
+This page covers enabling [semantics](/editor/accessibility/semantics) in the {Apple.currentRuntimeName} so your Rive views are accessible to VoiceOver. To learn what semantics are and how to add them to a graphic, see the [Semantics](/editor/accessibility/semantics) editor documentation.
+
+## Overview
+
+You add semantics to the elements of your graphic in the Rive Editor — roles such as button, checkbox, tab, slider, image, link, list, or dialog, along with their labels, values, states, and actions. At runtime, the {Apple.currentRuntimeName} reads those semantics from the running state machine and exposes them to [VoiceOver](https://support.apple.com/guide/iphone/turn-on-and-practice-voiceover-iph3e2e415f/ios) as the view's `accessibilityElements`, keeping them up to date as the state machine advances.
 
 <Warning>
   Semantics are **opt‑in**. The default mode is `.off`, so no accessibility elements are created until you enable semantics on the view.
 </Warning>
 
-<Info>
-  To add roles, properties, traits, and states to your scene, see the [Semantics](/editor/accessibility/semantics) editor documentation. For which runtimes currently support semantics, see [Feature Support](/feature-support).
-</Info>
+<Note>
+  Semantics must be defined in the editor to have any effect. If an element has no semantics, it is not exposed to VoiceOver — regardless of the mode you set. See [Feature Support](/feature-support) for which runtimes currently support semantics.
+</Note>
 
 ## Availability
 
-Semantics in the Apple runtime are available in the {Apple.currentRuntimeName} on all supported Apple platforms **except macOS (AppKit)**. Mac Catalyst *is* supported. They are not available in the {Apple.legacyRuntimeName}.
+Semantics are available in the {Apple.currentRuntimeName} only (not the {Apple.legacyRuntimeName}), on every Apple platform the runtime supports except macOS (AppKit):
+
+| Platform | Supported |
+| --- | --- |
+| iOS / iPadOS | ✅ |
+| tvOS | ✅ |
+| visionOS | ✅ |
+| Mac Catalyst | ✅ |
+| macOS (AppKit) | ❌ |
 
 ## Semantics modes
 
@@ -74,9 +86,3 @@ Set the semantics mode on the view (UIKit) or with the `.semantics(_:)` modifier
     }
     ```
 </CodeGroup>
-
-## How it works
-
-When semantics are enabled, Rive reads the semantic nodes produced by the running state machine and exposes them as the view's `accessibilityElements`. Each node carries a role (such as button, checkbox, tab, slider, image, link, list, or dialog) along with its label, value, state, and any available actions. As the state machine advances, Rive applies per‑frame updates so VoiceOver always reflects the current state of your scene.
-
-Because the accessibility tree is derived from the state machine, make sure your scene's elements have semantics assigned in the editor — without them, there is nothing for VoiceOver to read even when the mode is `.on` or `.automatic`.

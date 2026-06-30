@@ -401,34 +401,7 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
 
 ## Semantics
 
-Rive views can expose [semantics defined in the editor](/editor/accessibility/semantics) to VoiceOver. Semantics are available in the {Apple.currentRuntimeName} only, and are opt-in — the default mode is `.off`, so you enable them by setting a `Semantics` mode on the view.
-
-<CodeGroup>
-    ```swift UIKit
-    let rive = try await Rive(...)
-    let riveView = RiveUIView(rive: rive)
-    riveView.semantics = .automatic
-    ```
-
-    ```swift SwiftUI
-    var body: some View {
-        RiveUIViewRepresentable(rive)
-            .semantics(.automatic)
-    }
-    ```
-
-    ```swift SwiftUI (Async)
-    var body: some View {
-        AsyncRiveUIViewRepresentable {
-            let worker = try await Worker()
-            let file = try await File(source: ..., worker: worker)
-            let rive = try await Rive(file: file)
-            return rive
-        }
-        .semantics(.automatic)
-    }
-    ```
-</CodeGroup>
+Rive views can expose [semantics defined in the editor](/editor/accessibility/semantics) to VoiceOver. Semantics are available in the {Apple.currentRuntimeName} only.
 
 See [Semantics](/runtimes/apple/semantics) for the available modes and more detail.
 
