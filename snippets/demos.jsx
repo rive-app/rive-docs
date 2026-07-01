@@ -11,6 +11,15 @@ export const Demos = ({
   learnByExample = false
 }) => {
   const examplesData = {
+    accessibilityReducedMotion: {
+      title: 'Reduced Motion Example',
+      description: 'Strategies for respecting a user\'s reduced motion preferences.',
+      riv: 'https://static.rive.app/rivs/accessibility_reduced_motion.riv',
+      stateMachines: "State Machine 1",
+      links: {
+        editor: "https://rive.app/community/files/28077-53052-accessibility-reduced-motion"
+      },
+    },
     ikConstraint: {
       title: 'IK Constraints',
       description: 'Check out this example to see IK constraints in action.',
