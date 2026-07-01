@@ -29,6 +29,15 @@ export const Demos = ({
         editor: "https://rive.app/community/files/28080-53039-ik-constraint/",
       }
     },
+    accessibilityReducedMotion: {
+      title: 'Reduced Motion Example',
+      description: 'Strategies for respecting a user\'s reduced motion preferences.',
+      riv: 'https://static.rive.app/rivs/accessibility_reduced_motion.riv',
+      stateMachines: "State Machine 1",
+      links: {
+        editor: "https://rive.app/community/files/28077-53052-accessibility-reduced-motion"
+      },
+    },
     cachingARiveFile: {
       title: 'Caching a Rive File',
       description: 'Load the .riv into memory once, use it multiple times.',

@@ -1,0 +1,71 @@
+---
+title: Audio Assets
+description: Import, clip, and configure audio assets in Rive.
+---
+
+import { VideoEmbed } from '/snippets/video-embed.jsx'
+
+
+## Importing Audio
+
+See [Importing Assets](/editor/fundamentals/assets-overview#importing-assets) for information about importing files, including MP3, WAV, and FLAC files.
+
+### Browse Sounds
+
+Browse Sounds gives you direct access to a free library of over 3,000 sounds from Soundly.
+
+<Steps>
+  <Step>
+    In the Assets panel, click **+** and select **Browse Sounds**.
+  </Step>
+  <Step>
+    In the Sounds panel, search or browse for a sound.
+  </Step>
+  <Step>
+    Preview the sound, then click **+** to add it to the Assets panel.
+  </Step>
+</Steps>
+
+<VideoEmbed src="https://static.rive.app/video/browse-sounds.mp4" />
+
+After adding a sound to the Assets panel, you can use it in an [Audio Event](/editor/events/audio-events) or reference it from a [script](/scripting/getting-started).
+
+## Export Options
+
+Audio assets include a **Source** option that controls the audio format used for export.
+
+- **Source**: Use the original imported audio format.
+- **WAV**: Export the audio as WAV.
+- **FLAC**: Export the audio as FLAC.
+- **MP3**: Export the audio as MP3.
+
+## Creating Clips
+
+You can create a shorter clip from any audio asset.
+
+<Steps>
+  <Step>
+    Open the **Audio** panel in the **Debug Panel**.
+  </Step>
+  <Step>
+    Select an audio asset in the **Assets** panel.
+  </Step>
+  <Step>
+    Drag along the waveform to select a portion of the audio and click the play button to preview.
+  </Step>
+  <Step>
+    Click **+** to create a clip.
+  </Step>
+</Steps>
+
+The new clip will now appear as its own audio asset under the parent audio in the sidebar.
+
+<VideoEmbed src="https://static.rive.app/video/create-audio-clip.mp4" />
+
+## Setting Asset Volume
+
+Select an audio asset or clip to set its **Volume** in the Inspector.
+
+Volume is set on the asset, not on each individual use of the asset. If the same audio asset is used in multiple places, changing its volume affects all of them.
+
+![Audio asset volume](/images/editor/assets/audio-asset-volume.png)

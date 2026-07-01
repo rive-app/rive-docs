@@ -1,100 +1,44 @@
 ---
-title: "Fonts"
+title: 'Font Assets'
+description: 'Import and customize fonts.'
 ---
 
-Select a font in the inspector as part of a Text Style. The default list is populated via Google Fonts, however you can also upload your own fonts to the Assets Panel.
+import { VideoEmbed } from '/snippets/video-embed.jsx'
 
-## Font Options
+## Importing Fonts
 
-Font variables and OpenType features can be found in the options fly-out of the Text Styles subsection. If supported by the font, you can find it alongside the font weight dropdown.
-
-<Info>
-  Font variables can be animated. Open the options fly-out in [animate mode](/editor/fundamentals/design-vs-animate-mode) to add keys.
-</Info>
-
-<Info>
-  Not all fonts support variable axes and OpenType features. The options menu will only surface for supported fonts.
-</Info>
-
-![Configure variables and features for compatible fonts](/images/editor/text/text-runs-fonts-overview.gif)
-
----
-
-## Font Sources
+See [Importing Assets](/editor/fundamentals/assets-overview#importing-assets) for information about importing files, including TTF and OTF files.
 
 ### Google Fonts
 
-The default font list is populated via Google Fonts. These fonts are available to use on all plans. After selecting a font it'll appear in the Assets Panel under the 'Fonts' category. This is true for both custom _and_ Google fonts. The latter will update automatically based on the fonts you're using within the Rive file.
+You can add Google Fonts directly from the text style font options. Select a text run, choose a Google Font, and Rive adds the font to the Assets panel automatically.
 
-<Info>
-  Fonts provided by Google Fonts are marked with a G icon.
-</Info>
-
-### Custom Fonts
-
-Upload custom fonts by drag-and-dropping your font file into the editor or via the `+` action in the Assets Panel. Uploaded fonts will show at the top of the font selection drop down in the text inspector.
-
-<Info>
-  Select a font in the Assets Panel to view available metadata and licenses in the Inspector.
-</Info>
-
----
+<VideoEmbed src="https://static.rive.app/video/font-asset.mp4" />
 
 ## Export Options
 
-Your Rive file will need to reference a font file if you're looking to dynamically update text at runtime. Configure the available options to suit your needs and optimise your `.riv` files. Select a font in the Assets Panel to reveal its export options in the Inspector.
+Font assets include an Include option that controls which glyphs are included when the font is exported.
 
-### Export Type
+- **All glyphs**: Include the full font.
+- **Glyphs used**: Include only the glyphs used in the file.
+- **Custom**: Include a custom set of glyphs.
 
-Select the font in the **Assets** panel and change the **Type** option to define where you'd like the font to export to.
-
-![Export Options](/images/editor/text/text-runs-fonts-detail.png)
-
-- **Embedded:** Embed the font file inside the `.riv`. Embedding the font inside the Rive file is the simplest option, however will increase the size of the file. Use this option if the font is unique to your animation, and isn't already available inside your app, website, or game.
-- **Referenced:** Export the font file alongside the `.riv`. This option is ideal if you have multiple Rive files using the same font, or if you're implementing a Rive file into an app, game, or website that already has the font file available. Using a referenced font file will reduce the size of your Rive files.
-- **Hosted:** Hosted fonts are uploaded to Rive's CDN for a runtime to download from on demand. Similar to a referenced font file, choosing to host the font on Rive's CDN will omit it from the `.riv`, thus reducing the `.riv` file size. The Rive runtimes will fetch the font when your animation plays in your app, game, or website.
-
-<Info>
-  Assets hosted on Rive's CDN can be accessed by anyone with the link.
-</Info>
+![Export options](/images/editor/assets/export-options.png)
 
 <Note>
-  Hosted fonts are available on Voyager and Enterprise plans. [Learn more about our plans and pricing](https://rive.app/pricing?utm_source=docs&utm_medium=content).
+  Fonts can significantly increase the size of your exported `.riv` file, especially when exporting **All glyphs**. Use **Glyphs used** or **Custom** when you only need a smaller set of characters.
 </Note>
 
----
-
-### Export Behavior
-
-In addition to **Type**, each font has an export **Behavior** that controls whether the font is included in the exported .riv file. Select the font in the Assets panel to find this option in the Inspector.
-
-![Font export Behavior options in the Inspector](/images/editor/text/text-runs-fonts-behavior.png)
-
-- **Automatic:** Includes the font in the export if a text run uses it somewhere in the file. For fonts contained within a library, the default behavior is inherited from the source file.
-- **Force Export:** Export the font regardless of whether or not it's referenced within the file.
-- **Prevent Export:** Don't include the font in the export, regardless of whether or not it's referenced within the file.
-
----
-
-### Glyph / Script Selection
-
-Alongside the font location, you can configure the glyphs you wish to be included. Removing unnecessary glyphs and scripts will reduce the size of the font file (referenced/hosted) or Rive file (embedded). Deciding which scripts to include will depend on whether you want to dynamically update text at runtime, and the languages you want to support.
-
-<Info>
-  Use the 'View Glyphs' feature to browse what glyphs / scripts are available for your chosen font. You can find it in the Inspector after selecting a font in the Assets Panel.
-</Info>
-
-![Use the viewer to browse a font's available glyphs and scripts](/images/editor/text/text-runs-fonts-gliphs.gif)
-
-**Choose from three options**
-
-- **All Glyphs:** Export the entire font file. All the glyphs will be available to use at runtime.
-- **Glyphs Used:** Only exports glyphs used within the file. For example, if your text says "Hello World!", only the `H`,`e`,`l`,`o`,`W`,`r`,`d`, and `!` glyphs would be exported. Use this option if you don't intend to change the text at runtime.
-
 <Tip>
-  If you want to include a specific set of glyphs (ex: numbers only), you can include these glyphs in a separate artboard and they will be compiled for runtime.
+  To control which glyphs are included, create an artboard that you do not export to the `.riv` file. Add a text run with the exact characters you want to include, then set the font asset’s **Include** option to **Glyphs used**.
+
+  For example, if your file only needs numbers, add a text run with `0123456789`. Those glyphs will be included in the exported font.
+
+  ![Glyphs used hack](/images/editor/assets/glyphs-used-hack.png)
 </Tip>
 
-- **Custom:** Export chosen scripts. Use the script options fly-out to toggle scripts on and off. Use this option if you want to dynamically update text at runtime, but don't need to support certain languages or alphabets. This will help reduce file size by removing scripts you don't plan to use.
+### Custom - Export Scripts
 
-![Remove unwanted scripts to optimize font exports](/images/editor/text/text-runs-fonts-custom.gif)
+When **Include** is set to **Custom**, you can use **Export Scripts** to choose which glyph groups to include, such as Latin, Thai, or other writing systems.
+
+![Export scripts](/images/editor/assets/export-scripts.png)
