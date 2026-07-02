@@ -4,30 +4,123 @@ description: ''
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
+import { VideoEmbed } from '/snippets/video-embed.jsx'
+import { Marketplace } from '/snippets/marketplace.mdx'
+import { Demos } from "/snippets/demos.jsx";
+
+Transitions define how and when a State Machine moves from one state to another. A transition is made up of four parts:
+
+<CardGroup cols={2}>
+  <Card title="Path">
+    The direction the transition travels.
+
+    **Example**: A character might have one path from **Idle** to **Walk**, and another from **Walk** back to **Idle**.
+  </Card>
+  <Card title="Conditions">
+    When the transition occurs.
+
+    **Example**: A character might transition to **Walk** when a button is pressed, then back to **Idle** when the button is released.
+  </Card>
+  <Card title="Properties">
+    How the transition behaves.
+
+    **Example**: You might set the transition duration to `0.2` seconds so the change between states feels smoother.
+  </Card>
+  <Card title="Actions">
+    Extra behavior to perform when the transition occurs.
+
+    **Example**: A transition might fire an event, set a property value, or align a target.
+  </Card>
+</CardGroup>
 
 <YouTube id="C4KNgrrqt7k" />
 
-Transitions define how and when a State Machine moves between states. They can use [Conditions](#conditions) to determine when a transition occurs and [Actions](#actions) to perform behavior during the transition.
+## Transition Path
 
-## Creating a new Transition
+A transition path determines how the State Machine moves from one state to another.
 
-To create a transition, place your mouse near the state you want to leave until you notice the ellipse appear. Click and drag the ellipse to the state you want to transition to. Once you’ve connected two states, you’ll notice an ellipse with an arrow icon indicating the transition's direction.
+To create a transition path, move your cursor near the state you want to leave until the circle appears. Click and drag from the circle to the state you want to transition to.
 
-![Creating a transition](https://ucarecdn.com/4838deb6-8760-468a-b798-f33e1f0e3b2e/)
+![Creating a transition](/images/editor/state-machine/transitions/create-transition.gif)
 
-Note that you can create multiple transitions from one state to another. Each of these transitions can require a different condition to be met, which will fire the transition, thus giving you the ability to make “or” conditions.
+Once you connect two states, the transition path shows a circle with an arrow icon indicating the transition direction. In this example, the State Machine can move from Timeline 1 to Timeline 2, but not from Timeline 2 back to Timeline 1.
 
-![Creating an "or" transition](https://ucarecdn.com/373c16da-c3b4-4da8-bd01-bb153fea6c2a/)
+To allow the State Machine to move back to Timeline 1, create another transition path starting from Timeline 2.
 
-## Configuring a Transition
+![Creating a reverse transition](/images/editor/state-machine/transitions/create-reverse-transition.gif)
+
+You can create multiple transitions between the same two states. Each transition can have different [conditions](#transition-conditions), allowing you to create “or” logic.
+
+![Creating an "or" transition](/images/editor/state-machine/transitions/transition-or.gif)
+
+## Transition Conditions
+
+Conditions determine when a transition can occur.
+
+<Note>
+  Without conditions, transitions fire as soon as they are reached. This can cause a State Machine to rapidly move between states or skip directly to a single animation.
+</Note>
+
+<YouTube id="30HJo_DaLDk" />
+
+### Adding a Condition
+
+To add a condition to a transition, select the transition, then click the plus button next to **Conditions**.
+
+A condition has three parts:
+
+* **Source value** - the value or event the condition watches
+* **Operator** - how the source value is compared
+* **Comparison value** - the value the source value is compared against
+
+For example, a character might transition from **Idle** to **Walk** when `isWalking` is `true`.
+
+In this condition, `isWalking` is the **source value**, **equals** is the **operator**, and `true` is the **comparison value**.
+
+![Add a transition condition](/images/editor/state-machine/transitions/add-condition.gif)
+
+#### The Source Value
+
+Conditions can be driven by many different sources, including:
+
+- View Model properties
+- Events
+- Built-in properties such as artboard width, height, and ratio
+
+![Source value](/images/editor/state-machine/transitions/source-value.png)
+
+#### The Operator
+
+Conditions can use comparisons such as equals, does not equal, greater than, greater than or equal to, less than, and less than or equal to. The available comparisons depend on the type of value being compared.
+
+![Operators](/images/editor/state-machine/transitions/comparisons.png)
+
+#### Comparison Value
+
+The comparison value is the value the source value is compared against.
+
+![Comparison value](/images/editor/state-machine/transitions/comparison-value.png)
+
+You can enter a fixed comparison value, such as `true`, `100`, or `"mobile"`. You can also data bind the comparison value to another property, allowing the transition to compare against dynamic data.
+
+For example, a transition might occur when `speed` is greater than a data-bound `walkThreshold` value.
+
+### Adding Multiple Conditions
+
+You can add multiple conditions to a single transition. All conditions must be met before the transition occurs.
+
+![Adding multiple conditions](/images/editor/state-machine/transitions/or-condition.png)
+
+
+## Transition Properties
 
 Once you’ve added a transition, selecting the direction indicator will allow you to configure the transition. There are three different sections to the transition panel, the transition properties, conditions, and interpolation.
 
-### Transition properties
+<Note>
+  Selecting multiple transitions allows you to update multiple properties at once.
+</Note>
 
-The transition properties allow you to customize how a transition occurs.
-
-![Transition properties](/images/editor/state-machine/9b35e6bf-8e06-4df9-b211-10d3e1150435.webp)
+![Transition properties](/images/editor/state-machine/transitions/transition-properties.png)
 
 ### Duration
 
@@ -35,77 +128,43 @@ The duration property describes how long it takes for a transition to occur.
 
 The duration is set to zero by default, meaning the transition happens immediately. So, when we transition between these two animations, it appears as though the object snaps from one side of the artboard to the other.
 
-![Duration of 0ms](https://ucarecdn.com/1e341e26-ece2-466e-b19f-5fa03b34c3b9/)
+<VideoEmbed src="https://static.rive.app/video/transition-duration.mp4" />
 
-If we increase the duration, you’ll notice that the higher the number, the longer the transition takes.
-
-![Duration of 500ms](https://ucarecdn.com/9a1c524a-2179-4385-8765-5ab0eb75ffec/)
-
-In a way, transitions act as their own animation. The starting properties (coming from the state your state machine is leaving from) will be interpolated to the ending properties (the starting properties of the state your state machine is going to). If the starting properties are the first key on a timeline, and the ending properties are the second key, the duration is the timing between those two keys. Transitions are much more complex than this, but thinking about transitions this way will help you diagnose issues with your state machine.
-
-![Interpolation on a Transition](https://ucarecdn.com/c1801cb1-13bf-44be-9da0-dc2eb7f5e404/)
-
-Much like keys on our timeline, we can change the interpolation, which we’ll discuss more below.
+<Marketplace
+  href="https://rive.app/community/files/28136-53135-transitions-demos"
+/>
 
 ### Exit Time
 
 Exit Time tells the state machine how much of the state must play before transitioning.
 
-By default, Exit Time is unchecked. If you want to enable the Exit Time, use the check box. Once the setting is enabled, you can use either a time value or percent.
-
-![Using Exit Time](https://ucarecdn.com/4424da18-50d8-4aea-9371-7b57b176a12e/)
+By default, Exit Time is unchecked. To enable Exit Time, use the checkbox. Once the setting is enabled, you can use either a time value or percent.
 
 For example, if you want the state machine to play the entire animation before transitioning, you can either enter the duration of the animation, or use 100%.
 
-### Pause when exiting
+![Exit time 100%](/images/editor/state-machine/transitions/exit-time-100.gif)
 
-The Pause When Exiting option pauses the animation you are leaving from during the transition.
+### Pause Source When Exiting
 
-![Pause when exiting](https://ucarecdn.com/6584d924-13f7-4012-b590-d16549791638/)
+**Pause Source When Exiting** pauses the animation in the state you are leaving while the transition plays.
 
-As we discussed in the duration section, when a transition happens, properties from the first state are mixed with the first key of the next state. In reality, the animation your state machine leaves from continues to play as the transition happens.
+In this example, the up-and-down motion pauses as soon as the transition begins.
 
-## Conditions
+![Pause when exiting](/images/editor/state-machine/transitions/pause-source-when-exiting.gif)
 
-<YouTube id="30HJo_DaLDk" />
+### Allow Exit During Transition
 
-Conditions are the rules for our transitions. Without conditions, our transitions would continuously fire and our state machine would likely look either glitchy, or only play a single animation.
+**Allow exit during transition** controls whether the State Machine can leave a transition before that transition finishes.
 
-![Conditions](/images/editor/state-machine/a5336985-e1d4-4892-a04a-deee93e6a8b1.webp)
+For example, if a button is transitioning from **Idle** to **Hover** and the user moves their cursor away, **Allow exit during transition** lets it transition back to Idle immediately.
 
-### Adding a new condition
+![Allow exit during transition](/images/editor/state-machine/transitions/allow-exit-during-transition.gif)
 
-To add a new condition to a transition, hit the plus button next to the Conditions section.
+### Interpolation
 
-![Image](https://ucarecdn.com/7a2b887e-c69d-4dd4-943b-de85d76b3a42/)
+You can add interpolation to your transition at the bottom of the Transitions Panel. By default, the interpolation is set to linear, but you can use the cubic and other interpolations.
 
-Adding a new Condition
-
-Each new condition provides a dropdown showing all of the options, including view model properties. The configuration options will be different depending on the type you select.
-
-Note that you can add multiple conditions to a single transition to create an “and” transition.
-
-### Configuring a Boolean
-
-When you configure a boolean, you can decide if the transition happens when said boolean is either true or false.
-
-![Configure a boolean](https://ucarecdn.com/8443963d-69c7-44a7-9ced-b01d28210b5e/)
-
-### Configuring a Number
-
-When you configure a number property, you can tell the transition to happen when a numerical condition happens such as equalling a specific number, being greater than or less than a specific number.
-
-![Configure number property](https://ucarecdn.com/3b6da0a7-b56f-4cb1-89f0-831af97fdbce/)
-
-### Configuring a Trigger
-
-When you add a trigger property to a transition, you are telling the transition to fire when that trigger occurs.
-
-![Configuring triggers](https://ucarecdn.com/c8c6a924-f62a-4e3a-80cb-83c758a37343/)
-
-### Custom Transitions
-
-[Transition Condition Scripts](/scripting/protocols/transition-condition-scripts) let you define custom conditions when built-in comparisons aren’t enough—such as transitions that depend on complex logic or multiple view model properties evaluated together.
+If you are unfamiliar with the basics of Interpolation, see [Interpolation (Easing)](/editor/animate-mode/interpolation-easing).
 
 ## Actions
 
@@ -130,19 +189,9 @@ Actions can be used to:
 
 <YouTube id="4Uuu0MkBawE" />
 
-### Action Timing
-
-Each action can run at either:
-
-- **Start** — Runs when the transition begins
-- **End** — Runs after the transition completes
-
-This allows you to control exactly when the action occurs relative to the blend between states.
-
-
 ### Creating an Action
 
-![Creating an transition action](/images/editor/state-machine/transitions/transition-action.gif)
+![Creating a transition action](/images/editor/state-machine/transitions/transition-action.gif)
 
 <Steps>
   <Step title="Add an action">
@@ -153,17 +202,28 @@ This allows you to control exactly when the action occurs relative to the blend 
   </Step>
 </Steps>
 
-## Interpolation
+#### Action Timing
 
-You can add interpolation to your transition at the bottom of the Transitions Panel. By default, the interpolation is set to linear, but you can use the cubic and hold interpolations.
+Each action can run at either:
 
-Note that the interpolation between states is most effective when your transition duration is longer.
+- **Start** — Runs when the transition begins
+- **End** — Runs after the transition completes
 
-If you are unfamiliar with the basics of Interpolation, read more [Interpolation (Easing)](/editor/animate-mode/interpolation-easing).
+## Randomize Exit
+
+
+**Randomize Exit** lets a state choose from its outgoing transition paths at random.
+
+<Demos examples={["randomizeExit"]} learnByExample />
+
+To use it, select the origin state and enable **Randomize Exit**. The state lists each path leaving it and lets you assign a weight to each path.
+
+The higher the weight, the more likely that path is to be chosen. For example, if **Timeline 1** has a weight of `3` and **Timeline 2** has a weight of `1`, the State Machine has a 75% chance of transitioning to **Timeline 1** and a 25% chance of transitioning to **Timeline 2**.
+
 
 ## Disabling a Transition
 
-You can temporarily disable a transition without deleting it. A disabled transition is ignored by the state machine — its conditions will not be evaluated and it will not fire — until you re-enable it.
+You can temporarily disable a transition without deleting it. Disabling is useful when you want to isolate part of a state machine for testing, or temporarily remove a path without losing its configuration.
 
 There are two ways to toggle a transition's enabled state:
 
@@ -171,5 +231,3 @@ There are two ways to toggle a transition's enabled state:
 - **From the canvas:** right-click the transition and choose **Disable transition** (or **Enable transition** if it's already disabled).
 
 ![Disable transition from the right-click menu](/images/editor/state-machine/state-machine-transition-disable.gif)
-
-Both actions do the same thing. Disabling is useful when you want to isolate part of a state machine for testing, or temporarily remove a path without losing its configuration.
