@@ -4,6 +4,7 @@ description: ''
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
+import { VideoEmbed } from '/snippets/video-embed.jsx'
 
 States are simply timeline animations that can play at any point in your state machine. A state could be as simple as changing the color and position of an object, or as complex as blending multiple timelines together.
 
@@ -114,31 +115,46 @@ A Blend by Value timeline can be thought of as the baseline animation, or defaul
 
 A view model property blend is an animation that is mixed with the default pose or motion via a number property. Each of your different property blends should have their own number property.
 
-## Additional State Options
+## State Options
 
-When you select a state on the State Machine Graph, you’ll have a number of options that you can change.
+When you select a state in the State Machine Graph, you can change its options in the Inspector, including:
 
-**Change state type**
+- **Name** - The name of the state.
+- [Caption](#caption) - Notes for collaborators or your future self.
+- **Type** - The type of state, such as a single animation, 1D blend, or additive blend.
+- [Timeline](#timeline) - The animation assigned to the state.
+- [Speed](#speed) - The speed at which the timeline plays.
+- [Transitions](#transitions) - A list of transitions to and from the state.
 
-The top three icons allow you to change the type of state. You can select from single animation, 1D blend, and Additive blend.
+### Caption
 
-![Convert state type](https://ucarecdn.com/185c56c3-4d69-4526-95c9-62af59675f18/)
+You can add a caption to a state to leave notes for collaborators or your future self.
 
-**Change animation**
+When a state has a caption, an info icon appears on the state in the State Machine Graph. Hover over the icon to view the caption.
 
-You can use the dropdown to change which animation is assigned to the current state.
+Captions are useful for explaining why a state exists and documenting complex logic.
+
+<Note>
+  Captions are only visible in the editor. They are not exported for runtime.
+</Note>
+
+<VideoEmbed src="https://static.rive.app/video/state-caption.mp4" />
+
+### Timeline
+
+Use the dropdown to change which animation is assigned to the current state.
 
 ![Changing animation on a state](https://ucarecdn.com/e8a8e540-b5ed-4947-b2cc-45ba793f0ea0/)
 
-**Speed**
+### Speed
 
-You can alter the playback speed of a state by changing this value. Note that you can play animations forward with a positive value, and backward with a negative value.
+Use **Speed** to change how fast the state’s animation plays. Positive values play the animation forward, and negative values play it backward.
 
 ![Change animation speed](https://ucarecdn.com/5ada4e3d-bbba-412d-8bc3-6b4417717e16/)
 
-**Transitions**
+### Transitions
 
-You can see any transitions that leave from the selected state. You also have the option to ignore specific transitions by turning off the eye icon.
+The **Transitions** section lists the [transitions](/editor/state-machine/transitions) connected to the selected state. Use the eye icon to disable a transition, or the **-** button to remove it.
 
 ## Actions
 
