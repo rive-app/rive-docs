@@ -6,6 +6,7 @@ description: ''
 import { YouTube } from '/snippets/youtube.mdx'
 import { VideoEmbed } from '/snippets/video-embed.jsx'
 import { Marketplace } from '/snippets/marketplace.mdx'
+import { Demos } from "/snippets/demos.jsx";
 
 Transitions define how and when a State Machine moves from one state to another. A transition is made up of four parts:
 
@@ -207,6 +208,17 @@ Each action can run at either:
 
 - **Start** — Runs when the transition begins
 - **End** — Runs after the transition completes
+
+## Randomize Exit
+
+
+**Randomize Exit** lets a state choose from its outgoing transition paths at random.
+
+To use it, select the origin state and enable **Randomize Exit**. The state lists each path leaving it and lets you assign a weight to each path.
+
+The higher the weight, the more likely that path is to be chosen. For example, if **Timeline 1** has a weight of `3` and **Timeline 2** has a weight of `1`, the State Machine has a 75% chance of transitioning to **Timeline 1** and a 25% chance of transitioning to **Timeline 2**.
+
+<Demos examples={["randomizeExit"]} learnByExample />
 
 ## Disabling a Transition
 
