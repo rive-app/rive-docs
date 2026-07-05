@@ -195,6 +195,39 @@ local proj = Mat4.perspectiveReverseZ(math.rad(60), 16 / 9, 0.1)
 ```
 
 
+### `lookAt`
+
+{/* lookAt: (eye: Vector, center: Vector, up: Vector) -> Mat4 */}
+<div class="signature">
+```lua
+lookAt(eye: Vector, center: Vector, up: Vector) -> Mat4
+```
+</div>
+
+Creates a right-handed view matrix looking from `eye` toward
+`center` (GLM convention). `up` need not be normalized.
+```lua
+local view = Mat4.lookAt(Vector.xyz(0, 2, 5), Vector.origin(), Vector.xyz(0, 1, 0))
+```
+
+
+### `ortho`
+
+{/* ortho: (left: number, right: number, bottom: number, top: number, near: number, far: number) -> Mat4 */}
+<div class="signature">
+```lua
+ortho(left: number, right: number, bottom: number, top: number, near: number, far: number) -> Mat4
+```
+</div>
+
+Creates a right-handed orthographic projection matrix that maps z to
+the [0, 1] NDC depth range (matching `Mat4.perspective`), e.g. for
+shadow-map cascades or 2D overlays.
+```lua
+local proj = Mat4.ortho(-10, 10, -10, 10, 0.1, 100)
+```
+
+
 ### `multiply`
 
 {/* multiply: (output: Mat4, a: Mat4, b: Mat4) -> Mat4 */}
