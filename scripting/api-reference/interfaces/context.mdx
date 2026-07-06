@@ -181,7 +181,7 @@ function init(self: DrawBlob, context: Context): boolean
     if self.myBlob then
         print('Blob name:', self.myBlob.name)
         print('Blob size:', self.myBlob.size, 'bytes')
-        print('Blob data buffer:', self.myBlob.data)
+        print('First byte:', buffer.readu8(self.myBlob.data, 0))
     end
 
     return true
