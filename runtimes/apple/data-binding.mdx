@@ -41,7 +41,7 @@ import { Demos } from "/snippets/demos.jsx";
 
     These sources are used in conjunction with getting a view model instance. See [View Model Instances](#view-model-instances) for more information.
     </Tab>
-    <Tab title={"{{runtimeLegacyNameApple}}"}>>
+    <Tab title={"{{runtimeLegacyNameApple}}"}>
     ```swift
     let riveViewModel = RiveViewModel(...)
     let file = riveViewModel.riveModel!.riveFile
@@ -89,7 +89,7 @@ import { Demos } from "/snippets/demos.jsx";
         namedInstance = try await file.createViewModelInstance(.name("Instance", from: .artboardDefault(Artboard)))
         ```
     </Tab>
-        <Tab title={"{{runtimeLegacyNameApple}}"}>>
+        <Tab title={"{{runtimeLegacyNameApple}}"}>
         ```swift
         let riveViewModel = RiveViewModel(...)
         let viewModel = riveViewModel.riveModel!.riveFile.viewModelNamed("...")!
@@ -140,7 +140,7 @@ import { Demos } from "/snippets/demos.jsx";
         var rive = try await Rive(file: file, artboard: artboard, stateMachine: stateMachine, dataBind: .none)
         ```
     </Tab>
-    <Tab title={"{{runtimeLegacyNameApple}}"}>>
+    <Tab title={"{{runtimeLegacyNameApple}}"}>
         ```swift
         let riveViewModel = RiveViewModel(...)
         let artboard = riveViewModel.riveModel!.artboard,
@@ -176,7 +176,7 @@ import { Demos } from "/snippets/demos.jsx";
         var rive = try await Rive(file: file, artboard: artboard, stateMachine: stateMachine)
         ```
     </Tab>
-    <Tab title={"{{runtimeLegacyNameApple}}"}>>
+    <Tab title={"{{runtimeLegacyNameApple}}"}>
         ```swift
         let riveViewModel = RiveViewModel(...)
         riveViewModel.riveModel?.enableAutoBind { instance in
@@ -206,7 +206,7 @@ import { Demos } from "/snippets/demos.jsx";
         }
         ```
     </Tab>
-    <Tab title={"{{runtimeLegacyNameApple}}"}>>
+    <Tab title={"{{runtimeLegacyNameApple}}"}>
         ```swift
         let riveViewModel = RiveViewModel(...)
         let viewModel = riveViewModel.riveModel!.file.viewModelNamed(...)!
@@ -282,7 +282,7 @@ import { Demos } from "/snippets/demos.jsx";
             ```
         </CodeGroup>
     </Tab>
-    <Tab title={"{{runtimeLegacyNameApple}}"}>>
+    <Tab title={"{{runtimeLegacyNameApple}}"}>
         ```swift
         let riveViewModel = RiveViewModel(...)
 
@@ -365,7 +365,7 @@ import { Demos } from "/snippets/demos.jsx";
 
         See [Properties](#properties) for usage details.
     </Tab>
-    <Tab title={"{{runtimeLegacyNameApple}}"}>>
+    <Tab title={"{{runtimeLegacyNameApple}}"}>
         ```swift
         let riveViewModel = RiveViewModel(...)
 
@@ -432,7 +432,7 @@ import { Demos } from "/snippets/demos.jsx";
         }
         ```
     </Tab>
-    <Tab title={"{{runtimeLegacyNameApple}}"}>>
+    <Tab title={"{{runtimeLegacyNameApple}}"}>
         ```swift
         let riveViewModel = RiveViewModel(...)
 
@@ -482,7 +482,7 @@ import { Demos } from "/snippets/demos.jsx";
         viewModelInstance.setValue(of: imageProperty, to: image)
         ```
     </Tab>
-    <Tab title={"{{runtimeLegacyNameApple}}"}>>
+    <Tab title={"{{runtimeLegacyNameApple}}"}>
         ```swift
         let riveViewModel = RiveViewModel(...)
 
@@ -550,7 +550,7 @@ import { Demos } from "/snippets/demos.jsx";
         let size = try await viewModelInstance.size(of: listProperty)
         ```
     </Tab>
-    <Tab title={"{{runtimeLegacyNameApple}}"}>>
+    <Tab title={"{{runtimeLegacyNameApple}}"}>
         ```swift
         let listProperty = viewModelInstance.listProperty(fromPath: "list")!
 
@@ -587,7 +587,7 @@ import { Demos } from "/snippets/demos.jsx";
     viewModelInstance.setValue(of: artboardProperty, to: artboard)
     ```
     </Tab>
-    <Tab title={"{{runtimeLegacyNameApple}}"}>>
+    <Tab title={"{{runtimeLegacyNameApple}}"}>
         Use the `artboardProperty` method on a `RiveDataBindingViewModel.Instance` object to get the artboard property.
 
         Then use the `setValue` method on the artboard property object to set the new artboard value.
