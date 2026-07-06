@@ -34,7 +34,7 @@ AVAudioSession.sharedInstance().setCategory(category, options: options)
 An artboard is capable of setting its volume. A parent artboard will set the volume of all component instances; however, setting a component's volume will **not** update the parent's volume.
 
 <Tabs>
-  <Tab title={Apple.currentRuntimeName}>
+  <Tab title={"{{runtimeCurrentNameApple}}"}>
   Once you have created an `Artboard`, you can set its volume with `setVolume(_:)` and read the current volume with `volume()`. Volume is propagated to all nested artboards.
 
   ```swift
@@ -56,7 +56,7 @@ An artboard is capable of setting its volume. A parent artboard will set the vol
   }
   ```
   </Tab>
-  <Tab title={Apple.legacyRuntimeName}>
+  <Tab title={"{{runtimeLegacyNameApple}}"}>
   ```swift
   // Set the current artboard's volume to 50%
   let viewModel = RiveViewModel(fileName: "my_rive_file")

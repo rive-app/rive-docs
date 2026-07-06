@@ -1,5 +1,6 @@
 ---
 title: 'React'
+sidebarTitle: 'Getting Started'
 description: 'React runtime for Rive.'
 ---
 
@@ -7,8 +8,6 @@ import NoteOnFeatureSupport from "/snippets/runtimes/rendering-feature-support.m
 import { Demos } from '/snippets/demos.jsx'
 
 <NoteOnFeatureSupport/>
-
-<Demos examples={['quickStartReact']} />
 
 ## Overview
 
@@ -41,28 +40,85 @@ Follow the steps below for a quick start on integrating Rive into your React app
     ```
   </Step>
   <Step title="Render the Rive component">
-    Rive React provides a basic component as its default import for displaying simple animations with a few props you can set such as artboard and layout. Include the code below in your React project to test out an example Rive animation.
+    There are three main ways to use Rive in a React app:
 
-    ```javascript
-    import Rive from '@rive-app/react-webgl2';
+    - **Rive component** - the quickest way to embed a Rive file, but with limited runtime control.
+    - **Hooks** - a React-friendly approach for controlling Rive from React state, props, and events.
+    - **Imperative runtime** - a direct runtime approach where you create and manage the Rive instance yourself, usually inside `useEffect`.
 
-    export const Simple = () => (
-      <Rive
-        src="https://cdn.rive.app/animations/vehicles.riv"
-        stateMachines="bumpy"
-      />
-    );
-    ```
+    <Tabs>
+      <Tab title="Hooks">
+        ```jsx
+        import { useRive } from '@rive-app/react-webgl2';
 
-    See [Parameters and Return Values](/runtimes/react/parameters-and-return-values) for more on the parameters and return values of the `<Rive />` component.
+        export const Simple = () => {
+          const { RiveComponent } = useRive({
+            src: 'https://cdn.rive.app/animations/vehicles.riv',
+            stateMachines: 'bumpy',
+          });
+
+          return <RiveComponent />;
+        };
+        ```
+
+        ## Rendering Considerations with useRive
+
+        At this time, we highly recommend isolating your usage of `useRive` to its own wrapper component if you plan on conditionally rendering the `<RiveComponent />` returned from the `useRive` hook. This is due to Rive being instanced when the component is mounted and the rendering context associated with a specific underlying `<canvas>` element. When React tries to unmount/re-render, you may end up with the animation restarting or not displaying when a new `<canvas>` is mounted.
+
+        By isolating `useRive` to its own wrapper component, Rive will have a chance to properly clean up, and restart the animation with a new canvas. In a parent component, you can then conditionally render the wrapper component based on any state or prop-based logic.
+
+        Check out [this example CodeSandbox](https://codesandbox.io/p/sandbox/rive-react-swapping-skins-with-solos-ctcnlx?file=%2Fsrc%2FApp.tsx) to see this pattern in use.
+
+        <Note>
+          **Note:** Rive will not instantiate until the `<RiveCopmonent />` is rendered out, as the underlying `<canvas>` element needs to be present in the DOM.
+        </Note>
+      </Tab>
+      <Tab title="Imperative">
+        ```jsx
+        import { useEffect, useRef } from 'react';
+        import { Rive } from '@rive-app/webgl2';
+
+        export const Simple = () => {
+          const canvasRef = useRef(null);
+
+          useEffect(() => {
+            const rive = new Rive({
+              src: 'https://cdn.rive.app/animations/vehicles.riv',
+              canvas: canvasRef.current,
+              stateMachines: 'bumpy',
+            });
+
+            return () => rive.cleanup();
+          }, []);
+
+          return <canvas ref={canvasRef} />;
+        };
+        ```
+
+      </Tab>
+      <Tab title="Rive Component">
+        Rive React provides a basic component as its default import for displaying simple animations with a few props you can set such as artboard and layout. Include the code below in your React project to test out an example Rive animation.
+
+        ```jsx
+        import Rive from '@rive-app/react-webgl2';
+
+        export const Simple = () => (
+          <Rive
+            src="https://cdn.rive.app/animations/vehicles.riv"
+            stateMachines="bumpy"
+          />
+        );
+        ```
+
+        See [Parameters and Return Values](/runtimes/react/parameters-and-return-values) for more on the parameters and return values of the `<Rive />` component.
+      </Tab>
+    </Tabs>
+
+
+    <Demos examples={['reactHome']} />
   </Step>
   <Step title="Using the useRive hook">
     In many cases, you may not only need the React component to render your animation but also the `rive` object instance that controls it as well. The Rive object instance allows you to tap into APIs for:
-
-    - Setting Rive Text values dynamically
-    - Subscribing to Rive Events with your own callbacks
-    - Controlling animation playback (i.e. pause and play)
-    - ... and [much more](https://github.com/rive-app/rive-wasm)
 
     The `useRive` hook returns both this `rive` instance, as well as the React component that mounts the underlying `<canvas>` element that Rive will draw onto.
 
@@ -85,34 +141,10 @@ Follow the steps below for a quick start on integrating Rive into your React app
     }
     ```
 
-    <Note>
-    **Note:** Rive will not instantiate until the `<RiveCopmonent />` is rendered out, as the underlying `<canvas>` element needs to be present in the DOM.
-    </Note>
-
-    Also, keep in mind that the canvas size depends on the container it's placed within. Initially, this is 0x0. Either pass a `className` to `RiveComponent` or wrap `RiveComponent` with an appropriately sized container.
+    Keep in mind that the canvas size depends on the container it's placed within. Initially, this is 0x0. Either pass a `className` to `RiveComponent` or wrap `RiveComponent` with an appropriately sized container.
 
     See [here](/runtimes/react/parameters-and-return-values) for more on the parameters and return values of `useRive`.
 
-    Additionally, explore subsequent runtime pages to learn how to control animation playback, state machines, and more.
   </Step>
 </Steps>
 
-## Rendering Considerations with useRive
-
-At this time, we highly recommend isolating your usage of `useRive` to its own wrapper component if you plan on conditionally rendering the `<RiveComponent />` returned from the `useRive` hook. This is due to Rive being instanced when the component is mounted and the rendering context associated with a specific underlying `<canvas>` element. When React tries to unmount/re-render, you may end up with the animation restarting or not displaying when a new `<canvas>` is mounted.
-
-By isolating `useRive` to its own wrapper component, Rive will have a chance to properly clean up, and restart the animation with a new canvas. In a parent component, you can then conditionally render the wrapper component based on any state or prop-based logic.
-
-Check out [this example CodeSandbox](https://codesandbox.io/p/sandbox/rive-react-swapping-skins-with-solos-ctcnlx?file=%2Fsrc%2FApp.tsx) to see this pattern in use.
-
-## Resources
-
-**GitHub**: [https://github.com/rive-app/rive-react](https://github.com/rive-app/rive-react)
-
-**Types**: [https://github.com/rive-app/rive-react/blob/main/src/types.ts](https://github.com/rive-app/rive-react/blob/main/src/types.ts)
-
-**Examples**
-- Simple skinning example: [https://codesandbox.io/p/sandbox/rive-react-swapping-skins-with-solos-ctcnlx](https://codesandbox.io/p/sandbox/rive-react-swapping-skins-with-solos-ctcnlx?file=%2Fsrc%2FApp.tsx)
-- Storybook demo: [https://rive-app.github.io/rive-react/](https://rive-app.github.io/rive-react/)
-- Animated Login Form:
-  - Demo: [https://rive-app.github.io/rive-use-cases/?path=/story/example-loginformcomponent--primary](https://rive-app.github.io/rive-use-cases/?path=/story/example-loginformcomponent--primary)

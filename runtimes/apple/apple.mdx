@@ -33,7 +33,7 @@ Most APIs are marked as `throws`, with `Error` types available for the different
 Follow the steps below for a quick start on integrating Rive into your Apple app.
 
 <Tabs>
-    <Tab title={"{{runtimeCurrentNameApple}}"}>
+    <Tab title={"{{runtimeCurrentNameApple}}"} >
         <Steps>
             <Step title="Install the Runtime">
                 With CocoaPods going into [maintenance mode](https://blog.cocoapods.org/CocoaPods-Support-Plans/), we recommend using Swift Package Manager.
@@ -221,7 +221,7 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
             </Step>
         </Steps>
     </Tab>
-    <Tab title={"{{runtimeLegacyNameApple}}"}>>
+    <Tab title={"{{runtimeLegacyNameApple}}"} >
         <Steps>
             <Step title="Install the Runtime">
                 **Swift Package Manager**
@@ -306,7 +306,7 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
 ## Playing / Pausing
 
 <Tabs>
-    <Tab title={"{{runtimeCurrentNameApple}}"}>
+    <Tab title={"{{runtimeCurrentNameApple}}"} >
         <CodeGroup>
             ```swift UIKit
             let rive = try await Rive(...)
@@ -336,7 +336,7 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
             ```
         </CodeGroup>
     </Tab>
-    <Tab title={"{{runtimeLegacyNameApple}}"}>>
+    <Tab title={"{{runtimeLegacyNameApple}}"} >
         ```swift
         let viewModel = RiveViewModel(fileName: "...")
         viewModel.pause() // or play() to resume
@@ -347,7 +347,7 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
 ## Frame Rate
 
 <Tabs>
-    <Tab title={"{{runtimeCurrentNameApple}}"}>
+    <Tab title={"{{runtimeCurrentNameApple}}"} >
         <CodeGroup>
             ```swift UIKit
             let rive = try await Rive(...)
@@ -388,7 +388,7 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
             ```
         </CodeGroup>
     </Tab>
-    <Tab title={"{{runtimeLegacyNameApple}}"}>>
+    <Tab title={"{{runtimeLegacyNameApple}}"} >
         ```swift
         let viewModel = RiveViewModel(fileName: "...")
         viewModel.setPreferredFramesPerSecond(preferredFramesPerSecond: 30)
@@ -400,14 +400,14 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
 
 ## Semantics
 
-Rive views can expose [semantics defined in the editor](/editor/accessibility/semantics) to VoiceOver. Semantics are available in the {Apple.currentRuntimeName} only.
+Rive views can expose [semantics defined in the editor](/editor/accessibility/semantics) to VoiceOver. Semantics are available in the {{runtimeCurrentNameApple}} only.
 
 See [Semantics](/runtimes/apple/semantics) for the available modes and more detail.
 
 ## Threading
 
 <Tabs>
-    <Tab title={"{{runtimeCurrentNameApple}}"}>
+    <Tab title={"{{runtimeCurrentNameApple}}"} >
         The new runtime supports multi-threading through the introduction of `Worker` objects.
 
         ```swift
@@ -458,7 +458,7 @@ See [Semantics](/runtimes/apple/semantics) for the available modes and more deta
         let rive = try await Rive(file: file)
         ```
     </Tab>
-    <Tab title={"{{runtimeLegacyNameApple}}"}> borderBottom>
+    <Tab title={"{{runtimeLegacyNameApple}}"} borderBottom>
         The legacy runtime is currently single-threaded on the main thread. This means that all Rive calls must be made on the main thread. It is recommended that if you are on a background thread, you should dispatch to the main queue before making any Rive calls.
     </Tab>
 </Tabs>
@@ -466,10 +466,10 @@ See [Semantics](/runtimes/apple/semantics) for the available modes and more deta
 ## Logging
 
 <Tabs>
-    <Tab title={"{{runtimeCurrentNameApple}}"}>
+    <Tab title={"{{runtimeCurrentNameApple}}"} >
         The new runtime does not yet include logging, but will be added in the near future.
     </Tab>
-    <Tab title={"{{runtimeLegacyNameApple}}"}>>
+    <Tab title={"{{runtimeLegacyNameApple}}"} >
         Enabling logging is as simple as setting `RiveLogger.isEnabled` to `true`.
 
         ```swift
