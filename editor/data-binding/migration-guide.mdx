@@ -51,9 +51,6 @@ With data binding, you instead expose **view model properties** that can drive S
   - Provide a more flexible and scalable data model
 </Note>
 
-#### How to migrate
-
-
 ### Communicating with Code via Events
 
 Events were previously used to send information from a Rive file back to runtime code.
@@ -71,8 +68,6 @@ With data binding, you instead **listen to changes on view model properties**, i
 
   View model properties always reflect the latest value and can be observed directly.
 </Note>
-
-#### How to migrate
 
 Instead of listening for an event:
 
@@ -100,21 +95,18 @@ With data binding:
 This keeps your runtime code stable even if the structure of your file changes.
 
 
-
-## When to Use Data Binding vs Other Features
-
-### Constraints
+## Constraints vs Data Binding
 
 Constraints are still fully supported and remain the best option for many use cases.
 
-#### When to use constraints
+### When to use constraints
 
 Use constraints when:
 - You are linking one object directly to another
 - The relationship is purely visual or spatial
 - You want a simple, editor-only solution
 
-#### When to use data binding instead
+### When to use data binding instead
 
 Use data binding when:
 - The value needs to come from **runtime code**
