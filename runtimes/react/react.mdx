@@ -35,8 +35,8 @@ There are three main ways to use Rive in a React app:
         Use the returned `rive` instance with other hooks when you need data binding.
 
         ```jsx
-        import React from "react";
-        import { useRive } from "@rive-app/react-webgl2";
+        import React, { useEffect } from "react";
+        import { useRive, useViewModelInstanceNumber } from "@rive-app/react-webgl2";
 
         export default function App() {
           const { rive, RiveComponent } = useRive({
