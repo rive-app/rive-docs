@@ -1,78 +1,30 @@
 ---
 title: "Inspector"
-description: "The Inspector is located on the right side of the Editor. It shows all of the editable properties of all objects in the Rive editor."
+description: "View and edit properties for the current selection."
 ---
 
-import { YouTube } from '/snippets/youtube.mdx'
+import { VideoEmbed } from '/snippets/video-embed.jsx'
 
-# Inspector
-
-An object's editable properties can be found in the Inspector. The Inspector changes dynamically depending on your selected object and where you are in the editor.
+The Inspector is the right sidebar in the editor. It shows the available properties and options for the current selection.
 
 ![Inspector](/images/inspector.png)
 
-## Background Color, Tags, Default Interpolation
+## Selection Properties
 
-When nothing is selected, the Inspector has three sections: Backgrounds, Tags, and Default Interpolation.
+When you select an element, the Inspector updates to show controls for that element.
 
-**Background color**
+For example, selecting an artboard, object, joystick, script, property group, or State Machine item shows different options based on what that element can do.
 
-Found at the top of the Inspector, this section allows you to change the background color of the editor for both Animate and Design modes. This is a helpful way to remind yourself which mode you are currently in.
+<VideoEmbed src="https://static.rive.app/video/inspector-context.mp4" />
 
-![Backgrounds](/images/backgrounds.png)
+## File Properties
 
-**Tags**
+When nothing is selected, the Inspector shows file-level options.
 
-Below the background color, you can see, edit, and add new tags to your file. Learn more about tags [here](/editor/tagging).
+These include:
 
-![Tags](/images/tags.png)
-
-**Default Interpolation**
-
-Below Tags is the Default Interpolation for your file.
-
-![Default Int](/images/default_Int.png)
-
-When you set a key on the timeline, it will use the file's default interpolation until it's changed on the timeline. By changing the default interpolation, you can control which interpolation curve is applied to new keys.
-
-## Align and Distribute tools
-
-<YouTube id="LBB3BDo5pR4" />
-
-When one or more objects, such as shapes or groups, are selected, the Align tools appear at the top of the inspector. Use them to align or distribute the selected objects. Read more about the Align tools here.
-
-![Align](/images/Align.png)
-
-<CardGroup cols={2}>
-  <Card title="Layouts" icon="page" iconType="solid" href="/editor/layouts/layouts-overview">
-    Layouts let you build responsive designs.
-  </Card>
-  <Card title="N-Slicing" icon="page" iconType="solid" href="/editor/layouts/n-slicing">
-    N-slicing lets you stretch or repeat parts of raster and vector designs.
-  </Card>
-</CardGroup>
-
-<CardGroup cols="3">
-  <Card title="Manipulating Shapes" icon="page" iconType="solid" href="../manipulating-shapes/manipulating-shapes">
-    The Rive editor gives you multiple ways to manipulate your graphics to create the animation that you want. I
-  </Card>
-  <Card title="Constraints" icon="page" iconType="solid" href="../constraints/">
-    Constraints are a way to control the properties of an object through another target object.
-  </Card>
-  <Card title="Design and Animate Modes" icon="page" iconType="solid" href="/editor/fundamentals/design-vs-animate-mode">
-
-    Rive has two distinct modes, Design and Animate.
-  </Card>
-</CardGroup>
-
-<CardGroup cols={3}>
-  <Card title="Interpolation Panel" icon="page" iconType="solid" href="/editor/animate-mode/interpolation-easing">
-    Selecting a key brings up the interpolation panel.
-  </Card>
-  <Card title="Transition Properties" icon="page" iconType="solid" href="/editor/state-machine/transitions">
-    Selecting a transition will show customizable transition properties.
-  </Card>
-  <Card title="State Properties" icon="page" iconType="solid" href="/editor/state-machine/states">
-    State properties are customizable by selecting a state.
-  </Card>
-</CardGroup>
+- [Stage background colors](/editor/interface-overview/stage#stage-background-colors) for Design and Animate mode
+- Scripting optimization and debug settings
+- Shader targets
+- [Tags](/editor/tagging)
+- [Default interpolation](/editor/animate-mode/interpolation-easing#default-interpolation)
