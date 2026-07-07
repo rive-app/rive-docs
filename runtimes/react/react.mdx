@@ -39,7 +39,7 @@ There are three main ways to use Rive in a React app:
         import { useRive } from "@rive-app/react-webgl2";
 
         export default function App() {
-          const { RiveComponent } = useRive({
+          const { rive, RiveComponent } = useRive({
             // Load a local .riv file or use a hosted URL.
             src: "quick_start_health_bar.riv",
             // Be sure to specify the correct state machine (or animation) name
@@ -49,6 +49,20 @@ There are three main ways to use Rive in a React app:
             // This uses the view model instance defined in Rive
             autoBind: true,
           });
+
+          // Get the bound view model instance
+          const vmi = rive?.viewModelInstance;
+
+          // Access the bound numeric `health` field and its setter from the view model instance.
+          const { value: health, setValue: setHealth } = useViewModelInstanceNumber(
+            "health",
+            vmi
+          );
+
+          useEffect(() => {
+            // Set the health value
+            setHealth(10);
+          }, [rive, setHealth]);
 
           return (
             <RiveComponent />
