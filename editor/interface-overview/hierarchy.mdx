@@ -1,84 +1,63 @@
 ---
 title: "Hierarchy"
-description: "The Hierarchy shows you all of the objects, assets, and view models in your file. This view changes based on the artboard, component, or tab you have selected."
+description: "View, organize, and reorder objects in your file."
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
-
-# Switching Views
-
-To switch between the different panels, click on the desired panel.
-
-![Switch View](/images/SwitchView.gif)
-
-# Hierarchy
-
-The Hierarchy is a tree view, which shows both the parent-child relationships between objects on the stage as well as the order in which they are rendered. Learn about the Hierarchy by either watching the video or reading more below.
+import { VideoEmbed } from '/snippets/video-embed.jsx'
 
 <YouTube id="FnnZV57Dp3c" />
 
-Parent-child relationships are a core concept in Rive, which allows you to create complex layered animations with minimal effort. [Groups](/editor/fundamentals/groups) and [Bones](/editor/manipulating-shapes/bones) can have children in Rive.
+The Hierarchy is a tree view that shows the objects on the stage. It shows both how objects are nested and the order in which they are rendered.
 
-Each row in the Hierarchy represents an item on the stage. A circle button with an arrow appears next to items that have children nested underneath them. This button allows you to expand and collapse the list of children.
+## Renaming Items
 
-## **Parent-child relationships**
+You can rename items in the Hierarchy to make your file easier to understand and navigate.
 
-<YouTube id="FnnZV57Dp3c" />
+To rename an item, double-click its name in the Hierarchy, enter a new name, then press Enter.
 
-Any type of object can be a parent or a child of another type of object. When an object is a child of another object, it inherits all the transformations of its parent. For example, changing a parent objects scale will affect the child object. These transformations take place from the parents origin, not the local origin.
+## Parent-Child Relationships
 
-![Image](https://ucarecdn.com/7aed46e0-3a37-42c8-977f-f836f87a3304/)
+Each row in the Hierarchy represents an item on the stage. Items with children have a button with an arrow next to them. Use this button to expand or collapse the list of children.
 
-The depth of these parent/child relationships is infinite, so you can keep stacking (or nesting) items to create grandchildren, great-grandchildren, and so on.
+<VideoEmbed src="https://static.rive.app/video/hierarchy-expand.mp4 " />
 
+Any object can be a parent or child of another object. When an object is nested under another object, it inherits the transformations of its parent.
 
-### **Change parent-child relationships**
+For example, scaling a parent object also scales its children. Parent transformations are applied from the parent’s origin, not the child’s local origin.
 
-To change the relationship between objects, drag and drop the object onto or out of another.
+<VideoEmbed src="https://static.rive.app/video/hierarchy-transforms.mp4" />
 
-![Image](https://ucarecdn.com/b58a873b-0d11-47fc-8048-48ea3b106fec/)
+You can nest objects as deeply as needed, creating children, grandchildren, great-grandchildren, and so on.
 
-## **Draw Order**
+To change the relationship between objects, drag an item onto another item to make it a child. Drag it out of the parent to remove the relationship.
 
-In addition to displaying the relationships between objects, the Hierarchy shows you the Draw Order of a file, with the objects at the top being rendered in front and the objects at the bottom being rendered at the back.
+<VideoEmbed src="https://static.rive.app/video/grouping-items.mp4 " />
 
+## Draw Order
 
-### **Change Draw Order**
+The Hierarchy also controls draw order. Objects higher in the Hierarchy render above objects lower in the Hierarchy.
 
+<Note>
+  You can override the default draw order with [custom draw order](/editor/animate-mode/animating-draw-order).
+</Note>
 
-![Image](https://ucarecdn.com/5aeb4f67-a7f6-4efe-83bd-975880f79618/)
+To change draw order, drag objects up or down in the Hierarchy.
 
-To change the Draw Order of objects on the stage, drag and drop the shape, or group of shapes above or below another in the list. Note that draw order also affects how objects are placed and treated in a layout. Read more about that [here](/editor/layouts/layouts-overview).
+![Change hierarchy order](/images/editor/interface/hierarchy-reorder.gif)
 
-The Draw Order can be animated, but the process is a bit more in-depth. Read about it on the [Animating Draw Order](/editor/animate-mode/animating-draw-order) page.
+## Context Menu
 
-## **Right Click Menu**
+Right-click an item in the Hierarchy to open additional options. Depending on the selected item, options may include:
 
-Right clicking any object in the hierarchy will bring up a menu with different options for each object. In the menu you'll find the ability to copy and paste both objects and styles, delete objects, wrap objects in [layouts](/editor/layouts/layouts-overview) and [solos](/editor/manipulating-shapes/solos), show the dependency graph, add a [tag](/editor/tagging), reverse the draw order, and [export a name](/editor/exporting/exporting-names).
+![Hierarchy context menu](/images/interface/hierarchy-right-click.png)
 
-![Right Click](/images/right_click.png)
+* Copy, cut, paste, delete, copy styles, and paste styles
+* Expand or collapse nested items
+* Show dependencies
+* Lock, hide, or isolate elements
+* Add a [tag](/editor/tagging)
+* Reverse the order of elements
+* [Export name](/editor/exporting/exporting-names)
 
-Many of these options have shortcuts which can either be found next to the option, or in the shortcut menu.
-
-
-# ​Assets Panel
-
-The assets panel is a list view of your Images, Audio, custom fonts, and other assets. This panel allows you to add, remove, replace, and modify all assets added in the file. Read more about importing and modifying assets below.
-
-![Assets](/images/Assets.png)
-
-<CardGroup cols="3">
-  <Card title="Importing Assets" icon="page" iconType="solid" href="/editor/fundamentals/importing-assets" />
-  <Card title="Audio Events" icon="page" iconType="solid" href="/editor/events/audio-events" />
-</CardGroup>
-
-
-# Data Panel
-
-The Data Panel is where all View Models, Enums, and [Converters](/editor/data-binding/converters) for a file are created, organized, and viewed.  The panel is broken into three separate spaces; View Models, Enums, and Converters. Read more about Data Binding [here](/editor/data-binding/overview).
-
-![Data](/images/Data.png)
-
-The plus button on the right of each section allows you to add a new View Model, Enum, or Converter.
-
-If any section has elements associated with it, the list can be expanded or collapsed using the arrow icon on the left.
+Many of these options are also covered in more detail on related pages.
