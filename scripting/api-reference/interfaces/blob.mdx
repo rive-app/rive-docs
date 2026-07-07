@@ -63,7 +63,8 @@ end
 
 ### `data`
 
-The raw binary data as a buffer.
+The raw binary data as a buffer. Read it with the `buffer` library,
+for example `buffer.readu8(blob.data, 0)`.
 ```lua highlight={9}
 type DrawBlob = {
     myBlob: Blob?,
@@ -73,7 +74,7 @@ function init(self: DrawBlob, context: Context): boolean
     self.myBlob = context:blob('myBlob')
 
     if self.myBlob then
-        print('Blob data buffer:', self.myBlob.data)
+        print('First byte:', buffer.readu8(self.myBlob.data, 0))
     end
 
     return true

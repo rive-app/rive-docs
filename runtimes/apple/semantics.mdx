@@ -11,11 +11,11 @@ import { Apple } from "/snippets/constants.mdx"
   Have feedback? Join the [Early Access community](https://community.rive.app/c/early-access/) to share your thoughts and help shape the feature.
 </Note>
 
-This page covers enabling [semantics](/editor/accessibility/semantics) in the {Apple.currentRuntimeName} so your Rive views are accessible to VoiceOver. To learn what semantics are and how to add them to a graphic, see the [Semantics](/editor/accessibility/semantics) editor documentation.
+This page covers enabling [semantics](/editor/accessibility/semantics) in the {{runtimeCurrentNameApple}} so your Rive views are accessible to VoiceOver. To learn what semantics are and how to add them to a graphic, see the [Semantics](/editor/accessibility/semantics) editor documentation.
 
 ## Overview
 
-You add semantics to the elements of your graphic in the Rive Editor — roles such as button, checkbox, tab, slider, image, link, list, or dialog, along with their labels, values, states, and actions. At runtime, the {Apple.currentRuntimeName} reads those semantics from the running state machine and exposes them to [VoiceOver](https://support.apple.com/guide/iphone/turn-on-and-practice-voiceover-iph3e2e415f/ios) as the view's `accessibilityElements`, keeping them up to date as the state machine advances.
+You add semantics to the elements of your graphic in the Rive Editor — roles such as button, checkbox, tab, slider, image, link, list, or dialog, along with their labels, values, states, and actions. At runtime, the {{runtimeCurrentNameApple}} reads those semantics from the running state machine and exposes them to [VoiceOver](https://support.apple.com/guide/iphone/turn-on-and-practice-voiceover-iph3e2e415f/ios) as the view's `accessibilityElements`, keeping them up to date as the state machine advances.
 
 <Warning>
   Semantics are **opt‑in**. The default mode is `.off`, so no accessibility elements are created until you enable semantics on the view.
@@ -27,7 +27,7 @@ You add semantics to the elements of your graphic in the Rive Editor — roles s
 
 ## Availability
 
-Semantics are available in the {Apple.currentRuntimeName} only (not the {Apple.legacyRuntimeName}), on every Apple platform the runtime supports except macOS (AppKit):
+Semantics are available in the {{runtimeCurrentNameApple}} only (not the {{runtimeLegacyNameApple}}), on every Apple platform the runtime supports except macOS (AppKit):
 
 | Platform | Supported |
 | --- | --- |

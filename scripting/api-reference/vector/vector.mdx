@@ -2,8 +2,10 @@
 title: Vector
 ---
 
-Represents a vector with up to three components. 2D APIs use only
-`x`/`y`; 3D APIs (e.g. `Mat4:transformPoint`) also populate `z`.
+Represents a vector with three components. Vectors created with
+`Vector.xy` have z = 0. All magnitude and interpolation operations
+(`length`, `dot`, `distance`, `normalized`, `lerp`, ...) use all three
+components; with z = 0 they behave exactly as 2D math.
 
 
 ## Fields
@@ -53,6 +55,21 @@ local v = Vector.xy(5, -2)  -- 5 -2
 ```
 
 
+### `xyz`
+
+{/* xyz: (x:number, y:number, z:number) -> Vector */}
+<div class="signature">
+```lua
+xyz(x: number, y: number, z: number) -> Vector
+```
+</div>
+
+Creates a vector with the specified x, y and z components.
+```lua
+local v = Vector.xyz(1, 2, 3)
+```
+
+
 ### `origin`
 
 {/* origin: () -> Vector */}
@@ -65,6 +82,21 @@ origin() -> Vector
 Returns the zero vector (0, 0).
 ```lua
 local origin = Vector.origin()  -- 0 0
+```
+
+
+### `cross3`
+
+{/* cross3: (a: Vector, b: Vector) -> Vector */}
+<div class="signature">
+```lua
+cross3(a: Vector, b: Vector) -> Vector
+```
+</div>
+
+Returns the 3D cross product of two vectors.
+```lua
+local z = Vector.cross3(Vector.xyz(1,0,0), Vector.xyz(0,1,0))  -- 0 0 1
 ```
 
 
@@ -463,6 +495,40 @@ vector, using t where 0 returns the vector and 1 returns the other.
 local a = Vector.xy(0, 0)
 local b = Vector.xy(10, 0)
 local p = a:lerp(b, 0.5)  -- 5 0
+```
+
+
+### `writeToBuffer`
+
+{/* function writeToBuffer(self, buf: buffer, byteOffset: number): () */}
+<div class="signature">
+```lua
+writeToBuffer(buf: buffer, byteOffset: number) -> ()
+```
+</div>
+
+Writes x, y, z as 12 bytes (three float32) into the buffer at
+`byteOffset`.
+```lua
+local buf = buffer.create(12)
+Vector.xyz(1, 2, 3):writeToBuffer(buf, 0)
+```
+
+
+### `writeVec4`
+
+{/* function writeVec4(self, buf: buffer, byteOffset: number, w: number): () */}
+<div class="signature">
+```lua
+writeVec4(buf: buffer, byteOffset: number, w: number) -> ()
+```
+</div>
+
+Writes x, y, z, w as 16 bytes (four float32) into the buffer at
+`byteOffset`, matching a vec4 uniform-buffer slot.
+```lua
+local ubo = buffer.create(16)
+lightDir:writeVec4(ubo, 0, 0)  -- w = 0 for a direction
 ```
 
 
