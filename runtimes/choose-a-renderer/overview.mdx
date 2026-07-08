@@ -52,7 +52,7 @@ It also allows Rive to innovate with new features, such as [Vector Feathering](h
 
                 The renderer is multi-threaded per `Worker` object. This means that for each `Worker` object, a new thread will be created to process and render the Rive graphics.
             </Tab>
-            <Tab title={"{{runtimeLegacyNameApple}}"}>>
+            <Tab title={"{{runtimeLegacyNameApple}}"}>
                 With UIKit, you'll be able to see the best performance differences by drawing multiple times on a single `RiveView`, rather than creating multiple instances of `RiveView`s, or multiple `RiveViewModel`s.
 
                 **Example:** See this [stress test example](https://github.com/rive-app/rive-ios/blob/main/Example-iOS/Source/Examples/Storyboard/StressTest.swift) to see how you can override the drawing function on `RiveView` to draw multiple times on the same view, with each graphic at an offset. You can switch out the renderer with the above config and test out the performance for yourself!
