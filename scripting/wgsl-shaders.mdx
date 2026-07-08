@@ -194,24 +194,39 @@ return function(): Node<ShaderDemo>
 end
 ```
 
-## How It Works
+### How It Works
 
-### `context:shader`
+#### `context:shader`
 
 `context:shader("BasicShader")` retrieves the compiled shader asset by name. The name must match the shader asset in your file.
 
-### `GPUCanvas`
+#### `GPUCanvas`
 
 `context:gpuCanvas()` creates the render target the shader draws into. The canvas exposes its rendered result as `canvas.image`.
 
-### `GPUPipeline`
+#### `GPUPipeline`
 
 `GPUPipeline.new()` combines the shader with render settings such as vertex layout and color target format.
 
-### `drawCanvas`
+#### `drawCanvas`
 
 Use `drawCanvas` for GPU rendering. This is where you begin a render pass, set the pipeline, and issue draw calls.
 
-### `draw`
+#### `draw`
 
 Use `draw` to draw the rendered canvas image into the Rive scene.
+
+## Shader Targets
+
+When nothing is selected in the editor, the Inspector shows file-level **Shader Targets** options.
+
+Use these options to choose which shader languages Rive should generate from your WGSL shaders:
+
+- **Metal (MSL)**
+- **GLSL ES 300**
+- **HLSL**
+- **SPIR-V**
+
+Enable the targets required by the runtimes and platforms where your file will be used.
+
+![Render targets](/images/scripting/shaders/shader-targets.png)
