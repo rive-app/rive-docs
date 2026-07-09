@@ -18,13 +18,19 @@ The Rive Renderer is designed to provide better performance and visual fidelity 
 
 | Runtime      | Default Renderer | Options                                      |
 | ------------ | ---------------- | -------------------------------------------- |
-| Web (JS)          | Depends on package       | Rive / Canvas2D                              |
-| Web (React)          | Depends on package       | Rive / Canvas2D                              |
+| [Web (JS)](#web-js)          | Depends on package       | Rive / Canvas2D                              |
+| [Web (React)](#web-react)          | Depends on package       | Rive / Canvas2D                              |
 | Apple ({{runtimeCurrentNameApple}}) | Rive | Rive |
-| Apple ({{runtimeLegacyNameApple}}) | Rive | Rive / CoreGraphics / Skia (deprecated in v6.0.0) |
-| Android      | Rive             | Rive / Canvas / Skia (removed as of v10.0.0) |
-| React Native | Rive             | *See Apple and Android*                      |
-| Flutter      | No default       | Rive / Flutter Skia / Flutter Impeller       |
+| Android (Compose)     | Rive             | Rive |
+| [React Native](#react-native) | Rive             | *See Apple and Android*                      |
+| [Flutter](#flutter)      | No default       | Rive / Flutter Skia / Flutter Impeller       |
+
+### Legacy Runtimes
+
+| Runtime      | Default Renderer | Options                                      |
+| ------------ | ---------------- | -------------------------------------------- |
+| [Apple ({{runtimeLegacyNameApple}})](#apple-legacy-runtime) | Rive | Rive / CoreGraphics / Skia (deprecated in v6.0.0) |
+| [Android (Legacy)](#android-legacy)     | Rive             | Canvas / Skia (removed as of v10.0.0) |
 
 ## Runtime Setup
 
@@ -149,8 +155,8 @@ If a runtime is not listed here, there is no renderer setup to configure. It use
         ```
 
     </Tab>
-    <Tab title="Android">
-        Options: `Rive (default) / Canvas / Skia (removed in v10.0.0)`
+    <Tab title="Android (Legacy)">
+        Options: `Canvas / Skia (removed in v10.0.0)`
 
         Specify the renderer target in XML:
 
