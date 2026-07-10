@@ -192,11 +192,21 @@ export const Demos = ({
       description: 'Load and control your Rive (.riv) file.',
       links: {
         react: 'https://codesandbox.io/p/sandbox/rive-react-quick-start-4xy76h?file=%2Fsrc%2FApp.tsx%3A77%2C14',
-        reactJs: 'https://codesandbox.io/p/devbox/rive-react-vanilla-js-quick-start-kz66t4?file=%2Fsrc%2FApp.tsx%3A53%2C7',
+        reactJs: 'https://codesandbox.io/p/devbox/rive-react-vanilla-js-quick-start-kz66t4?file=%2Fsrc%2FApp.tsx%3A53%2C7'
       },
       source: [
         "https://rive.app/marketplace/24637-46037-health-bar-data-binding-quick-start/"
       ]
+    },
+    reactHome: {
+      title: "See a Working Demo",
+      image: '/images/runtimes/quick-start.gif',
+      description: 'Load your Rive (.riv) file into a React component.',
+      links: {
+        react: 'https://codesandbox.io/p/sandbox/rive-react-quick-start-4xy76h?file=%2Fsrc%2FApp.tsx%3A77%2C14',
+        reactJs: 'https://codesandbox.io/p/devbox/rive-react-vanilla-js-quick-start-kz66t4?file=%2Fsrc%2FApp.tsx%3A53%2C7',
+        reactComponent: 'https://codesandbox.io/p/sandbox/rive-react-component-quick-start-hl87kh?file=%2Fsrc%2FApp.tsx%3A23%2C1'
+      }
     },
     scriptingDrawingShapes: {
       title: "Drawing with Scripting",
@@ -329,6 +339,7 @@ export const Demos = ({
     'web',
     'react',
     'reactJs',
+    'reactComponent',
     'reactNative',
     'flutter',
     'apple',
@@ -341,6 +352,7 @@ export const Demos = ({
   const runtimeTitles = {
     web: 'Web',
     reactJs: 'React (Imperative)',
+    reactComponent: 'React (Component)',
     react: 'React',
     reactNative: "React Native",
     flutter: 'Flutter',
