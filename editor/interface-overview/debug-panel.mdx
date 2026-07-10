@@ -1,0 +1,56 @@
+---
+title: "Debug Panel"
+description: "Inspect logs, problems, AI changes, tests, and audio while working in Rive."
+---
+
+The Debug Panel shows output and diagnostic information while you work in Rive. Use it to inspect console logs, find problems, review AI Agent changes, run tests, and preview audio.
+
+![Viewport](/images/editor/interface/debug-panel.png)
+
+## Tabs
+
+The Debug Panel is organized into tabs.
+
+- **Console** - view script logs, runtime errors, and State Machine activity.
+- **Problems** - view code issues, broken bindings, validation warnings, and other problems in the file.
+- **Changes** - review pending changes from the AI Agent.
+- **Testing** - run [test scripts](/scripting/debugging/unit-testing).
+- **Audio** - [preview audio assets](/editor/assets/audio#previewing-sounds) and [create clips](/editor/assets/audio#creating-clips).
+
+### Console
+
+The Console shows output from scripts and State Machines.
+
+Use the sidebar in the Console tab to switch between the script console and the State Machine console.
+
+Use the Console options to clear the console, clear the console when playback starts, or copy console output.
+
+#### Script Console
+
+The script console shows output from scripts, including `print()` messages and runtime errors.
+
+See [Script Console](/scripting/debugging/debug-panel#console) for more information.
+
+#### State Machine Console
+
+The State Machine console shows State Machine activity during playback, such as entering a state or taking a transition.
+
+![Viewport](/images/editor/interface/debug-panel-state-machine-console.png)
+
+### Problems
+
+The Problems tab lists issues found in the file. These can include code problems, broken data bindings, validation warnings, or problematic State Machine setup.
+
+Use the Problems options to filter problems, show or hide warnings, and include non-script validation.
+
+Click a problem to open the affected code line, binding, State Machine item, or related editor location.
+
+
+![Viewport](/images/editor/interface/debug-panel-problems.png)
+
+### Changes
+
+The Changes tab shows pending changes from the AI Agent.
+
+Use this tab to review changes before applying them to your file.
+
