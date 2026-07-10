@@ -23,7 +23,7 @@ The Rive Renderer is designed to provide better performance and visual fidelity 
 | Apple | Rive | Rive |
 | Android (Compose)     | Rive             | Rive |
 | [Android (Legacy)](#android-legacy)     | Canvas             | Canvas / Skia (removed as of v10.0.0) |
-| [React Native](#react-native) | Rive             | *See Apple and Android*                      |
+| React Native | Rive             | Rive                     |
 | [Flutter](#flutter)      | No default       | Rive / Flutter Skia / Flutter Impeller       |
 
 
@@ -71,29 +71,6 @@ If a runtime is not listed here, there is no renderer setup to configure. It use
 
         ```kotlin
         Rive.init(applicationContext, defaultRenderer = RendererType.Rive)
-        ```
-    </Tab>
-    <Tab title="React Native">
-        For React Native, you can set the default renderer for **Android** using `RiveRenderer.defaultRenderer`.
-
-        If you do not set a renderer, React Native uses the default renderer.
-
-        - Android options: `Rive (default) / Canvas`
-
-        <Info>
-            See the **Android** sections for additional information on renderers and fallbacks.
-        </Info>
-
-        ```javascript
-        export default function Main() {
-            useEffect(() => {
-                RiveRenderer.defaultRenderer(
-                    RiveRendererAndroid.Rive
-                );
-            }, []);
-
-            return <App />;
-        }
         ```
     </Tab>
     <Tab title="Flutter">
