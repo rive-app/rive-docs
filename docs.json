@@ -27,7 +27,9 @@
     "pricingVoyagerYearly": "$304",
     "pricingEnterpriseYearly": "$1,440",
     "versionMajorWebGL2": "2",
-    "versionWebGL2": "2.38.3"
+    "versionWebGL2": "2.38.3",
+    "supportForm": "https://forms.rive.app/support?utm_medium=support_page",
+    "supportFormEducational": "https://forms.rive.app/education?utm_medium=support_page"
   },
   "navigation": {
     "tabs": [
@@ -59,16 +61,24 @@
             "pages": [
               "editor/get-rive",
               {
-                "group": "Interface Overview",
+                "group": "Editor Interface",
                 "pages": [
                   "editor/interface-overview/overview",
-                  "editor/interface-overview/selection-and-navigation",
-                  "editor/interface-overview/toolbar",
-                  "editor/interface-overview/hierarchy",
-                  "editor/tagging",
-                  "editor/interface-overview/inspector",
                   "editor/interface-overview/stage",
-                  "editor/keyboard-shortcuts"
+                  "editor/interface-overview/toolbar",
+                  "editor/interface-overview/sidebar",
+                  "editor/interface-overview/inspector"
+                ]
+              },
+              {
+                "group": "Workflows",
+                "pages": [
+                  "editor/interface-overview/selection-and-navigation",
+                  "editor/keyboard-shortcuts",
+                  "editor/workflows/dependency-graph",
+                  "editor/tagging",
+                  "editor/fundamentals/revision-history",
+                  "getting-started/best-practices"
                 ]
               }
             ]
@@ -93,6 +103,7 @@
                       "editor/manipulating-shapes/clipping"
                     ]
                   },
+                  "editor/fundamentals/align-and-distribute",
                   {
                     "group": "Text",
                     "pages": [
@@ -105,6 +116,7 @@
                   {
                     "group": "Hierarchical Relationships",
                     "pages": [
+                      "editor/interface-overview/hierarchy",
                       "editor/fundamentals/groups",
                       "editor/manipulating-shapes/solos",
                       "editor/fundamentals/transform-spaces",
@@ -198,19 +210,31 @@
                   "editor/exporting/exporting-for-backup",
                   "editor/embed-urls/overview"
                 ]
+              },
+              {
+                "group": "AI",
+                "pages": [
+                  "editor/ai-agent/ai-agent",
+                  "editor/ai/mcp"
+                ]
               }
             ]
           },
           {
             "group": "Advanced Topics",
             "pages": [
-              "getting-started/best-practices",
               {
-                "group": "Workspaces",
+                "group": "Admin & Workspaces",
                 "pages": [
-                  "account-admin/workspaces/workspaces-overview",
-                  "account-admin/workspaces/managing-workspaces",
-                  "account-admin/workspaces/managing-workspace-members"
+                  {
+                    "group": "Workspaces",
+                    "pages": [
+                      "account-admin/workspaces/workspaces-overview",
+                      "account-admin/workspaces/managing-workspaces",
+                      "account-admin/workspaces/managing-workspace-members"
+                    ]
+                  },
+                  "account-admin/bring-your-own-bucket"
                 ]
               },
               {
@@ -237,20 +261,11 @@
                   }
                 ]
               },
-              "editor/fundamentals/revision-history",
               {
                 "group": "Accessibility",
                 "pages": [
                   "editor/accessibility/semantics",
                   "editor/accessibility/reduced-motion"
-                ]
-              },
-              "account-admin/bring-your-own-bucket",
-              {
-                "group": "AI",
-                "pages": [
-                  "editor/ai-agent/ai-agent",
-                  "editor/ai/mcp"
                 ]
               },
               {
