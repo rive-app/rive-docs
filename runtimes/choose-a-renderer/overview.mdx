@@ -18,13 +18,14 @@ The Rive Renderer is designed to provide better performance and visual fidelity 
 
 | Runtime      | Default Renderer | Options                                      |
 | ------------ | ---------------- | -------------------------------------------- |
-| Web (JS)          | Depends on package       | Rive / Canvas2D                              |
-| Web (React)          | Depends on package       | Rive / Canvas2D                              |
-| Apple ({{runtimeCurrentNameApple}}) | Rive | Rive |
-| Apple ({{runtimeLegacyNameApple}}) | Rive | Rive / CoreGraphics / Skia (deprecated in v6.0.0) |
-| Android      | Rive             | Rive / Canvas / Skia (removed as of v10.0.0) |
-| React Native | Rive             | *See Apple and Android*                      |
-| Flutter      | No default       | Rive / Flutter Skia / Flutter Impeller       |
+| [Web (JS)](#web-js)          | Depends on package       | Rive / Canvas2D                              |
+| [Web (React)](#web-react)          | Depends on package       | Rive / Canvas2D                              |
+| Apple | Rive | Rive |
+| Android (Compose)     | Rive             | Rive |
+| [Android (Legacy)](#android-legacy)     | Rive             | Rive / Canvas / Skia (removed as of v10.0.0) |
+| React Native | Rive             | Rive                     |
+| [Flutter](#flutter)      | No default       | Rive / Flutter Skia / Flutter Impeller       |
+
 
 ## Runtime Setup
 
@@ -55,102 +56,8 @@ If a runtime is not listed here, there is no renderer setup to configure. It use
             These packages provide the Rive React component and hooks. If you want to use the imperative JavaScript runtime in a React app, install one of the Web JavaScript packages instead, such as `@rive-app/webgl2`, `@rive-app/canvas`, or `@rive-app/canvas-lite`.
         </Note>
     </Tab>
-    <Tab title={"Apple ({{runtimeLegacyNameApple}})"}>
-
-        <Note>
-            The current Apple runtime uses the Rive Renderer only. Renderer setup is only needed for the legacy Apple runtime.
-        </Note>
-
-        Options: `Rive (default) / Core Graphics / Skia (deprecated in v6.0.0)`
-
-        Below are some notes on configuring the renderer in UIKit and SwiftUI.
-
-        **UIKit**
-
-        Set the global renderer type during your application launch:
-
-        ```swift
-        @UIApplicationMain
-        class AppDelegate: UIResponder, UIApplicationDelegate {
-
-            func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-                // Override point for customization after application launch.
-                RenderContextManager.shared().defaultRenderer = RendererType.riveRenderer
-                return true
-            }
-
-            ...
-        }
-        ```
-
-        **SwiftUI**
-
-        New SwiftUI applications launch with the `App` protocol, but you can still add `UIApplicationDelegate` functionality.
-
-        **SwiftUI - iOS**
-
-        Create a new file and class called `AppDelegate` as such, including a line to set the `defaultRenderer` to `RendererType.riveRenderer`:
-
-        ```swift
-        import UIKit
-        import Foundation
-        import RiveRuntime
-
-        class AppDelegate: NSObject, UIApplicationDelegate {
-            func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-                RenderContextManager.shared().defaultRenderer = RendererType.riveRenderer
-                return true
-            }
-        }
-        ```
-
-        Next, at the entry point of your application, use `UIApplicationDelegateAdaptor` to set the `AppDelegate` created above for the application delegate.
-
-        ```swift
-        @main
-        struct MyRiveRendererApp: App {
-            @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-
-            var body: some Scene {
-                WindowGroup {
-                    ContentView()
-                }
-            }
-        }
-        ```
-
-        **SwiftUI - macOS**
-
-        Create a new file and class called `AppDelegate` as such, including a line to set the `defaultRenderer` to `RendererType.riveRenderer`:
-
-        ```swift
-        import Foundation
-        import RiveRuntime
-
-        class AppDelegate: NSObject, NSApplicationDelegate {
-            func application(_ application: NSApplication, applicationDidFinishLaunching notification: Notification) -> Bool {
-                RenderContextManager.shared().defaultRenderer = RendererType.riveRenderer
-                return true
-        ```
-
-        Next, at the entry point of your application, use `UIApplicationDelegateAdaptor` to set the `AppDelegate` created above for the application delegate.
-
-        ```swift
-        @main
-        struct MyRiveRendererApp: App {
-            @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-
-            var body: some Scene {
-                WindowGroup {
-                    ContentView()
-                }
-            }
-        }
-        ```
-
-    </Tab>
-    <Tab title="Android">
-        Options: `Rive (default) / Canvas / Skia (removed in v10.0.0)`
+    <Tab title="Android (Legacy)">
+        Options: `Canvas / Skia (removed in v10.0.0)`
 
         Specify the renderer target in XML:
 
@@ -166,36 +73,7 @@ If a runtime is not listed here, there is no renderer setup to configure. It use
         Rive.init(applicationContext, defaultRenderer = RendererType.Rive)
         ```
     </Tab>
-    <Tab title="React Native">
-        For React Native, you can set the default renderer for both **iOS** and **Android** using `RiveRenderer.defaultRenderer`.
-
-        If you do not set a renderer, React Native uses the default renderer for each platform.
-
-        - Apple options: `Rive (default) / CoreGraphics`
-        - Android options: `Rive (default) / Canvas`
-
-        <Info>
-            See the **Apple** and **Android** sections for additional information on renderers and fallbacks.
-        </Info>
-
-        ```javascript
-        export default function Main() {
-            useEffect(() => {
-                RiveRenderer.defaultRenderer(
-                    RiveRendererIOS.Rive,
-                    RiveRendererAndroid.Rive
-                );
-            }, []);
-
-            return <App />;
-        }
-        ```
-    </Tab>
     <Tab title="Flutter">
-         <Warning>
-            The Rive Renderer is not yet supported on Linux through Flutter.
-        </Warning>
-
         The Rive Renderer is available in the Flutter runtime as of `0.14.0`. Use the latest version of the `rive` package for the newest fixes and improvements.
 
         The Rive Renderer is exposed through `rive_native`, which is included as a dependency of the `rive` package. See [Rive Native](/runtimes/flutter/rive-native) for more information.
