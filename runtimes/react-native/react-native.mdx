@@ -218,13 +218,14 @@ This guide documents how to get started using the Rive React Native runtime. The
 
         This approach lets you set initial property values in the `onInit` callback before the view loads and decouples the `ViewModelInstance` from the `RiveView`.
 
-        ```ts Manually create view model instance focus={6-8, 12, 18}
+        ```ts Manually create view model instance focus={6-9, 13, 19}
         export default function QuickStart() {
           const { riveFile } = useRiveFile(
             require('path/to/quick_start.riv')
           );
           const { riveViewRef, setHybridRef } = useRive();
           const { instance: viewModelInstance } = useViewModelInstance(riveFile, {
+            async: true,
             onInit: (vmi) => vmi.numberProperty('health')!.set(20),
           });
 
@@ -246,13 +247,14 @@ This guide documents how to get started using the Rive React Native runtime. The
 
         Use the view model property hooks to update and listen to property changes.
 
-        ```ts Property hooks focus={10-37, 50-52} expandable
+        ```ts Property hooks focus={11-38, 51-53} expandable
         export default function QuickStart() {
           const { riveFile } = useRiveFile(
             require('path/to/quick_start.riv')
           );
           const { riveViewRef, setHybridRef } = useRive();
           const { instance: viewModelInstance } = useViewModelInstance(riveFile, {
+            async: true,
             onInit: (vmi) => vmi.numberProperty('health')!.set(20),
           });
 
@@ -372,34 +374,39 @@ This guide documents how to get started using the Rive React Native runtime. The
 
     ### `useViewModelInstance`
 
-    Hook to create a view model instance from a `RiveFile`, `ViewModel`, or `RiveViewRef`:
+    Hook to create a view model instance from a `RiveFile`, `ViewModel`, or `RiveViewRef`. Pass `async: true` to create the instance via the async runtime APIs, off the JS thread — the hook returns `{ instance, isLoading, error }` and the instance is not available on the first render:
 
     ```ts
     // From RiveFile — default artboard's ViewModel, default instance
-    const { instance } = useViewModelInstance(riveFile);
+    const { instance, isLoading, error } = useViewModelInstance(riveFile, { async: true });
 
     // From RiveFile — specify artboard or ViewModel name (mutually exclusive)
-    const { instance } = useViewModelInstance(riveFile, { artboardName: 'MainArtboard' });
-    const { instance } = useViewModelInstance(riveFile, { viewModelName: 'Settings' });
+    const { instance } = useViewModelInstance(riveFile, { async: true, artboardName: 'MainArtboard' });
+    const { instance } = useViewModelInstance(riveFile, { async: true, viewModelName: 'Settings' });
 
     // instanceName can be combined with any of the above to pick a specific instance
-    const { instance } = useViewModelInstance(riveFile, { instanceName: 'PersonInstance' });
-    const { instance } = useViewModelInstance(riveFile, { viewModelName: 'Settings', instanceName: 'UserSettings' });
+    const { instance } = useViewModelInstance(riveFile, { async: true, instanceName: 'PersonInstance' });
+    const { instance } = useViewModelInstance(riveFile, { async: true, viewModelName: 'Settings', instanceName: 'UserSettings' });
 
     // From a ViewModel object
-    const { instance: namedInstance } = useViewModelInstance(viewModel, { name: 'My Instance' });
-    const { instance: newInstance } = useViewModelInstance(viewModel, { useNew: true });
+    const { instance: namedInstance } = useViewModelInstance(viewModel, { async: true, name: 'My Instance' });
+    const { instance: newInstance } = useViewModelInstance(viewModel, { async: true, useNew: true });
 
-    // With required: true (throws if null, use with Error Boundary)
-    const { instance } = useViewModelInstance(riveFile, { required: true });
+    // With required: true (throws once resolved to null, use with Error Boundary)
+    const { instance } = useViewModelInstance(riveFile, { async: true, required: true });
 
-    // With onInit to set initial values synchronously
+    // With onInit to set initial values before the instance is exposed or bound
     const { instance } = useViewModelInstance(riveFile, {
+      async: true,
       onInit: (vmi) => {
         vmi.numberProperty('health')!.set(100);
       },
     });
     ```
+
+    <Info>
+      Without `async: true` the instance is created synchronously during render, via deprecated runtime APIs that block the JS thread. Those overloads are deprecated — `async: true` becomes the default in the next major release.
+    </Info>
 
     Pass the `dataBind` prop in `RiveView`.
     ```ts
@@ -411,13 +418,13 @@ This guide documents how to get started using the Rive React Native runtime. The
     );
     ```
 
-    You can also get the auto-bound instance from a `RiveViewRef`:
+    You can also get the auto-bound instance from a `RiveViewRef` — the hook waits for the view's auto-bound instance to become available:
 
     ```javascript
     import { useRive, useViewModelInstance } from '@rive-app/react-native';
 
     const { riveViewRef, setHybridRef } = useRive();
-    const { instance } = useViewModelInstance(riveViewRef);
+    const { instance } = useViewModelInstance(riveViewRef, { async: true });
     ```
 
     See the [runtime data binding documentation](/runtimes/react-native/data-binding) for more information.
