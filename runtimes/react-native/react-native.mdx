@@ -224,7 +224,7 @@ This guide documents how to get started using the Rive React Native runtime. The
             require('path/to/quick_start.riv')
           );
           const { riveViewRef, setHybridRef } = useRive();
-          const { instance: viewModelInstance } = useViewModelInstance(riveFile, {
+          const { instance: viewModelInstance, isLoading, error } = useViewModelInstance(riveFile, {
             async: true,
             onInit: (vmi) => vmi.numberProperty('health')!.set(20),
           });
@@ -253,7 +253,7 @@ This guide documents how to get started using the Rive React Native runtime. The
             require('path/to/quick_start.riv')
           );
           const { riveViewRef, setHybridRef } = useRive();
-          const { instance: viewModelInstance } = useViewModelInstance(riveFile, {
+          const { instance: viewModelInstance, isLoading, error } = useViewModelInstance(riveFile, {
             async: true,
             onInit: (vmi) => vmi.numberProperty('health')!.set(20),
           });
@@ -382,21 +382,21 @@ This guide documents how to get started using the Rive React Native runtime. The
 
     // From RiveFile — specify artboard or ViewModel name (mutually exclusive)
     const { instance, isLoading, error } = useViewModelInstance(riveFile, { async: true, artboardName: 'MainArtboard' });
-    const { instance } = useViewModelInstance(riveFile, { async: true, viewModelName: 'Settings' });
+    const { instance, isLoading, error } = useViewModelInstance(riveFile, { async: true, viewModelName: 'Settings' });
 
     // instanceName can be combined with any of the above to pick a specific instance
-    const { instance } = useViewModelInstance(riveFile, { async: true, instanceName: 'PersonInstance' });
-    const { instance } = useViewModelInstance(riveFile, { async: true, viewModelName: 'Settings', instanceName: 'UserSettings' });
+    const { instance, isLoading, error } = useViewModelInstance(riveFile, { async: true, instanceName: 'PersonInstance' });
+    const { instance, isLoading, error } = useViewModelInstance(riveFile, { async: true, viewModelName: 'Settings', instanceName: 'UserSettings' });
 
     // From a ViewModel object
-    const { instance: namedInstance } = useViewModelInstance(viewModel, { async: true, name: 'My Instance' });
-    const { instance: newInstance } = useViewModelInstance(viewModel, { async: true, useNew: true });
+    const { instance: namedInstance, isLoading, error } = useViewModelInstance(viewModel, { async: true, name: 'My Instance' });
+    const { instance: newInstance, isLoading, error } = useViewModelInstance(viewModel, { async: true, useNew: true });
 
     // With required: true (throws once resolved to null, use with Error Boundary)
-    const { instance } = useViewModelInstance(riveFile, { async: true, required: true });
+    const { instance, isLoading, error } = useViewModelInstance(riveFile, { async: true, required: true });
 
     // With onInit to set initial values before the instance is exposed or bound
-    const { instance } = useViewModelInstance(riveFile, {
+    const { instance, isLoading, error } = useViewModelInstance(riveFile, {
       async: true,
       onInit: (vmi) => {
         vmi.numberProperty('health')!.set(100);
@@ -424,7 +424,7 @@ This guide documents how to get started using the Rive React Native runtime. The
     import { useRive, useViewModelInstance } from '@rive-app/react-native';
 
     const { riveViewRef, setHybridRef } = useRive();
-    const { instance } = useViewModelInstance(riveViewRef, { async: true });
+    const { instance, isLoading, error } = useViewModelInstance(riveViewRef, { async: true });
     ```
 
     See the [runtime data binding documentation](/runtimes/react-native/data-binding) for more information.

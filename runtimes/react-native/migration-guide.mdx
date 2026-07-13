@@ -291,7 +291,7 @@ Synchronous `useMemo` chains for ViewModel setup should be replaced with `useSta
   <Tab title="useViewModelInstance (Recommended)">
     ```tsx
     const { riveFile } = useRiveFile(require('./animation.riv'));
-    const { instance } = useViewModelInstance(riveFile, { async: true });
+    const { instance, isLoading, error } = useViewModelInstance(riveFile, { async: true });
 
     const { value: health, setValue: setHealth } = useRiveNumber(
       'health',
@@ -406,7 +406,7 @@ const [setRiveRef, riveRef] = useRive();
 const [health, setHealth] = useRiveNumber(riveRef, "health");
 
 // New: hooks take viewModelInstance, return objects
-const { instance: viewModelInstance } = useViewModelInstance(riveFile, { async: true });
+const { instance: viewModelInstance, isLoading, error } = useViewModelInstance(riveFile, { async: true });
 const { value: health, setValue: setHealth } = useRiveNumber(
   "health",
   viewModelInstance
@@ -614,7 +614,7 @@ Main API changes:
   <Tab title="New Runtime">
     ```tsx
     const { riveFile } = useRiveFile(require('./animation.riv'));
-    const { instance: viewModelInstance } = useViewModelInstance(riveFile, { async: true });
+    const { instance: viewModelInstance, isLoading, error } = useViewModelInstance(riveFile, { async: true });
 
     const { value: health, setValue: setHealth } = useRiveNumber('health', viewModelInstance);
     const { value: name, setValue: setName } = useRiveString('Player/Name', viewModelInstance);
