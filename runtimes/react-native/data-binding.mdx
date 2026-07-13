@@ -58,7 +58,7 @@ import { Demos } from "/snippets/demos.jsx";
     <Tab title="New Runtime (Recommended)">
     Use the `useViewModelInstance` hook to create a view model instance. You can pass a `RiveFile`, `ViewModel`, or `RiveViewRef` as the source.
 
-    Pass `async: true` to create the instance via the async runtime APIs, off the JS thread. The hook returns `{ instance, isLoading, error }` — the instance is not available on the first render, so gate rendering on it:
+    Pass `async: true` to opt in to asynchronous instance creation. The flag signals that your component handles the loading state: the hook returns `{ instance, isLoading, error }` and the instance is not available on the first render, so gate rendering on it. This prepares your code for the new runtime implementation, where creating an instance is an asynchronous operation.
 
     ```tsx
     import { Text } from 'react-native';
@@ -80,7 +80,7 @@ import { Demos } from "/snippets/demos.jsx";
 
     ```tsx
     // Specify artboard or ViewModel name (mutually exclusive)
-    const { instance } = useViewModelInstance(riveFile, { async: true, artboardName: 'MainArtboard' });
+    const { instance, isLoading, error } = useViewModelInstance(riveFile, { async: true, artboardName: 'MainArtboard' });
     const { instance } = useViewModelInstance(riveFile, { async: true, viewModelName: 'Settings' });
 
     // instanceName can be combined with any of the above to pick a specific instance
@@ -105,7 +105,7 @@ import { Demos } from "/snippets/demos.jsx";
     ```
 
     <Info>
-        Without `async: true` the instance is created synchronously during render, via deprecated runtime APIs that block the JS thread. Those overloads are deprecated — `async: true` becomes the default in the next major release.
+        `async: true` is a transitional flag: the synchronous creation path (which also blocks the JS thread during render) is being phased out in stages. Today, calls without `async: true` are deprecated in TypeScript; a future release adds a runtime deprecation warning; later, `async: true` becomes required; finally the flag is removed and the hook is always asynchronous.
     </Info>
 
     You can also get the auto-bound instance from a `RiveViewRef` — the hook waits for the view's auto-bound instance to become available:

@@ -374,14 +374,14 @@ This guide documents how to get started using the Rive React Native runtime. The
 
     ### `useViewModelInstance`
 
-    Hook to create a view model instance from a `RiveFile`, `ViewModel`, or `RiveViewRef`. Pass `async: true` to create the instance via the async runtime APIs, off the JS thread — the hook returns `{ instance, isLoading, error }` and the instance is not available on the first render:
+    Hook to create a view model instance from a `RiveFile`, `ViewModel`, or `RiveViewRef`. Pass `async: true` to opt in to asynchronous instance creation — the flag signals that your component handles the loading state: the hook returns `{ instance, isLoading, error }` and the instance is not available on the first render. This prepares your code for the new runtime implementation, where creating an instance is an asynchronous operation.
 
     ```ts
     // From RiveFile — default artboard's ViewModel, default instance
     const { instance, isLoading, error } = useViewModelInstance(riveFile, { async: true });
 
     // From RiveFile — specify artboard or ViewModel name (mutually exclusive)
-    const { instance } = useViewModelInstance(riveFile, { async: true, artboardName: 'MainArtboard' });
+    const { instance, isLoading, error } = useViewModelInstance(riveFile, { async: true, artboardName: 'MainArtboard' });
     const { instance } = useViewModelInstance(riveFile, { async: true, viewModelName: 'Settings' });
 
     // instanceName can be combined with any of the above to pick a specific instance
@@ -405,7 +405,7 @@ This guide documents how to get started using the Rive React Native runtime. The
     ```
 
     <Info>
-      Without `async: true` the instance is created synchronously during render, via deprecated runtime APIs that block the JS thread. Those overloads are deprecated — `async: true` becomes the default in the next major release.
+      `async: true` is a transitional flag: the synchronous creation path (which also blocks the JS thread during render) is being phased out in stages. Today, calls without `async: true` are deprecated in TypeScript; a future release adds a runtime deprecation warning; later, `async: true` becomes required; finally the flag is removed and the hook is always asynchronous.
     </Info>
 
     Pass the `dataBind` prop in `RiveView`.

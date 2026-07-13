@@ -9,7 +9,14 @@ This release introduces async view model instance creation and deprecates the sy
 
 ### `useViewModelInstance` Gains `async: true` and `isLoading`
 
-Pass `async: true` to create the instance via the async runtime APIs, off the JS thread. The result now includes `isLoading`, and the instance is not available on the first render — gate rendering on it. Without `async: true` the instance is still created synchronously during render, but those overloads are now deprecated (`async: true` becomes the default in the next major release).
+Pass `async: true` to opt in to asynchronous instance creation. The flag signals that your component handles the loading state: the result now includes `isLoading`, and the instance is not available on the first render — gate rendering on it. This prepares your code for the new runtime implementation, where creating an instance is an asynchronous operation.
+
+`async: true` is a transitional flag; the synchronous creation path is being phased out in stages:
+
+1. **Now** — calls without `async: true` are deprecated in TypeScript (deprecation warnings in your editor and via lint rules).
+2. **Next** — calling without `async: true` will additionally log a runtime deprecation warning.
+3. **Later** — the synchronous path is removed and `async: true` becomes required.
+4. **Finally** — the flag itself is removed; the hook is simply asynchronous.
 
 <Tabs>
   <Tab title="New API">
