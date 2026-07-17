@@ -6,7 +6,9 @@
 // collected notes into prose. Nothing here calls an AI.
 //
 //   node scripts/runtime-changelog/collect.mjs                  # collect; never writes state
-//   node scripts/runtime-changelog/collect.mjs --advance-state  # record what was announced
+//   node scripts/runtime-changelog/collect.mjs --advance-state  # record + sync docs.json versions
+//   node scripts/runtime-changelog/collect.mjs --baseline       # first-ever run (no state yet)
+//   node scripts/runtime-changelog/collect.mjs --bootstrap-days 30   # widen first-run lookback
 //
 // Collecting is always safe: it only writes generated/release-data.json. State moves
 // only on the explicit second step, which re-reads that same file and makes no network
@@ -25,8 +27,12 @@ const STATE_PATH = join(HERE, 'state.json');
 const OUT_DIR = join(HERE, 'generated');
 const OUT_PATH = join(OUT_DIR, 'release-data.json');
 
-// When a runtime has no recorded state, announce whatever shipped in this window.
-const BOOTSTRAP_DAYS = 14;
+// First-run lookback only: when a runtime has no recorded state yet, its first entry
+// covers whatever shipped in this many days. Used exclusively on the very first run for a
+// runtime — after that the range is a pure version comparison against state, so it does
+// not matter whether you run this weekly, biweekly, or ad hoc. Override with
+// --bootstrap-days N.
+const DEFAULT_BOOTSTRAP_DAYS = 14;
 
 // ---------------------------------------------------------------------------
 // Runtime configuration
@@ -119,7 +125,7 @@ const RUNTIMES = [
     // The Nitro runtime, published to npm as @rive-app/react-native. Distinct from
     // the legacy rive-app/rive-react-native repo (npm: rive-react-native, v9.x).
     // semantic-release cuts a GitHub release per publish, so releases keep pace and
-    // carry the notes — but it ships often (5 releases in a typical fortnight).
+    // carry the notes — but it ships often (frequently several releases per entry).
     versions: { type: 'github-releases', repo: 'rive-app/rive-nitro-react-native' },
     notes: { type: 'github-releases' },
     links: {
@@ -676,9 +682,9 @@ async function collectRuntime(runtime, state, cutoffIso, baseline) {
 // touched — adding one is a deliberate docs edit, not something this script guesses.
 // ---------------------------------------------------------------------------
 
-// Only runtimes whose docs pin a version get a variable. React, React Native and Unreal
-// install via "latest" (npm default) or a marketplace, so there is nothing to keep
-// current and they are deliberately absent.
+// Only runtimes whose docs pin a version get a variable. React and React Native install
+// via npm "latest" with no pin, so there is nothing to keep current and they are
+// deliberately absent.
 const DOCS_VERSION_VARS = {
   apple: { full: 'versionApple' },
   android: { full: 'versionAndroid' },
@@ -687,6 +693,7 @@ const DOCS_VERSION_VARS = {
   // webgl2, …); the docs expose it as the generalized {{versionWeb}}.
   web: { full: 'versionWeb', major: 'versionMajorWeb' },
   unity: { full: 'versionUnity' },
+  unreal: { full: 'versionUnreal' },
 };
 
 // Compares docs.json's current variable values against each runtime's latest version and
@@ -783,12 +790,22 @@ function advanceState() {
   console.log('\nNothing was committed or pushed. Review with: git diff');
 }
 
+// Reads `--flag N` as a positive integer, or returns the fallback when absent.
+function readIntArg(name, fallback) {
+  const i = process.argv.indexOf(name);
+  if (i === -1) return fallback;
+  const v = Number(process.argv[i + 1]);
+  if (!Number.isInteger(v) || v <= 0) throw new Error(`${name} needs a positive integer`);
+  return v;
+}
+
 async function main() {
   if (process.argv.includes('--advance-state')) return advanceState();
 
   const baseline = process.argv.includes('--baseline');
+  const bootstrapDays = readIntArg('--bootstrap-days', DEFAULT_BOOTSTRAP_DAYS);
   const now = new Date();
-  const cutoff = new Date(now.getTime() - BOOTSTRAP_DAYS * 86_400_000);
+  const cutoff = new Date(now.getTime() - bootstrapDays * 86_400_000);
   const cutoffIso = cutoff.toISOString();
   const state = loadState();
 
@@ -801,7 +818,7 @@ async function main() {
 
   console.log('Rive runtime release collector');
   console.log(`  today:     ${localDate(now)}`);
-  console.log(`  bootstrap: releases published after ${localDate(cutoff)} (${BOOTSTRAP_DAYS}d)`);
+  console.log(`  first-run lookback: releases after ${localDate(cutoff)} (${bootstrapDays}d, first entry only)`);
   if (baseline) {
     console.log('  baseline:  quiet runtimes contribute their current version (first entry only)');
   }

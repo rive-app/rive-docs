@@ -1,6 +1,6 @@
 ---
 name: runtime-announcement
-description: Write the fortnightly Rive runtime update entry in runtimes/changelog.mdx. Use when the user asks to generate, draft, or publish a runtime changelog entry, runtime update announcement, or "what shipped in the runtimes" post.
+description: Write a Rive runtime update entry in runtimes/changelog.mdx. Use when the user asks to generate, draft, or publish a runtime changelog entry, runtime update announcement, or "what shipped in the runtimes" post.
 ---
 
 # Runtime update announcement
@@ -123,7 +123,7 @@ Cut entirely: CI and release plumbing, dependency bumps with no user impact, for
 internal refactors with no stated effect. `pin npm down to v11 as latest compatible
 version for our node runner` is not an announcement.
 
-Collapse consecutive versions. Five patch releases in a fortnight usually contain one or
+Collapse consecutive versions. Five patch releases in one window usually contain one or
 two things a user cares about — write those, not five sections. Never pad a section to
 make a runtime look busy; a runtime with one real fix gets one bullet.
 
@@ -134,10 +134,12 @@ announced per runtime. It is the boundary for the next entry, which is why it mu
 committed in the **same commit** as the entry it describes — and why you never advance it
 before the user approves.
 
-Once a runtime has a recorded version, its range is pure version comparison up to the
-latest published release. The two-week window is bootstrap-only and is never consulted
-again for that runtime. A runtime added to the config later has no state, so it
-bootstraps from the window on its first run — it will not dump its whole history.
+Run this whenever — weekly, biweekly, or ad hoc. Once a runtime has a recorded version,
+its range is a pure version comparison up to the latest published release, so the result
+is the same no matter how much time has passed since the last entry. The lookback window
+is used only to seed a runtime that has no state yet (its first-ever entry); after that it
+is never consulted again. A runtime added to the config later bootstraps from that window
+on its first run rather than dumping its whole history.
 
 A runtime marked `baselineOnly: true` shipped nothing in the window and is present only
 because the first entry establishes a starting point. Say so plainly in its section

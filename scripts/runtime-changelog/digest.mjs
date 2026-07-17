@@ -4,7 +4,7 @@
 // the changelog is the reviewed, hand-edited source of truth, so the digest can never
 // say something the published page doesn't.
 //
-//   node scripts/runtime-changelog/digest.mjs                       # last 14 days
+//   node scripts/runtime-changelog/digest.mjs                       # most recent entry
 //   node scripts/runtime-changelog/digest.mjs --since 2026-07-01    # explicit window
 //   node scripts/runtime-changelog/digest.mjs --since 2026-06-01 --until 2026-06-30
 //   node scripts/runtime-changelog/digest.mjs --out /tmp/post.md    # custom save path
@@ -26,7 +26,6 @@ const DEFAULT_SOURCE = join(REPO_ROOT, 'runtimes', 'changelog.mdx');
 // The post is saved here by default — alongside the collector's release-data.json, and
 // git-ignored like it. It's a share artifact, never committed.
 const DEFAULT_OUT = join(HERE, 'generated', 'community-post.md');
-const WINDOW_DAYS = 14;
 
 // Section ordering, matching the changelog. Core leads; unknown runtimes fall to the end.
 const RUNTIME_ORDER = [
@@ -121,7 +120,7 @@ function parseUpdates(mdx) {
     body = body.replace(/\{\/\*[\s\S]*?\*\/\}/g, '').trim();
     const label = attr(openTag, 'label');
     const description = attr(openTag, 'description');
-    // An entry's date is its label when that's a date (per-fortnight page), otherwise
+    // An entry's date is its label when that's a date (date-grouped page), otherwise
     // its description (per-runtime page, where the label is "Apple v6.21.1").
     const date = toIso(label) ?? toIso(description);
     updates.push({ label, description, date, body });
@@ -184,7 +183,7 @@ function buildDigest(updates, sinceIso, untilIso) {
   const byRuntime = new Map();
   for (const update of inWindow) {
     const { intro, sections } = splitSections(update.body);
-    // Per-fortnight page: one Update with `## Runtime` sections inside. Per-runtime page:
+    // Date-grouped page: one Update with `## Runtime` sections inside. Per-runtime page:
     // one Update per runtime, the name in the label and no inner headings — treat the
     // whole body as a single section keyed on the label.
     const runtimeSections = sections.length
@@ -244,9 +243,7 @@ function buildDigest(updates, sinceIso, untilIso) {
 
 function main() {
   const args = parseArgs(process.argv.slice(2));
-  const sinceIso = args.since ? toIso(args.since) : isoDaysAgo(WINDOW_DAYS);
   const untilIso = args.until ? toIso(args.until) : isoToday();
-  if (!sinceIso) throw new Error(`could not parse --since "${args.since}"`);
   if (!untilIso) throw new Error(`could not parse --until "${args.until}"`);
 
   const mdx = readFileSync(args.source, 'utf8');
@@ -254,6 +251,18 @@ function main() {
   if (updates.length === 0) {
     console.error(`No <Update> blocks found in ${args.source}.`);
     process.exit(1);
+  }
+
+  // Default window is just the most recent entry, so running this any time produces a post
+  // for whatever was last published — no assumption about how often you run it. Pass
+  // --since to cover a wider span (e.g. several entries at once).
+  let sinceIso;
+  if (args.since) {
+    sinceIso = toIso(args.since);
+    if (!sinceIso) throw new Error(`could not parse --since "${args.since}"`);
+  } else {
+    const dates = updates.map((u) => u.date).filter(Boolean).sort();
+    sinceIso = dates.length ? dates[dates.length - 1] : untilIso;
   }
 
   const digest = buildDigest(updates, sinceIso, untilIso);

@@ -1,7 +1,11 @@
 # Runtime changelog tooling
 
-Generates the fortnightly [runtime changelog](../../runtimes/changelog.mdx) entry and a
+Generates a [runtime changelog](../../runtimes/changelog.mdx) entry and a
 copy-paste community announcement, from the runtimes' own releases.
+
+Run it on whatever cadence you like — weekly, biweekly, or ad hoc. Each entry covers every
+version released since the last one, so nothing is missed and nothing is double-counted no
+matter how much time passes between runs.
 
 Two responsibilities, kept apart on purpose:
 
@@ -95,8 +99,9 @@ it. Committing one without the other either re-announces or skips.
 node scripts/runtime-changelog/digest.mjs --since <YYYY-MM-DD>
 ```
 
-`--since` sets the window start (defaults to the last 14 days); `--until` optionally sets
-the end. It groups every changelog entry in the window into one markdown post by runtime,
+`--since` sets the window start (defaults to the most recent changelog entry, so you get a
+post for whatever you just published); `--until` optionally sets the end. It groups every
+changelog entry in the window into one markdown post by runtime,
 Core first, and inherits the deep per-release links.
 
 The post prints to your terminal **and** is saved to `generated/community-post.md`
@@ -113,8 +118,8 @@ authoritative record of what published) and a `notes` source (where the prose li
 they are separate because for several runtimes they genuinely are. Supported source
 types: `github-releases`, `pub`, `npm` for versions; `github-releases`,
 `github-changelog-md` (with a `headingLevel`), `pub-archive-changelog` for notes. A new
-runtime has no state, so its first run bootstraps from the 14-day window rather than
-dumping its whole history.
+runtime has no state, so its first run bootstraps from a lookback window (14 days by
+default; `--bootstrap-days N` to change) rather than dumping its whole history.
 
 Verify the source before trusting it — several Rive repos publish releases that lag their
 real versions (see the comments in `collect.mjs`).
