@@ -405,7 +405,7 @@ This guide documents how to get started using the Rive React Native runtime. The
     ```
 
     <Info>
-      `async: true` is a transitional flag: the synchronous creation path (which also blocks the JS thread during render) is being phased out in stages. Today, calls without `async: true` are deprecated in TypeScript; a future release adds a runtime deprecation warning; later, `async: true` becomes required; finally the flag is removed and the hook is always asynchronous.
+      `async: true` is available from `@rive-app/react-native@0.4.18`. It is a transitional flag: the synchronous creation path (which also blocks the JS thread during render) is being phased out in stages. Today, calls without `async: true` are deprecated in TypeScript; a future release adds a runtime deprecation warning; later, `async: true` becomes required; finally the flag is removed and the hook is always asynchronous.
     </Info>
 
     Pass the `dataBind` prop in `RiveView`.
