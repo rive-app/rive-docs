@@ -3,6 +3,66 @@ title: "Migration Guide"
 description: "Learn how to migrate your React Native app when upgrading between major versions of the Rive React Native runtime, including breaking changes and new features."
 ---
 
+## Migrating to `v0.4.18`+
+
+This release introduces async view model instance creation and deprecates the synchronous creation path.
+
+### `useViewModelInstance` Gains `async: true` and `isLoading`
+
+Pass `async: true` to opt in to asynchronous instance creation. The flag signals that your component handles the loading state: the result now includes `isLoading`, and the instance is not available on the first render — gate rendering on it. This prepares your code for the new runtime implementation, where creating an instance is an asynchronous operation.
+
+`async: true` is a transitional flag; the synchronous creation path is being phased out in stages:
+
+1. **Now** — calls without `async: true` are deprecated in TypeScript (deprecation warnings in your editor and via lint rules).
+2. **Next** — calling without `async: true` will additionally log a runtime deprecation warning.
+3. **Later** — the synchronous path is removed and `async: true` becomes required.
+4. **Finally** — the flag itself is removed; the hook is simply asynchronous.
+
+<Tabs>
+  <Tab title="New API">
+    ```tsx
+    const { riveFile, error: fileError } = useRiveFile(require('./animation.riv'));
+    const { instance, isLoading, error } = useViewModelInstance(riveFile, { async: true });
+
+    if (fileError || error) return <Text>{(fileError ?? error)!.message}</Text>;
+    if (isLoading || !instance) return <ActivityIndicator />;
+    return <RiveView file={riveFile} dataBind={instance} />;
+    ```
+
+  </Tab>
+  <Tab title="Previous API (deprecated)">
+    ```tsx
+    const { riveFile } = useRiveFile(require('./animation.riv'));
+    const { instance, error } = useViewModelInstance(riveFile);
+
+    if (error) return <Text>{error.message}</Text>;
+    if (!instance) return <ActivityIndicator />;
+    return <RiveView file={riveFile} dataBind={instance} />;
+    ```
+
+  </Tab>
+</Tabs>
+
+`async` must stay constant for the lifetime of the component — remount (e.g. change `key`) to switch modes.
+
+### `useRive` Ref Starts `undefined`
+
+`useRive().riveViewRef` starts as `undefined` (view pending) instead of `null` (failed/detached), mirroring the `useRiveFile` convention. Code using `riveViewRef === null` as a "not ready yet" check should use `riveViewRef == null` or optional chaining instead.
+
+### Other Changes
+
+- On the synchronous (deprecated) path, a `null` source now settles to a terminal `{ instance: null, isLoading: false }` instead of reporting a loading state indefinitely.
+- On Android, reading the auto-bound instance from a view ref right after mount can briefly resolve `null` while binding completes. The `async: true` path waits for the instance; one-shot reads via the deprecated sync path should be avoided.
+
+### Quick Reference
+
+| Previous | Replacement |
+|---|---|
+| `const { instance, error } = useViewModelInstance(file)` | `const { instance, isLoading, error } = useViewModelInstance(file, { async: true })` |
+| `riveViewRef === null` (not-ready check) | `riveViewRef == null` |
+
+---
+
 ## Migrating to `v0.4.0`+
 
 This release improves error transparency and loading semantics for hooks, preparing for the async experimental runtime.
@@ -231,7 +291,7 @@ Synchronous `useMemo` chains for ViewModel setup should be replaced with `useSta
   <Tab title="useViewModelInstance (Recommended)">
     ```tsx
     const { riveFile } = useRiveFile(require('./animation.riv'));
-    const { instance } = useViewModelInstance(riveFile);
+    const { instance, isLoading, error } = useViewModelInstance(riveFile, { async: true });
 
     const { value: health, setValue: setHealth } = useRiveNumber(
       'health',
@@ -346,7 +406,7 @@ const [setRiveRef, riveRef] = useRive();
 const [health, setHealth] = useRiveNumber(riveRef, "health");
 
 // New: hooks take viewModelInstance, return objects
-const { instance: viewModelInstance } = useViewModelInstance(riveFile);
+const { instance: viewModelInstance, isLoading, error } = useViewModelInstance(riveFile, { async: true });
 const { value: health, setValue: setHealth } = useRiveNumber(
   "health",
   viewModelInstance
@@ -554,7 +614,7 @@ Main API changes:
   <Tab title="New Runtime">
     ```tsx
     const { riveFile } = useRiveFile(require('./animation.riv'));
-    const { instance: viewModelInstance } = useViewModelInstance(riveFile);
+    const { instance: viewModelInstance, isLoading, error } = useViewModelInstance(riveFile, { async: true });
 
     const { value: health, setValue: setHealth } = useRiveNumber('health', viewModelInstance);
     const { value: name, setValue: setName } = useRiveString('Player/Name', viewModelInstance);
