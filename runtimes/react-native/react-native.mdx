@@ -374,7 +374,9 @@ This guide documents how to get started using the Rive React Native runtime. The
 
     ### `useViewModelInstance`
 
-    Hook to create a view model instance from a `RiveFile`, `ViewModel`, or `RiveViewRef`. Pass `async: true` to opt in to asynchronous instance creation — the flag signals that your component handles the loading state: the hook returns `{ instance, isLoading, error }` and the instance is not available on the first render. This prepares your code for the new runtime implementation, where creating an instance is an asynchronous operation.
+    Hook to create a view model instance from a `RiveFile`, `ViewModel`, or `RiveViewRef`. 
+    
+    Pass `async: true` to opt in to asynchronous instance creation — the flag signals that your component handles the loading state. The hook returns `{ instance, isLoading, error }` and the instance is not available on the first render. This prepares your code for the new runtime implementation, where creating an instance is an asynchronous operation.
 
     ```ts
     // From RiveFile — default artboard's ViewModel, default instance
