@@ -8,7 +8,7 @@ import Thanks from '/snippets/runtimes/preloading-wasm/thanks.mdx'
 
 <Overview />
 
-The React runtimes are thin wrappers around the JS runtimes, so they load the same WASM file from the same place.
+The React runtimes are thin wrappers around their JavaScript counterparts and load the same WASM file from the same location.
 
 <Warning>
   Matching the WASM version in React: the `@rive-app/react-canvas` version is not the same as the underlying `@rive-app/canvas` version it wraps. The `rive.wasm` must match the canvas version. To find it, open your installed React runtime's [package.json on GitHub](https://github.com/rive-app/rive-react/blob/v4.29.5/package.json#L38) and read the `@rive-app/canvas` dependency — e.g. `rive-react@v4.29.5` pins `@rive-app/canvas@2.38.5`. Swap the tag in that URL to match the version you have installed.
