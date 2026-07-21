@@ -11,8 +11,8 @@ import Thanks from '/snippets/runtimes/preloading-wasm/thanks.mdx'
 A few notes if you do decide to host the WASM file yourself:
   1. The `rive.wasm` file version must match the `@rive-app` package version in your package.json — they are built as a pair, and a mismatch can break rendering/functionality at runtime. Put the version in the path or filename (e.g. `rive-2.38.5.wasm`) and update the hosted file in the same change as any dependency bump.
   2. The `<link rel="preload">` href and the URL passed to `setWasmUrl()` must be exactly the same, or the preloaded bytes are discarded and the file downloads twice. See example below.
-  3. Serve the file with the `application/wasm` MIME type — anything else silently disables streaming compilation.
-  4. If the file is on a different origin than the page (e.g. a CDN subdomain), send `Access-Control-Allow-Origin` for your page origin, and keep the `crossorigin` attribute on the preload tag.
+  3. Serve the file with the `application/wasm` MIME type — anything else drops you off the streaming-compilation path and onto a slower fallback.
+  4. If the file is on a different origin than the page (e.g. a CDN subdomain), also send `Access-Control-Allow-Origin` for your page origin.
   5. Serve the versioned file with `Cache-Control: public, max-age=31536000, immutable`, and confirm your CDN applies brotli/gzip to .wasm (some only compress text types by default).
 
 ## Initializing Rive on page load

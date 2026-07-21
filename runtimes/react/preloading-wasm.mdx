@@ -10,15 +10,17 @@ import Thanks from '/snippets/runtimes/preloading-wasm/thanks.mdx'
 
 The React runtimes are thin wrappers around their JavaScript counterparts and load the same WASM file from the same location.
 
-<Warning>
-  Matching the WASM version in React: the `@rive-app/react-canvas` version is not the same as the underlying `@rive-app/canvas` version it wraps. The `rive.wasm` must match the canvas version. To find it, open your installed React runtime's [package.json on GitHub](https://github.com/rive-app/rive-react/blob/v4.29.5/package.json#L38) and read the `@rive-app/canvas` dependency — e.g. `rive-react@v4.29.5` pins `@rive-app/canvas@2.38.5`. Swap the tag in that URL to match the version you have installed.
-</Warning>
-
 ## Initializing Rive on page load
 
 If you need Rive to be ready to render your graphics immediately on page load (i.e. hero animations), we recommend preloading both the `rive.wasm` file and the .riv file so the browser begins downloading the necessary resources up front. On the JS side, you can use the RuntimeLoader API to begin downloading and compiling the WASM early, before the Rive component mounts.
 
-By default, the React runtime fetches `rive.wasm` from unpkg at the `@rive-app/canvas` version it pins — you don't need to call `RuntimeLoader.setWasmUrl()` for this. To preload it, just point a `<link rel="preload">` at that same URL (see the version note above for finding the version):
+By default, the React runtime fetches `rive.wasm` from unpkg at the `@rive-app/canvas` version it pins — you don't need to call `RuntimeLoader.setWasmUrl()` for this. 
+
+<Note>
+  Matching the WASM version in React: the `@rive-app/react-canvas` version is not the same as the underlying `@rive-app/canvas` version it wraps. The `rive.wasm` must match the canvas version. To find it, open your installed React runtime's [package.json on GitHub](https://github.com/rive-app/rive-react/blob/v4.29.5/package.json#L38) and read the `@rive-app/canvas` dependency — e.g. `rive-react@v4.29.5` pins `@rive-app/canvas@2.38.5`. Swap the tag in that URL to match the version you have installed.
+</Note>
+
+To preload it, just point a `<link rel="preload">` at that same URL (see the version note above for finding the version):
 
 ```html
 <!-- index.html (or main app entry point) -->
