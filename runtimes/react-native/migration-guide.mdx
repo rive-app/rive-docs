@@ -3,6 +3,60 @@ title: "Migration Guide"
 description: "Learn how to migrate your React Native app when upgrading between major versions of the Rive React Native runtime, including breaking changes and new features."
 ---
 
+## Upgrading to the `v0.5` beta (new native runtime)
+
+`v0.5` rebuilds `@rive-app/react-native` on top of Rive's new native runtimes for Android and iOS. It is currently a **beta** release.
+
+The public React API is largely unchanged, but the deprecated synchronous APIs behave differently on the new runtime. The safest path is to get your app running cleanly on the latest `v0.4` — using the non-deprecated async APIs — *before* switching to the beta.
+
+### Recommended path
+
+<Steps>
+  <Step title="Upgrade to the latest v0.4.x">
+    ```bash
+    npm install @rive-app/react-native@0.4
+    ```
+
+    <Note>
+      Requires `0.4.19` or later — earlier `0.4.x` releases don't include the complete async API surface.
+    </Note>
+
+    This keeps you on the stable runtime while you migrate your API usage.
+  </Step>
+  <Step title="Switch to the non-deprecated async APIs">
+    Once you're on `v0.4`, replace the deprecated synchronous ViewModel and property accessors with their async equivalents. Convert state machine inputs, text runs, and events to [data binding](/runtimes/react-native/data-binding).
+
+    See [Migrating to the Async API](#migrating-to-the-async-api-v032) below for the full list of replacements.
+
+    <Tip>
+      The async APIs work the same on `v0.4.19`+ and the `v0.5` beta. Once this migration is done, moving between the two is just a dependency change — you can try the beta and roll back to `v0.4` at any time without touching your code.
+    </Tip>
+  </Step>
+  <Step title="Try the v0.5 beta">
+    Install the beta:
+
+    ```bash
+    npm install @rive-app/react-native@beta
+    ```
+
+    <Note>
+      Report any issues on [GitHub](https://github.com/rive-app/rive-nitro-react-native/issues).
+    </Note>
+  </Step>
+</Steps>
+
+### Deprecation timeline
+
+The deprecated synchronous APIs (and the state machine input, text run, and event methods) are being phased out as the runtime moves to the new native foundation:
+
+| Version | Status of deprecated APIs |
+|---|---|
+| `v0.4` | Async replacements are available. Deprecated APIs still work with no warning. |
+| `v0.5` | Calling a deprecated API logs a runtime warning. |
+| `v0.6` | Deprecated APIs are removed. |
+
+---
+
 ## Migrating to `v0.4.18`+
 
 This release introduces async view model instance creation and deprecates the synchronous creation path.
