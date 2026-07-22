@@ -3,6 +3,8 @@ title: "Migration Guide"
 description: "Migrate from State Machine Inputs and Listening to Events at runtime to Data Binding"
 ---
 
+import { YouTube } from '/snippets/youtube.mdx'
+
 Data binding replaces both **state machine inputs** and **runtime event listeners**, and also removes the need to directly modify elements like text runs from code.
 
 It provides more data types in a more flexible, consistent system for both sending data into Rive and reacting to changes from Rive.
@@ -38,6 +40,8 @@ With data binding, you instead expose **view model properties** that can drive S
   <Step>Select **Convert Inputs to View Models**</Step>
   <Step>Update your runtime code to set values on the view model instead of inputs</Step>
 </Steps>
+
+<YouTube id="zo7dnTkIgHA" />
 
 <Note>
   **Why are State Machine Inputs deprecated?**
