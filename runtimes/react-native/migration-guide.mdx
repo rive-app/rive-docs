@@ -14,26 +14,34 @@ The public React API is largely unchanged, but the deprecated synchronous APIs b
 <Steps>
   <Step title="Upgrade to the latest v0.4.x">
     ```bash
-    npm install @rive-app/react-native@latest
+    npm install @rive-app/react-native@0.4
     ```
+
+    <Note>
+      Requires `0.4.19` or later — earlier `0.4.x` releases don't include the complete async API surface.
+    </Note>
 
     This keeps you on the stable runtime while you migrate your API usage.
   </Step>
   <Step title="Switch to the non-deprecated async APIs">
-    On `v0.4`, replace the deprecated synchronous ViewModel and property accessors with their async equivalents, and move state machine inputs, text runs, and events to [data binding](/runtimes/react-native/data-binding). See [Migrating to the Async API](#migrating-to-the-async-api-v032) below for the full list of replacements.
+    Once you're on `v0.4`, replace the deprecated synchronous ViewModel and property accessors with their async equivalents. Convert state machine inputs, text runs, and events to [data binding](/runtimes/react-native/data-binding).
+
+    See [Migrating to the Async API](#migrating-to-the-async-api-v032) below for the full list of replacements.
 
     <Tip>
-      Everything you change here keeps working on `v0.4` today, so you can migrate incrementally and ship before adopting the beta.
+      The async APIs work the same on `v0.4.19`+ and the `v0.5` beta. Once this migration is done, moving between the two is just a dependency change — you can try the beta and roll back to `v0.4` at any time without touching your code.
     </Tip>
   </Step>
   <Step title="Try the v0.5 beta">
-    Once your app runs cleanly on `v0.4` with the async APIs, install the beta:
+    Install the beta:
 
     ```bash
     npm install @rive-app/react-native@beta
     ```
 
-    Report any issues on [GitHub](https://github.com/rive-app/rive-nitro-react-native/issues).
+    <Note>
+      Report any issues on [GitHub](https://github.com/rive-app/rive-nitro-react-native/issues).
+    </Note>
   </Step>
 </Steps>
 
@@ -46,8 +54,6 @@ The deprecated synchronous APIs (and the state machine input, text run, and even
 | `v0.4` | Async replacements are available. Deprecated APIs still work with no warning. |
 | `v0.5` | Calling a deprecated API logs a runtime warning. |
 | `v0.6` | Deprecated APIs are removed. |
-
-Migrating to the async APIs on `v0.4` (step 2 above) is what clears these warnings ahead of `v0.5` and prevents breakage in `v0.6`.
 
 ---
 
