@@ -5,6 +5,7 @@ description: "Add natural, organic deformations to raster graphics."
 
 import { VideoEmbed } from '/snippets/video-embed.jsx'
 import { Marketplace } from '/snippets/marketplace.mdx'
+import { UseCase } from '/snippets/use-case.mdx'
 
 Meshes let you deform raster images by moving vertices instead of transforming the image as a flat rectangle. They are useful for natural motion, such as skin flexing, fabric rippling, hair flowing, or creating faux 3D effects.
 
@@ -74,12 +75,6 @@ Adjust the settings to control the generated contour:
 
 <VideoEmbed src="https://static.rive.app/video/auto-trace.mp4" />
 
-### Editing Contours
-
-Use **Edit Contour** or press **P** to adjust the existing contour. The Mesh Pen lets you add new vertices or move existing vertices without warping the image.
-
-<VideoEmbed src="https://static.rive.app/video/edit-mesh.mp4" />
-
 #### Contour Bounds
 
 Only the area inside the contour is rendered. Anything outside the contour is hidden.
@@ -88,17 +83,32 @@ This can be useful when you want to create multiple meshes from different parts 
 
 <VideoEmbed src="https://static.rive.app/video/outside-contour.mp4" />
 
+### Editing Contours
+
+Use **Edit Contour** or press **P** to adjust the existing contour. The Mesh Pen lets you add new vertices or move existing vertices without warping the image.
+
+<VideoEmbed src="https://static.rive.app/video/edit-mesh.mp4" />
+
+Click continuously to create forced edges between vertices. Press **Esc** between clicks to create separate vertices and let Rive automatically generate the edges between them.
+
+<VideoEmbed src="https://static.rive.app/video/auto-generate-triangles.mp4" />
+
 #### Forced Edges
 
-Forced edges are edges you add manually between mesh vertices.
+Forced edges are edges you manually add between mesh vertices. Use forced edges when you need more control over the mesh structure, such as defining an important seam, crease, corner, or area where the mesh triangles should follow a specific path.
 
-When using the Mesh Pen, click continuously to create connected vertices with forced edges. Press **Esc** between clicks to create vertices without forcing an edge between them.
+When using the Mesh Pen, click continuously to create connected vertices with forced edges.
 
-<VideoEmbed src="https://static.rive.app/video/forced-edges.mp4" />
+<UseCase title="Rigging a Snake">
+  In this example, the default edges made the snake stretch in an unexpected way, creating a bump in its skin. By adding a forced edge, the edges run perpendicular to the body, helping the snake deform more naturally.
+
+  <VideoEmbed src="https://static.rive.app/video/forced-edge-mesh.mp4" />
+</UseCase>
 
 Forced edges are shown as thicker lines in the mesh.
 
-Use forced edges when you need more control over the mesh structure, such as defining an important seam, crease, corner, or area where you want the mesh triangles to follow a specific path.
+![Forced edge in a mesh](/images/editor/meshes/forced-edge.png)
+
 
 ### Generate
 
@@ -132,7 +142,7 @@ You can copy a mesh and apply it to another image.
 
 <VideoEmbed src="https://static.rive.app/video/copy-paste-mesh.mp4" />
 
-### Swapping the Images
+### Swapping Images
 
 A mesh can continue to work when the image is changed.
 
