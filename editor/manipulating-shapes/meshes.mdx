@@ -1,28 +1,136 @@
 ---
 title: "Meshes"
-description: "Meshes are an excellent way to add natural and organic deformations to raster graphics. Make skin flex, fabric ripple, hair flow, and more."
+description: "Add natural, organic deformations to raster graphics."
 ---
 
-## Add Mesh
+import { VideoEmbed } from '/snippets/video-embed.jsx'
 
-Before you can create any deformations, you'll need to add a mesh.
+Meshes let you deform raster images by moving vertices instead of transforming the image as a flat rectangle. They are useful for natural motion, such as skin flexing, fabric rippling, hair flowing, or creating faux 3D effects.
 
-With the image selected, either hit the Enter key or navigate to the Deform section of the inspector, hit the plus button, then select mesh. You'll notice that a simple mesh is automatically generated for you.
+A mesh is built from a [contour](#contours), which defines the mesh’s shape and vertices. Rive uses that contour to create a triangulated surface over the image.
 
-![New Mesh](/images/editor/manipulating-shapes/NewMesh.gif)
+<VideoEmbed src="https://static.rive.app/video/mesh.mp4" />
 
-Use the New Contour button in the Inspector to begin creating a custom mesh for your object. Place vertices for your mesh with the Pen tool. Continuously click with the pen tool active to create forced edges (represented by a blue line connecting the two vertices), or hit escape between clicks to unlink the vertices.
+## Adding a Mesh to an Image
 
-![New Contour](/images/editor/manipulating-shapes/NewContour.gif)
+<Steps>
+  <Step>
+    Select an image on the Stage or Hierarchy, then go to the **Deform** section in the Inspector.
+  </Step>
+  <Step>
+     Click the **+** button and select **Mesh**.
+  </Step>
+</Steps>
 
-## Edit Mesh
+![In the Inspector, in the Deform panel click the plus icon and select Mesh](/images/editor/meshes/adding-mesh.png)
 
-You can edit a mesh at any time by using the Edit Mesh button in the Inspector or by hitting enter with the asset selected. Use the Pen tool to add, subtract, or move vertices.
+## Deforming a Mesh
 
-![Edit Mesh](/images/editor/manipulating-shapes/EditMesh.gif)
+Enter Mesh Editing Mode by clicking the **V** key or by deselecting **Edit Contour**.
 
-## Mesh Deform
+In mesh editing mode, moving a vertex changes the shape of any triangles connected to that vertex and deforms the pixels inside those triangles. Pixels in triangles that are not connected to the moved vertex are not affected.
 
-In both Design and Edit modes, you can deform your mesh by entering edit mesh mode, and moving a vertex with the select tool. For a more natural experience, consider using [bones](/editor/manipulating-shapes/bones).
+Here’s a simple mesh with four vertices divided into two triangles:
 
-![Mesh Deform](/images/editor/manipulating-shapes/MeshDeform.gif)
+<VideoEmbed src="https://static.rive.app/video/simple-deformation.mp4" />
+
+Here’s a slightly more complex mesh with a center vertex, dividing the image into four triangles:
+
+<VideoEmbed src="https://static.rive.app/video/simple-mesh.mp4" />
+
+The position of these vertices can be keyed on a timeline or [controlled by bones](/editor/manipulating-shapes/bones).
+
+## Contours
+
+The contour defines the visible shape and vertex structure of the mesh. Editing the contour changes the mesh structure without deforming the image.
+
+### Creating Contours
+
+When you add a mesh to an image, Rive automatically creates a simple contour with four vertices that make two triangles. You can use this contour as a starting point or make your own.
+
+#### Manually Create a New Contour
+
+Click the **New Contour** button to draw a new contour from scratch.
+
+This is useful when the default contour does not match the shape of the image, or when you want full control over the mesh structure.
+
+<VideoEmbed src="https://static.rive.app/video/new-contour.mp4" />
+
+#### Auto Trace a New Contour
+
+Use **Auto-Trace** to quickly create a contour that follows the visible shape of an image.
+
+Adjust the Detail, Concavity, Uniform, Alpha, and Padding settings to control how the generated contour follows the image.
+
+<VideoEmbed src="https://static.rive.app/video/auto-trace.mp4" />
+
+### Editing Contours
+
+Use **Edit Contour** to adjust the existing contour. The Mesh Pen lets you add new vertices or move existing vertices without warping the image.
+
+<VideoEmbed src="https://static.rive.app/video/edit-mesh.mp4" />
+
+#### Contour Bounds
+
+Only the area inside the contour is rendered. Anything outside the contour is hidden.
+
+This can be useful when you want to create multiple meshes from different parts of the same image.
+
+<VideoEmbed src="https://static.rive.app/video/outside-contour.mp4" />
+
+#### Forced Edges
+
+Forced edges are edges you add manually between mesh vertices.
+
+When using the Mesh Pen, click continuously to create connected vertices with forced edges. Press **Esc** between clicks to create vertices without forcing an edge between them.
+
+<VideoEmbed src="https://static.rive.app/video/forced-edges.mp4" />
+
+Forced edges are shown as thicker lines in the mesh.
+
+Use forced edges when you need more control over the mesh structure, such as defining an important seam, crease, corner, or area where you want the mesh triangles to follow a specific path.
+
+### Generate
+
+Use **Generate** to add more vertices to the current mesh. Click **Generate** multiple times to increase the mesh complexity.
+
+A more complex mesh can create smoother deformations, but it can also be harder to edit.
+
+<VideoEmbed src="https://static.rive.app/video/generate.mp4" />
+
+### Resetting a Contour
+
+Use **Reset** to return the mesh to its default contour.
+
+<VideoEmbed src="https://static.rive.app/video/reset-mesh.mp4" />
+
+## Removing a Mesh
+
+After an image has a mesh, the **Deform** section shows options for editing or removing it.
+
+<Steps>
+  <Step>
+    Select an image on the Stage or Hierarchy, then go to the **Deform** section in the Inspector.
+  </Step>
+  <Step>
+     Click the **Edit Mesh** or **Remove Mesh** button.
+  </Step>
+</Steps>
+
+<Warning>
+  Removing a mesh deletes the mesh and its vertex edits from the image.
+</Warning>
+
+## Mesh View Options
+
+Mesh view options control how the mesh and image appear while editing. These options can make it easier to focus on vertices, edges, weights, or the deformed result.
+
+![Mesh view options](/images/editor/meshes/view-options.png)
+
+- **Bounding Box Edit** - show a bounding box around selected vertices so you can transform them together.
+- **Isolate** - show only the graphic or graphics being edited.
+- **Show Weights** - show mesh weights while editing.
+- **Deform** - toggle between the deformed and undeformed version of the image.
+- **Show Triangles** - show or hide the triangle edges. When disabled, only vertices are shown.
+- **Dim** - dim the image so the mesh is easier to see.
+
