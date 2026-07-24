@@ -37,22 +37,22 @@ For example, full motion might use a normal speed value, while reduced motion us
     <Step title="Create a new converter">
       Create a new converter group called `BooleanToSpeed`.
 
-      ![Create converter group](/images/accessibility/reduced-motion/create-converter-group.png)
+      ![Add menu in the Data panel showing the Group option in the Converter submenu](/images/accessibility/reduced-motion/create-converter-group.png)
     </Step>
     <Step title="Add a Toggle converter">
       This will toggle the boolean so that when `prefersReducedMotion` is `true`, the output will be `false`.
 
-      ![Add a Toggle converter](/images/accessibility/reduced-motion/create-toggle-converter.png)
+      ![Add menu in the Converter Group panel showing the Toggle option in the Boolean submenu](/images/accessibility/reduced-motion/create-toggle-converter.png)
     </Step>
     <Step title="Add a Convert to Number converter">
       This transforms a `boolean` to a number where `true = 1` and `false = 0`.
 
-      ![Add a Convert to Number converter](/images/accessibility/reduced-motion/create-convert-to-number.png)
+      ![Add menu in the Converter Group panel showing the Convert to Number option in the Numeric submenu](/images/accessibility/reduced-motion/create-convert-to-number.png)
     </Step>
     <Step title="Data bind the animation speed">
       With the nested component selected, data bind the **Speed** value to `prefersReducedMotion` and add the `BooleanToSpeed` converter.
 
-      ![Data bind your speed value](/images/accessibility/reduced-motion/boolean-to-speed.png)
+      ![Data Bind popover with Property set to prefersReducedMotion and Convert set to the BooleanToSpeed converter](/images/accessibility/reduced-motion/boolean-to-speed.png)
     </Step>
   </Steps>
 
