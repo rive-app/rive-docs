@@ -10,7 +10,7 @@ import { YouTube } from '/snippets/youtube.mdx'
 
 Artboards are the foundation of your composition across both [design and animate mode](/editor/fundamentals/design-vs-animate-mode). They act as the root of every hierarchy and let you define a scene's dimensions and background color. You can create infinite artboards on the [Stage](/editor/interface-overview/stage), but each Rive file has at least one artboard.
 
-![Artboard](/images/artboard.png)
+![A selected artboard on the Stage](/images/artboard.png)
 
 
 ## ​Active artboard
@@ -21,7 +21,7 @@ The active artboard is represented with an Active tag next to its name on the st
 
 <img
   src="/images/active.gif"
-  alt="Active Gi"
+  alt="Clicking between artboards on the Stage moves the Active tag to the clicked artboard's name"
   title="Active Gi"
   style={{ width:"100%" }}
 />
@@ -32,13 +32,13 @@ The active artboard is represented with a dot next to its name on the stage. You
 
 The default state machine is the state machine that will be played when using the play button in the Toolbar. In addition to setting the default state machine, this also sets the default artboard that a developer will see when using this file outside of Rive.
 
-![Default SM](/images/defaultSM.gif)
+![Selecting a state machine from the default state machine menu](/images/defaultSM.gif)
 
 To change the default state machine, use the dropdown to select the one you want to use.
 
 You can quickly play the selected state machine from Design Mode by holding shift and hitting the space bar.
 
-![Play Default](/images/playDefault.gif)
+![Holding shift and space bar in Design Mode to play the default state machine](/images/playDefault.gif)
 
 ## ​Creating an artboard
 
@@ -46,7 +46,7 @@ Before creating any graphics, you'll first need to create an artboard. There are
 
 In a new file, you'll find options on the stage to define an artboards dimensions or to select from a few defined presets. Once you've decided on the properties, you can then hit the Create Artboard button.
 
-![Create AB](/images/create_AB.gif)
+![Setting artboard dimensions and clicking Create Artboard; Alternatively, selecting the artboard tool and clicking on the Stage to create an artboard](/images/create_AB.gif)
 
 
 Alternatively, you can use the​ Artboard tool which is found in the Artboard menu, or by using the shortcut A. With the tool active, click and drag to define the bounds. You can always adjust the size and position by selecting the artboard in the [Hierarchy](/editor/interface-overview/hierarchy) to surface its properties in the [Inspector](/editor/interface-overview/inspector).
@@ -55,7 +55,7 @@ Alternatively, you can use the​ Artboard tool which is found in the Artboard m
 
 Every artboard has various properties that can be changed in the [Inspector](/editor/interface-overview/inspector). Some of the attributes that can be changed include an artboard's position on the [Stage](/editor/interface-overview/stage), its size, layout properties, fill color, origin point, and render presets.
 
-![Artboard Prop](/images/artboard_prop.png)
+![Inspector panel listing an artboard's position, size, layout, fill, origin, and render preset properties](/images/artboard_prop.png)
 
 ## **Position**
 
@@ -65,19 +65,19 @@ The position of the artboard on the stage is controlled by the position properti
 
 By default, artboards are set to a fixed size with that size being determined by the Width and Height properties.
 
-![With and height](/images/WandH.png)
+![Width and Height fields in the Inspector when the artboard is selected](/images/WandH.png)
 
 **Link Icon**
 
 Like other properties where the link icon is found, it can be used to lock the current ratio of the size properties.
 
-![Link](/images/link.png)
+![Link icon next to the Width and Height fields for locking the ratio](/images/link.png)
 
 **Size Type**
 
 There are two sizing modes an artboard can have; Fixed, and Hug. These can be changed by using the dropdown under both the Width and Height properties.
 
-![Size Type](/images/size_type.png)
+![Size Type dropdown showing fit mode options under the Width and Height fields](/images/size_type.png)
 
 As the name suggests, the Fixed type allows you to define and animate the artboards size properties.
 
@@ -87,7 +87,7 @@ The Hug type will let the artboard automatically size its height, width, or both
 
 The origin of an artboard determines the point from which all objects associated with the artboard will be measured. By default, the origin of an artboard is X:0%, Y:0%. These values place the origin at the top left of the artboard.
 
-![Origin](/images/origin.png)
+![X and Y origin fields set to 0%, placing the origin at the artboard's top left](/images/origin.png)
 
 As you increase the value of either the X or Y, that shifts the origin point to the right (on the X), and down (on the Y).
 
@@ -103,7 +103,7 @@ If you forget to change the origin after adding animations, you can always add t
 
 Since an Artboard is the root object that all other objects are added to, Artboards allow you to add and adjust their layout properties. Read more about layouts [here](/editor/layouts/layouts-overview).
 
-![Layout](/images/layout.png)
+![Layout properties section in the artboard inspector](/images/layout.png)
 
 Note that these properties only take effect when one or more layouts have been added to the artboard.
 
@@ -111,7 +111,7 @@ Note that these properties only take effect when one or more layouts have been a
 
 Like other objects in Rive, Artboards can have one or more fills or strokes added to them. The process of adding and customizing fills and strokes is the same for both artboards and objects in the hierarchy.
 
-![Fill and stroke](/images/fillandstroke.png)
+![Fill and stroke section in the artboard inspector](/images/fillandstroke.png)
 
 Read more about fills and strokes [here](/editor/fundamentals/fill-and-stroke).
 
@@ -119,7 +119,7 @@ Read more about fills and strokes [here](/editor/fundamentals/fill-and-stroke).
 
 Selecting an artboard allows you to create Render Presets that can be used to render out static graphics such as PNGs and SVGs, as well as video and motion files like PNG sequences and MP4s.
 
-![Render](/images/render.png)
+![Render Presets panel for an artboard in the inspector panel](/images/render.png)
 
 Read more about creating render presets [here](/editor/exporting/exporting-for-video-and-static-design).
 
@@ -127,4 +127,4 @@ Read more about creating render presets [here](/editor/exporting/exporting-for-v
 
 When an artboard is selected, you can see, target, and adjust all colors associated with every object on the artboard.
 
-![Select Color](/images/selectColor.png)
+![Panel listing all colors used across objects inside the selected artboard](/images/selectColor.png)
