@@ -1,0 +1,37 @@
+---
+title: Font
+---
+
+Represents an image asset that can be drawn by the [Renderer](/scripting/api-reference/renderer/renderer).
+```lua highlight={2,7,15}
+type DrawImage = {
+  myImage: Image?,
+  sampler: ImageSampler?,
+}
+
+function init(self: DrawImage, context: Context): boolean
+  self.myImage = context:image('myImage')
+  self.sampler = ImageSampler('clamp', 'clamp', 'bilinear')
+
+  return true
+end
+
+function draw(self: DrawImage, renderer: Renderer)
+  if self.myImage and self.sampler then
+    renderer:drawImage(self.myImage, self.sampler, 'srcOver', 1)
+  end
+end
+
+return function(): Node<DrawImage>
+  return {
+    myImage = nil,
+    sampler = nil,
+    init = init,
+    draw = draw,
+  }
+end
+```
+An immutable font resource. Obtained from a host and assignable to view
+model font properties.
+
+
