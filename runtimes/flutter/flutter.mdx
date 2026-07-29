@@ -607,11 +607,6 @@ Some considerations when choosing a renderer:
 
 For more information see [Choosing a Renderer](/runtimes/choose-a-renderer/).
 
-<Warning>
-  The Rive Renderer is not yet supported on Linux through Flutter. On Linux, it
-  automatically falls back to `Factory.flutter`.
-</Warning>
-
 ### Note on Flutter Rendering
 
 [Impeller](https://docs.flutter.dev/perf/impeller) is replacing [Skia](https://skia.org/) to become the default renderer for all platforms. As such, there is a possibility of rendering and [performance](https://github.com/flutter/flutter/issues/134432) discrepancies when using the Rive Flutter runtime with platforms that use the Impeller renderer that may not have surfaced before. If you encounter any visual or performance errors at runtime compared to expected behavior in the Rive editor, we recommend trying the following steps to triage:
