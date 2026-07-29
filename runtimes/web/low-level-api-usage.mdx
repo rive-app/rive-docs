@@ -43,10 +43,10 @@ The first step to setting up the low-level Rive APIs is to load in the Rive WASM
 
 You can load the Rive WASM file via [unpkg](https://unpkg.com/) (hosts our NPM modules for the JS runtimes), which will make a network call to the CDN, or you can choose to host the WASM file on your own servers. With `unpkg`, the URL will look something like this:
 
-https://unpkg.com/@rive-app/canvas-advanced@2.26.1/rive.wasm
+https://unpkg.com/@rive-app/canvas-advanced@{{versionWeb}}/rive.wasm
 
 <Note>
- You'll want to ensure that the version at the end of @rive-app/canvas-advanced@ or @rive-app/webgl2-advanced@ matches the version of the dependency you installed in your app. For example, if you installed @rive-app/canvas-advanced@2.26.1 in package.json, the Rive WASM file you request from unpkg would be https://unpkg.com/@rive-app/canvas-advanced@2.26.1/rive.wasm.
+ You'll want to ensure that the version at the end of @rive-app/canvas-advanced@ or @rive-app/webgl2-advanced@ matches the version of the dependency you installed in your app. For example, if you installed @rive-app/canvas-advanced@{{versionWeb}} in package.json, the Rive WASM file you request from unpkg would be https://unpkg.com/@rive-app/canvas-advanced@{{versionWeb}}/rive.wasm.
 <br/>
  See [Preloading WASM](/runtimes/web/preloading-wasm) to preload WASM.
 </Note>
@@ -58,7 +58,7 @@ import RiveCanvas from '@rive-app/canvas-advanced';
 
 async function main() {
   const rive = await RiveCanvas({
-    locateFile: (_) => '<https://unpkg.com/@rive-app/canvas-advanced@2.26.1/rive.wasm>'
+    locateFile: (_) => '<https://unpkg.com/@rive-app/canvas-advanced@{{versionWeb}}/rive.wasm>'
   });
 }
 main();

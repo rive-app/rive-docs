@@ -10,23 +10,24 @@ This is the official documentation repository for Rive (https://rive.app/docs), 
 
 ### Setup
 ```bash
-npm i -g mintlify
+npm i -g mint
 ```
+The CLI is `mint` (formerly `mintlify`); use `mint` for all commands below.
 
 ### Local Preview
 ```bash
-mintlify dev
+mint dev
 ```
 Run this from the repository root (where docs.json is located). The preview will be available at http://localhost:3000.
 
 ### Link Validation
 ```bash
-mintlify broken-links
+mint broken-links
 ```
 Always run this before creating a pull request to verify there are no broken links.
 
 ### Troubleshooting
-- If `mintlify dev` isn't running, run `mintlify install` to re-install dependencies
+- If `mint dev` isn't running, run `mint install` to re-install dependencies
 - Make sure you're running commands from the repository root directory
 
 ## Architecture
@@ -99,12 +100,35 @@ fix(web): correct broken quickstart link
 project: update navigation structure
 ```
 
+## Runtime Changelog
+
+The runtime changelog at `/runtimes/changelog` (`runtimes/changelog.mdx`) is produced by
+tooling in `scripts/runtime-changelog/`. Regenerate it with the `/runtime-announcement`
+skill; the full runbook is `scripts/runtime-changelog/README.md`. It can be run on any
+cadence (weekly, biweekly, ad hoc) — the diff is state-driven, not time-based.
+
+Rules when touching this system:
+
+- **Facts are script-owned; prose is AI-owned.** `collect.mjs` decides which versions
+  shipped and owns every version, date, and URL (read from the package registries and
+  GitHub). The skill only writes the human-facing wording. Never hand-author a version or
+  link into a changelog entry.
+- **`scripts/runtime-changelog/state.json`** is the committed record of the last version
+  announced per runtime — the boundary for the next entry. Never hand-edit it. It advances
+  only via `node scripts/runtime-changelog/collect.mjs --advance-state`, committed together
+  with the changelog entry and `docs.json`.
+- **`docs.json` runtime version variables** (`versionApple`, `versionAndroid`,
+  `versionFlutter`, `versionWeb` + `versionMajorWeb`, `versionUnity`, `versionUnreal`) are
+  auto-synced to each runtime's latest release by `--advance-state`. Do not hand-edit them.
+  To show a runtime version in an install snippet, reference the variable as
+  `{{versionApple}}` (etc.) instead of hardcoding a number.
+
 ## Pull Request Workflow
 
 1. Fork the repository and branch from `main`
 2. Make your changes following the content guidelines
-3. Preview locally with `mintlify dev`
-4. Run `mintlify broken-links` to verify no broken links
+3. Preview locally with `mint dev`
+4. Run `mint broken-links` to verify no broken links
 5. Create PR with:
    - Title following Conventional Commits format
    - Description summarizing all changes
