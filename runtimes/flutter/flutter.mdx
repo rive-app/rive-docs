@@ -175,7 +175,7 @@ Follow the steps below to integrate Rive into your Flutter apps.
 
         1. Wrap the `RiveWidget`s that should draw to the same texture with a single inherited `RivePanel`.
         2. Set `useSharedTexture: true` in each `RiveWidget` that should draw to the shared texture.
-        3. (Optional) Set `drawOrder` in each `RiveWidget` to control stacking. Higher values draw on top; widgets with the same value stack in widget-tree order. See [Draw Order](#draw-order).
+        3. (Optional) Set `drawOrder` in each `RiveWidget` to control stacking. Higher values draw on top. See [Draw Order](#draw-order).
 
         ```dart
          class ExampleRivePanel extends StatelessWidget {
@@ -252,7 +252,8 @@ Follow the steps below to integrate Rive into your Flutter apps.
         1. Create a `SharedRenderTexture` with `SharedRenderTexture.create()`.
         2. Place its native surface in the widget tree with `RiveSurface`.
         3. Pass the same texture to each `RiveWidget` with `sharedTexture`.
-        4. Dispose the texture when you are done with it.
+        4. (Optional) Set `drawOrder` in each `RiveWidget` to control stacking. See [Draw Order](#draw-order).
+        5. Dispose the texture when you are done with it.
 
         ```dart
         class ExampleManualSharedTexture extends StatefulWidget {
@@ -378,7 +379,7 @@ Follow the steps below to integrate Rive into your Flutter apps.
 - `layoutScaleFactor`: Scale factor when using `Fit.layout` (default: `1.0`)
 - `useSharedTexture`: Whether to use the nearest inherited shared texture from a [RivePanel](#rivepanel). Defaults to false. Ignored when `sharedTexture` is provided.
 - `sharedTexture`: An explicit `SharedRenderTexture` to draw into, bypassing the ancestor-based `RivePanel` lookup. Use this with [`SharedRenderTexture` and `RiveSurface`](#sharedrendertexture-and-rivesurface) to share a texture across arbitrary parts of the widget tree.
-- `drawOrder`: Stacking order when drawing to a shared texture (default: `1`). Higher values draw on top. Only applies with `useSharedTexture` or `sharedTexture` and `Factory.rive`; ignored otherwise. See [Draw Order](#draw-order).
+- `drawOrder`: Stacking order when drawing to a shared texture with `Factory.rive` (default: `1`). Higher values draw on top. See [Draw Order](#draw-order).
 
 ### `RiveWidgetBuilder`
 
@@ -427,6 +428,7 @@ RivePanel(
 
 - Only works with `Factory.rive` - has no effect with `Factory.flutter`
 - Set `useSharedTexture: true` in your `RiveWidget`s to enable shared texture rendering
+- Set `drawOrder` in your `RiveWidget`s to control stacking (see [Draw Order](#draw-order))
 - If you need to interleave Rive content with Flutter content, consider using separate `RivePanel`s or `Factory.flutter`
 - For complex scenarios, benchmark both approaches to determine the best performance strategy
 
@@ -472,15 +474,14 @@ Widget build(BuildContext context) {
 
 ### Draw Order
 
-When multiple `RiveWidget`s draw to the same shared texture - through a [RivePanel](#rivepanel) or an explicit [`sharedTexture`](#sharedrendertexture-and-rivesurface) — `RiveWidget.drawOrder` controls how they stack:
+When multiple `RiveWidget`s draw to the same shared texture - through a [RivePanel](#rivepanel) or an explicit [`sharedTexture`](#sharedrendertexture-and-rivesurface) - `RiveWidget.drawOrder` (default: `1`) controls how they stack:
 
-- Defaults to `1`.
 - Higher values draw on top.
 - Widgets with the same value stack in widget-tree order.
-- Changing `drawOrder` on a mounted widget restacks on the next frame.
+- Changing `drawOrder` on a mounted widget restacks it on the next frame.
 
 <Note>
-`drawOrder` only applies when drawing to a shared texture with `Factory.rive`. When a widget owns its own texture, it is ignored and Flutter's normal paint order applies.
+`drawOrder` only applies when drawing to a shared texture with `Factory.rive`. When a widget owns its own texture, Flutter's normal paint order applies.
 </Note>
 
 ### `RiveWidgetController`
