@@ -26,7 +26,7 @@ Install the [Mintlify CLI](https://www.npmjs.com/package/mint) to preview the do
 npm i -g mint
 ```
 
-Run the following command at the root of your documentation (where mint.json is)
+Run the following command at the root of your documentation (where docs.json is)
 
 ```
 mint dev
@@ -35,7 +35,7 @@ mint dev
 
 #### Troubleshooting
 
-- Page loads as a 404 - Make sure you are running in a folder with `mint.json` (i.e from this repository's root directory).
+- Page loads as a 404 - Make sure you are running in a folder with `docs.json` (i.e from this repository's root directory).
 
 ## Custom Rive Components
 
