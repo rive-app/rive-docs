@@ -3,71 +3,157 @@ title: "Bones"
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
+import { UseCase } from '/snippets/use-case.mdx'
+import { VideoEmbed } from '/snippets/video-embed.jsx'
+import { Marketplace } from '/snippets/marketplace.mdx'
 
-Bones allow you to create a skeleton for your graphics. This is an intuitive and natural way to animate multiple connected parts such as an arm, flag, or tree branch. Learn how to use bones by either watching the video or reading more below.
+Bones create a skeleton you can use to pose and animate elements. Connect bones in a chain, then move or rotate them to control anything from a character’s arm to a bending branch or waving flag.
+
+<CardGroup cols="2">
+  <VideoEmbed src="https://static.rive.app/video/bones.mp4"/>
+</CardGroup>
+
+<Marketplace
+  href="https://rive.app/community/files/28327-53500-mesh-and-bones/"
+/>
+
+Bones can control elements in three ways:
+
+- **Transform an element:** Make a shape, image, group, or other element a child of a bone. The entire element follows the bone’s position, rotation, and scale.
+- **Deform a vector:** Bind the vertices and Bézier handles of a vector path to one or more bones. Adjust their weights to control how the path bends.
+- **Deform an image:** Add a mesh to a raster image, then bind its vertices to one or more bones. Weighted vertices allow the image to bend and stretch smoothly.
+
+You can combine these methods in the same rig. For example, a character’s hand might be parented to an arm bone while the sleeve’s vertices are weighted across several bones to create a natural bend.
 
 <YouTube id="WDILxfmCEt0" />
 
-## How to create bones
+## Creating Bone Chains
 
-To create a chain of bones activate the Bone tool in the [Transform Tools menu](/editor/interface-overview/toolbar) (or press `B`) and click anywhere.
+Select the Bone tool from the **Bones** menu, or press **B**.
 
-The first click is the start of the first bone. The bone appears blue as it hasn't actually been created until you click a second time. Continue this process to draw subsequent bones. Each new bone in a chain is the child of the last bone. Hit `Esc` or switch back to the select tool `V` when you're done.
+Click once to place the start of the first bone, then click again to set its length and rotation. Continue clicking to add bones to the chain. Each new bone becomes a child of the previous bone.
+
+Press Esc or switch to the **Select** tool (**V**) when you’re finished.
 
 ![Image](https://ucarecdn.com/7e6cb0cf-ec53-4da8-bfbf-627b841b3208/)
 
-To continue the chain from a different bone, first, select the joint, then continue using the Bone tool.
+To extend an existing chain from a different point, select the [joint](#joints) where you want the new branch to begin. Then select the Bone tool and continue clicking to add bones.
 
 ![Image](https://ucarecdn.com/264073a6-f9bc-4344-9474-f7d7011c5568/)
 
 <Tip>
-  If bones aren't visible on the stage, open the **View Options** menu and make sure **Bones** is enabled.
-
-  ![toggle bone visibility](/images/editor/interface/toggle-show-bones.gif)
+  If you can’t see your bones on the Stage, open **View Options** and make sure **Bones** is enabled.
 </Tip>
 
-## Joints
+### Joints
 
-Joints don't exist in the hierarchy. They are controls to set up and orient bones in a chain. Moving joints change properties like length and rotation of the nearby bones.
+Joints are the points where bones connect. Use them to position and orient bones while building your chain.
 
-## Root bones
+Joints do not appear as separate objects in the Hierarchy. Moving a joint changes properties such as the length and rotation of the bones connected to it.
 
-The first bone in a chain is called a root bone. It is the only bone in a chain that has position X and Y properties. Other bones are defined by their length and rotation relative to their parent.
+<VideoEmbed src="https://static.rive.app/video/bone-joints.mp4"/>
 
-## Connecting bones to artwork
+### Root bone
 
-### Hierarchical relationships
+The first bone in a chain is the **root bone**. It controls the position of the entire chain and is the only bone in the chain with X and Y position properties. Every other bone is positioned by its length and rotation relative to its parent.
 
-The simplest way to connect shapes and images to bones is through their hierarchical relationships. Any child of a bone will transform with the bone. You can make vector shapes children of bones by dragging and dropping the shape layers onto the desired bone in the hierarchy.
+
+## Controlling Elements With Bones
+
+
+### Transforming Elements
+
+Make an element a child of a bone to control its transform. When the bone moves, rotates, or scales, its children follow without being deformed.
+
+To connect an element, drag its layer onto the bone in the Hierarchy. You can parent shapes, images, groups, and other bone groups to a bone.
+
+This method works well for rigid parts that should keep their shape, such as a hand, shoe, or mechanical component.
 
 <YouTube id="g8MWMKixURo" />
 
-### Binding
+### Deforming Elements
 
-Binding is a way to connect only certain parts of your graphics to bones. This allows you to deform parts of a shape with one bone and another part of the same shape with another bone.
 
-<YouTube id="evn9CHmy9aY" />
+You can bind bones to the control points of both vector paths and raster images:
 
-To begin binding shapes to bones, select a path layer. The Bind Bones option should now appear in the Inspector. Hit the plus button, then select the bones you want to bind. Hold shift to allow multiple bones to be selected.
+- Vector paths use vertices and Bézier handles.
+- Raster images use the vertices of a [mesh](/editor/manipulating-shapes/meshes).
 
-<Note>
-  Procedural shapes like rectangles and ellipses require you to convert them to a custom path. Do this by selecting the path layer, then hitting Enter.
-</Note>
-
-![Bind Bones](/images/editor/manipulating-shapes/BindBones.gif)
-
-### Weighting
-
-Once you've finished binding the bones, you need to weight the bones to the vertices or handles of the path. Do this by selecting a vertex and changing the percentage value to reflect the amount of influence you want a bone to have over it.
+Binding allows different bones to influence different parts of an element, creating smooth bends and other deformations.
 
 <Note>
-  The total weight of all bound bones will always equal 100%.
+  Before binding a procedural shape, such as a rectangle or ellipse, convert it to a custom path. Select its path layer, then press `Enter`.
 </Note>
 
-![Weighting](/images/editor/manipulating-shapes/weighting.gif)
+<Steps>
+  <Step>
+    Select the element you want to deform, such as a vector shape or a raster image with a [mesh](/editor/manipulating-shapes/meshes).
+  </Step>
+  <Step>
+    In the **Bind Bones** section of the Inspector, click the **+** button.
+  </Step>
+  <Step>
+    Hold **Cmd + Shift** on macOS or **Ctrl + Shift** on Windows, then select the bones you want to bind.
+  </Step>
+  <Step>
+    Click **Done**.
+  </Step>
+</Steps>
 
-### Weight Tool
+After binding, Rive assigns each bone a color. The same colors appear on the bone and in the Bind Bones section, helping you identify which bones influence each control point.
 
-The weight tool gives you a visual representation of the current weight distribution. Activate this tool by using Shift + B, or by going into the Bone Tool Menu and selecting the Weight Tool. The weight tool also lets you adjust the weighting. To adjust the weight, select a bone, then click and drag anywhere on the stage.
+<VideoEmbed src="https://static.rive.app/video/bind-mesh-to-bones.mp4"/>
 
-![Weight tool](/images/editor/manipulating-shapes/weighttool.gif)
+Rive automatically assigns an initial influence, or weight, to each vertex. Vector paths also allow you to weight their Bézier handles. Adjust these weights to fine-tune how the element deforms.
+
+
+#### Adjusting Vertex Weights
+
+A weight determines how much influence a bone has over a vertex. A vertex can be influenced by one or more bound bones, but its combined weights always equal 100%.
+
+After binding, each vertex displays a pie chart using the colors assigned to its bones. The size of each colored segment represents how much that bone influences the vertex.
+
+Rive assigns initial weights automatically. To adjust them, select a vertex or group of vertices, then change the weight for each bone in the Bind Bones section of the Inspector.
+
+<VideoEmbed src="https://static.rive.app/video/weight-bones.mp4"/>
+
+Vertices near a joint often benefit from being influenced by both neighboring bones. Blending their weights creates a smoother bend as the bones move.
+
+<Note>
+  On vector paths, you can weight a vertex and its Bézier handles independently for more precise control over the deformation.
+
+  ![Bones controlling bezier handles](/images/editor/bones/bones-controlling-bezier.gif)
+
+  [Try it in the Rive Editor](https://rive.app/community/files/28349-53555-control-bezier-handles-with-bones?utm_source=docs&utm_medium=docs_link_card&utm_campaign=docs_to_marketplace_links).
+</Note>
+
+You can lock a vertex’s weight for a specific bone. Locked weights stay fixed when you adjust other bone weights on the same vertex.
+
+<VideoEmbed src="https://static.rive.app/video/lock-bone-weight.mp4"/>
+
+#### Weight Editing Tools
+
+Rive includes tools to help you adjust vertex weights after bones are bound.
+
+**Edit Weights** lets you adjust the influence of a specific bone on selected vertices. Select a vertex, then select a bone on the Stage or in the **Bind Bones** section. Drag up or down on the vertex to increase or decrease that bone’s weight.
+
+<VideoEmbed src="https://static.rive.app/video/edit-weights.mp4"/>
+
+**Smooth** evens out bone weights across neighboring vertices. If vertices are selected, smoothing applies to the selected vertices. If no vertices are selected, it applies to the entire shape.
+
+**Auto-Weights** automatically assigns weights based on each vertex’s nearest bone, blending where neighboring bone regions meet. If vertices are selected, auto-weights apply to the selected vertices. If no vertices are selected, they apply to the entire shape.
+
+Auto-Weights includes two settings:
+
+- **Blend** - controls how widely weights blend at the boundary between two bones. Higher values spread the blend across more of the mesh, creating softer deformation. Lower values create a more rigid result, where each vertex sticks more closely to its nearest bone.
+- **Influence** - controls the maximum number of bones that can influence each vertex.
+
+#### Mesh View Options
+
+**Show Weights** shows or hides weight pie charts on unselected vertices. Selected vertices always show their weights while you edit them.
+
+<VideoEmbed src="https://static.rive.app/video/show-weights.mp4"/>
+
+<Note>
+  For other mesh view options, such as isolating the mesh or showing and hiding triangles, see [Meshes](/editor/manipulating-shapes/meshes#mesh-view-options).
+</Note>

@@ -4,6 +4,7 @@ description: ''
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
+import { VideoEmbed } from '/snippets/video-embed.jsx'
 
 <YouTube id="BiaWH6rHd7o" />
 
@@ -22,6 +23,26 @@ Keyed objects and their properties appear on rows in the timeline. Keys for prop
 ![Image](https://ucarecdn.com/4a8fc418-1335-42b6-a640-5f2461b14e94/)
 
 You can change a key's position on the timeline by clicking and dragging it to the desired location. Use the grey keys to move all of the keyed properties of an object or use the blue keys to change a single property's location.
+
+## Binding Key Values
+
+You can [data bind](/editor/data-binding/overview) the value stored in a key. This lets a keyed value come from data instead of being fixed directly on the timeline.
+
+<Steps>
+  <Step>
+    Right-click the key you want to bind.
+  </Step>
+  <Step>
+    Select **Data Bind**.
+  </Step>
+  <Step>
+    Choose the property you want to bind to the key value.
+  </Step>
+</Steps>
+
+Once bound, the key uses the bound value when the animation reaches that point in the timeline.
+
+<VideoEmbed src="https://static.rive.app/video/bind-key.mp4" />
 
 ### Copy Keys
 

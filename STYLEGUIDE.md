@@ -88,6 +88,7 @@ Use links to help readers move between related concepts without interrupting the
 - Use relative links for internal docs pages (`[my link](/editor/something)`).
 - Link the first meaningful mention of a concept. Don’t overlink repeated mentions of the same concept on a page.
 - Use descriptive link text that explains where the link goes. Avoid vague link text like “click here,” “read more,” or “this page.”
+- For URLs stored in docs.json `variables`, use a JSX-expression href: `<a href={"{{supportForm}}"}>Contact support</a>`. The plain form `href="{{supportForm}}"` renders but is flagged by `mint broken-links`, and the markdown form `[text]({{supportForm}})` does not substitute the variable at all.
 
 ## Callouts
 
