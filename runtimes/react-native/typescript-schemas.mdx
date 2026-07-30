@@ -9,7 +9,9 @@ description: "Generate TypeScript types from your .riv files so artboard, state 
 
 `@rive-app/react-native` can generate TypeScript schemas for your `.riv` files, so that artboard names, state machine names, view model names, property paths, and enum values are all checked at compile time. A typo in any of them becomes a TypeScript error instead of a silent runtime failure — and your editor autocompletes them.
 
-A schema is a `.d.ts` declaration file, so nothing is added to your bundle and no runtime code changes. It is also opt-in per asset: assets without a generated schema keep accepting plain strings and behave exactly as before.
+Schemas are opt-in per asset. Generate one for an asset and you get autocomplete and compile-time checking everywhere that asset is used; skip it and the asset keeps accepting plain strings, exactly as before. You can adopt this one file at a time.
+
+A schema is a `.d.ts` declaration file, so nothing is added to your bundle and no runtime code changes.
 
 ## Quick start
 
