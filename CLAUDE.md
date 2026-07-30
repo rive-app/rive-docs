@@ -10,23 +10,24 @@ This is the official documentation repository for Rive (https://rive.app/docs), 
 
 ### Setup
 ```bash
-npm i -g mintlify
+npm i -g mint
 ```
+The old `mintlify` package is deprecated — uninstall it if present.
 
 ### Local Preview
 ```bash
-mintlify dev
+mint dev
 ```
 Run this from the repository root (where docs.json is located). The preview will be available at http://localhost:3000.
 
 ### Link Validation
 ```bash
-mintlify broken-links
+mint broken-links
 ```
-Always run this before creating a pull request to verify there are no broken links.
+Always run this before creating a pull request; it must report zero broken links.
 
 ### Troubleshooting
-- If `mintlify dev` isn't running, run `mintlify install` to re-install dependencies
+- If `mint dev` isn't working, run `mint update`
 - Make sure you're running commands from the repository root directory
 
 ## Architecture
@@ -57,10 +58,12 @@ The documentation is organized into platform-specific sections:
 
 ## Content Guidelines
 
+Follow `STYLEGUIDE.md` for writing conventions: voice and tone, frontmatter, headings, UI labels, `<Steps>`, callouts, `UseCase` examples, and code blocks. The notes below cover repo mechanics only.
+
 ### Images
 
 - Store images in `/images/` with subdirectories matching the documentation structure
-- Use descriptive filenames relative to the functionality being documented
+- Use descriptive kebab-case filenames relative to the functionality being documented (`my-image.png`)
 - Always include descriptive alt-text when embedding images
 
 Example image paths:
@@ -74,6 +77,13 @@ Use absolute paths from root, not relative paths:
 ```markdown
 ✓ [Hierarchy](/editor/interface-overview/hierarchy)
 ✗ [Hierarchy](../editor/interface-overview/hierarchy)
+```
+
+For URLs stored in docs.json `variables`, use a JSX-expression href:
+```markdown
+✓ <a href={"{{supportForm}}"}>Contact support</a>
+✗ <a href="{{supportForm}}">Contact support</a>   (renders, but flagged by mint broken-links)
+✗ [Contact support]({{supportForm}})              (does not render — variable is not substituted)
 ```
 
 ### Commit Messages
@@ -101,13 +111,16 @@ project: update navigation structure
 
 ## Pull Request Workflow
 
+See `CONTRIBUTING.md` for the full external-contributor flow (finding and claiming issues, forking).
+
 1. Fork the repository and branch from `main`
 2. Make your changes following the content guidelines
-3. Preview locally with `mintlify dev`
-4. Run `mintlify broken-links` to verify no broken links
+3. Preview locally with `mint dev`
+4. Run `mint broken-links` — it must pass clean
 5. Create PR with:
-   - Title following Conventional Commits format
+   - Title following Conventional Commits format (PRs are squash-merged, so the title must summarize the full change)
    - Description summarizing all changes
+   - Links to related issues; screenshots or preview links when helpful
    - Base branch set to `main`
 6. Reviewers will be auto-assigned via CODEOWNERS
 7. Mintlify will create a staging deployment - use "View Deployment" to preview
