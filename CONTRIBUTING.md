@@ -10,7 +10,7 @@ Before you start making any changes, check out the [STYLEGUIDE.md](./STYLEGUIDE.
 
 ### 1. Find something to work on
 
-Start with the [Contributing backlog](https://github.com/rive-app/rive-docs/issues/725) or browse issues labeled [good first issue]((https://github.com/rive-app/rive-docs/issues?q=is%3Aissue%20state%3Aopen%20label%3A%22good%20first%20issue%22)).
+Start with the [Contributing backlog](https://github.com/rive-app/rive-docs/issues/725) or browse issues labeled [good first issue](<(https://github.com/rive-app/rive-docs/issues?q=is%3Aissue%20state%3Aopen%20label%3A%22good%20first%20issue%22)>).
 
 Before starting, comment on the issue to claim it.
 
@@ -35,6 +35,8 @@ Make your updates in the relevant documentation files.
 ### 4. Preview your changes
 
 Rive uses [Mintlify](https://mintlify.com) for documentation. Follow Mintlify's [Local Development](https://www.mintlify.com/docs/quickstart#make-your-first-change) guide to set up your local environment for previewing your changes locally.
+
+Before committing, run `mint broken-links` from the repository root - it must report zero broken links.
 
 ### 5. Commit your changes
 
