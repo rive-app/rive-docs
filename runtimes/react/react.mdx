@@ -73,6 +73,10 @@ There are three main ways to use Rive in a React app:
         <Note>
           The Rive canvas sizes itself based on its container. If nothing appears, make sure the parent element has a defined width and height.
         </Note>
+
+        <Tip>
+          The property hooks run after Rive has loaded, so the first frame renders with whatever data the file shipped with, even with `autoplay: false`. To set values *before* anything renders, do that work with the `rive` instance passed to the `onRiveReady` callback of `useRive`. See [Binding before the first frame](/runtimes/react/data-binding#binding-before-the-first-frame).
+        </Tip>
       </Tab>
       <Tab title="Rive Component">
         Rive React provides a basic component as its default import for displaying simple animations with a few props you can set, such as `artboard` and `layout`.

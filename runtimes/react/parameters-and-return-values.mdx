@@ -26,7 +26,7 @@ Most of these parameters come from the underlying web runtime configuration item
 
 The following parameters are specific to `useRive`:
 
-- `onRiveReady` - *(optional)* Callback invoked once the Rive file has fully loaded and the `Rive` instance is initialized. The callback receives the `Rive` instance as its argument: `(rive: Rive) => void`. Use this to set data binding properties or interact with the `Rive` object before the state machine starts.
+- `onRiveReady` - *(optional)* Callback invoked once the Rive file has fully loaded and the `Rive` instance is initialized. The callback receives the `Rive` instance as its argument: `(rive: Rive) => void`. It fires synchronously before the state machine advances, so this is where **all pre-render data binding work belongs** — staging view model instances with `setViewModelInstance()` / `setGlobalViewModelInstance()`, setting property values, and flushing them with `bind()`. The data binding hooks resolve after the first frame has already rendered. See [Binding before the first frame](/runtimes/react/data-binding#binding-before-the-first-frame).
 
 <Tip>
   Use `onRiveReady` as opposed to passing in an `onLoad` callback. `onRiveReady` will be invoked when JS emits the `RiveEvent.Load` event.

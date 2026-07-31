@@ -120,6 +120,7 @@ View model APIs on `Rive` are documented in depth on the [data binding](/runtime
   - `.enum(path: string): ViewModelInstanceEnum`
   - `.list(path: string): ViewModelInstanceList`
   - `.image(path: string): ViewModelInstanceAssetImage`
+  - `.font(path: string): ViewModelInstanceAssetFont`
   - `.artboard(path: string): ViewModelInstanceArtboard`
   - `.viewModel(path: string): ViewModelInstance`
   - `.viewModelName` - Getter property to return the name of the `ViewModel` the instance is created from
@@ -128,7 +129,12 @@ View model APIs on `Rive` are documented in depth on the [data binding](/runtime
 - `viewModelByIndex(index: number): ViewModel | null` - returns a `ViewModel` specified by index from the `.riv` file, or null if it doesn't exist or the file isn't loaded yet
 - `viewModelByName(name: string): ViewModel | null` - returns a `ViewModel` specified by name, or null if it doesn't exist or the file isn't loaded yet
 - `defaultViewModel(): ViewModel | null` - returns the default `ViewModel` for the file, or null if it doesn't exist or the file isn't loaded yet
-- `bindViewModelInstance(instance: ViewModelInstance | null): void` - Binds a `ViewModelInstance` to the state machine. Note that this is taken care of automatically if `autoBind` is `true`.
+- `bindViewModelInstance(instance: ViewModelInstance | null): void` - Sets and binds a main `ViewModelInstance` to the state machine. Note that this is taken care of automatically if `autoBind` is `true`.
+- `setViewModelInstance(instance: ViewModelInstance | null): void` - Sets a main `ViewModelInstance` to the state machine, but does not bind it. Call `bind()` to flush this change.
+- `setGlobalViewModelInstance(name: string, instance: ViewModelInstance): boolean` - Sets (or replaces) the `ViewModelInstance` occupying the global view model slot named `name`, but does not bind it. Call `bind()` to flush this change. Returns `false` if `name` does not match a global view model in the file.
+- `globalViewModelInstance(name: string): ViewModelInstance | null` - Returns the `ViewModelInstance` currently occupying the named global view model slot, or `null` if none has been set or created yet. This is a pure read — it never creates an instance.
+- `globalViewModelNames(): string[]` - Names of the file's global view models, in file order. Use these with `setGlobalViewModelInstance()` / `globalViewModelInstance()`.
+- `bind(): void` - Flushes any set main `ViewModelInstance` and global `ViewModelInstance`s to the state machine. When a state machine is running, it also creates default view model instances for the main and global view models on the file if they were not set yet. This is taken care of automatically if `autoBind` is `true`.
 - `enums(): DataEnum[]` - List of enums defined in the file
 - `getBindableArtboard(name: string): BindableArtboard | null` - Returns a named artboard as a `BindableArtboard`, which exposes data-binding APIs. Once you have a bindable artboard, you can set the `.viewModel` property on that artboard to bind a `ViewModelInstance`. Bindable artboards can be set as a value to an artboard property on a different ViewModel. Returns `null` if the artboard doesn't exist or the file isn't loaded.
 - `getDefaultBindableArtboard(): BindableArtboard | null` - Returns the file's default artboard as a `BindableArtboard`, or `null` if not available.
@@ -303,6 +309,7 @@ interface RiveLoadParameters {
   stateMachines?: string | string[];
   useOffscreenRenderer?: boolean;
   shouldDisableRiveListeners?: boolean;
+  tabIndex?: number;
 }
 
 load(params: RiveLoadParameters): void
@@ -565,6 +572,12 @@ Returns the default artboard as a `BindableArtboard`, or `null` if not available
 `viewModelByName(name: string): ViewModel | null`
 
 Returns a `ViewModel` from the file by name, or `null` if it doesn’t exist or the file isn’t loaded yet. Equivalent to the `Rive` class's `.viewModelByName()` API, but accessible directly on the file handle before a `Rive` instance is created.
+
+#### `globalViewModelNames()`
+
+`globalViewModelNames(): string[]`
+
+Names of the file's [global view models](/runtimes/web/data-binding#global-view-models), in file order. Equivalent to the `Rive` class's `.globalViewModelNames()` API, but accessible directly on the file handle before a `Rive` instance is created.
 
 #### `cleanup()`
 
