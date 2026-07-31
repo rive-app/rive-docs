@@ -122,19 +122,19 @@ A successful build leaves a `rive_marker_<platform>_development` file in the pac
 
 All platforms:
 
-- Network access and `git`: the first build clones the build system and third-party sources (HarfBuzz, Yoga, zlib, and others) from public GitHub repositories into the package's `native/dependencies/` folder — no credentials required.
+- Network access and `git`: the first build clones the build system and third-party sources (HarfBuzz, Yoga, zlib, and others) from public GitHub repositories into the package's `native/dependencies/` folder - no credentials required.
 - `bash`, GNU `make`, and `python3`: used by the build scripts and shader generation.
 
 Per platform:
 
 - **macOS / iOS**: Xcode
-- **Android**: Android NDK r27c (`27.2.12479018`) — the exact version is enforced; point `NDK_PATH` or `ANDROID_NDK` at it — and `ninja`.
+- **Android**: Android NDK r27c (`27.2.12479018`) - the exact version is enforced; point `NDK_PATH` or `ANDROID_NDK` at it - and `ninja`.
 - **Windows**: Visual Studio 2022 (**Desktop development with C++** workload) with `msbuild.exe` on `PATH` (for example, run from a Visual Studio developer prompt), Git Bash, and `make` (`choco install make`).
 - **Linux**: `clang`, `cmake`, `ninja-build`, `pkg-config`, `libgtk-3-dev`, `uuid-dev`, `libstdc++-12-dev`, and `libvulkan-dev` (apt package names).
 
 ### Returning to Prebuilt Libraries
 
-Run the setup script without `--build` — `--clean` removes the built libraries and marker files, and prebuilts are downloaded again:
+Run the setup script without `--build` - `--clean` removes the built libraries and marker files, and prebuilts are downloaded again:
 
 ```bash
 dart run rive_native:setup --verbose --clean --platform macos
@@ -155,7 +155,7 @@ To self-host these files instead, copy the `wasm/` and `wasm_compatibility/` fol
 flutter run --dart-define=RIVE_NATIVE_WASM_HOST=https://your-host/your-path/
 ```
 
-The trailing slash is required — the runtime appends `wasm/rive_native.js` or `wasm_compatibility/rive_native.js` to the host URL.
+The trailing slash is required - the runtime appends `wasm/rive_native.js` or `wasm_compatibility/rive_native.js` to the host URL.
 
 ---
 
