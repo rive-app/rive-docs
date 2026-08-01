@@ -380,6 +380,7 @@ Follow the steps below to integrate Rive into your Flutter apps.
 - `useSharedTexture`: Whether to use the nearest inherited shared texture from a [RivePanel](#rivepanel). Defaults to false. Ignored when `sharedTexture` is provided.
 - `sharedTexture`: An explicit `SharedRenderTexture` to draw into, bypassing the ancestor-based `RivePanel` lookup. Use this with [`SharedRenderTexture` and `RiveSurface`](#sharedrendertexture-and-rivesurface) to share a texture across arbitrary parts of the widget tree.
 - `drawOrder`: Stacking order when drawing to a shared texture with `Factory.rive` (default: `1`). Higher values draw on top. See [Draw Order](#draw-order).
+- `renderResolution`: How the widget's backing texture is sized with `Factory.rive` (default: `RenderResolution.display()`). Not valid with `useSharedTexture`/`sharedTexture`. See [Render Resolution](#render-resolution).
 
 ### `RiveWidgetBuilder`
 
@@ -406,7 +407,7 @@ Follow the steps below to integrate Rive into your Flutter apps.
 - When you want to programmatically composite a scene that includes multiple Rive graphics (from multiple Rive files/artboards)
 - When using `Factory.rive` (will report errors with `Factory.flutter`) and want to improve performance
 - When you want to reduce the number of textures being drawn to
-- When targeting web platforms to avoid WebGL context limitations through `Factory.rive`
+- When targeting web platforms to avoid [WebGL context limits](#webgl-contexts-web) through `Factory.rive`
 
 **Performance considerations:**
 
@@ -429,6 +430,7 @@ RivePanel(
 - Only works with `Factory.rive` - has no effect with `Factory.flutter`
 - Set `useSharedTexture: true` in your `RiveWidget`s to enable shared texture rendering
 - Set `drawOrder` in your `RiveWidget`s to control stacking (see [Draw Order](#draw-order))
+- Set `renderResolution` on the panel to control how its shared texture is sized (see [Render Resolution](#render-resolution))
 - If you need to interleave Rive content with Flutter content, consider using separate `RivePanel`s or `Factory.flutter`
 - For complex scenarios, benchmark both approaches to determine the best performance strategy
 
@@ -471,6 +473,7 @@ Widget build(BuildContext context) {
 - `RiveWidget.sharedTexture` takes precedence over `useSharedTexture` when both are set.
 - You must call `dispose()` on textures created with `SharedRenderTexture.create()` to release the native texture.
 - `RiveSurface` is wrapped in `IgnorePointer` by default so pointer events are handled by the individual `RiveWidget`s. Set `ignorePointer: false` if pointer events should reach the native texture widget directly.
+- Set `renderResolution` on the `RiveSurface` to control how the shared texture is sized (see [Render Resolution](#render-resolution)).
 
 ### Draw Order
 
@@ -482,6 +485,20 @@ When multiple `RiveWidget`s draw to the same shared texture - through a [RivePan
 
 <Note>
 `drawOrder` only applies when drawing to a shared texture with `Factory.rive`. When a widget owns its own texture, Flutter's normal paint order applies.
+</Note>
+
+### Render Resolution
+
+`Factory.rive` draws content into a backing texture. `RiveWidget.renderResolution` (default: `RenderResolution.display()`) controls how that texture is sized - the same way on every platform, including web. It changes backing resolution only; layout, fit, alignment, and hit testing are unaffected.
+
+- `RenderResolution.display()` (default): layout size * device pixel ratio * any scale ancestors apply at paint time (for example a `FittedBox` or `Transform.scale`). Content stays sharp at its final on-screen size, and allocates for it.
+- `RenderResolution.layout(scale: 1.0)`: layout size * device pixel ratio * `scale`. Ancestor transforms apply at composite time, so scaling the widget up stretches the texture (softer output) instead of reallocating it - render small and let a `FittedBox` upscale cheaply.
+- `RenderResolution.fixed(width, height)`: an explicit size in physical pixels, independent of layout, device pixel ratio, and transforms. Never reallocated on resize.
+
+For shared textures the surface owns the allocation: set `renderResolution` on the [RivePanel](#rivepanel) or [RiveSurface](#sharedrendertexture-and-rivesurface). Setting it on a `RiveWidget` alongside `useSharedTexture` or `sharedTexture` throws an assertion error.
+
+<Note>
+`renderResolution` only applies with `Factory.rive`. `Factory.flutter` paints directly into Flutter's canvas at composite resolution.
 </Note>
 
 ### `RiveWidgetController`
@@ -604,6 +621,18 @@ void dispose() {
 The exception to this is the `FileLoader`, which you control. This loader can be reused across multiple `RiveWidgetBuilder` instances. The underlying `File` will only be loaded once. The `File` will be disposed when the `FileLoader` is disposed.
 
 </Note>
+
+### WebGL contexts (web)
+
+On the web, every `Factory.rive` widget that owns its texture renders into its own WebGL context, and browsers cap live contexts (around 16, shared with Flutter's own CanvasKit surfaces).
+
+Disposing a Rive widget releases its context. A small reuse pool keeps a few canvases alive, so churn like route transitions stays cheap. Contexts the browser has evicted are detected and destroyed, never reused.
+
+Set `RiveNative.debugRenderTextureLogging = true` to log texture create, reuse, and release with live WebGL context counts.
+
+<Tip>
+When showing many Rive widgets at once on web, draw them into a single shared texture with a [RivePanel](#rivepanel) - one WebGL context in total instead of one per widget.
+</Tip>
 
 ## Specifying a renderer
 
