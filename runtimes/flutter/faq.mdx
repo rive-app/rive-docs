@@ -48,6 +48,17 @@ Future<void> main() async {
 }
 ```
 
+## "Too many active WebGL contexts" warnings on web
+
+Every `Factory.rive` widget that owns its texture holds a live WebGL context, and browsers cap those. Exhausting the cap can also cause blank or frozen Rive widgets and CanvasKit context-loss errors. See [WebGL contexts (web)](/runtimes/flutter/flutter#webgl-contexts-web) for how contexts are released and reused.
+
+To stay under the cap:
+
+- Draw multiple widgets into one shared texture with a [RivePanel](/runtimes/flutter/flutter#rivepanel) — one context in total.
+- Dispose Rive widgets you no longer show — that releases their WebGL contexts.
+
+Set `RiveNative.debugRenderTextureLogging = true` to confirm you're hitting the cap: it logs texture create, reuse, and release with live WebGL context counts.
+
 ## How to enable 16KB page support on Android?
 
 Rive Flutter `0.14.x` includes 16KB page support by default.
