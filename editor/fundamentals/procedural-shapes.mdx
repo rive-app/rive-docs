@@ -4,16 +4,15 @@ description: "Create editable shapes with adjustable properties."
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
+import { VideoEmbed } from '/snippets/video-embed.jsx'
 
 Shape tools let you create common shapes, such as rectangles, ellipses, polygons, and stars. These shapes keep editable properties, such as width, height, corner radius, and number of points, until you convert them to custom paths.
 
 <YouTube id="vU5SrgymGD8" />
 
-## Creating a Procedural Shape
+## Creating a Shape
 
-![Procedural Shapes menu](/images/editor/fundamentals/procedural-shapes-menu.png)
-
-Procedural shape tools are available from the **Create Tools** menu.
+Shape tools are available from the **Create Tools** menu.
 
 <Steps>
   <Step>
@@ -21,12 +20,12 @@ Procedural shape tools are available from the **Create Tools** menu.
   </Step>
   <Step>
     Click and drag inside an artboard to draw the shape.
+
+    Hold `Shift` while dragging to constrain the shape's proportions.
   </Step>
 </Steps>
 
-Hold `Shift` while dragging to constrain the shape's proportions.
-
-![Creating a procedural shape](/images/editor/fundamentals/procedural-shapes-create.gif)
+<VideoEmbed src="https://static.rive.app/video/create-rectangle.mp4" />
 
 <Info>
   See [Freeze and Origin](/editor/fundamentals/freeze-and-origin) to learn how to change the center point of a shape.
@@ -71,16 +70,14 @@ Drag the handle on the inner point up or down to adjust the angle on the inner a
 
 ## Converting a Shape to a Custom Path
 
-To edit individual vertices, convert the shape to a custom path.
+Press `Enter` to convert the selected shape to a path. After conversion, you can edit each vertex directly.
 
-![Converting a procedural path to a custom path](/images/editor/fundamentals/procedural-shapes-convert.gif)
-
-Press `Enter` to convert the selected procedural path to a custom path. After conversion, you can edit each vertex directly.
+<VideoEmbed src="https://static.rive.app/video/convert-to-path.mp4" />
 
 <Note>
-  Converting a procedural path to a custom path removes its procedural properties, such as width, height, corner radius, and number of points. Any animations applied to those properties are also removed.
+  Converting a shape to a path removes its procedural properties, such as width, height, corner radius, and number of points. Any animations applied to those properties are also removed.
 </Note>
 
 <Info>
-  To edit a custom path, see [Edit Vertices](/editor/fundamentals/edit-vertices).
+  To edit a path, see [Edit Vertices](/editor/fundamentals/edit-vertices).
 </Info>
