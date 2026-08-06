@@ -356,17 +356,18 @@ const r = new rive.Rive({
     autoBind: true,
     onLoad: async () => {
         // Access the current instance that was auto-bound
-        let vmi = r.viewModelInstance;
-
+        const vmi = r.viewModelInstance;
         // Get the font property by name
-        const fontProperty = vmi.font("bound_font");
+        const headingFontProperty = vmi.font("headingFont");
 
-        const res = await fetch("/fonts/Inter.ttf");
-        const font = await rive.decodeFont(new Uint8Array(await res.arrayBuffer()));
-        fontProperty.value = font;
+        const res = await fetch("/Orbitron.ttf");
+        const font = await decodeFont(new Uint8Array(await res.arrayBuffer()));
+        headingFontProperty.value = font;
     }
 });
 ```
+
+<Demos examples={["dataBindingFonts"]} runtime="web" />
 
 <Lists />
 

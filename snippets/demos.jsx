@@ -61,6 +61,18 @@ export const Demos = ({
         "https://rive.app/marketplace/24644-46045-caching-a-rive-file-at-runtime/"
       ]
     },
+    dataBindingFonts: {
+      title: 'Data Binding Fonts',
+      description:
+        'Swap an font at runtime.',
+      image: "https://static.rive.app/docs/data-binding-fonts.png",
+      links: {
+        web: 'https://codesandbox.io/p/sandbox/cjt2tl?file=%2Findex.ts%3A37%2C41',
+      },
+      source: [
+        "https://rive.app/community/files/28431-data-binding-fonts/",
+      ]
+    },
     dataBindingArtboards: {
       title: 'Data Binding Artboards',
       description:
