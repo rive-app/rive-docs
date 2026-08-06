@@ -1,6 +1,8 @@
 export const VideoEmbed = ({ src }) => {
   return (
-    <div>
+    <div
+      style={{ height: "100%"}}
+    >
       <video
         src={src}
         autoPlay
