@@ -46,16 +46,17 @@ A View Model defines the structure of your data. Before creating View Model Inst
   New Rive files come with a default view model called "ViewModel1" that is already attached to the main artboard.
 </Note>
 
-![Create a View Model](/images/editor/data-binding/view-models/create-view-model.gif)
 
 <Steps>
   <Step title="Add a View Model">
-    In the Data panel Click the `+` icon and select **View Model**.
+    In the Data panel Click the `+` icon and select **Normal View Model** or [Global View Model](#global-view-model-instances).
   </Step>
   <Step title="Add Properties">
     In the Data panel, click the **Add View Model Property** button next to the view model name and select your [property type](/editor/data-binding/property-types).
   </Step>
 </Steps>
+
+![Create a View Model](/images/editor/data-binding/view-models/create-view-model.gif)
 
 ## Creating and Editing Instances
 
@@ -120,34 +121,39 @@ By default, exported View Model Instances are included in the .riv file. Disable
 
 Before binding data, you'll need to decide where the data should live.
 
-Rive supports three common patterns:
+Rive supports a few common patterns:
 
 | Pattern |	 |
 | :------------- | :----------- |
-| [Top-Level Instance](#top-level-artboard-view-model-instances)	| The data lives on the top-level artboard and its values can be used throughout the Rive file |
-| [Nested components](#nested-component-instances) |	The parent view model instance stores a reference to a nested view model instance, which can be applied to a nested component |
+| [Global Instances](#global-view-model-instances)	| Global view models and their properties are directly accessible to all artboards |
+| [Instances attached to artboards](#instances-attached-to-artboards)	| The data lives on the artboard and its values can be used by that artboard and its children |
+| [Instances as nested properties](#instances-as-nested-properties) |	The parent view model instance stores a reference to a nested view model instance |
 | [Stateful nested components](#stateful-components) |	Self-contained, reusable components that store their own unique data |
 
-### Top-Level Artboard View Model Instances
+### Global View Model Instances
 
-Attach a View Model Instance directly to the top-level artboard when the data should be available to the entire artboard and its children.
-
-```
-GameVM
-├─ health
-└─ score
-└─ avatar
-```
-
-![Main VM](/images/editor/data-binding/view-models/main-vm.png)
+Global view models are not connected to a specific artboard. Instead, the view model instance and its properties are directly accessible to all artboards.
 
 <UseCase title="Game">
-A game's main view model might contain a score property. This property might be used by various nested components, like the header and within the high scores modal.
+A game's main view model might contain a `brandColor` or `score` property. This property might be used by various nested components, like the header, on buttons, or on a high scores screen.
 </UseCase>
 
-### Nested Component Instances
+### Instances Attached to Artboards
 
-Components can also have their own View Model Instances.
+View model instances can be attached to a specific artboard or nested component. This is useful when only that artboard and its children needs access to that data.
+
+```
+EnemyVM
+├─ health
+```
+
+<UseCase title="Game">
+An Enemy view model might contain a `health` property. This property might be used by the enemy itself, but not by its parent.
+</UseCase>
+
+### Instances as nested properties
+
+View Models can have properties that are View Model instances.
 
 In this pattern, the parent View Model stores references to child instances, either directly or through a [list](/editor/data-binding/lists).
 
@@ -164,8 +170,6 @@ InventoryVM
 └─ Potion
 ```
 
-Each component instance can have its own view model instance attached to it.
-
 ![Attach instance to component](/images/editor/data-binding/view-models/connect-instance-to-nested-component.png)
 
 This approach is useful when a parent artboard needs to manage a collection of items while still allowing each component to maintain its own data.
@@ -173,8 +177,6 @@ This approach is useful when a parent artboard needs to manage a collection of i
 <UseCase title="Inventory Grid">
 An inventory screen might contain a list of Item View Model Instances, with each inventory slot component bound to a different item.
 </UseCase>
-
-Because each instance must be created and connected explicitly, this pattern provides strong runtime control at the cost of additional setup.
 
 ### Stateful Components
 
