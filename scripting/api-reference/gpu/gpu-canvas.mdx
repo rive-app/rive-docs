@@ -85,7 +85,7 @@ Color attachment views default to this canvas's colorView when
 omitted; provide them explicitly when rendering to a different
 target (e.g. MSAA). The pass's sampleCount is derived from the
 attachments (WebGPU rule: all attachments share one sampleCount).
-Must be called inside a drawCanvas phase. Issue draw calls on the
+Must be called during draw. Issue draw calls on the
 returned pass, then call `:finish()`.
 
 
