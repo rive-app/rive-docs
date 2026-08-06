@@ -5,6 +5,7 @@ description: ""
 
 import { YouTube } from '/snippets/youtube.mdx'
 import { Marketplace } from '/snippets/marketplace.mdx'
+import { VideoEmbed } from '/snippets/video-embed.jsx'
 
 A view model property is one piece of data within a view model. Developers might think of this as similar to a field in object-oriented programming. Properties have a data type, which is selected when they are created, and a name which can be referenced in code. Each property can be bound to different editor elements of the same type or used as conditions within a state machine.
 
@@ -23,6 +24,7 @@ In the Data panel, click the **Add View Model Property** button next to the view
 | [Trigger](#trigger)   | Fire-and-forget event               |
 | [Enum](#enum)         | One value from a predefined list    |
 | [Image](#image)       | Image asset reference               |
+| [Font](#font)         | Font asset reference    |
 | [Artboard](#artboard) | Artboard reference                  |
 | [View Model](#view-model) | Nested View Model instance                  |
 | [List](#list)         | Collection of view models |
@@ -53,6 +55,18 @@ For example, in a game or social UI, each player can have their own avatar by bi
 
 <Note>
   Image properties affect a **single instance**.
+
+  If you need to update an image globally across your entire file, use [asset loading instead](/runtimes/loading-assets). Asset loading replaces the underlying asset, updating all instances that use it.
+</Note>
+
+### Font
+
+<VideoEmbed src="https://static.rive.app/video/data-bind-font.mp4" />
+
+Font properties store a reference to a font, allowing you to change which font is displayed on a specific text style.
+
+<Note>
+  Font properties affect a **single instance**.
 
   If you need to update an image globally across your entire file, use [asset loading instead](/runtimes/loading-assets). Asset loading replaces the underlying asset, updating all instances that use it.
 </Note>
