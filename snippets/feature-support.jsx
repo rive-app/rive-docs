@@ -53,6 +53,7 @@ export const FeatureSupportGroup = ({
     ]
 
     const featuresInOrder = [
+        "dataBindingFonts",
         "semantics",
         "scripting",
         "dataBindingListsImagesArtboards",
@@ -82,6 +83,27 @@ export const FeatureSupportGroup = ({
     ]
 
     const features = {
+        dataBindingFonts: {
+            title: "Data Binding Fonts",
+            runtimes: {
+                webCanvas: { supported: true, version: "20.39.2+" },
+                webCanvasLite: { supported: false, description: "NA" },
+                webWebGL: { supported: false, description: "Not supported" },
+                webWebGL2: { supported: true, version: "20.39.2+" },
+                reactCanvas: { supported: false, description: "Coming soon" },
+                reactCanvasLite: { supported: false, description: "Coming soon" },
+                reactWebGL: { supported: false, description: "Not supported" },
+                reactWebGL2: { supported: false, description: "Coming soon" },
+                reactNative: { supported: false, description: "Coming soon" },
+                reactNativeLegacy: { supported: false, description: "Not supported" },
+                flutter: { supported: false, description: "Coming soon" },
+                apple: { supported: false, description: "Coming soon" },
+                android: { supported: false, description: "Coming soon" },
+                cpp: { supported: true, description: "Supported" },
+                unity: { supported: false, description: "Coming soon" },
+                unreal: { supported: false, description: "Coming soon" }
+            }
+        },
         semantics: {
             title: "Semantics",
             runtimes: {
