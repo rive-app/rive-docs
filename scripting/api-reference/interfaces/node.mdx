@@ -128,19 +128,9 @@ return function(): Node<MyNode>
   }
 end
 ```
-
-
-### `drawCanvas`
-
-{/* drawCanvas: ((self: T) -> ())? */}
-<div class="signature">
-```lua
-drawCanvas(self: T) -> ()
-```
-</div>
-
-Called during the drawCanvases pass (before draw).
-All canvas:beginFrame / canvas:beginRenderPass calls must happen here.
+GPU canvas work (canvas:beginFrame, gpuCanvas:beginRenderPass) also
+happens here, in any order; replay schedules canvas dependencies. The
+former drawCanvas callback was removed: move its body into draw.
 
 
 ### `pointerDown`
