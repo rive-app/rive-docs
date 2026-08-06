@@ -30,7 +30,7 @@ export const RiveCard = ({ title, description, links, children, source, aspect3b
 
   return (
     <div
-      className="card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:mint-bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full cursor-pointer hover:border-primary! dark:hover:border-primary-light!"
+      className="flex flex-col card block font-normal group relative my-2 ring-2 ring-transparent rounded-2xl bg-white dark:bg-background-dark border border-gray-950/10 dark:border-white/10 overflow-hidden w-full"
     >
 
       {
