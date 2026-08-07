@@ -90,6 +90,53 @@ end
 ```
 
 
+### `globalViewModel`
+
+{/* function globalViewModel(self, name: string): ViewModel? */}
+<div class="signature">
+```lua
+globalViewModel(name: string) -> ViewModel?
+```
+</div>
+
+Returns the global [ViewModel](/scripting/api-reference/interfaces/view-model) with the given name, or nil if there is no
+global view model by that name or none is currently bound.
+Global view models are shared, singleton-like view models addressed by name
+rather than through the node's own data context.
+```lua highlight={2}
+function init(self: MyNode, context: Context): boolean
+  local settings = context:globalViewModel('AppSettings')
+  if settings then
+    local volume = settings:getNumber('volume')
+  end
+
+  return true
+end
+```
+
+
+### `globalViewModelNames`
+
+{/* function globalViewModelNames(self): { string } */}
+<div class="signature">
+```lua
+globalViewModelNames() -> {string}
+```
+</div>
+
+Returns a list of the names of all global view models defined in the file.
+Pass any of these names to `globalViewModel` to fetch the corresponding view model.
+```lua highlight={2}
+function init(self: MyNode, context: Context): boolean
+  for _, name in ipairs(context:globalViewModelNames()) do
+    print(name)
+  end
+
+  return true
+end
+```
+
+
 ### `dataContext`
 
 {/* function dataContext(self): DataContext? */}
