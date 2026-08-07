@@ -68,6 +68,7 @@ export const Demos = ({
       image: "https://static.rive.app/docs/data-binding-fonts.png",
       links: {
         web: 'https://codesandbox.io/p/sandbox/cjt2tl?file=%2Findex.ts%3A37%2C41',
+        react: 'https://codesandbox.io/p/sandbox/rive-data-binding-fonts-glpm49?file=%2Fsrc%2FApp.tsx'
       },
       source: [
         "https://rive.app/community/files/28431-data-binding-fonts/",

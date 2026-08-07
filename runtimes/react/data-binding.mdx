@@ -14,6 +14,7 @@ import ReadingAndWritingProperties from "/snippets/runtimes/data-binding/reading
 import NestedPropertyPaths from "/snippets/runtimes/data-binding/nested-property-paths.mdx"
 import Observability from "/snippets/runtimes/data-binding/observability.mdx"
 import Images from "/snippets/runtimes/data-binding/images.mdx"
+import Fonts from "/snippets/runtimes/data-binding/fonts.mdx"
 import Lists from "/snippets/runtimes/data-binding/lists.mdx"
 import Artboards from "/snippets/runtimes/data-binding/artboards.mdx"
 import Enums from "/snippets/runtimes/data-binding/enums.mdx"
@@ -418,6 +419,37 @@ Use the `useViewModelInstanceImage` hook to set image properties on view model i
         }
     };
     ```
+
+<Fonts />
+
+```typescript {1-4, 14-20}
+  const { setValue: setHeadingFont } = useViewModelInstanceFont(
+    "headingFont",
+    rive?.viewModelInstance
+  );
+
+  useEffect(() => {
+    if (setHeadingFont) {
+      loadFont("Orbitron.ttf");
+    }
+  }, [setHeadingFont]);
+
+  const loadFont = async (url: string) => {
+    try {
+      const response = await fetch(url);
+      const fontBuffer = await response.arrayBuffer();
+      const decodedFont = await decodeFont(new Uint8Array(fontBuffer));
+
+      setHeadingFont(decodedFont);
+
+      decodedFont.unref();
+    } catch (error) {
+      console.error("Failed to load font:", error);
+    }
+  };
+```
+
+<Demos examples={["dataBindingFonts"]} runtime="react" />
 
 <Lists />
 
