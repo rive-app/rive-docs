@@ -11,12 +11,16 @@ For a conceptual overview of View Models and how they drive your graphic,
 see [View Models & Data Binding](/editor/data-binding/overview).
 </Tip>
 
-## View Models
+## Accessing View Models
 
-There are three ways that a script can gain access to a View Model and its properties:
+There are two ways that a script can gain access to a View Model and its properties:
 - Accessing View Models through [Context](#context)
-- Data binding a [View Model as an input](#view-models-as-inputs)
-- Data [binding view model properties to inputs](#binding-inputs)
+- [View Models as an inputs](#view-models-as-inputs)
+
+<Note>
+If you only need to read, not set view model properties, you can data bind view model property values to script inputs.
+For more information see [Data Binding Inputs](/scripting/script-inputs#data-binding-inputs).
+</Note>
 
 ### Context
 
@@ -28,22 +32,33 @@ fire triggers, listen for triggers, and subscribe to value changes.
   In addition to view models, [Context](/scripting/api-reference/interfaces/context) gives you access to named assets and update scheduling.
 </Note>
 
-```lua {5, 8, 11, 12}
-type MyNode = {}
+```lua
+type GetContexts = {}
 
-function init(self: MyNode, context: Context): boolean
+function init(self: GetContexts, context: Context): boolean
   -- Get the view model from the node's immediate context.
-  local vmi = context:viewModel()
+  local mainVmi = context:viewModel()
 
-  -- Get the root view model
+  --- Get the root view model
   local rootVmi = context:rootViewModel()
 
+  --- Get a global view model
+  local globalVmi = context:globalViewModel('MyGlobalVM')
+
   -- Get the view model from the parent node.
-  local parentDC = dc:parent()
-  local parentVmi = dc:viewModel()
+  local dc = context:dataContext()
+  if dc then
+    local parentDC = dc:parent()
+
+    if parentDC then
+      local parentVmi = parentDC:viewModel()
+    end
+  end
+
+  return true
 end
 
-return function(): Node<MyNode>
+return function(): Node<GetContexts>
   return {
     init = init,
   }
@@ -52,43 +67,50 @@ end
 
 ### View Models as Inputs
 
-You can create a [Script Input](/scripting/script-inputs) that can be bound to a view model. This allows you to read values (strings, enums, lists, etc.), set values, fire triggers, listen for triggers, and subscribe to value changes.
+You can create an [Input](/scripting/script-inputs) that accepts a view model instance, which gives the script access to its properties.
 
-```lua {3,7,15}
-type MyNode = {
-  -- This input expects a view model instance of type Character
-  character: Input<Data.Character>
-}
+<Steps>
+  <Step title="Create a new View Model">
+    This is in addition to your main view model.
 
-function init(self: MyNode, context: Context): boolean
-  local vmi = self.character
-end
+    In this example, we call it `MenuVM` and give it a `string` property called `title`.
 
-return function(): Node<MyNode>
-  return {
-    init = init,
-    -- Initialize with `late()` so the value
-    -- can be provided by the editor at runtime.
-    character = late(),
-  }
-end
-```
+    ![A main view model and a view model called MenuVM with a string property called title.](/images/scripting/secondary-view-model.png)
+  </Step>
+  <Step title="Create a menu property in your main view model">
+    To be able to reference the instance of `MenuVM` in your script, we need to create a `myMenu` property of type `MenuVM` in the main view model.
 
-For a detailed explanation, see [View Models Inputs](/scripting/script-inputs#view-model-inputs).
+    ![Create a new view model property by clicking + on the main view model, selecting View Models, then MainVM](/images/scripting/referece-secondary-view-model.png)
+  </Step>
+  <Step title="Add an input to your script">
+    In your script add a new input of type `Data.MenuVM`.
 
-### Binding Inputs
+    ```lua {3,8,17}
+    -- Define the script's data and inputs.
+    type ScriptInputs = {
+      myMenu: Input<Data.MenuVM>,
+    }
 
-If you only need to read, not set view model properties, you can data bind view model property values to script inputs.
-For more information see [Data Binding Inputs](/scripting/script-inputs#data-binding-inputs).
+    -- Called once when the script initializes.
+    function init(self: ScriptInputs, context: Context): boolean
+      print(self.myMenu.title.value)
 
-### Nested View Models
+      return true
+    end
 
-To reference a nested view model, use `getViewModel`.
-
-```lua
-local vmi = context:viewModel(),
-local dateVmi = vmi:getViewModel('dateViewModel')
-```
+    -- Return a factory function that Rive uses to build the Node instance.
+    return function(): Node<ScriptInputs>
+      return {
+        init = init,
+        myMenu = late(),
+      }
+    end
+    ```
+  </Step>
+  <Step title="Set the input value">
+    Select the script in your hierarchy and in the Property Group panel of the Inspector, set the `myMenu` input to `menu`.
+  </Step>
+</Steps>
 
 ## Reading and Setting Properties
 
@@ -133,85 +155,122 @@ end
 
 Use `addListener` to listen for triggers or changes to view model properties.
 
-```lua {17,23}
-type MyNode = {}
+```lua {19,22,23,24}
+-- Define the script's data and inputs.
+type ScriptInputs = {
+  menu: Input<Data.MenuVM>,
+}
 
-function handleHoursChanged()
-  print('hours changed!')
+function onTitleChange()
+  print('changed')
 end
 
-function handleTriggerFired()
-  print('Fire!')
+function onTitleChangeWithParam(self: ScriptInputs)
+  print('changed', self.menu.title.value)
 end
 
-function init(self: MyNode, context: Context): boolean
-  local vmi = context:viewModel()
+-- Called once when the script initializes.
+function init(self: ScriptInputs, context: Context): boolean
+  local title = self.menu.title
 
-  local hours = vm:getNumber('hours')
-  if hours then
-    -- handleHoursChanged is called whenever the hours value changes
-    hours:addListener(handleHoursChanged)
-  end
+  -- When title changes, call onTitleChange
+  title:addListener(onTitleChange)
 
-  local trigger = vm:getTrigger('triggerProperty')
-  if trigger then
-    -- handleTriggerFired is called whenever the trigger is fired
-    trigger:addListener(handleTriggerFired)
-  end
+  -- When title changes, call onTitleChangeWithParam with an argument of self
+  title:addListener(self, onTitleChangeWithParam)
 
   return true
 end
 
-return function(): Node<MyNode>
+-- Return a factory function that Rive uses to build the Node instance.
+return function(): Node<ScriptInputs>
   return {
     init = init,
+    score = 0,
+    menu = late(),
+    newArtboard = late(),
   }
 end
+
 ```
 
 ### Remove a Listener
 
 Always remove listeners when they are no longer needed to avoid memory leaks.
 
-```lua highlight={17}
-type MyNode = {}
+```lua highlight={14}
+-- Define the script's data and inputs.
+type ScriptInputs = {
+  menu: Input<Data.MenuVM>,
+}
 
-function init(self: MyNode, context: Context): boolean
-  local vmi = context:viewModel()
+-- Anchor-form listener callback: receives the same object passed as the
+-- anchor to addListener (here, the `title` Property itself).
+function onTitleChangeWithParam(title: Property<string>)
+  print('title changed:', title.value)
 
-  if not vmi then
-    print('No view model found')
-    return false
-  end
+  -- Unsubscribe using the matching anchor-form overload (self, anchor, callback).
+  -- The simpler (self, callback) overload requires a zero-argument callback,
+  -- which is why using it here caused a type error against this 1-argument function.
+  title:removeListener(title, onTitleChangeWithParam)
+end
 
-  local hours = vmi:getNumber('hours')
-  if hours then
-    local function handleHoursChanged()
-      print('hours changed!')
+-- Called once when the script initializes.
+function init(self: ScriptInputs, context: Context): boolean
+  local title = self.menu.title
 
-      -- Remove the event listener
-      hours:removeListener(handleHoursChanged)
-    end
-
-    -- handleHoursChanged is called whenever the hours value changes
-    hours:addListener(handleHoursChanged)
-  end
+  -- When title changes, call onTitleChangeWithParam with the anchor (title) as its argument.
+  title:addListener(title, onTitleChangeWithParam)
 
   return true
 end
 
-return function(): Node<MyNode>
+-- Return a factory function that Rive uses to build the Node instance.
+return function(): Node<ScriptInputs>
   return {
     init = init,
-    hours = late(),
-    trigger = late(),
+    menu = late(),
   }
 end
-
 ```
 
 ## Creating a View Model Instance
 
-Coming soon
+
+```lua highlight={10}
+-- Define the script's data and inputs.
+type ScriptInputs = {
+  menu: Input<Data.MenuVM>,
+}
+
+-- Called once when the script initializes.
+function init(self: ScriptInputs, context: Context): boolean
+  -- Create a brand new MenuVM ViewModel instance programmatically
+  -- (instead of relying on the data-bound `menu` input from the editor).
+  local newMenuInstance = Data.MenuVM.new()
+
+  local newTitle = newMenuInstance:getString('title')
+  if newTitle then
+    newTitle.value = 'Created at runtime'
+  end
+
+  -- Swap self.menu to use the instance we just created programmatically.
+  self.menu = newMenuInstance
+
+  local title = self.menu.title
+
+  print('menu title after programmatic creation:', title.value)
+
+  return true
+end
+
+-- Return a factory function that Rive uses to build the Node instance.
+return function(): Node<ScriptInputs>
+  return {
+    init = init,
+    menu = late(),
+  }
+end
+```
 
 
