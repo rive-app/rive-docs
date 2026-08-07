@@ -42,6 +42,9 @@ function init(self: GetContexts, context: Context): boolean
   --- Get the root view model
   local rootVmi = context:rootViewModel()
 
+  --- Get a global view model
+  local globalVmi = context:globalViewModel('MyGlobalVM')
+
   -- Get the view model from the parent node.
   local dc = context:dataContext()
   if dc then
