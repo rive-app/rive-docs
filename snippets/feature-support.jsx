@@ -89,7 +89,7 @@ export const FeatureSupportGroup = ({
                 webCanvas: { supported: true, version: "2.39.2+" },
                 webCanvasLite: { supported: false, description: "NA" },
                 webWebGL: { supported: false, description: "Not supported" },
-                webWebGL2: { supported: true, version: "20.39.2+" },
+                webWebGL2: { supported: true, version: "2.39.2+" },
                 reactCanvas: { supported: true, version: "4.31.0+" },
                 reactCanvasLite: { supported: false, description: "NA" },
                 reactWebGL: { supported: false, description: "Not supported" },
