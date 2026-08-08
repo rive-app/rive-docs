@@ -14,6 +14,7 @@ import ReadingAndWritingProperties from "/snippets/runtimes/data-binding/reading
 import NestedPropertyPaths from "/snippets/runtimes/data-binding/nested-property-paths.mdx"
 import Observability from "/snippets/runtimes/data-binding/observability.mdx"
 import Images from "/snippets/runtimes/data-binding/images.mdx"
+import Fonts from "/snippets/runtimes/data-binding/fonts.mdx"
 import Lists from "/snippets/runtimes/data-binding/lists.mdx"
 import Artboards from "/snippets/runtimes/data-binding/artboards.mdx"
 import Enums from "/snippets/runtimes/data-binding/enums.mdx"
@@ -347,26 +348,25 @@ const r = new rive.Rive({
 });
 ```
 
-### Fonts
-
-Font properties let you swap the typeface used by bound text at runtime. Decode font bytes with `rive.decodeFont()` and assign the result to the property's `value`.
+<Fonts />
 
 ```typescript
 const r = new rive.Rive({
     autoBind: true,
     onLoad: async () => {
         // Access the current instance that was auto-bound
-        let vmi = r.viewModelInstance;
-
+        const vmi = r.viewModelInstance;
         // Get the font property by name
-        const fontProperty = vmi.font("bound_font");
+        const headingFontProperty = vmi.font("headingFont");
 
-        const res = await fetch("/fonts/Inter.ttf");
-        const font = await rive.decodeFont(new Uint8Array(await res.arrayBuffer()));
-        fontProperty.value = font;
+        const res = await fetch("/Orbitron.ttf");
+        const font = await decodeFont(new Uint8Array(await res.arrayBuffer()));
+        headingFontProperty.value = font;
     }
 });
 ```
+
+<Demos examples={["dataBindingFonts"]} runtime="web" />
 
 <Lists />
 
