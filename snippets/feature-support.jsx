@@ -86,7 +86,7 @@ export const FeatureSupportGroup = ({
         dataBindingFonts: {
             title: "Data Binding Fonts",
             runtimes: {
-                webCanvas: { supported: true, version: "20.39.2+" },
+                webCanvas: { supported: true, version: "2.39.2+" },
                 webCanvasLite: { supported: false, description: "NA" },
                 webWebGL: { supported: false, description: "Not supported" },
                 webWebGL2: { supported: true, version: "20.39.2+" },
