@@ -256,6 +256,12 @@ getFont(name: string) -> Property<Font>?
 
 Looks up a font by name.
 Returns a `Property<Font>`.
+```lua highlight={3}
+local vm = context:viewModel()
+if vm then
+    local fontProperty = vm:getFont('Inter')
+end
+```
 
 
 ### `getBlob`
@@ -269,5 +275,11 @@ getBlob(name: string) -> Property<Blob>?
 
 Looks up a blob by name.
 Returns a `Property<Blob>`.
+```lua highlight={3}
+local vm = context:viewModel()
+if vm then
+    local blobProperty = vm:getBlob('myBlob')
+end
+```
 
 
