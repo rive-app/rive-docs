@@ -31,7 +31,7 @@ import { Demos } from "/snippets/demos.jsx";
 Use the `useViewModel` hook to get a reference to a view model. You need to pass the `rive` object obtained from `useRive`.
 
 ```typescript
-import { useRive, useViewModel } from '@rive-app/react-webgl2';
+import { useRive, useViewModel } from '@rive-app/react-canvas';
 
 const { rive, RiveComponent } = useRive({
     src: 'your_file.riv',
@@ -53,7 +53,7 @@ const namedViewModel = useViewModel(rive, { name: 'MyViewModelName' });
 Use the `useViewModelInstance` hook to create a view model instance from a view model returned by the `useViewModel` hook.
 
 ```typescript
-import { useRive, useViewModel, useViewModelInstance } from '@rive-app/react-webgl2';
+import { useRive, useViewModel, useViewModelInstance } from '@rive-app/react-canvas';
 
 const { rive, RiveComponent } = useRive({
     src: 'your_file.riv',
@@ -78,7 +78,7 @@ const newUnbound = useViewModelInstance(viewModel, { useNew: true });
 You can also bind the view model instance directly to the Rive instance by passing the `rive` object to the `useViewModelInstance` hook.
 
 ```typescript
-import { useRive, useViewModel, useViewModelInstance } from '@rive-app/react-webgl2';
+import { useRive, useViewModel, useViewModelInstance } from '@rive-app/react-canvas';
 
 const { rive, RiveComponent } = useRive({
     src: 'your_file.riv',
@@ -129,7 +129,7 @@ For React, no additional steps are needed to bind the view model instance to the
 The view model hooks run after Rive has loaded, which means the first frame has already advanced and rendered before they bind, even with `autoplay: false`. If you want to set data before the first render, do the data binding setup in the `onRiveReady` callback of `useRive` instead. It receives the `Rive` instance synchronously as soon as the file loads, and before the state machine advances, so you can stage instances and set property values that the very first frame renders with.
 
 ```tsx
-import { useRive, ViewModel, ViewModelInstance } from '@rive-app/react-webgl2';
+import { useRive, ViewModel, ViewModelInstance } from '@rive-app/react-canvas';
 
 const { RiveComponent } = useRive({
     src: 'your_file.riv',
@@ -179,7 +179,7 @@ import {
     useViewModel,
     useGlobalViewModelInstance,
     useViewModelInstanceColor,
-} from '@rive-app/react-webgl2';
+} from '@rive-app/react-canvas';
 
 const { rive, RiveComponent } = useRive({
     src: 'your_file.riv',
@@ -254,7 +254,7 @@ import {
     useViewModelInstanceEnum,
     useViewModelInstanceColor,
     useViewModelInstanceTrigger
-} from '@rive-app/react-webgl2';
+} from '@rive-app/react-canvas';
 
 // Assuming viewModelInstance is obtained via useViewModelInstance or rive.viewModelInstance
 
@@ -326,7 +326,7 @@ The `value` returned by each hook will update automatically when the property ch
 Access nested properties by providing the full path (separated by `/`) as the first argument to the property hooks.
 
 ```typescript
-import { useViewModelInstanceString, useViewModelInstanceNumber } from '@rive-app/react-webgl2';
+import { useViewModelInstanceString, useViewModelInstanceNumber } from '@rive-app/react-canvas';
 
 // Accessing 'settings/theme/name' (String)
 const { value: themeName, setValue: setThemeName } = useViewModelInstanceString(
@@ -352,7 +352,7 @@ The React hooks handle observability automatically. When a property's value chan
 For Triggers, you can provide an `onTrigger` callback directly to the `useViewModelInstanceTrigger` hook, which fires when the trigger is activated in the Rive instance.
 
 ```typescript
-import { useViewModelInstanceTrigger } from '@rive-app/react-webgl2';
+import { useViewModelInstanceTrigger } from '@rive-app/react-canvas';
 
 // Assuming viewModelInstance is available
 const { trigger } = useViewModelInstanceTrigger(
@@ -372,7 +372,7 @@ const { trigger } = useViewModelInstanceTrigger(
 Use the `useViewModelInstanceImage` hook to set image properties on view model instances.
 
     ```typescript
-    import { useRive, useViewModel, useViewModelInstance, useViewModelInstanceImage } from '@rive-app/react-webgl2';
+    import { useRive, useViewModel, useViewModelInstance, useViewModelInstanceImage } from '@rive-app/react-canvas';
 
     const { rive, RiveComponent } = useRive({
         src: 'your_file.riv',
@@ -426,7 +426,7 @@ Use the `useViewModelInstanceImage` hook to set image properties on view model i
 Use the `useViewModelInstanceList` hook to manage list properties on view model instances.
 
 ```typescript
-import { useRive, useViewModel, useViewModelInstance, useViewModelInstanceList } from '@rive-app/react-webgl2';
+import { useRive, useViewModel, useViewModelInstance, useViewModelInstanceList } from '@rive-app/react-canvas';
 
 const { rive, RiveComponent } = useRive({
     src: 'your_file.riv',
@@ -506,7 +506,7 @@ console.log(`List has ${length} items`);
 Use the `useViewModelInstanceArtboard` hook to set artboard properties on view model instances.
 
 ```typescript
-import { useRive, useViewModel, useViewModelInstance, useViewModelInstanceArtboard } from '@rive-app/react-webgl2';
+import { useRive, useViewModel, useViewModelInstance, useViewModelInstanceArtboard } from '@rive-app/react-canvas';
 
 const { rive, RiveComponent } = useRive({
     src: 'your_file.riv',

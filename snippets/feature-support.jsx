@@ -28,11 +28,11 @@ export const FeatureSupportGroup = ({
 
     // Do not include legacy runtimes
     const runtimesInOrder = [
-        "webWebGL2",
         "webCanvas",
+        "webWebGL2",
         "webCanvasLite",
-        "reactWebGL2",
         "reactCanvas",
+        "reactWebGL2",
         "reactCanvasLite",
         "reactNative",
         "flutter",

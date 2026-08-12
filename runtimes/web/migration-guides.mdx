@@ -4,10 +4,12 @@ description: 'Migrating between major versions of the Apple runtime'
 ---
 
 <AccordionGroup>
-    <Accordion title={`Migrating from @rive-app/webgl to @rive-app/webgl2`}>
-        We highly recommend migrating to `@rive-app/webgl2` for the best rendering quality and performance in most cases. The `@rive-app/webgl` package is deprecated and no longer receives updates after `v2.37.0`.
+    <Accordion title={`Migrating from @rive-app/webgl`}>
+        The `@rive-app/webgl` package is deprecated and no longer receives updates after `v2.37.0`, so you should migrate off it.
 
-        The migration process involves updating your package installation and import statements to use `@rive-app/webgl2` instead of `@rive-app/webgl`. There are no breaking API changes, so your existing code should work with the new package without modification.
+        For most content, migrate to `@rive-app/canvas`. Choose `@rive-app/webgl2` if your content uses [Vector Feathering](/editor/fundamentals/fill-and-stroke#vector-feathering). See [Canvas vs WebGL2](/runtimes/web/canvas-vs-webgl) for the full comparison.
+
+        Either way, the migration process is the same: update your package installation and import statements. There are no breaking API changes, so your existing code should work with the new package without modification.
 
         For example, if you were previously using:
 
@@ -22,14 +24,14 @@ description: 'Migrating between major versions of the Apple runtime'
         You can update this to:
 
         ```bash
-        npm install @rive-app/webgl2
+        npm install @rive-app/canvas
         ```
 
         ```typescript
-        import { Rive } from '@rive-app/webgl2';
+        import { Rive } from '@rive-app/canvas';
         ```
 
-        This change will allow you to take advantage of the improved rendering capabilities of the [Rive renderer](https://rive.app/renderer) while maintaining compatibility with your existing codebase.
+        Substitute `@rive-app/webgl2` in both places if your content uses Vector Feathering. Either package maintains compatibility with your existing codebase.
     </Accordion>
     <Accordion title="Migrating from v1 to v2">
         Starting in v2 of our Web (JS) runtimes, Rive will support Rive Text at runtime, which includes the following packages:
@@ -52,9 +54,9 @@ description: 'Migrating between major versions of the Apple runtime'
     <Accordion title="Migrating from rive.js">
        Previously, the web runtime would deploy to the [rive-js](https://www.npmjs.com/package/rive-js) package on npm. We have since moved away from this one-package model and into a place where you can import from several different packages based on your API/rendering-level needs.
 
-        - @rive-app/webgl2
         - @rive-app/canvas
         - @rive-app/canvas-advanced
+        - @rive-app/webgl2
 
         In addition to these new packages, there is a `@rive-app/canvas-single` package that has the WASM encoded in the JS. See [canvas vs webgl2](/runtimes/web/canvas-vs-webgl) for more details.
 
@@ -79,17 +81,17 @@ description: 'Migrating between major versions of the Apple runtime'
         You could replace this with:
 
         ```bash
-        npm i @rive-app/webgl2
+        npm i @rive-app/canvas
         ```
 
         ```typescript
-        import {Rive} from '@rive-app/webgl2';
+        import {Rive} from '@rive-app/canvas';
 
         const foo = new Rive({
         src: "https://cdn.rive.app/animations/vehicles.riv",
         });
         ```
 
-        Or, you can replace `@rive-app/webgl2` with any of the new package outputs for web runtime that suit your need.
+        Or, you can replace `@rive-app/canvas` with any of the new package outputs for web runtime that suit your need.
     </Accordion>
 </AccordionGroup>
