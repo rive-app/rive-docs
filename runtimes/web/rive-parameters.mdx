@@ -51,6 +51,8 @@ export interface RiveParameters {
   enablePerfMarks?: boolean;
   tabIndex?: number;
   focusOptions?: RiveFocusOptions;
+  semanticsMode?: SemanticMode; // experimental
+  semanticsOptions?: RiveSemanticsOptions; // experimental
 
   // Deprecated parameters
   animations?: string | string[]; // deprecated in favor of stateMachines
@@ -96,6 +98,13 @@ export interface RiveParameters {
 - `tabIndex` - *(optional)* The tab index of the canvas element. Useful for specifying tab index for focus management. Alternatively, you may set the `tabindex` attribute directly on the `<canvas>` itself.
 - `focusOptions` - *(optional)* Options for focus management.
   - `allowFocusInterrupt` - *(optional)* Allows browser focus to be interrupted and set on the Rive canvas if Rive detects focus change inherently. Defaults to false.
+- `semanticsMode` - *(optional, experimental)* Whether to build an accessible DOM overlay for the graphic's [semantics](/runtimes/web/semantics). Either `SemanticMode.Disabled` or `SemanticMode.Enabled`. Defaults to `SemanticMode.Disabled`.
+- `semanticsOptions` - *(optional, experimental)* Options for the accessibility overlay. See [Semantics](/runtimes/web/semantics).
+  - `riveCanvasLabel` - *(optional)* The `aria-label` applied to the overlay's container element. Defaults to `"Rive animation"`.
+
+<Warning>
+  `semanticsMode` and `semanticsOptions` are experimental and may encounter breaking behavior changes without a major version bump.
+</Warning>
 
 ### Deprecated parameters
 - `animations` - *(optional)* Deprecated in favor of `stateMachines`. Name of a singular timeline animation to load from the `.riv` file. If not provided, Rive will pull the first linear animation it finds. In the next major version of the runtime, Rive will default to pulling the default state machine on the artboard.
