@@ -99,6 +99,10 @@ const rive = new Rive({
 The runtime translates each editor semantic role into an ARIA role, and each state and trait into the matching ARIA attribute. In most cases, these are attached to `<div>` elements to standardize
 on common style/layout patterns across browsers. Text content is wrapped in an inner `<span>` to assist with AT's browsing text.
 
+<Warning>
+  This set of roles and traits may be subject to change while the semantic feature is in early access.
+</Warning>
+
 | Editor role | DOM output |
 | --- | --- |
 | Button | `role="button"` |
@@ -124,17 +128,6 @@ States and traits map to ARIA attributes such as `aria-expanded`, `aria-selected
 <Note>
   An image with no label is treated as decorative and hidden from assistive technologies, since a `role="img"` element without an accessible name is a WCAG failure. Add a label in the editor to any image that carries meaning.
 </Note>
-
-## Keyboard and Actions
-
-The overlay wires keyboard interaction to the [semantic actions](/editor/accessibility/semantics#actions) you listen for in the editor. Add a **Semantic Action** listener in your state machine to respond to them.
-
-| Browser Interaction | Semantic Action fired |
-| --- | --- |
-| **Enter** or **Space** on a button, checkbox, switch, tab, or radio button | Tap |
-| **Right** / **Up** arrow on a slider | Increase |
-| **Left** / **Down** arrow on a slider | Decrease |
-| Arrow keys within a tab list or radio group | Moves focus to the next member and fires Tap |
 
 ## Other Considerations
 
