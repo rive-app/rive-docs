@@ -1,24 +1,88 @@
 ---
-title: "Components (formerly Nested Artboards)"
-sidebarTitle: "Components"
+title: "Components"
 description: "Components streamline your workflow with reusable artboards and animations. Changes made to the source component are reflected across all of its instances."
 ---
 
+{/* TODO - Document that you can't change a component's origin. Instead, put it in a group, change the group's origin.  */}
+
 import { YouTube } from '/snippets/youtube.mdx'
+
+- a component is just an artboard that can be reused. can be added as a nested component.
+- Can be reference in a view model. Can be controlled by your external code. Can be instantiated from a script.
+- why have an artboard that's not exported in the .riv
+- Only the default artboard and artboards that have been flagged as components will be exported to your `.riv` file.
+- converting an artboard
+- objects to components
+- placing components
+- configure
+  - view model
+  - animations
+    - sm - speed
+    - animations - simple, remap, mix
+- layout modes
+- stateful component
+- lists
+- you can data bind source
+- go to comoponent by double clicking or...
 
 <YouTube id="HRUr9mnh41A" />
 
-## Creating a Component
 
-Any artboard can be converted to a component. To do so, select an artboard on the stage and use the component icon in the inspector to toggle its status.
+## Creating Components
 
-Alternatively, you can use the `Shift` + `N` shortcut with an artboard selected. If you're coming from Figma, then the `Cmd/Ctrl` + `Alt/Option` + `K`, shortcut will also work.
+### Converting Artboards to Components
 
-Select the component toggle in the inspector again to revert your selection back to a regular artboard, or use the `Shift` + `Alt/Option` + `N` shortcut.
+Any artboard can be converted to a reusable component.
 
-Currently, only artboards that have been flagged as components will be exported to your `.riv` file. If you think you may want to programmatically access an artboard at runtime, you should mark it as a component. More options on specific export behaviors are coming soon.
+<Steps>
+  <Step>
+    Select an artboard.
+  </Step>
+  <Step>
+    In the Inspector, click the component icon or press `Shift` + `N`
+  </Step>
+</Steps>
 
-## Using Components
+You can tell an artboard is a component because it's title on the stage is purple.
+
+
+<Note>
+  Why would you ever want an artboard that isn't exported to your Rive file?
+
+  Tests, specifying fonts
+</Note>
+
+### Converting Objects to Components
+
+You can select objects on an artboard and convert them to their own component.
+
+<Steps>
+  <Step>
+    Select the object or objects you want to convert to a component.
+  </Step>
+  <Step>
+    Right click the object and select Create Component or CMD+OPT+K
+  </Step>
+</Steps>
+
+This will create a new component and replace the object in your artboard with this new component.
+
+#### Animations and State Machines
+
+If your object is controlled by a timeline in the old artboard, the relevant timeline layer will be removed from the old timeline and copied into a new one inside the component.
+
+State Machines are NOT copied over. State machines have too much complexity to copy from the parent to the new component. Like data, unrelated timelines. You'll have to build a new timeline from scratch.
+
+#### Troubleshooting
+
+Components are self contained. You won't be able to create a component if some necessary dependencies aren't included in the component. Ex:
+- The child of a selected object is being controlled by a joystick that isnt selected.
+- draw order, joysticks,
+
+Bindings are copied, view models are not.
+
+
+## Placing Components
 
 Use the Component Tool — formerly known as the Nested Artboard Tool — to select and place instances of a component on the stage. Select the tool from the toolbar or use the `N` shortcut to enable it.
 
@@ -30,7 +94,7 @@ Alternatively, select the dropdown menu to the right of the toolbar icon to sele
 
 ## Configuring a Component Instance
 
-Once you’ve added an instance of a component, select a timeline or state machine for playback.
+### Model
 
 ### State Machines
 
@@ -38,7 +102,7 @@ After assigning an instance, the default state machine is displayed in the inspe
 
 ![The default state machine for a placed component instance shown in the Inspector](/images/editor/fundamentals/components-statemachine.gif)
 
-### Adding an Animation
+### Animations
 
 You can playback any animation associated with a component. You’ll need to add the desired animation to the instance using the plus button in the Inspector.
 
