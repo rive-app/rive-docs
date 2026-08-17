@@ -53,6 +53,7 @@ export const FeatureSupportGroup = ({
     ]
 
     const featuresInOrder = [
+        "globalViewModels",
         "dataBindingFonts",
         "semantics",
         "scripting",
@@ -83,6 +84,27 @@ export const FeatureSupportGroup = ({
     ]
 
     const features = {
+        globalViewModels: {
+            title: "Global View Models",
+            runtimes: {
+                webCanvas: { supported: true, version: "2.39.2+" },
+                webCanvasLite: { supported: true, version: "2.39.2+" },
+                webWebGL: { supported: false, description: "Not supported" },
+                webWebGL2: { supported: true, version: "2.39.2+" },
+                reactCanvas: { supported: true, version: "4.31.0+" },
+                reactCanvasLite: { supported: true, version: "4.31.0+" },
+                reactWebGL: { supported: false, description: "Not supported" },
+                reactWebGL2: { supported: true, version: "4.31.0+" },
+                reactNative: { supported: false, description: "Coming soon" },
+                reactNativeLegacy: { supported: false, description: "Not supported" },
+                flutter: { supported: false, description: "Coming soon" },
+                apple: { supported: false, description: "Coming soon" },
+                android: { supported: false, description: "Coming soon" },
+                cpp: { supported: true, description: "Supported" },
+                unity: { supported: false, description: "Coming soon" },
+                unreal: { supported: false, description: "Coming soon" }
+            }
+        },
         dataBindingFonts: {
             title: "Data Binding Fonts",
             runtimes: {
