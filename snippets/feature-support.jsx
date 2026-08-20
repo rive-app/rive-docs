@@ -101,7 +101,7 @@ export const FeatureSupportGroup = ({
                 apple: { supported: false, description: "Coming soon" },
                 android: { supported: false, description: "Coming soon" },
                 cpp: { supported: true, description: "Supported" },
-                unity: { supported: false, description: "Coming soon" },
+                unity: { supported: true, version: "v0.4.5-canary.34+" },
                 unreal: { supported: false, description: "Coming soon" }
             }
         },
@@ -122,7 +122,7 @@ export const FeatureSupportGroup = ({
                 apple: { supported: false, description: "Coming soon" },
                 android: { supported: false, description: "Coming soon" },
                 cpp: { supported: true, description: "Supported" },
-                unity: { supported: false, description: "Coming soon" },
+                unity: { supported: true, version: "v0.4.5-canary.36+" },
                 unreal: { supported: false, description: "Coming soon" }
             }
         },
