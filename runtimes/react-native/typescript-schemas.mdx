@@ -1,0 +1,215 @@
+---
+title: "TypeScript Schemas"
+description: "Generate TypeScript types from your .riv files so artboard, state machine, view model, and property names are checked at compile time."
+---
+
+<Note>
+  TypeScript schema generation requires the new React Native runtime, `@rive-app/react-native` `v0.5` beta or later. See the [migration guide](/runtimes/react-native/migration-guide) to upgrade.
+</Note>
+
+`@rive-app/react-native` can generate TypeScript schemas for your `.riv` files, so that artboard names, state machine names, view model names, property paths, and enum values are all checked at compile time. A typo in any of them becomes a TypeScript error instead of a silent runtime failure — and your editor autocompletes them.
+
+Schemas are opt-in per asset. Generate one for an asset and you get autocomplete and compile-time checking everywhere that asset is used; skip it and the asset keeps accepting plain strings, exactly as before. You can adopt this one file at a time.
+
+A schema is a `.d.ts` declaration file, so nothing is added to your bundle and no runtime code changes.
+
+## Quick start
+
+### 1. Install the introspection dependency
+
+```sh
+yarn add -D @rive-app/canvas
+```
+
+The generator uses Rive's WASM runtime to inspect `.riv` files. It is only needed on the machine running codegen — it is never bundled into your app.
+
+### 2. Enable arbitrary extensions in `tsconfig.json`
+
+```json
+{
+  "compilerOptions": {
+    "allowArbitraryExtensions": true
+  }
+}
+```
+
+This lets TypeScript resolve `my.riv.d.ts` when you `import asset from './my.riv'`. If you already have `'riv'` in Metro's `assetExts`, that part is unchanged.
+
+### 3. Generate a schema next to each asset
+
+```sh
+npx rive-gen-types assets/rive/rewards.riv     # one file → rewards.riv.d.ts
+npx rive-gen-types --all assets/rive           # every .riv in a directory
+```
+
+This writes a `rewards.riv.d.ts` file next to the asset. Commit these files — they are deterministic and human-readable, and regenerating produces identical output for an unchanged asset.
+
+### 4. Import and use
+
+```tsx
+import rewardsRiv from './assets/rive/rewards.riv';
+
+const { riveFile } = useRiveFile(rewardsRiv);
+```
+
+Everything below is now compile-checked.
+
+## What gets typed
+
+A generated schema looks like this:
+
+```ts rewards.riv.d.ts
+// generated — do not edit
+import type { RiveAsset } from '@rive-app/react-native';
+
+declare const asset: RiveAsset<{
+  artboards: 'Main' | 'Lives 2' | 'Chest' | 'Button' | 'Heart' | 'Item';
+  defaultArtboard: 'Main';
+  stateMachines: {
+    'Main': 'State Machine 1';
+    // ...one entry per artboard
+  };
+  viewModels: {
+    Rewards: {
+      Price_Value: 'number';
+      Coin: 'viewModel:Item_Icon_Value';
+      // ...
+    };
+    Item: {
+      Item_Selection: 'enum:Coin|Gem';
+    };
+    // ...
+  };
+}>;
+
+export default asset;
+```
+
+Everything flows from the import — no manual type annotations needed.
+
+Artboard and state machine names are constrained to the file's contents:
+
+```tsx
+<RiveView
+  file={riveFile}
+  artboardName="Main"                    // ✓ autocompletes; "Mian" is an error
+  stateMachineName="State Machine 1"     // ✓ constrained to Main's state machines
+/>
+```
+
+View model names are constrained:
+
+```tsx
+const { instance } = useViewModelInstance(riveFile, {
+  viewModelName: 'Rewards',              // ✗ 'Rewrads' is a compile error
+  async: true,
+});
+```
+
+Property paths are constrained per kind, including nested paths:
+
+```tsx
+const { value, setValue } = useRiveNumber('Price_Value', instance);   // ✓
+useRiveNumber('Coin/Item_Value', instance);                           // ✓ nested
+useRiveNumber('Coin', instance);         // ✗ Coin is a view model ref, not a number
+useRiveTrigger('Price_Value', instance); // ✗ wrong kind
+```
+
+Enum values are exact unions:
+
+```tsx
+const { value: kind, setValue: setKind } = useRiveEnum(
+  'Item_Selection/Item_Selection',
+  instance
+);
+// kind: 'Coin' | 'Gem'
+
+setKind('Gem');       // ✓
+setKind('Diamond');   // ✗ compile error
+```
+
+Instance accessors are typed the same way:
+
+```ts
+instance.numberProperty('Coin/Item_Value');                          // ✓
+instance.enumProperty('Item_Selection/Item_Selection')?.set('Gem');  // ✓ typed values
+instance.viewModel('Coin')?.numberProperty('Item_Value');            // ✓ typed nesting
+```
+
+## Typing your own components
+
+Use `TypedRiveFile` and `TypedViewModelOf` to keep type safety across component boundaries:
+
+```tsx
+import {
+  type TypedRiveFile,
+  type TypedViewModelOf,
+} from '@rive-app/react-native';
+import rewardsRiv from './assets/rive/rewards.riv';
+
+function RewardsScreen({ file }: { file: TypedRiveFile<typeof rewardsRiv> }) {
+  // artboardName / viewModelName / paths are still checked here
+}
+
+function PricePanel({
+  instance,
+}: {
+  instance: TypedViewModelOf<typeof rewardsRiv, 'Rewards'>;
+}) {
+  const { value } = useRiveNumber('Price_Value', instance);
+  // ...
+}
+```
+
+## Workflow
+
+- **Regenerate after editing a `.riv` in the Rive editor**, then fix whatever TypeScript now flags. Renamed artboards, removed properties, and changed enum values all surface as compile errors at the exact call sites.
+- **Commit the `.riv.d.ts` files** alongside the assets.
+- **Optionally guard in CI** — fail the build when schemas drift out of sync:
+
+```yaml
+- name: Validate .riv schemas
+  run: |
+    npx rive-gen-types --all assets/rive
+    if [ -n "$(git status --porcelain -- 'assets/rive/*.riv.d.ts')" ]; then
+      echo ".riv.d.ts files are out of date — run 'npx rive-gen-types --all assets/rive' and commit."
+      exit 1
+    fi
+```
+
+## Behavior and limits
+
+- **No schema, no problem.** Files loaded without a generated schema (via `require(...)`, URLs, or `RiveFileFactory.*`) accept any string everywhere, exactly as before. Type safety is opt-in per asset.
+- **Files without view models** still get typed artboard and state machine names.
+- **Nested paths are typed up to two hops** (`'a/b/leaf'`). Deeper paths are valid at runtime but need an untyped instance or a cast.
+- **Dynamic paths.** A typed instance intentionally rejects `string` variables as paths. If you build paths at runtime, keep the instance untyped for those call sites.
+- **List elements are untyped** (`ViewModelInstance`) — a `.riv` schema cannot know which view model a list holds at a given index.
+- **Enum member names containing `|`** fall back to an untyped `enum`, and the generator warns.
+
+## CLI reference
+
+```sh
+npx rive-gen-types <path>                     # writes <file>.riv.d.ts next to the asset
+npx rive-gen-types <path-or-url> --out <out>  # explicit output path (required for URLs)
+npx rive-gen-types --all <directory>          # every .riv in a directory, recursively
+```
+
+The exit code is non-zero if any file fails — for example a corrupt file, a file with no artboards, or a missing `@rive-app/canvas` — along with a per-file error report.
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="rive-gen-types needs '@rive-app/canvas' …">
+    Install the dev-time introspection dependency:
+
+    ```sh
+    yarn add -D @rive-app/canvas
+    ```
+  </Accordion>
+  <Accordion title="Imports are untyped (the asset is typed as number)">
+    Check that a `.riv.d.ts` file exists next to the asset, and that `allowArbitraryExtensions` is enabled in the `tsconfig.json` that covers the importing file.
+  </Accordion>
+  <Accordion title="Names stopped compiling after editing the file">
+    That's the feature working. Regenerate the schema with `npx rive-gen-types …` and follow the compile errors to every call site that referenced the renamed or removed item.
+  </Accordion>
+</AccordionGroup>
