@@ -11,6 +11,25 @@ It serves as a bridge between your script and the Rive runtime, giving you acces
 
 ## Methods
 
+### `log`
+
+{/* log: (message: string) -> () */}
+<div class="signature">
+```lua
+log(message: string) -> ()
+```
+</div>
+
+Logs a message through the host: the CLI watch log and problems
+surface, the editor console. Available on both script backends.
+```lua
+function init(self: MyNode, context: Context): boolean
+    context.log('hello')
+    return true
+end
+```
+
+
 ### `markNeedsUpdate`
 
 {/* function markNeedsUpdate(self): () */}
