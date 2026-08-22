@@ -1,0 +1,28 @@
+---
+title: Data
+---
+
+The file's view model factories, keyed by view model name.
+`Data.MyViewModel.new()` creates a fresh instance of the view model named
+`MyViewModel`; pass an instance name to copy an existing instance from the
+file. Looking up a name with no matching view model returns nil.
+```lua
+local button = Data.Button.new()
+local label = button:getString('label')
+if label then
+  label.value = 'Play'
+end
+```
+
+
+## Static Functions
+
+### `new`
+
+{/* new: (instanceName: string?) -> ViewModel */}
+<div class="signature">
+```lua
+new(instanceName: string?) -> ViewModel
+```
+</div>
+
