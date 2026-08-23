@@ -36,15 +36,16 @@ end
 
 ### `resize`
 
-{/* resize: (self: T, size: Vector) -> () */}
+{/* resize: ((self: T, size: Vector) -> ()) | nil */}
 <div class="signature">
 ```lua
 resize(self: T, size: Vector) -> ()
 ```
 </div>
 
-Guaranteed to be called to set initial size and also called
-whenever the size changes.
+When provided, called to set the initial size and again whenever
+the size changes. Layouts that do not react to their box may omit
+it; the runtime no-ops when it is not implemented.
 ```lua
 -- Called when the layout resizes based on the content
 -- This only applies to Layouts with a fit type of Hug
