@@ -1,7 +1,13 @@
 ---
 title: 'Keyboard Shortcuts'
-description: 'Find and use keyboard shortcuts for tools, navigation, editing, and playback in the Rive editor.'
+description: ''
 ---
+
+Navigate quickly with keyboard shortcuts
+
+<Note>
+  Press <kbd>Shift</kbd> + <kbd>/</kbd> in the editor to open the shortcuts panel, which always reflects the shortcuts available in your current version.
+</Note>
 
 ## Tools
 
@@ -13,11 +19,22 @@ description: 'Find and use keyboard shortcuts for tools, navigation, editing, an
 | Scale Tool                                            | <kbd>E</kbd> |
 | Rectangle Tool                                        | <kbd>R</kbd> |
 | Ellipse Tool                                          | <kbd>O</kbd> |
-| [Pen Tool](/editor/fundamentals/pen-tool-overview) | <kbd>P</kbd> |
+| [Pen Tool Overview](/editor/fundamentals/pen-tool-overview) | <kbd>P</kbd> |
+| [Text](/editor/text/text-overview)                    | <kbd>T</kbd> |
 | [Artboards](/editor/fundamentals/artboards)                 | <kbd>A</kbd> |
+| Nested Artboard                                       | <kbd>N</kbd> |
 | [Bones](/editor/manipulating-shapes/bones)                  | <kbd>B</kbd> |
+| Weight Tool                                           | <kbd>Shift</kbd> + <kbd>B</kbd> |
 | [Groups](/editor/fundamentals/groups)                       | <kbd>G</kbd> |
+| [Layouts](/editor/layouts/layouts-overview)           | <kbd>L</kbd> |
+| Row                                                   | <kbd>Shift</kbd> + <kbd>R</kbd> |
+| Column                                                | <kbd>Shift</kbd> + <kbd>C</kbd> |
+| Shape Builder                                         | <kbd>Shift</kbd> + <kbd>M</kbd> |
+| [Solos](/editor/manipulating-shapes/solos)            | <kbd>S</kbd> |
+| [Joysticks](/editor/manipulating-shapes/joysticks)    | <kbd>J</kbd> |
+| [Events](/editor/events/overview)                     | <kbd>Shift</kbd> + <kbd>E</kbd> |
 | [Freeze and Origin](/editor/fundamentals/freeze-and-origin) | <kbd>Y</kbd> |
+| Color Picker                                          | <kbd>I</kbd> |
 
 
 ## Editor
@@ -28,25 +45,79 @@ description: 'Find and use keyboard shortcuts for tools, navigation, editing, an
 | Deep Select                     | macOS: <kbd>⌘</kbd> + click Windows: <kbd>Ctrl</kbd> + click                                |
 | Select Behind                   | <kbd>Alt</kbd>                                                                              |
 | Nudge Object                    | Arrow Keys                                                                                  |
+| Nudge Object (10x)              | <kbd>Shift</kbd> + Arrow Keys                                                               |
 | Edit Vertices                   | <kbd>Enter</kbd> w/ path selected                                                           |
 | Group Selection                 | macOS: <kbd>⌘</kbd> + <kbd>G</kbd> Windows: <kbd>Ctrl</kbd> + <kbd>G</kbd>                  |
 | Ungroup Selection               | macOS: <kbd>⌘</kbd> + <kbd>Shift</kbd> + <kbd>G</kbd> Windows: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>G</kbd> |
-| Convert to Solo                 | macOS: <kbd>⌘</kbd> + <kbd>L</kbd> Windows: <kbd>Ctrl</kbd> + <kbd>L</kbd>                 |
+| Wrap in Layout                  | <kbd>Shift</kbd> + <kbd>L</kbd>                                                             |
+| Add Child Layout                | <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>L</kbd>                                            |
 | Duplicate                       | macOS: <kbd>⌘</kbd> + <kbd>D</kbd> Windows: <kbd>Ctrl</kbd> + <kbd>D</kbd>                 |
+| Convert to Component            | <kbd>Shift</kbd> + <kbd>N</kbd>                                                             |
+| Remove Component                | <kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>N</kbd>                                            |
+| Swap Fill/Stroke                | <kbd>Shift</kbd> + <kbd>X</kbd>                                                             |
 | Layer Forward                   | macOS: <kbd>⌘</kbd> + <kbd>]</kbd> Windows: <kbd>Ctrl</kbd> + <kbd>]</kbd>                  |
 | Layer Backward                  | macOS: <kbd>⌘</kbd> + <kbd>[</kbd> Windows: <kbd>Ctrl</kbd> + <kbd>[</kbd>                  |
 | Layer to Top                    | macOS: <kbd>⌘</kbd> + <kbd>Opt</kbd> + <kbd>]</kbd> Windows: <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>]</kbd> |
 | Layer to Bottom                 | macOS: <kbd>⌘</kbd> + <kbd>Opt</kbd> + <kbd>[</kbd> Windows: <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>[</kbd> |
 | Move Timeline Playhead          | <kbd>,</kbd> or <kbd>.</kbd> Hold <kbd>Shift</kbd> to move 10 frames                        |
-| Move                            |                                                                                             |
+| Move Playhead to Start/End      | macOS: <kbd>⌘</kbd> + <kbd>Shift</kbd> + <kbd>,</kbd> or <kbd>.</kbd> Windows: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>,</kbd> or <kbd>.</kbd> |
 | Move Selected Keys              | <kbd>Alt</kbd> + <kbd>,</kbd> or <kbd>.</kbd> Hold <kbd>Shift</kbd> to move 10 frames       |
 | Skip to Keys (Selected Row, Otherwise All) | macOS: <kbd>⌘</kbd> + <kbd>,</kbd> or <kbd>.</kbd> Windows: <kbd>Ctrl</kbd> + <kbd>,</kbd> or <kbd>.</kbd> |
+| Key All Vertices                | <kbd>Shift</kbd> + <kbd>K</kbd>                                                             |
+| Next/Previous Animation         | <kbd>PageUp</kbd> / <kbd>PageDown</kbd>                                                     |
 | Toggle Snapping                 | macOS: hold <kbd>⌘</kbd> Windows: hold <kbd>Ctrl</kbd>                                      |
 | Color Picker                    | macOS: <kbd>Ctrl</kbd> + <kbd>C</kbd> or <kbd>I</kbd> Windows: <kbd>I</kbd>                 |
-| Search                          | macOS: <kbd>⌘</kbd> + <kbd>K</kbd> Windows: <kbd>Ctrl</kbd> + <kbd>K</kbd>                  |
+| Search                          | macOS: <kbd>⌘</kbd> + <kbd>K</kbd> or <kbd>⌘</kbd> + <kbd>F</kbd> Windows: <kbd>Ctrl</kbd> + <kbd>K</kbd> or <kbd>Ctrl</kbd> + <kbd>F</kbd> |
 | Reveal Keys for Selection       | <kbd>U</kbd>                                                                                |
+| Play                            | <kbd>Space</kbd>                                                                            |
 | Play Default State Machine      | <kbd>Shift</kbd> + <kbd>Space</kbd>                                                         |
+| Play with Keyboard Capture      | <kbd>Alt</kbd> + <kbd>Space</kbd>                                                           |
+| Toggle Rulers & Guides          | <kbd>;</kbd>                                                                                |
+| Lock Guides                     | <kbd>Alt</kbd> + <kbd>;</kbd>                                                               |
+| Close Tab                       | macOS: <kbd>⌘</kbd> + <kbd>W</kbd> Windows: <kbd>Ctrl</kbd> + <kbd>W</kbd>                  |
+| Reopen Closed Tab               | macOS: <kbd>⌘</kbd> + <kbd>Shift</kbd> + <kbd>T</kbd> Windows: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>T</kbd> |
+| Shortcuts Panel                 | <kbd>Shift</kbd> + <kbd>/</kbd>                                                             |
+| Preferences                     | macOS: <kbd>⌘</kbd> + <kbd>,</kbd> Windows: <kbd>Ctrl</kbd> + <kbd>,</kbd>                  |
 
+
+## Interpolation
+
+Applies to the selected keys.
+
+| Purpose                         | Shortcut                                                                                     |
+|---------------------------------|---------------------------------------------------------------------------------------------|
+| Hold                            | <kbd>F6</kbd>                                                                               |
+| Linear                          | <kbd>F7</kbd>                                                                               |
+| Ease In Out (Cubic)             | <kbd>F8</kbd>                                                                               |
+| Ease In (Cubic)                 | <kbd>Shift</kbd> + <kbd>F8</kbd>                                                            |
+| Ease Out (Cubic)                | macOS: <kbd>⌘</kbd> + <kbd>Shift</kbd> + <kbd>F8</kbd> Windows: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>F8</kbd> |
+| Ease In Out (Cubic Value)       | <kbd>F9</kbd>                                                                               |
+| Ease In (Cubic Value)           | <kbd>Shift</kbd> + <kbd>F9</kbd>                                                            |
+| Ease Out (Cubic Value)          | macOS: <kbd>⌘</kbd> + <kbd>Shift</kbd> + <kbd>F9</kbd> Windows: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>F9</kbd> |
+| Elastic                         | <kbd>F10</kbd>                                                                              |
+
+
+## Panels
+
+| Purpose                         | Shortcut                                                                                     |
+|---------------------------------|---------------------------------------------------------------------------------------------|
+| Hierarchy                       | macOS: <kbd>⌘</kbd> + <kbd>1</kbd> Windows: <kbd>Ctrl</kbd> + <kbd>1</kbd>                  |
+| Data                            | macOS: <kbd>⌘</kbd> + <kbd>2</kbd> Windows: <kbd>Ctrl</kbd> + <kbd>2</kbd>                  |
+| Assets                          | macOS: <kbd>⌘</kbd> + <kbd>3</kbd> Windows: <kbd>Ctrl</kbd> + <kbd>3</kbd>                  |
+| Animations                      | macOS: <kbd>⌘</kbd> + <kbd>4</kbd> Windows: <kbd>Ctrl</kbd> + <kbd>4</kbd>                  |
+| Show Bound Values               | macOS: <kbd>⌘</kbd> + <kbd>B</kbd> Windows: <kbd>Ctrl</kbd> + <kbd>B</kbd>                  |
+
+
+## Align and Origin
+
+| Purpose                         | Shortcut                                                                                     |
+|---------------------------------|---------------------------------------------------------------------------------------------|
+| Align Top / Bottom              | <kbd>Shift</kbd> + <kbd>W</kbd> / <kbd>Shift</kbd> + <kbd>S</kbd>                           |
+| Align Left / Right              | <kbd>Shift</kbd> + <kbd>A</kbd> / <kbd>Shift</kbd> + <kbd>D</kbd>                           |
+| Align Center / Middle           | <kbd>Shift</kbd> + <kbd>H</kbd> / <kbd>Shift</kbd> + <kbd>V</kbd>                           |
+| Origin Top / Bottom             | <kbd>Alt</kbd> + <kbd>W</kbd> / <kbd>Alt</kbd> + <kbd>S</kbd>                               |
+| Origin Left / Right             | <kbd>Alt</kbd> + <kbd>A</kbd> / <kbd>Alt</kbd> + <kbd>D</kbd>                               |
+| Origin Center / Middle          | <kbd>Alt</kbd> + <kbd>H</kbd> / <kbd>Alt</kbd> + <kbd>V</kbd>                               |
 
 
 ## View
@@ -55,8 +126,11 @@ description: 'Find and use keyboard shortcuts for tools, navigation, editing, an
 | Fit selection to screen         | <kbd>F</kbd>                                                                                 |
 | Zoom (mouse)                    | macOS: <kbd>⌘</kbd> + Mouse Wheel Windows: <kbd>Ctrl</kbd> + Mouse Wheel                     |
 | Zoom (keyboard)                 | <kbd>+</kbd> and <kbd>-</kbd>                                                                 |
+| Zoom to 100%                    | macOS: <kbd>⌘</kbd> + <kbd>0</kbd> Windows: <kbd>Ctrl</kbd> + <kbd>0</kbd>                   |
 | Zoom (marquee)                  | <kbd>Z</kbd> (hold)                                                                           |
 | Pan                             | <kbd>Right-click</kbd> + drag <kbd>Space</kbd> + drag                                        |
+| Toggle Graph Editor             | <kbd>Shift</kbd> + <kbd>F3</kbd>                                                             |
+| Fit Graph                       | <kbd>Shift</kbd> + <kbd>F</kbd>                                                              |
 
 
 ## Hierarchy
@@ -69,11 +143,3 @@ description: 'Find and use keyboard shortcuts for tools, navigation, editing, an
 | Expand/Collapse all children   | macOS: <kbd>Opt</kbd> + click expand icon Windows: <kbd>Alt</kbd> + click expand icon       |
 | Show/hide self only            | macOS: <kbd>⌘</kbd> + click eye icon Windows: <kbd>Ctrl</kbd> + click eye icon             |
 | Show/hide parents only         | macOS: <kbd>Opt</kbd> + click eye icon Windows: <kbd>Alt</kbd> + click eye icon            |
-
-## See Shortcuts in the Editor
-
-**Show Shortcuts** lets you view and search all keyboard shortcuts in the Rive editor.
-
-To open it, go to the **Editor** menu and select **Show Shortcuts**.
-
-![Shortcuts](/images/shortcuts.png)
