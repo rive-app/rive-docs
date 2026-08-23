@@ -3,17 +3,16 @@ title: TriangleBuffer
 ---
 
 Stores triangle index data for use with image meshes.
-
-Create one by calling `TriangleBuffer()`.
-
 ```lua
 local tb = TriangleBuffer()
 ```
 
-## Fields
+
+## Methods
 
 ### `add`
 
+{/* function add(self, v1: number, v2: number, v3: number): () */}
 <div class="signature">
 ```lua
 add(v1: number, v2: number, v3: number) -> ()
@@ -29,6 +28,7 @@ tb:add(1, 2, 3)
 
 ### `reset`
 
+{/* function reset(self): () */}
 <div class="signature">
 ```lua
 reset() -> ()

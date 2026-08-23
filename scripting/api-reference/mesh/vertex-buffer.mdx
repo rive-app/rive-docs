@@ -3,17 +3,16 @@ title: VertexBuffer
 ---
 
 Stores a list of 2D vertex positions for use with image meshes.
-
-Create one by calling `VertexBuffer()`.
-
 ```lua
 local vb = VertexBuffer()
 ```
 
-## Fields
+
+## Methods
 
 ### `add`
 
+{/* function add(self, ...Vector): () */}
 <div class="signature">
 ```lua
 add(...Vector) -> ()
@@ -29,6 +28,7 @@ vb:add(Vector.xy(0, 0), Vector.xy(1, 0), Vector.xy(1, 1))
 
 ### `reset`
 
+{/* function reset(self): () */}
 <div class="signature">
 ```lua
 reset() -> ()
