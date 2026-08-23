@@ -21,6 +21,21 @@ The interpolation graph is a visual representation of how the value will change 
 
 You can choose which interpolation type to use by selecting any of the icons above the graph.
 
+Each type also has a shortcut that applies it to the selected keys:
+
+| Interpolation | Shortcut |
+|---|---|
+| Hold | <kbd>F6</kbd> |
+| Linear | <kbd>F7</kbd> |
+| Cubic — Ease In Out | <kbd>F8</kbd> |
+| Cubic — Ease In | <kbd>Shift</kbd> + <kbd>F8</kbd> |
+| Cubic — Ease Out | macOS: <kbd>⌘</kbd> + <kbd>Shift</kbd> + <kbd>F8</kbd> Windows: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>F8</kbd> |
+| Cubic Value — Ease In Out | <kbd>F9</kbd> |
+| Cubic Value — Ease In | <kbd>Shift</kbd> + <kbd>F9</kbd> |
+| Cubic Value — Ease Out | macOS: <kbd>⌘</kbd> + <kbd>Shift</kbd> + <kbd>F9</kbd> Windows: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>F9</kbd> |
+| Elastic | <kbd>F10</kbd> |
+
+
 ### Linear
 
 ![Image](https://ucarecdn.com/992113a2-f03d-43be-9f22-d638fa48ba70/)
@@ -42,6 +57,10 @@ The default cubic curve creates a gentle curve from the first key to the next, w
 ![Image](https://ucarecdn.com/39d5d86c-d390-4500-acdb-ad57d3e89539/)
 
 Hold doesn't interpolate values between keys. It simply holds the current value until the next key is reached, where the next value is set instantly.
+
+### Elastic
+
+Elastic easing overshoots the target value and oscillates before settling on it, for springy and bouncing motion. It exposes an easing curve alongside **Amplitude**, which controls how far the overshoot travels, and **Period**, which controls how quickly the oscillation settles.
 
 ### Interpolation field
 
