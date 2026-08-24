@@ -43,6 +43,10 @@ The default cubic curve creates a gentle curve from the first key to the next, w
 
 Hold doesn't interpolate values between keys. It simply holds the current value until the next key is reached, where the next value is set instantly.
 
+### Elastic
+
+Elastic overshoots the value and oscillates before settling on it. **Amplitude** controls how far it overshoots, and **Period** controls how quickly it settles.
+
 ### Interpolation field
 
 A text field below the preview graph represents the interpolation in a numerical format. A total of four values (typically between 0 and 1) represent the position of the handles – two for the inward curve, and two for the outward curve. You can see how these values change by dragging the handles within the preview window.
