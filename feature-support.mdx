@@ -24,13 +24,17 @@ When a feature requires API changes, migration notes will be included below.
 ### Runtimes
 
 <FeatureSupportGroup runtime="webWebGL2">
-    Choose between @rive-app/webgl2 and @rive-app/canvas, with guidance on performance, package size, and when to use canvas-lite.
+    The recommended package for most web projects. Uses the Rive Renderer, so it supports every Rive Editor feature, including vector feathering. See [Canvas vs WebGL2](/runtimes/web/canvas-vs-webgl).
 </FeatureSupportGroup>
 <FeatureSupportGroup runtime="webCanvas">
-    For better performance and the latest features, like vector feathering, we recommend using the WebGL2 runtime, which uses the Rive Renderer.
+    Uses the browser's Canvas2D renderer. Does not support vector feathering at this time. See [Canvas vs WebGL2](/runtimes/web/canvas-vs-webgl) for the tradeoffs.
 </FeatureSupportGroup>
-<FeatureSupportGroup runtime="reactWebGL2" />
-<FeatureSupportGroup runtime="reactCanvas" />
+<FeatureSupportGroup runtime="reactWebGL2">
+    The recommended package for most React projects. Uses the Rive Renderer, so it supports every Rive Editor feature, including vector feathering. See [Canvas vs WebGL2](/runtimes/web/canvas-vs-webgl).
+</FeatureSupportGroup>
+<FeatureSupportGroup runtime="reactCanvas">
+    Uses the browser's Canvas2D renderer. Does not support vector feathering at this time. See [Canvas vs WebGL2](/runtimes/web/canvas-vs-webgl) for the tradeoffs.
+</FeatureSupportGroup>
 
 <FeatureSupportGroup runtime="reactNative" />
 <FeatureSupportGroup runtime="flutter" />
@@ -53,12 +57,12 @@ When a feature requires API changes, migration notes will be included below.
 
 <FeatureSupportGroup runtime="webWebGL">
     <Warning>
-        The `@rive-app/webgl` runtime is deprecated. For better performance and the latest features, use `@rive-app/webgl2`.
+        The `@rive-app/webgl` runtime is deprecated as of `v2.37.0`. Use `@rive-app/webgl2` (recommended for most content), or `@rive-app/canvas` if your Rive graphics do not require vector feathering.
     </Warning>
 </FeatureSupportGroup>
 <FeatureSupportGroup runtime="reactWebGL" >
     <Warning>
-        The `@rive-app/react-webgl` runtime is deprecated. For better performance and the latest features, use `@rive-app/react-webgl2`.
+        The `@rive-app/react-webgl` runtime is deprecated as of `v4.30.0`. Use `@rive-app/react-webgl2` (recommended for most content), or `@rive-app/react-canvas` if your Rive graphics do not require vector feathering.
     </Warning>
 </FeatureSupportGroup>
 <FeatureSupportGroup runtime="reactNativeLegacy" >
