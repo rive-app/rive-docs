@@ -3,11 +3,20 @@ title: 'Runtime Asset Swapping'
 description: ''
 ---
 
-You can dynamically swap assets in your Rive animations at runtime using the `CustomAssetLoaderCallback`. This lets you change fonts, images, or audio files while your Rive file is playing, making it possible to create dynamic visuals.
+For most dynamic asset swapping use cases, we recommend [data binding](/game-runtimes/unity/data-binding). Data binding changes only the bound property, so different parts of the graphic can use different images or fonts.
 
-<Note>
-  For most dynamic image and font use cases, we recommend [data binding](/game-runtimes/unity/data-binding) instead. See [Images](/game-runtimes/unity/data-binding#images) and [Fonts](/game-runtimes/unity/data-binding#fonts). Asset swapping replaces a file-level asset for every use of it. Data binding changes only the bound property, so different parts of the graphic can use different images or fonts.
-</Note>
+<CardGroup cols={2}>
+  <Card title="Data Binding Images" href="/game-runtimes/unity/data-binding#images">
+    Swap a specific image property at runtime without replacing the file-level asset.
+  </Card>
+  <Card title="Data Binding Fonts" href="/game-runtimes/unity/data-binding#fonts">
+    Swap a specific font property at runtime so bound text can use different typefaces.
+  </Card>
+</CardGroup>
+
+This page explains how to use the `CustomAssetLoaderCallback` to swap fonts, images, or audio assets at the file level within a Rive file.
+
+This approach is useful when you want your replacement asset to be used everywhere the original appears throughout the file. For example, if you need to replace a font globally, so that all text that uses that font updates automatically, you can do so in one place instead of configuring individual property bindings for each instance.
 
 ## Setting Up Asset Loading
 
