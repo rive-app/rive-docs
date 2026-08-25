@@ -1,0 +1,249 @@
+---
+title: EditorContext
+---
+
+Edit time context handed to FileFormat views. Everything it returns is
+either immutable or a private instance; nothing reaches back into the
+open file's live state.
+
+
+## Methods
+
+### `image`
+
+{/* function image(self, name: string): Image? */}
+<div class="signature">
+```lua
+image(name: string) -> Image?
+```
+</div>
+
+Looks up an image asset by name, or nil when missing.
+
+
+### `blob`
+
+{/* function blob(self, name: string): Blob? */}
+<div class="signature">
+```lua
+blob(name: string) -> Blob?
+```
+</div>
+
+Looks up a blob asset by name, or nil when missing.
+
+
+### `artboard`
+
+{/* function artboard(self, name: string): Artboard<ViewModel?>? */}
+<div class="signature">
+```lua
+artboard(name: string) -> Artboard<ViewModel?>?
+```
+</div>
+
+A fresh instance of a named artboard, private to this view. The
+artboard's default view model instance is bound and reachable through
+`data`, nil when the artboard has no view model.
+
+Names resolve against this script's own file, so a format shipped in a
+library reaches that library's artboards. Prefix a name with a
+library's namespace (`markdown@0/Document`) to name one explicitly,
+and use `hostArtboard` for the file being edited.
+
+
+### `hostArtboard`
+
+{/* function hostArtboard(self, name: string): Artboard<ViewModel?>? */}
+<div class="signature">
+```lua
+hostArtboard(name: string) -> Artboard<ViewModel?>?
+```
+</div>
+
+Like `artboard`, but always resolves in the file being edited. When
+this script is authored in that same file the two are identical, so a
+library developed in place behaves as it does once shipped.
+
+
+### `theme`
+
+{/* function theme(self): EditorTheme */}
+<div class="signature">
+```lua
+theme() -> EditorTheme
+```
+</div>
+
+The editor's current theme.
+
+
+### `openUrl`
+
+{/* function openUrl(self, url: string) */}
+<div class="signature">
+```lua
+openUrl(url: string)
+```
+</div>
+
+Opens a url in the user's browser.
+
+
+### `themeFont`
+
+{/* function themeFont(self): Font? */}
+<div class="signature">
+```lua
+themeFont() -> Font?
+```
+</div>
+
+The font the code editor renders with, for previews that want to
+match its typography. Assign to a view model font property.
+
+
+### `defaultFont`
+
+{/* function defaultFont(self): Font? */}
+<div class="signature">
+```lua
+defaultFont() -> Font?
+```
+</div>
+
+The editor's default UI font, for preview prose. Assign to a view
+model font property.
+
+
+### `codeFont`
+
+{/* function codeFont(self): Font? */}
+<div class="signature">
+```lua
+codeFont() -> Font?
+```
+</div>
+
+The editor's built-in code font, for preview code regions. Assign to
+a view model font property.
+
+
+### `editorScroll`
+
+{/* function editorScroll(self): EditorScroll? */}
+<div class="signature">
+```lua
+editorScroll() -> EditorScroll?
+```
+</div>
+
+The text editor's scroll position, refreshed each draw while the user
+scrolls, or nil on surfaces without an attached editor (inspector,
+viewer tab). Use with `scrollTo` to keep the preview in sync.
+
+
+### `scrollTo`
+
+{/* function scrollTo(self, x: number, y: number): () */}
+<div class="signature">
+```lua
+scrollTo(x: number, y: number) -> ()
+```
+</div>
+
+Scrolls the pane hosting this view to a content offset, clamped to
+the measured content. Only meaningful for pane views with `measure`;
+elsewhere it is ignored.
+
+
+### `scrollEditorTo`
+
+{/* function scrollEditorTo(self, line: number): () */}
+<div class="signature">
+```lua
+scrollEditorTo(line: number) -> ()
+```
+</div>
+
+Scrolls the attached text editor to a fractional line factor (the
+same unit `editorScroll` reports), clamped to the editor's range.
+Ignored without an attached editor. Guard against ping-pong when
+combining with `editorScroll` driven syncing.
+
+
+### `requestDraw`
+
+{/* function requestDraw(self): () */}
+<div class="signature">
+```lua
+requestDraw() -> ()
+```
+</div>
+
+Asks the host to repaint the view outside the advance loop, e.g. when
+an async decode completes.
+
+
+### `shader`
+
+{/* function shader(self, name: string): Shader? */}
+<div class="signature">
+```lua
+shader(name: string) -> Shader?
+```
+</div>
+
+Looks up a compiled shader by name, or nil when missing.
+
+
+### `canvas`
+
+{/* function canvas(self, desc: { width: number?, height: number? }?): Canvas */}
+<div class="signature">
+```lua
+canvas(desc: {width: number?, height: number?}?) -> Canvas
+```
+</div>
+
+Creates a CPU canvas. Zero or missing size defers the backing
+texture.
+
+
+### `gpuCanvas`
+
+{/* function gpuCanvas(self, desc: { width: number?, height: number? }?): GPUCanvas */}
+<div class="signature">
+```lua
+gpuCanvas(desc: {width: number?, height: number?}?) -> GPUCanvas
+```
+</div>
+
+Creates a GPU canvas for render pass drawing. Zero or missing size
+defers the backing texture.
+
+
+### `features`
+
+{/* function features(self): GPUFeatures */}
+<div class="signature">
+```lua
+features() -> GPUFeatures
+```
+</div>
+
+Capabilities of the active GPU device.
+
+
+### `decodeImage`
+
+{/* function decodeImage(self, data: buffer): Promise<DecodedImage> */}
+<div class="signature">
+```lua
+decodeImage(data: buffer) -> Promise<DecodedImage>
+```
+</div>
+
+Decodes an encoded image (png, jpeg, webp) into a drawable image.
+
+
