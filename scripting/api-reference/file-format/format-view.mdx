@@ -1,0 +1,167 @@
+---
+title: FormatView
+---
+
+A live preview of one document on one surface. Created by
+`FileFormat.view`; disposed when its surface closes.
+
+
+## Methods
+
+### `draw`
+
+{/* draw: (self: FormatView, renderer: Renderer,
+        width: number, height: number) -> () */}
+<div class="signature">
+```lua
+draw(renderer: Renderer, width: number, height: number) -> ()
+```
+</div>
+
+Draws the current frame into a viewport of width by height.
+
+
+### `measure`
+
+{/* measure: ((self: FormatView, viewportWidth: number,
+        viewportHeight: number) -> (number, number))? */}
+<div class="signature">
+```lua
+measure(viewportWidth: number, viewportHeight: number) -> (number, number)
+```
+</div>
+
+Pane surfaces only: the content's intrinsic size for the given
+viewport, driving the pane's scrollbars. Called when the view is
+created, the document changes, the viewport resizes, or requestDraw
+fires. Omit for fit-to-viewport views; the inspector never measures.
+
+
+### `advance`
+
+{/* advance: ((self: FormatView, seconds: number) -> boolean)? */}
+<div class="signature">
+```lua
+advance(seconds: number) -> boolean
+```
+</div>
+
+Advances animation state. Return true to keep receiving frames.
+
+
+### `textScrolled`
+
+{/* textScrolled: ((self: FormatView, x: number, y: number,
+        line: number, maxLine: number) -> ())? */}
+<div class="signature">
+```lua
+textScrolled(x: number, y: number, line: number, maxLine: number) -> ()
+```
+</div>
+
+The user scrolled the text editor. x/y are scroll percentages and
+line is the fractional top visible line. Never fired for scrolls the
+host performed on the view's behalf (scrollEditorTo), so handlers can
+follow without echo bookkeeping.
+
+
+### `paneScrolled`
+
+{/* paneScrolled: ((self: FormatView, x: number, y: number) -> ())? */}
+<div class="signature">
+```lua
+paneScrolled(x: number, y: number) -> ()
+```
+</div>
+
+The user scrolled the preview pane (measured views only). x/y are the
+new offsets in content coordinates. Never fired for scrolls the host
+applied from `editor:scrollTo`.
+
+
+### `paneWheel`
+
+{/* paneWheel: ((self: FormatView, dx: number, dy: number) -> ())? */}
+<div class="signature">
+```lua
+paneWheel(dx: number, dy: number) -> ()
+```
+</div>
+
+Raw wheel/trackpad input over an unmeasured (self-scrolling) preview,
+in pixels with positive y scrolling down. Implement to route pane
+input into the view's own scrolling; without it the host falls back
+to scrolling the paired text editor.
+
+
+### `pointerDown`
+
+{/* pointerDown: ((self: FormatView, event: PointerEvent) -> ())? */}
+<div class="signature">
+```lua
+pointerDown(event: PointerEvent) -> ()
+```
+</div>
+
+Pointer input over the preview surface, in the same coordinate space
+draw receives. Signatures match the Layout protocol so live artboards
+can forward events directly (board:pointerDown(event), ...).
+
+
+### `pointerMove`
+
+{/* pointerMove: ((self: FormatView, event: PointerEvent) -> ())? */}
+<div class="signature">
+```lua
+pointerMove(event: PointerEvent) -> ()
+```
+</div>
+
+### `pointerUp`
+
+{/* pointerUp: ((self: FormatView, event: PointerEvent) -> ())? */}
+<div class="signature">
+```lua
+pointerUp(event: PointerEvent) -> ()
+```
+</div>
+
+### `documentChanged`
+
+{/* documentChanged: ((self: FormatView, doc: FormatDocument,
+        parsed: buffer?) -> ())? */}
+<div class="signature">
+```lua
+documentChanged(doc: FormatDocument, parsed: buffer?) -> ()
+```
+</div>
+
+Text documents only: the document changed; refresh derived state.
+
+
+### `selectionChanged`
+
+{/* selectionChanged: ((self: FormatView, line: number,
+        column: number) -> ())? */}
+<div class="signature">
+```lua
+selectionChanged(line: number, column: number) -> ()
+```
+</div>
+
+Text documents only: the primary cursor moved. line and column are
+zero based code point coordinates.
+
+
+### `dispose`
+
+{/* dispose: ((self: FormatView) -> ())? */}
+<div class="signature">
+```lua
+dispose() -> ()
+```
+</div>
+
+The surface is closing; release resources.
+
+
