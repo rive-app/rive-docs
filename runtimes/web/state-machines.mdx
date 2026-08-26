@@ -6,6 +6,7 @@ description: "Playing a state machine"
 import Overview from "/snippets/runtimes/state-machines/overview.mdx"
 import ControllingPlayback from "/snippets/runtimes/state-machines/controlling-playback.mdx"
 import PlayingStateMachines from "/snippets/runtimes/state-machines/playing-state-machines.mdx"
+import DefaultPlayback from "/snippets/runtimes/state-machines/default-playback.mdx"
 
 <Overview />
 
@@ -18,10 +19,10 @@ import PlayingStateMachines from "/snippets/runtimes/state-machines/playing-stat
 Pass the name of the state machine you want to play with the `stateMachine` parameter.
 
 <Note>
-  `stateMachine` was added in `v2.41.0` and replaces the plural `stateMachines` parameter, which is now deprecated. `stateMachine` takes a single string and always takes priority over `stateMachines` and `animations` when both are supplied. See [Deprecated parameters](/runtimes/web/rive-parameters#deprecated-parameters) for more details.
+  `stateMachine` was added in `v2.41.0` and replaces the plural `stateMachines` parameter, which is now deprecated. `stateMachine` takes a single non-empty string and always takes priority over `stateMachines` and `animations`. See [Deprecated parameters](/runtimes/web/rive-parameters#deprecated-parameters) for more details.
 </Note>
 
-If you do not pass `stateMachine` (or the deprecated `stateMachines`) param, Rive currently plays the first linear animation it finds on the artboard. In the next major version of the JS runtime (v3), Rive will play the default state machine on the artboard instead.
+<DefaultPlayback />
 
 ### Autoplay the State Machine
 

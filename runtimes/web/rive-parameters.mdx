@@ -3,6 +3,8 @@ title: 'Rive Parameters'
 description: 'API docs for the Rive instance.'
 ---
 
+import DefaultPlayback from "/snippets/runtimes/state-machines/default-playback.mdx"
+
 This page is a **reference** for constructor options, types, and instance methods on the high-level **`Rive`** class, as well as a number of other exported classes. For walkthroughs and samples, use the guides below and link back here when you need exact signatures.
 
 **Related guides**
@@ -69,7 +71,7 @@ export interface RiveParameters {
 - `stateMachine` - *(strongly recommended)* Name of the state machine to play (i.e. `"State Machine 1"`) from the `.riv` file. Added in `v2.41.0` to replace the plural `stateMachines` parameter.
 
 <Note>
-  If you do not pass `stateMachine`, or the deprecated `stateMachines` or `animations` parameters, Rive will currently play the first linear animation it finds on the artboard. In the next major version of the JS runtime (v3), Rive will play the default state machine it finds on the artboard.
+  <DefaultPlayback />
 </Note>
 
 - `layout` - *(optional)* Provide a [`new Layout()`](/runtimes/web/layouts) instance. See that guide for fit modes, alignment, bounds, and responsive layout.
