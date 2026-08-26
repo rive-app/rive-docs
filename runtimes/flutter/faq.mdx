@@ -68,3 +68,9 @@ If you're on `0.13.x`, you need to specify the NDK version used by setting `rive
 This gives you 16KB page support and flexibility to control the NDK used for future updates.
 
 For additional context, see [rive-flutter issue #479](https://github.com/rive-app/rive-flutter/issues/479).
+
+## Why do I get `Failed to lookup symbol` in iOS release builds with SPM?
+
+If an IPA build reports `Failed to lookup symbol` errors, Xcode may be stripping some required global symbols.
+
+In Xcode, select the **Runner** target, open **Build Settings** > **Strip Style**, and change **All Symbols** to **Non-Global Symbols**.
