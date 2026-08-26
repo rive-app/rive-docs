@@ -13,6 +13,16 @@ import PlayingStateMachines from "/snippets/runtimes/state-machines/playing-stat
 
 <PlayingStateMachines />
 
+### Specifying a State Machine
+
+Pass the name of the state machine you want to play with the `stateMachine` parameter.
+
+<Note>
+  `stateMachine` was added in `v2.41.0` and replaces the plural `stateMachines` parameter, which is now deprecated. `stateMachine` takes a single string and always takes priority over `stateMachines` and `animations` when both are supplied. See [Deprecated parameters](/runtimes/web/rive-parameters#deprecated-parameters) for more details.
+</Note>
+
+If you do not pass `stateMachine` (or the deprecated `stateMachines`) param, Rive currently plays the first linear animation it finds on the artboard. In the next major version of the JS runtime (v3), Rive will play the default state machine on the artboard instead.
+
 ### Autoplay the State Machine
 
 To autoplay a state machine immediately after it loads, simply set `autoplay` to `true`.
@@ -22,7 +32,7 @@ const r = new rive.Rive({
     src: 'https://cdn.rive.app/animations/vehicles.riv',
     canvas: document.getElementById('canvas'),
     autoplay: true,
-    stateMachines: 'bumpy',
+    stateMachine: 'bumpy',
     onLoad: () => {}
 });
 ```
@@ -35,7 +45,7 @@ You can manually play and pause the State Machine using the `play`, `pause`, and
 const r = new rive.Rive({
     src: 'https://cdn.rive.app/animations/vehicles.riv',
     canvas: document.getElementById('canvas'),
-    stateMachines: 'bumpy',
+    stateMachine: 'bumpy',
     onLoad: () => {}
 });
 
@@ -54,11 +64,11 @@ const handleStop = () => {
 
 ### reset()
 
-To dispose the current artboard / animation / state machine instances and create fresh ones (optionally changing artboard or `stateMachines`), use **`reset()`**. Pass the same kinds of options you use on the constructor. See [Rive Parameters](/runtimes/web/rive-parameters) for the full **`RiveResetParameters`** fields (`artboard`, `stateMachines`, `autoplay`, `autoBind`).
+To dispose the current artboard / animation / state machine instances and create fresh ones (optionally changing artboard or `stateMachine`), use **`reset()`**. Pass the same kinds of options you use on the constructor. See [Rive Parameters](/runtimes/web/rive-parameters) for the full **`RiveResetParameters`** fields (`artboard`, `stateMachine`, `autoplay`, `autoBind`).
 
 ```js
 r.reset({
-  stateMachines: 'bumpy',
+  stateMachine: 'bumpy',
   autoplay: true,
 });
 ```

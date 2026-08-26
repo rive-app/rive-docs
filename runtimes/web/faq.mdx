@@ -45,6 +45,7 @@ const canvasElement = document.getElementById('some-canvas-element-id');
 const r = new Rive({
   src: 'some-file.riv',
   canvas: canvasElement,
+  stateMachine: 'State Machine 1',
   autoplay: true,
   onLoad: () => {
     r.resizeDrawingSurfaceToCanvas();
@@ -80,7 +81,7 @@ Ideally, you want to ensure that the width/height attributes on the canvas are a
 
 ### How come my state machine isn't playing?
 
-Make sure you've specified the `stateMachines` property when instantiating Rive with the name of your state machine. To autoplay the state machine, don't forget to set `autoplay: true` when instantiating the Rive object.
+Make sure you've specified the `stateMachine` property when instantiating Rive with the name of your state machine. To autoplay the state machine, don't forget to set `autoplay: true` when instantiating the Rive object.
 
 ### How do I get other web-frameworks to support Rive?
 

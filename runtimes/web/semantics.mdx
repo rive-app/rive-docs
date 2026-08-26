@@ -44,7 +44,7 @@ import { Rive, SemanticMode } from "@rive-app/webgl2";
 const rive = new Rive({
   canvas: document.getElementById("rive-canvas"),
   src: "login.riv",
-  stateMachines: "State Machine 1",
+  stateMachine: "State Machine 1",
   autoplay: true,
   autoBind: true,
   semanticsMode: SemanticMode.Enabled,
@@ -59,7 +59,7 @@ If you want to programmatically control when semantics are enabled, construct `R
 const rive = new Rive({
   canvas: document.getElementById("rive-canvas"),
   src: "login.riv",
-  stateMachines: "State Machine 1",
+  stateMachine: "State Machine 1",
   semanticsMode: SemanticMode.Disabled,
   autoplay: true,
   autoBind: true,
@@ -80,7 +80,7 @@ The semantic overlay's container element is a `role="region"` landmark. Use the 
 const rive = new Rive({
   canvas: document.getElementById("rive-canvas"),
   src: "login.riv",
-  stateMachines: "State Machine 1",
+  stateMachine: "State Machine 1",
   autoplay: true,
   autoBind: true,
   semanticsMode: SemanticMode.Enabled,
