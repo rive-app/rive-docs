@@ -4,6 +4,8 @@ sidebarTitle: "Migrating from Legacy"
 description: "A guide to help you transition from the legacy Rive Apple runtime to the new runtime."
 ---
 
+import SharedWorker from "/snippets/runtimes/apple/shared-worker.mdx"
+
 ## Overview
 
 The [new Rive Apple runtime](/runtimes/apple/apple) is a **near-complete rewrite** of both the public API and the internal architecture. While conceptually most operations have an equivalent, the two APIs are incompatible. Any existing work in the legacy API that you would like to migrate must be rebuilt using the new API.
@@ -61,24 +63,12 @@ The new runtime introduces `Worker` objects for background processing while stil
 
 For most apps, a shared worker is recommended:
 
+<SharedWorker />
+
 ```swift
-actor WorkerProvider {
-    static let shared = WorkerProvider()
-
-    @MainActor
-    private var cachedWorker: Worker?
-
-    @MainActor
-    func worker() async throws -> Worker {
-        if let cachedWorker {
-            return cachedWorker
-        }
-
-        let worker = try await Worker()
-        cachedWorker = worker
-        return worker
-    }
-}
+let worker = try await Worker.shared()
+let file = try await File(source: ..., worker: worker)
+let rive = try await Rive(file: file)
 ```
 
 ## Shared Features
