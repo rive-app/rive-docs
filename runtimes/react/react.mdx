@@ -42,8 +42,8 @@ There are three main ways to use Rive in a React app:
           const { rive, RiveComponent } = useRive({
             // Load a local .riv file or use a hosted URL.
             src: "quick_start_health_bar.riv",
-            // Be sure to specify the correct state machine (or animation) name
-            stateMachines: "State Machine 1",
+            // Be sure to specify the correct state machine name
+            stateMachine: "State Machine 1",
             // Autoplay the state machine
             autoplay: true,
             // This uses the view model instance defined in Rive
@@ -89,7 +89,7 @@ There are three main ways to use Rive in a React app:
         export const Simple = () => (
           <Rive
             src="https://cdn.rive.app/animations/vehicles.riv"
-            stateMachines="bumpy"
+            stateMachine="bumpy"
           />
         );
         ```
@@ -113,8 +113,8 @@ There are three main ways to use Rive in a React app:
             const riveInstance = new Rive({
               // Load a local .riv file or use a hosted URL.
               src: "quick_start_health_bar.riv",
-              // Be sure to specify the correct state machine (or animation) name
-              stateMachines: "State Machine 1", // Name of the State Machine to play
+              // Be sure to specify the correct state machine name
+              stateMachine: "State Machine 1", // Name of the State Machine to play
               canvas: canvasRef.current,
               autoplay: true,
               autoBind: true, // This uses the view model instance defined in Rive

@@ -27,7 +27,7 @@ import { useRive, SemanticMode } from "@rive-app/react-canvas";
 export default function Login() {
   const { RiveComponent } = useRive({
     src: "/login.riv",
-    stateMachines: "State Machine 1",
+    stateMachine: "State Machine 1",
     autoplay: true,
     autoBind: true,
     semanticsMode: SemanticMode.Enabled,
@@ -45,7 +45,7 @@ Use `semanticsOptions.riveCanvasLabel` to set an `aria-label` on the semantic ov
 export default function Login() {
   const { RiveComponent } = useRive({
     src: "/login.riv",
-    stateMachines: "State Machine 1",
+    stateMachine: "State Machine 1",
     autoplay: true,
     autoBind: true,
     semanticsMode: SemanticMode.Enabled,
@@ -69,7 +69,7 @@ import { useRive } from "@rive-app/react-canvas";
 export default function Login({ accessibilityEnabled }) {
   const { RiveComponent, rive } = useRive({
     src: "/login.riv",
-    stateMachines: "State Machine 1",
+    stateMachine: "State Machine 1",
     autoplay: true,
     autoBind: true,
   });

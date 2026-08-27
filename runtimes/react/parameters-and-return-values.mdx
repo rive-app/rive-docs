@@ -57,9 +57,7 @@ The following parameters are specific to `useRive`:
 ### useStateMachineInput
 
 <Warning>
-**Deprecated**
-
-State machine inputs are deprecated. For new work, use [Data Binding](/runtimes/web/data-binding). This hook remains available for legacy projects.
+  **Deprecated in `v4.33.0`.** The hook still works and nothing has been removed, but state machine inputs will be removed in a future major version. Use [data binding](/runtimes/react/data-binding) for new work — see the [migration guide](/editor/data-binding/migration-guide#state-machine-inputs).
 </Warning>
 
 The `useStateMachineInput` hook can be used to grab references to Rive State Machine inputs, both for reading input values, and setting (or triggering) them. See below for parameters to pass in and the return value.
@@ -145,6 +143,41 @@ The main benefit of this hook is that it allows you to create a `RiveFile` insta
 ### `<RiveComponent />`
 
 The `RiveComponent` default export and the `RiveComponent` returned from the `useRive` hook are both to be rendered in the JSX of a component. As noted previously, all attributes and event handlers that can be passed to a `canvas` element can also be passed to the `Rive` component and used in the same manner.
+
+#### Props
+
+The default export accepts the props below in addition to any `canvas` attributes. It always plays with `autoplay: true`. For anything beyond a simple embed — controlling playback, reading the `Rive` instance, or data binding — use the [`useRive`](#userive) hook instead.
+
+```typescript
+interface RiveProps {
+  src: string; // required
+  artboard?: string;
+  stateMachine?: string;
+  layout?: Layout;
+  useOffscreenRenderer?: boolean;
+  shouldDisableRiveListeners?: boolean;
+  shouldResizeCanvasToContainer?: boolean;
+
+  // Deprecated props
+  animations?: string | string[];
+  stateMachines?: string | string[];
+  automaticallyHandleEvents?: boolean;
+}
+```
+
+- `src` - *(required)* URL of the Rive asset, or path to the public `.riv` asset.
+- `artboard` - *(optional)* Artboard to render. Defaults to the first artboard in the file.
+- `stateMachine` - *(strongly recommended)* Name of the state machine to play.
+- `layout` - *(optional)* A [`Layout`](/runtimes/react/layouts) instance setting fit and alignment for the drawing surface.
+- `useOffscreenRenderer` - *(optional)* Share a single WebGL context across canvases. Only relevant for `@rive-app/react-webgl2`. Defaults to `true`.
+- `shouldDisableRiveListeners` - *(optional)* Prevents Rive from attaching pointer event listeners to the canvas.
+- `shouldResizeCanvasToContainer` - *(optional)* Automatically resize the canvas to its container. Defaults to `true`.
+
+#### Deprecated props
+
+- `stateMachines` - Use `stateMachine` with a single state machine name instead.
+- `animations` - Use `stateMachine` to play a state machine instead.
+- `automaticallyHandleEvents` - Deprecated along with the rest of the [Rive Events](/runtimes/react/rive-events) surface. Use [data binding](/runtimes/react/data-binding) instead.
 
 One thing to note is that `style`/`className` props set on the component will be passed onto the containing `<div>` element, rather than the underlying `<canvas>` itself. The reason for this is that the containing `<div>` element handles resizing and layout for you, and thus, all styles should be passed onto this element.
 
