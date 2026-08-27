@@ -36,7 +36,7 @@ if (!canvas) return;
 const riveInstance = new rive.Rive({
     riveFile: loadedRiveFile,
     // Be sure to specify the correct state machine (or animation) name
-    stateMachines: "Motion", // Name of the State Machine to play
+    stateMachine: "Motion", // Name of the State Machine to play
     canvas: canvas,
     layout: new rive.Layout({
     fit: rive.Fit.FitWidth,

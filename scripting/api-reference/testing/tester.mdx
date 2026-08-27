@@ -1,0 +1,66 @@
+---
+title: Tester
+---
+
+Provides functions for defining test cases and organizing them into groups.
+
+
+## Methods
+
+### `case`
+
+{/* case: (name: string, test: (expect: (value: any) -> Expectation) -> ()) -> () */}
+<div class="signature">
+```lua
+case(name: string, test: (expect:(value: any) -> Expectation) ->()) -> ()
+```
+</div>
+
+Defines a named test case. The callback receives an `expect` function
+used to create expectations on a value.
+```lua
+case("adds two numbers", function(expect)
+  local result = 2 + 3
+  expect(result).is(5)
+end)
+```
+
+
+### `group`
+
+{/* group: (name: string, test: () -> ()) -> () */}
+<div class="signature">
+```lua
+group(name: string, test: () ->()) -> ()
+```
+</div>
+
+Groups related test cases under a common name. Nested groups are supported.
+```lua
+group("Math utilities", function()
+  case("adds numbers", function(expect)
+    expect(2 + 2).is(4)
+  end)
+
+  case("multiplies numbers", function(expect)
+    expect(3 * 4).is(12)
+  end)
+end)
+```
+
+
+### `blob`
+
+{/* blob: (name: string) -> Blob? */}
+<div class="signature">
+```lua
+blob(name: string) -> Blob?
+```
+</div>
+
+Looks up a blob asset in the file by name, or nil when missing.
+```lua
+local data = test.blob("fixtures")
+```
+
+

@@ -1,0 +1,144 @@
+---
+title: TextFileFormat
+---
+
+A FileFormat for text. Files with a claimed extension import as in-band
+text documents, editable in the editor and synced across collaborators,
+and the callbacks below drive the text editor's intelligence. Documents
+export as plain blobs, so scripts read them via `context:blob(name)` at
+both edit time and runtime.
+
+Analysis callbacks are pure functions of `(doc, parsed)`; state lives
+only in views. `parsed` carries the cached result of `parse`, or nil when
+`parse` is not implemented.
+```lua
+local format: TextFileFormat = {
+    name = 'Markdown',
+    extensions = { 'md' },
+}
+
+return function(): TextFileFormat
+    return format
+end
+```
+
+
+## Fields
+
+### `name`
+
+Display name of the format, e.g. "Markdown".
+
+
+### `extensions`
+
+File extensions handled, without dots, e.g. `{"md", "markdown"}`.
+
+
+## Methods
+
+### `parse`
+
+{/* parse: ((self: TextFileFormat, doc: FormatDocument) -> buffer?)? */}
+<div class="signature">
+```lua
+parse(doc: FormatDocument) -> buffer?
+```
+</div>
+
+Optional. Called once per document version; the returned buffer is
+cached by Rive, keyed to the document's content, and passed back into
+every other callback. Within one VM the same buffer object is reused;
+across VMs the bytes are copied once.
+
+
+### `view`
+
+{/* view: ((self: TextFileFormat,
+        doc: FormatDocument,
+        editor: EditorContext,
+        surface: FormatSurface,
+        parsed: buffer?) -> FormatView?)? */}
+<div class="signature">
+```lua
+view(doc: FormatDocument, editor: EditorContext, surface: FormatSurface, parsed: buffer?) -> FormatView?
+```
+</div>
+
+Creates the preview for a document on a surface. Each surface gets
+its own view; a document can be visible on several at once.
+
+
+### `highlight`
+
+{/* highlight: ((self: TextFileFormat, doc: FormatDocument,
+        parsed: buffer?) -> {FormatToken})? */}
+<div class="signature">
+```lua
+highlight(doc: FormatDocument, parsed: buffer?) -> {FormatToken}
+```
+</div>
+
+Returns highlight tokens for the document.
+
+
+### `diagnostics`
+
+{/* diagnostics: ((self: TextFileFormat, doc: FormatDocument,
+        parsed: buffer?) -> {FormatDiagnostic})? */}
+<div class="signature">
+```lua
+diagnostics(doc: FormatDocument, parsed: buffer?) -> {FormatDiagnostic}
+```
+</div>
+
+Returns problems for the document.
+
+
+### `completions`
+
+{/* completions: ((self: TextFileFormat,
+        doc: FormatDocument,
+        line: number,
+        column: number,
+        parsed: buffer?) -> {FormatCompletion})? */}
+<div class="signature">
+```lua
+completions(doc: FormatDocument, line: number, column: number, parsed: buffer?) -> {FormatCompletion}
+```
+</div>
+
+Returns completions at the given position.
+
+
+### `hover`
+
+{/* hover: ((self: TextFileFormat,
+        doc: FormatDocument,
+        line: number,
+        column: number,
+        parsed: buffer?) -> FormatHover?)? */}
+<div class="signature">
+```lua
+hover(doc: FormatDocument, line: number, column: number, parsed: buffer?) -> FormatHover?
+```
+</div>
+
+Returns hover documentation at the given position, or nil.
+
+
+### `format`
+
+{/* format: ((self: TextFileFormat, doc: FormatDocument,
+        parsed: buffer?) -> string?)? */}
+<div class="signature">
+```lua
+format(doc: FormatDocument, parsed: buffer?) -> string?
+```
+</div>
+
+Returns the fully formatted text, or nil to leave the document
+unchanged. Rive diffs the result against the current text and applies
+minimal edits.
+
+

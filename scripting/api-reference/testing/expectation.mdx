@@ -1,0 +1,99 @@
+---
+title: Expectation
+---
+
+Represents an expectation used within a test case. Each method performs an
+assertion comparing the supplied value to the expected one.
+
+
+## Fields
+
+### `never`
+
+Returns an [Expectation](/scripting/api-reference/testing/expectation) that negates the subsequent assertion.
+```lua
+expect(5).never.is(3)
+expect(5).never.greaterThan(10)
+```
+
+
+## Methods
+
+### `is`
+
+{/* is: (any) -> () */}
+<div class="signature">
+```lua
+is(any) -> ()
+```
+</div>
+
+Asserts that the value equals the expected value.
+```lua
+expect(5).is(5)
+expect("hello").is("hello")
+```
+
+
+### `greaterThan`
+
+{/* greaterThan: (any) -> () */}
+<div class="signature">
+```lua
+greaterThan(any) -> ()
+```
+</div>
+
+Asserts that the value is greater than the expected value.
+```lua
+expect(10).greaterThan(5)
+```
+
+
+### `lessThan`
+
+{/* lessThan: (any) -> () */}
+<div class="signature">
+```lua
+lessThan(any) -> ()
+```
+</div>
+
+Asserts that the value is less than the expected value.
+```lua
+expect(3).lessThan(10)
+```
+
+
+### `greaterThanOrEqual`
+
+{/* greaterThanOrEqual: (any) -> () */}
+<div class="signature">
+```lua
+greaterThanOrEqual(any) -> ()
+```
+</div>
+
+Asserts that the value is greater than or equal to the expected value.
+```lua
+expect(5).greaterThanOrEqual(5)
+expect(6).greaterThanOrEqual(5)
+```
+
+
+### `lessThanOrEqual`
+
+{/* lessThanOrEqual: (any) -> () */}
+<div class="signature">
+```lua
+lessThanOrEqual(any) -> ()
+```
+</div>
+
+Asserts that the value is less than or equal to the expected value.
+```lua
+expect(5).lessThanOrEqual(5)
+expect(4).lessThanOrEqual(5)
+```
+
+
