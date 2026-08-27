@@ -38,7 +38,7 @@ drawImage(image: Image, sampler: ImageSampler, blendMode: BlendMode, opacity: nu
 
 Draws an [Image](/scripting/api-reference/image/image) using the [ImageSampler](/scripting/api-reference/image/image-sampler), [BlendMode](/scripting/api-reference/paint/blend-mode), and opacity.
 
-Check out [Scripting demos](https://rive.app/docs/scripting/demos) to see a working example.
+Check out [Scripting demos](/scripting/demos) to see a working example.
 
 ```lua highlight={15}
 type DrawImage = {
@@ -82,7 +82,7 @@ drawImageMesh(image: Image, sampler: ImageSampler, vertices: VertexBuffer, uvs: 
 Draws an image using mesh data defined by vertices, texture
 coordinates, and triangle indices.
 
-Check out [Scripting demos](https://rive.app/docs/scripting/demos) to see a working example.
+Check out [Scripting demos](/scripting/demos) to see a working example.
 ```lua
 function draw(self: DrawImageMesh, renderer: Renderer)
   if self.myImage and self.sampler and self.vertices and self.uvs and self.triangles then
@@ -112,7 +112,7 @@ clipPath(path: Path) -> ()
 Restricts subsequent drawing to the area defined by the given [Path](/scripting/api-reference/path/path).
 Clipping remains in effect until the next restore call.
 
-Check out [Scripting demos](https://rive.app/docs/scripting/demos) to see a working example.
+Check out [Scripting demos](/scripting/demos) to see a working example.
 ```lua highlight={10}
 function draw(self: DrawImageClipped, renderer: Renderer)
   if self.myImage and self.sampler then
