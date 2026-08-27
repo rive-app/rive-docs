@@ -14,6 +14,7 @@ import ReadingAndWritingProperties from "/snippets/runtimes/data-binding/reading
 import NestedPropertyPaths from "/snippets/runtimes/data-binding/nested-property-paths.mdx"
 import Observability from "/snippets/runtimes/data-binding/observability.mdx"
 import Images from "/snippets/runtimes/data-binding/images.mdx"
+import Fonts from "/snippets/runtimes/data-binding/fonts.mdx"
 import Lists from "/snippets/runtimes/data-binding/lists.mdx"
 import Artboards from "/snippets/runtimes/data-binding/artboards.mdx"
 import Enums from "/snippets/runtimes/data-binding/enums.mdx"
@@ -116,9 +117,9 @@ private void HandleWidgetStatusChanged()
 // Using the Unity Inspector
 // 1. Select your RiveWidget in the Inspector
 // 2. In the "Data" section, set the Data Binding Mode:
-//    - Auto Bind Default: Automatically binds the default view model instance
-//    - Auto Bind Selected: Uses a specific instance you select in the dropdown
-//    - Manual: Requires you to manually set up binding in code
+//    - Auto Bind Default: Binds the default view model instance and any global view models
+//    - Auto Bind Selected: Uses a specific instance you select in the dropdown, plus any global view models
+//    - Manual: Requires you to set up binding in code
 
 // Or programmatically if set to Manual or if using the low-level API
 private void OnEnable()
@@ -145,6 +146,8 @@ private void HandleWidgetStatusChanged()
 
 ```
 
+`BindViewModelInstance(vmi)` binds `vmi` as the main instance. Empty [global view model](#global-view-models) slots are filled with default instances at the same time. To supply your own globals in that call, pass a dictionary of names to instances.
+
 <AutoBinding />
 
 <Tabs>
@@ -159,10 +162,10 @@ private void HandleWidgetStatusChanged()
 
     // Before the widget is loaded:
 
-    // Option 1: Auto bind the default instance
+    // Option 1: Auto bind the default instance (and default instances for any globals)
     riveWidget.BindingMode = DataBindingMode.AutoBindDefault;
 
-    // Option 2: Auto bind a specific instance by name
+    // Option 2: Auto bind a specific instance by name (and default instances for any globals)
     riveWidget.BindingMode = DataBindingMode.AutoBindSelected;
     riveWidget.ViewModelInstanceName = "My Instance";
 
@@ -188,6 +191,122 @@ private void HandleWidgetStatusChanged()
     </Note>
   </Tab>
 </Tabs>
+
+### Global View Models
+
+A view model marked **global** in the editor is not owned by a single artboard. The file holds one named slot per global view model, so every artboard in that file can read the same properties. Use this for app-wide state such as a theme, locale, or settings. See [Global View Model Instances](/editor/data-binding/view-models#global-view-model-instances) in the editor docs.
+
+List the globals in a file with `File.GlobalViewModelNames`. The Rive asset inspector also labels them `(Global)`.
+
+```csharp
+foreach (string name in riveWidget.File.GlobalViewModelNames)
+{
+    Debug.Log($"Global: {name}");
+}
+```
+
+How those slots get filled depends on the widget's **Data Binding Mode**:
+
+- **Auto Bind Default** and **Auto Bind Selected** bind at load. They bind the main instance when the artboard has one, and they create a default instance for each empty global. Artboards with no main view model still Auto Bind when the file has globals.
+- **Manual** binds nothing at load. You create the main instance and any globals, then bind them yourself.
+
+<Note>
+  **Auto Bind Selected** with an instance name that does not exist does not bind anything, including globals.
+</Note>
+
+`GetGlobalViewModelInstance` returns `null` until something has bound, either Auto Bind at load or an explicit `BindViewModelInstance` call.
+
+```csharp
+ViewModelInstance labels = riveWidget.StateMachine.GetGlobalViewModelInstance("Labels");
+if (labels != null)
+{
+    ViewModelInstanceStringProperty currency = labels.GetStringProperty("currency");
+    Debug.Log(currency.Value);
+}
+```
+
+
+#### Overriding Globals After Auto Bind
+
+Auto Bind fills every global with a default instance. To replace some of those defaults at runtime, bind again and pass the widget's current main instance plus the globals you want to change. Globals you leave out of the dictionary keep the instance they already have.
+
+```csharp
+riveWidget.BindingMode = DataBindingMode.AutoBindDefault;
+riveWidget.Load(file);
+
+var globals = new Dictionary<string, ViewModelInstance>
+{
+    { "Colors", file.GetViewModelByName("Colors").CreateDefaultInstance() },
+    { "Labels", file.GetViewModelByName("Labels").CreateInstanceByName("US") },
+};
+
+riveWidget.StateMachine.BindViewModelInstance(
+    riveWidget.StateMachine.ViewModelInstance,
+    globals);
+```
+
+#### Binding Manually
+
+With **Manual**, nothing is bound after `Load`. Create the main instance and the globals, then bind them together.
+
+```csharp
+riveWidget.BindingMode = DataBindingMode.Manual;
+riveWidget.Load(file);
+
+ViewModelInstance main = riveWidget.Artboard.DefaultViewModel.CreateDefaultInstance();
+var globals = new Dictionary<string, ViewModelInstance>
+{
+    { "Colors", file.GetViewModelByName("Colors").CreateDefaultInstance() },
+    { "Labels", file.GetViewModelByName("Labels").CreateInstanceByName("US") },
+};
+
+riveWidget.StateMachine.BindViewModelInstance(main, globals);
+```
+
+The two-argument overload returns `false` and leaves the state machine unchanged if the main instance is disposed, a dictionary key is not a global in the file, or a value is `null` or disposed. A `null` dictionary is treated as empty: omitted globals still receive defaults on the first bind.
+
+#### Binding Globals Only
+
+Pass `null` as the main instance to bind globals without supplying a main. Bind creates a default main when the artboard has a default view model, and still fills any global you leave out of the map.
+
+```csharp
+riveWidget.StateMachine.BindViewModelInstance(
+    null,
+    new Dictionary<string, ViewModelInstance>
+    {
+        { "Labels", file.GetViewModelByName("Labels").CreateInstanceByName("US") },
+    });
+
+// Bind with no overrides. This is the same fill-defaults path Auto Bind uses:
+riveWidget.StateMachine.BindViewModelInstance(null);
+```
+
+#### Sharing a Global Across Widgets
+
+Auto Bind creates a new default instance for each widget, so those defaults are not shared. To share a global without binding twice, set both widgets to **Manual**, then pass the same instance in each widget's first bind.
+
+```csharp
+widgetA.BindingMode = DataBindingMode.Manual;
+widgetB.BindingMode = DataBindingMode.Manual;
+widgetA.Load(file);
+widgetB.Load(file);
+
+ViewModelInstance sharedLabels = file.GetViewModelByName("Labels").CreateInstanceByName("US");
+var globals = new Dictionary<string, ViewModelInstance> { { "Labels", sharedLabels } };
+
+ViewModelInstance mainA = widgetA.Artboard.DefaultViewModel.CreateDefaultInstance();
+ViewModelInstance mainB = widgetB.Artboard.DefaultViewModel.CreateDefaultInstance();
+
+widgetA.StateMachine.BindViewModelInstance(mainA, globals);
+widgetB.StateMachine.BindViewModelInstance(mainB, globals);
+
+// An edit through A is visible through B.
+sharedLabels.GetStringProperty("currency").Value = "$";
+```
+
+<Note>
+  The widgets do not necessarily have to be in `Manual` mode. You can bind a shared global after Auto Bind by passing each widget's current main instance plus the shared dictionary. `Manual` is shown here to avoid an unnecessary second bind.
+</Note>
 
 <Properties />
 
@@ -463,10 +582,67 @@ private void OnDestroy()
 ```
 For a demo of image data binding in Unity, see the **Image Data Binding** scene in the [Rive Unity Examples repository](https://github.com/rive-app/rive-unity-examples).
 
+<Fonts />
+
+Assign a loaded `FontOutOfBandAsset` to the property. Call `Load()` before you set `Value`, and call `Unload()` when you no longer need the font. Unlike [runtime asset swapping](/game-runtimes/unity/runtime-asset-swapping), this only changes text bound to that font property, so different parts of the file can use different fonts.
+
+`Value` is set-only.
+
+```csharp
+[SerializeField] private FontOutOfBandAsset m_headingFont;
+
+private ViewModelInstanceFontProperty fontProperty;
+
+private void OnEnable()
+{
+    riveWidget.OnWidgetStatusChanged += HandleWidgetStatusChanged;
+}
+
+private void OnDisable()
+{
+    riveWidget.OnWidgetStatusChanged -= HandleWidgetStatusChanged;
+}
+
+private void HandleWidgetStatusChanged()
+{
+    if (riveWidget.Status == WidgetStatus.Loaded)
+    {
+        m_headingFont.Load();
+        ViewModelInstance viewModelInstance = riveWidget.StateMachine.ViewModelInstance;
+
+        fontProperty = viewModelInstance.GetFontProperty("headingFont");
+        // alternatively:
+        // fontProperty = viewModelInstance.GetProperty<ViewModelInstanceFontProperty>("headingFont");
+
+        fontProperty.OnValueChanged += OnFontChanged;
+        fontProperty.Value = m_headingFont;
+    }
+}
+
+private void OnFontChanged()
+{
+    Debug.Log("Font updated");
+}
+
+private void OnDestroy()
+{
+    m_headingFont.Unload();
+
+    if (fontProperty != null)
+    {
+        fontProperty.OnValueChanged -= OnFontChanged;
+    }
+}
+```
+
+<Note>
+  Assigning an unloaded font logs a warning and does not update the property. To create a font at runtime from raw bytes, use `OutOfBandAsset.Create<FontOutOfBandAsset>(bytes)` as described in [Runtime Asset Swapping](/game-runtimes/unity/runtime-asset-swapping#creating-out-of-band-assets-dynamically).
+</Note>
+
 ### Render Textures
 <ExperimentalFeature />
 
-The examples above use `ImageOutOfBandAsset` to bind static raster images loaded from disk. Use `RenderTextureImageSource` when the image comes from a live Unity `RenderTexture` instead, such as `VideoPlayer` output, a camera render target, or custom GPU content you change each frame.
+The image examples above use `ImageOutOfBandAsset` to bind static raster images loaded from disk. Use `RenderTextureImageSource` when the image comes from a live Unity `RenderTexture` instead, such as `VideoPlayer` output, a camera render target, or custom GPU content you change each frame.
 
 `RenderTextureImageSource` wraps the texture as a native Rive image and binds it to a view model image property through `SetFromRenderTextureImageSource`. Once bound, the runtime keeps the visuals up to date for you.
 

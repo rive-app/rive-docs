@@ -27,7 +27,7 @@
     "pricingVoyagerYearly": "$304",
     "pricingEnterpriseYearly": "$1,440",
     "versionMajorWebGL2": "2",
-    "versionWebGL2": "2.38.3",
+    "versionWebGL2": "2.41.0",
     "supportForm": "https://forms.rive.app/support?utm_medium=support_page",
     "supportFormEducational": "https://forms.rive.app/education?utm_medium=support_page"
   },
@@ -185,29 +185,6 @@
                 ]
               },
               {
-                "group": "Rigging & Control",
-                "pages": [
-                  "editor/manipulating-shapes/manipulating-shapes",
-                  "editor/manipulating-shapes/meshes",
-                  "editor/manipulating-shapes/bones",
-                  "editor/manipulating-shapes/joysticks",
-                  {
-                    "group": "Constraints",
-                    "pages": [
-                      "editor/constraints/constraints-overview",
-                      "editor/constraints/ik-constraint",
-                      "editor/constraints/distance-constraint",
-                      "editor/constraints/scale-constraint",
-                      "editor/constraints/rotation-constraint",
-                      "editor/constraints/transform-constraint",
-                      "editor/constraints/translation-constraint",
-                      "editor/constraints/follow-path-constraint",
-                      "editor/constraints/scroll-constraint"
-                    ]
-                  }
-                ]
-              },
-              {
                 "group": "Data",
                 "pages": [
                   "editor/data-binding/overview",
@@ -236,19 +213,49 @@
                   "editor/exporting/exporting-for-video-and-static-design",
                   "editor/exporting/exporting-for-backup"
                 ]
-              },
-              {
-                "group": "AI",
-                "pages": [
-                  "editor/ai-agent/ai-agent",
-                  "editor/ai/mcp"
-                ]
               }
             ]
           },
           {
             "group": "Advanced Topics",
             "pages": [
+              {
+                "group": "AI",
+                "pages": [
+                  "editor/ai-agent/ai-agent",
+                  "editor/ai/mcp"
+                ]
+              },
+              {
+                "group": "Rigging & Control",
+                "pages": [
+                  "editor/manipulating-shapes/manipulating-shapes",
+                  "editor/manipulating-shapes/meshes",
+                  "editor/manipulating-shapes/bones",
+                  "editor/manipulating-shapes/joysticks",
+                  {
+                    "group": "Constraints",
+                    "pages": [
+                      "editor/constraints/constraints-overview",
+                      "editor/constraints/ik-constraint",
+                      "editor/constraints/distance-constraint",
+                      "editor/constraints/scale-constraint",
+                      "editor/constraints/rotation-constraint",
+                      "editor/constraints/transform-constraint",
+                      "editor/constraints/translation-constraint",
+                      "editor/constraints/follow-path-constraint",
+                      "editor/constraints/scroll-constraint"
+                    ]
+                  }
+                ]
+              },
+              {
+                "group": "Accessibility",
+                "pages": [
+                  "editor/accessibility/semantics",
+                  "editor/accessibility/reduced-motion"
+                ]
+              },
               {
                 "group": "Admin & Workspaces",
                 "pages": [
@@ -261,13 +268,6 @@
                     ]
                   },
                   "account-admin/bring-your-own-bucket"
-                ]
-              },
-              {
-                "group": "Accessibility",
-                "pages": [
-                  "editor/accessibility/semantics",
-                  "editor/accessibility/reduced-motion"
                 ]
               },
               {
@@ -374,6 +374,25 @@
                 ]
               },
               {
+                "group": "FileFormat",
+                "pages": [
+                  "scripting/api-reference/file-format/file-format",
+                  "scripting/api-reference/file-format/editor-context",
+                  "scripting/api-reference/file-format/editor-scroll",
+                  "scripting/api-reference/file-format/editor-theme",
+                  "scripting/api-reference/file-format/editor-theme-style",
+                  "scripting/api-reference/file-format/format-completion",
+                  "scripting/api-reference/file-format/format-diagnostic",
+                  "scripting/api-reference/file-format/format-document",
+                  "scripting/api-reference/file-format/format-hover",
+                  "scripting/api-reference/file-format/format-scope",
+                  "scripting/api-reference/file-format/format-surface",
+                  "scripting/api-reference/file-format/format-token",
+                  "scripting/api-reference/file-format/format-view",
+                  "scripting/api-reference/file-format/text-file-format"
+                ]
+              },
+              {
                 "group": "GPU",
                 "pages": [
                   "scripting/api-reference/gpu/bind-group-desc",
@@ -454,6 +473,7 @@
                   "scripting/api-reference/interfaces/blob",
                   "scripting/api-reference/interfaces/context",
                   "scripting/api-reference/interfaces/converter",
+                  "scripting/api-reference/interfaces/data",
                   "scripting/api-reference/interfaces/data-context",
                   "scripting/api-reference/interfaces/decoded-image",
                   "scripting/api-reference/interfaces/enum-values",
@@ -482,6 +502,13 @@
                 "group": "Mat4",
                 "pages": [
                   "scripting/api-reference/mat4/mat4"
+                ]
+              },
+              {
+                "group": "Mesh",
+                "pages": [
+                  "scripting/api-reference/mesh/triangle-buffer",
+                  "scripting/api-reference/mesh/vertex-buffer"
                 ]
               },
               {
@@ -516,6 +543,14 @@
                 "group": "Renderer",
                 "pages": [
                   "scripting/api-reference/renderer/renderer"
+                ]
+              },
+              {
+                "group": "Testing",
+                "pages": [
+                  "scripting/api-reference/testing/expectation",
+                  "scripting/api-reference/testing/tester",
+                  "scripting/api-reference/testing/tests"
                 ]
               },
               {
@@ -956,7 +991,7 @@
     },
     {
       "source": "/editor/layouts/layouts-&-constraints",
-      "destination": "/editor/layouts"
+      "destination": "/editor/layouts/layouts-overview"
     },
     {
       "source": "/editor/fundamentals/nested-artboards",
@@ -968,23 +1003,23 @@
     },
     {
       "source": "/runtimes/apple/migrating-from-1.x.x-to-2.x.x",
-      "destination": "/runtimes/apple/migrating"
+      "destination": "/runtimes/apple/migration-guides"
     },
     {
       "source": "/runtimes/apple/migrating-from-2.x.x-to-3.x.x",
-      "destination": "/runtimes/apple/migrating"
+      "destination": "/runtimes/apple/migration-guides"
     },
     {
       "source": "/runtimes/apple/migrating-from-3.x.x-to-4.x.x",
-      "destination": "/runtimes/apple/migrating"
+      "destination": "/runtimes/apple/migration-guides"
     },
     {
       "source": "/runtimes/apple/migrating-from-4.x.x-to-5.x.x",
-      "destination": "/runtimes/apple/migrating"
+      "destination": "/runtimes/apple/migration-guides"
     },
     {
       "source": "/runtimes/apple/migrating-from-5.x.x-to-6.x.x",
-      "destination": "/runtimes/apple/migrating"
+      "destination": "/runtimes/apple/migration-guides"
     },
     {
       "source": "/scripting/api-reference/animation",
@@ -1196,7 +1231,7 @@
     },
     {
       "source": "/scripting/api-reference/vector",
-      "destination": "/scripting/api-reference/vec2d/vector"
+      "destination": "/scripting/api-reference/vector/vector"
     },
     {
       "source": "/game-runtimes/unreal/using-events",
@@ -1207,7 +1242,7 @@
       "destination": "/runtimes/react/migration-guides#migrating-from-0-x-x-to-1-x-x"
     },
     {
-      "source": "runtimes/react/migrating-from-v1-to-v3",
+      "source": "/runtimes/react/migrating-from-v1-to-v3",
       "destination": "/runtimes/react/migration-guides#migrating-from-1-x-x-to-3-x-x"
     },
     {

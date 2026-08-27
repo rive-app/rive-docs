@@ -1,0 +1,41 @@
+---
+title: VertexBuffer
+---
+
+Stores a list of 2D vertex positions for use with image meshes.
+
+
+## Methods
+
+### `add`
+
+{/* add: (self: VertexBuffer, ...Vector) -> () */}
+<div class="signature">
+```lua
+add(...Vector) -> ()
+```
+</div>
+
+Adds one or more vertices to the buffer.
+```lua
+local vb = VertexBuffer()
+vb:add(Vector.xy(0, 0), Vector.xy(1, 0), Vector.xy(1, 1))
+```
+
+
+### `reset`
+
+{/* reset: (self: VertexBuffer) -> () */}
+<div class="signature">
+```lua
+reset() -> ()
+```
+</div>
+
+Clears all vertices from the buffer.
+```lua
+local vb = VertexBuffer()
+vb:reset()
+```
+
+

@@ -1,0 +1,31 @@
+---
+title: FormatDocument
+---
+
+A document being edited, handed to every FileFormat callback. Exactly one
+of `text` (text documents) or `bytes` (binary documents) is set. Positions
+reported back to Rive are 0-based byte offsets into `text`.
+
+
+## Fields
+
+### `name`
+
+Display name of the document, e.g. "readme".
+
+
+### `extension`
+
+File extension of the document without the dot, e.g. "md".
+
+
+### `text`
+
+Full document text, nil for binary documents.
+
+
+### `bytes`
+
+Document bytes, nil for text documents.
+
+

@@ -1,0 +1,66 @@
+---
+title: FileFormat
+---
+
+Implement this protocol to add editor support for a custom binary file
+format. Files with a claimed extension import as blobs, keeping their raw
+bytes, and get previews from `view`. For text formats that should be
+editable in the editor, implement TextFileFormat instead.
+```lua
+local format: FileFormat = {
+    name = 'Model',
+    extensions = { 'glb' },
+}
+
+return function(): FileFormat
+    return format
+end
+```
+
+
+## Fields
+
+### `name`
+
+Display name of the format, e.g. "Markdown".
+
+
+### `extensions`
+
+File extensions handled, without dots, e.g. `{"md", "markdown"}`.
+
+
+## Methods
+
+### `parse`
+
+{/* parse: ((self: FileFormat, doc: FormatDocument) -> buffer?)? */}
+<div class="signature">
+```lua
+parse(doc: FormatDocument) -> buffer?
+```
+</div>
+
+Optional. Called once per document version; the returned buffer is
+cached by Rive, keyed to the document's content, and passed back into
+every other callback. Within one VM the same buffer object is reused;
+across VMs the bytes are copied once.
+
+
+### `view`
+
+{/* view: ((self: FileFormat,
+        doc: FormatDocument,
+        editor: EditorContext,
+        surface: FormatSurface,
+        parsed: buffer?) -> FormatView?)? */}
+<div class="signature">
+```lua
+view(doc: FormatDocument, editor: EditorContext, surface: FormatSurface, parsed: buffer?) -> FormatView?
+```
+</div>
+
+Creates the preview for a document on a surface. Each surface gets
+its own view; a document can be visible on several at once.
+
+

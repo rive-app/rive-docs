@@ -151,7 +151,7 @@ Assign an instance to a global slot with `setGlobalViewModelInstance()`, then ap
 const r = new rive.Rive({
     src: "my_rive_file.riv",
     canvas: document.getElementById("canvas"),
-    stateMachines: "State Machine 1",
+    stateMachine: "State Machine 1",
     autoBind: false,
     onLoad: () => {
         const themeVM = r.viewModelByName("Theme");
@@ -430,7 +430,7 @@ const r = new Rive({
         fit: Fit.Layout,
         layoutScaleFactor: 0.5,
     }),
-    stateMachines: "State Machine 1",
+    stateMachine: "State Machine 1",
     onLoad: () => {
         r.resizeDrawingSurfaceToCanvas();
 
