@@ -75,8 +75,13 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
 
                 ```swift
                 // In an async context
-                let worker = try await Worker()
+                // GPU Canvas is required for 3D content.
+                let worker = try await Worker(
+                    configuration: .init(enableGPUCanvas: true)
+                )
                 ```
+
+                See [GPU Canvas](/runtimes/apple/gpu-canvas) for more information about this worker configuration.
 
                 For more information on threading, see [Threading](#threading).
             </Step>
@@ -89,18 +94,24 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
 
                 <CodeGroup>
                     ```swift Local File
-                    let worker = try await Worker()
+                    let worker = try await Worker(
+                        configuration: .init(enableGPUCanvas: true)
+                    )
                     let file = try await File(source: .local("my_file", Bundle.main), worker: worker)
                     ```
 
                     ```swift Remote URL
-                    let worker = try await Worker()
+                    let worker = try await Worker(
+                        configuration: .init(enableGPUCanvas: true)
+                    )
                     let url: URL = URL(string: "https://example.com/my_file.riv")!
                     let file = try await File(source: .url(url), worker: worker)
                     ```
 
                     ```swift Data
-                    let worker = try await Worker()
+                    let worker = try await Worker(
+                        configuration: .init(enableGPUCanvas: true)
+                    )
                     let data: Data = ...
                     let file = try await File(source: .data(data), worker: worker)
                     ```
@@ -114,7 +125,9 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
                 <CodeGroup>
                     ```swift UIKit
                     let riveView = RiveUIView({
-                        let worker = try await Worker()
+                        let worker = try await Worker(
+                            configuration: .init(enableGPUCanvas: true)
+                        )
                         let file = try await File(source: .local("my_file", Bundle.main), worker: worker)
                         return try await Rive(file: file)
                     })
@@ -131,7 +144,9 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
                     var body: some View {
                         // After having created a `Rive` object, you can initialize your view.
                         AsyncRiveUIViewRepresentable {
-                            let worker = try await Worker()
+                            let worker = try await Worker(
+                                configuration: .init(enableGPUCanvas: true)
+                            )
                             let file = try await File(source: .local("my_file", Bundle.main), worker: worker)
                             return try await Rive(file: file)
                         }
