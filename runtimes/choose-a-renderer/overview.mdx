@@ -65,7 +65,7 @@ If a runtime is not listed here, there is no renderer setup to configure. It use
         )
         ```
 
-        GPU Canvas is required for 3D content. The setting applies to every file and renderer created with that worker and cannot be changed during the worker's lifetime.
+        GPU Canvas is required for 3D content. The setting applies to every `File` loaded by that worker and every `Rive` object created from those files. It cannot be changed during the worker's lifetime.
     </Tab>
     <Tab title="Android (Legacy)">
         Options: `Canvas / Skia (removed in v10.0.0)`
