@@ -96,7 +96,7 @@ let viewModel = RiveViewModel(model)
 #### {{runtimeCurrentNameApple}}
 
 ```swift
-let worker = try await WorkerProvider.shared.worker()
+let worker = try await Worker.shared()
 let file = try await File(source: .local("my_rive_file", Bundle.main), worker: worker)
 let rive = try await Rive(file: file)
 ```
@@ -115,7 +115,7 @@ let viewModel = RiveViewModel(model)
 #### {{runtimeCurrentNameApple}}
 
 ```swift
-let worker = try await WorkerProvider.shared.worker()
+let worker = try await Worker.shared()
 let webURL = URL(string: "https://example.com/my_rive_file.riv")!
 let file = try await File(
     source: .url(webURL),
@@ -140,7 +140,7 @@ let viewModel = RiveViewModel(model)
 Use the `.data` file source when your `.riv` bytes are already available in memory.
 
 ```swift
-let worker = try await WorkerProvider.shared.worker()
+let worker = try await Worker.shared()
 let data: Data = ...
 let file = try await File(source: .data(data), worker: worker)
 let rive = try await Rive(file: file)
@@ -177,7 +177,7 @@ New runtime APIs throw errors, so failure handling moves to `do/catch`:
 
 ```swift
 do {
-    let worker = try await WorkerProvider.shared.worker()
+    let worker = try await Worker.shared()
     let file = try await File(source: .local("my_rive_file", Bundle.main), worker: worker)
     let artboard = try await file.createArtboard("My Artboard")
     let stateMachine = try await artboard.createStateMachine("My State Machine")
@@ -211,7 +211,7 @@ model.setStateMachine("My State Machine")
 #### {{runtimeCurrentNameApple}}
 
 ```swift
-let worker = try await WorkerProvider.shared.worker()
+let worker = try await Worker.shared()
 let file = try await File(source: .local("my_rive_file", Bundle.main), worker: worker)
 let artboard = try await file.createArtboard("My Artboard")
 let stateMachine = try await artboard.createStateMachine("My State Machine")
@@ -237,7 +237,7 @@ var body: some View {
 #### {{runtimeCurrentNameApple}}
 
 ```swift
-let worker = try await WorkerProvider.shared.worker()
+let worker = try await Worker.shared()
 let file = try await File(source: ..., worker: worker)
 let rive = try await Rive(file: file)
 
@@ -246,7 +246,7 @@ let riveView = RiveUIView(rive: rive)
 
 // UIKit (async loading)
 let riveView = RiveUIView({
-    let worker = try await WorkerProvider.shared.worker()
+    let worker = try await Worker.shared()
     let file = try await File(source: ..., worker: worker)
     return try await Rive(file: file)
 })
@@ -259,7 +259,7 @@ var body: some View {
 // SwiftUI (async)
 var body: some View {
     AsyncRiveUIViewRepresentable {
-        let worker = try await WorkerProvider.shared.worker()
+        let worker = try await Worker.shared()
         let file = try await File(source: ..., worker: worker)
         return try await Rive(file: file)
     }
@@ -299,7 +299,7 @@ viewModel.layoutScaleFactor = 2.0
 #### {{runtimeCurrentNameApple}}
 
 ```swift
-let worker = try await WorkerProvider.shared.worker()
+let worker = try await Worker.shared()
 let file = try await File(source: .local("my_rive_file", Bundle.main), worker: worker)
 var rive = try await Rive(file: file, fit: .contain(alignment: .center))
 
@@ -310,7 +310,7 @@ rive.fit = .fitWidth(alignment: .topCenter)
 To use artboard layout sizing in the new runtime:
 
 ```swift
-let worker = try await WorkerProvider.shared.worker()
+let worker = try await Worker.shared()
 let file = try await File(source: .local("my_rive_file", Bundle.main), worker: worker)
 var rive = try await Rive(file: file, fit: .layout(scaleFactor: .automatic))
 
@@ -359,7 +359,7 @@ let namedInstance = viewModel.createInstance(fromName: "My Instance")
 In the new runtime, the view model is represented as source metadata passed directly into `createViewModelInstance`.
 
 ```swift
-let worker = try await WorkerProvider.shared.worker()
+let worker = try await Worker.shared()
 let file = try await File(source: .local("my_rive_file", Bundle.main), worker: worker)
 
 // By explicit view model name
@@ -412,7 +412,7 @@ let currentValue = stringProperty.value
 The new runtime uses typed path descriptors with methods on `ViewModelInstance` for set/get/observe.
 
 ```swift
-let worker = try await WorkerProvider.shared.worker()
+let worker = try await Worker.shared()
 let file = try await File(source: .local("my_rive_file", Bundle.main), worker: worker)
 let viewModelInstance = try await file.createViewModelInstance(
     from: .name("My View Model")
@@ -458,7 +458,7 @@ artboardProperty.setValue(bindableArtboard)
 The new runtime binds artboards with a typed property descriptor and `setValue` on the instance.
 
 ```swift
-let worker = try await WorkerProvider.shared.worker()
+let worker = try await Worker.shared()
 let file = try await File(source: .local("my_rive_file", Bundle.main), worker: worker)
 let viewModelInstance = try await file.createViewModelInstance(.viewModelDefault(from: .name("My View Model")))
 
@@ -498,7 +498,7 @@ stateMachine.bindViewModelInstance(instance) // bound successfully
 #### {{runtimeCurrentNameApple}}
 
 ```swift
-let worker = try await WorkerProvider.shared.worker()
+let worker = try await Worker.shared()
 let file = try await File(source: ..., worker: worker)
 
 // Auto bind (default)
@@ -549,7 +549,7 @@ viewModel.play() // Required to advance/unsettle after mutation
 In the new runtime, update the bound value after the view is created. No explicit `play()` call is needed.
 
 ```swift
-let worker = try await WorkerProvider.shared.worker()
+let worker = try await Worker.shared()
 let file = try await File(source: .local("my_rive_file", Bundle.main), worker: worker)
 
 let instance = try await file.createViewModelInstance(.viewModelDefault(from: .name("My View Model")))
@@ -641,7 +641,7 @@ let viewModel = RiveViewModel(fileName: "my_rive_file") { asset, _, factory in
 The new runtime uses a push model, where assets are registered on the worker ahead of use.
 
 ```swift
-let worker = try await WorkerProvider.shared.worker()
+let worker = try await Worker.shared()
 let image = try await worker.decodeImage(from: Data(...))
 worker.addGlobalImageAsset(image, name: "MyImage-1234")
 
