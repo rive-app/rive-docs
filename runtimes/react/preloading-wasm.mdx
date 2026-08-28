@@ -14,10 +14,11 @@ The React runtimes are thin wrappers around their JavaScript counterparts and lo
 
 If you need Rive to be ready to render your graphics immediately on page load (i.e. hero animations), we recommend preloading both the `rive.wasm` file and the .riv file so the browser begins downloading the necessary resources up front. On the JS side, you can use the RuntimeLoader API to begin downloading and compiling the WASM early, before the Rive component mounts.
 
-By default, the React runtime fetches `rive.wasm` from unpkg at the `@rive-app/canvas` version it pins — you don't need to call `RuntimeLoader.setWasmUrl()` for this. 
+By default, the React runtime fetches `rive.wasm` from unpkg at the `@rive-app/canvas` version it pins — you don't need to call `RuntimeLoader.setWasmUrl()` for this.
 
 <Note>
-  Matching the WASM version in React: the `@rive-app/react-canvas` version is not the same as the underlying `@rive-app/canvas` version it wraps. The `rive.wasm` must match the canvas version. To find it, open your installed React runtime's [package.json on GitHub](https://github.com/rive-app/rive-react/blob/v4.29.5/package.json#L38) and read the `@rive-app/canvas` dependency — e.g. `rive-react@v4.29.5` pins `@rive-app/canvas@2.38.5`. Swap the tag in that URL to match the version you have installed.
+  Matching the WASM version in React: the `@rive-app/react-canvas` version is not the same as the underlying `@rive-app/canvas` version it wraps. The `rive.wasm` must match the canvas version. To find it, open your installed React runtime's <a href="https://github.com/rive-app/rive-react/blob/v{{versionReact}}/package.json#L38">package.json on GitHub</a>
+   and read the `@rive-app/canvas` dependency — e.g. `rive-react@v4.33.0` pins `@rive-app/canvas@2.41.0`. Swap the tag in that URL to match the version you have installed.
 </Note>
 
 To preload it, just point a `<link rel="preload">` at that same URL (see the version note above for finding the version):
@@ -32,7 +33,7 @@ To preload it, just point a `<link rel="preload">` at that same URL (see the ver
   rel="preload"
   as="fetch"
   crossorigin
-  href="https://unpkg.com/@rive-app/canvas@2.38.5/rive.wasm"
+  href="https://unpkg.com/@rive-app/canvas@4.33.0/rive.wasm"
 />
 
 <!-- Preload the main hero .riv file too -->
@@ -45,8 +46,8 @@ Then in your React app, begin the process to compile the WASM file as early as p
 import {useRive, RuntimeLoader} from '@rive-app/react-canvas';
 
 // (Optional) Only add this if you serve rive.wasm from your own CDN and are not using unpkg.
-// This should match the URL you preload 
-// RuntimeLoader.setWasmUrl("https://cdn.example.com/assets/rive-2.38.5.wasm");
+// This should match the URL you preload
+// RuntimeLoader.setWasmUrl("https://cdn.example.com/assets/rive-2.41.0.wasm");
 
 if (typeof window !== 'undefined') {
   RuntimeLoader.awaitInstance().catch(() => {});
@@ -64,7 +65,7 @@ export default function Hero() {
 }
 ```
 
-Alternatively, if you'd rather let your bundler self-host and version-match the WASM file alongside your app build, you can import it. Because `@rive-app/canvas` is only a transitive 
+Alternatively, if you'd rather let your bundler self-host and version-match the WASM file alongside your app build, you can import it. Because `@rive-app/canvas` is only a transitive
 dependency of the React runtime, this import resolves under npm/yarn (which hoist it) but fails under pnpm unless you add `@rive-app/canvas` to your own package.json at the matching version.
 
 ```js

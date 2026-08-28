@@ -37,7 +37,7 @@ Create or edit `ios/Podfile.properties.json`:
 
 ```json
 {
-  "RiveRuntimeIOSVersion": "6.13.0"
+  "RiveRuntimeIOSVersion": {{versionApple}}
 }
 ```
 
@@ -52,7 +52,7 @@ cd ios && pod install
 Add to `android/gradle.properties`:
 
 ```properties
-Rive_RiveRuntimeAndroidVersion=10.5.0
+Rive_RiveRuntimeAndroidVersion={{versionAndroid}}
 ```
 
 #### Expo Projects
@@ -70,13 +70,13 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     [
       withPodfileProperties,
       {
-        RiveRuntimeIOSVersion: "6.13.0",
+        RiveRuntimeIOSVersion: "{{versionApple}}",
       },
     ],
     [
       withGradleProperties,
       {
-        Rive_RiveRuntimeAndroidVersion: "10.5.0",
+        Rive_RiveRuntimeAndroidVersion: "{{versionAndroid}}",
       },
     ],
   ],
