@@ -6,7 +6,7 @@
 ```swift AsyncShared.swift
 /// Lazily creates and caches a value. Failed initialization can be retried.
 @MainActor
-final class AsyncShared<Value: Sendable> {
+final class AsyncShared<Value> {
     private let makeValue: @MainActor () async throws -> Value
     private var cachedValue: Value?
     private var loadingTask: Task<Value, Error>?
