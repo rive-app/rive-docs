@@ -27,24 +27,22 @@ These instructions use `@rive-app/webgl2`, the package we recommend for most pro
 <Steps>
   <Step title="Install the dependency">
     <Tip>
-      We recommend always using the [latest version](https://www.npmjs.com/package/@rive-app/webgl2) when possible. The versions listed below and in the examples may differ from the latest. You can find the latest
-      version on [npmjs](https://www.npmjs.com/package/@rive-app/webgl2?activeTab=versions).
+      We recommend always using the [latest version](https://www.npmjs.com/package/@rive-app/webgl2) when possible.
     </Tip>
     <Tabs>
       <Tab title="Script Tag">
         **(Recommended) Load v2 of the web runtime**
 
-        Add the following script tag to your web page to load v2 of the web runtime, which will get the latest patches/minor updates on major version 2:
+        Add the following script tag to your web page to load the latest version of the web runtime:
         ```html
-        <script src="https://unpkg.com/@rive-app/webgl2@{{versionMajorWebGL2}}"></script>
+        <script src="https://unpkg.com/@rive-app/webgl2@latest"></script>
         ```
-        If you see a newer major version to upgrade to, ensure your code accounts for breaking changes in the migration guide
 
         **Load a pinned version of the web runtime**
 
         Alternatively, pin to a specific version for more control over what is loaded in your app. As Rive's feature set grows, you'll want to manually update this version to a newer one to ensure best compatibility.
         ```html
-        <script src="https://unpkg.com/@rive-app/webgl2@{{versionWebGL2}}"></script>
+        <script src="https://unpkg.com/@rive-app/webgl2@{{versionWeb}}"></script>
         ```
 
         This will make a global `rive` object available, allowing you to access the Rive API via the `rive` entry point. Follow the next steps below.
@@ -152,7 +150,7 @@ Bringing it all together, here's how to load a Rive graphic in a single HTML fil
   <body>
     <canvas id="canvas" width="500" height="500"></canvas>
 
-    <script src="https://unpkg.com/@rive-app/webgl2@{{versionMajorWebGL2}}"></script>
+    <script src="https://unpkg.com/@rive-app/webgl2@{{versionWeb}}"></script>
     <script>
       const r = new rive.Rive({
         src: "https://cdn.rive.app/animations/vehicles.riv",

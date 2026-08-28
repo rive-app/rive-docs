@@ -9,7 +9,7 @@ import Thanks from '/snippets/runtimes/preloading-wasm/thanks.mdx'
 <Overview />
 
 A few notes if you do decide to host the WASM file yourself:
-  1. The `rive.wasm` file version must match the `@rive-app` package version in your package.json — they are built as a pair, and a mismatch can break rendering/functionality at runtime. Put the version in the path or filename (e.g. `rive-2.38.5.wasm`) and update the hosted file in the same change as any dependency bump.
+  1. The `rive.wasm` file version must match the `@rive-app` package version in your package.json — they are built as a pair, and a mismatch can break rendering/functionality at runtime. Put the version in the path or filename (e.g. `https://unpkg.com/@rive-app/webgl2@{{versionWeb}}/rive.wasm"`) and update the hosted file in the same change as any dependency bump.
   2. The `<link rel="preload">` href and the URL passed to `setWasmUrl()` must be exactly the same, or the preloaded bytes are discarded and the file downloads twice. See example below.
   3. Serve the file with the `application/wasm` MIME type — anything else drops you off the streaming-compilation path and onto a slower fallback.
   4. If the file is on a different origin than the page (e.g. a CDN subdomain), also send `Access-Control-Allow-Origin` for your page origin.
@@ -35,7 +35,7 @@ One other optimization is to fetch the `.riv` file and get the bytes as an Array
   rel="preload"
   as="fetch"
   crossorigin
-  href="https://unpkg.com/@rive-app/canvas@2.38.5/rive.wasm"
+  href="https://unpkg.com/@rive-app/webgl2@{{versionWeb}}/rive.wasm"
 />
 
 <!-- Preload the main hero .riv file too -->
@@ -47,7 +47,7 @@ One other optimization is to fetch the `.riv` file and get the bytes as an Array
 import { Rive, RuntimeLoader } from '@rive-app/canvas';
 
 // (Optional) Only add this if you are hosting the WASM file on your own servers
-// const WASM_URL = "https://cdn.example.com/assets/rive-2.38.5.wasm";
+// const WASM_URL = "https://cdn.example.com/assets/rive-{{versionWeb}}.wasm";
 // RuntimeLoader.setWasmUrl(WASM_URL);
 
 // Run this API as early as possible on page load to begin compiling the rive.wasm file
