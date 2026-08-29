@@ -36,10 +36,10 @@ end
 
 ### `resize`
 
-{/* resize: ((self: T, size: Vector) -> ()) | nil */}
+{/* resize: ((self: T, size: Vector, scale: number) -> ()) | nil */}
 <div class="signature">
 ```lua
-resize(self: T, size: Vector) -> ()
+resize(self: T, size: Vector, scale: number) -> ()
 ```
 </div>
 
@@ -49,8 +49,9 @@ it; the runtime no-ops when it is not implemented.
 ```lua
 -- Called when the layout resizes based on the content
 -- This only applies to Layouts with a fit type of Hug
-function resize(self: MyLayout, size: Vector)
-  print('Resize:', size)
+-- scale is the presenting surface's device pixels per point.
+function resize(self: MyLayout, size: Vector, scale: number)
+  print('Resize:', size, scale)
 end
 ```
 
