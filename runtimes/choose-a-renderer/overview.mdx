@@ -20,7 +20,7 @@ The Rive Renderer is designed to provide better performance and visual fidelity 
 | ------------ | ---------------- | -------------------------------------------- |
 | [Web (JS)](#web-js)          | Depends on package       | Rive / Canvas2D                              |
 | [Web (React)](#web-react)          | Depends on package       | Rive / Canvas2D                              |
-| Apple | Rive | Rive |
+| [Apple](#apple) | Rive | Rive |
 | Android (Compose)     | Rive             | Rive |
 | [Android (Legacy)](#android-legacy)     | Rive             | Rive / Canvas / Skia (removed as of v10.0.0) |
 | React Native | Rive             | Rive                     |
@@ -56,6 +56,17 @@ If a runtime is not listed here, there is no renderer setup to configure. It use
             These packages provide the Rive React component and hooks. If you want to use the imperative JavaScript runtime in a React app, install one of the Web JavaScript packages instead, such as `@rive-app/webgl2`, `@rive-app/canvas`, or `@rive-app/canvas-lite`.
         </Note>
     </Tab>
+    <Tab title="Apple">
+        The Apple runtime uses the Rive Renderer. In the Swift Concurrency API, you can opt a worker into [GPU Canvas](/runtimes/apple/gpu-canvas) when it is created:
+
+        ```swift
+        let worker = try await Worker(
+            configuration: .init(enableGPUCanvas: true)
+        )
+        ```
+
+        GPU Canvas is required for 3D content. The setting applies to every `File` loaded by that worker and every `Rive` object created from those files. It cannot be changed during the worker's lifetime.
+    </Tab>
     <Tab title="Android (Legacy)">
         Options: `Canvas / Skia (removed in v10.0.0)`
 
@@ -74,7 +85,7 @@ If a runtime is not listed here, there is no renderer setup to configure. It use
         ```
     </Tab>
     <Tab title="Flutter">
-        The Rive Renderer is available in the Flutter runtime as of `0.14.0`. Use the latest version of the `rive` package for the newest fixes and improvements.
+        The Rive Renderer is available in the Flutter runtime as of `0.14.0`. Use the latest version (**{{versionFlutter}}**) of the `rive` package for the newest fixes and improvements.
 
         The Rive Renderer is exposed through `rive_native`, which is included as a dependency of the `rive` package. See [Rive Native](/runtimes/flutter/rive-native) for more information.
 
@@ -99,4 +110,3 @@ If a runtime is not listed here, there is no renderer setup to configure. It use
         - Vector Feathering is only available with `Factory.rive`, so if you need that feature, use the Rive renderer.
     </Tab>
 </Tabs>
-

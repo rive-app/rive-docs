@@ -14,6 +14,13 @@ metadata / native slots so callers don't have to know any of them.
 Source shader. Layouts cannot be built without one.
 
 
+### `fragment`
+
+Fragment Shader, when the pipeline this layout serves takes its two
+stages from different files. Its bindings and slots live only in its
+own map, so a layout built without it cannot resolve them.
+
+
 ### `groupIndex`
 
 WGSL `@group(N)` this layout describes. Valid range [0, 4).

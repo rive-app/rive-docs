@@ -3,6 +3,8 @@ title: 'Rive Parameters'
 description: 'API docs for the Rive instance.'
 ---
 
+import DefaultPlayback from "/snippets/runtimes/state-machines/default-playback.mdx"
+
 This page is a **reference** for constructor options, types, and instance methods on the high-level **`Rive`** class, as well as a number of other exported classes. For walkthroughs and samples, use the guides below and link back here when you need exact signatures.
 
 **Related guides**
@@ -27,7 +29,7 @@ export interface RiveParameters {
   buffer?: ArrayBuffer; // one of src, buffer, or riveFile is required
   riveFile?: RiveFile; // one of src, buffer, or riveFile is required
   artboard?: string;
-  stateMachines?: string | string[]; // strongly recommended setting this property
+  stateMachine?: string; // strongly recommended setting this property
   layout?: Layout;
   autoplay?: boolean;
   autoBind?: boolean;
@@ -35,7 +37,6 @@ export interface RiveParameters {
   enableRiveAssetCDN?: boolean;
   shouldDisableRiveListeners?: boolean;
   isTouchScrollEnabled?: boolean;
-  automaticallyHandleEvents?: boolean;
   dispatchPointerExit?: boolean;
   enableMultiTouch?: boolean;
   drawingOptions?: DrawOptimizationOptions;
@@ -44,16 +45,20 @@ export interface RiveParameters {
   onPlay?: EventCallback;
   onPause?: EventCallback;
   onStop?: EventCallback;
-  onLoop?: EventCallback;
-  onStateChange?: EventCallback;
   onAdvance?: EventCallback;
   assetLoader?: AssetLoadCallback;
   enablePerfMarks?: boolean;
   tabIndex?: number;
   focusOptions?: RiveFocusOptions;
+  semanticsMode?: SemanticMode; // experimental
+  semanticsOptions?: RiveSemanticsOptions; // experimental
 
   // Deprecated parameters
-  animations?: string | string[]; // deprecated in favor of stateMachines
+  animations?: string | string[]; // deprecated in favor of stateMachine
+  stateMachines?: string | string[]; // deprecated in favor of stateMachine
+  automaticallyHandleEvents?: boolean; // deprecated along with Rive Events
+  onLoop?: EventCallback; // deprecated in favor of state machines and data binding
+  onStateChange?: EventCallback; // deprecated in favor of state machine actions and data binding
 }
 ```
 
@@ -63,10 +68,10 @@ export interface RiveParameters {
   - `buffer` - *(optional)* `ArrayBuffer` of `.riv` bytes.
   - `riveFile` - *(optional)* Provide a loaded **`RiveFile`** across instances. See [Caching a Rive file](/runtimes/web/caching-a-rive-file) for more details.
 - `artboard` - *(optional)* Name of the artboard to use. If not provided, it will pull the default artboard from the exported `.riv` file.
-- `stateMachines` - *(strongly recommended)* Name of a state machine to load (i.e. `"State Machine 1"`) from the `.riv` file. If not provided, currently Rive will pull the first linear animation it finds (deprecated behavior). In the next major version of the runtime, Rive will default to pulling the default state machine on the artboard.
+- `stateMachine` - *(strongly recommended)* Name of the state machine to play (i.e. `"State Machine 1"`) from the `.riv` file. Added in `v2.41.0` to replace the plural `stateMachines` parameter.
 
 <Note>
- Note: You should only provide a single state machine string for `stateMachines`. Running multiple state machines of the same artboard at the same time may cause unintended consequences.
+  <DefaultPlayback />
 </Note>
 
 - `layout` - *(optional)* Provide a [`new Layout()`](/runtimes/web/layouts) instance. See that guide for fit modes, alignment, bounds, and responsive layout.
@@ -77,7 +82,6 @@ export interface RiveParameters {
 - `shouldDisableRiveListeners` - *(optional)* Boolean flag to disable setting up Rive Listeners on the `<canvas>` element, thus preventing any event listeners from being set up on the element.
   - **Note:** Rive Listeners by default are not set up on a `<canvas>` element if there is no playing state machine, or a state machine without any Rive Listeners set up on the state machine
 - `isTouchScrollEnabled` - *(optional)* For Rive Listeners, allows scrolling behavior to still occur on canvas elements when a touch/drag action is performed on touch-enabled devices. Otherwise, scroll behavior may be prevented on touch/drag actions on the canvas by default.
-- `automaticallyHandleEvents` - *(optional)* Enable Rive Events to be handled by the runtime. This means any special Rive Event may have a side effect that takes place implicitly. For example, if during the render loop an `OpenUrlEvent` is detected, the browser may try to open the specified URL in the payload. This flag is `false` by default to prevent any unwanted behaviors from taking place. This means any special Rive Event will have to be handled manually by subscribing to `EventType.RiveEvent`
 - `dispatchPointerExit` - *(optional)* For Rive Listeners, dispatches a pointer exit event when the pointer exits the canvas. This can be useful for ensuring hover states are properly reset when the user's cursor leaves the canvas area. Defaults to true.
 - `enableMultiTouch` - *(optional)* Enables multi-touch support for Rive Listeners. When enabled, the runtime will track and respond to multiple simultaneous touch points on touch-enabled devices. Defaults to false.
 - `drawingOptions` - *(optional)* An enum (`DrawOptimizationOptions`) that provides drawing optimization options. This can be used to configure rendering performance optimizations. The default is `DrawOptimizationOptions.DrawOnChanged`, which will only submit a draw command if the artboard has visually updated.
@@ -88,17 +92,31 @@ export interface RiveParameters {
 - `onPlay` - *(optional)* Callback that gets fired when the animation starts playing.
 - `onPause` - *(optional)* Callback that gets fired when the animation pauses.
 - `onStop` - *(optional)* Callback that gets fired when the animation stops playing.
-- `onLoop` - *(optional)* Callback that gets fired when the animation completes a loop.
-- `onStateChange` - *(optional)* Callback that gets fired when a state change occurs.
 - `onAdvance` - *(optional)* Callback that gets fired every frame when the Artboard has advanced.
 - `assetLoader` - *(optional)* Callback to load assets. Full patterns and examples in the [loading assets](/runtimes/web/loading-assets) guide.
 - `enablePerfMarks` - *(optional)* Emits `performance.mark` / `performance.measure` entries for key Rive startup and render events for performance profiling purposes. False by default. Also available on `RuntimeLoader` and `RiveFile`.
 - `tabIndex` - *(optional)* The tab index of the canvas element. Useful for specifying tab index for focus management. Alternatively, you may set the `tabindex` attribute directly on the `<canvas>` itself.
 - `focusOptions` - *(optional)* Options for focus management.
   - `allowFocusInterrupt` - *(optional)* Allows browser focus to be interrupted and set on the Rive canvas if Rive detects focus change inherently. Defaults to false.
+- `semanticsMode` - *(optional, experimental)* Whether to build an accessible DOM overlay for the graphic's [semantics](/runtimes/web/semantics). Either `SemanticMode.Disabled` or `SemanticMode.Enabled`. Defaults to `SemanticMode.Disabled`.
+- `semanticsOptions` - *(optional, experimental)* Options for the accessibility overlay. See [Semantics](/runtimes/web/semantics).
+  - `riveCanvasLabel` - *(optional)* The `aria-label` applied to the overlay's container element. Defaults to `"Rive animation"`.
+
+<Warning>
+  `semanticsMode` and `semanticsOptions` are experimental and may encounter breaking behavior changes without a major version bump.
+</Warning>
 
 ### Deprecated parameters
-- `animations` - *(optional)* Deprecated in favor of `stateMachines`. Name of a singular timeline animation to load from the `.riv` file. If not provided, Rive will pull the first linear animation it finds. In the next major version of the runtime, Rive will default to pulling the default state machine on the artboard.
+
+<Warning>
+  As of `v2.41.0` the parameters below are deprecated. They still work, and nothing has been removed, but using one logs a one-time `[Rive]`-prefixed console warning, and each will eventually be removed in a future major version.
+</Warning>
+
+- `stateMachines` - Use `stateMachine` with a single state machine name instead. Support for playing multiple state machines at once is going away.
+- `animations` - Name of a timeline animation to load from the `.riv` file. Use `stateMachine` to play a state machine instead.
+- `automaticallyHandleEvents` - Enable Rive Events to be handled by the runtime. For example, if during the render loop an `OpenUrlEvent` is detected, the browser may try to open the specified URL in the payload. Defaults to `false`. Deprecated along with the rest of the [Rive Events](/runtimes/web/rive-events) surface — use [data binding](/runtimes/web/data-binding) instead.
+- `onLoop` - Callback that gets fired when the animation completes a loop. Loop events are only reported for linear animation playback, which is itself deprecated. Use a state machine to control playback and [data binding](/runtimes/web/data-binding) to react to changes.
+- `onStateChange` - Callback that gets fired when a state change occurs. Use [data binding](/runtimes/web/data-binding) (view model property observers) or [state machine actions](/editor/state-machine/states#actions) to react to changes from your graphic instead.
 
 
 ## APIs
@@ -168,16 +186,19 @@ Stops a specified state machine via the passed-in name. If no name is passed in,
 ```typescript
 interface RiveResetParameters {
   artboard?: string;
-  animations?: string | string[];
-  stateMachines?: string | string[];
+  stateMachine?: string;
   autoplay?: boolean;
   autoBind?: boolean;
+
+  // Deprecated parameters
+  animations?: string | string[];
+  stateMachines?: string | string[];
 }
 
 reset(params?: RiveResetParameters): void
 ```
 
-Resets the artboard, timeline animations, and/or state machines from the start (or entry state). Cleans up existing artboard/animation/state machine instances first. Playback after reset follows `autoplay` and `autoBind` (same meaning as constructor parameters). Example: [State machine playback](/runtimes/web/state-machines).
+Resets the artboard and state machine from the start (or entry state). Cleans up existing artboard/animation/state machine instances first. Playback after reset follows `autoplay` and `autoBind`, and `stateMachine` takes priority over the deprecated plural parameters exactly as it does on the constructor. Example: [State machine playback](/runtimes/web/state-machines).
 
 ---
 
@@ -249,6 +270,10 @@ In addition to the event callbacks you can set in the `Rive` constructor (i.e. `
 
 Subscribe to runtime events (similar to `addEventListener`).
 
+<Note>
+  `on()` itself is not deprecated, but subscribing with `EventType.RiveEvent`, `EventType.StateChange`, or `EventType.Loop` is, and each logs a one-time console warning. Every other `EventType` is unaffected, and `off()` never warns.
+</Note>
+
 #### off()
 
 `off(type: EventType, callback: EventCallback): void`
@@ -270,9 +295,12 @@ export enum EventType {
   Play = "play",
   Pause = "pause",
   Stop = "stop",
-  Loop = "loop", // Only applicable for timeline animations, not state machines
+  /** @deprecated Only reported for timeline animations. Use data binding instead. */
+  Loop = "loop",
   Advance = "advance", // Called each frame after state machine advance
+  /** @deprecated Use data binding or state machine actions instead. */
   StateChange = "statechange",
+  /** @deprecated Use data binding instead. */
   RiveEvent = "riveevent",
 }
 ```
@@ -282,10 +310,11 @@ The `Event` type is `{ type: EventType; data?: ... }`. The shape of `data` depen
 - **Load** — `RiveFile`  (the loaded file handle) or the string "buffer" indicating a load from an ArrayBuffer
 - **LoadError** — `string` (error message)
 - **Play**, **Pause**, **Stop** — `string[]` (names of the animations or state machines affected)
-- **Loop** — `LoopEvent` (`{ animation: string; type: LoopType }`). `LoopType` is `OneShot`, `Loop`, or `PingPong`.
 - **Advance** — `number` (elapsed seconds for that frame)
-- **StateChange** — `string[]` (state names that changed)
-- **RiveEvent** — custom or built-in Rive event payload (for example open-URL events)
+- **Loop** — *(deprecated in `v2.41.0`)* `LoopEvent` (`{ animation: string; type: LoopType }`). `LoopType` is `OneShot`, `Loop`, or `PingPong`. Both the `LoopEvent` interface and the `LoopType` enum are deprecated alongside the event.
+- **StateChange** — *(deprecated in `v2.41.0`)* `string[]` (state names that changed)
+- **RiveEvent** — *(deprecated in `v2.41.0`)* custom or built-in Rive event payload (for example open-URL events)
+
 
 For **`EventType.RiveEvent`** listener examples, see [Rive Events](/runtimes/web/rive-events). Prefer [Data binding](/runtimes/web/data-binding) for new work where it applies.
 
@@ -305,11 +334,16 @@ interface RiveLoadParameters {
   autoplay?: boolean;
   autoBind?: boolean;
   artboard?: string;
-  animations?: string | string[];
-  stateMachines?: string | string[];
+  stateMachine?: string;
   useOffscreenRenderer?: boolean;
   shouldDisableRiveListeners?: boolean;
   tabIndex?: number;
+  semanticsMode?: SemanticMode;
+  semanticsOptions?: RiveSemanticsOptions;
+
+  // Deprecated parameters
+  animations?: string | string[];
+  stateMachines?: string | string[];
 }
 
 load(params: RiveLoadParameters): void
@@ -413,7 +447,7 @@ class StateMachineInput {
 
 ---
 
-#### Nested artboard paths (deprecated)
+#### Nested artboard paths
 
 For inputs and text runs on **nested artboards**, use a path string (for example `"parentArtboard"` or `"group/nested"`) to set input and text run values.
 
@@ -436,6 +470,14 @@ Prefer data binding with [Nested Property Paths](/runtimes/web/data-binding#nest
 These target named text runs on the **currently active** artboard. Console warnings are emitted when the run cannot be resolved.
 
 Prefer data binding with [Text data binding](/runtimes/web/data-binding#reading-and-writing-properties) for new work where possible.
+
+---
+
+#### scrub()
+
+`scrub(animationNames?: string | string[], value?: number): void`
+
+Scrubs the specified timeline animations to the given time; if none are specified, scrubs all of them. Deprecated in `v2.41.0` — use a state machine to control playback instead.
 
 ---
 

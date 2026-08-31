@@ -4,6 +4,7 @@ description: 'Apple runtime for Rive. '
 ---
 
 import NoteOnFeatureSupport from "/snippets/runtimes/rendering-feature-support.mdx"
+import SharedWorker from "/snippets/runtimes/apple/shared-worker.mdx"
 import { Demos } from '/snippets/demos.jsx'
 
 <NoteOnFeatureSupport/>
@@ -44,7 +45,7 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
 
                 ```swift
                 dependencies: [
-                    .package(url: "https://github.com/rive-app/rive-ios", from: "6.13.0")
+                    .package(url: "https://github.com/rive-app/rive-ios", from: "{{versionApple}}")
                 ]
                 ```
 
@@ -75,8 +76,13 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
 
                 ```swift
                 // In an async context
-                let worker = try await Worker()
+                // GPU Canvas is required for 3D content.
+                let worker = try await Worker(
+                    configuration: .init(enableGPUCanvas: true)
+                )
                 ```
+
+                See [GPU Canvas](/runtimes/apple/gpu-canvas) for more information about this worker configuration.
 
                 For more information on threading, see [Threading](#threading).
             </Step>
@@ -89,18 +95,24 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
 
                 <CodeGroup>
                     ```swift Local File
-                    let worker = try await Worker()
+                    let worker = try await Worker(
+                        configuration: .init(enableGPUCanvas: true)
+                    )
                     let file = try await File(source: .local("my_file", Bundle.main), worker: worker)
                     ```
 
                     ```swift Remote URL
-                    let worker = try await Worker()
+                    let worker = try await Worker(
+                        configuration: .init(enableGPUCanvas: true)
+                    )
                     let url: URL = URL(string: "https://example.com/my_file.riv")!
                     let file = try await File(source: .url(url), worker: worker)
                     ```
 
                     ```swift Data
-                    let worker = try await Worker()
+                    let worker = try await Worker(
+                        configuration: .init(enableGPUCanvas: true)
+                    )
                     let data: Data = ...
                     let file = try await File(source: .data(data), worker: worker)
                     ```
@@ -109,12 +121,14 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
             <Step title="Add a View">
                 Once you have created a `File`, you can move onto creating a `Rive` object. This object defines the configuration of a view. The most basic implementation is created with just a file; Rive will handle loading the default artboard and state machine for rendering. Additionally, if the artboard contains a default view model instance, it will be bound to the state machine automatically.
 
-                Once you have created a `Rive` object, you can initialize your view. In UIKit, this is done by creating a `RiveUIView` and adding it to the view hierarchy. In SwiftUI, this is done by using the `RiveUIViewRepresentable` and AsyncRiveUIViewRepresentable` types.
+                Once you have created a `Rive` object, you can initialize your view. In UIKit, this is done by creating a `RiveUIView` and adding it to the view hierarchy. In SwiftUI, this is done by using the `RiveUIViewRepresentable` and `AsyncRiveUIViewRepresentable` types.
 
                 <CodeGroup>
                     ```swift UIKit
                     let riveView = RiveUIView({
-                        let worker = try await Worker()
+                        let worker = try await Worker(
+                            configuration: .init(enableGPUCanvas: true)
+                        )
                         let file = try await File(source: .local("my_file", Bundle.main), worker: worker)
                         return try await Rive(file: file)
                     })
@@ -131,7 +145,9 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
                     var body: some View {
                         // After having created a `Rive` object, you can initialize your view.
                         AsyncRiveUIViewRepresentable {
-                            let worker = try await Worker()
+                            let worker = try await Worker(
+                                configuration: .init(enableGPUCanvas: true)
+                            )
                             let file = try await File(source: .local("my_file", Bundle.main), worker: worker)
                             return try await Rive(file: file)
                         }
@@ -428,32 +444,14 @@ See [Semantics](/runtimes/apple/semantics) for the available modes and more deta
 
         ### Shared Workers
 
-        For cases where you want to share resources between multiple `File` objects (i.e out-of-band / referenced assets), you can use a shared `Worker` object. An example implementation is shown below.
+        To share out-of-band or referenced assets across multiple `File` objects, use a shared `Worker`. An example implementation is shown below.
+
+        <SharedWorker />
+
+        Then, when creating a `Rive` object, use `Worker.shared()` to get the shared worker.
 
         ```swift
-        actor WorkerProvider {
-            static let shared = WorkerProvider()
-
-            @MainActor
-            private var cachedWorker: Worker?
-
-            @MainActor
-            func worker() async throws -> Worker {
-                if let cachedWorker {
-                    return cachedWorker
-                }
-
-                let worker = try await Worker()
-                cachedWorker = worker
-                return worker
-            }
-        }
-        ```
-
-        Then, when creating a `Rive` object, you can use the shared worker provider to get a worker.
-
-        ```swift
-        let worker = try await WorkerProvider.shared.worker()
+        let worker = try await Worker.shared()
         let file = try await File(source: ..., worker: worker)
         let rive = try await Rive(file: file)
         ```
