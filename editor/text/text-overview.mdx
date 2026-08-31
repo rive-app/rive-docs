@@ -1,45 +1,108 @@
 ---
-title: 'Text Overview'
-sidebarTitle: 'Overview'
-description: ''
+title: "Text"
+sidebarTitle: "Overview"
+description: "Create and format text, control sizing and overflow, and convert text to shapes."
+keywords: ["text", "text tool", "text box", "typography", "text sizing", "text overflow", "text alignment"]
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
 
 <YouTube id="nykDEo6XqXY" />
 
-## Text Guides
+## Creating Text
 
-<CardGroup cols={2}>
-  <Card
-    title="Text Runs"
-    icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>}
-    href="/editor/text/text-runs"
-  >
-    Runs allow you to break your text up into sections — typically, they're used to apply a variety of styles to a single block of text.
-  </Card>
+Press `T` or select the **Text Tool** from the toolbar.
 
-  <Card
-    title="Text Styles"
-    icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>}
-    href="/editor/text/text-styles"
-  >
-    A Text Style contains many of the familiar options that define how you'd like your text to be styled, and is applied to one or more runs.
-  </Card>
+- **Click** anywhere on the artboard to create text that automatically sizes to its content.
+- **Click and drag** to create a text box with a defined width.
 
-  <Card
-    title="Text Modifiers"
-    icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>}
-    href="/editor/text/text-modifiers"
-  >
-    Modifiers provide powerful ways to manipulate and animate the glyphs that make up text. Currently, the available Text Modifier properties include:
-  </Card>
+Double-click text to edit its content.
 
-  <Card
-    title="Fonts"
-    icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>}
-    href="/editor/text/fonts"
-  >
-    Select a font in the inspector as part of a Text Style.
-  </Card>
-</CardGroup>
+## Text Properties
+
+Select text to view its properties in the Inspector. In addition to standard properties such as position, rotation, and origin, you can control how text sizes, wraps, aligns, and handles overflow.
+
+### Align Origin to Baseline
+
+Enable **Align Origin to Baseline** to align the text's origin to its baseline.
+
+
+![Toggle Align Origin to Baseline](/images/editor/design/text/align-origin-to-baseline.gif)
+
+### Sizing
+
+Use the sizing options to control how the bounds of the text respond to its content.
+
+- **Auto Width**: The width and height adjust to fit the text.
+- **Auto Height**: The width remains fixed while the height adjusts to fit the text.
+- **Fixed Size**: The width and height remain fixed.
+
+![Three text elements with each of the different size options](/images/editor/design/text/text-sizing-types.png)
+
+### Overflow
+
+Overflow controls what happens when the sizing is fixed and the text exceeds its available bounds.
+
+- **Visible**: Displays text beyond the bounds.
+- **Hidden**: Hides lines that don't fit within the bounds. Partial lines aren't displayed.
+- **Clipped**: Clips text at the bounds, including partial lines.
+- **Ellipsis**: Truncates overflowing text with an ellipsis.
+- **Fit**: Adjusts the text to fit within the available bounds.
+- **Fit Font Size**: Adjusts the font size to fit the text within the available bounds.
+
+![Text elements showing the various overflow options](/images/editor/design/text/overflow-options.png)
+
+### Wrapping
+
+Use **Wrap** to allow text to move to a new line when it reaches the available width. Use **No Wrap** to keep text on a single line.
+
+See how disabling wrap works differently with the various overflow options:
+
+![Toggle wrap with text elements with the various overflow options](/images/editor/design/text/wrap-options.gif)
+
+### Alignment
+
+Use horizontal and vertical alignment to control how text is positioned within its available bounds.
+
+<Note>
+The available alignment options depend on the sizing mode:
+
+- **Auto Width**: Alignment has no effect because the text bounds automatically fit the content.
+- **Auto Height**: Vertical alignment has no effect because the height automatically fits the content.
+
+![Text elements showing horizontal and vertical alignment options](/images/editor/design/text/text-alignment.png)
+</Note>
+
+### Paragraph Spacing
+
+Use **Paragraph Spacing** to control the amount of space between paragraphs.
+
+### Trim
+
+Use **Trim** to adjust the vertical bounds of text.
+
+- **None**
+- **Cap**
+- **Ex**
+
+![Text Trim Options](/images/editor/design/text/trim-options.png)
+
+### Bounds
+
+Choose how the text bounds are calculated.
+
+- **None**
+- **Alphabetic**
+- **Text**
+
+Text bounds determine how the bounds of the text are calculated relative to the font's metrics.
+
+![Text with Bounds option set to none, text, and alphabetic](/images/editor/design/text/text-bounds-options.png)
+
+## Flatten to Shape
+
+Use **Flatten to Shape** to convert text into vector shapes. Once flattened, the resulting shapes can be edited like other vector geometry but can no longer be edited as text.
+
+<Note>
+Flattening text can create a significant amount of geometry. If you're flattening text to reduce the size of an embedded font, consider keeping the text as text and including only the [used glyphs](/editor/text/fonts#export-options) instead.
+</Note>
