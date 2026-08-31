@@ -103,8 +103,8 @@ export const FeatureSupportGroup = ({
                 apple: { supported: true, version: "6.16.0+" },
                 android: { supported: true, version: "11.2.0+" },
                 cpp: { supported: true, description: "Supported" },
-                unity: { supported: true, description: "Supported" },
-                unreal: { supported: true, description: "Supported" }
+                unity: { supported: true, version: "0.4.5" },
+                unreal: { supported: true, version: "0.4.25" }
             }
         },
         gpuCanvas: {
