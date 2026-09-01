@@ -149,6 +149,11 @@ After the initial value is applied, future changes to the source or target are i
 
 By default, new data binding connections are created as absolute binds.
 
-- **Absolute Binding**: The binding points to a specific property instance within the View Model hierarchy.
-- **Relative Binding**: The binding searches for a property with a matching name relative to the current context.
+- **Absolute Binding** points to a specific property instance within the View Model hierarchy.
+- **Relative Binding** searches for a property with a matching name, starting with the closest View Model and working up the hierarchy.
 
+Because relative bindings resolve by name, a closer property with the same name can take precedence over the property you intended to bind. For example, if a binding targets a property named `scale` in the main View Model, but a closer View Model also contains a property named `scale`, the binding will resolve to the closer property.
+
+<Note>
+Bindings to [Global View Models](/editor/data-binding/view-models#global-view-model-instances) are always relative.
+</Note>
