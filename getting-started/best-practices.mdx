@@ -1,9 +1,11 @@
 ---
-title: "Best Practices"
-description: "Editor & runtime performance and usage considerations."
+title: "Performance & Optimization"
+description: "Editor performance and usage considerations."
 ---
 
-Rive is built to efficiently play interactive graphics in the editor and at runtime in applications and games. However, poorly optimized animations can consume significant resources and cause poor performance, particularly on low-end devices. In the following sections, we will outline important considerations and tips for maintaining optimal performance and minimal resource utilization both during design/animate time in the Rive editor, as well as during runtime in applications.
+Rive is built to efficiently play interactive graphics in the editor and at runtime in applications and games. However, poorly optimized animations can consume significant resources and cause poor performance, particularly on low-end devices.
+
+In the following sections, we will outline important considerations and tips for maintaining optimal performance and minimal resource utilization both during design/animate time in the Rive editor, as well as during runtime in applications.
 
 <Info>
   We recommend continuous testing of your animations on your target devices/platforms.
@@ -23,7 +25,7 @@ Image, audio, and font assets are often the biggest source of bloat in .riv file
 
 #### Fonts
 
-Font files often include thousands of glyphs you may not need, such as Greek letters, mathematical operators, and icons. To reduce the size of the exported font or .riv file, [select which glyphs to include](/editor/text/fonts#glyph-%2F-script-selection).
+Font files often include thousands of glyphs you may not need, such as Greek letters, mathematical operators, and icons. To reduce the size of the exported font or .riv file, [select which glyphs to include](/editor/text/fonts#export-options).
 
 #### Raster Image Sizes & Dimensions
 
@@ -45,7 +47,7 @@ For the smallest image file size and best performance, we recommend exporting as
 
 Be efficient with the number of vertices in your vector image. While a few extra vertices won’t have much of an impact, thousands might. Be especially careful when importing vectors that were generated with AI, converted from raster images, or were created in drawing apps.
 
-### Layer Blend Modes for Web
+### Layer Blend Modes (Web)
 
 Blend modes are particularly expensive on the web because WebGL doesn’t expose mechanisms for accessing the framebuffer. To apply a blend mode, Rive must copy rendered pixels into a separate texture before compositing, which introduces significant performance and memory overhead.
 

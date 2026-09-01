@@ -1,0 +1,23 @@
+---
+title: "Naming Conventions"
+description: "Naming conventions and guidelines for keeping Rive files organized and maintainable."
+---
+
+Use consistent naming to make Rive files easier to navigate, maintain, and use at runtime. Some objects have specific naming conventions, while others only need clear, descriptive names.
+
+You don't need to name every object. Name objects that have a meaningful role, are referenced elsewhere, or help make the hierarchy easier to understand.
+
+| Object                | Convention              | Examples                      |
+| --------------------- | ----------------------- | ----------------------------- |
+| View models           | PascalCase, noun-based  | `Product`, `LightingSettings` |
+| View model properties | camelCase               | `name`, `productName`         |
+| Enums                 | PascalCase              | `Alignment`, `ButtonState`    |
+| Scripts               | PascalCase              | `Prism`, `InputMapper`        |
+| Script inputs         | camelCase               | `scale`, `bevelAmount`        |
+| Converters            | Transformation-based    | `Clamp`, `Convert to String`  |
+| Listeners             | Target or verb + target | `Button`, `Click Button`      |
+
+## General Guidelines
+
+- **Name things for what they represent or do, not their type.** Prefer `Product`, `Navigation`, and `PlayIcon` over `ProductVM`, `NavigationSM`, and `IconPath`.
+- **Coordinate on runtime-facing names.** If names will be accessed through runtime APIs or data binding, work with your developers to establish naming conventions that fit the project.
