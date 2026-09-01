@@ -6,12 +6,12 @@ description: "Create reusable artboards that can be instanced throughout your Ri
 import { YouTube } from '/snippets/youtube.mdx'
 
 
-Components are reusable artboards. Create a component once, then use instances of it throughout your Rive file. Changes made to the source component are reflected across all of its instances.
+Components are reusable artboards. Create a component once, then use customized instances of it throughout your Rive file. Changes made to the source component are reflected across all of its instances.
 
 You can use components in several ways:
 
 - Place a component inside another artboard as a nested component.
-- Reference a component from a [View Model property](/editor/data-binding/property-types#view-model).
+- Reference a component from a [View Model property](/editor/data-binding/property-types#view-model), allowing you to swap them at runtime.
 - [Instantiate components from scripts](/scripting/protocols/node-scripts#instantiating-components).
 - Use components as items in [Lists](/editor/data-binding/lists).
 
@@ -36,6 +36,9 @@ Any artboard can be converted into a reusable component.
 </Steps>
 
 You can identify components by their purple artboard title on the stage.
+
+
+![Convert an artboard to a component](/images/editor/artboards/convert-to-component.gif)
 
 <Note>
 Artboards that aren't components aren't exported with your Rive file. This can be useful for artboards used only while authoring, such as tests or reference artboards.
@@ -64,16 +67,15 @@ If the selected objects are animated by a timeline on the original artboard, the
 
 State machines aren't copied to the new component. State machines can depend on objects, animations, data, and other elements outside the selection, so you'll need to create a new state machine inside the component.
 
+Data bindings are copied to the new component, but their view models are not.
+
 #### Troubleshooting
 
 Components are self-contained, so Rive can't create a component if the selection depends on objects outside of it. Make sure you include any required dependencies in your selection.
 
-For example, you won't be able to create a component if:
+For example, a draw order dependency that crosses the new component's boundary will prevent the component from being created and display the **"Can't create component"** error: **"These dependencies point across the new component's boundary and would break."**
 
-- A selected object is controlled by a joystick that isn't selected.
-- The selection depends on objects outside the component for draw order.
-
-Data bindings are copied to the new component, but their view models are not.
+![Can't create component error caused by a dependency crossing the component boundary](/images/editor/artboards/cannot-create-new-component.png)
 
 ## Placing Components
 
@@ -101,13 +103,15 @@ The component menu follows the sort mode used in the Assets panel:
 
 ## Editing Components
 
-Double-click a component instance to open its source component. Any changes you make to the source component are reflected in all of its instances.
+Double-click a component instance to open its source component. Changes you make to the source component are reflected in all of its instances, while properties configured on individual instances remain unchanged.
 
 ![Double click to edit a component](/images/editor/artboards/edit-component.gif)
 
 ## Component Instance Properties
 
 Select a component instance to configure its properties in the Inspector. These properties control the data, animation, source, layout, and other behavior of that specific instance without changing the source component.
+
+![Component properties in the sidebar](/images/editor/artboards/component-properties.png)
 
 <Note>
 You can't change the origin of a component instance directly. To use a different origin, place the component instance inside a group and adjust the group's origin instead.
