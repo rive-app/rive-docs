@@ -133,13 +133,18 @@ Rive supports a few common patterns:
 
 ### Global View Model Instances
 
-Global view models are not connected to a specific artboard. Instead, the view model instance and its properties are directly accessible to all artboards.
+Global View Models provide data that can be accessed throughout your Rive file.
+
+Under the hood, global view models are not connected to a specific artboard. Instead, the view model instance and its properties are directly accessible to all artboards.
 
 <YouTube id="SPrxwHfPyP4" />
 
-<UseCase title="Game">
-A game's main view model might contain a `brandColor` or `score` property. This property might be used by various nested components, like the header, on buttons, or on a high scores screen.
-</UseCase>
+Bindings to Global View Model properties are always **relative bindings**. This means the binding searches for a property with the same name starting from the closest View Model, rather than pointing directly to the global property.
+
+If a closer View Model contains a property with the same name, that property will be used instead. For example, a binding to a global `scale` property will resolve to a `scale` property on a closer View Model if one exists.
+
+Learn more about [Absolute vs Relative Binding](/editor/data-binding/binding-data#absolute-vs-relative-binding).
+
 
 ### Instances Attached to Artboards
 
