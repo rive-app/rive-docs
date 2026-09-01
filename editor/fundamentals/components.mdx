@@ -1,9 +1,7 @@
 ---
 title: "Components"
-description: "Components streamline your workflow with reusable artboards and animations. Changes made to the source component are reflected across all of its instances."
+description: "Create reusable artboards that can be instanced throughout your Rive files."
 ---
-
-{/* TODO - Document that you can't change a component's origin. Instead, put it in a group, change the group's origin.  */}
 
 import { YouTube } from '/snippets/youtube.mdx'
 
@@ -40,7 +38,7 @@ Any artboard can be converted into a reusable component.
 You can identify components by their purple artboard title on the stage.
 
 <Note>
-Artboards that aren't components aren't exported with your Rive file. This can be useful for artboards used only while authoring, such as tests or those that are only used for reference.
+Artboards that aren't components aren't exported with your Rive file. This can be useful for artboards used only while authoring, such as tests or reference artboards.
 </Note>
 
 ### Converting Objects to Components
@@ -60,7 +58,7 @@ Rive creates a new component containing the selected objects and replaces the or
 
 ![Create a new component from an element inside the artboard](/images/editor/artboards/convert-to-componet.gif)
 
-#### Animations and State Machines
+**Animations and State Machines**
 
 If the selected objects are animated by a timeline on the original artboard, the relevant keys are removed from that timeline and copied to a new timeline inside the component.
 
@@ -93,14 +91,13 @@ Alternatively, use the dropdown next to the **Component Tool** to choose a compo
 
 ![Placing a component instance by clicking the Component Tool dropdown, selecting a component, and clicking the stage](/images/editor/artboards/place-specific-component.gif)
 
-<Note>
+
 The component menu follows the sort mode used in the Assets panel:
 
 - **Custom** displays components as they're organized in the Assets panel.
 - **Source/Type** groups components by their source. This is particularly useful when working with [Libraries](/editor/data-binding/libraries).
 
 ![Sort assets by Custom](/images/editor/artboards/assets-sort.png)
-</Note>
 
 ## Editing Components
 
@@ -111,6 +108,16 @@ Double-click a component instance to open its source component. Any changes you 
 ## Component Instance Properties
 
 Select a component instance to configure its properties in the Inspector. These properties control the data, animation, source, layout, and other behavior of that specific instance without changing the source component.
+
+<Note>
+You can't change the origin of a component instance directly. To use a different origin, place the component instance inside a group and adjust the group's origin instead.
+</Note>
+
+### Source
+
+**Source** determines which component is displayed by the instance. Select a component directly, or data bind the source to change the component dynamically.
+
+Learn more about [Data Binding](/editor/data-binding).
 
 ### Data
 
@@ -125,7 +132,7 @@ If the component is a [Stateful Component](/editor/data-binding/stateful-compone
 Use **Model** to set the view model instance used by the component.
 
 - **Inherit** uses a compatible view model instance from the closest parent.
-- To specify a view model instance, add a **View Model** property to the parent's view model and assign it a view model instance. You can then select that property as the component's **Model**.
+- To specify an instance, add a **View Model** property to the parent's view model and assign an instance to it. You can then select that property as the component's **Model**.
 
 Learn more about [View Models and Instances](/editor/data-binding/view-models).
 
@@ -137,11 +144,11 @@ Learn more about [View Models and Instances](/editor/data-binding/view-models).
 
 Choose the animations that play on a component instance. In most cases, you'll want to select a state machine, but you can also add one or more timeline animations.
 
-#### State Machine
+**State Machine**
 
 Select a state machine to run on the component instance. You can adjust its playback **Speed** and enable **Quantize**.
 
-#### Timeline Animations
+**Timeline Animations**
 
 Add timeline animations to play on their own, alongside a state machine, or layered with other animations. When adding a timeline animation, choose between **Simple** and **Remap**.
 
