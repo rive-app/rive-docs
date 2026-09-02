@@ -9,7 +9,9 @@ Descriptor for `GPUBuffer.new`.
 
 ### `size`
 
-Size in bytes.
+Size in bytes. Not checked against the shader's struct — lay a uniform
+buffer out by hand to the WGSL alignment rules (vec2 to 8, vec3/vec4
+and array elements to 16); a wrong offset reads garbage silently.
 
 
 ### `usage`
