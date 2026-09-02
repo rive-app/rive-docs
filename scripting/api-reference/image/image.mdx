@@ -42,5 +42,8 @@ view() -> GPUTextureView
 Returns a GPUTextureView for sampling this image in WGSL shaders.
 The view wraps the underlying GPU texture directly — no copy or decode.
 Requires a GPU context (only available when the file uses GPU canvases).
+A view taken from an `ImageAsset` currently samples as all zeros, with
+no error; draw the asset into a `context:canvas()` and sample that
+canvas's image instead.
 
 
