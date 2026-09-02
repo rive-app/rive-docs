@@ -53,6 +53,7 @@ export const FeatureSupportGroup = ({
     ]
 
     const featuresInOrder = [
+        "statefulComponents",
         "gpuCanvas",
         "globalViewModels",
         "dataBindingFonts",
@@ -85,6 +86,27 @@ export const FeatureSupportGroup = ({
     ]
 
     const features = {
+        statefulComponents: {
+            title: "Stateful Components",
+            runtimes: {
+                webCanvas: { supported: true, version: "2.33.0+" },
+                webCanvasLite: { supported: true, version: "2.33.0+" },
+                webWebGL: { supported: true, version: "2.33.0+" },
+                webWebGL2: { supported: true, version: "2.33.0+" },
+                reactCanvas: { supported: true, version: "4.25.0+" },
+                reactCanvasLite: { supported: true, version: "4.25.0+" },
+                reactWebGL: { supported: true, version: "4.25.0+" },
+                reactWebGL2: { supported: true, version: "4.25.0+" },
+                reactNative: { supported: true, version: "9.8.1+" },
+                reactNativeLegacy: { supported: false, version: "Not supported" },
+                flutter: { supported: true, version: "0.14.1+" },
+                apple: { supported: true, version: "6.16.0+" },
+                android: { supported: true, version: "11.2.0+" },
+                cpp: { supported: true, description: "Supported" },
+                unity: { supported: true, version: "0.4.5" },
+                unreal: { supported: true, version: "0.4.25" }
+            }
+        },
         gpuCanvas: {
             title: "GPU Canvas",
             runtimes: {
