@@ -26,6 +26,8 @@ Most of these parameters come from the underlying web runtime configuration item
 
 The following parameters are specific to `useRive`:
 
+- `enableGPUCanvas` - *(optional, experimental)* Render GPU Canvas content — 3D and shaders — on this instance. `@rive-app/react-webgl2` only. Turning it on flips the `useOffscreenRenderer` default to `false`, since the two cannot be combined. False by default. See [GPU Canvas](/runtimes/react/gpu-canvas).
+
 - `onRiveReady` - *(optional)* Callback invoked once the Rive file has fully loaded and the `Rive` instance is initialized. The callback receives the `Rive` instance as its argument: `(rive: Rive) => void`. It fires synchronously before the state machine advances, so this is where **all pre-render data binding work belongs** — staging view model instances with `setViewModelInstance()` / `setGlobalViewModelInstance()`, setting property values, and flushing them with `bind()`. The data binding hooks resolve after the first frame has already rendered. See [Binding before the first frame](/runtimes/react/data-binding#binding-before-the-first-frame).
 
 <Tip>
@@ -37,7 +39,7 @@ The following parameters are specific to `useRive`:
 
 - `useDevicePixelRatio` - *(optional)* If `true`, the hook will scale the resolution of the animation based on the [devicePixelRatio](https://developer.mozilla.org/en-US/docs/Web/API/Window/devicePixelRatio). Defaults to `true`. NOTE: Requires the `setContainerRef` ref callback to be passed to an element wrapping a canvas element. If you use the `RiveComponent`, then this will happen automatically
 - `fitCanvasToArtboardHeight` - *(optional)* If `true`, then the canvas will resize based on the height of the artboard. Defaults to `false`
-- `useOffscreenRenderer` - *(optional)* If `true`, the Rive instance will share (or create if one does not exist) an offscreen `WebGL` context. This allows you to display multiple Rive animations on one screen to work around some browser limitations regarding multiple concurrent WebGL contexts. If `false`, each Rive instance will have its own dedicated `WebGL` context and you may need to be cautious of the browser limitations just mentioned. We recommend **not** changing this default prop, so you don't have to manage WebGL contexts. Destroying a React component does not guarantee the browser cleans up the WebGL context that was created when the canvas was mounted. Only relevant when using `@rive-app/react-webgl2`. Defaults to `true`
+- `useOffscreenRenderer` - *(optional)* If `true`, the Rive instance will share (or create if one does not exist) an offscreen `WebGL` context. This allows you to display multiple Rive animations on one screen to work around some browser limitations regarding multiple concurrent WebGL contexts. If `false`, each Rive instance will have its own dedicated `WebGL` context and you may need to be cautious of the browser limitations just mentioned. We recommend **not** changing this default prop, so you don't have to manage WebGL contexts. Destroying a React component does not guarantee the browser cleans up the WebGL context that was created when the canvas was mounted. Only relevant when using `@rive-app/react-webgl2`. Defaults to `true`, unless [GPU Canvas](/runtimes/react/gpu-canvas) is on, which flips the default to `false`. An explicit value always wins — setting `true` alongside `enableGPUCanvas` means GPU Canvas content will not draw
 
 #### Return Values
 
