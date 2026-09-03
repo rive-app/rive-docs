@@ -31,9 +31,9 @@ Shaders in Rive let you write custom WGSL programs that run on the GPU and rende
 
 ## Basic WGSL Shader
 
-This shader draws a single large triangle that covers the render target. This is a common technique called a fullscreen triangle. The fragment shader then colors each pixel with a gradient.
+This shader draws a single large triangle that covers the render target. The parts of the triangle outside the render target are clipped, leaving the entire target covered. This is a common technique called a fullscreen triangle.
 
-No vertex or index buffers are needed because the triangle points are defined directly in the shader.
+The fragment shader then colors each pixel with a gradient. No vertex or index buffers are needed because the triangle's vertices are defined directly in the shader.
 
 <img
   src="/images/scripting/shaders/basic-shader-preview.png"
