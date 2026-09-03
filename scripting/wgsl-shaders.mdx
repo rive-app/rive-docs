@@ -77,8 +77,6 @@ fn vs_main(@builtin(vertex_index) vertexIndex: u32) -> VertexOutput {
 fn fs_main(in: VertexOutput) -> @location(0) vec4<f32> {
     return vec4<f32>(in.uv.x, in.uv.y, 0.5, 1.0);
 }
-
-
 ```
 
 ## Rendering the Shader with a Script
@@ -146,26 +144,17 @@ return function(): Node<ShaderDemo>
     draw = draw,
   }
 end
-
 ```
 
 ### How It Works
 
-#### `context:shader`
-
 `context:shader("BasicShader")` retrieves the compiled shader asset by name. The name must match the shader asset in your file.
-
-#### `GPUCanvas`
 
 `context:gpuCanvas()` creates the render target the shader draws into. The canvas exposes its rendered result as `canvas.image`.
 
-#### `GPUPipeline`
-
 `GPUPipeline.new()` combines the shader with render settings such as vertex layout and color target format.
 
-#### `draw`
-
-Use `draw` for GPU rendering. This is where you begin a render pass, set the pipeline, and issue draw calls.
+Use `draw` to draw the rendered canvas image into the Rive scene and for GPU rendering. This is where you begin a render pass, set the pipeline, and issue draw calls.
 
 ## Shader Targets
 
@@ -175,18 +164,16 @@ When nothing is selected in the editor, the Inspector shows file-level **Shader 
 
 - Metal (MSL)
 - GLSL ES 300
+- WGSL
 - HLSL
 - SPIR-V
 
 The WebGPU backend uses WGSL directly.
 
+If a target is not selected, the shader isn't included for that backend and won't load when the file runs on it.
+
 ![Shader Targets options in the Inspector](/images/scripting/shaders/shader-targets.png)
 
-## WGSL support
+## WGSL Support
 
-Rive uses standard WGSL with some restrictions to ensure shaders work across supported rendering backends:
-
-- Vertex and fragment shaders are supported. Compute shaders are not supported.
-- `override` declarations are not supported.
-- Shaders must be compatible with Rive's WebGL2 validation requirements.
-- Shaders can use up to four bind groups.
+Rive uses standard WGSL with some restrictions to ensure shaders work across supported rendering backends. Rive supports vertex and fragment shaders, with up to four bind groups. Compute shaders and override declarations aren't supported. Some WGSL features are also unavailable, including 64-bit float and integer types, push constants, subgroup operations, and non-uniform resource indexing.
