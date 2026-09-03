@@ -70,7 +70,9 @@ A file imported for [GPU Canvas](/runtimes/react/gpu-canvas) cannot be shared th
 
 Call `useRiveFile` inside each component that needs the same `.riv`, rather than hoisting one file to a parent:
 
-```jsx highlight={4}
+```jsx highlight={6}
+import { useRive, useRiveFile } from '@rive-app/react-webgl2';
+
 const RiveAnimation = () => {
   const { riveFile, status } = useRiveFile({
     src: 'my_file.riv',

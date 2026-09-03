@@ -35,7 +35,9 @@ GPU Canvas is disabled by default, but that may change in a future major version
 
 A `RiveFile` takes the same flag. Its rendering mode is fixed at import and has no setter, so set it when you construct the file:
 
-```javascript highlight={3,13}
+```javascript highlight={5,15}
+import { RiveFile, Rive } from "@rive-app/webgl2";
+
 const riveFile = new RiveFile({
   src: "my_file.riv",
   enableGPUCanvas: true,

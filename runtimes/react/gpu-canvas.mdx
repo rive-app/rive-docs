@@ -51,7 +51,9 @@ GPU Canvas is disabled by default, but that may change in a future major version
 
 `useRiveFile` takes the same flag. A `RiveFile`'s rendering mode is fixed at creation, so changing `enableGPUCanvas` re-constructs the file:
 
-```jsx highlight={4,14}
+ ```jsx highlight={6,16}
+ import { useRive, useRiveFile } from '@rive-app/react-webgl2';
+ 
 export default function Scene() {
   const { riveFile, status } = useRiveFile({
     src: 'my_file.riv',

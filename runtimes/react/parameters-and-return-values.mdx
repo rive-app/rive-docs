@@ -131,7 +131,10 @@ The main benefit of this hook is that it allows you to create a `RiveFile` insta
     - Alternatively, with ES6, you may import the `.riv` file as a data URI. Depending on your bundle loader, you may need to use a plugin (i.e `url-loader` for Webpack) to properly parse and load in `.riv` files as a data URI string. See [this project](https://github.com/zplata/rive-nextjs/blob/main/next.config.js#L8) as a basic example on how to set this up
   - Path to public asset - This is a string path to the`.riv` public asset if bundled in your application. Note that this is **not** a relative path to the asset from wherever the current JS file is in. Treat the `.riv` as any other asset bundled in your application, such as an image or font. If your JS is compiled and run at the root of your web application, you must specify the path from the root to the location of the asset. For example, if your asset is in `/public/foo.riv`, and your JS is run from the root at `/`, you would specify: `src: '/public/foo.riv'` in this property.
 - `buffer?` - *(optional)* ArrayBuffer containing the raw bytes from a .riv file. One of `src` or `buffer` must be provided.
+- `assetLoader?` - *(optional)* Callback to load assets. Full patterns and examples in the [loading assets](/runtimes/react/loading-assets) guide.
 - `enableRiveAssetCDN?` - *(optional)* Allow the runtime to automatically load assets hosted in Rive's CDN. Enabled by default.
+- `enablePerfMarks?` - *(optional)* Emits `performance.mark` / `performance.measure` entries for key Rive startup events for performance profiling purposes. False by default.
+- `enableGPUCanvas?` - *(optional, experimental)* Import the file for GPU Canvas content — 3D and shaders. `@rive-app/react-webgl2` only at this time.
 
 **Return Values**
 
@@ -159,6 +162,7 @@ interface RiveProps {
   useOffscreenRenderer?: boolean;
   shouldDisableRiveListeners?: boolean;
   shouldResizeCanvasToContainer?: boolean;
+  enableGPUCanvas?: boolean;
 
   // Deprecated props
   animations?: string | string[];
@@ -174,6 +178,7 @@ interface RiveProps {
 - `useOffscreenRenderer` - *(optional)* Share a single WebGL context across canvases. Only relevant for `@rive-app/react-webgl2`. Defaults to `true`.
 - `shouldDisableRiveListeners` - *(optional)* Prevents Rive from attaching pointer event listeners to the canvas.
 - `shouldResizeCanvasToContainer` - *(optional)* Automatically resize the canvas to its container. Defaults to `true`.
+- `enableGPUCanvas` -*(optional)* Import the file for GPU Canvas content — 3D and shaders. `@rive-app/react-webgl2` only at this time.
 
 #### Deprecated props
 
