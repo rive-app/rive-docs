@@ -142,7 +142,7 @@ export const FeatureSupportGroup = ({
                 reactNative: { supported: false, description: "Coming soon" },
                 reactNativeLegacy: { supported: false, description: "Not supported" },
                 flutter: { supported: false, description: "Coming soon" },
-                apple: { supported: false, description: "Coming soon" },
+                apple: { supported: true, version: "6.25.1" },
                 android: { supported: false, description: "Coming soon" },
                 cpp: { supported: true, description: "Supported" },
                 unity: { supported: true, version: "v0.4.5-canary.34+" },
