@@ -23,7 +23,7 @@ Rive shaders use standard WGSL, with some restrictions for compatibility across 
   - **Fragment shader** - decides the color of each pixel covered by those vertices.
 </Info>
 
-## Creating a Shader Asset
+## Creating a Shader
 
 [Create a new script](/scripting/creating-scripts), select **WGSL Shader** as the type, and name it `BasicShader`.
 
@@ -31,7 +31,7 @@ Rive shaders use standard WGSL, with some restrictions for compatibility across 
   The [AI Agent](/editor/ai-agent/ai-agent) can be a helpful way to create or iterate on shader code. Describe the effect you want, then review and test the generated WGSL in your file.
 </Note>
 
-## Basic WGSL Shader
+### Basic WGSL Shader
 
 This shader draws a single large triangle that covers the render target. The parts of the triangle outside the render target are clipped, leaving the entire target covered. This is a common technique called a fullscreen triangle.
 
@@ -79,7 +79,7 @@ fn fs_main(in: VertexOutput) -> @location(0) vec4<f32> {
 }
 ```
 
-## Rendering the Shader with a Script
+### Rendering a Shader with a Script
 
 ```lua
 type ShaderDemo = {
@@ -146,15 +146,40 @@ return function(): Node<ShaderDemo>
 end
 ```
 
-### How It Works
+## Uniforms
 
-`context:shader("BasicShader")` retrieves the compiled shader asset by name. The name must match the shader asset in your file.
+Uniforms pass values from a script into a shader, allowing the shader to respond to values that change at runtime. You can use uniforms for values such as colors, opacity, time, or animation parameters.
 
-`context:gpuCanvas()` creates the render target the shader draws into. The canvas exposes its rendered result as `canvas.image`.
+<VideoEmbed src="https://static.rive.app/video/shader-uniform.mp4" />
+<Marketplace
+  href="https://rive.app/community/files/28722-54394-shader-uniforms"
+/>
 
-`GPUPipeline.new()` combines the shader with render settings such as vertex layout and color target format.
+Define the uniform data in your WGSL shader and assign it to a bind group and binding:
 
-Use `draw` to draw the rendered canvas image into the Rive scene and for GPU rendering. This is where you begin a render pass, set the pipeline, and issue draw calls.
+```wgsl
+struct Uniforms {
+    blue: f32,
+}
+
+@group(0) @binding(0)
+var<uniform> uniforms: Uniforms;
+```
+
+The shader can then use the uniform like any other value:
+
+```wgsl
+@fragment
+fn fs_main(in: VertexOutput) -> @location(0) vec4<f32> {
+    return vec4<f32>(in.uv.x, in.uv.y, uniforms.blue, 1.0);
+}
+```
+
+On the script side, create a `GPUBuffer` containing the uniform data and add it to a `GPUBindGroup`. The bind group and slot must match the `@group` and `@binding` values declared in the shader.
+
+Bind the group to the render pass before drawing. When a uniform changes, write the new value to its buffer to make it available to the shader.
+
+Uniform values can come from script inputs, allowing them to be configured in the Editor, animated, or controlled with data binding.
 
 ## Shader Targets
 
