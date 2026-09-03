@@ -10,7 +10,7 @@ import { Marketplace } from '/snippets/marketplace.mdx'
 
 Shaders in Rive let you write custom WGSL programs that run on the GPU and render to a GPU canvas, which can then be drawn in your Rive file. They are useful for effects, procedural graphics, and visuals that go beyond what the vector renderer and standard Node scripts can produce.
 
-Rive shaders use standard WGSL, with some restrictions for compatibility across Rive's supported rendering backends. Rive supports vertex and fragment shaders, but not compute shaders or override declarations (see [WGSL support](#wgsl-support)).
+Rive shaders use standard WGSL, with some restrictions for compatibility across Rive's supported rendering backends. See [WGSL Support](#wgsl-support) for supported features and limitations.
 
 <Info>
   **What's a shader?**
@@ -155,7 +155,7 @@ Uniforms pass values from a script into a shader, allowing the shader to respond
   href="https://rive.app/community/files/28722-54394-shader-uniforms"
 />
 
-Define the uniform data in your WGSL shader and assign it to a bind group and binding:
+Define the uniform data in your WGSL shader, then assign it to a bind group and binding. Bind groups organize the resources passed into a shader, while bindings identify individual resources within each group:
 
 ```wgsl
 struct Uniforms {
@@ -177,13 +177,11 @@ fn fs_main(in: VertexOutput) -> @location(0) vec4<f32> {
 
 On the script side, create a `GPUBuffer` containing the uniform data and add it to a `GPUBindGroup`. The bind group and slot must match the `@group` and `@binding` values declared in the shader.
 
-Bind the group to the render pass before drawing. When a uniform changes, write the new value to its buffer to make it available to the shader.
-
-Uniform values can come from script inputs, allowing them to be configured in the Editor, animated, or controlled with data binding.
+Bind the group to the render pass before drawing. When a uniform changes, write the new value to its buffer to make it available to the shader. Uniform values can come from script inputs, allowing them to be configured in the Editor, animated, or controlled with data binding.
 
 ## Shader Targets
 
-Rive shaders are authored in WGSL. When you export your file, Rive compiles each shader for the selected target languages and includes those variants in the `.riv` file.
+Rive shaders are authored in WGSL. When you export your file, Rive compiles each shader for the selected targets and includes those variants in the `.riv` file. The original WGSL source isn't included.
 
 When nothing is selected in the editor, the Inspector shows file-level **Shader Targets** options. Select the targets required by the runtimes and platforms where your file will be used:
 
