@@ -768,7 +768,7 @@ export const FeatureSupportGroup = ({
                                                     version && !description && (
                                                         <td data-numeric="true">
                                                             {supported && '✅ '}
-                                                            <code>{version}</code>
+                                                            <code>{version.endsWith('+') ? version : `${version}+`}</code>
                                                         </td>
                                                     )
                                                 }
@@ -843,7 +843,7 @@ export const FeatureSupportGroup = ({
                                                 version && !description && (
                                                     <td data-numeric="true">
                                                         {supported && '✅ '}
-                                                        <code>{version}</code>
+                                                        <code>{version.endsWith('+') ? version : `${version}+`}</code>
                                                     </td>
                                                 )
                                             }
