@@ -158,7 +158,9 @@ function init(self: ShaderDemo, context: Context): boolean
   return true
 end
 
-function drawCanvas(self: ShaderDemo)
+
+function draw(self: ShaderDemo, renderer: Renderer)
+
   if self.canvas and self.pipeline then
     -- Start a GPU render pass targeting our canvas. "clear" wipes it to
     -- clearColor (opaque black here) before drawing anything new.
@@ -174,11 +176,7 @@ function drawCanvas(self: ShaderDemo)
     pass:draw(3)
     -- Submit the pass; the canvas now holds the shader's rendered image.
     pass:finish()
-  end
-end
 
-function draw(self: ShaderDemo, renderer: Renderer)
-  if self.canvas then
     -- The GPU canvas exposes its rendered result as a normal Image, so we
     -- can composite it into the rest of the Rive scene like any other
     -- image — no special shader knowledge needed here.
