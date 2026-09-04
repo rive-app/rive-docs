@@ -179,6 +179,54 @@ On the script side, create a `GPUBuffer` containing the uniform data and add it 
 
 Bind the group to the render pass before drawing. When a uniform changes, write the new value to its buffer to make it available to the shader. Uniform values can come from script inputs, allowing them to be configured in the Editor, animated, or controlled with data binding.
 
+## Textures
+
+Textures let shaders read image data. A shader samples a texture at a set of coordinates to get the color at that location, which it can use or modify when calculating its output.
+
+<VideoEmbed src="https://static.rive.app/video/shader-texture.mp4" maxWidth={300} />
+<Marketplace
+  href="https://rive.app/community/files/28734-54433-shader-texture"
+/>
+
+
+To use a texture in WGSL, define a texture and sampler:
+
+```wgsl id="x8pq2m"
+@group(0) @binding(1)
+var srcTexture: texture_2d<f32>;
+
+@group(0) @binding(2)
+var srcSampler: sampler;
+```
+
+Use `textureSample` to read a color from the texture at a set of UV coordinates:
+
+```wgsl id="y7km4q"
+let color = textureSample(srcTexture, srcSampler, in.uv);
+```
+
+UV coordinates identify a position within the texture, typically from `0` to `1` on each axis. For example, `(0, 0)` represents one corner of the texture and `(1, 1)` the opposite corner.
+
+On the script side, add the texture and sampler to a `GPUBindGroup`. Their slots must match the `@binding` values declared in the shader.
+
+### Using an Artboard as a Texture
+
+Shaders sample textures, not Rive artboards directly. To apply a shader to an artboard, first render the artboard to an offscreen canvas:
+
+```lua id="pk5m2r"
+local srcRenderer = srcCanvas:beginFrame({
+  clearColor = Color.rgba(0, 0, 0, 0),
+})
+
+instance:draw(srcRenderer)
+srcCanvas:endFrame()
+```
+
+The canvas image can then be passed to the shader as a texture. Redraw the artboard to the canvas as it changes to keep the texture up to date.
+
+The example below uses this technique to render an artboard through a shader that distorts its texture coordinates with animated noise.
+
+
 ## Shader Targets
 
 Rive shaders are authored in WGSL. When you export your file, Rive compiles each shader for the selected targets and includes those variants in the `.riv` file. The original WGSL source isn't included.
