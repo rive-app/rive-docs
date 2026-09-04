@@ -78,3 +78,40 @@ window.addEventListener(
 false
 );
 ```
+
+## GPU Canvas
+
+A `RiveFile` imported for [GPU Canvas](/runtimes/web/gpu-canvas) cannot be shared the way the example above shares one. GPU Canvas binds a file to a single `<canvas>`, so the first `Rive` instance you pass it to claims it.
+
+Construct a separate `RiveFile` for each instance that needs the same `.riv`:
+
+```javascript highlight={6,12}
+// GPU Canvas requires the WebGL2 package, not the @rive-app/canvas one used above
+import { RiveFile } from "@rive-app/webgl2";
+
+const fileA = new RiveFile({
+  src: "my_file.riv",
+  enableGPUCanvas: true,
+});
+const fileB = new RiveFile({
+  // A separate import for the second canvas. Fetched from the browser cache,
+  // so this costs a parse, not another network request.
+  src: "my_file.riv",
+  enableGPUCanvas: true,
+});
+await Promise.all([fileA.init(), fileB.init()]);
+```
+
+If you do pass one GPU Canvas file to several instances, the runtime does not fail. It warns once, then re-imports the `.riv` implicitly and hands each additional Rive instance that fresh copy.
+
+<Warning>
+  The fallback means the `RiveFile` you passed in **is genuinely not used** by those instances. The fallback happens before Rive references the `RiveFile`, so it never touches your file. Rive draws entirely from the internal copy, which you have no handle on. This means any config you set up on the shared `RiveFile` — asset loaders, bindable artboards, event subscriptions — applies only to the first Rive instance that claimed it.
+
+  Treat the fallback as a safety net that keeps the canvas from going blank, not as a supported way to share a file. Construct one `RiveFile` per instance so you keep a handle on the file each one is actually drawing if that is important for your use case.
+</Warning>
+
+<Note>
+  This only applies to files imported with `enableGPUCanvas: true`. Files imported without it share across instances exactly as shown above.
+</Note>
+
+Because a file's rendering mode is fixed at import, `enableGPUCanvas` has to be set on the `RiveFile` constructor. Setting that property only on the `Rive` instance while passing a `riveFile` has no effect.

@@ -63,3 +63,44 @@ return (
 
 export default App;
 ```
+
+## GPU Canvas
+
+A file imported for [GPU Canvas](/runtimes/react/gpu-canvas) cannot be shared the way the example above shares one across five components. GPU Canvas binds a file to a single `<canvas>`, so the first Rive component you pass it to claims that file for its lifetime.
+
+Call `useRiveFile` inside each component that needs the same `.riv`, rather than hoisting one file to a parent:
+
+```jsx highlight={6}
+import { useRive, useRiveFile } from '@rive-app/react-webgl2';
+
+const RiveAnimation = () => {
+  const { riveFile, status } = useRiveFile({
+    src: 'my_file.riv',
+    enableGPUCanvas: true,
+  });
+
+  const { RiveComponent } = useRive(
+    status === 'success'
+      ? { riveFile, autoplay: true, enableGPUCanvas: true }
+      : null
+  );
+
+  return <RiveComponent />;
+};
+```
+
+Each component imports the file separately. The `.riv` comes from the browser cache after the first fetch, so this costs a parse per component, usually not another network request.
+
+If you do hoist one GPU Canvas file to several components, the runtime will warn once, then re-import the `.riv` implicitly and hand each additional Rive instance a fresh copy.
+
+<Warning>
+  The fallback means the file from `useRiveFile` **is genuinely not used** by those components. The fallback happens before Rive references the file, so it never touches your file. Rive draws entirely from the internal copy, which you have no handle on. This means any config you set up on the shared file applies only to the first Rive instance that claimed it.
+
+  Treat the fallback as a safety net that keeps the canvas from going blank, not as a supported way to share a file. Call `useRiveFile` per component so you keep a handle on the file each one is actually drawing if that is important for your use case.
+</Warning>
+
+<Note>
+  This only applies to files imported with `enableGPUCanvas: true`. Files imported without it can share across components.
+</Note>
+
+Because a file's rendering mode is fixed at import, `enableGPUCanvas` has to be set on `useRiveFile`. Setting that property only on `useRive` while passing a `riveFile` has no effect.
