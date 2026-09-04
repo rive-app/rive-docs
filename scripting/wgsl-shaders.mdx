@@ -222,7 +222,7 @@ instance:draw(srcRenderer)
 srcCanvas:endFrame()
 ```
 
-The canvas image can then be passed to the shader as a texture. Redraw the artboard to the canvas as it changes to keep the texture up to date.
+Call `srcCanvas.image:view()` to obtain a `GPUTextureView`, then add that view to the shader's `GPUBindGroup`. Redraw the artboard to the canvas as it changes to keep the texture up to date.
 
 The example below uses this technique to render an artboard through a shader that distorts its texture coordinates with animated noise.
 
