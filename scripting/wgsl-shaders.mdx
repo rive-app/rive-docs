@@ -207,7 +207,7 @@ let color = textureSample(srcTexture, srcSampler, in.uv);
 
 UV coordinates identify a position within the texture, typically from `0` to `1` on each axis. For example, `(0, 0)` represents one corner of the texture and `(1, 1)` the opposite corner.
 
-On the script side, add the texture and sampler to a `GPUBindGroup`. Their slots must match the `@binding` values declared in the shader.
+On the script side, add a `GPUTextureView` and `GPUSampler` to a `GPUBindGroup`. Their slots must match the `@binding` values declared in the shader.
 
 ### Using an Artboard as a Texture
 
