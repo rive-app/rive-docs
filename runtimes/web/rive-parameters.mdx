@@ -101,8 +101,8 @@ export interface RiveParameters {
   - `allowFocusInterrupt` - *(optional)* Allows browser focus to be interrupted and set on the Rive canvas if Rive detects focus change inherently. Defaults to false.
 - `semanticsMode` - *(optional, experimental)* Whether to build an accessible DOM overlay for the graphic's [semantics](/runtimes/web/semantics). Either `SemanticMode.Disabled` or `SemanticMode.Enabled`. Defaults to `SemanticMode.Disabled`.
 - `semanticsOptions` - *(optional, experimental)* Options for the accessibility overlay. See [Semantics](/runtimes/web/semantics).
-- `enableGPUCanvas` - *(optional, experimental)* Render GPU Canvas content — 3D and shaders — on this instance. `@rive-app/webgl2` only, and cannot be combined with `useOffscreenRenderer: true`. Ignored when you pass a `riveFile`, which carries its own mode. False by default. See [GPU Canvas](/runtimes/web/gpu-canvas).
   - `riveCanvasLabel` - *(optional)* The `aria-label` applied to the overlay's container element. Defaults to `"Rive animation"`.
+- `enableGPUCanvas` - *(optional, experimental)* Render GPU Canvas content — 3D and shaders — on this instance. `@rive-app/webgl2` only, and cannot be combined with `useOffscreenRenderer: true`. Ignored when you pass a `riveFile`, which carries its own mode. False by default. See [GPU Canvas](/runtimes/web/gpu-canvas).
 
 <Warning>
   `semanticsMode` and `semanticsOptions` are experimental and may encounter breaking behavior changes without a major version bump.

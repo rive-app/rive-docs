@@ -24,7 +24,7 @@ The `useRive` hook is the recommended way to hook into the Rive runtime for full
 
 Most of these parameters come from the underlying web runtime configuration items for the Rive object, with the exception of supplying a `canvas` element. See [Rive Parameters](/runtimes/web/rive-parameters) for all the parameters you can supply in this object.
 
-The following parameters are specific to `useRive`:
+The following parameters are specific to `useRive`, or behave differently in React than they do in the web runtime:
 
 - `enableGPUCanvas` - *(optional, experimental)* Render GPU Canvas content — 3D and shaders — on this instance. `@rive-app/react-webgl2` only. Turning it on flips the `useOffscreenRenderer` default to `false`, since the two cannot be combined. False by default. See [GPU Canvas](/runtimes/react/gpu-canvas).
 
@@ -175,10 +175,10 @@ interface RiveProps {
 - `artboard` - *(optional)* Artboard to render. Defaults to the first artboard in the file.
 - `stateMachine` - *(strongly recommended)* Name of the state machine to play.
 - `layout` - *(optional)* A [`Layout`](/runtimes/react/layouts) instance setting fit and alignment for the drawing surface.
-- `useOffscreenRenderer` - *(optional)* Share a single WebGL context across canvases. Only relevant for `@rive-app/react-webgl2`. Defaults to `true`.
+- `useOffscreenRenderer` - *(optional)* Share a single WebGL context across canvases. Only relevant for `@rive-app/react-webgl2`. Defaults to `true`, unless `enableGPUCanvas` is set, which flips the default to `false`. However, if this parameter is explicitly set, the runtime will honor this flag and ignore the `enableGPUCanvas` one.
 - `shouldDisableRiveListeners` - *(optional)* Prevents Rive from attaching pointer event listeners to the canvas.
 - `shouldResizeCanvasToContainer` - *(optional)* Automatically resize the canvas to its container. Defaults to `true`.
-- `enableGPUCanvas` -*(optional)* Import the file for GPU Canvas content — 3D and shaders. `@rive-app/react-webgl2` only at this time.
+- `enableGPUCanvas` - *(optional, experimental)* Render GPU Canvas content — 3D and shaders — on this instance. `@rive-app/react-webgl2` only at this time. Turning it on flips the `useOffscreenRenderer` default to `false` if that flag is not set. See [GPU Canvas](/runtimes/react/gpu-canvas).
 
 #### Deprecated props
 

@@ -85,7 +85,10 @@ A `RiveFile` imported for [GPU Canvas](/runtimes/web/gpu-canvas) cannot be share
 
 Construct a separate `RiveFile` for each instance that needs the same `.riv`:
 
-```javascript highlight={3,8}
+```javascript highlight={6,12}
+// GPU Canvas requires the WebGL2 package, not the @rive-app/canvas one used above
+const { RiveFile } = require("@rive-app/webgl2");
+
 const fileA = new RiveFile({
   src: "my_file.riv",
   enableGPUCanvas: true,
