@@ -4,16 +4,13 @@ description: "Create and render custom WGSL shaders in Rive."
 ---
 
 import { VideoEmbed } from '/snippets/video-embed.jsx'
+import { Marketplace } from '/snippets/marketplace.mdx'
 
 <VideoEmbed src="https://static.rive.app/video/shader-demo.mp4" />
 
-<Note>
-  Shaders are currently only available in [Early Access](https://rive.app/downloads?utm_source=docs&utm_medium=content). Runtime support is either in development or available as experimental builds.
-
-  Have feedback? Join the [Early Access community](https://community.rive.app/c/early-access/) to share your thoughts and help shape the feature.
-</Note>
-
 Shaders in Rive let you write custom WGSL programs that run on the GPU and render to a GPU canvas, which can then be drawn in your Rive file. They are useful for effects, procedural graphics, and visuals that go beyond what the vector renderer and standard Node scripts can produce.
+
+Rive shaders use standard WGSL, with some restrictions for compatibility across Rive's supported rendering backends. See [WGSL Support](#wgsl-support) for supported features and limitations.
 
 <Info>
   **What's a shader?**
@@ -26,19 +23,19 @@ Shaders in Rive let you write custom WGSL programs that run on the GPU and rende
   - **Fragment shader** - decides the color of each pixel covered by those vertices.
 </Info>
 
-## Creating a Shader Asset
+## Creating a Shader
 
-[Create a new script](/scripting/creating-scripts), select **Shader** as the type, and name it `BasicShader`.
+[Create a new script](/scripting/creating-scripts), select **WGSL Shader** as the type, and name it `BasicShader`.
 
 <Note>
   The [AI Agent](/editor/ai-agent/ai-agent) can be a helpful way to create or iterate on shader code. Describe the effect you want, then review and test the generated WGSL in your file.
 </Note>
 
-## Basic WGSL Shader
+### Basic WGSL Shader
 
-This shader draws a single large triangle that covers the render target. This is a common technique called a fullscreen triangle. The fragment shader then colors each pixel with a gradient.
+This shader draws a single large triangle that covers the render target. The parts of the triangle outside the render target are clipped, leaving the entire target covered. This is a common technique called a fullscreen triangle.
 
-No vertex or index buffers are needed because the triangle points are defined directly in the shader.
+The fragment shader then colors each pixel with a gradient. No vertex or index buffers are needed because the triangle's vertices are defined directly in the shader.
 
 <img
   src="/images/scripting/shaders/basic-shader-preview.png"
@@ -46,111 +43,70 @@ No vertex or index buffers are needed because the triangle points are defined di
   style={{ maxWidth:300 }}
 />
 
-```wgsl
-// ----------------------------------------------------------------------------
-// VertexOutput describes the data that flows OUT of the vertex shader and
-// INTO the fragment shader. Think of it as a small "package" of values that
-// gets automatically interpolated (smoothly blended) across each pixel of
-// the triangle before the fragment shader receives it.
-// ----------------------------------------------------------------------------
-struct VertexOutput {
-    // @builtin(position) is REQUIRED — it tells the GPU where this vertex
-    // sits on screen, in "clip space" (x and y roughly range from -1 to 1).
-    @builtin(position) position: vec4<f32>,
+<Marketplace
+  href="https://rive.app/community/files/28718-wgsl-shader/"
+/>
 
-    // @location(0) is a CUSTOM output we're choosing to pass along — in this
-    // case, UV coordinates (a 2D position ranging from 0 to 1) that we will
-    // use in the fragment shader to build our gradient.
+```wgsl
+// Fullscreen gradient using one oversized triangle and no vertex or index buffers.
+
+struct VertexOutput {
+    @builtin(position) position: vec4<f32>,
     @location(0) uv: vec2<f32>,
 }
 
-// ----------------------------------------------------------------------------
-// The VERTEX shader.
-// @vertex marks this function as the entry point that runs once per vertex.
-// The GPU calls this function 3 times (once per corner of our triangle),
-// automatically passing in vertexIndex = 0, 1, then 2.
-// ----------------------------------------------------------------------------
 @vertex
 fn vs_main(@builtin(vertex_index) vertexIndex: u32) -> VertexOutput {
-    // Here we define 3 fixed 2D points that make up one giant triangle.
-    // It's intentionally bigger than the screen (-1..3 instead of -1..1) so
-    // that after clipping, it ends up covering the ENTIRE visible area with
-    // just a single triangle — a cheap way to draw a fullscreen effect.
+    // Extend beyond the viewport so clipping leaves the full screen covered.
     var pos = array<vec2<f32>, 3>(
         vec2<f32>(-1.0, -1.0),
         vec2<f32>(3.0, -1.0),
         vec2<f32>(-1.0, 3.0),
     );
 
-    // Look up which of the 3 points we're currently processing.
     let p = pos[vertexIndex];
 
-    // Create the output package described by VertexOutput above.
     var out: VertexOutput;
-
-    // Clip space positions need to be a vec4 (x, y, z, w). We use z = 0.0
-    // (no depth) and w = 1.0 (no perspective division needed for 2D).
     out.position = vec4<f32>(p, 0.0, 1.0);
-
-    // Convert our clip-space point (range -1..1) into UV space (range 0..1),
-    // which is a more convenient range for coloring/texturing later on.
-    // Formula: uv = position * 0.5 + 0.5
     out.uv = p * 0.5 + vec2<f32>(0.5, 0.5);
 
     return out;
 }
 
-// ----------------------------------------------------------------------------
-// The FRAGMENT shader.
-// @fragment marks this function as the entry point that runs once per pixel
-// covered by the triangle. It receives the interpolated VertexOutput values
-// (the "in" parameter) and must return a final color for that pixel.
-// ----------------------------------------------------------------------------
 @fragment
 fn fs_main(in: VertexOutput) -> @location(0) vec4<f32> {
-    // The returned color is a vec4: (red, green, blue, alpha), with each
-    // channel ranging from 0.0 (none) to 1.0 (full intensity).
-    //
-    // Here we build a simple gradient:
-    //   - red   grows from left (0.0) to right (1.0) following UV.x
-    //   - green grows from top/bottom (0.0) to (1.0) following UV.y
-    //   - blue  stays fixed at 0.5 (a constant medium blue tint)
-    //   - alpha is 1.0, meaning fully opaque (not transparent)
     return vec4<f32>(in.uv.x, in.uv.y, 0.5, 1.0);
 }
-
 ```
 
-## Rendering the Shader with a Script
+### Rendering a Shader with a Script
 
 ```lua
 type ShaderDemo = {
-  -- The GPUCanvas is an offscreen render target we draw our shader into.
-  -- It behaves like a small texture we fully control with the GPU.
+  -- Offscreen render target for the shader output.
   canvas: GPUCanvas?,
-  -- The GPUPipeline bundles our compiled shader together with the
-  -- fixed-function GPU settings (what format to draw into, how vertices
-  -- are laid out, etc). It's built once and reused every frame.
+
+  -- Compiled shader and render settings.
   pipeline: GPUPipeline?,
 }
 
 function init(self: ShaderDemo, context: Context): boolean
-  -- Create a 200x200 GPU canvas to render our shader's output into.
+  -- Create a 200x200 render target.
   self.canvas = context:gpuCanvas({ width = 200, height = 200 })
 
-  -- Fetch the compiled shader asset named "BasicShader"
-  local shader = context:shader("BasicShader")
+  -- Get the WGSL shader asset.
+  local shader = context:shader('BasicShader')
+
   if shader and self.canvas then
-    -- Build the pipeline: the same shader module provides both the
-    -- @vertex (vs_main) and @fragment (fs_main) entry points.
+    -- Use the shader for both vertex and fragment stages.
     self.pipeline = GPUPipeline.new({
       vertex = shader,
       fragment = shader,
-      -- No vertex buffers needed — BasicShader generates its fullscreen
-      -- triangle's positions directly from the vertex index.
+
+      -- Positions come from vertex_index, so no vertex buffer is needed.
       vertexLayout = {},
-      -- The pipeline's output color format must match the canvas format
-      -- it will be rendering into.
+
+      -- Match the render target format.
       colorTargets = { { format = self.canvas.format } },
     })
   end
@@ -158,32 +114,25 @@ function init(self: ShaderDemo, context: Context): boolean
   return true
 end
 
-function drawCanvas(self: ShaderDemo)
+function draw(self: ShaderDemo, renderer: Renderer)
   if self.canvas and self.pipeline then
-    -- Start a GPU render pass targeting our canvas. "clear" wipes it to
-    -- clearColor (opaque black here) before drawing anything new.
+    -- Render into the GPU canvas.
     local pass = self.canvas:beginRenderPass({
-      color = { { loadOp = "clear", storeOp = "store", clearColor = { 0, 0, 0, 1 } } },
+      color = {
+        { loadOp = 'clear', storeOp = 'store', clearColor = { 0, 0, 0, 1 } },
+      },
     })
-    -- Tell the GPU which pipeline (shader + settings) to use for the
-    -- draw call below.
+
     pass:setPipeline(self.pipeline)
-    -- Draw 3 vertices with no vertex/index buffers — this runs vs_main
-    -- three times (vertexIndex 0, 1, 2), producing our fullscreen triangle,
-    -- then runs fs_main once per covered pixel to shade it.
+
+    -- Draw the fullscreen triangle.
     pass:draw(3)
-    -- Submit the pass; the canvas now holds the shader's rendered image.
     pass:finish()
   end
-end
 
-function draw(self: ShaderDemo, renderer: Renderer)
   if self.canvas then
-    -- The GPU canvas exposes its rendered result as a normal Image, so we
-    -- can composite it into the rest of the Rive scene like any other
-    -- image — no special shader knowledge needed here.
-    local sampler = ImageSampler("clamp", "clamp", "bilinear")
-    renderer:drawImage(self.canvas.image, sampler, "srcOver", 1)
+    local sampler = ImageSampler('clamp', 'clamp', 'bilinear')
+    renderer:drawImage(self.canvas.image, sampler, 'srcOver', 1)
   end
 end
 
@@ -192,45 +141,62 @@ return function(): Node<ShaderDemo>
     canvas = nil,
     pipeline = nil,
     init = init,
-    drawCanvas = drawCanvas,
     draw = draw,
   }
 end
 ```
 
-### How It Works
+## Uniforms
 
-#### `context:shader`
+Uniforms pass values from a script into a shader, allowing the shader to respond to values that change at runtime. You can use uniforms for values such as colors, opacity, time, or animation parameters.
 
-`context:shader("BasicShader")` retrieves the compiled shader asset by name. The name must match the shader asset in your file.
+<VideoEmbed src="https://static.rive.app/video/shader-uniform.mp4" />
+<Marketplace
+  href="https://rive.app/community/files/28722-54394-shader-uniforms"
+/>
 
-#### `GPUCanvas`
+Define the uniform data in your WGSL shader, then assign it to a bind group and binding. Bind groups organize the resources passed into a shader, while bindings identify individual resources within each group:
 
-`context:gpuCanvas()` creates the render target the shader draws into. The canvas exposes its rendered result as `canvas.image`.
+```wgsl
+struct Uniforms {
+    blue: f32,
+}
 
-#### `GPUPipeline`
+@group(0) @binding(0)
+var<uniform> uniforms: Uniforms;
+```
 
-`GPUPipeline.new()` combines the shader with render settings such as vertex layout and color target format.
+The shader can then use the uniform like any other value:
 
-#### `drawCanvas`
+```wgsl
+@fragment
+fn fs_main(in: VertexOutput) -> @location(0) vec4<f32> {
+    return vec4<f32>(in.uv.x, in.uv.y, uniforms.blue, 1.0);
+}
+```
 
-Use `drawCanvas` for GPU rendering. This is where you begin a render pass, set the pipeline, and issue draw calls.
+On the script side, create a `GPUBuffer` containing the uniform data and add it to a `GPUBindGroup`. The bind group and slot must match the `@group` and `@binding` values declared in the shader.
 
-#### `draw`
-
-Use `draw` to draw the rendered canvas image into the Rive scene.
+Bind the group to the render pass before drawing. When a uniform changes, write the new value to its buffer to make it available to the shader. Uniform values can come from script inputs, allowing them to be configured in the Editor, animated, or controlled with data binding.
 
 ## Shader Targets
 
-When nothing is selected in the editor, the Inspector shows file-level **Shader Targets** options.
+Rive shaders are authored in WGSL. When you export your file, Rive compiles each shader for the selected targets and includes those variants in the `.riv` file. The original WGSL source isn't included.
 
-Use these options to choose which shader languages Rive should generate from your WGSL shaders:
+When nothing is selected in the editor, the Inspector shows file-level **Shader Targets** options. Select the targets required by the runtimes and platforms where your file will be used:
 
-- **Metal (MSL)**
-- **GLSL ES 300**
-- **HLSL**
-- **SPIR-V**
+- Metal (MSL)
+- GLSL ES 300
+- WGSL
+- HLSL
+- SPIR-V
 
-Enable the targets required by the runtimes and platforms where your file will be used.
+The WebGPU backend uses WGSL directly.
+
+If a target is not selected, the shader isn't included for that backend and won't load when the file runs on it.
 
 ![Shader Targets options in the Inspector](/images/scripting/shaders/shader-targets.png)
+
+## WGSL Support
+
+Rive uses standard WGSL with some restrictions to ensure shaders work across supported rendering backends. Rive supports vertex and fragment shaders, with up to four bind groups. Compute shaders and override declarations aren't supported. Some WGSL features are also unavailable, including 64-bit float and integer types, push constants, subgroup operations, and non-uniform resource indexing.
