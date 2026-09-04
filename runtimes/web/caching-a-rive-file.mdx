@@ -87,7 +87,7 @@ Construct a separate `RiveFile` for each instance that needs the same `.riv`:
 
 ```javascript highlight={6,12}
 // GPU Canvas requires the WebGL2 package, not the @rive-app/canvas one used above
-const { RiveFile } = require("@rive-app/webgl2");
+import { RiveFile } from "@rive-app/webgl2";
 
 const fileA = new RiveFile({
   src: "my_file.riv",

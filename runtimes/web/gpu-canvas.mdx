@@ -18,7 +18,9 @@ GPU Canvas renders 3D and shader content in the web runtime. It is opt-in per Ri
 
 Pass `enableGPUCanvas: true` when you create the Rive instance:
 
-```javascript highlight={7}
+```javascript highlight={9}
+import { Rive } from "@rive-app/webgl2";
+
 const rive = new Rive({
   src: "my_file.riv",
   canvas: document.getElementById("canvas"),
