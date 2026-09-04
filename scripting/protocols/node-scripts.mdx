@@ -16,7 +16,9 @@ Node scripts can be used to render shapes, images, text, artboards, and more.
 
 ```lua
 -- Define the script's data and inputs.
-type MyNode = {}
+type MyNode = {
+  customValue: number, -- Optional: add your own properties here.
+}
 
 -- Called once when the script initializes.
 function init(self: MyNode): boolean
@@ -26,6 +28,8 @@ end
 -- Called every frame to advance the simulation.
 -- 'seconds' is the elapsed time since the previous frame.
 function advance(self: MyNode, seconds: number): boolean
+  self.customValue += seconds -- Access your properties through self.
+
   return false
 end
 
@@ -39,6 +43,7 @@ function draw(self: MyNode, renderer: Renderer) end
 -- Return a factory function that Rive uses to build the Node instance.
 return function(): Node<MyNode>
   return {
+    customValue = 0, -- Initialize any properties you add above.
     init = init,
     advance = advance,
     update = update,
@@ -59,7 +64,7 @@ Node scripts allow you to draw shapes and render them in your scene.
 />
 
 ```lua
-function rectangle(self: Rectangle)
+function rectangle(self: MyNode)
   -- Update the path with current width and height
   self.path:reset()
 
@@ -77,7 +82,7 @@ function rectangle(self: Rectangle)
   self.paint.color = self.color
 end
 
-function draw(self: Rectangle, renderer: Renderer)
+function draw(self: MyNode, renderer: Renderer)
   renderer:drawPath(self.path, self.paint)
 end
 ```
