@@ -86,6 +86,8 @@ omitted; provide them explicitly when rendering to a different
 target (e.g. MSAA). The pass's sampleCount is derived from the
 attachments (WebGPU rule: all attachments share one sampleCount).
 Must be called during draw. Issue draw calls on the
-returned pass, then call `:finish()`.
+returned pass, then call `:finish()`. A pass may begin while another
+is open, as when a drawn artboard's own scripts render: it runs ahead
+of the pass it was begun inside, so that pass can sample its output.
 
 
