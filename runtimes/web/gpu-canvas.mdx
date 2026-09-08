@@ -1,9 +1,9 @@
 ---
 title: "GPU Canvas"
-description: "Opt a Rive instance into GPU Canvas to render 3D content on the web."
+description: "Opt a Rive instance into GPU Canvas to render 3D and shader content on the web."
 ---
 
-GPU Canvas renders 3D and shader content in the web runtime. It is opt-in per Rive instance and available in [`@rive-app/webgl2`](https://www.npmjs.com/package/@rive-app/webgl2) `2.42.0+`.
+GPU Canvas enables Rive files to render 3D and shader content in the web runtime. It is opt-in per Rive instance and available in [`@rive-app/webgl2`](https://www.npmjs.com/package/@rive-app/webgl2) `2.42.0+`.
 
 <Warning>
   GPU Canvas is experimental. The API may change in a minor release without a major version bump.
@@ -35,7 +35,7 @@ GPU Canvas is disabled by default, but that may change in a future major version
 
 ## Enabling GPU Canvas on a Cached File
 
-A `RiveFile` takes the same flag. Its rendering mode is fixed at import and has no setter, so set it when you construct the file:
+A `RiveFile` takes the same flag. The flag is fixed when the file is imported and has no setter, so set it when you construct the file:
 
 ```javascript highlight={5,15}
 import { RiveFile, Rive } from "@rive-app/webgl2";
@@ -61,7 +61,7 @@ The file's flag wins over the same property on `new Rive()`: a `RiveFile` create
 <Warning>
   **A GPU Canvas `RiveFile` cannot be shared across Rive instances.** The renderer binds a file to a single `<canvas>`, so the first `Rive` instance you pass it to claims it.
 
-  Sharing one `RiveFile` among many instances does not fail the Rive load. The runtime will warn in the console, implicitly re-construct the `.riv` from the buffer the file already holds, and hand the additional `Rive` instance that fresh copy. Thus, the `RiveFile` you passed in goes unused, and nothing you read or configure through it applies. See [Caching a Rive file](/runtimes/web/caching-a-rive-file#gpu-canvas).
+Additional Rive instances will still load, but they won't use the `RiveFile` you passed in. Instead, the runtime logs a warning and creates a fresh copy of the `.riv` from the file's existing buffer. As a result, anything you read or configure through the original `RiveFile` does not apply to those additional instances.
 </Warning>
 
 ## Limits
