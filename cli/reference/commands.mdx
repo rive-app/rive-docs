@@ -1,0 +1,347 @@
+---
+title: "Command Reference"
+sidebarTitle: "Commands"
+description: "Every Rive CLI command, flag, and exit code."
+---
+
+```bash
+rive COMMAND
+```
+
+Run `rive --help` for this list in your terminal, and `rive --version` to print the
+installed version.
+
+## Commands
+
+| Command | Does |
+|---|---|
+| `rive create` | Scaffold a Rive project locally. It creates the following: `rive.yaml`, `scene.rml`, `AGENTS.md`, `.gitignore` |
+| `rive <project-dir>` | Open the preview window and rebuild as you edit. The directory defaults to `.` |
+| `rive login` | Sign in with your Rive account |
+| `rive logout` | Sign out |
+| `rive whoami` | Show who you are signed in as |
+| `rive docs` | The CLI's own authoring documentation |
+| `rive samples` | Clone a runnable example project to your machine |
+| `rive schema` | Look up types |
+| `rive inspect` | Print the resolved scene |
+| `rive push` | Build the project and send it to a Rive file in your account, where the Editor opens it. Needs a session |
+| `rive doctor` | Check the environment: version, auth, ports, project |
+| `rive lsp` | Language server over stdio, for editor integrations |
+| `rive update` | Install the latest published CLI |
+| `rive switch` | Pick a CLI version, or select one by name |
+| `rive uninstall` | Remove a cached CLI version |
+| `rive analytics` | Show or set usage analytics (`on` \| `off`) |
+
+<Note>
+`update`, `switch` and `uninstall` are only supported for the installer build under
+`~/.rive/bin`. If installing the CLI via Homebrew, use the `brew` methods to manage CLI versioning and updates.
+</Note>
+
+## Project Flags
+
+These apply to `rive <project-dir>`.
+
+### Build Modes
+
+Mutually exclusive, so pick one. `--screenshot` under [Capture](#capture) counts
+as one of them. With none of them, the CLI opens the preview window and rebuilds as
+you edit.
+
+| Flag | Does |
+|---|---|
+| `--verify` | Check the project without writing a `.riv`. Exit 1 on errors |
+| `--once` | Write an unsigned `.riv`. Exit 1 on errors |
+| `--publish` | Write a signed `.riv`. Needs `rive login`. Exit 1 on errors |
+| `--test` | Run `Tests` scripts. Exit 6 on failures |
+
+### Modifiers
+
+These attach to whichever mode you chose.
+
+| Flag | Does |
+|---|---|
+| `--init` | Write `rive.yaml` if missing, then continue |
+| `--rev=<path>` | Also write an editor `.rev`. Needs `rive login`, and pairs with `--once` or `--publish` |
+
+### Capture
+
+| Flag | Does |
+|---|---|
+| `--screenshot[=<path>]` | Build, render one frame without a window, write a PNG. Defaults to `build/<name>.png` |
+| `--frame=<N>` | Frame to capture, stepped at 60fps. Defaults to `0` |
+| `--viewport=<WxH>` | Capture size in pixels. Defaults to the artboard's own size |
+| `--bench=<frames>` | Build, time that many frames without a window, report advance and render statistics plus WASM memory growth |
+
+`--bench` runs instead of `--screenshot`, not alongside it. Passing both times the
+frames and writes no PNG, without saying so.
+
+### Driving the Scene
+
+| Flag | Does |
+|---|---|
+| `--data=<path=value>` | Set one view model property before the scene runs. Repeat the flag for several properties |
+| `--pointer=<kind@x,y>` | Simulate one pointer event at artboard coordinates. Repeatable |
+| `--artboard=<name>` | Artboard to show on launch. An unknown name falls back to the first artboard without warning |
+
+#### Setting Data
+
+`--data` takes a property path and a value. The path starts at the view model
+instance bound to the artboard, and every segment is a property name, so a flat view
+model takes the bare property and a nested one takes a path:
+
+```bash
+rive myproject --screenshot=out.png --data=level=100
+rive myproject --screenshot=out.png --data=battery/level=100
+```
+
+Each `--data` sets one property. Repeat the flag to set several:
+
+```bash
+rive myproject --screenshot=out.png \
+  --data=settings/speed=42 \
+  --data=settings/scale=9
+```
+
+<Note>
+A path that matches no property is dropped just as quietly, and the scene renders
+with that property's authored value. Confirm your values landed rather than assuming
+they did.
+</Note>
+
+#### Simulating a Pointer
+
+`--pointer` takes a kind and a position. `down`, `up`, `move` and `click` each take a
+single point. `click` expands to a move, a press and a release with a frame between
+each, because a state machine only sees a gesture when it next runs:
+
+```bash
+rive myproject --screenshot=out.png --pointer=click@120,60
+```
+
+`drag` is a fifth kind, and the only one with a different shape:
+`drag@x1,y1>x2,y2[:steps]`. It moves to the first point, presses, emits `steps` moves
+along the line to the second point, then releases. `steps` defaults to 8, and a
+higher count makes the sweep finer rather than longer.
+
+```bash
+rive myproject --screenshot=out.png --pointer='drag@200,300>200,80:12'
+```
+
+<Note>
+Quote the `drag` value so the shell does not read `>` as a redirection.
+</Note>
+
+### Serving
+
+| Flag | Does |
+|---|---|
+| `--serve[=port]` | Also push builds to connected players. Defaults to port `9640` |
+| `--headless-serve` | Serve with no local window. Takes its port from `--serve=<port>` |
+
+### Other
+
+| Flag | Does |
+|---|---|
+| `--quiet` | No terminal log at all, compiler errors included. Read the exit code, `--format=json`, or `logs.problems` instead |
+| `--optimize` | Compile scripts at Luau O2 instead of O1. The scripts run faster and the bytecode is harder to debug |
+| `--immediate` | Render on the main thread |
+| `--format=json` or `--format=human` | `human` is the default terminal log. `json` needs `--once`, `--verify`, `--publish` or `--test`, and prints one JSON report object on stdout |
+
+## Preview Window Commands
+
+Type these in the terminal while the preview window is open.
+
+| Key | Does |
+|---|---|
+| `s` or `screenshot [path]` | Write a PNG of the window |
+| `p` or `pause` | Toggle playback |
+| `a` or `artboard [name]` | Switch the shown artboard |
+| `rev [path]` | Write an editor `.rev`. Needs `rive login` |
+| `?` or `help` | List commands |
+
+## Per-Command Flags
+
+### `create`
+
+```bash
+rive create                          # prompt for a name, then write that directory
+rive create <dir>                    # write the project in <dir> (`.` is the cwd)
+rive create [dir] --from-rev=<file.rev>
+```
+
+`--from-rev` converts an editor `.rev` into a project: `scene.rml` plus its scripts
+and assets as files. Without a `<dir>`, the `.rev`'s own name is used. The directory
+must be empty or new.
+
+### `schema`
+
+```bash
+rive schema <Type>          # properties of a type, inherited included
+rive schema --search <text> # find a type or property by name, then pick one
+```
+
+| Flag | Does |
+|---|---|
+| `--list` | Pick a type to describe. Where no picker can draw, prints every type name |
+| `--animatable` | Only properties that can be keyed |
+| `--bindable` | Only properties that can be data bound |
+| `--all` | Include editor-only properties |
+
+### `docs`
+
+```bash
+rive docs                 # the documentation index
+rive docs <topic>         # one topic, for example `layout` or `luau/protocols`
+```
+
+| Flag | Does |
+|---|---|
+| `--list` | Pick a topic to read |
+| `--search <text>` | Lines matching text across every topic |
+| `--path` | Print the docs directory on disk |
+
+### `samples`
+
+```bash
+rive samples          # pick one and copy it into a new directory
+rive samples --path   # print the samples directory on disk
+```
+
+### `inspect`
+
+```bash
+rive inspect [dir]    # resolved scene as JSON. The directory defaults to `.`
+```
+
+Exits `1` when `problems` contains an error. A directory that is not a project is
+reported on stderr but still exits `0`, so test for the message, not the code.
+
+| Flag | Does |
+|---|---|
+| `--json` | JSON output (the default) |
+| `--all` | Include editor-only properties |
+| `--artboard=<name>` | One artboard only. An unknown name gives an empty `artboards` list and still exits `0` |
+
+### `push`
+
+```bash
+rive push --login     # once per machine: sign in and store the session
+rive push [dir]       # build the project and send it to the bound Rive file
+```
+
+This uploads to your Rive account, replacing the bound file's contents and adding an
+entry to its revision history. It is the same artifact `--rev` would export, sent
+over the network instead of written to disk, so the file you and your team open in
+the Editor becomes what the project just built.
+
+| Flag | Does |
+|---|---|
+| `--project=<id>` | Project for the first push. Falls back to `push.projectId` in `rive.yaml`; a single project is picked automatically, and several open a picker |
+| `--list` | List your projects with their ids, then exit |
+| `--name=<label>` | Revision history label. Defaults to `rive-cli push` |
+| `--login` | Sign in with username and password and store push's own session. Needs a TTY |
+| `--uat` | Target the UAT environment |
+| `--optimize` | Compile scripts at O2 |
+| `--quiet` | Suppress build logs |
+
+See [Pushing to a Rive File](/cli/reference/project-config#pushing-to-a-rive-file).
+
+### `doctor`
+
+```bash
+rive doctor [project-dir]
+```
+
+| Flag | Does |
+|---|---|
+| `--uat` | Check the session against UAT |
+| `--format=json` | Machine-readable report on stdout |
+
+`doctor` prints five checks (`version`, `update`, `auth`, `live-link` and `project`),
+each `ok`, `warn` or `fail`, and exits `0` even when one warns.
+
+### `lsp`
+
+```bash
+rive lsp [project-dir]
+```
+
+Language server over stdio, for editor integrations. The project root comes from the
+client's workspace folder; `project-dir` overrides it. Needs no login.
+
+## Signing In
+
+| What you run | Session needed |
+|---|---|
+| `--publish`, `--rev` | Yes, with `rive login` |
+| Preview window, `--once`, `--verify`, `--test`, `--screenshot`, `--serve`, `--headless-serve` | No, and these work offline |
+| `create`, `docs`, `samples`, `schema`, `inspect` | No |
+| `update`, `whoami`, `doctor` | No account, but they reach the network. `whoami` exits `3` when you are not signed in; `doctor` reports it as a warning and still exits `0` |
+| `rive push` | Yes, and a separate one. Sign in with `rive push --login` |
+
+Credentials live outside the project, in `~/.config/rive/app.rive.cli/`.
+
+<Note>
+A gated mode checks the session live, so `--publish` and `--rev` fail on a dropped
+connection even with valid stored credentials.
+</Note>
+
+## Exit Codes
+
+| Code | Meaning |
+|---|---|
+| `0` | OK |
+| `1` | Build errors, or any failure without a more specific code |
+| `2` | A flag the CLI parsed and rejected: a bad `--pointer` or `--data` value, `--format` given anything but `json` or `human`, `--format=json` without a build mode, or two build modes at once |
+| `3` | Not logged in, or the session was rejected |
+| `6` | Test cases failed. The build itself was fine |
+| `7` | A service could not be reached, so it is safe to retry |
+
+<Warning>
+Exit 2 does not cover a misspelled flag. The CLI ignores flags it does not recognize,
+and unparseable values on flags it does, then builds and exits `0`. `--bogus`,
+`--frame=abc` and `--viewport=abc` all succeed silently. A green exit is not proof
+your flags landed.
+</Warning>
+
+## JSON Output
+
+`--format=json` on `--once`, `--verify`, `--publish` or `--test` prints one JSON
+object on stdout. `data` differs per mode. `--verify` and `--once` carry the build:
+
+```json
+{"success": true, "command": "build", "data": {"riv": "./build/myproject.riv", "bytes": 140, "buildMs": 2.0, "problems": []}, "errors": [], "warnings": []}
+```
+
+`--test` carries the run:
+
+```json
+{"success": false, "command": "test", "data": {"passed": 5, "failed": 1, "noTestsFound": false, "failures": [{"test": "clamp > intentional failure", "line": 29, "message": "5 is not equal to 10"}]}, "errors": ["clamp > intentional failure: 5 is not equal to 10"], "warnings": []}
+```
+
+`command` is the mode, not the flag: `"build"` for `--once`, `"verify"` for
+`--verify`. Each entry in `data.problems` is
+`{severity, kind, code, script, line, column, message}`, and `errors` repeats them as
+`script:line message` strings. Logs stay on stderr, so stdout carries nothing else.
+
+<Warning>
+`line` in `--format=json` is zero-based, while the terminal log and `rive inspect`
+report the same problem one-based. Add 1 before showing a JSON line number to a
+person.
+</Warning>
+
+## Environment Variables
+
+| Variable | Overrides |
+|---|---|
+| `RIVE_API_BASE` | The API host |
+| `RIVE_COOP_HOST` | The sync server |
+| `RIVE_NO_TUI` | Set to `1` to disable interactive pickers |
+
+`--uat` on `push` and `doctor` switches the hosts to the UAT environment at once.
+
+<Note>
+Interactive pickers draw on stderr, so redirecting stdout alone does not disable
+them. Where no picker can draw (`TERM=dumb`, `RIVE_NO_TUI=1`, or stdin not a
+terminal as in CI), the CLI falls back to printing the list instead.
+</Note>

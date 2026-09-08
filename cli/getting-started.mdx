@@ -1,0 +1,91 @@
+---
+title: "Getting Started"
+description: "Install the Rive CLI and build your first project."
+---
+
+Three commands take you from nothing to a `.riv` you can load in a runtime.
+
+# Steps
+
+<Steps>
+  <Step title="Install the CLI">
+    The CLI runs on macOS 13 or later with Apple Silicon, and on Linux x86_64.
+
+    <Tabs>
+      <Tab title="Installer">
+        ```bash
+        curl -fsSL https://releases.rive.app/cli/install.sh | sh
+        ```
+
+        The installer puts the binary in `~/.rive/bin` and prints an `export PATH=...`
+        line if that directory is not already on your `PATH`.
+      </Tab>
+      <Tab title="Homebrew">
+        ```bash
+        brew install --cask rive-app/tap/rive-cli
+        ```
+
+        A Homebrew install is a pinned binary, so `rive update` and `rive switch`
+        only work for the installer build. Use existing `brew` commands to update the CLI if installing through Homebrew.
+      </Tab>
+    </Tabs>
+
+    Run `rive doctor` to check your install.
+  </Step>
+
+  <Step title="Create a project">
+    ```bash
+    rive create myproject
+    ```
+
+    That writes a `rive.yaml`, an `AGENTS.md` for coding agents, a `.gitignore`, and
+    a `scene.rml` holding the same frame the Editor gives a new file: an artboard, a
+    timeline, and a state machine that plays it on load. A shape you add and key
+    starts animating without any further setup.
+
+    Everything else you drop in the folder is picked up by extension: `.luau`
+    scripts, `.wgsl` shaders, images and fonts. The generated `rive.yaml` sets `name`
+    and turns the build logs on; everything else in
+    [rive.yaml](/cli/reference/project-config) is optional.
+  </Step>
+
+  <Step title="Open the preview window">
+    ```bash
+    rive myproject
+    ```
+
+    This opens a window showing the scene and watches the directory. Save any file
+    and it rebuilds and reloads, writing `myproject/build/myproject.riv`, the file
+    you can load with a [runtime](/runtimes/getting-started).
+
+    A new project has nothing drawn in it yet, so you get a dark rectangle. Keep this
+    running in one terminal while you edit in another.
+  </Step>
+</Steps>
+
+To build without opening a window, use `rive myproject --once`. To check that the
+project compiles without writing anything, use `--verify`. To also write a `.rev`
+that opens in the Rive Editor for your account, add `--rev=<path>` to `--once` or `--publish`.
+
+# Signing In
+
+```bash
+rive login
+```
+
+You need an account for `--publish`, which signs the file through Rive's API, and for
+`--rev`, which exports the file a designer opens in the Editor. Everything else is
+local and works signed out and offline.
+
+<Warning>
+A file containing scripts that is destined for the web must be built with
+`--publish`. Unsigned scripts are rejected by the CDN and the web runtimes, and
+nothing local warns you. A file with no scripts is unaffected.
+</Warning>
+
+# More Resources
+
+- [RML](/cli/rml) - the markup that describes a scene
+- [AI Agents](/cli/agents) - hand the project to Claude Code or Cursor
+- [Examples](/cli/examples) - sample projects to start from, rendering without a window, and CI
+- [Commands](/cli/reference/commands) - every command and flag

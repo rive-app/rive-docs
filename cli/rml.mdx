@@ -1,0 +1,134 @@
+---
+title: "Rive Markup Language"
+sidebarTitle: "RML"
+description: "The XML format that describes a Rive scene as text."
+---
+
+RML is XML. Every element is a Rive type, every attribute is one of its properties,
+and nesting one element inside another links them, so there is no separate grammar
+to learn. The names are the same ones the Editor uses.
+
+One `.rml` file describes a whole Rive file. The CLI can compile it to both outputs: the
+`.riv` a runtime loads, and the `.rev` that opens in the Editor.
+
+Most people will hand the writing to a [coding agent](/cli/agents) and read the
+result. This page covers enough to do that.
+
+## A Complete Scene
+
+The smallest document that produces a moving, self-playing scene: a blue triangle
+spinning on a dark background.
+
+```xml scene.rml
+<Artboard defaultStateMachineId="0:7" width="500" height="500" name="Artboard" id="0:2">
+    <Fill name="Background">
+        <SolidColor colorValue="FF1D1D1D" name="Color"/>
+    </Fill>
+
+    <Shape x="250" y="250" name="Triangle" id="0:14">
+        <Triangle originX="0.5" originY="0.5" width="220" height="200" name="Path"/>
+        <Fill name="Fill">
+            <SolidColor colorValue="FF57A5E0" name="Color"/>
+        </Fill>
+    </Shape>
+
+    <StateMachine name="State Machine 1" id="0:7">
+        <StateMachineLayer name="Layer 1" id="0:8">
+            <AnyState/>
+            <ExitState/>
+            <EntryState>
+                <StateTransition stateToId="0:12"/>
+            </EntryState>
+            <AnimationState animationId="0:6" id="0:12"/>
+        </StateMachineLayer>
+    </StateMachine>
+
+    <LinearAnimation loopValue="loop" duration="120" name="Spin" id="0:6">
+        <KeyedObject objectId="0:14">
+            <KeyedProperty propertyKey="15">
+                <KeyFrameDouble value="0" interpolationType="linear"/>
+                <KeyFrameDouble value="6.2831855" interpolationType="linear" frame="120"/>
+            </KeyedProperty>
+        </KeyedObject>
+    </LinearAnimation>
+</Artboard>
+
+<Backboard coreVersion="1" activeArtboardId="0:2" mainArtboardId="0:2"/>
+```
+
+A few things that example shows:
+
+- A document is a flat sequence of root elements. Artboards hold scene content;
+  assets, view models, converters and enums sit beside them at the top level.
+  `Backboard` is required.
+- `defaultStateMachineId` is what makes the file play on load. Without it the file
+  loads and sits still.
+- `Shape` holds position and transform; the path child inside it holds size. That
+  split matters when you animate or data bind. `width` lives on `Triangle`, not on
+  `Shape`.
+- `id` is only needed on elements that something else points at.
+- `propertyKey="15"` is rotation. Property keys are numbers, never names.
+
+## Ids and References
+
+An id is a numeric pair, `client:object`, such as `0:12` or `14:11981`. Ids share one
+namespace across the whole document, so reusing one fails the build. An element that
+nothing refers to can omit its `id` entirely.
+
+References are attributes holding another element's id, and they are always named
+`<something>Id`: `styleId`, `animationId`, `objectId`. You rarely write one by hand,
+because nesting sets most of them for you. Which references nesting implies, and in
+which direction, is listed in `rive docs format`.
+
+## Values
+
+| Type | Written as |
+|---|---|
+| Color | ARGB hex, no `#`: `colorValue="FFFF5A3C"` |
+| Boolean | `"true"` / `"false"` |
+| Enum | A name or its integer: `layoutWidthScaleType="fill"` |
+| Rotation | Radians. A full turn is `6.2831855`. |
+| Animation timing | Frames, at the animation's `fps` (default 60). Transition durations are milliseconds. |
+
+## Looking Up Types
+
+There are hundreds of core types. Look names up rather than guessing at them:
+
+```bash
+rive schema Rectangle              # properties, defaults, enum names, property keys
+rive schema --search gradient      # find the type name in the first place
+rive schema Shape --animatable     # only properties that can be keyed
+rive schema Shape --bindable       # only properties that can be data bound
+```
+
+## Checking Your Work
+
+Three checks, and none replaces the others:
+
+```bash
+rive <dir> --verify              # does it compile? (RML, Luau and shaders)
+rive inspect <dir> --json        # what got built, and is `problems` empty?
+rive <dir> --screenshot=out.png  # does it look right?
+```
+
+A clean build only proves the names are right. Run `inspect` for what got built, and
+a screenshot for what it looks like. A bind pointing at the wrong property, or a
+shape that renders invisibly, passes the first two checks. See
+[Examples](/cli/examples#headless-rendering).
+
+## The Full Reference
+
+The CLI carries the complete RML reference, kept in step with the version you have
+installed:
+
+```bash
+rive docs                    # the index
+rive docs format             # how RML works at all
+rive docs --list             # pick a topic to read
+rive docs --search gradient  # search every topic
+```
+
+`format` covers the reference tables, listeners, nested artboards, components and
+keyframe types. `layout`, `data`, `state-machines`, `text`, `drawing`, `rigging`,
+`transforms`, `easing` and `assets` cover the rest of the object model, and `gotchas`
+collects the things that fail silently.

@@ -1,0 +1,136 @@
+---
+title: "Examples"
+description: "Sample projects, headless rendering, and running the CLI in CI."
+---
+
+import { UseCase } from '/snippets/use-case.mdx'
+
+## Sample Projects
+
+The CLI ships seven example projects. `rive samples` opens a picker and copies the
+one you choose into a directory you name:
+
+| Sample | Shows |
+|---|---|
+| `hello_rive` | The smallest layout script: draw a moving shape each frame |
+| `rml_triangle` | The smallest RML document: one artboard, one shape |
+| `rml_vm_input` | RML driven by view model data, with a script input |
+| `pointer_reactive` | Making a scene follow the mouse: pointer to view model to data bind |
+| `input_demo` | Keyboard, text and gamepad events in a script |
+| `text_input` | Editable text fields with the TextInput component |
+| `tests_demo` | Luau unit tests, run with `--test` |
+
+Each directory is a project in its own right. Where no picker can draw, as in CI,
+`rive samples` prints the list with descriptions and a ready `cp` line:
+
+```bash
+cp -R "$(rive samples --path)/rml_triangle" myproject
+rive myproject
+```
+
+## Headless Rendering
+
+`--screenshot` builds the project, renders one frame without opening a window, and
+writes a PNG. It needs no login, which makes it the check to run in CI.
+
+```bash
+rive myproject --screenshot=out.png                    # frame 0
+rive myproject --screenshot=out.png --frame=60         # one second in, at 60fps
+rive myproject --screenshot=out.png --viewport=390x844 # at a specific size
+```
+
+<Note>
+`--screenshot` resolves its path against the current directory, not the project
+directory, and a missing directory fails with only `screenshot failed: <path>`.
+Create the directory first.
+</Note>
+
+## Driving a Scene
+
+A screenshot of a resting scene tells you nothing about whether it responds to
+anything. Two flags drive it before the capture.
+
+`--data` sets a view model property. The path is relative to the instance bound to
+the artboard, and each segment is a property name:
+
+```bash
+rive myproject --screenshot=full.png --data=battery/level=100
+```
+
+`--pointer` simulates a pointer at artboard coordinates. `click` is a move, a press
+and a release with a frame between each, because a state machine only sees a gesture
+when it next runs:
+
+```bash
+rive myproject --screenshot=hover.png --pointer=move@120,60
+rive myproject --screenshot=on.png    --pointer=click@120,60 --frame=20
+```
+
+Both flags repeat, so you can set several values or play a sequence of gestures.
+
+<Note>
+Quote a `drag` value. The `>` between the two points is a shell redirection
+otherwise:
+
+```bash
+rive myproject --screenshot=scrolled.png --pointer='drag@200,300>200,80:12'
+```
+</Note>
+
+<UseCase title="Proving a Toggle Works">
+Capture the control at rest, after one click, and after two. `rest` and `on` must
+differ, or the control does nothing. `off` must match `rest`, or it only works one
+way.
+
+```bash
+rive myproject --screenshot=rest.png
+rive myproject --screenshot=on.png  --pointer=click@120,60 --frame=20
+rive myproject --screenshot=off.png --pointer=click@120,60 --pointer=move@400,400 \
+                                    --pointer=click@120,60 --frame=20
+```
+
+Put a `move` between two clicks on the same control, as above. Back-to-back clicks
+can both act on the old value.
+</UseCase>
+
+## Checking Responsiveness
+
+A layout tree and a hand-positioned screen look identical in a single screenshot.
+Shoot the same file at two sizes and see whether anything moved:
+
+```bash
+rive myproject --screenshot=wide.png   --viewport=900x600
+rive myproject --screenshot=narrow.png --viewport=320x700
+```
+
+A fixed-size artboard renders at its authored size anchored top-left, so a smaller
+viewport crops it. That is the flag working, not a layout bug.
+
+## In CI
+
+`--verify` compiles everything and writes nothing. `--test` runs the project's Luau
+tests. Both exit non-zero on failure, and `--format=json` gives you one JSON object
+on stdout with logs kept on stderr:
+
+```bash
+rive myproject --verify --format=json
+rive myproject --test --format=json
+```
+
+Each kind of failure has its own exit code, so a pipeline can branch without parsing
+output. See [Exit Codes](/cli/reference/commands#exit-codes).
+
+<Note>
+Publishing needs a browser sign-in, which a CI runner usually cannot do. Every other
+mode works there. You can author, compile, test and capture in CI, then publish from
+a machine that is signed in.
+</Note>
+
+## Measuring Performance
+
+`--bench` builds the project, times a number of frames without opening a window, and
+reports advance and render statistics along with WASM memory growth:
+
+```bash
+rive myproject --bench=600
+```

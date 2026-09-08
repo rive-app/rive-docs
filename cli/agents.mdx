@@ -1,0 +1,56 @@
+---
+title: "Working with AI Agents"
+sidebarTitle: "AI Agents"
+description: "Pair the Rive CLI with Claude Code, Cursor, or your agent of preference."
+---
+
+A Rive project is a folder of text files, so a coding agent can work in it directly
+and check its own results.
+
+## Setting Up
+
+<Steps>
+  <Step title="Create a project">
+    ```bash
+    rive create myproject
+    ```
+
+    `rive create` writes an `AGENTS.md` into the folder. Agents read this file when
+    they open the directory, and it tells them how to look up the CLI reference and how to check
+    their work.
+  </Step>
+  <Step title="Start the preview window">
+    ```bash
+    rive myproject
+    ```
+
+    Leave this running in its own terminal. It rebuilds and reloads on every save, so
+    you watch the scene change as the agent edits it.
+  </Step>
+  <Step title="Open the folder in your agent">
+    Open `myproject` in Claude Code, Cursor, or any agent that can read and write
+    files and run shell commands. No further setup is needed.
+  </Step>
+  <Step title="Describe what you want">
+    Prompt the agent in plain language. It reads `AGENTS.md`, looks up the types it
+    needs with `rive docs` and `rive schema`, writes the RML and Luau, then checks the
+    result with `rive <dir> --verify` and `rive inspect`, the two checks `AGENTS.md`
+    tells it to run. Ask for a `rive <dir> --screenshot` when you want to see it.
+
+    > Build a weather card: a rounded panel with the city name, a temperature
+    > readout, and an icon that animates when it rains. Bind the temperature to a
+    > view model property so the host app can set it.
+  </Step>
+</Steps>
+
+<Tip>
+Ask for the work in stages rather than all at once: a wireframe of empty boxes
+first, then structure, then real content and detail. Sizing mistakes show up in the
+first stage, while they are still cheap to fix, and you can redirect the agent
+mid-build instead of at the end.
+</Tip>
+
+## Other Ways to Use AI with Rive
+
+- [AI Agent](/editor/ai-agent) - Rive's own agent, built into the Editor
+- [MCP Integration](/editor/ai/mcp) - connect the desktop Editor to an external AI tool

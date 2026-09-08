@@ -1,0 +1,50 @@
+---
+title: "Rive CLI"
+sidebarTitle: "Overview"
+description: "Create, preview, inspect, and publish Rive graphics from the command line, without opening the Editor."
+---
+
+The Rive CLI brings Rive into your terminal. Build the same `.riv` your app or game loads
+and the same `.rev` a designer opens in the Editor, with a live preview running locally on your machine as
+you work.
+
+Pair the CLI with your agent of choice to build your scene from scratch, or modify and inspect an existing Rive graphic from your account. You describe the graphic, the agent writes the scene in Rive Markup Language (RML), and you watch the
+result take shape and steer it as it goes.
+
+```bash
+rive create myproject   # scaffold a project
+rive myproject          # preview window, rebuilds as you edit
+```
+
+## What It Enables
+
+- **Build with RML.** Build entire Rive scenes using Rive Markup Language (RML). The CLI
+  parses this to compile a local preview, and can build `.riv` assets from it.
+- **Check what you built.** Confirm a scene compiles, inspect what it actually
+  contains, and look up any type in the Rive object model.
+- **Pair with a coding agent.** A new project comes with instructions an agent
+  reads, so it knows how to look things up and check its own work. See
+  [AI Agents](/cli/agents).
+- **Render and test without a window.** Capture frames as images, drive a scene
+  with simulated input and data, and run script tests
+- **Keep your work in version control.** A project is a folder of text and assets,
+  so it diffs and reviews with the rest of your code.
+
+## How It Relates to the Editor
+
+RML uses the same element and property names the
+[Editor](/editor/interface-overview/overview) uses, and nothing is lost moving in
+either direction:
+
+| Direction | How |
+|---|---|
+| Editor into a project | `rive create <dir> --from-rev=<file.rev>` converts an exported `.rev` into a project on disk |
+| Project into the Editor | `--rev=<path>` on `--once` or `--publish` writes a `.rev` to open in the Editor; `rive push` uploads it to a remote Rive file in your account
+
+Push edits made locally with CLI to the file source in the editor seamlessly, which adds to the revision history. Additionally, keep local CLI projects
+up to date by pulling any changes made in the editor into your local project.
+
+## Where to Start
+
+- [Getting Started](/cli/getting-started) - install and build your first project
+- [AI Agents](/cli/agents) - pair with Claude Code, Cursor, or another agent
