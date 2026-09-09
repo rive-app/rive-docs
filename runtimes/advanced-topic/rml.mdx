@@ -1,5 +1,5 @@
 ---
-title: "Rive Markup Language"
+title: "Rive Markup Language (RML)"
 sidebarTitle: "RML"
 description: "The XML format that describes a Rive scene as text."
 ---
@@ -12,17 +12,18 @@ One `.rml` file describes a whole Rive file. The [Rive CLI](/cli/overview) compi
 
 Work with a [coding agent](/cli/agents) to create RML, compile it, inspect the result, and iterate on your Rive file.
 
-## A Complete Scene
+## Example
 
-The smallest document that produces a moving, self-playing scene: a blue triangle
-spinning on a dark background.
+The following example shows how RML maps familiar Rive concepts (an artboard, shapes, fills, an animation, and a State Machine) to XML.
 
 ```xml scene.rml
 <Artboard defaultStateMachineId="0:7" width="500" height="500" name="Artboard" id="0:2">
+    <!-- Artboard background -->
     <Fill name="Background">
         <SolidColor colorValue="FF1D1D1D" name="Color"/>
     </Fill>
 
+    <!-- Triangle Shape -->
     <Shape x="250" y="250" name="Triangle" id="0:14">
         <Triangle originX="0.5" originY="0.5" width="220" height="200" name="Path"/>
         <Fill name="Fill">
@@ -30,6 +31,7 @@ spinning on a dark background.
         </Fill>
     </Shape>
 
+    <!-- State Machine -->
     <StateMachine name="State Machine 1" id="0:7">
         <StateMachineLayer name="Layer 1" id="0:8">
             <AnyState/>
@@ -41,6 +43,7 @@ spinning on a dark background.
         </StateMachineLayer>
     </StateMachine>
 
+    <!-- Animation -->
     <LinearAnimation loopValue="loop" duration="120" name="Spin" id="0:6">
         <KeyedObject objectId="0:14">
             <KeyedProperty propertyKey="15">
@@ -54,29 +57,21 @@ spinning on a dark background.
 <Backboard coreVersion="1" activeArtboardId="0:2" mainArtboardId="0:2"/>
 ```
 
-A few things that example shows:
+## How RML Maps to Rive
 
-- A document is a flat sequence of root elements. Artboards hold scene content;
-  assets, view models, converters and enums sit beside them at the top level.
-  `Backboard` is required.
-- `defaultStateMachineId` is what makes the file play on load. Without it the file
-  loads and sits still.
-- `Shape` holds position and transform; the path child inside it holds size. That
-  split matters when you animate or data bind. `width` lives on `Triangle`, not on
-  `Shape`.
-- `id` is only needed on elements that something else points at.
-- `propertyKey="15"` is rotation. Property keys are numbers, never names.
+RML follows the structure of a Rive file. Artboards contain their scene content, while assets, view models, converters, and enums sit alongside them at the document root. Every document also requires a `Backboard`, which identifies information such as the active and main artboards.
+
+Nesting reflects relationships between Rive objects. In the example above, the `Shape` contains a `Triangle` path and a `Fill`. Properties belong to their corresponding Rive type, so the transform position (`x` and `y`) belongs to the `Shape`, while `width` and `height` belong to the `Triangle`.
+
+Animations reference the objects and properties they change. Here, `KeyedObject objectId="0:14"` targets the Triangle shape, while `propertyKey="15"` identifies its rotation property. The State Machine references that animation, and `defaultStateMachineId="0:7"` on the Artboard causes the State Machine to play when the file loads.
 
 ## Ids and References
 
-An id is a numeric pair, `client:object`, such as `0:12` or `14:11981`. Ids share one
-namespace across the whole document, so reusing one fails the build. An element that
-nothing refers to can omit its `id` entirely.
+RML uses IDs when one element needs to reference another. For example, an animation uses `objectId` to identify the object it animates, while an Animation State uses `animationId` to identify the animation it plays.
 
-References are attributes holding another element's id, and they are always named
-`<something>Id`: `styleId`, `animationId`, `objectId`. You rarely write one by hand,
-because nesting sets most of them for you. Which references nesting implies, and in
-which direction, is listed in `rive docs format`.
+IDs are two numbers separated by a colon (`client:object`), such as `0:12` or `14:11981`. Each ID must be unique across the entire document. Elements only need an `id` when another element references them.
+
+References use attributes ending in `Id`, such as `styleId`, `animationId`, and `objectId`. Nesting creates many of these relationships automatically, so you usually don't need to write the reference yourself. Run `rive docs format` to see which references are created by nesting.
 
 ## Values
 
