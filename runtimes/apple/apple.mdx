@@ -434,7 +434,7 @@ See [Semantics](/runtimes/apple/semantics) for the available modes and more deta
 
         The `Worker` object is responsible for creating and managing the background thread for the Rive instance.
 
-        Each worker shares out-of-band assets, such as images, fonts, and audio. This means that each `File` initialized with the same worker will share the same out-of-band assets.
+        Each worker shares global out-of-band assets, such as images, fonts, and audio. Query a file with `File.getAssets()` and register a replacement on its worker using the asset's `uniqueName`. The replacement applies to matching assets in files using that worker, including files already loaded and files loaded later. See [Loading Assets](/runtimes/apple/loading-assets) for examples.
 
         One worker roughly equates to one background thread. If you are rendering multiple heavy Rive graphics, you can create one `Worker` per file to have each processed on its own background thread.
 
