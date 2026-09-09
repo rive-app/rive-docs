@@ -3,9 +3,7 @@ title: "Getting Started"
 description: "Install the Rive CLI and build your first project."
 ---
 
-Three commands take you from nothing to a `.riv` you can load in a runtime.
-
-# Steps
+Install the Rive CLI, create a project, and open the live preview. By the end of this guide, you'll have a `.riv` file you can load with the Rive Runtimes.
 
 <Steps>
   <Step title="Install the CLI">
@@ -71,15 +69,15 @@ Three commands take you from nothing to a `.riv` you can load in a runtime.
 To build without opening a window, use `rive myproject --once`. To check that the
 project compiles without writing anything, use `--verify`.
 
-# Signing In
+## Signing In
 
-```bash
+You don't need to sign in to create, preview, or build projects locally. Sign in when you need to publish a file or export a `.rev` to open in the Rive Editor:
+
+```bash id="bmt6er"
 rive login
 ```
 
-You need an account for `--publish`, which signs the file through Rive's API, and for
-`--rev`, which exports the file a designer opens in the Editor. Everything else is
-local and works signed out and offline.
+An account is required for `--publish`, which signs the file through Rive's API, and `--rev`, which exports a `.rev`. Everything else runs locally and works signed out and offline.
 
 <Warning>
 A file containing scripts that is destined for the web must be built with
