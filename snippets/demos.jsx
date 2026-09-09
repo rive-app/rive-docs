@@ -490,8 +490,8 @@ export const Demos = ({
     <div className={`
         card-group not-prose grid gap-x-4
         grid-cols-1
-        ${columns >= 2 && "md:grid-cols-2"}
-        ${columns >= 3 && "xl:grid-cols-3 xl:w-[67rem] xl:max-w-[calc(100vw-25rem)]"}
+        ${columns >= 2 ? "md:grid-cols-2" : ""}
+        ${columns >= 3 ? "xl:grid-cols-3 xl:w-[67rem] xl:max-w-[calc(100vw-25rem)]" : ""}
       `
     }>
       {examples.map((example, index) => {

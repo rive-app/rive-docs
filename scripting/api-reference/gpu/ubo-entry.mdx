@@ -6,6 +6,8 @@ An entry binding a uniform buffer into a BindGroup.
 Dynamic-offset UBOs are declared on each layout entry via
 `BindGroupLayoutEntry.hasDynamicOffset`, matching WebGPU/Vulkan's
 layout-level ownership model.
+`size` defaults to the rest of the buffer past `offset`. The bound range
+must cover the shader's uniform block or GPUBindGroup.new errors.
 
 
 ## Fields
