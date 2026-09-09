@@ -17,8 +17,13 @@ Three commands take you from nothing to a `.riv` you can load in a runtime.
         curl -fsSL https://releases.rive.app/cli/install.sh | sh
         ```
 
-        The installer puts the binary in `~/.rive/bin` and prints an `export PATH=...`
-        line if that directory is not already on your `PATH`.
+        Add the CLI to your `PATH` so the `rive` command is available in every new
+        shell, then reload your current shell to pick it up:
+
+        ```bash
+        echo 'export PATH="$HOME/.rive/bin:$PATH"' >> ~/.zshrc
+        source ~/.zshrc
+        ```
       </Tab>
       <Tab title="Homebrew">
         ```bash
@@ -81,6 +86,11 @@ A file containing scripts that is destined for the web must be built with
 `--publish`. Unsigned scripts are rejected by the CDN and the web runtimes, and
 nothing local warns you. A file with no scripts is unaffected.
 </Warning>
+
+`--publish` watermarks what it writes until the project is bound to a Rive file in
+your account. Binding is done by `rive push`, which is coming soon. Until then, every
+published file carries the watermark, and `--once` writes an unwatermarked build for
+local use.
 
 # More Resources
 

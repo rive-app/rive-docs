@@ -49,8 +49,15 @@ you edit.
 |---|---|
 | `--verify` | Check the project without writing a `.riv`. Exit 1 on errors |
 | `--once` | Write an unsigned `.riv`. Exit 1 on errors |
-| `--publish` | Write a signed `.riv`. Needs `rive login`. Exit 1 on errors |
+| `--publish` | Write a signed `.riv`. Needs `rive login`, and watermarks the output until the project is bound to a Rive file. Exit 1 on errors |
 | `--test` | Run `Tests` scripts. Exit 6 on failures |
+
+<Note>
+Until the project is bound to a Rive file in your account, `--publish` writes a watermarked build.
+
+Binding records `push.fileId` in `rive.yaml`, and it is done by `rive push`, which is
+coming soon. The watermark applies whether or not the project has scripts.
+</Note>
 
 ### Modifiers
 
@@ -66,7 +73,6 @@ These attach to whichever mode you chose.
 | Flag | Does |
 |---|---|
 | `--screenshot[=<path>]` | Build, render one frame without a window, write a PNG. Defaults to `build/<name>.png` |
-| `--frame=<N>` | Frame to capture, stepped at 60fps. Defaults to `0` |
 | `--viewport=<WxH>` | Capture size in pixels. Defaults to the artboard's own size |
 | `--bench=<frames>` | Build, time that many frames without a window, report advance and render statistics plus WASM memory growth |
 
@@ -79,7 +85,49 @@ frames and writes no PNG, without saying so.
 |---|---|
 | `--data=<path=value>` | Set one view model property before the scene runs. Repeat the flag for several properties |
 | `--pointer=<kind@x,y>` | Simulate one pointer event at artboard coordinates. Repeatable |
+| `--advance=<N\|Ns\|Nms>` | Step the scene forward. Repeatable, and runs in order with the other interactions |
 | `--artboard=<name>` | Artboard to show on launch. An unknown name falls back to the first artboard without warning |
+
+Interactions run in the order you write them, and `--pointer` and `--advance` need
+`--screenshot`.
+
+#### Advancing Time
+
+`--advance` steps the scene where it sits among the other interactions. A bare number
+is frames at 60fps; `1s` or `250ms` is animation time, stepped in 1/60s frames with
+one shorter frame for any remainder.
+
+```bash
+rive myproject --screenshot=out.png --advance=60      # 60 frames
+rive myproject --screenshot=out.png --advance=1s      # the same, written as time
+rive myproject --screenshot=out.png --advance=250ms
+```
+
+Position it for what you need:
+
+| Where | Does |
+|---|---|
+| Before a gesture | Plays an intro before the interaction lands |
+| Between two gestures | Lets one action's transition finish before the next starts |
+| After the last gesture | Settles the scene before the capture |
+
+```bash
+rive myproject --screenshot=out.png \
+  --advance=1s \
+  --pointer=click@120,60 \
+  --advance=20
+```
+
+Values are digits only. A sign, whitespace, trailing text, or anything above a
+32-bit unsigned integer is rejected.
+
+<Note>
+`--advance` replaces `--frame`. A bare `--advance=N` means what `--frame=N` meant, so
+`--frame=20` becomes `--advance=20`. Passing `--frame` or `--wait` is an error that
+names `--advance`.
+
+`--bench` takes its own frame count and refuses `--advance`.
+</Note>
 
 #### Setting Data
 
@@ -263,8 +311,8 @@ connection even with valid stored credentials.
 
 <Warning>
 Exit 2 does not cover a misspelled flag. The CLI ignores flags it does not recognize,
-and unparseable values on flags it does, then builds and exits `0`. `--bogus`,
-`--frame=abc` and `--viewport=abc` all succeed silently. A green exit is not proof
+and unparseable values on flags it does, then builds and exits `0`. `--bogus` and
+`--viewport=abc` both succeed silently. A green exit is not proof
 your flags landed.
 </Warning>
 

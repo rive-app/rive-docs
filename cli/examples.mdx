@@ -35,7 +35,7 @@ writes a PNG. It needs no login, which makes it the check to run in CI.
 
 ```bash
 rive myproject --screenshot=out.png                    # frame 0
-rive myproject --screenshot=out.png --frame=60         # one second in, at 60fps
+rive myproject --screenshot=out.png --advance=1s       # one second in
 rive myproject --screenshot=out.png --viewport=390x844 # at a specific size
 ```
 
@@ -63,7 +63,7 @@ when it next runs:
 
 ```bash
 rive myproject --screenshot=hover.png --pointer=move@120,60
-rive myproject --screenshot=on.png    --pointer=click@120,60 --frame=20
+rive myproject --screenshot=on.png    --pointer=click@120,60 --advance=20
 ```
 
 Both flags repeat, so you can set several values or play a sequence of gestures.
@@ -84,13 +84,14 @@ way.
 
 ```bash
 rive myproject --screenshot=rest.png
-rive myproject --screenshot=on.png  --pointer=click@120,60 --frame=20
-rive myproject --screenshot=off.png --pointer=click@120,60 --pointer=move@400,400 \
-                                    --pointer=click@120,60 --frame=20
+rive myproject --screenshot=on.png  --pointer=click@120,60 --advance=20
+rive myproject --screenshot=off.png --pointer=click@120,60 --advance=1 \
+                                    --pointer=click@120,60 --advance=20
 ```
 
-Put a `move` between two clicks on the same control, as above. Back-to-back clicks
-can both act on the old value.
+Put an `--advance` between two clicks on the same control, as above. A value a
+listener writes is not visible to the next listener until a frame has passed, so
+back-to-back clicks can both act on the old value.
 </UseCase>
 
 ## Checking Responsiveness
