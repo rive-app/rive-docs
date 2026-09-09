@@ -59,9 +59,11 @@ Clipping artboards is generally fine, but if you're experiencing performance iss
 
 In most cases you can safely remove the clip from the main artboard itself, since nothing outside the Rive instance will be rendered at runtime.
 
-#### Unused Artboards
+#### Artboard Export
 
-Unused artboards are still included in the compiled .riv file and are parsed when the file is first loaded. This can lead to unnecessary memory usage and performance overhead, especially if the unused artboards contain complex animations or large assets. To keep your file lean and efficient, it's best practice to remove any artboards that aren't actively being used.
+Not every artboard in your Rive file is included in the exported `.riv`. The default artboard and any artboards marked as **Components** are included automatically. Other artboards, including their animations, State Machines, and other artboard-specific content, are excluded.
+
+Assets referenced by an excluded artboard may still be included in the `.riv`. To exclude an asset from the runtime file, set its export behavior to **Prevent Export**.
 
 ### Idle Animations
 
