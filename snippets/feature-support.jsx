@@ -110,14 +110,14 @@ export const FeatureSupportGroup = ({
         gpuCanvas: {
             title: "GPU Canvas",
             runtimes: {
-                webCanvas: { supported: false, description: "Coming soon" },
+                webCanvas: { supported: false, description: "NA" },
                 webCanvasLite: { supported: false, description: "NA" },
                 webWebGL: { supported: false, description: "Not supported" },
-                webWebGL2: { supported: false, description: "Coming soon" },
-                reactCanvas: { supported: false, description: "Coming soon" },
+                webWebGL2: { supported: true, version: "2.42.0+" },
+                reactCanvas: { supported: false, description: "NA" },
                 reactCanvasLite: { supported: false, description: "NA" },
                 reactWebGL: { supported: false, description: "Not supported" },
-                reactWebGL2: { supported: false, description: "Coming soon" },
+                reactWebGL2: { supported: true, version: "4.34.0+" },
                 reactNative: { supported: false, description: "Coming soon" },
                 reactNativeLegacy: { supported: false, description: "Not supported" },
                 flutter: { supported: true, version: "0.15.0-dev.1" },
