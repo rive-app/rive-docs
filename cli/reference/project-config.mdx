@@ -1,7 +1,7 @@
 ---
 title: "Project Configuration"
 sidebarTitle: "rive.yaml"
-description: "Project layout, rive.yaml keys, and pushing to a Rive file."
+description: "Project layout and rive.yaml keys."
 ---
 
 A project is any directory containing a `rive.yaml`. Only `name` is required:
@@ -88,10 +88,6 @@ libraries:
 
 revFlavor: editable          # or "library"
 
-push:
-  projectId: 9
-  fileId: 512
-
 output:
   dir: build
 
@@ -144,9 +140,6 @@ alongside the project's.
 **`revFlavor`** — `editable` (the default) or `library`. Controls whether the exported
 `.rev` opens as a normal editor file or as a library others import.
 
-**`push`** — The Rive file `rive push` updates. Written back automatically by the
-first push. Edit or remove it to retarget.
-
 **`output.dir`** — Where the `.riv` is written. Defaults to `build`.
 
 **`logs.file`** — Append-only interleave of compiler problems, script `print` output
@@ -164,70 +157,3 @@ Keys the CLI does not know are ignored without a warning, and so is an `artboard
 entry naming an artboard that does not exist. A typo in `rive.yaml` will not fail the
 build.
 
-## Pushing to a Rive File
-
-`rive push` builds the project and uploads it to a Rive file in your account, with no
-`.rev` on disk and no drag and drop. That file is the source of truth your team works
-from: it opens in the Editor from the file browser like any other, and every push
-replaces its contents and lands as a named entry in its revision history.
-
-Because it writes to your account rather than your disk, `rive push` needs a session.
-It uses its own, separate from `rive login`.
-
-```bash
-rive push --login   # once per machine: sign in and store the session
-rive push           # build and push. The first push creates the file
-```
-
-### The First Push
-
-A file lives in a project, so the first push has to pick one. With a single project
-in your account it is picked automatically; with several the CLI opens a picker.
-`--project=<id>` skips the picker, and `rive push --list` prints every project with
-its id without building anything.
-
-The created file is recorded in `rive.yaml`:
-
-```yaml
-push:
-  projectId: 9
-  fileId: 512
-```
-
-Commit this so everyone pushing the project updates the same file. Delete the
-`fileId` line to make the next push create a fresh file.
-
-### Every Push After
-
-A later push sends only what differs from the file's live content, then names a
-revision:
-
-```bash
-rive push --name="before the terrain rewrite"
-```
-
-A push with nothing new reports `already up to date` and adds no revision. Previous
-content is never lost. It stays in the revision history, and the Editor can restore
-any entry.
-
-<Warning>
-The push wins. If someone has the file open in the Editor while you push, they see
-the content swap live, and any Editor-made changes to pushed content are overwritten.
-</Warning>
-
-What gets pushed is exactly what `--rev` would export: the project's own scripts,
-assets and artboards, minus everything `excludeFromRev` drops. Libraries are not
-pushed. Each one exports its own `.rev` and is published separately.
-
-### Troubleshooting
-
-| Message | Meaning |
-|---|---|
-| `no session for prod` | Never signed in here. Run `rive push --login` |
-| `session expired` | Run `rive push --login` again |
-| `file <id> is missing or not accessible` | The bound file was deleted or you lost access. Clear `push.fileId` to create a new one |
-| `not authorized for this file` | Your account cannot edit it |
-| `push aborted: build failed` | Fix the build first. `rive <dir> --verify` shows the problems |
-
-A failed push never half-applies. Changes land only once the server has accepted all
-of them.

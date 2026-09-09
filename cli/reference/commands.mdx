@@ -24,9 +24,7 @@ installed version.
 | `rive samples` | Clone a runnable example project to your machine |
 | `rive schema` | Look up types |
 | `rive inspect` | Print the resolved scene |
-| `rive push` | Build the project and send it to a Rive file in your account, where the Editor opens it. Needs a session |
 | `rive doctor` | Check the environment: version, auth, ports, project |
-| `rive lsp` | Language server over stdio, for editor integrations |
 | `rive update` | Install the latest published CLI |
 | `rive switch` | Pick a CLI version, or select one by name |
 | `rive uninstall` | Remove a cached CLI version |
@@ -222,29 +220,6 @@ reported on stderr but still exits `0`, so test for the message, not the code.
 | `--all` | Include editor-only properties |
 | `--artboard=<name>` | One artboard only. An unknown name gives an empty `artboards` list and still exits `0` |
 
-### `push`
-
-```bash
-rive push --login     # once per machine: sign in and store the session
-rive push [dir]       # build the project and send it to the bound Rive file
-```
-
-This uploads to your Rive account, replacing the bound file's contents and adding an
-entry to its revision history. It is the same artifact `--rev` would export, sent
-over the network instead of written to disk, so the file you and your team open in
-the Editor becomes what the project just built.
-
-| Flag | Does |
-|---|---|
-| `--project=<id>` | Project for the first push. Falls back to `push.projectId` in `rive.yaml`; a single project is picked automatically, and several open a picker |
-| `--list` | List your projects with their ids, then exit |
-| `--name=<label>` | Revision history label. Defaults to `rive-cli push` |
-| `--login` | Sign in with username and password and store push's own session. Needs a TTY |
-| `--uat` | Target the UAT environment |
-| `--optimize` | Compile scripts at O2 |
-| `--quiet` | Suppress build logs |
-
-See [Pushing to a Rive File](/cli/reference/project-config#pushing-to-a-rive-file).
 
 ### `doctor`
 
@@ -254,20 +229,10 @@ rive doctor [project-dir]
 
 | Flag | Does |
 |---|---|
-| `--uat` | Check the session against UAT |
 | `--format=json` | Machine-readable report on stdout |
 
 `doctor` prints five checks (`version`, `update`, `auth`, `live-link` and `project`),
 each `ok`, `warn` or `fail`, and exits `0` even when one warns.
-
-### `lsp`
-
-```bash
-rive lsp [project-dir]
-```
-
-Language server over stdio, for editor integrations. The project root comes from the
-client's workspace folder; `project-dir` overrides it. Needs no login.
 
 ## Signing In
 
@@ -277,7 +242,6 @@ client's workspace folder; `project-dir` overrides it. Needs no login.
 | Preview window, `--once`, `--verify`, `--test`, `--screenshot`, `--serve`, `--headless-serve` | No, and these work offline |
 | `create`, `docs`, `samples`, `schema`, `inspect` | No |
 | `update`, `whoami`, `doctor` | No account, but they reach the network. `whoami` exits `3` when you are not signed in; `doctor` reports it as a warning and still exits `0` |
-| `rive push` | Yes, and a separate one. Sign in with `rive push --login` |
 
 Credentials live outside the project, in `~/.config/rive/app.rive.cli/`.
 
@@ -335,10 +299,8 @@ person.
 | Variable | Overrides |
 |---|---|
 | `RIVE_API_BASE` | The API host |
-| `RIVE_COOP_HOST` | The sync server |
 | `RIVE_NO_TUI` | Set to `1` to disable interactive pickers |
 
-`--uat` on `push` and `doctor` switches the hosts to the UAT environment at once.
 
 <Note>
 Interactive pickers draw on stderr, so redirecting stdout alone does not disable
