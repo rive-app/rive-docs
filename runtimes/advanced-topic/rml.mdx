@@ -4,15 +4,13 @@ sidebarTitle: "RML"
 description: "The XML format that describes a Rive scene as text."
 ---
 
-RML is XML. Every element is a Rive type, every attribute is one of its properties,
-and nesting one element inside another links them, so there is no separate grammar
-to learn. The names are the same ones the Editor uses.
+Rive Markup Language (RML) is a text-based representation of a Rive file. It lets you create and modify Rive content as code, making it possible to build Rive files with coding agents and other text-based workflows instead of working exclusively in the Editor.
 
-One `.rml` file describes a whole Rive file. The [Rive CLI](/cli/overview) compiles it
-to both outputs: the [`.riv`](/runtimes/advanced-topic/format) a runtime loads, and
-the `.rev` that opens in the Editor.
+RML uses XML to describe the objects and relationships in a Rive file. Every element is a Rive type, every attribute is one of its properties, and nesting elements links them together. The names are the same ones the Editor uses, so there is no separate RML object model to learn.
 
-Work with a [coding agent](/cli/agents) to create the RML and read the result.
+One `.rml` file describes a whole Rive file. The [Rive CLI](/cli/overview) compiles it into a `.riv` file for use with the Rive Runtimes or a `.rev` file that you can open and continue editing in the Rive Editor.
+
+Work with a [coding agent](/cli/agents) to create RML, compile it, inspect the result, and iterate on your Rive file.
 
 ## A Complete Scene
 
