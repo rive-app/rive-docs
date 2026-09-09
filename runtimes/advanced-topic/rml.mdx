@@ -18,12 +18,10 @@ The following example shows how RML maps familiar Rive concepts (an artboard, sh
 
 ```xml scene.rml
 <Artboard defaultStateMachineId="0:7" width="500" height="500" name="Artboard" id="0:2">
-    <!-- Artboard background -->
     <Fill name="Background">
         <SolidColor colorValue="FF1D1D1D" name="Color"/>
     </Fill>
 
-    <!-- Triangle Shape -->
     <Shape x="250" y="250" name="Triangle" id="0:14">
         <Triangle originX="0.5" originY="0.5" width="220" height="200" name="Path"/>
         <Fill name="Fill">
@@ -63,17 +61,23 @@ RML follows the structure of a Rive file. Artboards contain their scene content,
 
 Nesting reflects relationships between Rive objects. In the example above, the `Shape` contains a `Triangle` path and a `Fill`. Properties belong to their corresponding Rive type, so the transform position (`x` and `y`) belongs to the `Shape`, while `width` and `height` belong to the `Triangle`.
 
-Animations reference the objects and properties they change. Here, `KeyedObject objectId="0:14"` targets the Triangle shape, while `propertyKey="15"` identifies its rotation property. The State Machine references that animation, and `defaultStateMachineId="0:7"` on the Artboard causes the State Machine to play when the file loads.
+Animations reference the objects and properties they change. Here, `KeyedObject objectId="0:14"` targets the shape names "Triangle", while `propertyKey="15"` identifies its rotation property. The State Machine references that animation, and `defaultStateMachineId="0:7"` on the Artboard causes the State Machine to play when the file loads.
 
-## Ids and References
+<Note>
+ The following sections use the Rive CLI to look up RML types, compile files, and inspect the results. See [Rive CLI](/cli/overview) to install the CLI and learn the available commands.
+</Note>
+
+## Writing RML
+
+### IDs and References
 
 RML uses IDs when one element needs to reference another. For example, an animation uses `objectId` to identify the object it animates, while an Animation State uses `animationId` to identify the animation it plays.
 
-IDs are two numbers separated by a colon (`client:object`), such as `0:12` or `14:11981`. Each ID must be unique across the entire document. Elements only need an `id` when another element references them.
+IDs are two numbers separated by a colon, such as `0:12` or `14:11981`. Each ID must be unique across the entire document. Elements only need an `id` when another element references them.
 
 References use attributes ending in `Id`, such as `styleId`, `animationId`, and `objectId`. Nesting creates many of these relationships automatically, so you usually don't need to write the reference yourself. Run `rive docs format` to see which references are created by nesting.
 
-## Values
+### Value Formats
 
 | Type | Written as |
 |---|---|
@@ -82,17 +86,6 @@ References use attributes ending in `Id`, such as `styleId`, `animationId`, and 
 | Enum | A name or its integer: `layoutWidthScaleType="fill"` |
 | Rotation | Radians. A full turn is `6.2831855`. |
 | Animation timing | Frames, at the animation's `fps` (default 60). Transition durations are milliseconds. |
-
-## Looking Up Types
-
-There are hundreds of core types. Look names up rather than guessing at them:
-
-```bash
-rive schema Rectangle              # properties, defaults, enum names, property keys
-rive schema --search gradient      # find the type name in the first place
-rive schema Shape --animatable     # only properties that can be keyed
-rive schema Shape --bindable       # only properties that can be data bound
-```
 
 ## Checking Your Work
 
@@ -104,24 +97,31 @@ rive inspect <dir> --json        # what got built, and is `problems` empty?
 rive <dir> --screenshot=out.png  # does it look right?
 ```
 
-A clean build only proves the names are right. Run `inspect` for what got built, and
+A clean build proves that the file compiles, but not that it behaves or looks as intended.
+
+Run `inspect` for what got built, and
 a screenshot for what it looks like. A bind pointing at the wrong property, or a
 shape that renders invisibly, passes the first two checks. See
 [Examples](/cli/examples#headless-rendering).
 
-## The Full Reference
+## RML Reference
 
-The CLI carries the complete RML reference, kept in step with the version you have
-installed:
+RML includes hundreds of Rive types and properties. Rather than memorizing or guessing their names, use the CLI to look up the schema:
 
 ```bash
-rive docs                    # the index
-rive docs format             # how RML works at all
-rive docs --list             # pick a topic to read
-rive docs --search gradient  # search every topic
+rive schema Rectangle              # properties, defaults, enum names, property keys
+rive schema --search gradient      # find a type by name
+rive schema Shape --animatable     # properties that can be keyed
+rive schema Shape --bindable       # properties that can be data bound
 ```
 
-`format` covers the reference tables, listeners, nested artboards, components and
-keyframe types. `layout`, `data`, `state-machines`, `text`, `drawing`, `rigging`,
-`transforms`, `easing` and `assets` cover the rest of the object model, and `gotchas`
-collects the things that fail silently.
+For broader RML concepts and patterns, use the RML reference included with the CLI:
+
+```bash
+rive docs                    # reference index
+rive docs format             # RML structure and format
+rive docs --list             # list available topics
+rive docs --search gradient  # search all topics
+```
+
+The reference covers topics including layout, data binding, State Machines, text, drawing, rigging, transforms, easing, and assets. `rive docs gotchas` covers common issues, including those that may fail silently.
