@@ -10,15 +10,11 @@ Runs allow you break your text up into sections — typically, they're used to a
 
 A Text object acts as a parent that can contain multiple Text Runs as children. Each Text Run represents a specific portion of the Text object and can have its own value and Text Style, allowing it to be targeted at runtime.
 
-You may want to split your text into multiple runs to apply a different style (such as font, font size, color etc.) to a certain part of your text, where you can then [update your text runs at runtime](/runtimes/data-binding).
-
 <Info>
   A Text Run may only have one Text Style applied at a time.
 </Info>
 
-For example, an animation welcoming a user to an app or website may greet them by their name. In the Rive Editor, you may design and animate the text to read "Welcome back, username". Defining "username" as its own run means you can target it with the Rive Runtimes and replace it with the user's name.
-
-In a marketplace app, an apartment listing can use separate Text Runs for the BHK, area, amenities, and price so that each part can be styled independently.
+For example, an animation might greet a user with "Welcome back, username". By making "username" its own Text Run, you can give it a different style and [update it at runtime](/runtimes/data-binding) with the user's name.
 
 ![Update text for a specific run](/images/editor/text/text-runs-update-run.gif)
 
