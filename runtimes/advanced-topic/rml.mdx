@@ -61,7 +61,7 @@ RML follows the structure of a Rive file. Artboards contain their scene content,
 
 Nesting reflects relationships between Rive objects. In the example above, the `Shape` contains a `Triangle` path and a `Fill`. Properties belong to their corresponding Rive type, so the transform position (`x` and `y`) belongs to the `Shape`, while `width` and `height` belong to the `Triangle`.
 
-Animations reference the objects and properties they change. Here, `KeyedObject objectId="0:14"` targets the shape names "Triangle", while `propertyKey="15"` identifies its rotation property. The State Machine references that animation, and `defaultStateMachineId="0:7"` on the Artboard causes the State Machine to play when the file loads.
+Animations reference the objects and properties they change. Here, `KeyedObject objectId="0:14"` targets the shape named "Triangle", while `propertyKey="15"` identifies its rotation property. The State Machine references that animation, and `defaultStateMachineId="0:7"` on the Artboard causes the State Machine to play when the file loads.
 
 <Note>
  The following sections use the Rive CLI to look up RML types, compile files, and inspect the results. See [Rive CLI](/cli/overview) to install the CLI and learn the available commands.
