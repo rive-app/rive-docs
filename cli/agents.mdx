@@ -1,0 +1,54 @@
+---
+title: "Working with AI Agents"
+sidebarTitle: "AI Agents"
+description: "Pair the Rive CLI with Claude Code, Cursor, or your agent of preference."
+---
+
+Pair the Rive CLI with a coding agent to create and iterate on Rive graphics using natural language. The agent can write RML, scripts, and shaders directly in your project while you watch the result update in the live preview.
+
+Each Rive project includes instructions that teach coding agents how to work with Rive. Your agent can use the CLI to look up Rive types and properties, compile and inspect its work, and render screenshots to check the result. This gives the agent the context and feedback it needs to make changes without you having to specify the underlying RML.
+
+## Setting up
+
+<Steps>
+  <Step title="Create a project">
+    ```bash
+    rive create myproject
+    ```
+
+    `rive create` writes an `AGENTS.md` into the folder. Agents read this file when
+    they open the directory, and it tells them how to look up the CLI reference and how to check
+    their work.
+  </Step>
+  <Step title="Start the preview window">
+    ```bash
+    rive myproject
+    ```
+
+    Leave this running in its own terminal. It rebuilds and reloads on every save, so
+    you watch the scene change as the agent edits it.
+  </Step>
+  <Step title="Open the folder in your agent">
+    Open `myproject` in Claude Code, Cursor, or any agent that can read and write
+    files and run shell commands. No further setup is needed.
+  </Step>
+  <Step title="Describe what you want">
+    Prompt the agent in plain language. It reads `AGENTS.md`, looks up the types it
+    needs with `rive docs` and `rive schema`, writes the RML and Luau, then checks the
+    result with `rive <dir> --verify` and `rive inspect`, the two checks `AGENTS.md`
+    tells it to run. Ask for a `rive <dir> --screenshot` when you want to see it.
+
+    > Build a weather card: a rounded panel with the city name, a temperature
+    > readout, and an icon that animates when it rains. Bind the temperature to a
+    > view model property so the host app can set it.
+  </Step>
+</Steps>
+
+<Tip>
+Ask the agent to work in stages rather than building everything at once. Start with a wireframe, then add structure, content, and detail. This makes layout and sizing problems easier to catch early and gives you opportunities to redirect the agent as it works.
+</Tip>
+
+## Other ways to use AI with Rive
+
+- [AI Agent](/editor/ai-agent) - Rive's own agent, built into the Editor
+- [MCP Integration](/editor/ai/mcp) - connect the desktop Editor to an external AI tool

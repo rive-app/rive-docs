@@ -1,0 +1,174 @@
+---
+title: "Project Configuration"
+sidebarTitle: "rive.yaml"
+description: "Project layout and rive.yaml keys."
+---
+
+A project is any directory containing a `rive.yaml`. Only `name` is required:
+
+```yaml rive.yaml
+name: myproject
+```
+
+## File discovery
+
+Everything else in the directory is bundled by extension. There is no manifest to
+maintain.
+
+| Extension | Becomes |
+|---|---|
+| `.luau` | Scripts, both protocol scripts and importable modules |
+| `.wgsl` | Shaders, compiled to RSTB |
+| `.rml` | The scene. A project can hold any number of markup files, in any folders, and they compile as one document |
+| `.png` `.jpg` `.jpeg` `.webp` | Image assets |
+| Anything else | A blob asset, findable by name from scripts |
+
+<Note>
+This is how sources are *discovered*, not a promise that everything in the directory
+ends up in the `.riv`. Assets embed when something references them, either a `file=`
+in the RML or a lookup by name from a script. A font or image nothing uses adds nothing to
+the output.
+
+Scripts and shaders are the exception: every `.luau` and `.wgsl` in the scan is
+compiled into the file whether or not anything references it. Use `exclude` to keep
+one out.
+</Note>
+
+Markup files compile together, so an id declared in one file can be referenced from
+another. Ids may not repeat across files, and a problem is reported against the file
+it is in. Split by whatever reads well, such as artboards in one file and view models
+in another.
+
+Dot-files and dot-directories are skipped, and so are `rive.yaml`, whatever
+`output.dir` points at, and anything ending `.riv`, `.rev` or `.log`.
+
+Asset paths in RML are project-relative:
+
+```xml
+<!-- inside <Rive>, alongside the artboards -->
+<FontAsset file="Montserrat.ttf" name="Montserrat" id="0:30"/>
+<ScriptAsset file="main.luau" name="main" id="0:80"/>
+```
+
+A conventional project on disk:
+
+```text
+myproject/
+  rive.yaml
+  scene.rml
+  main.luau
+  mathutil.luau
+  Montserrat.ttf
+  logo.png
+  build/
+```
+
+## Full shape
+
+```yaml rive.yaml
+name: myproject
+main: main
+
+artboard:
+  width: 800
+  height: 600
+  background: "#1D1D1D"      # quote it, a bare # starts a YAML comment
+
+artboards:
+  main:
+    width: 1920
+    height: 1080
+
+exclude:
+  - docs
+
+excludeFromRev:
+  scripts:
+    - "*_test"
+  artboards:
+    - tests/*
+  assets:
+    - raw_*
+  contents:
+    - logo
+
+libraries:
+  - ../shared_widgets
+
+revFlavor: editable          # or "library"
+
+output:
+  dir: build
+
+logs:
+  file: build/rive.log
+  problems: build/problems.log
+```
+
+## Keys
+
+**`name`** — Required. Also the name other projects use to import this one.
+
+**`main`** — Which artboard is the file's default. Without it, the first layout
+script alphabetically wins. In an RML project the `.rml`'s own `Backboard` decides
+and this is ignored.
+
+**`artboard`** — Default size and background for generated artboards, used only when
+there is no `.rml`. Sizes default to 800 x 800. `background` takes `#RRGGBB` or
+`#AARRGGBB`; the `#` is required, which is why the value must be quoted. A value the
+CLI cannot read is dropped without a warning, leaving the default `#FF1D1D1D`.
+
+**`artboards`** — The same settings as `artboard`, set per artboard. Key each entry by
+its layout script's path with `.luau` dropped, so `ui/panel.luau` is `ui/panel`.
+
+**`exclude`** — Paths not to bundle at all. An entry matches a file or directory by
+exact path, matches everything under a directory, and matches files by glob with the
+same `*` and `?` as `excludeFromRev`. `output.dir` is excluded for you. Use it to keep
+the scan tidy.
+
+**`excludeFromRev`** — Drops matching things from the exported `.rev` only. The `.riv`
+and the preview window always contain everything. Four categories:
+
+| Category | Matches by |
+|---|---|
+| `scripts` | Module path, for Luau and WGSL |
+| `artboards` | Name |
+| `assets` | Name |
+| `contents` | Asset bytes, keeping the asset referenced but unembedded |
+
+Patterns support `*` (any run of characters, including `/`) and `?` (one character).
+Excluding a layout script also drops its generated artboard.
+
+**`libraries`** — Other project directories whose modules become importable under
+their project name:
+
+```lua
+local button = require('lib:shared_widgets/button')
+```
+
+Dependencies resolve through nested libraries, a library two projects both depend on
+is loaded once, and cycles are an error. Each library also exports its own `.rev`
+alongside the project's.
+
+**`revFlavor`** — `editable` (the default) or `library`. Controls whether the exported
+`.rev` opens as a normal editor file or as a library others import.
+
+**`push`** — `projectId` and `fileId`, the binding `rive push` writes back after the
+first push. `push.fileId` is what `--publish` sends when it asks whether to watermark.
+Do not hand-edit this property.
+
+**`output.dir`** — Where the `.riv` is written. Defaults to `build`.
+
+**`logs.file`** — Append-only interleave of compiler problems, script `print` output
+and system messages.
+
+**`logs.problems`** — Rewritten on every build, opening with a
+`# rive generation N | E errors, W warnings | OK|FAILED` header, so it always
+describes exactly one build. This is the file to read when scripting around the CLI.
+
+Neither `logs` key has a default. Omit them and no log file is written. `rive create`
+writes both into the scaffolded `rive.yaml`, pointed at `build/`; a hand-written
+`rive.yaml` holding only `name` gets no logs.
+
+Keys the CLI does not know are ignored without a warning, and so is an `artboards:`
+entry naming a script that does not exist. A misspelled key will not fail the build.

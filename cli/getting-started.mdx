@@ -1,0 +1,122 @@
+---
+title: "Getting Started"
+description: "Install the Rive CLI and build your first project."
+---
+
+Install the Rive CLI, create a project, and open the live preview. By the end of this guide, you'll have a `.riv` file you can load with the Rive Runtimes.
+
+<Steps>
+  <Step title="Install the CLI">
+    The CLI runs on macOS with Apple Silicon, on Linux x86_64, and on Windows.
+
+    <Tabs>
+      <Tab title="Installer">
+        ```bash
+        curl -fsSL https://releases.rive.app/cli/install.sh | sh
+        ```
+
+        Add the CLI to your `PATH` so the `rive` command is available in every new
+        shell, then reload your current shell to pick it up:
+
+        ```bash
+        echo 'export PATH="$HOME/.rive/bin:$PATH"' >> ~/.zshrc
+        source ~/.zshrc
+        ```
+      </Tab>
+      <Tab title="Windows">
+        ```powershell
+        irm https://releases.rive.app/cli/install.ps1 | iex
+        ```
+      </Tab>
+      <Tab title="Homebrew">
+        ```bash
+        brew install --cask rive-app/tap/rive-cli
+        ```
+
+        `rive update`, `rive switch` and `rive uninstall` need the installer build
+        under `~/.rive`, so they do not work with a Homebrew install. Manage a
+        Homebrew install with `brew` instead, using `brew upgrade` and
+        `brew uninstall --cask rive-cli`.
+      </Tab>
+    </Tabs>
+
+    Run `rive doctor` to check your install.
+  </Step>
+
+  <Step title="Create a project">
+    ```bash
+    rive create myproject
+    ```
+
+    That writes a `rive.yaml`, an `AGENTS.md` for coding agents, a `.gitignore`, and
+    a `scene.rml` holding the same frame the Editor gives a new file: an artboard, a
+    timeline, and a state machine that plays it on load. A shape you add and key
+    starts animating without any further setup.
+
+    Everything else you drop in the folder is picked up by extension: `.luau`
+    scripts, `.wgsl` shaders, images and fonts. The generated `rive.yaml` sets `name`
+    and turns the build logs on; everything else in
+    [rive.yaml](/cli/reference/project-config) is optional.
+  </Step>
+
+  <Step title="Open the preview window">
+    ```bash
+    rive myproject
+    ```
+
+    This opens a window showing the scene and watches the directory. Save any file
+    and it rebuilds and reloads, writing `myproject/build/myproject.riv`, the file
+    you can load with a [runtime](/runtimes/getting-started).
+
+    A new project has nothing drawn in it yet, so you get a dark rectangle. Keep this
+    running in one terminal while you edit in another.
+  </Step>
+</Steps>
+
+To build without opening a window, use `rive myproject --once`. To check that the
+project compiles without writing anything, use `--verify`.
+
+## Starting from an existing Rive file
+
+If the work already exists in the Rive Editor, convert it into a CLI-ready project rather than
+starting over. Export a `.rev` from the Editor, then point `rive create` at it:
+
+```bash
+rive create myproject --from-rev=myfile.rev # --from-rev takes a path to the .rev
+rive myproject
+```
+
+The scene comes out as `scene.rml`, and every script, shader and asset is written as
+its own file, laid out the way the Editor's **Assets** panel had them. You also get
+the usual `rive.yaml`, `AGENTS.md` and `.gitignore`, so it is an ordinary project
+from that point on.
+
+The project name has to be empty or new. Omit it and the `.rev`'s own name is used, so
+`myfile.rev` becomes `myfile/`.
+
+## Signing in
+
+You don't need to sign in to create, preview, or build projects locally. Sign in when you need to publish a file or export a `.rev` to open in the Rive Editor:
+
+```bash id="bmt6er"
+rive login
+```
+
+An account is required for `--publish`, which signs the file through Rive's API, and `--rev`, which exports a `.rev`. Everything else runs locally and works signed out and offline.
+
+<Warning>
+A file containing scripts that is destined for the web must be built with
+`--publish`. Unsigned scripts are rejected by the CDN and the web runtimes. A file with no scripts is unaffected.
+</Warning>
+
+`--publish` watermarks what it writes until the project is bound to a Rive file in
+your account. Binding is done by `rive push`, which is coming soon. Until then, every
+published file carries the watermark, and `--once` writes an unwatermarked build for
+local use.
+
+## More resources
+
+- [RML](/runtimes/advanced-topic/rml) - the markup that describes a scene
+- [AI Agents](/cli/agents) - hand the project to Claude Code or Cursor
+- [Examples](/cli/examples) - sample projects to start from, rendering without a window, and CI
+- [Commands](/cli/reference/commands) - every command and flag
