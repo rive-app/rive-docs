@@ -37,7 +37,7 @@ Rive Native acts as the bridge between Flutter and the Rive C++ runtime, allowin
 
 ---
 
-## Getting Started
+## Getting started
 
 `rive_native` is not yet publicly available on GitHub but will be soon. For now, you can pull the source code and example by running:
 
@@ -53,7 +53,7 @@ For an example implementation, see the `rive_player.dart` file in `rive_native/e
 
 ---
 
-## Platform Support
+## Platform support
 
 | Platform | Flutter Renderer | Rive Renderer |
 | -------- | ---------------- | ------------- |
@@ -71,7 +71,7 @@ For an example implementation, see the `rive_player.dart` file in `rive_native/e
 
 ---
 
-## Feature Support
+## Feature support
 
 See the [Feature Support page](/feature-support) for details.
 
@@ -118,7 +118,7 @@ dart run rive_native:setup --verbose --clean --build --platform macos
 
 A successful build leaves a `rive_marker_<platform>_development` file in the package, so subsequent `flutter run` and `flutter build` calls use your locally built libraries instead of downloading prebuilts. Without `--clean`, setup does nothing once this marker exists.
 
-### Build Requirements
+### Build requirements
 
 All platforms:
 
@@ -132,7 +132,7 @@ Per platform:
 - **Windows**: Visual Studio 2022 (**Desktop development with C++** workload) with `msbuild.exe` on `PATH` (for example, run from a Visual Studio developer prompt), Git Bash, and `make` (`choco install make`).
 - **Linux**: `clang`, `cmake`, `ninja-build`, `pkg-config`, `libgtk-3-dev`, `uuid-dev`, `libstdc++-12-dev`, and `libvulkan-dev` (apt package names).
 
-### Returning to Prebuilt Libraries
+### Returning to prebuilt libraries
 
 Run the setup script without `--build` - `--clean` removes the built libraries and marker files, and prebuilts are downloaded again:
 

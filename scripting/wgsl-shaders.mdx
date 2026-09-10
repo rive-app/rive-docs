@@ -23,7 +23,7 @@ Rive shaders use standard WGSL, with some restrictions for compatibility across 
   - **Fragment shader** - decides the color of each pixel covered by those vertices.
 </Info>
 
-## Creating a Shader
+## Creating a shader
 
 [Create a new script](/scripting/creating-scripts), select **WGSL Shader** as the type, and name it `BasicShader`.
 
@@ -31,7 +31,7 @@ Rive shaders use standard WGSL, with some restrictions for compatibility across 
   The [AI Agent](/editor/ai-agent/ai-agent) can be a helpful way to create or iterate on shader code. Describe the effect you want, then review and test the generated WGSL in your file.
 </Note>
 
-### Basic WGSL Shader
+### Basic WGSL shader
 
 This shader draws a single large triangle that covers the render target. The parts of the triangle outside the render target are clipped, leaving the entire target covered. This is a common technique called a fullscreen triangle.
 
@@ -79,7 +79,7 @@ fn fs_main(in: VertexOutput) -> @location(0) vec4<f32> {
 }
 ```
 
-### Rendering a Shader with a Script
+### Rendering a shader with a Script
 
 ```lua
 type ShaderDemo = {
@@ -209,7 +209,7 @@ UV coordinates identify a position within the texture, typically from `0` to `1`
 
 On the script side, add a `GPUTextureView` and `GPUSampler` to a `GPUBindGroup`. Their slots must match the `@binding` values declared in the shader.
 
-### Using an Artboard as a Texture
+### Using an Artboard as a texture
 
 Shaders sample textures, not Rive artboards directly. To apply a shader to an artboard, first render the artboard to an offscreen canvas:
 
@@ -227,7 +227,7 @@ Call `srcCanvas.image:view()` to obtain a `GPUTextureView`, then add that view t
 The linked Marketplace example uses this technique to render an artboard through a shader that distorts its texture coordinates with animated noise.
 
 
-## Shader Targets
+## Shader targets
 
 Rive shaders are authored in WGSL. When you export your file, Rive compiles each shader for the selected targets and includes those variants in the `.riv` file. The original WGSL source isn't included.
 
@@ -245,6 +245,6 @@ If a target is not selected, the shader isn't included for that backend and won'
 
 ![Shader Targets options in the Inspector](/images/scripting/shaders/shader-targets.png)
 
-## WGSL Support
+## WGSL support
 
 Rive uses standard WGSL with some restrictions to ensure shaders work across supported rendering backends. Rive supports vertex and fragment shaders, with up to four bind groups. Compute shaders and override declarations aren't supported. Some WGSL features are also unavailable, including 64-bit float and integer types, push constants, subgroup operations, and non-uniform resource indexing.

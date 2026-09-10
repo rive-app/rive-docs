@@ -35,7 +35,7 @@ Transitions define how and when a State Machine moves from one state to another.
 
 <YouTube id="C4KNgrrqt7k" />
 
-## Transition Path
+## Transition path
 
 A transition path determines how the State Machine moves from one state to another.
 
@@ -63,7 +63,7 @@ Conditions determine when a transition can occur.
 
 <YouTube id="30HJo_DaLDk" />
 
-### Adding a Condition
+### Adding a condition
 
 To add a condition to a transition, select the transition, then click the plus button next to **Conditions**.
 
@@ -79,7 +79,7 @@ In this condition, `isWalking` is the **source value**, **equals** is the **oper
 
 ![Add a transition condition](/images/editor/state-machine/transitions/add-condition.gif)
 
-#### The Source Value
+#### The source value
 
 Conditions can be driven by many different sources, including:
 
@@ -89,13 +89,13 @@ Conditions can be driven by many different sources, including:
 
 ![Source value](/images/editor/state-machine/transitions/source-value.png)
 
-#### The Operator
+#### The operator
 
 Conditions can use comparisons such as equals, does not equal, greater than, greater than or equal to, less than, and less than or equal to. The available comparisons depend on the type of value being compared.
 
 ![Operators](/images/editor/state-machine/transitions/comparisons.png)
 
-#### Comparison Value
+#### Comparison value
 
 The comparison value is the value the source value is compared against.
 
@@ -105,14 +105,14 @@ You can enter a fixed comparison value, such as `true`, `100`, or `"mobile"`. Yo
 
 For example, a transition might occur when `speed` is greater than a data-bound `walkThreshold` value.
 
-### Adding Multiple Conditions
+### Adding multiple conditions
 
 You can add multiple conditions to a single transition. All conditions must be met before the transition occurs.
 
 ![Adding multiple conditions](/images/editor/state-machine/transitions/or-condition.png)
 
 
-## Transition Properties
+## Transition properties
 
 Once you’ve added a transition, selecting the direction indicator will allow you to configure the transition. There are three different sections to the transition panel, the transition properties, conditions, and interpolation.
 
@@ -144,7 +144,7 @@ For example, if you want the state machine to play the entire animation before t
 
 ![Exit time 100%](/images/editor/state-machine/transitions/exit-time-100.gif)
 
-### Pause Source When Exiting
+### Pause source when exiting
 
 **Pause Source When Exiting** pauses the animation in the state you are leaving while the transition plays.
 
@@ -152,7 +152,7 @@ In this example, the up-and-down motion pauses as soon as the transition begins.
 
 ![Pause when exiting](/images/editor/state-machine/transitions/pause-source-when-exiting.gif)
 
-### Allow Exit During Transition
+### Allow exit during transition
 
 **Allow exit during transition** controls whether the State Machine can leave a transition before that transition finishes.
 
@@ -189,7 +189,7 @@ Actions can be used to:
 
 <YouTube id="4Uuu0MkBawE" />
 
-### Creating an Action
+### Creating an action
 
 ![Creating a transition action](/images/editor/state-machine/transitions/transition-action.gif)
 
@@ -202,14 +202,14 @@ Actions can be used to:
   </Step>
 </Steps>
 
-#### Action Timing
+#### Action timing
 
 Each action can run at either:
 
 - **Start** — Runs when the transition begins
 - **End** — Runs after the transition completes
 
-## Randomize Exit
+## Randomize exit
 
 
 **Randomize Exit** lets a state choose from its outgoing transition paths at random.
@@ -221,7 +221,7 @@ To use it, select the origin state and enable **Randomize Exit**. The state list
 The higher the weight, the more likely that path is to be chosen. For example, if **Timeline 1** has a weight of `3` and **Timeline 2** has a weight of `1`, the State Machine has a 75% chance of transitioning to **Timeline 1** and a 25% chance of transitioning to **Timeline 2**.
 
 
-## Disabling a Transition
+## Disabling a transition
 
 You can temporarily disable a transition without deleting it. Disabling is useful when you want to isolate part of a state machine for testing, or temporarily remove a path without losing its configuration.
 

@@ -3,8 +3,6 @@ title: "World-Space RenderTargets"
 description: "Drag a Rive RenderTarget into the level to create an in-world surface with an auto-generated material."
 ---
 
-# World-Space RenderTargets
-
 <Frame>
   ![Duelist Render Target](/images/unreal/DuelistRenderTarget.png)
 </Frame>
@@ -45,11 +43,11 @@ Double clicking the created RenderTarget will open the asset editor in which you
   Start with 512×512. Increase only if the screen is large and close to the camera.
 </Tip>
 
-## 2) Drag it into the Level
+## 2) Drag it into the level
 
 Drag the RenderTarget from the Content Browser into the viewport to apply it to a mesh. Unreal will automatically create a material that samples the RenderTarget texture. At this point you should see the Rive content on the surface.
 
-## 3) How updates work (Tick + Draw)
+## 3) How updates work (tick + draw)
 
 A RenderTarget is a texture output. It only changes when the runtime is advanced and drawn.
 

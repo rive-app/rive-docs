@@ -61,7 +61,7 @@ The deprecated synchronous APIs (and the state machine input, text run, and even
 
 This release introduces async view model instance creation and deprecates the synchronous creation path.
 
-### `useViewModelInstance` Gains `async: true` and `isLoading`
+### `useViewModelInstance` gains `async: true` and `isLoading`
 
 Pass `async: true` to opt in to asynchronous instance creation. The flag signals that your component handles the loading state: the result now includes `isLoading`, and the instance is not available on the first render — gate rendering on it. This prepares your code for the new runtime implementation, where creating an instance is an asynchronous operation.
 
@@ -99,16 +99,16 @@ Pass `async: true` to opt in to asynchronous instance creation. The flag signals
 
 `async` must stay constant for the lifetime of the component — remount (e.g. change `key`) to switch modes.
 
-### `useRive` Ref Starts `undefined`
+### `useRive` ref starts `undefined`
 
 `useRive().riveViewRef` starts as `undefined` (view pending) instead of `null` (failed/detached), mirroring the `useRiveFile` convention. Code using `riveViewRef === null` as a "not ready yet" check should use `riveViewRef == null` or optional chaining instead.
 
-### Other Changes
+### Other changes
 
 - On the synchronous (deprecated) path, a `null` source now settles to a terminal `{ instance: null, isLoading: false }` instead of reporting a loading state indefinitely.
 - On Android, reading the auto-bound instance from a view ref right after mount can briefly resolve `null` while binding completes. The `async: true` path waits for the instance; one-shot reads via the deprecated sync path should be avoided.
 
-### Quick Reference
+### Quick reference
 
 | Previous | Replacement |
 |---|---|
@@ -121,7 +121,7 @@ Pass `async: true` to opt in to asynchronous instance creation. The flag signals
 
 This release improves error transparency and loading semantics for hooks, preparing for the async experimental runtime.
 
-### `useViewModelInstance` Returns `{ instance, error }`
+### `useViewModelInstance` returns `{ instance, error }`
 
 The hook now returns a discriminated union instead of `ViewModelInstance | null`:
 
@@ -154,7 +154,7 @@ The hook now returns a discriminated union instead of `ViewModelInstance | null`
   </Tab>
 </Tabs>
 
-### `useRiveFile` Error Is Now `Error`
+### `useRiveFile` error is now `Error`
 
 The `error` field is now an `Error` object instead of a `string`, and `riveFile` is `undefined` while loading (was `null`). `isLoading` is kept for convenience.
 
@@ -177,7 +177,7 @@ The `error` field is now an `Error` object instead of a `string`, and `riveFile`
   </Tab>
 </Tabs>
 
-### Property Hooks Start `undefined`
+### Property hooks start `undefined`
 
 `useRiveNumber`, `useRiveString`, `useRiveBoolean`, `useRiveColor`, and `useRiveEnum` no longer read `property.value` synchronously on mount. The value starts as `undefined` and arrives via the property listener.
 
@@ -191,7 +191,7 @@ const { value: health } = useRiveNumber('health', instance);
 setHealth((prev) => (prev ?? 0) + 1);
 ```
 
-### Quick Reference
+### Quick reference
 
 | Previous | Replacement |
 |---|---|
@@ -206,16 +206,16 @@ setHealth((prev) => (prev ?? 0) + 1);
 
 This release introduces an **async-first API** to prepare for the new experimental Rive runtime. Synchronous methods that block the JS thread are deprecated and replaced with async equivalents. State machine input and text run methods are deprecated in favor of [data binding](/runtimes/data-binding) and will be removed entirely in the experimental runtime (and therefore in upcoming `@rive-app/react-native` versions).
 
-### What's Changed
+### What's changed
 
 - **Async methods** replace all synchronous ViewModel and property accessors
 - **Name-based access** replaces count/index-based ViewModel and artboard lookups
 - **`getValueAsync()` / `set()`** replace `property.value` for reading and writing properties
 - **State machine inputs, text runs, and events** are deprecated and will be removed in the experimental runtime — use [data binding](/runtimes/data-binding) instead
 
-### Migration Steps
+### Migration steps
 
-#### 1. ViewModel Access
+#### 1. ViewModel access
 
 <Tabs>
   <Tab title="New API">
@@ -236,7 +236,7 @@ This release introduces an **async-first API** to prepare for the new experiment
   </Tab>
 </Tabs>
 
-#### 2. Instance Creation
+#### 2. Instance creation
 
 <Tabs>
   <Tab title="New API">
@@ -263,7 +263,7 @@ This release introduces an **async-first API** to prepare for the new experiment
   directly.
 </Tip>
 
-#### 3. Property Value Access
+#### 3. Property value access
 
 <Tabs>
   <Tab title="New API">
@@ -282,7 +282,7 @@ This release introduces an **async-first API** to prepare for the new experiment
   </Tab>
 </Tabs>
 
-#### 4. Nested ViewModelInstance Access
+#### 4. Nested ViewModelInstance access
 
 <Tabs>
   <Tab title="New API">
@@ -299,7 +299,7 @@ This release introduces an **async-first API** to prepare for the new experiment
   </Tab>
 </Tabs>
 
-#### 5. List Property Access
+#### 5. List property access
 
 <Tabs>
   <Tab title="New API">
@@ -318,7 +318,7 @@ This release introduces an **async-first API** to prepare for the new experiment
   </Tab>
 </Tabs>
 
-#### 6. Artboard Access
+#### 6. Artboard access
 
 <Tabs>
   <Tab title="New API">
@@ -337,7 +337,7 @@ This release introduces an **async-first API** to prepare for the new experiment
   </Tab>
 </Tabs>
 
-#### 7. Async Setup Pattern
+#### 7. Async setup pattern
 
 Synchronous `useMemo` chains for ViewModel setup should be replaced with `useState` + `useEffect`, or simplified with the `useViewModelInstance` hook.
 
@@ -391,7 +391,7 @@ Synchronous `useMemo` chains for ViewModel setup should be replaced with `useSta
   </Tab>
 </Tabs>
 
-### Quick Reference
+### Quick reference
 
 | Deprecated | Replacement |
 |---|---|
@@ -414,7 +414,7 @@ Synchronous `useMemo` chains for ViewModel setup should be replaced with `useSta
 | `prop.value` (read) | `await prop.getValueAsync()` |
 | `prop.value = x` (write) | `prop.set(x)` |
 
-### Platform Caveats
+### Platform caveats
 
 | Limitation | Details |
 |---|---|
@@ -439,7 +439,7 @@ The new Rive React Native runtime (`@rive-app/react-native`) is a complete rewri
   before.
 </Note>
 
-### What's New
+### What's new
 
 **RiveFile Ownership:** You now own the `RiveFile` object via the `useRiveFile` hook, enabling file caching, multiple instances from one file, and better resource management.
 
@@ -481,7 +481,7 @@ Error handling is improved. See the [error handling](/runtimes/react-native/erro
 - **JDK**: 17+
 - **Nitro Modules**: 0.25.2+
 
-### Migration Steps
+### Migration steps
 
 #### 1. Installation
 
@@ -495,7 +495,7 @@ npm install @rive-app/react-native react-native-nitro-modules
   Modules](https://nitro.margelo.com/).
 </Note>
 
-#### 2. Update Imports
+#### 2. Update imports
 
 ```tsx
 // Old
@@ -505,7 +505,7 @@ import Rive from "rive-react-native";
 import { RiveView } from "@rive-app/react-native";
 ```
 
-#### 3. Loading Rive Files
+#### 3. Loading Rive files
 
 <Tabs>
   <Tab title="New Runtime">
@@ -528,7 +528,7 @@ import { RiveView } from "@rive-app/react-native";
 
 See [loading Rive files](/runtimes/react-native/loading-rive-files) for more information.
 
-#### 4. Component Migration
+#### 4. Component migration
 
 <Tabs>
   <Tab title="New Runtime">
@@ -561,7 +561,7 @@ See [loading Rive files](/runtimes/react-native/loading-rive-files) for more inf
 
 See [React Native runtime](/runtimes/react-native) and [props](/runtimes/react-native/props) documentation for more information.
 
-#### 5. View Reference Migration
+#### 5. View reference migration
 
 <Tabs>
   <Tab title="New Runtime">
@@ -590,7 +590,7 @@ See [React Native runtime](/runtimes/react-native) and [props](/runtimes/react-n
 
 See [Rive ref methods](/runtimes/react-native/rive-ref-methods) for more information.
 
-#### 6. State Machine Inputs (Deprecated)
+#### 6. State Machine inputs (deprecated)
 
 <Warning>
   These methods are deprecated. Migrate to [data binding](#8-data-binding)
@@ -618,7 +618,7 @@ See [Rive ref methods](/runtimes/react-native/rive-ref-methods) for more informa
 
 See [state machine inputs](/runtimes/react-native/inputs) for more information.
 
-#### 7. Rive Events (Deprecated)
+#### 7. Rive Events (deprecated)
 
 <Warning>
   These methods are deprecated. Use [data binding triggers](#8-data-binding)
@@ -696,7 +696,7 @@ Main API changes:
 
 See [react-native/data binding](/runtimes/react-native/data-binding) for more information.
 
-#### 9. Out of Band Assets
+#### 9. Out of band assets
 
 <Tabs>
   <Tab title="New Runtime">
@@ -734,7 +734,7 @@ See [react-native/data binding](/runtimes/react-native/data-binding) for more in
 
 See [loading assets](/runtimes/react-native/loading-assets) for more information.
 
-#### 10. Text Run Updates (Deprecated)
+#### 10. Text Run updates (deprecated)
 
 <Warning>
   Direct text run methods (`.setTextRunValue()`, `.getTextRunValue()`) are
@@ -799,7 +799,7 @@ See [text runs](/runtimes/react-native/text) for more information.
 
 See [data binding](/runtimes/react-native/data-binding) for more information.
 
-### Getting Help
+### Getting help
 
 If you encounter issues:
 

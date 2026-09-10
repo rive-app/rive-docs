@@ -29,7 +29,7 @@ Semantics describe what an element is and how it should be understood. Adding se
   Rive handles mapping your semantics to each platform automatically. For details on which runtimes currently support semantics, see [Feature Support](/feature-support).
 </Note>
 
-## Adding Semantics
+## Adding semantics
 
 ![Adding semantics](/images/accessibility/semantics/adding-semantics.gif)
 
@@ -45,7 +45,7 @@ Semantics describe what an element is and how it should be understood. Adding se
   </Step>
 </Steps>
 
-### Semantic Role
+### Semantic role
 
 The semantic role defines what the element *is* (for example, a button or image). Screen readers use this to describe the element and determine how it should behave.
 
@@ -57,7 +57,7 @@ If your element doesn’t match a specific role, you can leave it set to **None*
   Some elements, like text, automatically infer their semantic role. See [Semantic Inference](#semantic-inference) for more info.
 </Info>
 
-## Semantic Properties
+## Semantic properties
 
 Semantic properties provide additional information about an element, such as its label, value, or hint.
 
@@ -74,7 +74,7 @@ For example, a slider that controls volume might have the label:
   Text elements automatically use their text content as the label. See [Semantic Inference](#semantic-inference) for more info.
 </Info>
 
-### Heading (Text only)
+### Heading (text only)
 
 Text elements can be marked as headings to define structure and hierarchy.
 
@@ -86,7 +86,7 @@ Headings help screen reader users navigate your content more easily.
   On web, Heading 1 maps to an `<h1>` element, Heading 2 to `<h2>`, and so on.
 </Info>
 
-### Value (Inputs only)
+### Value (inputs only)
 
 Some elements, like sliders and switches, have a **Value** property that reflects their current state.
 
@@ -140,7 +140,7 @@ Indicates that the element’s content may update dynamically and should be anno
 Semantic actions are interaction events triggered by assistive technologies. You can listen for these actions and update your experience in response.
 
 
-### Adding an Action
+### Adding an action
 
 <Steps>
   <Step title="Create a Listener">
@@ -154,7 +154,7 @@ Semantic actions are interaction events triggered by assistive technologies. You
   </Step>
 </Steps>
 
-### Types of Actions
+### Types of actions
 
 Actions include **tap**, **increase**, and **decrease**. Additional actions may be added in future releases.
 
@@ -168,7 +168,7 @@ When a user activates an element using a screen reader, a **tap** action is trig
   It’s common to add both a **Click** and a **Semantic Tap** listener to the same element to support pointer and assistive interactions.
 </Note>
 
-#### Increase / Decrease
+#### Increase / decrease
 
 Used for adjustable elements like sliders.
 
@@ -177,7 +177,7 @@ Users trigger these actions through assistive technologies—for example, by foc
 You should listen for **increase** and **decrease** and update your value accordingly.
 
 
-### Semantic Inference
+### Semantic inference
 
 Some roles and properties are inferred based on the element they are applied to.
 
@@ -185,13 +185,13 @@ For example, when adding semantics to a text element, the [Role](#semantic-role)
 
 ---
 
-## Testing Semantics
+## Testing semantics
 
 Adding semantics is only the first step. You should always test your experience at runtime to make sure it behaves as expected.
 
 Small issues—like a missing label or incorrect state—can make elements confusing or unusable for screen reader users.
 
-### Runtime Testing
+### Runtime testing
 
 The best way to test semantics is by using a screen reader.
 
@@ -204,7 +204,7 @@ Turn on a screen reader and navigate through your experience:
 - Listen to how each element is announced
 - Interact with buttons, sliders, and inputs
 
-### What to Check
+### What to check
 
 As you test, pay attention to:
 

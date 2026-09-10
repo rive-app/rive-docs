@@ -5,11 +5,11 @@ description: ''
 
 The .riv file is the binary runtime format exported from the Rive Editor and used by all Rive runtimes.
 
-## Runtime Format
+## Runtime format
 
 The Rive editor exports your project as a .riv file for consumption by the Rive runtimes. This is a binary representation of your Artboards, Shapes, Animations, State Machines, etc. This is the file that Rive's runtimes read to display your content in an application, game, website, etc. The format was designed to provide a balance of quick load times, small file sizes, and flexibility with regards to future changes/addition of features.
 
-### Binary Types
+### Binary types
 
 A binary reader for Rive runtime files needs to be able to read these data types from the stream.
 
@@ -98,13 +98,13 @@ This is a unique identifier for the file that in the future will be able to be u
 
 The Table of Contents section of the header is a list of the properties in the file along with their backing type. This allows the runtime to read past properties it wishes to skip or doesn't understand. It does this by providing the backing type for each property ID.
 
-#### Field Types
+#### Field types
 
 There are 5 fundamental backing types but they are serialized in 4 different ways. Knowing how the type is serialized allows the runtime to know how to read it in. Even if it reads the wrong value or interprets it incorrectly, the important aspect is being able to read past it so the rest of the file can be read in safely.
 
 For example, a boolean can be read as an unsigned integer as the backing type and serializer is compatible. Even though reading the boolean as an integer will not provide the valid value for the property, the runtime can still just read past it.
 
-#### ToC Data
+#### ToC data
 
 The list of known properties is serialized as a sequence of variable unsigned integers with a 0 terminator. A valid property key is distinguished by a non-zero unsigned integer id/key. Following the properties is a bit array which is composed of the read property count / 4 bytes. Every property gets 2 bits to define which backing type deserializer can be used to read past it.
 
@@ -159,7 +159,7 @@ A core object is represented by its Core type key. For example, a Shape has [cor
 
 Properties are similarly represented by a Core type key. These are unique across all objects, so [property key 13](https://github.com/rive-app/rive-cpp/blob/4512406300b7333ba543cd87930e67a24c2fc715/dev/defs/node.json#L16) will always be the X value of a Node object, and it [matches in the runtime](https://github.com/rive-app/rive-cpp/blob/4512406300b7333ba543cd87930e67a24c2fc715/include/generated/node_base.hpp#L33). A Node's X value is known to be a floating point value so when it is encountered [it will be decoded as such](https://github.com/rive-app/rive-cpp/blob/4512406300b7333ba543cd87930e67a24c2fc715/include/generated/node_base.hpp#L66-L68). Property key 0 is reserved as a null terminator (meaning we are done reading properties for the current object).
 
-### Example Serialized Object
+### Example serialized object
 
 | Data | Type/Size | Description |
 | --- | --- | --- |

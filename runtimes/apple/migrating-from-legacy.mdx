@@ -19,7 +19,7 @@ This guide covers:
     This guide is not meant to be exhaustive as it would be redundant with existing general documentation. Please refer to the relevant sections of the documentation for more details on specific topics.
 </Note>
 
-## Package and Import
+## Package and import
 
 The new Apple runtime is available in the same Swift package and CocoaPods pod as the legacy runtime. Both runtime APIs are available in the same package, so you can import the runtime using the same import statement.
 
@@ -47,7 +47,7 @@ let file = try await File(source: .local("my_file", Bundle.main), worker: worker
 let rive = try await Rive(file: file)
 ```
 
-## Lifecycles and Threading
+## Lifecycles and threading
 
 The legacy runtime is effectively main-thread driven through `RiveViewModel` and `RiveView`.
 
@@ -71,7 +71,7 @@ let file = try await File(source: ..., worker: worker)
 let rive = try await Rive(file: file)
 ```
 
-## Shared Features
+## Shared features
 
 ### Shared APIs
 
@@ -82,7 +82,7 @@ For fallback font types and behavior, see [Fallback Fonts](/runtimes/fonts#fallb
 
 Use the sections below as a migration map: [Loading a File from Disk](#loading-a-file-from-disk), [Creating a Rive View](#creating-a-rive-view), and [Data Binding](#data-binding). Legacy `RiveViewModel` flows in these areas become explicit `File` + `Rive` setup, then `RiveUIView`/SwiftUI representables in the new runtime.
 
-### Loading a File from Disk
+### Loading a file from disk
 
 #### {{runtimeLegacyNameApple}}
 
@@ -101,7 +101,7 @@ let file = try await File(source: .local("my_rive_file", Bundle.main), worker: w
 let rive = try await Rive(file: file)
 ```
 
-### Loading a File from URL
+### Loading a file from URL
 
 #### {{runtimeLegacyNameApple}}
 
@@ -124,7 +124,7 @@ let file = try await File(
 let rive = try await Rive(file: file)
 ```
 
-### Loading a File from Data (Bytes)
+### Loading a file from data (bytes)
 
 #### {{runtimeLegacyNameApple}}
 
@@ -146,7 +146,7 @@ let file = try await File(source: .data(data), worker: worker)
 let rive = try await Rive(file: file)
 ```
 
-### Tracking Loading and Error State
+### Tracking loading and error state
 
 For common setup operations (loading files, creating artboards, creating state machines), the migration pattern is:
 
@@ -218,7 +218,7 @@ let stateMachine = try await artboard.createStateMachine("My State Machine")
 let rive = try await Rive(file: file, artboard: artboard, stateMachine: stateMachine)
 ```
 
-### Creating a Rive View
+### Creating a Rive view
 
 #### {{runtimeLegacyNameApple}}
 
@@ -383,7 +383,7 @@ let defaultFromArtboard = try await file.createViewModelInstance(
 )
 ```
 
-### View Model Instance Properties
+### View Model instance properties
 
 #### {{runtimeLegacyNameApple}}
 
@@ -515,7 +515,7 @@ let instanceBoundRive = try await Rive(file: file, dataBind: .instance(viewModel
 let noBindingRive = try await Rive(file: file, dataBind: .none)
 ```
 
-### Updating a Data Bind Unsettles the State Machine
+### Updating a Data Bind unsettles the State Machine
 
 Legacy and new runtime behavior differ here:
 
@@ -560,7 +560,7 @@ let riveView = RiveUIView(rive: rive)
 instance.setValue(of: property, to: "Updated Value") // Applies without play()
 ```
 
-### Playing and Pausing
+### Playing and pausing
 
 <Card icon="eye" href="/runtimes/apple/apple#playing--pausing" horizontal>
   For more information, see playback controls in the Apple runtime guide.
@@ -585,7 +585,7 @@ RiveUIViewRepresentable(rive)
     .paused(true)
 ```
 
-### Frame Rate
+### Frame rate
 
 <Card icon="eye" href="/runtimes/apple/apple#frame-rate" horizontal>
   For more information, see frame rate controls and ProMotion notes.
@@ -610,7 +610,7 @@ riveView.frameRate = .range(minimum: 30, maximum: 60)
 riveView.frameRate = .default
 ```
 
-### Loading Referenced Assets
+### Loading referenced assets
 
 #### {{runtimeLegacyNameApple}}
 
@@ -699,7 +699,7 @@ RiveLog.logger = MyLogger()
 RiveLog.logger = RiveLog.none
 ```
 
-### Fallback Fonts
+### Fallback fonts
 
 Both runtimes support fallback fonts.
 
@@ -719,9 +719,9 @@ RiveFont.fallbackFontsCallback = { style in
 }
 ```
 
-## New Exclusive Features
+## New exclusive features
 
-### Worker-Based Concurrency
+### Worker-based concurrency
 
 The new runtime introduces `Worker` as an explicit concurrency primitive. This is a substantial change from the legacy runtime, which did not expose an equivalent concept.
 
@@ -735,7 +735,7 @@ Benefits include:
   A shared worker is usually the best default. Use multiple workers only when you need additional parallel processing, such as when rendering multiple heavyweight graphics.
 </Callout>
 
-### Async Initialization APIs
+### Async initialization APIs
 
 The new runtime supports async constructors and async view wrappers (`RiveUIView` with async closure and `AsyncRiveUIViewRepresentable`) to better model real-world loading flows.
 
@@ -743,11 +743,11 @@ The new runtime supports async constructors and async view wrappers (`RiveUIView
   The async wrappers are useful when a view must own its own loading lifecycle. If you need reuse and caching across screens, prefer creating and storing `File`/`Rive` objects at a higher level.
 </Callout>
 
-## Legacy Exclusive Features
+## Legacy exclusive features
 
 Some features in the legacy runtime are intentionally not present in the new runtime.
 
-### Automatic CDN Asset Loading
+### Automatic CDN asset loading
 
 The legacy runtime can fetch hosted assets automatically through `loadCdn`. In the new runtime, query `File.getAssets()` and use each asset's optional `cdn` metadata to fetch its bytes yourself, then decode and register it with the worker using `asset.uniqueName`. See [Loading Hosted Assets](/runtimes/apple/loading-assets#loading-hosted-assets).
 
@@ -771,13 +771,13 @@ Simple event-like behavior can often be modeled with trigger-oriented view model
   There are no current plans to reintroduce legacy-style event listener APIs in the new runtime.
 </Callout>
 
-### Linear Animations
+### Linear animations
 
 Legacy integrations can directly target linear animations. In migration, graphics are required to contain a state machine.
 
 For existing files that rely on linear animations, create a state machine in the Editor with a single state that plays the desired animation.
 
-### Observing State Machine State
+### Observing State Machine state
 
 Legacy integrations often used state-change delegate callbacks (for example, `RiveStateDelegate.stateChange(...)`) to react to animation state.
 
@@ -791,6 +791,6 @@ for try await value in stream {
 }
 ```
 
-### Getting by Index
+### Getting by index
 
 Where possible, prefer named queries and explicit sources (for example, `ViewModelSource` and named artboard/state machine queries) over index-based coupling.

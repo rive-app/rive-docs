@@ -15,13 +15,13 @@ Each `RiveWidget` that plays a Rive file with audio needs access to an `AudioPro
 
 If you need more control (for example, to manage volume or audio mixer groups independently per widget), you can assign a **custom** `AudioProvider` to individual widgets.
 
-## Global Audio Provider
+## Global audio provider
 
 The global `AudioProvider` is created automatically the first time a widget with audio needs it. It is shared across all `RiveWidget` instances that don't have a custom provider assigned.
 
 This is the recommended setup for most projects, and no additional configuration is required.
 
-## Custom Audio Provider
+## Custom audio provider
 
 To use a custom `AudioProvider` for a specific widget:
 
@@ -48,7 +48,7 @@ private void Start()
 
 Setting `CustomAudioProvider` to `null` reverts the widget to using the shared global provider.
 
-## Platform Notes
+## Platform notes
 
 | Platform | Behavior |
 |---|---|
