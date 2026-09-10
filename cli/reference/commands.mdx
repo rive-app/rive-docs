@@ -25,6 +25,7 @@ installed version.
 | `rive schema` | Look up types |
 | `rive inspect` | Print the resolved scene |
 | `rive doctor` | Check the environment: version, auth, ports, project |
+| `rive lsp` | Language server over stdio, for editor integrations |
 | `rive update` | Install the latest published CLI |
 | `rive switch` | Pick a CLI version, or select one by name |
 | `rive uninstall` | Remove a cached CLI version |
@@ -49,7 +50,7 @@ you edit.
 |---|---|
 | `--verify` | Check the project without writing a `.riv`. Exit 1 on errors |
 | `--once` | Write an unsigned `.riv`. Exit 1 on errors |
-| `--publish` | Write a signed `.riv`. Needs `rive login`, and watermarks the output until the project is bound to a Rive file. Exit 1 on errors |
+| `--publish` | Write a signed `.riv`. Needs `rive login`, and may watermark the output, see the note below. Exit 1 on errors |
 | `--test` | Run `Tests` scripts. Exit 6 on failures |
 
 <Note>
@@ -66,18 +67,21 @@ These attach to whichever mode you chose.
 | Flag | Does |
 |---|---|
 | `--init` | Write `rive.yaml` if missing, then continue |
-| `--rev=<path>` | Also write an editor `.rev`. Needs `rive login`, and pairs with `--once` or `--publish` |
+| `--rev=<path>` | Also write an editor `.rev`. Needs `rive login`. Combines with `--once` or `--publish`, and on its own does an `--once` build too. Refused with `--verify`, `--test` and `--screenshot` |
 
 ### Capture
 
 | Flag | Does |
 |---|---|
 | `--screenshot[=<path>]` | Build, render one frame without a window, write a PNG. Defaults to `build/<name>.png` |
-| `--viewport=<WxH>` | Capture size in pixels. Defaults to the artboard's own size |
+| `--viewport=<WxH>` | The size the scene is laid out at: the capture size with `--screenshot`, and the window size when watching. Defaults to the artboard's own size |
 | `--bench=<frames>` | Build, time that many frames without a window, report advance and render statistics plus WASM memory growth |
 
 `--bench` runs instead of `--screenshot`, not alongside it. Passing both times the
-frames and writes no PNG, without saying so.
+frames and writes no PNG, without saying so. It is a build mode in its own right, so
+it does not combine with `--verify`, `--once`, `--publish` or `--test`. It renders at
+the artboard's own size and ignores `--viewport`, and it runs 300 warm-up frames
+before the ones it times.
 
 ### Driving the scene
 
@@ -94,8 +98,9 @@ Interactions run in the order you write them, and `--pointer` and `--advance` ne
 #### Advancing time
 
 `--advance` steps the scene where it sits among the other interactions. A bare number
-is frames at 60fps; `1s` or `250ms` is animation time, stepped in 1/60s frames with
-one shorter frame for any remainder.
+is whole frames at 60fps; `1s` or `250ms` is animation time, stepped in 1/60s frames
+with one shorter frame for any remainder. The time forms take a decimal point, so
+`1.5s` is 90 frames.
 
 ```bash
 rive myproject --screenshot=out.png --advance=60      # 60 frames
@@ -118,15 +123,15 @@ rive myproject --screenshot=out.png \
   --advance=20
 ```
 
-Values are digits only. A sign, whitespace, trailing text, or anything above a
-32-bit unsigned integer is rejected.
+A sign, whitespace, trailing text, a decimal point on a bare frame count, or a value
+above a 32-bit unsigned integer is rejected with exit code 2.
 
 <Note>
 `--advance` replaces `--frame`. A bare `--advance=N` means what `--frame=N` meant, so
-`--frame=20` becomes `--advance=20`. Passing `--frame` or `--wait` is an error that
-names `--advance`.
+`--frame=20` becomes `--advance=20`. Passing `--frame` is an error naming `--advance`.
 
-`--bench` takes its own frame count and refuses `--advance`.
+`--bench` takes its own frame count and does not combine with `--advance`, `--pointer`,
+`--gamepad`, `--semantics` or `--semantic-action`.
 </Note>
 
 #### Setting data
@@ -149,9 +154,10 @@ rive myproject --screenshot=out.png \
 ```
 
 <Note>
-A path that matches no property is dropped just as quietly, and the scene renders
-with that property's authored value. Confirm your values landed rather than assuming
-they did.
+A path that matches no property logs `data: no property at "<path>"` and is dropped.
+The build still succeeds, and the scene renders with that property's authored value.
+Under `--quiet` you see nothing at all, so confirm your values landed rather than
+assuming they did.
 </Note>
 
 #### Simulating a pointer
@@ -164,10 +170,16 @@ each, because a state machine only sees a gesture when it next runs:
 rive myproject --screenshot=out.png --pointer=click@120,60
 ```
 
+`--pointer` only checks the shape of the value. A kind that is not `down`, `up`,
+`move`, `click` or `drag` parses fine, then fails at delivery with
+`pointer: unknown gesture` and exits with `1`.
+
 `drag` is a fifth kind, and the only one with a different shape:
 `drag@x1,y1>x2,y2[:steps]`. It moves to the first point, presses, emits `steps` moves
-along the line to the second point, then releases. `steps` defaults to 8, and a
-higher count makes the sweep finer rather than longer.
+along the line to the second point, then releases. `steps` defaults to 8. Every event
+gets its own frame, so a drag runs for `steps + 3` frames: a higher count is a finer
+and slower sweep, a lower one a flick. Scroll physics reads the velocity that implies,
+so the count changes how far a scroll throws.
 
 ```bash
 rive myproject --screenshot=out.png --pointer='drag@200,300>200,80:12'
@@ -202,6 +214,8 @@ Type these in the terminal while the preview window is open.
 | `s` or `screenshot [path]` | Write a PNG of the window |
 | `p` or `pause` | Toggle playback |
 | `a` or `artboard [name]` | Switch the shown artboard |
+| `f` or `fit [mode]` | Switch how the artboard maps into the window. Bare `f` lists the modes |
+| `z` or `size` | Resize the window to the artboard, and follow it again after a manual drag |
 | `rev [path]` | Write an editor `.rev`. Needs `rive login` |
 | `?` or `help` | List commands |
 
@@ -259,8 +273,8 @@ rive samples --path   # print the samples directory on disk
 rive inspect [dir]    # resolved scene as JSON. The directory defaults to `.`
 ```
 
-Exits `1` when `problems` contains an error. A directory that is not a project is
-reported on stderr but still exits `0`, so test for the message, not the code.
+Exits `1` when `problems` contains an error, and `1` with a message on stderr when
+the directory has no `rive.yaml`.
 
 | Flag | Does |
 |---|---|
@@ -280,7 +294,8 @@ rive doctor [project-dir]
 | `--format=json` | Machine-readable report on stdout |
 
 `doctor` prints five checks (`version`, `update`, `auth`, `live-link` and `project`),
-each `ok`, `warn` or `fail`, and exits `0` even when one warns.
+each `ok`, `warn` or `fail`. It exits `0` when everything is `ok` or `warn`, and `1`
+when a check fails.
 
 ## Signing in
 
@@ -289,9 +304,10 @@ each `ok`, `warn` or `fail`, and exits `0` even when one warns.
 | `--publish`, `--rev` | Yes, with `rive login` |
 | Preview window, `--once`, `--verify`, `--test`, `--screenshot`, `--serve`, `--headless-serve` | No, and these work offline |
 | `create`, `docs`, `samples`, `schema`, `inspect` | No |
-| `update`, `whoami`, `doctor` | No account, but they reach the network. `whoami` exits `3` when you are not signed in; `doctor` reports it as a warning and still exits `0` |
+| `update`, `whoami`, `doctor` | No account, but they reach the network. `whoami` exits `3` when you are not signed in and `7` when it cannot reach Rive; `doctor` reports a missing session as a warning and still exits `0`, but exits `1` when a check fails |
 
-Credentials live outside the project, in `~/.config/rive/app.rive.cli/`.
+Credentials live outside the project: `~/.config/rive/app.rive.cli/` on macOS and
+Linux, honouring `XDG_CONFIG_HOME`, and Windows Credential Manager on Windows.
 
 <Note>
 A gated mode checks the session live, so `--publish` and `--rev` fail on a dropped
@@ -304,16 +320,18 @@ connection even with valid stored credentials.
 |---|---|
 | `0` | OK |
 | `1` | Build errors, or any failure without a more specific code |
-| `2` | A flag the CLI parsed and rejected: a bad `--pointer` or `--data` value, `--format` given anything but `json` or `human`, `--format=json` without a build mode, or two build modes at once |
+| `2` | A flag the CLI parsed and rejected: a bad `--pointer`, `--data`, `--advance` or `--viewport` value; `--frame`, which is gone; `--format` given anything but `json` or `human`; `--format=json` without a build mode; two build modes at once; `--rev` with a mode that writes nothing; an interaction with no `--screenshot`; or `rive` with no arguments outside a project |
 | `3` | Not logged in, or the session was rejected |
 | `6` | Test cases failed. The build itself was fine |
 | `7` | A service could not be reached, so it is safe to retry |
 
 <Warning>
-Exit 2 does not cover a misspelled flag. The CLI ignores flags it does not recognize,
-and unparseable values on flags it does, then builds and exits `0`. `--bogus` and
-`--viewport=abc` both succeed silently. A green exit is not proof
-your flags landed.
+Exit 2 does not cover a misspelled flag. On `rive <project-dir>`, a flag the CLI does
+not recognize is ignored, so `--bogus` builds and exits `0`. Values are checked,
+though: `--viewport=abc` exits `2` with a message, and so does every other flag value
+the CLI parses. A bare word is read as the project directory and the last one wins, so
+a stray argument silently changes what gets built. A green exit is not proof your
+flags landed.
 </Warning>
 
 ## JSON output
@@ -332,13 +350,16 @@ object on stdout. `data` differs per mode. `--verify` and `--once` carry the bui
 ```
 
 `command` is the mode, not the flag: `"build"` for `--once`, `"verify"` for
-`--verify`. Each entry in `data.problems` is
-`{severity, kind, code, script, line, column, message}`, and `errors` repeats them as
-`script:line message` strings. Logs stay on stderr, so stdout carries nothing else.
+`--verify`, `"publish"` for `--publish`, `"test"` for `--test`. Each entry in
+`data.problems` is `{severity, kind, code, script, line, column, message}`, with
+`severity` one of `error`, `warning` or `hint`. `errors` repeats them as
+`script:line message` strings, carrying the same zero-based line, and drops the
+`:line` entirely for a problem on the first line. `data.riv` is `null` on `--verify`
+and on any failed build. Logs stay on stderr, so stdout carries nothing else.
 
 <Warning>
-`line` in `--format=json` is zero-based, while the terminal log and `rive inspect`
-report the same problem one-based. Add 1 before showing a JSON line number to a
+`line` and `column` in `--format=json` are zero-based, while the terminal log and
+`rive inspect` report the same problem one-based. Add 1 before showing either to a
 person.
 </Warning>
 
@@ -346,8 +367,15 @@ person.
 
 | Variable | Overrides |
 |---|---|
-| `RIVE_API_BASE` | The API host |
-| `RIVE_NO_TUI` | Set to `1` to disable interactive pickers |
+| `RIVE_API_BASE` | The API host. A custom host also gets its own stored login |
+| `RIVE_NO_TUI` | Any value except `0` disables interactive pickers |
+| `TERM` | Unset, empty, or `dumb` disables interactive pickers |
+| `NO_COLOR` | Draws pickers without color |
+| `RIVE_HOME` | The CLI's install and state root. Defaults to `~/.rive` |
+| `XDG_CONFIG_HOME` | Relocates the credential directory on macOS and Linux |
+| `RIVE_DOCS_DIR` | The directory `rive docs` reads |
+| `RIVE_SAMPLES_DIR` | The directory `rive samples` copies from |
+| `RIVE_ANALYTICS` | Forces analytics consent: `on`/`1`/`true`/`yes`, or `off`/`0`/`false`/`no` |
 
 
 <Note>

@@ -7,7 +7,7 @@ Install the Rive CLI, create a project, and open the live preview. By the end of
 
 <Steps>
   <Step title="Install the CLI">
-    The CLI runs on macOS 13 or later with Apple Silicon, and on Linux x86_64.
+    The CLI runs on macOS with Apple Silicon, on Linux x86_64, and on Windows.
 
     <Tabs>
       <Tab title="Installer">
@@ -21,6 +21,11 @@ Install the Rive CLI, create a project, and open the live preview. By the end of
         ```bash
         echo 'export PATH="$HOME/.rive/bin:$PATH"' >> ~/.zshrc
         source ~/.zshrc
+        ```
+      </Tab>
+      <Tab title="Windows">
+        ```powershell
+        irm https://releases.rive.app/cli/install.ps1 | iex
         ```
       </Tab>
       <Tab title="Homebrew">
@@ -101,8 +106,7 @@ An account is required for `--publish`, which signs the file through Rive's API,
 
 <Warning>
 A file containing scripts that is destined for the web must be built with
-`--publish`. Unsigned scripts are rejected by the CDN and the web runtimes, and
-nothing local warns you. A file with no scripts is unaffected.
+`--publish`. Unsigned scripts are rejected by the CDN and the web runtimes. A file with no scripts is unaffected.
 </Warning>
 
 `--publish` watermarks what it writes until the project is bound to a Rive file in

@@ -32,12 +32,12 @@ The following example shows how RML maps familiar Rive concepts (an artboard, sh
     <!-- State Machine -->
     <StateMachine name="State Machine 1" id="0:7">
         <StateMachineLayer name="Layer 1" id="0:8">
-            <AnyState/>
-            <ExitState/>
+            <AnyState x="200" y="-120"/>
+            <ExitState x="400" y="-120"/>
             <EntryState>
                 <StateTransition stateToId="0:12"/>
             </EntryState>
-            <AnimationState animationId="0:6" id="0:12"/>
+            <AnimationState x="200" animationId="0:6" id="0:12"/>
         </StateMachineLayer>
     </StateMachine>
 
@@ -52,7 +52,7 @@ The following example shows how RML maps familiar Rive concepts (an artboard, sh
     </LinearAnimation>
 </Artboard>
 
-<Backboard coreVersion="1" activeArtboardId="0:2" mainArtboardId="0:2"/>
+<Backboard coreVersion="7" activeArtboardId="0:2" mainArtboardId="0:2"/>
 ```
 
 ## How RML maps to Rive

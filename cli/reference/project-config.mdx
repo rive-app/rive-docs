@@ -19,7 +19,7 @@ maintain.
 |---|---|
 | `.luau` | Scripts, both protocol scripts and importable modules |
 | `.wgsl` | Shaders, compiled to RSTB |
-| `.rml` | The scene. With more than one, the alphabetically first wins and the rest are dropped, so `scene.rml` loses to `other.rml`. Use `exclude` to pin the one you meant |
+| `.rml` | The scene. With more than one, the first by project-relative path wins and the rest are dropped with a `multiple .rml files found` line, so `scene.rml` loses to `other.rml` and to `a/z.rml`. Use `exclude` to pin the one you meant |
 | `.png` `.jpg` `.jpeg` `.webp` | Image assets |
 | Anything else | A blob asset, findable by name from scripts |
 
@@ -33,6 +33,9 @@ Scripts and shaders are the exception: every `.luau` and `.wgsl` in the scan is
 compiled into the file whether or not anything references it. Use `exclude` to keep
 one out.
 </Note>
+
+Dot-files and dot-directories are skipped, and so are `rive.yaml`, whatever
+`output.dir` points at, and anything ending `.riv`, `.rev` or `.log`.
 
 Asset paths in RML are project-relative:
 
@@ -104,14 +107,18 @@ logs:
 script alphabetically wins. In an RML project the `.rml`'s own `Backboard` decides
 and this is ignored.
 
-**`artboard`** — Default size and background for generated artboards. Applies only
-when there is no `.rml`; RML artboards carry their own dimensions. `background` must
-be quoted.
+**`artboard`** — Default size and background for generated artboards, used only when
+there is no `.rml`. Sizes default to 800 x 800. `background` takes `#RRGGBB` or
+`#AARRGGBB`; the `#` is required, which is why the value must be quoted. A value the
+CLI cannot read is dropped without a warning, leaving the default `#FF1D1D1D`.
 
-**`artboards`** — Per-artboard overrides, keyed by name.
+**`artboards`** — The same settings as `artboard`, set per artboard. Key each entry by
+its layout script's path with `.luau` dropped, so `ui/panel.luau` is `ui/panel`.
 
-**`exclude`** — Paths not to bundle at all. Use it to keep the scan tidy, and to keep
-a second `.rml` from being picked up.
+**`exclude`** — Paths not to bundle at all. An entry matches a file or directory by
+exact path, matches everything under a directory, and matches files by glob with the
+same `*` and `?` as `excludeFromRev`. `output.dir` is excluded for you. Use it to keep
+the scan tidy, and to keep a second `.rml` from being picked up.
 
 **`excludeFromRev`** — Drops matching things from the exported `.rev` only. The `.riv`
 and the preview window always contain everything. Four categories:
@@ -140,6 +147,10 @@ alongside the project's.
 **`revFlavor`** — `editable` (the default) or `library`. Controls whether the exported
 `.rev` opens as a normal editor file or as a library others import.
 
+**`push`** — `projectId` and `fileId`, the binding `rive push` writes back after the
+first push. `push.fileId` is what `--publish` sends when it asks whether to watermark.
+Do not hand-edit this property.
+
 **`output.dir`** — Where the `.riv` is written. Defaults to `build`.
 
 **`logs.file`** — Append-only interleave of compiler problems, script `print` output
@@ -154,6 +165,4 @@ writes both into the scaffolded `rive.yaml`, pointed at `build/`; a hand-written
 `rive.yaml` holding only `name` gets no logs.
 
 Keys the CLI does not know are ignored without a warning, and so is an `artboards:`
-entry naming an artboard that does not exist. A typo in `rive.yaml` will not fail the
-build.
-
+entry naming a script that does not exist. A misspelled key will not fail the build.

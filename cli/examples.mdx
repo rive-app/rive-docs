@@ -34,10 +34,15 @@ rive myproject
 writes a PNG. It needs no login, which makes it the check to run in CI.
 
 ```bash
-rive myproject --screenshot=out.png                    # frame 0
+rive myproject --screenshot=out.png                    # before anything advances
 rive myproject --screenshot=out.png --advance=1s       # one second in
 rive myproject --screenshot=out.png --viewport=390x844 # at a specific size
 ```
+
+<Note>
+A capture with no `--advance` is the authored rest pose, not the animation's opening
+frame, because the state machine has not run yet. Start previews at `--advance=1`.
+</Note>
 
 <Note>
 `--screenshot` resolves its path against the current directory, not the project
@@ -104,8 +109,11 @@ rive myproject --screenshot=wide.png   --viewport=900x600
 rive myproject --screenshot=narrow.png --viewport=320x700
 ```
 
-A fixed-size artboard renders at its authored size anchored top-left, so a smaller
-viewport crops it. That is the flag working, not a layout bug.
+`--viewport` resizes the artboard itself, rather than scaling or cropping what it
+renders. Layouts reflow into the new size, which is what makes this a real
+responsiveness check. Content at fixed coordinates stays where it is, so a design
+with no layout components looks cropped at a smaller viewport and gains empty space
+at a larger one.
 
 ## In CI
 
