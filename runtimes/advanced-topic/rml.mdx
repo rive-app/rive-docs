@@ -52,8 +52,6 @@ The following example shows how RML maps familiar Rive concepts (an artboard, sh
             </KeyedObject>
         </LinearAnimation>
     </Artboard>
-
-    <Backboard coreVersion="8" activeArtboardId="0:2" mainArtboardId="0:2"/>
 </Rive>
 ```
 
@@ -61,7 +59,9 @@ The following example shows how RML maps familiar Rive concepts (an artboard, sh
 
 Every document is wrapped in a single `Rive` root. It takes two required attributes: `version`, the RML format version, currently `1`; and `kind`, which is `fragment` for a project file you write yourself, or `bundle` for the self-contained document the Rive Editor exports. `Rive` must be the first and only top-level element, and the CLI refuses a document without it.
 
-Inside that root, RML follows the structure of a Rive file. Artboards contain their scene content, while assets, view models, converters, and enums sit alongside them as root elements. Every document also requires a `Backboard`, which identifies information such as the active and main artboards.
+Inside that root, RML follows the structure of a Rive file. Artboards contain their scene content, while assets, view models, converters, and enums sit alongside them as root elements.
+
+A fragment never declares a `Backboard`. What the Editor keeps there, such as the default artboard and the publish settings, is project configuration, so it lives in [rive.yaml](/cli/reference/project-config) instead. The build creates the `Backboard` from those keys. Only a bundle carries a `Backboard` element.
 
 Nesting reflects relationships between Rive objects. In the example above, the `Shape` contains a `Triangle` path and a `Fill`. Properties belong to their corresponding Rive type, so the transform position (`x` and `y`) belongs to the `Shape`, while `width` and `height` belong to the `Triangle`.
 
