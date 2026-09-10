@@ -19,7 +19,7 @@ maintain.
 |---|---|
 | `.luau` | Scripts, both protocol scripts and importable modules |
 | `.wgsl` | Shaders, compiled to RSTB |
-| `.rml` | The scene. With more than one, the first by project-relative path wins and the rest are dropped with a `multiple .rml files found` line, so `scene.rml` loses to `other.rml` and to `a/z.rml`. Use `exclude` to pin the one you meant |
+| `.rml` | The scene. A project can hold any number of markup files, in any folders, and they compile as one document |
 | `.png` `.jpg` `.jpeg` `.webp` | Image assets |
 | Anything else | A blob asset, findable by name from scripts |
 
@@ -34,12 +34,18 @@ compiled into the file whether or not anything references it. Use `exclude` to k
 one out.
 </Note>
 
+Markup files compile together, so an id declared in one file can be referenced from
+another. Ids may not repeat across files, and a problem is reported against the file
+it is in. Split by whatever reads well, such as artboards in one file and view models
+in another.
+
 Dot-files and dot-directories are skipped, and so are `rive.yaml`, whatever
 `output.dir` points at, and anything ending `.riv`, `.rev` or `.log`.
 
 Asset paths in RML are project-relative:
 
 ```xml
+<!-- inside <Rive>, alongside the artboards -->
 <FontAsset file="Montserrat.ttf" name="Montserrat" id="0:30"/>
 <ScriptAsset file="main.luau" name="main" id="0:80"/>
 ```
@@ -118,7 +124,7 @@ its layout script's path with `.luau` dropped, so `ui/panel.luau` is `ui/panel`.
 **`exclude`** — Paths not to bundle at all. An entry matches a file or directory by
 exact path, matches everything under a directory, and matches files by glob with the
 same `*` and `?` as `excludeFromRev`. `output.dir` is excluded for you. Use it to keep
-the scan tidy, and to keep a second `.rml` from being picked up.
+the scan tidy.
 
 **`excludeFromRev`** — Drops matching things from the exported `.rev` only. The `.riv`
 and the preview window always contain everything. Four categories:

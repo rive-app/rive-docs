@@ -90,6 +90,9 @@ before the ones it times.
 | `--data=<path=value>` | Set one view model property before the scene runs. Repeat the flag for several properties |
 | `--pointer=<kind@x,y>` | Simulate one pointer event at artboard coordinates. Repeatable |
 | `--advance=<N\|Ns\|Nms>` | Step the scene forward. Repeatable, and runs in order with the other interactions |
+| `--data-dump[=<path>]` | Write the bound view model values, globals and nested artboards as JSON. Defaults to `build/<name>.data.json`; `-` or `stdout` writes to standard output |
+| `--data-dump-filter=<paths>` | Keep only these property paths, comma separated. Globs allowed, as in `battery/*,score` |
+| `--data-dump-every=<N\|Ns\|Nms>` | Sample every N frames rather than once at the end, as JSON Lines |
 | `--artboard=<name>` | Artboard to show on launch. An unknown name falls back to the first artboard without warning |
 
 Interactions run in the order you write them, and `--pointer` and `--advance` need
@@ -159,6 +162,20 @@ The build still succeeds, and the scene renders with that property's authored va
 Under `--quiet` you see nothing at all, so confirm your values landed rather than
 assuming they did.
 </Note>
+
+#### Reading data back
+
+`--data` sets values going in; `--data-dump` reads them back out. It builds, runs
+headless, and writes the bound view model values as JSON, so a test can assert on
+what the scene computed:
+
+```bash
+rive myproject --data-dump=- --advance=60
+```
+
+`--data-dump-every` turns that into a time series instead of a single reading: a
+header, a frame-0 baseline, then only what changed on each sample. It takes a whole
+number of frames at 60fps, and counts the frames gestures advance internally.
 
 #### Simulating a pointer
 
