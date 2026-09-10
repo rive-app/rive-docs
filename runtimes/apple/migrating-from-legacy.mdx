@@ -614,7 +614,7 @@ riveView.frameRate = .default
 
 #### {{runtimeLegacyNameApple}}
 
-The legacy runtime uses a pull model via a callback that resolves assets on demand.
+The legacy runtime uses a `customLoader` callback to inspect assets and provide their contents while loading a file.
 
 ```swift
 let viewModel = RiveViewModel(fileName: "my_rive_file") { asset, _, factory in
@@ -638,19 +638,39 @@ let viewModel = RiveViewModel(fileName: "my_rive_file") { asset, _, factory in
 
 #### {{runtimeCurrentNameApple}}
 
-The new runtime uses a push model, where assets are registered on the worker ahead of use.
+Use `File.getAssets()` and the worker's global asset APIs in place of `customLoader`. Create the file, inspect its asset metadata, then decode and register the assets your app supplies. You no longer need to know their unique names before loading the file.
+
+This example replaces an image selected by its authored name:
 
 ```swift
 let worker = try await Worker.shared()
-let image = try await worker.decodeImage(from: Data(...))
-worker.addGlobalImageAsset(image, name: "MyImage-1234")
+let file = try await File(
+    source: .local("my_rive_file", .main),
+    worker: worker
+)
 
-let font = try await worker.decodeFont(from: Data(...))
-worker.addGlobalFontAsset(font, name: "MyFont-1234")
+for asset in try await file.getAssets() {
+    guard asset.type == .image, asset.name == "picture.jpeg" else { continue }
+    guard let url = Bundle.main.url(
+        forResource: asset.uniqueName,
+        withExtension: asset.fileExtension
+    ) else { throw URLError(.fileDoesNotExist) }
 
-let audio = try await worker.decodeAudio(from: Data(...))
-worker.addGlobalAudioAsset(audio, name: "MyAudio-1234")
+    let data = try await Task.detached {
+        try Data(contentsOf: url)
+    }.value
+    let image = try await worker.decodeImage(from: data)
+    worker.addGlobalImageAsset(image, name: asset.uniqueName)
+}
+
+let rive = try await Rive(file: file)
 ```
+
+Use `asset.uniqueName` as the registration key. The replacement applies to this file and any other files using that unique name on the same worker, including files loaded later. You can also register or replace global assets after the file is displayed.
+
+For fonts and audio, use `decodeFont(from:)` / `addGlobalFontAsset(_:name:)` and `decodeAudio(from:)` / `addGlobalAudioAsset(_:name:)`. There is no callback return value: your app chooses which assets to register after inspecting the metadata.
+
+See [Loading Assets](/runtimes/apple/loading-assets) for the full metadata reference, examples for all three asset types, and hosted asset loading.
 
 ### Logging
 
@@ -727,9 +747,9 @@ The new runtime supports async constructors and async view wrappers (`RiveUIView
 
 Some features in the legacy runtime are intentionally not present in the new runtime.
 
-### CDN Assets
+### Automatic CDN Asset Loading
 
-Legacy file loading may use CDN-backed asset flows (for example via `loadCdn` behavior). The new runtime's asset model is worker-based and push-oriented via explicit asset registration APIs.
+The legacy runtime can fetch hosted assets automatically through `loadCdn`. In the new runtime, query `File.getAssets()` and use each asset's optional `cdn` metadata to fetch its bytes yourself, then decode and register it with the worker using `asset.uniqueName`. See [Loading Hosted Assets](/runtimes/apple/loading-assets#loading-hosted-assets).
 
 ### State Machine Inputs
 
