@@ -68,6 +68,8 @@ myproject/
 ```yaml rive.yaml
 name: myproject
 main: main
+debugLevel: 0
+optimizationLevel: 2
 
 artboard:
   width: 800
@@ -109,9 +111,13 @@ logs:
 
 **`name`** — Required. Also the name other projects use to import this one.
 
-**`main`** — Which artboard is the file's default. Without it, the first layout
-script alphabetically wins. In an RML project the `.rml`'s own `Backboard` decides
-and this is ignored.
+**`main`** — Which artboard is the file's default. Without it, the first one declared
+wins.
+
+**`debugLevel`**, **`optimizationLevel`**, **`shaderOutputs`** — Publish settings the
+Editor keeps on the `Backboard`. A fragment declares no `Backboard`, so these live
+here instead, and the build synthesizes one from them. `create --from-rev` writes a
+`.rev`'s `Backboard` back into these keys.
 
 **`artboard`** — Default size and background for generated artboards, used only when
 there is no `.rml`. Sizes default to 800 x 800. `background` takes `#RRGGBB` or
