@@ -5,7 +5,7 @@ description: "Sample projects, headless rendering, and running the CLI in CI."
 
 import { UseCase } from '/snippets/use-case.mdx'
 
-## Sample Projects
+## Sample projects
 
 The CLI ships seven example projects. `rive samples` opens a picker and copies the
 one you choose into a directory you name:
@@ -28,7 +28,7 @@ cp -R "$(rive samples --path)/rml_triangle" myproject
 rive myproject
 ```
 
-## Headless Rendering
+## Headless rendering
 
 `--screenshot` builds the project, renders one frame without opening a window, and
 writes a PNG. It needs no login, which makes it the check to run in CI.
@@ -45,7 +45,7 @@ directory, and a missing directory fails with only `screenshot failed: <path>`.
 Create the directory first.
 </Note>
 
-## Driving a Scene
+## Driving a scene
 
 A screenshot of a resting scene tells you nothing about whether it responds to
 anything. Two flags drive it before the capture.
@@ -94,7 +94,7 @@ listener writes is not visible to the next listener until a frame has passed, so
 back-to-back clicks can both act on the old value.
 </UseCase>
 
-## Checking Responsiveness
+## Checking responsiveness
 
 A layout tree and a hand-positioned screen look identical in a single screenshot.
 Shoot the same file at two sizes and see whether anything moved:
@@ -127,7 +127,7 @@ mode works there. You can author, compile, test and capture in CI, then publish 
 a machine that is signed in.
 </Note>
 
-## Measuring Performance
+## Measuring performance
 
 `--bench` builds the project, times a number of frames without opening a window, and
 reports advance and render statistics along with WASM memory growth:

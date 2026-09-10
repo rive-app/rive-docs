@@ -55,7 +55,7 @@ The following example shows how RML maps familiar Rive concepts (an artboard, sh
 <Backboard coreVersion="1" activeArtboardId="0:2" mainArtboardId="0:2"/>
 ```
 
-## How RML Maps to Rive
+## How RML maps to Rive
 
 RML follows the structure of a Rive file. Artboards contain their scene content, while assets, view models, converters, and enums sit alongside them at the document root. Every document also requires a `Backboard`, which identifies information such as the active and main artboards.
 
@@ -69,7 +69,7 @@ Animations reference the objects and properties they change. Here, `KeyedObject 
 
 ## Writing RML
 
-### IDs and References
+### IDs and references
 
 RML uses IDs when one element needs to reference another. For example, an animation uses `objectId` to identify the object it animates, while an Animation State uses `animationId` to identify the animation it plays.
 
@@ -77,7 +77,7 @@ IDs are two numbers separated by a colon, such as `0:12` or `14:11981`. Each ID 
 
 References use attributes ending in `Id`, such as `styleId`, `animationId`, and `objectId`. Nesting creates many of these relationships automatically, so you usually don't need to write the reference yourself. Run `rive docs format` to see which references are created by nesting.
 
-### Value Formats
+### Value formats
 
 | Type | Written as |
 |---|---|
@@ -87,7 +87,7 @@ References use attributes ending in `Id`, such as `styleId`, `animationId`, and 
 | Rotation | Radians. A full turn is `6.2831855`. |
 | Animation timing | Frames, at the animation's `fps` (default 60). Transition durations are milliseconds. |
 
-## Checking Your Work
+## Checking your work
 
 Three checks, and none replaces the others:
 
@@ -104,7 +104,7 @@ a screenshot for what it looks like. A bind pointing at the wrong property, or a
 shape that renders invisibly, passes the first two checks. See
 [Examples](/cli/examples#headless-rendering).
 
-## RML Reference
+## RML reference
 
 RML includes hundreds of Rive types and properties. Rather than memorizing or guessing their names, use the CLI to look up the schema:
 

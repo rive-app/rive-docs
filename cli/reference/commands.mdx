@@ -35,11 +35,11 @@ installed version.
 `~/.rive/bin`. If installing the CLI via Homebrew, use the `brew` methods to manage CLI versioning and updates.
 </Note>
 
-## Project Flags
+## Project flags
 
 These apply to `rive <project-dir>`.
 
-### Build Modes
+### Build modes
 
 Mutually exclusive, so pick one. `--screenshot` under [Capture](#capture) counts
 as one of them. With none of them, the CLI opens the preview window and rebuilds as
@@ -79,7 +79,7 @@ These attach to whichever mode you chose.
 `--bench` runs instead of `--screenshot`, not alongside it. Passing both times the
 frames and writes no PNG, without saying so.
 
-### Driving the Scene
+### Driving the scene
 
 | Flag | Does |
 |---|---|
@@ -91,7 +91,7 @@ frames and writes no PNG, without saying so.
 Interactions run in the order you write them, and `--pointer` and `--advance` need
 `--screenshot`.
 
-#### Advancing Time
+#### Advancing time
 
 `--advance` steps the scene where it sits among the other interactions. A bare number
 is frames at 60fps; `1s` or `250ms` is animation time, stepped in 1/60s frames with
@@ -129,7 +129,7 @@ names `--advance`.
 `--bench` takes its own frame count and refuses `--advance`.
 </Note>
 
-#### Setting Data
+#### Setting data
 
 `--data` takes a property path and a value. The path starts at the view model
 instance bound to the artboard, and every segment is a property name, so a flat view
@@ -154,7 +154,7 @@ with that property's authored value. Confirm your values landed rather than assu
 they did.
 </Note>
 
-#### Simulating a Pointer
+#### Simulating a pointer
 
 `--pointer` takes a kind and a position. `down`, `up`, `move` and `click` each take a
 single point. `click` expands to a move, a press and a release with a frame between
@@ -193,7 +193,7 @@ Quote the `drag` value so the shell does not read `>` as a redirection.
 | `--immediate` | Render on the main thread |
 | `--format=json` or `--format=human` | `human` is the default terminal log. `json` needs `--once`, `--verify`, `--publish` or `--test`, and prints one JSON report object on stdout |
 
-## Preview Window Commands
+## Preview window commands
 
 Type these in the terminal while the preview window is open.
 
@@ -205,7 +205,7 @@ Type these in the terminal while the preview window is open.
 | `rev [path]` | Write an editor `.rev`. Needs `rive login` |
 | `?` or `help` | List commands |
 
-## Per-Command Flags
+## Per-command flags
 
 ### `create`
 
@@ -282,7 +282,7 @@ rive doctor [project-dir]
 `doctor` prints five checks (`version`, `update`, `auth`, `live-link` and `project`),
 each `ok`, `warn` or `fail`, and exits `0` even when one warns.
 
-## Signing In
+## Signing in
 
 | What you run | Session needed |
 |---|---|
@@ -298,7 +298,7 @@ A gated mode checks the session live, so `--publish` and `--rev` fail on a dropp
 connection even with valid stored credentials.
 </Note>
 
-## Exit Codes
+## Exit codes
 
 | Code | Meaning |
 |---|---|
@@ -316,7 +316,7 @@ and unparseable values on flags it does, then builds and exits `0`. `--bogus` an
 your flags landed.
 </Warning>
 
-## JSON Output
+## JSON output
 
 `--format=json` on `--once`, `--verify`, `--publish` or `--test` prints one JSON
 object on stdout. `data` differs per mode. `--verify` and `--once` carry the build:
@@ -342,7 +342,7 @@ report the same problem one-based. Add 1 before showing a JSON line number to a
 person.
 </Warning>
 
-## Environment Variables
+## Environment variables
 
 | Variable | Overrides |
 |---|---|
