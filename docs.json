@@ -67,6 +67,7 @@
             "group": " ",
             "pages": [
               "editor/get-rive",
+              "editor/quick-start/overview",
               {
                 "group": "Editor Interface",
                 "pages": [
@@ -76,18 +77,9 @@
                   "editor/interface-overview/toolbar",
                   "editor/interface-overview/sidebar",
                   "editor/interface-overview/inspector",
-                  "editor/interface-overview/debug-panel"
-                ]
-              },
-              {
-                "group": "Workflows",
-                "pages": [
+                  "editor/interface-overview/debug-panel",
                   "editor/interface-overview/selection-and-navigation",
-                  "editor/keyboard-shortcuts",
-                  "editor/workflows/dependency-graph",
-                  "editor/tagging",
-                  "editor/fundamentals/revision-history",
-                  "getting-started/best-practices"
+                  "editor/keyboard-shortcuts"
                 ]
               }
             ]
@@ -131,7 +123,8 @@
                       "editor/manipulating-shapes/solos",
                       "editor/fundamentals/transform-spaces",
                       "editor/fundamentals/freeze-and-origin",
-                      "editor/animate-mode/animating-draw-order"
+                      "editor/animate-mode/animating-draw-order",
+                      "editor/tagging"
                     ]
                   },
                   {
@@ -166,6 +159,29 @@
                   "editor/animate-mode/timeline",
                   "editor/animate-mode/keys",
                   "editor/animate-mode/interpolation-easing"
+                ]
+              },
+              {
+                "group": "Rigging & Control",
+                "pages": [
+                  "editor/manipulating-shapes/manipulating-shapes",
+                  "editor/manipulating-shapes/meshes",
+                  "editor/manipulating-shapes/bones",
+                  "editor/manipulating-shapes/joysticks",
+                  {
+                    "group": "Constraints",
+                    "pages": [
+                      "editor/constraints/constraints-overview",
+                      "editor/constraints/ik-constraint",
+                      "editor/constraints/distance-constraint",
+                      "editor/constraints/scale-constraint",
+                      "editor/constraints/rotation-constraint",
+                      "editor/constraints/transform-constraint",
+                      "editor/constraints/translation-constraint",
+                      "editor/constraints/follow-path-constraint",
+                      "editor/constraints/scroll-constraint"
+                    ]
+                  }
                 ]
               },
               {
@@ -220,41 +236,6 @@
                   "editor/exporting/exporting-for-video-and-static-design",
                   "editor/exporting/exporting-for-backup"
                 ]
-              }
-            ]
-          },
-          {
-            "group": "Advanced Topics",
-            "pages": [
-              {
-                "group": "AI",
-                "pages": [
-                  "editor/ai-agent/ai-agent",
-                  "editor/ai/mcp"
-                ]
-              },
-              {
-                "group": "Rigging & Control",
-                "pages": [
-                  "editor/manipulating-shapes/manipulating-shapes",
-                  "editor/manipulating-shapes/meshes",
-                  "editor/manipulating-shapes/bones",
-                  "editor/manipulating-shapes/joysticks",
-                  {
-                    "group": "Constraints",
-                    "pages": [
-                      "editor/constraints/constraints-overview",
-                      "editor/constraints/ik-constraint",
-                      "editor/constraints/distance-constraint",
-                      "editor/constraints/scale-constraint",
-                      "editor/constraints/rotation-constraint",
-                      "editor/constraints/transform-constraint",
-                      "editor/constraints/translation-constraint",
-                      "editor/constraints/follow-path-constraint",
-                      "editor/constraints/scroll-constraint"
-                    ]
-                  }
-                ]
               },
               {
                 "group": "Accessibility",
@@ -264,26 +245,20 @@
                 ]
               },
               {
-                "group": "Admin & Workspaces",
+                "group": "AI",
                 "pages": [
-                  {
-                    "group": "Workspaces",
-                    "pages": [
-                      "account-admin/workspaces/workspaces-overview",
-                      "account-admin/workspaces/managing-workspaces",
-                      "account-admin/workspaces/managing-workspace-members"
-                    ]
-                  },
-                  "account-admin/bring-your-own-bucket"
-                ]
-              },
-              {
-                "group": "Legacy Features",
-                "pages": [
-                  "editor/state-machine/inputs",
-                  "editor/events/general-events"
+                  "editor/ai-agent/ai-agent",
+                  "editor/ai/mcp"
                 ]
               }
+            ]
+          },
+          {
+            "group": "Workflows",
+            "pages": [
+              "getting-started/best-practices",
+              "editor/workflows/dependency-graph",
+              "editor/fundamentals/revision-history"
             ]
           }
         ]
@@ -905,7 +880,16 @@
                   "account-admin/account-overview/delete-my-account",
                   "account-admin/workspaces/reactivating-a-canceled-workspace"
                 ]
-              }
+              },
+              {
+                "group": "Workspaces",
+                "pages": [
+                  "account-admin/workspaces/workspaces-overview",
+                  "account-admin/workspaces/managing-workspaces",
+                  "account-admin/workspaces/managing-workspace-members"
+                ]
+              },
+              "account-admin/bring-your-own-bucket"
             ]
           }
         ]
