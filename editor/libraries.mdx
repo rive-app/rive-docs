@@ -21,7 +21,7 @@ With Libraries:
 
 <Note>Libraries are available on Voyager and Enterprise plans. [Learn more about our plans and pricing](https://rive.app/pricing?utm_source=docs&utm_medium=content).</Note>
 
-## Creating a Library
+## Creating a library
 Any file can be made into a library. First, you'll need to create a [component](/editor/fundamentals/components) and/or a view model before you can publish the file as a library. Select an artboard on the stage and use the component icon in the inspector or `Shift` + `N` to toggle its status as a component.
 
 ![Image](/images/editor/libraries/01-component.webp)
@@ -32,7 +32,7 @@ With a component or view model present in the file, select the **Publish Library
 
 <Tip>You can identify a library file by the icon in the tab bar and in the file browser.</Tip>
 
-## Importing from a Library
+## Importing from a library
 To start using components and view models from a published library, select the library icon present in both the asset and data panels. The library panel displays alongside the hierarchy/asset/data column, and displays a list of the available libraries for the active file.
 
 ![Image](/images/editor/libraries/05-browse.webp)
@@ -51,7 +51,7 @@ With the chosen elements added to your file, you can access and reuse components
 
 ![Image](/images/editor/libraries/08-assets.webp)
 
-## Updating a Library
+## Updating a library
 After publishing, you can continue to make changes, add, or remove components, view models, and enums. Republish the library via the same option in the export or file menus. Upon publishing an updated version of the library, any files that have imported elements from it will display a small badge indicating an available update.
 
 ![Image](/images/editor/libraries/09-update-badge.webp)
@@ -76,7 +76,7 @@ After importing a component from a library and creating an instance of it on the
 
 ![Image](/images/editor/libraries/13-detach.webp)
 
-## Export Options
+## Export options
 By using libraries, you create a series of dependencies between files. For example, an instance of an imported component depends on the library file it came from, which in turn may depend on an image asset used within the component, or perhaps another component from a different library entirely.
 
 The export options control what and how components and any assets they depend on get exported to a riv file. These options are available across assets and components, with an additional layer of separation for libraries specifically.
@@ -95,7 +95,7 @@ You may want to adjust these options to suit your needs at runtime as opposed to
 
 ![Image](/images/editor/libraries/11-library-wide-options.webp)
 
-## Unpublishing a Library
+## Unpublishing a library
 Use the **Unpublish Library** action in the file menu to prevent additional files from accessing the library and its components. Unpublishing does not remove library components from host files that had already imported them. Host files that have imported library components will retain access to previously published versions of the library. You may republish a library at any time.
 
 ![Image](/images/editor/libraries/14-unpublish.webp)

@@ -25,7 +25,7 @@ Because a `<canvas>` is opaque to assistive technologies (AT), this DOM overlay 
 
 <DefinedInEditor />
 
-## Semantics Modes
+## Semantics modes
 
 Semantics are controlled by the `SemanticMode` enum, which you import from your Rive package and pass as a parameter when you instantiate Rive:
 
@@ -51,7 +51,7 @@ const rive = new Rive({
 });
 ```
 
-### Enabling Semantics After Load
+### Enabling semantics after load
 
 If you want to programmatically control when semantics are enabled, construct `Rive` with the default `SemanticMode.Disabled` and call the `enableSemantics()` method when the user opts in.
 
@@ -72,7 +72,7 @@ accessibilityToggle.addEventListener("change", (event) => {
 });
 ```
 
-### Labeling the Graphic
+### Labeling the graphic
 
 The semantic overlay's container element is a `role="region"` landmark. Use the `semanticsOptions.riveCanvasLabel` parameter when instantiating Rive to give it an `aria-label` that describes what the graphic is, so screen reader users know what they are entering.
 
@@ -94,7 +94,7 @@ const rive = new Rive({
 | --- | --- | --- |
 | `riveCanvasLabel` | `string` | `aria-label` applied to the overlay container. Defaults to `"Rive animation"`. |
 
-## How Semantics Map to the DOM
+## How semantics map to the DOM
 
 The runtime translates each editor semantic role into an ARIA role, and each state and trait into the matching ARIA attribute. In most cases, these are attached to `<div>` elements to standardize
 on common style/layout patterns across browsers. Text content is wrapped in an inner `<span>` to assist with AT's browsing text.
@@ -129,19 +129,19 @@ States and traits map to ARIA attributes such as `aria-expanded`, `aria-selected
   An image with no label is treated as decorative and hidden from assistive technologies, since a `role="img"` element without an accessible name is a WCAG failure. Add a label in the editor to any image that carries meaning.
 </Note>
 
-## Other Considerations
+## Other considerations
 
-### Tab Index
+### Tab index
 
 Interactive, focusable, and list item overlay elements are given `tabindex="-1"`, which keeps them out of the browser's sequential Tab order; the rest carry no tabindex at all. These elements remain reachable by a screen reader's cursor, but a sighted keyboard-only user cannot Tab into individual elements inside the graphic.
 
-### Semantic Overlay Positioning
+### Semantic overlay positioning
 
 Rive keeps the overlay matched to the canvas as it resizes or moves. The runtime watches the canvas, its parent, and the window for changes and re-syncs the overlay, so the common cases need no extra work.
 
 The overlay container is inserted as a sibling of the `<canvas>` and positioned using the canvas's layout offsets. When possible, give the canvas's container `position: relative` so the overlay and the canvas resolve their positions against the same ancestor. If no ancestor of the canvas is positioned, the overlay resolves against the document instead, and the `<body>` margin offsets it from the canvas.
 
-## Testing Semantics
+## Testing semantics
 
 Turn on a screen reader and navigate through your graphic after enabling semantics at runtime:
 

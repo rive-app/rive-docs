@@ -12,7 +12,7 @@ This section is for advanced users who need to use specific versions of the Rive
 
 </Warning>
 
-### Default Behavior
+### Default behavior
 
 By default, Rive React Native uses the native SDK versions specified in `package.json`:
 
@@ -25,13 +25,13 @@ By default, Rive React Native uses the native SDK versions specified in `package
 
 These versions are tested and known to work well with this version of Rive React Native.
 
-### Customizing Versions
+### Customizing versions
 
 You can override these default versions using platform-specific configuration files.
 
 See the available native Rive [Android](https://github.com/rive-app/rive-android/releases) and [iOS](https://github.com/rive-app/rive-ios/releases) versions.
 
-#### iOS (Vanilla React Native)
+#### iOS (vanilla React Native)
 
 Create or edit `ios/Podfile.properties.json`:
 
@@ -47,7 +47,7 @@ Then run:
 cd ios && pod install
 ```
 
-#### Android (Vanilla React Native)
+#### Android (vanilla React Native)
 
 Add to `android/gradle.properties`:
 
@@ -55,7 +55,7 @@ Add to `android/gradle.properties`:
 Rive_RiveRuntimeAndroidVersion={{versionAndroid}}
 ```
 
-#### Expo Projects
+#### Expo projects
 
 For Expo projects, use config plugins in your `app.config.ts`:
 
@@ -83,7 +83,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 });
 ```
 
-### Version Resolution Priority
+### Version resolution priority
 
 The library resolves versions in the following order:
 

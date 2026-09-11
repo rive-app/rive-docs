@@ -9,7 +9,7 @@ This is a significant update for Rive Flutter. We've completely removed all of t
 
 This has resulted in a number of changes to the underlying API, and a large portion of the code base that was previously accessible through Dart is now implemented in C++ through FFI.
 
-### What's New in 0.14.0
+### What's new in 0.14.0
 
 This release of Rive Flutter adds support for:
 
@@ -33,7 +33,7 @@ Now that Rive Flutter makes use of the core Rive C++ runtime, you can expect new
 
 ### Requirements
 
-#### Dart and Flutter Versions
+#### Dart and Flutter versions
 
 This release bumps to these versions:
 
@@ -42,7 +42,7 @@ sdk: ">=3.5.0 <4.0.0"
 flutter: ">=3.3.0"
 ```
 
-#### Required Setup
+#### Required setup
 
 **Important:** You must call `RiveNative.init` at the start of your app, or before you use Rive. For example, in `main.dart`:
 
@@ -56,9 +56,9 @@ Future<void> main() async {
 }
 ```
 
-### Migration Guide
+### Migration guide
 
-#### Quick Migration Checklist
+#### Quick migration checklist
 
 1. ✅ Update your `pubspec.yaml` dependencies to use version `0.14.0` or later
    ```yaml
@@ -71,7 +71,7 @@ Future<void> main() async {
 5. ✅ Review and update any custom asset loading code
 6. ✅ Test your graphics and interactions
 
-#### Removed Classes
+#### Removed classes
 
 The following classes have been completely removed:
 
@@ -85,7 +85,7 @@ The following classes have been completely removed:
 - `SMINumber` → Replaced with `NumberInput`
 - `FileAssetLoader` → Replaced with optional callback when creating a `File`
 
-#### Loading Rive Files
+#### Loading Rive files
 
 `RiveFile` has been removed and replaced with `File`. Important changes:
 
@@ -119,7 +119,7 @@ The provided `Factory` determines the renderer that will be used. Use `Factory.r
 - Replace `RiveFile.network` with `File.url`
 - Replace `RiveFile.file` with `File.path`
 
-#### Widget Migration
+#### Widget migration
 
 See the updated example app for a complete migration guide, including how to use the new `RiveWidget` and `RiveWidgetBuilder` APIs.
 
@@ -250,7 +250,7 @@ See the updated example app for a complete migration guide, including how to use
 
 </Tabs>
 
-#### Controller Migration
+#### Controller migration
 
 | Old Controller                           | New Controller           | Notes                       |
 | ---------------------------------------- | ------------------------ | --------------------------- |
@@ -278,7 +278,7 @@ final controller = RiveWidgetController(
 );
 ```
 
-#### Playing Animations
+#### Playing animations
 
 <Warning>
   This functionality is deprecated. We strongly encourage playing and blending
@@ -357,7 +357,7 @@ class _ExampleSingleAnimationPainterState
   advance multiple animations.
 </Note>
 
-#### Handling State Machine Inputs
+#### Handling State Machine inputs
 
 <Tip>
   Consider using [Data Binding](/editor/data-binding/overview) for more advanced
@@ -462,7 +462,7 @@ event.booleanProperty(name);    // Returns a CustomBooleanProperty
 event.stringProperty(name);     // Returns a CustomStringProperty
 ```
 
-#### Layout Changes
+#### Layout changes
 
 ##### BoxFit → Fit
 
@@ -477,7 +477,7 @@ Fit.contain
 Fit.layout  // New option for layout-based fitting
 ```
 
-#### Asset Loading Changes
+#### Asset loading changes
 
 The `FileAssetLoader` class and all its subclasses have been removed:
 
@@ -486,7 +486,7 @@ The `FileAssetLoader` class and all its subclasses have been removed:
 - `CallbackAssetLoader`
 - `FallbackAssetLoader`
 
-##### Out-of-band Asset Loading
+##### Out-of-band asset loading
 
 <Tabs>
   <Tab title="New API">
@@ -576,7 +576,7 @@ The `FileAssetLoader` class and all its subclasses have been removed:
 - `FontAsset.font = value` → `FontAsset.font(value)` (returns boolean)
 - `AudioAsset.audio = value` → `AudioAsset.audio(value)` (returns boolean)
 
-#### Text Run Updates
+#### Text Run updates
 
 <Tip>
   We recommend using [Data Binding](/editor/data-binding/overview) instead to
@@ -598,7 +598,7 @@ artboard.setText('textRunName', 'new value')
 artboard.setText('textRunName', 'new value', path: 'nested/path')
 ```
 
-### Known Missing Features
+### Known missing features
 
 These features are not available in `v0.14.0` but may be added in future releases:
 
@@ -609,7 +609,7 @@ These features are not available in `v0.14.0` but may be added in future release
 - `isTouchScrollEnabled`
 - `dynamicLibraryHelper`
 
-### Removed Code Paths
+### Removed code paths
 
 All of the "runtime" Dart code has been removed from these paths:
 
@@ -619,7 +619,7 @@ All of the "runtime" Dart code has been removed from these paths:
 - `rive_core`
 - `utilities`
 
-### Getting Help
+### Getting help
 
 If you encounter issues during migration:
 

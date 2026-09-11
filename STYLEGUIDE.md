@@ -49,8 +49,8 @@ Use headings to organize the page and make it easy to scan.
 - Use `##` for top-level page sections.
 - Use heading levels in order. Don't skip from `##` to `####`.
 - Avoid going past `####`.
-- Use title case for headings.
-- Prefer gerunds for task-based headings, such as **Creating Shapes** instead of **Create Shapes**.
+- Use sentence case for headings: capitalize only the first word and proper nouns (product names, platforms, APIs) and Rive feature terms (State Machine, Data Binding, View Model, Artboard, Layout, Timeline).
+- Prefer gerunds for task-based headings, such as **Creating shapes** instead of **Create shapes**.
 
 ## UI Labels and Product Terms
 

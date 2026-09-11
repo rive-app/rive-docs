@@ -3,7 +3,7 @@ title: "Error Handling"
 description: "Handling errors in Rive React Native"
 ---
 
-## Error Handling
+## Error handling
 
 <Note>
   This page only applies to the [new
@@ -25,7 +25,7 @@ try {
 }
 ```
 
-### View-Based Errors
+### View-based errors
 
 Use the `onError` callback prop to handle errors during view configuration or runtime operations:
 
@@ -40,7 +40,7 @@ Use the `onError` callback prop to handle errors during view configuration or ru
 />
 ```
 
-#### Error Types
+#### Error types
 
 The following error types may occur during view operations:
 
@@ -89,7 +89,7 @@ import { RiveView, RiveErrorType } from "@rive-app/react-native";
   default.
 </Note>
 
-### Android Runtime Initialization
+### Android runtime initialization
 
 On Android, the Rive native library is automatically initialized at app startup. In rare cases (ABI mismatch, missing native libraries, etc.), this initialization can fail. Use `RiveRuntime.getStatus()` to check whether initialization succeeded:
 

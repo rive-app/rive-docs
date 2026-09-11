@@ -41,7 +41,7 @@ The following parameters are specific to `useRive`, or behave differently in Rea
 - `fitCanvasToArtboardHeight` - *(optional)* If `true`, then the canvas will resize based on the height of the artboard. Defaults to `false`
 - `useOffscreenRenderer` - *(optional)* If `true`, the Rive instance will share (or create if one does not exist) an offscreen `WebGL` context. This allows you to display multiple Rive animations on one screen to work around some browser limitations regarding multiple concurrent WebGL contexts. If `false`, each Rive instance will have its own dedicated `WebGL` context and you may need to be cautious of the browser limitations just mentioned. We recommend **not** changing this default prop, so you don't have to manage WebGL contexts. Destroying a React component does not guarantee the browser cleans up the WebGL context that was created when the canvas was mounted. Only relevant when using `@rive-app/react-webgl2`. Defaults to `true`, unless [GPU Canvas](/runtimes/react/gpu-canvas) is on, which flips the default to `false`. An explicit value always wins — setting `true` alongside `enableGPUCanvas` means GPU Canvas content will not draw
 
-#### Return Values
+#### Return values
 
 **RiveState**
 
@@ -77,7 +77,7 @@ The `useStateMachineInput` hook can be used to grab references to Rive State Mac
 - `inputName?` - *(optional)* Name of a single state machine input to grab a reference to
 - `initialValue?` - *(optional)* Initial value to set on the input
 
-#### Return Values
+#### Return values
 
 This hook returns a default instance of a `StateMachineInput`.
 

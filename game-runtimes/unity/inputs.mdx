@@ -8,7 +8,7 @@ import LegacyDataBindingNotice from '/snippets/unity/legacy-databinding-notice.m
 
 <LegacyDataBindingNotice subject="Inputs" />
 
-## Accessing Inputs
+## Accessing inputs
 
 There are three input types, each extends `SMIInput` (State Machine Input):
 
@@ -90,7 +90,7 @@ foreach (var input in inputs)
 }
 ```
 
-## Accessing Nested Inputs
+## Accessing nested inputs
 
 ![Image](https://ucarecdn.com/2ef96393-bf13-4445-950b-1626235a25eb/)
 set the **Volume** input from the above example:
@@ -108,7 +108,7 @@ m_artboard.SetNumberInputStateAtPath("volume", 80.0f, "Volume Molecule/Volume Co
 - `bool? GetBooleanInputStateAtPath(string inputName, string path)`
 - `void FireInputStateAtPath(string inputName, string path)`
 
-### Additional Resources
+### Additional resources
 
 For a complete example see the **getting-started** project in the [examples repository](https://github.com/rive-app/rive-unity-examples) and open the **StateMachineInputScene** scene. Enter **Play** mode and in the inspector on the **Main Camera** component, you can interact with all available state machine inputs for the provided animation.
 

@@ -19,7 +19,7 @@ Within the Rive Editor, you can select an asset (for example, an image or font) 
 
 **Embedded** assets are included with the exported `.riv` binary file, while **referenced** assets are packaged separately and must be linked at runtime. Using **referenced** assets enables you to reuse the same asset across multiple animation files or in other parts of your game. This reduces the size of your `.riv` file and the resources needed to run your animations that use a shared asset.
 
-### Embedded Assets
+### Embedded assets
 
 Any asset marked as embedded will automatically be loaded, and you do not need to do anything to configure the asset.
 
@@ -27,7 +27,7 @@ Any asset marked as embedded will automatically be loaded, and you do not need t
 
 By selecting the riv file you'll get information on the file's assets in the **Unity Inspector**. The example image above shows an embedded font called "Roboto Flex" with a size of 1MB.
 
-### Referenced Assets
+### Referenced assets
 
 Referenced assets need to be linked at runtime. The rive-unity package automatically handles the linking by attempting to find assets within the same directory that match the correct **Name** + **ID** combination. If an asset that matches the criteria is discovered, that asset is automatically converted to a Rive asset and linked.
 
@@ -64,7 +64,7 @@ Alternatively, you can set the desired Importer for an asset by selecting the co
 
 ![Image](/images/game-runtimes/unity/d65592e9-22a4-433f-b4f3-4ca8e72577aa.webp)
 
-#### Sharing Assets
+#### Sharing assets
 
 Reusing the same asset in your Rive files should result in a consistent **Name** + **ID** generation when exporting from the Rive Editor.
 

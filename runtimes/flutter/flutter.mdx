@@ -483,7 +483,7 @@ When multiple `RiveWidget`s draw to the same shared texture - through a [RivePan
 `drawOrder` only applies when drawing to a shared texture with `Factory.rive`. When a widget owns its own texture, Flutter's normal paint order applies.
 </Note>
 
-### Render Resolution
+### Render resolution
 
 `Factory.rive` draws content into a backing texture. `RiveWidget.renderResolution` (default: `RenderResolution.display()`) controls how that texture is sized - the same way on every platform, including web. It changes backing resolution only; layout, fit, alignment, and hit testing are unaffected.
 
@@ -647,7 +647,7 @@ Some considerations when choosing a renderer:
 
 For more information see [Choosing a Renderer](/runtimes/choose-a-renderer/).
 
-### Note on Flutter Rendering
+### Note on Flutter rendering
 
 [Impeller](https://docs.flutter.dev/perf/impeller) is replacing [Skia](https://skia.org/) to become the default renderer for all platforms. As such, there is a possibility of rendering and [performance](https://github.com/flutter/flutter/issues/134432) discrepancies when using the Rive Flutter runtime with platforms that use the Impeller renderer that may not have surfaced before. If you encounter any visual or performance errors at runtime compared to expected behavior in the Rive editor, we recommend trying the following steps to triage:
 
@@ -679,7 +679,7 @@ If you encounter build errors related to Rive, ensure that:
 
 If you're still having issues, please see the [Troubleshooting section](/runtimes/flutter/rive-native#troubleshooting) in the Rive Native documentation.
 
-## Manually building Rive native libraries
+## Manually building Rive Native libraries
 
 Rive automatically downloads the native libraries for you as part of the `rive_native` plugin.
 

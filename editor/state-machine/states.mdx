@@ -10,7 +10,7 @@ States are simply timeline animations that can play at any point in your state m
 
 There are a few types of states that you’ll end up using as you work with the State Machine, including Default States, Single animations, and Blend States. We’ll explore each of these below.
 
-## Default States
+## Default states
 
 The Default States are the states that, by default, are added to every State Machine.
 
@@ -36,7 +36,7 @@ Unlike normal states, states connected to the Any State can be played at any tim
 
 ![Rating system using the Any state](https://ucarecdn.com/6c4401fc-1b7c-4748-901d-a6e237f57e51/)
 
-## Animation States
+## Animation states
 
 Animation states include all states other than the default states added to a State Machine. These states will control the look and motion of your interactive content. There are three types of animation states; Single Animation, 1D blend, and Direct blend states.
 
@@ -59,13 +59,13 @@ To assign a timeline to a state, use the timeline dropdown in the inspector.
 
 Any timeline that we create can be used as a single animation state. Depending on the type of animation we are using, the single animation state could be a one-shot, looping, or ping-pong state. In most cases, you’ll be using single animation states to create most of your state machines.
 
-### Blend states
+### Blend States
 
 A Blend State is any state that blends together two or more timeline animations. We use these states for content like loading bars, health systems, scrolling interactions, and dynamic face rigs.
 
 There are two types of blend states; 1D and Direct Blend states.
 
-#### 1D Blend state:
+#### 1D Blend State:
 
 A 1D Blend State allows us to mix multiple timelines together with a single numerical view model property. This state works by ramping up one animation and ramping down the other while you increase or decrease a number value. Note that this mixing is not linear, but is additive and could give you unexpected results.
 
@@ -99,7 +99,7 @@ Notice that once you define the range, a graphic appears above the property drop
 
 ![Blend State in action](https://ucarecdn.com/44a40cb9-90d9-4aca-920f-6042cc52340f/)
 
-#### Additive Blend state:
+#### Additive Blend State:
 
 An Additive Blend state allows you to blend together multiple timelines using multiple number properties. This allows us to create unique poses and facial positions by mixing multiple animations together. While working with an Additive Blend, you’ll either be mixing an animation by value or property. Read more below.
 
@@ -115,7 +115,7 @@ A Blend by Value timeline can be thought of as the baseline animation, or defaul
 
 A view model property blend is an animation that is mixed with the default pose or motion via a number property. Each of your different property blends should have their own number property.
 
-## State Options
+## State options
 
 When you select a state in the State Machine Graph, you can change its options in the Inspector, including:
 
@@ -176,14 +176,14 @@ Actions can be used to:
 
 <YouTube id="4Uuu0MkBawE" />
 
-### Action Timing
+### Action timing
 
 Each action can run at either:
 
 - **Start** — Runs when the state begins
 - **End** — Runs after the state completes
 
-### Creating an Action
+### Creating an action
 
 ![Creating an transition action](/images/editor/state-machine/transitions/state-action.gif)
 
@@ -196,11 +196,11 @@ Each action can run at either:
   </Step>
 </Steps>
 
-## Common Issues
+## Common issues
 
 <YouTube id="TnTvFkMC7iI" />
 
-## Use case: Build a simple button
+## Use case: build a simple button
 
 In this exercise, we will use our state machine knowledge to create a simple button with two layers of interactivity. Hover and click.
 

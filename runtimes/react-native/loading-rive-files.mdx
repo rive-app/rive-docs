@@ -14,7 +14,7 @@ description: "How to use Rive files with the Rive React Native runtime. "
 
     All loading methods use the `useRiveFile` hook, which returns a `RiveFile` object that you pass to the `RiveView` component via the `file` prop.
 
-### Option 1: Using `require()` (Recommended)
+### Option 1: using `require()` (recommended)
 
     <Note>
       Loading Rive files using `require()` is recommended because it doesn't require a native rebuild when you update the Rive file. During development, files loaded with `require()` are served by the Metro development server. When you build your app, the file is automatically bundled into the app's assets. With Expo, this also enables Over The Air (OTA) updates.

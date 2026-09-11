@@ -9,11 +9,11 @@ Rive is built to efficiently play interactive graphics in the editor and at runt
   We recommend continuous testing of your animations on your target devices/platforms.
 </Info>
 
-## Design-time Considerations
+## Design-time considerations
 
 See below for some techniques to employ in the Rive editor to keep Rive performant:
 
-### Asset Optimizations
+### Asset optimizations
 
 Image, audio, and font assets are often the biggest source of bloat in .riv files. Unoptimized assets increase download size and must be loaded into memory, which can lead to slowdowns—especially on lower-end devices.
 
@@ -25,7 +25,7 @@ Image, audio, and font assets are often the biggest source of bloat in .riv file
 
 Font files often include thousands of glyphs you may not need, such as Greek letters, mathematical operators, and icons. To reduce the size of the exported font or .riv file, [select which glyphs to include](/editor/text/fonts#glyph-%2F-script-selection).
 
-#### Raster Image Sizes & Dimensions
+#### Raster image sizes & dimensions
 
 It is crucial to ensure that the size of an image asset is appropriate for its usage. For instance, avoid using an image with large dimensions (e.g., 8192 x 7022) when it will be displayed in a small section of your artboard (e.g., sized 100 x 100).
 
@@ -35,23 +35,23 @@ If you have a very large image and only part of it will be visible at any given 
 
 ![Image](/images/getting-started/best-practices/breaking-up-raster-images.webp)
 
-#### Raster Image Compression
+#### Raster image compression
 
 Compression involves reducing the file size by employing various algorithms to discard some image data. You can compress images directly from the Rive editor, which means you maintain the original image but compress the images for runtime use. If the asset is embedded in the animation, this will reduce the file size of the exported riv.
 
 For the smallest image file size and best performance, we recommend exporting assets using the WebP Format.
 
-#### Vector Images
+#### Vector images
 
 Be efficient with the number of vertices in your vector image. While a few extra vertices won’t have much of an impact, thousands might. Be especially careful when importing vectors that were generated with AI, converted from raster images, or were created in drawing apps.
 
-### Layer Blend Modes for Web
+### Layer blend modes for web
 
 Blend modes are particularly expensive on the web because WebGL doesn’t expose mechanisms for accessing the framebuffer. To apply a blend mode, Rive must copy rendered pixels into a separate texture before compositing, which introduces significant performance and memory overhead.
 
 While there are efforts underway to improve this through new WebGL capabilities, these solutions are still pending broader support. Until then, it’s best to use blend modes sparingly in web projects to ensure optimal performance.
 
-### Artboard Considerations
+### Artboard considerations
 
 #### Clipped Artboards
 
@@ -59,7 +59,7 @@ Clipping artboards is generally fine, but if you're experiencing performance iss
 
 In most cases you can safely remove the clip from the main artboard itself, since nothing outside the Rive instance will be rendered at runtime.
 
-#### Artboard Export
+#### Artboard export
 
 Not every artboard in your Rive file is included in the exported `.riv`. The default artboard and any artboards marked as **Components** are included automatically. Other artboards, including their animations, State Machines, and other artboard-specific content, are excluded.
 
@@ -88,11 +88,11 @@ In addition to only rendering the things you need, you also save yourself both m
 
 Similar to the guidance in “Idle Animations”, ensure blend states transition out to other states, or move to an exit state when finished if possible. When blend states are activated at runtime, Rive will continually play the state machine, even if it is not necessary anymore. Providing some transition away from the blend state when complete ensures Rive has one less “active” animation to track when considering whether to self-pause at any point while playing the state machine.
 
-## Runtime Considerations
+## Runtime considerations
 
 See below for some techniques to employ when using Rive runtimes in application to keep Rive performant:
 
-### Out-of-band Assets
+### Out-of-band assets
 
 See our documentation on [Loading Assets](/runtimes/loading-assets). This feature allows you to dynamically load and replace assets (such as fonts, images, and audio) at runtime through code and provide the resources to your Rive graphic. This has the following benefits:
 
@@ -105,7 +105,7 @@ See our documentation on [Loading Assets](/runtimes/loading-assets). This featur
 
 If you're using the same Rive file in multiple places across your page or app, you can [cache the .riv](/runtimes/caching-a-rive-file) file to improve performance. The key benefit of caching is that the file only needs to be parsed and decoded once. Creating new artboard instances from a cached, already-decoded file is significantly faster than decoding the file each time before instantiating an artboard.
 
-### Pausing Programmatically
+### Pausing programmatically
 
 There are several cases where you may want to pause a state machine configured with Rive programmatically. By pausing the Rive graphic at runtime, you may notice that Rive’s impact on the application has negligible resource consumption (i.e., CPU).
 

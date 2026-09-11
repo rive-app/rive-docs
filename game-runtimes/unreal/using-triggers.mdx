@@ -3,8 +3,6 @@ title: "Using Triggers"
 description: "Using triggers in the Rive plugin."
 ---
 
-# Triggering Events
-
 In the Unreal runtime, "events" are modeled as **ViewModel Trigger Properties**.
 
 Fire and observe triggers through the **ViewModel Instance**.
@@ -13,14 +11,14 @@ Fire and observe triggers through the **ViewModel Instance**.
   Use **Trigger Properties** for one-shot actions (clicks, milestones, transitions).
 </Info>
 
-## Recommended Flow
+## Recommended flow
 
 1. Define a **Trigger Property** in your Rive ViewModel (for example `OnClick`).
 2. In Unreal, create and bind a **ViewModel Instance** to your Rive widget or artboard.
 3. Fire the trigger from Blueprint using **Call {TriggerName}**.
 4. Respond to the trigger in Blueprint using **Bind Event to {TriggerName}**.
 
-## Blueprint Setup
+## Blueprint setup
 
 1. Create a Rive widget from your imported `.riv` file.
 2. Create a **ViewModel Instance** using **Make View Model**.
@@ -31,7 +29,7 @@ Fire and observe triggers through the **ViewModel Instance**.
   Keep ViewModel creation and delegate binding in the same owning Blueprint so lifetime is clear.
 </Tip>
 
-## Firing a Trigger in Blueprint
+## Firing a trigger in Blueprint
 
 When you want to fire an event (button press, gameplay action, etc.), call the trigger function exposed on the bound ViewModel instance.
 
@@ -53,7 +51,7 @@ In the following image, the trigger "loaded" is being fired from Blueprint:
   />
 </Frame>
 
-## Observing Trigger Results
+## Observing trigger results
 
 If Unreal needs to react when the trigger is fired:
 
