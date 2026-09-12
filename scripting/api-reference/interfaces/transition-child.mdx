@@ -1,0 +1,37 @@
+---
+title: TransitionChild
+---
+
+A handle to one child (a nested artboard) of a Transition, valid only for
+the duration of the `draw` (and `changed`) call it is passed to. Draw it
+with `child:draw(renderer)`, wrapping the call in renderer state
+(save / modulateOpacity / transform / clipPath / restore) to author the
+transition effect.
+
+
+## Fields
+
+### `width`
+
+The child artboard's natural width, useful for slide/scale math.
+
+
+### `height`
+
+The child artboard's natural height.
+
+
+## Methods
+
+### `draw`
+
+{/* draw: (self: TransitionChild, renderer: Renderer) -> () */}
+<div class="signature">
+```lua
+draw(renderer: Renderer) -> ()
+```
+</div>
+
+Draw this child's content at the renderer's current transform.
+
+
