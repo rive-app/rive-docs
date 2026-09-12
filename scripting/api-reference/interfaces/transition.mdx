@@ -1,0 +1,87 @@
+---
+title: Transition
+---
+
+Renders the visual change between an outgoing ("from") and incoming ("to")
+child when a Transition's active child changes. The active child is chosen
+natively (and is data-bindable, Solo-style); the script owns only how the
+two children are composited. Declare any inputs you need (e.g. a director
+Artboard, numbers, curves) as ordinary script inputs and drive the effect
+however you like.
+
+For more information, see [Transition Scripts](/scripting/protocols/transition-scripts).
+
+
+## Fields
+
+### `managesTo`
+
+When false, the incoming ("to") child renders normally through the
+artboard draw loop and is passed as nil to draw; the script composites
+only the outgoing ("from") child (useful for "reveal" transitions where
+the new content is already on-stage). Defaults to true (the script
+composites both children). Read at the start of each transition, so it
+may be set in init or changed.
+
+
+## Methods
+
+### `init`
+
+{/* init: ((self: T, context: Context) -> boolean)? */}
+<div class="signature">
+```lua
+init(self: T, context: Context) -> boolean
+```
+</div>
+
+Called once when the transition is created.
+
+
+### `changed`
+
+{/* changed: ((self: T, from: TransitionChild?, to: TransitionChild?, direction: number) -> ())? */}
+<div class="signature">
+```lua
+changed(self: T, from: TransitionChild?, to: TransitionChild?, direction: number) -> ()
+```
+</div>
+
+Called when the active child changes. `from` is the outgoing child
+(nil on the first show); `to` is the incoming child. `direction` is 1
+when `to` is at a higher combined index than `from`, -1 when lower, and
+0 when unknown (e.g. the first show). Reset your progress clock / seek
+any input you drive here. Called again on interruption, where `from` is
+the previously-incoming child.
+
+
+### `advance`
+
+{/* advance: (self: T, seconds: number) -> boolean */}
+<div class="signature">
+```lua
+advance(self: T, seconds: number) -> boolean
+```
+</div>
+
+Called every frame while a transition is in flight. Advance your own
+progress (and any input you drive). Return true while running; return
+false to signal completion, after which the runtime retires the
+outgoing child and resumes drawing the active child normally.
+
+
+### `draw`
+
+{/* draw: (self: T, renderer: Renderer, from: TransitionChild?, to: TransitionChild?) -> () */}
+<div class="signature">
+```lua
+draw(self: T, renderer: Renderer, from: TransitionChild?, to: TransitionChild?) -> ()
+```
+</div>
+
+Composite the two children. Wrap each `child:draw(renderer)` in renderer
+state (save / modulateOpacity / transform / clipPath / restore) to
+author crossfade, slide, wipe, scale, and custom effects. Either child
+may be nil (see `managesTo`).
+
+
