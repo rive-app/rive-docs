@@ -202,3 +202,18 @@ end
 ```
 
 
+### `modulateOpacity`
+
+{/* function modulateOpacity(self, opacity: number): () */}
+<div class="signature">
+```lua
+modulateOpacity(opacity: number) -> ()
+```
+</div>
+
+Multiplies the opacity of subsequent draw calls by `opacity` (0..1).
+Stacks multiplicatively and is captured by save()/restore(), so the
+common pattern is: renderer:save(); renderer:modulateOpacity(a);
+... draw ...; renderer:restore().
+
+
