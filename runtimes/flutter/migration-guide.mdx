@@ -3,6 +3,165 @@ title: "Migration Guide"
 description: "Learn how to migrate your Flutter app when upgrading between major versions of the Rive Flutter runtime, including breaking changes and new features."
 ---
 
+| Version                   | What changed                                                                                                       |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| [0.15.0](#version-0-15-0) | Data Binding binds when you create a controller, and the Rive Renderer uses deferred rendering on native platforms |
+| [0.14.0](#version-0-14-0) | Rive replaced the Dart runtime with the C++ runtime, changing the widget, controller, and file loading APIs         |
+
+## Version 0.15.0
+
+Two things need migration work in this release:
+
+- Data Binding binds when you create a `RiveWidgetController`, and the separate `dataBind` call is removed.
+- The Rive Renderer (`Factory.rive`) uses deferred rendering on native platforms. This only affects advanced integrations.
+
+<Note>
+  `0.15.0` is a dev release (`{{versionDevFlutter}}`). Migrate against the
+  APIs below, but expect changes before the stable release.
+</Note>
+
+### Requirements
+
+The minimum Flutter version is `3.32.0` (Dart `3.8.0`). Version `0.14.x` declared `3.28.0` by mistake, so older Flutter versions resolved the package and then failed to compile. See [rive-flutter issue #643](https://github.com/rive-app/rive-flutter/issues/643).
+
+### Data Binding
+
+#### Binding happens at construction
+
+`RiveWidgetController` binds when you construct it. The Artboard's main View Model, and every global View Model in the file, receive a default instance unless you choose otherwise with the new `main` and `globals` parameters:
+
+```dart
+// Default instances for the main and every global View Model
+final controller = RiveWidgetController(file);
+
+// Or choose what gets bound
+final controller = RiveWidgetController(
+  file,
+  main: DataBind.byName('My Instance'),
+  globals: {'Theme': DataBind.byInstance(themeInstance)},
+);
+```
+
+On content without Data Binding, the bind is a no-op.
+
+<Warning>
+  Behavior change: content with View Models that previously rendered unbound
+  now renders its authored default values, because construction binds
+  automatically.
+</Warning>
+
+Read bound instances back through `controller.viewModelInstance` and `controller.globalViewModelInstance(name)`. Both are live reads that return the same object every time.
+
+To rebind later, call `controller.bind(main: ..., globals: {...})`. Each call applies as a delta on the current bindings. Anything you leave out keeps the instance it already has, and however many slots you set, the rebind runs once. Debug builds warn once when `bind` runs before the controller's first advance, since the construction bind is then discarded before anything rendered. Pass the configuration to the constructor instead.
+
+#### Removed APIs
+
+| Removed                                               | Replacement                                                                          |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| `controller.dataBind(x)`                              | `RiveWidgetController(file, main: x)`, read back with `controller.viewModelInstance` |
+| `RiveWidgetBuilder(dataBind: DataBind.auto())`        | Delete the argument. Construction binds defaults automatically                       |
+| `RiveWidgetBuilder(dataBind: DataBind.byInstance(x))` | `controller: (file) => RiveWidgetController(file, main: DataBind.byInstance(x))`     |
+| `state.viewModelInstance` (on `RiveLoaded`)           | `state.controller.viewModelInstance`                                                 |
+
+<Tabs>
+  <Tab title="New API">
+    ```dart
+    final controller = RiveWidgetController(
+      file,
+      main: DataBind.byName('My Instance'),
+    );
+    final viewModelInstance = controller.viewModelInstance;
+    ```
+  </Tab>
+  <Tab title="Old API">
+    ```dart
+    final controller = RiveWidgetController(file);
+    final viewModelInstance = controller.dataBind(
+      DataBind.byName('My Instance'),
+    );
+    ```
+  </Tab>
+</Tabs>
+
+#### Legacy bridge
+
+To keep existing call sites compiling while you migrate:
+
+```dart
+import 'package:rive/legacy.dart';
+```
+
+This restores `controller.dataBind` and `RiveLoaded.viewModelInstance` as deprecated extensions. The old ownership contract comes with them, so you dispose what `dataBind` returns. The library is frozen and will be removed in a future release, so treat the import as a migration TODO.
+
+#### Instance ownership
+
+The controller owns every instance it resolves for you (`DataBind.auto`, `byName`, `byIndex`, and `empty`) and disposes them with itself. Drop any manual dispose call for those.
+
+Instances you create and pass with `DataBind.byInstance` are never disposed by the runtime. `RiveWidgetBuilder` no longer disposes them either, so a caller-owned instance now survives the widget. If you kept an instance in use past its controller, create it yourself and bind it by instance:
+
+```dart
+final vm = file.viewModelByName('My View Model')!;
+final instance = vm.createInstanceByName('My Instance')!;
+final controller = RiveWidgetController(
+  file,
+  main: DataBind.byInstance(instance),
+);
+```
+
+#### Read-backs cannot be bound again
+
+`controller.viewModelInstance` and `controller.globalViewModelInstance(name)` return plain `ViewModelInstance` views. Read, write, and listen to them as usual, but you cannot pass one to `DataBind.byInstance`. That takes only a `BindableViewModelInstance`, which is what `ViewModel.createInstance` and its siblings return. Passing a read-back is a compile error, and forcing it with a cast throws at runtime. Create your own instance to share state across slots or controllers.
+
+### Deferred rendering
+
+The Rive Renderer (`Factory.rive`) now uses deferred rendering on native platforms, and it is the only native rendering mode. Each frame is recorded on the UI thread as a compact command stream and replayed on a dedicated render thread, so GPU work no longer blocks the UI thread. Resources made with `Factory.rive` (paths, paints, images, text) are lightweight recording proxies that resolve during replay.
+
+<Note>
+  Rendering behavior and output are unchanged for typical `RiveWidget`,
+  `RivePanel`, and file-based usage. The items below only affect advanced
+  integrations. `Factory.flutter` is unaffected.
+</Note>
+
+#### Threading
+
+All Rive calls stay on the calling (UI) thread. The command stream has a single writer per frame, so advancing or drawing from other threads is not supported. Doing so corrupts the stream, visible as `rive replay ABORT` messages in the console.
+
+#### Removed batch advance API
+
+**Breaking:** `Rive.batchAdvance` and `Rive.batchAdvanceAndRender` have been removed, along with the `Rive` class that held them. Their worker threads recorded into the single-writer command stream concurrently and corrupted it. Advance and draw each State Machine on the calling thread instead:
+
+```dart
+// Old API
+Rive.batchAdvance(stateMachines, elapsedSeconds);
+
+// New API
+for (final stateMachine in stateMachines) {
+  stateMachine.advanceAndApply(elapsedSeconds);
+}
+```
+
+For `Rive.batchAdvanceAndRender`, draw each Artboard on the calling thread after advancing its State Machine, as before.
+
+#### Custom render texture painters
+
+`RenderTexturePainter.riveFactory` names the factory the painted content was made with, so the texture can attach its recording session. A sessionless texture draws nothing on native, with a one-time console warning: `texture has no deferred session, nothing will draw`.
+
+The getter defaults to `Factory.rive`, which is correct for content decoded and created on it, so most custom painters need no change. Override it with the decoded file's `File.riveFactory` when content records elsewhere, or with `null` when you manage the texture's session yourself. On web, sessions are per file and bound to one texture. The content-derived override therefore applies only to single-file content, where it opts the texture into the per-file session worker path. A painter drawing multiple files into one texture keeps the default and renders through the immediate fallback.
+
+`SharedTexturePainter` adds a `riveFactory` getter (default `null`) for the same reason on the `RivePanel` paint pass. Classes that `implements SharedTexturePainter` must add the getter; classes that `extends` it inherit the default.
+
+#### One Artboard instance per texture
+
+Showing the same Artboard instance in two `RiveWidget`s leaves the later widget blank and logs a debug message. Create one Artboard instance per widget, for example with `file.artboard('MyArtboard')` for each widget.
+
+#### `Factory.rive` and the recording session
+
+On native platforms, `Factory.rive` resolves to the render context's recording session. `file.riveFactory == Factory.rive` still holds, and resources created directly on `Factory.rive` record and render correctly.
+
+#### Advanced session control
+
+`package:rive_native/rive_deferred.dart` exposes manual session control: attaching or detaching a texture's session with `RenderTexture.useDeferredSession`, session helpers, and render thread stats. Typical apps do not need it.
+
 ## Version 0.14.0
 
 This is a significant update for Rive Flutter. We've completely removed all of the Dart code that was used for the Rive runtime and replaced it with our underlying [C++ Runtime](https://github.com/rive-app/rive-runtime). See the [Rive Native for Flutter](/runtimes/flutter/rive-native) page for more details.
