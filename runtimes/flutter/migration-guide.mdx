@@ -148,7 +148,7 @@ For `Rive.batchAdvanceAndRender`, draw each Artboard on the calling thread after
 
 The getter defaults to `Factory.rive`, which is correct for content decoded and created on it, so most custom painters need no change. Override it with the decoded file's `File.riveFactory` when content records elsewhere, or with `null` when you manage the texture's session yourself. On web, sessions are per file and bound to one texture. The content-derived override therefore applies only to single-file content, where it opts the texture into the per-file session worker path. A painter drawing multiple files into one texture keeps the default and renders through the immediate fallback.
 
-`SharedTexturePainter` adds a `riveFactory` getter (default `null`) for the same reason on the `RivePanel` paint pass. Classes that `implements SharedTexturePainter` must add the getter; classes that `extends` it inherit the default.
+`SharedTexturePainter` adds a `riveFactory` getter (default `null`) for the same reason on the `RivePanel` paint pass. A class that implements `SharedTexturePainter` must add the getter. A class that extends it inherits the default.
 
 #### One Artboard instance per texture
 
