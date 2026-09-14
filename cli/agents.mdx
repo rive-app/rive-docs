@@ -16,9 +16,9 @@ Each Rive project includes instructions that teach coding agents how to work wit
     rive create myproject
     ```
 
-    `rive create` writes an `AGENTS.md` into the folder. Agents read this file when
-    they open the directory, and it tells them how to look up the CLI reference and how to check
-    their work.
+    `rive create` writes an `AGENTS.md` and `CLAUDE.md` into the folder. Agents read this when
+    they open the directory, and it tells them how to look up the CLI reference and
+    how to check their work.
   </Step>
   <Step title="Start the preview window">
     ```bash
@@ -35,8 +35,9 @@ Each Rive project includes instructions that teach coding agents how to work wit
   <Step title="Describe what you want">
     Prompt the agent in plain language. It reads `AGENTS.md`, looks up the types it
     needs with `rive docs` and `rive schema`, writes the RML and Luau, then checks the
-    result with `rive <dir> --verify` and `rive inspect`, the two checks `AGENTS.md`
-    tells it to run. Ask for a `rive <dir> --screenshot` when you want to see it.
+    result with `rive <dir> --verify` and `rive inspect --summary`, the two checks
+    `AGENTS.md` tells it to run. Ask for a `rive <dir> --screenshot` when you want to
+    see it.
 
     > Build a weather card: a rounded panel with the city name, a temperature
     > readout, and an icon that animates when it rains. Bind the temperature to a

@@ -24,6 +24,7 @@ installed version.
 | `rive samples` | Clone a runnable example project to your machine |
 | `rive schema` | Look up types |
 | `rive inspect` | Print the resolved scene |
+| `rive push` | Build the project and upload it to a Rive file in your account. Needs `rive login` |
 | `rive doctor` | Check the environment: version, auth, ports, project |
 | `rive lsp` | Language server over stdio, for editor integrations |
 | `rive update` | Install the latest published CLI |
@@ -54,10 +55,11 @@ you edit.
 | `--test` | Run `Tests` scripts. Exit 6 on failures |
 
 <Note>
-Until the project is bound to a Rive file in your account, `--publish` writes a watermarked build.
-
-Binding records `push.fileId` in `rive.yaml`, and it is done by `rive push`, which is
-coming soon. The watermark applies whether or not the project has scripts.
+`--publish` may add a watermark to the graphic if the project is not bound to a file
+in your Rive account. Bind it with
+[`rive push`](/cli/reference/project-config#pushing-to-a-rive-file), which records
+`push.fileId` in `rive.yaml`. The watermark applies whether or not the project has
+scripts.
 </Note>
 
 ### Modifiers
@@ -90,6 +92,7 @@ before the ones it times.
 | `--data=<path=value>` | Set one view model property before the scene runs. Repeat the flag for several properties |
 | `--pointer=<kind@x,y>` | Simulate one pointer event at artboard coordinates. Repeatable |
 | `--advance=<N\|Ns\|Nms>` | Step the scene forward. Repeatable, and runs in order with the other interactions |
+| `--key=<key[:phase][+mods]>` | Simulate a keystroke. Repeatable, and runs in order with the other interactions |
 | `--data-dump[=<path>]` | Write the bound view model values, globals and nested artboards as JSON. Defaults to `build/<name>.data.json`; `-` or `stdout` writes to standard output |
 | `--data-dump-filter=<paths>` | Keep only these property paths, comma separated. Globs allowed, as in `battery/*,score` |
 | `--data-dump-every=<N\|Ns\|Nms>` | Sample every N frames rather than once at the end, as JSON Lines |
@@ -177,6 +180,25 @@ rive myproject --data-dump=- --advance=60
 header, a frame-0 baseline, then only what changed on each sample. It takes a whole
 number of frames at 60fps, and counts the frames gestures advance internally.
 
+#### Simulating a keystroke
+
+`--key` sends a key through the same dispatch path a real one takes. The phase is
+`down`, `repeat` or `up`, and defaults to `press`, which is a down then an up.
+Modifiers attach with `+`:
+
+```bash
+rive myproject --screenshot=out.png --key=right
+rive myproject --screenshot=out.png --key=a:down
+rive myproject --screenshot=out.png --key=tab:down+shift
+```
+
+Key names are the same ones the markup uses, so `right`, `escape`, `f1` and `kpEnter`
+all resolve.
+
+<Note>
+Keys only reach whatever holds Rive focus
+</Note>
+
 #### Simulating a pointer
 
 `--pointer` takes a kind and a position. `down`, `up`, `move` and `click` each take a
@@ -220,7 +242,7 @@ Quote the `drag` value so the shell does not read `>` as a redirection.
 | `--quiet` | No terminal log at all, compiler errors included. Read the exit code, `--format=json`, or `logs.problems` instead |
 | `--optimize` | Compile scripts at Luau O2 instead of O1. The scripts run faster and the bytecode is harder to debug |
 | `--immediate` | Render on the main thread |
-| `--format=json` or `--format=human` | `human` is the default terminal log. `json` needs `--once`, `--verify`, `--publish` or `--test`, and prints one JSON report object on stdout |
+| `--format=json` or `--format=human` | `human` is the default terminal log. `json` needs `--once`, `--verify`, `--publish` or `--test`, and prints one JSON report object on stdout. `--json` is an alias for `--format=json` |
 
 ## Preview window commands
 
@@ -263,6 +285,7 @@ rive schema --search <text> # find a type or property by name, then pick one
 | `--animatable` | Only properties that can be keyed |
 | `--bindable` | Only properties that can be data bound |
 | `--all` | Include editor-only properties |
+| `--json` | JSON output: the type as one object, or the `--list` / `--search` results as an array |
 
 ### `docs`
 
@@ -296,9 +319,29 @@ the directory has no `rive.yaml`.
 | Flag | Does |
 |---|---|
 | `--json` | JSON output (the default) |
+| `--summary` | Problems plus object counts per type, per artboard and for the other roots. Not the tree |
 | `--all` | Include editor-only properties |
 | `--artboard=<name>` | One artboard only. An unknown name gives an empty `artboards` list and still exits `0` |
 
+
+### `push`
+
+```bash
+rive push [dir]       # build the project and send it to the bound Rive file
+```
+
+This uploads the project to your Rive account, replacing the bound file's contents and adding an
+entry to its revision history. It is the same artifact `--rev` would export.
+
+| Flag | Does |
+|---|---|
+| `--project=<id>` | Project for the first push. Falls back to `push.projectId` in `rive.yaml`; a single project is picked automatically, and several open a picker |
+| `--list` | List your projects with their ids, then exit |
+| `--name=<label>` | Revision history label. Defaults to `rive-cli push` |
+| `--optimize` | Compile scripts at O2 |
+| `--quiet` | Suppress build logs |
+
+See [Pushing to a Rive file](/cli/reference/project-config#pushing-to-a-rive-file).
 
 ### `doctor`
 
@@ -318,7 +361,7 @@ when a check fails.
 
 | What you run | Session needed |
 |---|---|
-| `--publish`, `--rev` | Yes, with `rive login` |
+| `--publish`, `--rev`, `rive push` | Yes, with `rive login` |
 | Preview window, `--once`, `--verify`, `--test`, `--screenshot`, `--serve`, `--headless-serve` | No, and these work offline |
 | `create`, `docs`, `samples`, `schema`, `inspect` | No |
 | `update`, `whoami`, `doctor` | No account, but they reach the network. `whoami` exits `3` when you are not signed in and `7` when it cannot reach Rive; `doctor` reports a missing session as a warning and still exits `0`, but exits `1` when a check fails |
@@ -342,14 +385,11 @@ connection even with valid stored credentials.
 | `6` | Test cases failed. The build itself was fine |
 | `7` | A service could not be reached, so it is safe to retry |
 
-<Warning>
-Exit 2 does not cover a misspelled flag. On `rive <project-dir>`, a flag the CLI does
-not recognize is ignored, so `--bogus` builds and exits `0`. Values are checked,
-though: `--viewport=abc` exits `2` with a message, and so does every other flag value
-the CLI parses. A bare word is read as the project directory and the last one wins, so
-a stray argument silently changes what gets built. A green exit is not proof your
-flags landed.
-</Warning>
+<Note>
+Any argument without a leading `--` is read as the project directory. Passing more
+than one is not an error: the CLI builds the one furthest right and says nothing about
+the others, so a stray word changes what gets built.
+</Note>
 
 ## JSON output
 

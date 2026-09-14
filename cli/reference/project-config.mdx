@@ -112,7 +112,8 @@ logs:
 **`name`** — Required. Also the name other projects use to import this one.
 
 **`main`** — Which artboard is the file's default. Without it, the first one declared
-wins.
+wins, and markup files compile in path order, so that depends on filenames sorting the
+way you expect. Name the artboard here instead.
 
 **`debugLevel`**, **`optimizationLevel`**, **`shaderOutputs`** — Publish settings the
 Editor keeps on the `Backboard`. A fragment declares no `Backboard`, so these live
@@ -161,7 +162,7 @@ alongside the project's.
 
 **`push`** — `projectId` and `fileId`, the binding `rive push` writes back after the
 first push. `push.fileId` is what `--publish` sends when it asks whether to watermark.
-Do not hand-edit this property.
+See [Pushing to a Rive file](#pushing-to-a-rive-file).
 
 **`output.dir`** — Where the `.riv` is written. Defaults to `build`.
 
@@ -178,3 +179,68 @@ writes both into the scaffolded `rive.yaml`, pointed at `build/`; a hand-written
 
 Keys the CLI does not know are ignored without a warning, and so is an `artboards:`
 entry naming a script that does not exist. A misspelled key will not fail the build.
+
+## Pushing to a Rive file
+
+`rive push` builds the project and uploads it to a Rive file in your account. The file opens from the Editor's file browser
+like any other, and every push replaces its contents and adds a named entry to its
+revision history, so any push can be inspected or restored from the Editor.
+
+```bash
+rive login   # once per machine, the same session as --publish
+rive push    # build and push. The first push creates the file
+```
+
+### The first push
+
+In your Rive account, files are grouped into projects. That is a different thing from
+the project folder on your machine: the first `rive push` asks which Rive project to
+create the file in, then records your answer so later pushes go back to the same file.
+
+If your account has one project, it is chosen for you. If it has several, the CLI
+lists them and you choose. Your workspace's personal files appear first in that list,
+so a push can land in your own drafts rather than a shared project. Projects you can
+only view are left out.
+
+`--project=<id>` skips the question, and `rive push --list` prints every project with
+its id without building anything.
+
+The file it creates is recorded in `rive.yaml`:
+
+```yaml
+push:
+  projectId: 9
+  fileId: 512
+```
+
+If you're working in version control, commit this so everyone pushing the project updates the same file. Delete the `fileId`
+line to make the next push create a fresh file, or edit `projectId` to create it
+somewhere else.
+
+### Every push after
+
+A later push sends only what differs from the file's live content, then names a
+revision:
+
+```bash
+rive push --name="before the terrain rewrite"
+```
+
+A push with nothing new reports `already up to date` and adds no revision. Previous
+content is never lost: it stays in the revision history, and the Editor can restore
+any entry.
+
+<Warning>
+The push is authoritative. If someone has the file open in the Editor while you push,
+they see the content swap live, and any Editor-made changes to pushed content are
+overwritten.
+</Warning>
+
+What gets pushed is exactly what `--rev` would export: the project's own scripts,
+assets and artboards, minus everything `excludeFromRev` drops. Libraries are not
+pushed, since each one exports its own `.rev` and is published separately.
+
+<Note>
+Push uses the same `rive login` session as `--publish`. If you have any issues, run
+`rive login` to get a new OAuth session going.
+</Note>
