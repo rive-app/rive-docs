@@ -183,7 +183,7 @@ export const FeatureSupportGroup = ({
                 reactWebGL2: { supported: true, version: "4.30.0+" },
                 reactNative: { supported: false, description: "Coming soon" },
                 reactNativeLegacy: { supported: false, description: "Not supported" },
-                flutter: { supported: true, version: "0.14.6" },
+                flutter: { supported: true, version: "0.15.0" },
                 apple: { supported: true, version: "v6.21.0" },
                 android: { supported: false, description: "Coming soon" },
                 cpp: { supported: true, description: "Supported" },
