@@ -48,7 +48,8 @@ Install the Rive CLI, create a project, and open the live preview. By the end of
     rive create myproject
     ```
 
-    That writes a `rive.yaml`, an `AGENTS.md` for coding agents, a `.gitignore`, and
+    That writes a `rive.yaml`, an `AGENTS.md` and `CLAUDE.md` for coding agents, a
+    `.gitignore`, and
     a `scene.rml` holding the same frame the Editor gives a new file: an artboard, a
     timeline, and a state machine that plays it on load. A shape you add and key
     starts animating without any further setup.
@@ -109,10 +110,10 @@ A file containing scripts that is destined for the web must be built with
 `--publish`. Unsigned scripts are rejected by the CDN and the web runtimes. A file with no scripts is unaffected.
 </Warning>
 
-`--publish` watermarks what it writes until the project is bound to a Rive file in
-your account. Binding is done by `rive push`, which is coming soon. Until then, every
-published file carries the watermark, and `--once` writes an unwatermarked build for
-local use.
+`--publish` may add a watermark to the graphic if the project is not bound to a file
+in your Rive account. Bind it with
+[`rive push`](/cli/reference/project-config#pushing-to-a-rive-file). `--once` writes
+an unwatermarked build for local use.
 
 ## More resources
 
