@@ -84,18 +84,18 @@ performAction(self: T, listenerContext: ListenerContext) -> ()
 
 Called when the associated [State Machine Listener](/editor/state-machine/listeners) is triggered.
 This method includes a [ListenerContext](/scripting/api-reference/artboards/listener-context) parameter containing details about the triggering interaction.
-```lua highlight={9,10,11,17}
+```lua highlight={7,8,9,10,11,12,18}
 type MyListenerAction = {}
 
 function init(self: MyListenerAction, context: Context): boolean
   return true
 end
 
--- Add your transition logic here.
--- `evaluate` is fired every frame while the transition is active.
--- Returning false prevents a transition, true allows a transition.
+-- Called each time the listener fires.
 function performAction(self: MyListenerAction, listenerContext: ListenerContext)
-  return true
+  if listenerContext:isPointerEvent() then
+    print('clicked')
+  end
 end
 
 -- Return a factory function that Rive uses to build the Listener Action instance.
