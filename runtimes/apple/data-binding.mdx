@@ -128,11 +128,16 @@ import { Demos } from "/snippets/demos.jsx";
         let rive = try await Rive(file: file, artboard: artboard, stateMachine: stateMachine)
         ```
 
-        To replace the main instance later, use the async throwing binding API:
+        To replace the main instance later, create a new instance and use the async throwing binding API:
 
         ```swift
-        try await stateMachine.bindViewModelInstances(main: viewModelInstance)
+        let replacementInstance = try await file.createViewModelInstance(
+            .viewModelDefault(from: .artboardDefault(artboard))
+        )
+        try await stateMachine.bindViewModelInstances(main: replacementInstance)
         ```
+
+        After binding succeeds, retain `replacementInstance` for subsequent property access.
 
         The `Rive` initializer with an explicit artboard and state machine uses those components as configured, without rebinding. Create the artboard from the same file and the state machine from that artboard. Use compatible instances from the same file and worker.
 
