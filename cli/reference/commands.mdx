@@ -55,8 +55,9 @@ you edit.
 | `--test` | Run `Tests` scripts. Exit 6 on failures |
 
 <Note>
-`--publish` may add a watermark to the graphic if the project is not bound to a file
-in your Rive account. Bind it with
+`--publish` may add a watermark to the graphic. A clean `.riv` needs two things: the
+project bound to a file in your Rive account, and that file in a workspace on the
+[Cadet plan or higher](https://rive.app/pricing). Binding is done by
 [`rive push`](/cli/reference/project-config#pushing-to-a-rive-file), which records
 `push.fileId` in `rive.yaml`. The watermark applies whether or not the project has
 scripts.
