@@ -82,11 +82,11 @@ import { Demos } from "/snippets/demos.jsx";
         // Alternatively, using the default view model for an artboard
         let artboard: Artboard = ...
         // A blank view model instance
-        blankInstance = try await file.createViewModelInstance(.blank(from: .artboardDefault(Artboard)))
+        blankInstance = try await file.createViewModelInstance(.blank(from: .artboardDefault(artboard)))
         // The default instance for the view model
-        defaultInstance = try await file.createViewModelInstance(.viewModelDefault(from: .artboardDefault(Artboard)))
+        defaultInstance = try await file.createViewModelInstance(.viewModelDefault(from: .artboardDefault(artboard)))
         // An instance by name from the view model
-        namedInstance = try await file.createViewModelInstance(.name("Instance", from: .artboardDefault(Artboard)))
+        namedInstance = try await file.createViewModelInstance(.name("Instance", from: .artboardDefault(artboard)))
         ```
     </Tab>
         <Tab title={"{{runtimeLegacyNameApple}}"}>
@@ -117,28 +117,28 @@ import { Demos } from "/snippets/demos.jsx";
 
 <Tabs>
     <Tab title={"{{runtimeCurrentNameApple}}"}>
-        Given the following example code:
+        Create and retain the instance you want to read, observe, or modify, then bind it when creating the state machine. Run setup from a `@MainActor` async context.
+
         ```swift
-        let file: File = ...
-        let artboard: Artboard = try await file.createArtboard()
-        let stateMachine: StateMachine = try await artboard.createStateMachine()
-        let viewModelInstance = try await file.createViewModelInstance(...)
+        let artboard = try await file.createArtboard()
+        let viewModelInstance = try await file.createViewModelInstance(
+            .viewModelDefault(from: .artboardDefault(artboard))
+        )
+        let stateMachine = try await artboard.createStateMachine(binding: viewModelInstance)
+        let rive = try await Rive(file: file, artboard: artboard, stateMachine: stateMachine)
         ```
 
-        You can manually bind the view model instance to the state machine:
+        To replace the main instance later, use the async throwing binding API:
+
         ```swift
-        stateMachine.bindViewModelInstance(viewModelInstance)
+        try await stateMachine.bindViewModelInstances(main: viewModelInstance)
         ```
 
-        Alternatively, you can utilize the `Rive` type to (automatically) data bind a view model instance:
-        ```swift
-        // Automatically find a default view model instance to bind. This is the default value, if you do not pass in a dataBind argument.
-        var rive = try await Rive(file: file, artboard: artboard, stateMachine: stateMachine, dataBind: .auto)
-        // Bind a view model instance
-        var rive = try await Rive(file: file, artboard: artboard, stateMachine: stateMachine, dataBind: .viewModelInstance(viewModelInstance))
-        // Do not bind. This assumes you have manually bound a view model instance earlier
-        var rive = try await Rive(file: file, artboard: artboard, stateMachine: stateMachine, dataBind: .none)
-        ```
+        The `Rive` initializer with an explicit artboard and state machine uses those components as configured, without rebinding. Create the artboard from the same file and the state machine from that artboard. Use compatible instances from the same file and worker.
+
+        <Warning>
+        Bound instances cannot be retrieved from the state machine. The deprecated `Rive.viewModelInstance` property returns `nil` with the new initializers. Keep your own references for property access. See [migration guidance](/runtimes/apple/migrating-from-legacy#updating-existing-concurrency-runtime-code).
+        </Warning>
     </Tab>
     <Tab title={"{{runtimeLegacyNameApple}}"}>
         ```swift
@@ -160,21 +160,20 @@ import { Demos } from "/snippets/demos.jsx";
 
 <Tabs>
     <Tab title={"{{runtimeCurrentNameApple}}"}>
-        Given the following example code:
+        State machine creation binds authored main and global defaults when available. If you do not need programmatic access to those instances, use a convenience initializer:
+
         ```swift
-        let file: File = ...
-        let artboard: Artboard = try await file.createArtboard()
-        let stateMachine: StateMachine = try await artboard.createStateMachine()
-        let viewModelInstance = try await file.createViewModelInstance(...)
+        let rive = try await Rive(file: file)
         ```
 
-        When creating a `Rive` object, you can elect to auto bind:
+        To choose an artboard and use its default state machine:
+
         ```swift
-        // Automatically find a default view model instance to bind. This is the default value, if you do not pass in a dataBind argument.
-        var rive = try await Rive(file: file, artboard: artboard, stateMachine: stateMachine, dataBind: .auto)
-        // or
-        var rive = try await Rive(file: file, artboard: artboard, stateMachine: stateMachine)
+        let artboard = try await file.createArtboard("Artboard")
+        let rive = try await Rive(file: file, artboard: artboard)
         ```
+
+        Automatically created instances have no public getters. If you need to read or change their properties, create and retain instances explicitly as shown in [Binding](#binding).
     </Tab>
     <Tab title={"{{runtimeLegacyNameApple}}"}>
         ```swift
@@ -189,6 +188,65 @@ import { Demos } from "/snippets/demos.jsx";
         ```
     </Tab>
 </Tabs>
+
+## Global View Models
+
+In the new Apple runtime, global view models provide shared data, such as a theme, to bindings authored to use that global. Create instances and bind them by their global view model names:
+
+```swift
+let artboard = try await file.createArtboard()
+let main = try await file.createViewModelInstance(
+    .viewModelDefault(from: .artboardDefault(artboard))
+)
+// This example requires a global view model named "Theme" in the file.
+let theme = try await file.createViewModelInstance(
+    .viewModelDefault(from: .name("Theme"))
+)
+let stateMachine = try await artboard.createStateMachine(binding: main) {
+    ("Theme", theme)
+}
+let rive = try await Rive(file: file, artboard: artboard, stateMachine: stateMachine)
+```
+
+To discover which global view models a file contains, use `try await file.getGlobalViewModelNames()`.
+
+In this example, keep `main` and `theme` in your app's model if you need to access their properties. Global instances use the same property and observation APIs as the main instance. To share an instance across state machines from the same file, bind that same instance to each state machine.
+
+You can replace only a global binding later:
+
+```swift
+let darkTheme = try await file.createViewModelInstance(
+    .name("Dark", from: .name("Theme"))
+)
+try await stateMachine.bindViewModelInstances {
+    ("Theme", darkTheme)
+}
+```
+
+The globals builder supports `if`, `if let`, and `for` statements. For example, choose between instances named "Light" and "Dark" authored on the "Theme" view model:
+
+```swift
+let lightTheme = try await file.createViewModelInstance(
+    .name("Light", from: .name("Theme"))
+)
+let darkTheme = try await file.createViewModelInstance(
+    .name("Dark", from: .name("Theme"))
+)
+// colorScheme is the current SwiftUI ColorScheme value from your app.
+try await stateMachine.bindViewModelInstances {
+    if colorScheme == .dark {
+        ("Theme", darkTheme)
+    } else {
+        ("Theme", lightTheme)
+    }
+}
+```
+
+The builder runs when you call the binding method. To switch themes when the color scheme changes, call it again with the updated value and your retained instances.
+
+You can also pass `main:` to update main and global bindings in one call. Each call sets the supplied bindings; it does not replace the complete set of bindings. Omitting a global does not remove it or clear its instance—the existing binding stays in place. Slots without an existing or supplied instance receive authored defaults when available. Passing `nil` for `main` also preserves its existing binding rather than clearing it.
+
+All supplied global names are checked before applying any supplied bindings. An unknown or non-global name throws `StateMachineError.invalidGlobalViewModelName`; duplicate names in one call throw `StateMachineError.duplicateGlobalViewModelInstance`. These rejected calls leave existing bindings intact. Metadata failures throw `StateMachineError.error`, and cancellation throws `StateMachineError.cancelled`. Name validation does not check instance type or worker compatibility.
 
 <Properties />
 
@@ -229,7 +287,7 @@ import { Demos } from "/snippets/demos.jsx";
         <CodeGroup>
             ```swift String
             let file: File = ...
-            let viewModelInstance = try await file.createViweModelInstance(...)
+            let viewModelInstance = try await file.createViewModelInstance(...)
 
             // String
             let stringProperty = StringProperty(path: "path/to/string")
@@ -239,16 +297,16 @@ import { Demos } from "/snippets/demos.jsx";
 
             ```swift Number
             let file: File = ...
-            let viewModelInstance = try await file.createViweModelInstance(...)
+            let viewModelInstance = try await file.createViewModelInstance(...)
 
             let numberProperty = NumberProperty(path: "path/to/number")
             let numberValue = try await viewModelInstance.value(of: numberProperty)
-            viewModelInstance.setValue(of: numberValue, to: 9001)
+            viewModelInstance.setValue(of: numberProperty, to: 9001)
             ```
 
             ```swift Bool
             let file: File = ...
-            let viewModelInstance = try await file.createViweModelInstance(...)
+            let viewModelInstance = try await file.createViewModelInstance(...)
 
             let boolProperty = BoolProperty(path: "path/to/bool")
             let boolValue = try await viewModelInstance.value(of: boolProperty)
@@ -257,7 +315,7 @@ import { Demos } from "/snippets/demos.jsx";
 
             ```swift Color
             let file: File = ...
-            let viewModelInstance = try await file.createViweModelInstance(...)
+            let viewModelInstance = try await file.createViewModelInstance(...)
 
             let colorProperty = ColorProperty(path: "path/to/color")
             let colorValue = try await viewModelInstance.value(of: colorProperty)
@@ -266,7 +324,7 @@ import { Demos } from "/snippets/demos.jsx";
 
             ```swift Enum
             let file: File = ...
-            let viewModelInstance = try await file.createViweModelInstance(...)
+            let viewModelInstance = try await file.createViewModelInstance(...)
 
             let enumProperty = EnumProperty(path: "path/to/enum")
             let enumValue = try await viewModelInstance.value(of: enumProperty)
@@ -275,7 +333,7 @@ import { Demos } from "/snippets/demos.jsx";
 
             ```swift Trigger
             let file: File = ...
-            let viewModelInstance = try await file.createViweModelInstance(...)
+            let viewModelInstance = try await file.createViewModelInstance(...)
 
             let triggerProperty = TriggerProperty(path: "path/to/trigger")
             viewModelInstance.fire(trigger: triggerProperty)
@@ -394,6 +452,8 @@ import { Demos } from "/snippets/demos.jsx";
 
 <Tabs>
     <Tab title={"{{runtimeCurrentNameApple}}"}>
+        `RiveController` automatically redraws after changes to bound main and global instances, including nested and list child instances. You do not need to subscribe to the deprecated `dirtyStream()` API to request redraws. Use property streams to react to values in your app.
+
         Property listeners utilize Swift Concurrency's async throwing stream API. If a property returns a value, you can listen to its changes by calling the `valueStream(of:)` method on a `ViewModelInstance` object.
 
         ```swift
