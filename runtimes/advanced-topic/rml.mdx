@@ -8,7 +8,7 @@ Rive Markup Language (RML) is a text-based representation of a Rive file. It let
 
 RML uses XML to describe the objects and relationships in a Rive file. Every element is a Rive type, every attribute is one of its properties, and nesting elements links them together. The names are the same ones the Editor uses, so there is no separate RML object model to learn.
 
-One `.rml` file describes a whole Rive file. The [Rive CLI](/cli/overview) compiles it into a `.riv` file for use with the Rive Runtimes or a `.rev` file that you can open and continue editing in the Rive Editor.
+A project can be a single `.rml` file or several. The [Rive CLI](/cli/overview) compiles them together into one `.riv` file for use with the Rive Runtimes, or a `.rev` file that you can open and continue editing in the Rive Editor.
 
 Work with a [coding agent](/cli/agents) to create RML, compile it, inspect the result, and iterate on your Rive file.
 
@@ -66,6 +66,34 @@ A fragment never declares a `Backboard`. What the Editor keeps there, such as th
 Nesting reflects relationships between Rive objects. In the example above, the `Shape` contains a `Triangle` path and a `Fill`. Properties belong to their corresponding Rive type, so the transform position (`x` and `y`) belongs to the `Shape`, while `width` and `height` belong to the `Triangle`.
 
 Animations reference the objects and properties they change. Here, `KeyedObject objectId="0:14"` targets the shape named "Triangle", while `propertyKey="15"` identifies its rotation property. The State Machine references that animation, and `defaultStateMachineId="0:7"` on the Artboard causes the State Machine to play when the file loads.
+
+## Splitting a project across files
+
+A project can hold any number of `.rml` files, in any folders, and they compile as one
+document. Split by whatever reads well, such as artboards in one file and view models
+in another. Each file keeps its own `Rive` root with `kind="fragment"`.
+
+Smaller files also mean less for a [coding agent](/cli/agents) to read when it only
+needs to change one part of the scene.
+
+```text
+myproject/
+  rive.yaml
+  scene.rml            <Rive version="1" kind="fragment">
+  data/
+    view_models.rml    <Rive version="1" kind="fragment">
+```
+
+An id declared in one file can be referenced from another, ids may not repeat across
+files, and a problem is reported against the file it is in.
+
+<Note>
+Files compile in path order, and that order decides how artboards land in the `.riv`.
+Name the default artboard with `main` in [rive.yaml](/cli/reference/project-config)
+rather than relying on a filename that sorts first.
+</Note>
+
+Run `rive samples` and pick `rml_split` for a working example.
 
 <Note>
  The following sections use the Rive CLI to look up RML types, compile files, and inspect the results. See [Rive CLI](/cli/overview) to install the CLI and learn the available commands.
