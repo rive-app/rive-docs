@@ -497,23 +497,119 @@ stateMachine.bindViewModelInstance(instance) // bound successfully
 
 #### {{runtimeCurrentNameApple}}
 
+Use `Rive(file:)` when authored defaults are sufficient and you do not need to access their properties. For programmatic access, replace the legacy auto-bind callback with explicit instance creation and retain the instance in your app's model:
+
 ```swift
 let worker = try await Worker.shared()
-let file = try await File(source: ..., worker: worker)
-
-// Auto bind (default)
-let autoBoundRive = try await Rive(file: file, dataBind: .auto)
-
-// Bind a specific instance
+let file = try await File(source: .local("my_rive_file", Bundle.main), worker: worker)
 let artboard = try await file.createArtboard()
-let viewModel = try await file.createViewModelInstance(
+let instance = try await file.createViewModelInstance(
     .viewModelDefault(from: .artboardDefault(artboard))
 )
-let instanceBoundRive = try await Rive(file: file, dataBind: .instance(viewModel))
-
-// Opt out of data binding
-let noBindingRive = try await Rive(file: file, dataBind: .none)
+let stateMachine = try await artboard.createStateMachine(binding: instance)
+let rive = try await Rive(file: file, artboard: artboard, stateMachine: stateMachine)
+instance.setValue(of: StringProperty(path: "path/to/string"), to: "Hello, Rive")
 ```
+
+Create these components from a `@MainActor` async context. Keep the instance reference for later property access and observation. For global bindings, see [Global View Models](/runtimes/apple/data-binding#global-view-models).
+
+#### Updating existing concurrency runtime code
+
+The global view model update also changes APIs in the new concurrency runtime:
+
+| Previous API | Replacement |
+| --- | --- |
+| `Rive(file: file, dataBind: .auto)` | `Rive(file: file)` for authored defaults, or explicit instance creation for property access |
+| `Rive(file: file, dataBind: .instance(instance))` | `artboard.createStateMachine(binding: instance)`, then pass that artboard and state machine to `Rive` |
+| `Rive(..., dataBind: .none)` | Pass the configured artboard and state machine to `Rive` without `dataBind` |
+| `rive.viewModelInstance` | Retain the instance you create and bind |
+| `stateMachine.bindViewModelInstance(instance)` | `try await stateMachine.bindViewModelInstances(main: instance)` |
+| `instance.dirtyStream()` for redraws | Automatic `RiveController` observation of bound instances |
+
+<Warning>
+Calls such as `Rive(file:)` can continue compiling while changing behavior: the new initializers leave the deprecated `viewModelInstance` getter `nil`. Neither `Rive` nor `StateMachine` exposes getters for automatically bound instances. Removing `dataBind:` alone is insufficient if your code accesses that getter.
+</Warning>
+
+`Rive(file:)` and `Rive(file:artboard:)` create a state machine and bind authored defaults. `Rive(file:artboard:stateMachine:)` uses the supplied state machine without rebinding. State machine creation already binds available defaults, so omitting `dataBind` is not a way to disable that initial binding. Likewise, deprecated `.none` only skips binding in the legacy initializer; it does not undo existing bindings.
+
+For a temporary compatibility bridge, explicitly select the deprecated initializer:
+
+```swift
+let rive = try await Rive(file: file, dataBind: .auto)
+let instance = rive.viewModelInstance // Legacy-created main instance, when available.
+```
+
+`DataBind`, this initializer, and the getter are all deprecated. The getter is an initialization snapshot: later rebinding does not update it. Prefer the explicit setup above for new code.
+
+#### Setting up instances for your app
+
+Create the instances you need, bind them, and keep their references in your app's model. This example uses a default main instance and a "Light" instance from the global "Theme" view model. Run setup in a `@MainActor` async context, using the same file and worker for all components.
+
+```swift
+let artboard = try await file.createArtboard()
+let main = try await file.createViewModelInstance(
+    .viewModelDefault(from: .artboardDefault(artboard))
+)
+let theme = try await file.createViewModelInstance(
+    .name("Light", from: .name("Theme"))
+)
+let stateMachine = try await artboard.createStateMachine(binding: main) {
+    ("Theme", theme)
+}
+let rive = try await Rive(file: file, artboard: artboard, stateMachine: stateMachine)
+```
+
+Keep `rive`, `main`, and `theme`. Set any initial property values before presenting the view. See [Global View Models](/runtimes/apple/data-binding#global-view-models) for replacing bindings and switching themes.
+
+#### Optional auto-bind helper
+
+For default instances, add this extension to your app. It returns `Rive` together with the main and global instances:
+
+```swift
+extension Rive {
+    @MainActor
+    static func autoBound(
+        file: File,
+        artboardName: String? = nil,
+        stateMachineName: String? = nil
+    ) async throws -> (
+        rive: Rive,
+        main: ViewModelInstance,
+        globals: [String: ViewModelInstance]
+    ) {
+        let artboard = try await file.createArtboard(artboardName)
+        let main = try await file.createViewModelInstance(
+            .viewModelDefault(from: .artboardDefault(artboard))
+        )
+        var globals: [String: ViewModelInstance] = [:]
+        for name in try await file.getGlobalViewModelNames() {
+            globals[name] = try await file.createViewModelInstance(
+                .viewModelDefault(from: .name(name))
+            )
+        }
+        let stateMachine = try await artboard.createStateMachine(stateMachineName, binding: main) {
+            for (name, instance) in globals {
+                (name, instance)
+            }
+        }
+        let rive = try await Rive(file: file, artboard: artboard, stateMachine: stateMachine)
+        return (rive, main, globals)
+    }
+}
+```
+
+This is an app-owned helper, not a runtime API. It requires a default main instance and a default instance for each global; missing defaults throw. Without globals, the dictionary is empty.
+
+Call it from a `@MainActor` async context and retain `autoBound`:
+
+```swift
+let autoBound = try await Rive.autoBound(file: file)
+autoBound.main.setValue(of: StringProperty(path: "title"), to: "Welcome")
+let theme = autoBound.globals["Theme"]
+let riveView = RiveUIView(rive: autoBound.rive)
+```
+
+If you replace a binding later, update your stored instance reference after binding succeeds.
 
 ### Updating a Data Bind unsettles the State Machine
 
@@ -554,7 +650,9 @@ let file = try await File(source: .local("my_rive_file", Bundle.main), worker: w
 
 let instance = try await file.createViewModelInstance(.viewModelDefault(from: .name("My View Model")))
 let property = StringProperty(path: "path/to/string")
-let rive = try await Rive(file: file, dataBind: .instance(instance))
+let artboard = try await file.createArtboard()
+let stateMachine = try await artboard.createStateMachine(binding: instance)
+let rive = try await Rive(file: file, artboard: artboard, stateMachine: stateMachine)
 let riveView = RiveUIView(rive: rive)
 
 instance.setValue(of: property, to: "Updated Value") // Applies without play()
