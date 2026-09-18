@@ -24,6 +24,23 @@ import Resources from '/snippets/runtimes/loading-assets/resources.mdx'
     <Tab title={"{{runtimeCurrentNameApple}}"}>
         This section assumes that you have read through the [Apple](/runtimes/apple/apple) overview.
 
+        ### Asset API coverage
+
+        Decode assets with the same `Worker` that owns the files or View Model instances using them.
+
+        | Asset | Decode input | Global registration | Data Binding |
+        | --- | --- | --- | --- |
+        | Image | `decodeImage(from: Data)` | `addGlobalImageAsset(_:name:)` | `ImageProperty` |
+        | Font | `decodeFont(from: Data)`, `UIFont`, or `NSFont` | `addGlobalFontAsset(_:name:)` | `FontProperty` |
+        | Audio | `decodeAudio(from: Data)` | `addGlobalAudioAsset(_:name:)` | No Audio property API |
+        | Blob | `decodeBlob(from: Data)` | Not supported | `BlobProperty` |
+
+        Global registration replaces matching file assets by `uniqueName` across a worker. [Data Binding](/runtimes/apple/data-binding) assigns an asset to a specific View Model property; it does not require global registration.
+
+        <Note>
+            Blobs support decoding and assignment through `BlobProperty`, but not global registration or removal. The examples below skip `.blob` assets; use Data Binding to assign a decoded blob.
+        </Note>
+
         ### Discovering and Loading File Assets
 
         Use `File.getAssets()` to discover a file's assets, then decode and register replacements on its `Worker`. This replaces the legacy `customLoader` callback for out-of-band assets.
@@ -37,7 +54,7 @@ import Resources from '/snippets/runtimes/loading-assets/resources.mdx'
         | `name` | The authored asset name stored in the file. |
         | `uniqueName` | The exact name to pass to the worker's global asset APIs. |
         | `assetID` | The asset identifier stored in the file. |
-        | `type` | `.image`, `.font`, `.audio`, or `.unknown(UInt16)`. |
+        | `type` | `.image`, `.font`, `.audio`, `.blob`, or `.unknown(UInt16)`. |
         | `fileExtension` | The file extension without a leading period. |
         | `cdn` | Optional hosted asset metadata with `baseURL` and `uuid`. |
 
@@ -88,7 +105,7 @@ import Resources from '/snippets/runtimes/loading-assets/resources.mdx'
                 case .audio:
                     let audio = try await worker.decodeAudio(from: data)
                     worker.addGlobalAudioAsset(audio, name: asset.uniqueName)
-                case .unknown:
+                case .blob, .unknown:
                     break
                 }
                 ```
@@ -129,7 +146,7 @@ import Resources from '/snippets/runtimes/loading-assets/resources.mdx'
                 case .audio:
                     let audio = try await worker.decodeAudio(from: data)
                     worker.addGlobalAudioAsset(audio, name: asset.uniqueName)
-                case .unknown:
+                case .blob, .unknown:
                     break
                 }
             }
@@ -161,6 +178,21 @@ import Resources from '/snippets/runtimes/loading-assets/resources.mdx'
         let image = try await worker.decodeImage(from: data)
         worker.addGlobalImageAsset(image, name: asset.uniqueName)
         ```
+
+        ### Decoding native fonts
+
+        In addition to font-file bytes, `decodeFont(from:)` accepts a platform font:
+
+        ```swift
+        #if canImport(UIKit)
+        let font = try await worker.decodeFont(from: UIFont.systemFont(ofSize: 12))
+        #elseif canImport(AppKit)
+        let font = try await worker.decodeFont(from: NSFont.systemFont(ofSize: 12))
+        #endif
+        worker.addGlobalFontAsset(font, name: fontAsset.uniqueName)
+        ```
+
+        Import `UIKit` or `AppKit` for the platform you target. The Rive text run controls the displayed font size. The decoded font can also be assigned to a `FontProperty`.
 
         ### Managing Global Assets
 
