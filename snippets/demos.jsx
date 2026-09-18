@@ -8,8 +8,7 @@ export const Demos = ({
   // where in the list do you want to put the custom children
   childrenIndex = 0,
   // Override the title and description, say "Learn by Example" instead
-  learnByExample = false,
-  layout = false
+  learnByExample = false
 }) => {
   const examplesData = {
     accessibilityReducedMotion: {
