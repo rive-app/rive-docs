@@ -76,10 +76,10 @@ end
 
 ### `draw`
 
-{/* draw: (self: Artboard<T>, renderer: Renderer) -> () */}
+{/* draw: (self: Artboard<T>, renderer: Renderer, visitor: ((context: any, drawable: Drawable, renderer: Renderer) -> ())?, context: any?) -> () */}
 <div class="signature">
 ```lua
-draw(renderer: Renderer) -> ()
+draw(renderer: Renderer, visitor: ((context: any, drawable: Drawable, renderer: Renderer) ->())?, context: any?) -> ()
 ```
 </div>
 
@@ -118,6 +118,78 @@ return function(): Node<RenderInstances>
   }
 end
 ```
+
+With a `visitor`, each drawable that has custom properties is handed
+to it instead of being drawn: the visitor decides whether to call
+`drawable:draw(renderer)` and under what renderer state. Whatever it
+sets on the renderer ends with that visit. Every other drawable draws
+as usual, and clipping still applies. `context` is passed through to
+the visitor untouched.
+```lua
+-- In init: local GLOW = artboard:propertyKey("glow")
+-- Draw only the drawables tagged `glow`, in their own paint.
+artboard:draw(renderer, function(context, drawable, renderer)
+  if drawable:boolean(GLOW) then
+    drawable:draw(renderer)
+  end
+end)
+```
+
+Drawing a tagged nested artboard visits the tagged drawables inside
+it from within that `drawable:draw` call, so a value carries down in
+a local:
+```lua
+local level = 1
+artboard:draw(renderer, function(context, drawable, renderer)
+  local outer = level
+  level = outer * math.min(drawable:number(EMISSIVE) or 0, 1)
+  local c = math.floor(level * 255)
+  renderer:setColorModulation(Color.rgba(c, c, c, 255))
+  drawable:draw(renderer)
+  level = outer
+end)
+```
+
+
+### `drawModulated`
+
+{/* drawModulated: (self: Artboard<T>, renderer: Renderer, key: PropertyKey) -> () */}
+<div class="signature">
+```lua
+drawModulated(renderer: Renderer, key: PropertyKey) -> ()
+```
+</div>
+
+Draws the artboard with the color modulation set, per drawable, from
+its custom property of this key: a number as a gray level clamped to
+0..1, a color as is. Drawables without it draw under the renderer's
+current state. Levels multiply down through tagged drawables that
+hold others: inside a nested artboard tagged 0.5, a shape tagged 0.2
+draws at 0.1 and an untagged one at 0.5. Nothing calls back into the
+script, so this is the cheapest way to draw a pass like emission.
+```lua
+-- In init: local EMISSIVE = artboard:propertyKey("emissive")
+-- Everything black except drawables tagged `emissive`.
+renderer:save()
+renderer:setColorModulation(Color.rgba(0, 0, 0, 255))
+artboard:drawModulated(renderer, EMISSIVE)
+renderer:restore()
+```
+
+
+### `propertyKey`
+
+{/* propertyKey: (self: Artboard<T>, name: string) -> PropertyKey */}
+<div class="signature">
+```lua
+propertyKey(name: string) -> PropertyKey
+```
+</div>
+
+The key custom properties called `name` are read by. When no
+property in the file carries that name the key matches nothing, so
+every read by it comes back nil. Custom properties are added to a
+drawable in the editor's inspector.
 
 
 ### `advance`
