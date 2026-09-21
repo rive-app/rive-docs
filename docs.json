@@ -32,7 +32,7 @@
     "versionAndroid": "11.9.2",
     "versionReactNative": "0.4.20",
     "versionFlutter": "0.14.11",
-    "versionDevFlutter": "0.15.0-dev.1",
+    "versionDevFlutter": "0.15.0-dev.2",
     "versionUnity": "0.4.5",
     "versionUnreal": "0.4.25",
     "supportForm": "https://forms.rive.app/support?utm_medium=support_page",
@@ -109,6 +109,7 @@
                       "editor/fundamentals/pen-tool-overview",
                       "editor/fundamentals/fill-and-stroke",
                       "editor/fundamentals/edit-vertices",
+                      "editor/design/bucket-tool",
                       "editor/manipulating-shapes/trim-path",
                       "editor/manipulating-shapes/clipping"
                     ]
@@ -342,6 +343,8 @@
                 "pages": [
                   "scripting/api-reference/artboards/animation",
                   "scripting/api-reference/artboards/artboard",
+                  "scripting/api-reference/artboards/drawable",
+                  "scripting/api-reference/artboards/drawable-property-kind",
                   "scripting/api-reference/artboards/focus-event",
                   "scripting/api-reference/artboards/gamepad-connected",
                   "scripting/api-reference/artboards/gamepad-disconnected",
@@ -355,6 +358,7 @@
                   "scripting/api-reference/artboards/none-event",
                   "scripting/api-reference/artboards/pointer-event",
                   "scripting/api-reference/artboards/pointer-type",
+                  "scripting/api-reference/artboards/property-key",
                   "scripting/api-reference/artboards/reported-event",
                   "scripting/api-reference/artboards/text-input",
                   "scripting/api-reference/artboards/view-model",
@@ -494,6 +498,8 @@
                   "scripting/api-reference/interfaces/property-enum",
                   "scripting/api-reference/interfaces/property-list",
                   "scripting/api-reference/interfaces/property-view-model",
+                  "scripting/api-reference/interfaces/transition",
+                  "scripting/api-reference/interfaces/transition-child",
                   "scripting/api-reference/interfaces/transition-condition",
                   "scripting/api-reference/interfaces/trigger",
                   "scripting/api-reference/interfaces/view-model"
@@ -581,7 +587,13 @@
               "feature-support",
               "runtimes/runtime-sizes",
               "runtimes/choose-a-renderer/overview",
-              "runtimes/advanced-topic/format"
+              {
+                "group": "File formats",
+                "pages": [
+                  "runtimes/advanced-topic/format",
+                  "runtimes/advanced-topic/rml"
+                ]
+              }
             ]
           },
           {
@@ -600,6 +612,7 @@
                   "runtimes/web/loading-assets",
                   "runtimes/web/fonts",
                   "runtimes/web/semantics",
+                  "runtimes/web/gpu-canvas",
                   "runtimes/web/preloading-wasm",
                   "runtimes/web/caching-a-rive-file",
                   "runtimes/web/playing-audio",
@@ -629,6 +642,7 @@
                   "runtimes/react/loading-assets",
                   "runtimes/react/fonts",
                   "runtimes/react/semantics",
+                  "runtimes/react/gpu-canvas",
                   "runtimes/react/preloading-wasm",
                   "runtimes/react/caching-a-rive-file",
                   "runtimes/react/playing-audio",
@@ -687,6 +701,7 @@
                   "runtimes/flutter/data-binding",
                   "runtimes/flutter/loading-assets",
                   "runtimes/flutter/fonts",
+                  "runtimes/flutter/semantics",
                   "runtimes/flutter/caching-a-rive-file",
                   "runtimes/flutter/playing-audio",
                   {
@@ -837,6 +852,27 @@
             "pages": [
               "integrations/overview",
               "integrations/html-embed"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "CLI",
+        "groups": [
+          {
+            "group": " ",
+            "pages": [
+              "cli/overview",
+              "cli/getting-started",
+              "cli/agents",
+              "cli/examples"
+            ]
+          },
+          {
+            "group": "Reference",
+            "pages": [
+              "cli/reference/commands",
+              "cli/reference/project-config"
             ]
           }
         ]

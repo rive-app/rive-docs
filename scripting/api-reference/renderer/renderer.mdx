@@ -202,3 +202,47 @@ end
 ```
 
 
+### `modulateOpacity`
+
+{/* function modulateOpacity(self, opacity: number): () */}
+<div class="signature">
+```lua
+modulateOpacity(opacity: number) -> ()
+```
+</div>
+
+Multiplies the opacity of subsequent draw calls by `opacity` (0..1).
+Stacks multiplicatively and is captured by save()/restore(), so the
+common pattern is: renderer:save(); renderer:modulateOpacity(a);
+... draw ...; renderer:restore().
+
+
+### `modulateColor`
+
+{/* function modulateColor(self, color: Color): () */}
+<div class="signature">
+```lua
+modulateColor(color: Color) -> ()
+```
+</div>
+
+Multiplies `color` into subsequent draw calls, channel by channel.
+Stacks and is captured by save()/restore() like modulateOpacity.
+
+
+### `setColorModulation`
+
+{/* function setColorModulation(self, color: Color): () */}
+<div class="signature">
+```lua
+setColorModulation(color: Color) -> ()
+```
+</div>
+
+Sets the modulation color outright rather than multiplying, which
+lets an inner scope undo an outer one: draw an artboard under black,
+then set the color for the drawables that should keep their paint.
+Captured by save()/restore(); inside a draw visitor it ends with the
+visit, so the visitor needs no save()/restore() of its own.
+
+

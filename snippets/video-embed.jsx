@@ -1,4 +1,4 @@
-export const VideoEmbed = ({ src }) => {
+export const VideoEmbed = ({ src, maxWidth }) => {
   return (
     <div
       style={{ height: "100%"}}
@@ -11,6 +11,7 @@ export const VideoEmbed = ({ src }) => {
         playsInline
         style={{
           width: "100%",
+          maxWidth: maxWidth || "100%",
           height: "100%",
           borderRadius: 0,
           margin: 0,

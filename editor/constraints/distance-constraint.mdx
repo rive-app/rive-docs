@@ -1,54 +1,63 @@
 ---
 title: 'Distance Constraint'
-description: 'The Distance Constraint makes an object stay close, far, or exactly at a specific distance to another object.'
+description: 'Keep an object within, beyond, or at a specific distance from another object.'
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
+import { VideoEmbed } from '/snippets/video-embed.jsx'
+import { Marketplace } from '/snippets/marketplace.mdx'
 
-## How to create a Distance Constraint
+## Adding a Distance Constraint
 
 <YouTube id="Nvwf27EIvdw" />
 
 <Steps>
-    <Step title="Add a Distance Constraint to an object">
-        Use the Constraints section of the Inspector to add a Distance Constraint to an object.
-
-        ![Image](https://ucarecdn.com/b6ad1d9b-706a-4090-9585-cb2954bfc45a/)
+    <Step title="Add a Distance Constraint">
+        Select an object, then add a **Distance Constraint** from the **Constraints** section of the Inspector.
     </Step>
 
     <Step title="Choose a target">
-        Use the new constraint's fly-out menu to select a target for this constraint.
-
-        ![Image](https://ucarecdn.com/ce97fabc-04ab-463c-bd77-0c75a37f43a1/)
+        Open the constraint's fly-out menu and select the object to use as the target.
     </Step>
 
-    <Step title="Test that the Distance Constraint is working">
-        Moving the target object now causes the constrained object to stay close (which is the default mode).
-
-        ![Image](https://ucarecdn.com/0cf99e7d-b1e1-4a0a-988d-9235c28e5868/)
+    <Step title="Move the target">
+        Move the target to see the constraint affect the constrained object. By default, the **Closer** mode keeps it within the specified distance.
     </Step>
 </Steps>
 
-## Strength
+<VideoEmbed src="https://static.rive.app/video/distance-constraint.mp4" />
+<Marketplace
+  href="https://rive.app/community/files/28736-distance-constraint"
+/>
 
-The Strength property determines how much the constrained object is affected.
+## Properties
 
-A Strength of 0% means the constraint won't have any effect.
+### Strength
 
-## Distance
+**Strength** controls how much the constraint affects the object. At 0%, the constraint has no effect.
 
-The distance that the object will be constrained from the target object. A red constraining circle is drawn on the stage to represent this value.
+### Distance
 
-## Mode 
+**Distance** sets the distance used by the constraint. A red circle on the Stage represents this distance from the target.
 
-### Closer 
+### Mode
 
-The owner is constrained closer than the Distance setting. In other words, the owner is constrained inside the constraining sphere.
+**Mode** determines how the constrained object can be positioned relative to the **Distance** value.
 
-### Further 
+#### Closer
 
-The owner is constrained further than the Distance setting. In other words, the owner is constrained outside the constraining sphere.
+Keeps the constrained object within the specified distance from the target. When the target moves too far away, the object follows to stay within that distance.
 
-### Exactly 
+<VideoEmbed src="https://static.rive.app/video/distance-constraint-closer.mp4" />
 
-The owner is constrained exactly at the distance of the constraining sphere.
+#### Further
+
+Keeps the constrained object beyond the specified distance from the target. When the target moves too close, it pushes the object away to maintain the minimum distance.
+
+<VideoEmbed src="https://static.rive.app/video/distance-constraint-further.mp4" />
+
+#### Exact
+
+Keeps the constrained object exactly at the specified distance from the target. When the target moves, the object follows to maintain that distance.
+
+<VideoEmbed src="https://static.rive.app/video/distance-constraint-exact.mp4" />

@@ -38,7 +38,7 @@ let rive = try await Rive(file: file)
 
 No additional configuration is required when creating a `RiveUIView`, `RiveUIViewRepresentable`, or `AsyncRiveUIViewRepresentable`. Each view inherits the GPU Canvas setting from the worker associated with its `Rive` object.
 
-## Default Behavior
+## Default behavior
 
 GPU Canvas is disabled by default. Continue to create a worker without a configuration when your content does not require it:
 
@@ -46,7 +46,7 @@ GPU Canvas is disabled by default. Continue to create a worker without a configu
 let worker = try await Worker()
 ```
 
-## Sharing a GPU Canvas Worker
+## Sharing a GPU Canvas worker
 
 Share a GPU Canvas worker when multiple files or views can use the same worker. An example implementation is shown below.
 

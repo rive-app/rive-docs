@@ -21,7 +21,7 @@ Switching is a one-line import change, so you can try both and measure against y
 
 ## Other notable tradeoffs
 
-### WebGL Context Limits
+### WebGL context limits
 
 Note that if you're using `@rive-app/webgl2`, browsers cap how many WebGL contexts a page can hold at once. The exact number varies by browser and device, and the oldest context is typically dropped once the cap is reached — which limits how many `new Rive({...})` instances you can run. See [WebGL Context Limits](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/WebGL_context_limits) for more details.
 
@@ -40,7 +40,7 @@ const r = new rive.Rive({
 This limit does not apply to `@rive-app/canvas`.
 
 
-### Fill Rules
+### Fill rules
 
 `@rive-app/canvas` uses the Canvas2D renderer, which offers the non-zero and even-odd [fill rules](/editor/fundamentals/fill-and-stroke#fill-rule), so Rive's clockwise fill rule draws as non-zero. The result is identical unless a path has self-intersecting, reversed, or overlapping contours. This applies to both fills and clipping paths.
 
@@ -57,7 +57,7 @@ In practice:
 - Blend modes on mobile are the case where `@rive-app/canvas` can be meaningfully faster. If your file leans on them and does not use Vector Feathering, it is worth comparing the two.
 - Measure on real devices. Swapping packages is a one-line change, so testing both is cheap.
 
-## Canvas Package Variants
+## Canvas package variants
 
 Two variants of the canvas package are available if you have specific bundling needs.
 
@@ -73,6 +73,6 @@ Use it when your files do not rely on those features. If a file does use them, t
 
 Use it when you want to avoid a separate WASM request. The tradeoff is a larger JavaScript bundle.
 
-## Deprecated Package
+## Deprecated package
 
 `@rive-app/webgl` is deprecated and receives no updates after `v2.37.0`. Move to `@rive-app/webgl2`, or to `@rive-app/canvas` if your file does not need the Rive Renderer. Neither move requires API changes — see the [migration guide](/runtimes/web/migration-guides).

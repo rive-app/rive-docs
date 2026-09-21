@@ -5,6 +5,7 @@ description: "Respond to interactions, property changes, and events in your Rive
 
 import { YouTube } from '/snippets/youtube.mdx'
 import { VideoEmbed } from '/snippets/video-embed.jsx'
+import { Demos } from '/snippets/demos.jsx'
 
 Listeners let you respond to interactions, property changes, and other events in your Rive file. When a listener is triggered, it can perform actions such as updating property values, firing Rive events, or running other logic.
 
@@ -16,9 +17,9 @@ A listener has three main parts:
 
 Use listeners to create dynamic experiences that react to user input and changes in state.
 
-<YouTube id="25uQiqdmT9c" />
+<YouTube id="RBQdLRXNVbE" />
 
-## Creating a Listener
+## Creating a listener
 
 <Steps>
   <Step>
@@ -50,7 +51,7 @@ The **Target** determines what the listener watches. The target can be an elemen
 
 Use an element as the target when you want to listen for interactions on that element, such as clicks or drags. Use an artboard or nested component as the target when you want to listen for view model property changes, Rive events, or other events that belong to that artboard or component.
 
-### Opaque Target
+### Opaque target
 
 **Opaque Target** controls whether pointer events stop at this listener's hit area or continue through to elements behind it.
 
@@ -58,9 +59,11 @@ When **Opaque Target** is enabled, pointer events stop at the target. When it's 
 
 <VideoEmbed src="https://static.rive.app/video/docs/listener-opaque-target.mp4" />
 
-## Listen To
+## Listen to
 
 **Listen to** is the condition the listener watches for. When the condition is met, the listener is triggered.
+
+<Demos examples={["listenerExamples"]} />
 
 | Listen To                   | Description                                           |
 | --------------------------- | ----------------------------------------------------- |
@@ -71,6 +74,7 @@ When **Opaque Target** is enabled, pointer events stop at the target. When it's 
 | **Pointer Move**                | Fires repeatedly while the pointer moves over the target area.    |
 | **Pointer Down**                | Fires when the pointer is pressed down on the target. |
 | **Pointer Up**                  | Fires when the pointer is released over the target.   |
+| **Pointer Drag**                  | Fires repeatedly as the pointer moves after being pressed down on the target, until the pointer is released.  |
 | **Click**                       | Fires when the target is clicked or tapped.           |
 
 
@@ -106,7 +110,7 @@ You can add multiple actions to a single listener.
   You can data bind values in listener actions.
 </Tip>
 
-### Align Target
+### Align target
 
 The **Align Target** action positions an object so it follows the pointer when the listener is triggered within the listener area.
 

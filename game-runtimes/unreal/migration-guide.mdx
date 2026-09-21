@@ -4,8 +4,6 @@ description: "Migrate from legacy inputs and events to the ViewModel-first Unrea
 hidden: true
 ---
 
-# Migration Guide
-
 This guide helps you migrate projects built on the legacy Unreal plugin (direct **State Machine** inputs and legacy events) to the current **ViewModel**-first runtime.
 
 <Info>
@@ -16,9 +14,9 @@ This guide helps you migrate projects built on the legacy Unreal plugin (direct 
   Legacy direct inputs and legacy event APIs are deprecated. New integrations should use **ViewModels** for both input and output.
 </Warning>
 
-## What Changed
+## What changed
 
-### Supported Engine Versions
+### Supported engine versions
 
 - New minimum supported version: Unreal Engine **5.7.3 and above**
 
@@ -26,12 +24,12 @@ This guide helps you migrate projects built on the legacy Unreal plugin (direct 
   If your project is on an older Unreal version, you must upgrade Unreal before upgrading the plugin.
 </Info>
 
-### Supported Platforms
+### Supported platforms
 
 - Supported: Windows, macOS
 - Not supported yet: Android, iOS
 
-### Architectural Shift
+### Architectural shift
 
 Old model:
 
@@ -46,7 +44,7 @@ New model:
 
 Data flow: Unreal → **ViewModel Instance** → **State Machine** → **ViewModel Instance** → Unreal
 
-## Quick Migration Checklist
+## Quick migration checklist
 
 <Steps>
   <Step>
@@ -63,9 +61,9 @@ Data flow: Unreal → **ViewModel Instance** → **State Machine** → **ViewMod
   </Step>
 </Steps>
 
-## Migrating Inputs
+## Migrating inputs
 
-### Replace Direct Inputs with ViewModel Properties
+### Replace direct inputs with ViewModel properties
 
 If you previously set inputs like:
 
@@ -87,9 +85,9 @@ You should now:
   Do not mix legacy input setters and **ViewModel** writes in new integrations. Choose the ViewModel path for all new behavior.
 </Warning>
 
-## Migrating Events
+## Migrating events
 
-### Replace Legacy Events with ViewModel Observation
+### Replace legacy events with ViewModel observation
 
 If you previously relied on **State Machine** events (reported events, named events, callbacks), migrate to:
 
@@ -106,27 +104,27 @@ Common patterns:
   Use triggers for one-shot actions. Use boolean/number/enum/string/color properties for persistent state.
 </Info>
 
-## Blueprint Migration
+## Blueprint migration
 
-### Old Blueprint Pattern (Deprecated)
+### Old Blueprint pattern (deprecated)
 
 - Set **State Machine** inputs directly
 - Bind to legacy event outputs directly
 
-### New Blueprint Pattern (Recommended)
+### New Blueprint pattern (recommended)
 
 - Write values into a **ViewModel Instance**
 - Bind callbacks to **ViewModel** property changes
 - Fire actions using **Trigger Properties**
 
-## C++ Migration
+## C++ migration
 
-### Old C++ Pattern (Deprecated)
+### Old C++ pattern (deprecated)
 
 - Fetch **State Machine** inputs and set values directly
 - Register legacy event callbacks
 
-### New C++ Pattern (Recommended)
+### New C++ pattern (recommended)
 
 - Create a **ViewModel Instance**
 - Bind it to the **Artboard**

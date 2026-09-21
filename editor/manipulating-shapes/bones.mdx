@@ -27,7 +27,7 @@ You can combine these methods in the same rig. For example, a character’s hand
 
 <YouTube id="WDILxfmCEt0" />
 
-## Creating Bone Chains
+## Creating Bone chains
 
 Select the Bone tool from the **Bones** menu, or press **B**.
 
@@ -58,10 +58,10 @@ Joints do not appear as separate objects in the Hierarchy. Moving a joint change
 The first bone in a chain is the **root bone**. It controls the position of the entire chain and is the only bone in the chain with X and Y position properties. Every other bone is positioned by its length and rotation relative to its parent.
 
 
-## Controlling Elements With Bones
+## Controlling elements with Bones
 
 
-### Transforming Elements
+### Transforming elements
 
 Make an element a child of a bone to control its transform. When the bone moves, rotates, or scales, its children follow without being deformed.
 
@@ -71,7 +71,7 @@ This method works well for rigid parts that should keep their shape, such as a h
 
 <YouTube id="g8MWMKixURo" />
 
-### Deforming Elements
+### Deforming elements
 
 
 You can bind bones to the control points of both vector paths and raster images:
@@ -107,7 +107,7 @@ After binding, Rive assigns each bone a color. The same colors appear on the bon
 Rive automatically assigns an initial influence, or weight, to each vertex. Vector paths also allow you to weight their Bézier handles. Adjust these weights to fine-tune how the element deforms.
 
 
-#### Adjusting Vertex Weights
+#### Adjusting vertex weights
 
 A weight determines how much influence a bone has over a vertex. A vertex can be influenced by one or more bound bones, but its combined weights always equal 100%.
 
@@ -131,7 +131,7 @@ You can lock a vertex’s weight for a specific bone. Locked weights stay fixed 
 
 <VideoEmbed src="https://static.rive.app/video/lock-bone-weight.mp4"/>
 
-#### Weight Editing Tools
+#### Weight editing tools
 
 Rive includes tools to help you adjust vertex weights after bones are bound.
 
@@ -148,7 +148,7 @@ Auto-Weights includes two settings:
 - **Blend** - controls how widely weights blend at the boundary between two bones. Higher values spread the blend across more of the mesh, creating softer deformation. Lower values create a more rigid result, where each vertex sticks more closely to its nearest bone.
 - **Influence** - controls the maximum number of bones that can influence each vertex.
 
-#### Mesh View Options
+#### Mesh view options
 
 **Show Weights** shows or hides weight pie charts on unselected vertices. Selected vertices always show their weights while you edit them.
 

@@ -1,0 +1,246 @@
+---
+title: "Project Configuration"
+sidebarTitle: "rive.yaml"
+description: "Project layout and rive.yaml keys."
+---
+
+A project is any directory containing a `rive.yaml`. Only `name` is required:
+
+```yaml rive.yaml
+name: myproject
+```
+
+## File discovery
+
+Everything else in the directory is bundled by extension. There is no manifest to
+maintain.
+
+| Extension | Becomes |
+|---|---|
+| `.luau` | Scripts, both protocol scripts and importable modules |
+| `.wgsl` | Shaders, compiled to RSTB |
+| `.rml` | The scene. A project can hold any number of markup files, in any folders, and they compile as one document |
+| `.png` `.jpg` `.jpeg` `.webp` | Image assets |
+| Anything else | A blob asset, findable by name from scripts |
+
+<Note>
+This is how sources are *discovered*, not a promise that everything in the directory
+ends up in the `.riv`. Assets embed when something references them, either a `file=`
+in the RML or a lookup by name from a script. A font or image nothing uses adds nothing to
+the output.
+
+Scripts and shaders are the exception: every `.luau` and `.wgsl` in the scan is
+compiled into the file whether or not anything references it. Use `exclude` to keep
+one out.
+</Note>
+
+Markup files compile together, so an id declared in one file can be referenced from
+another. Ids may not repeat across files, and a problem is reported against the file
+it is in. Split by whatever reads well, such as artboards in one file and view models
+in another.
+
+Dot-files and dot-directories are skipped, and so are `rive.yaml`, whatever
+`output.dir` points at, and anything ending `.riv`, `.rev` or `.log`.
+
+Asset paths in RML are project-relative:
+
+```xml
+<!-- inside <Rive>, alongside the artboards -->
+<FontAsset file="Montserrat.ttf" name="Montserrat" id="0:30"/>
+<ScriptAsset file="main.luau" name="main" id="0:80"/>
+```
+
+A conventional project on disk:
+
+```text
+myproject/
+  rive.yaml
+  scene.rml
+  main.luau
+  mathutil.luau
+  Montserrat.ttf
+  logo.png
+  build/
+```
+
+## Full shape
+
+```yaml rive.yaml
+name: myproject
+main: main
+debugLevel: 0
+optimizationLevel: 2
+
+artboard:
+  width: 800
+  height: 600
+  background: "#1D1D1D"      # quote it, a bare # starts a YAML comment
+
+artboards:
+  main:
+    width: 1920
+    height: 1080
+
+exclude:
+  - docs
+
+excludeFromRev:
+  scripts:
+    - "*_test"
+  artboards:
+    - tests/*
+  assets:
+    - raw_*
+  contents:
+    - logo
+
+libraries:
+  - ../shared_widgets
+
+revFlavor: editable          # or "library"
+
+output:
+  dir: build
+
+logs:
+  file: build/rive.log
+  problems: build/problems.log
+```
+
+## Keys
+
+**`name`** — Required. Also the name other projects use to import this one.
+
+**`main`** — Which artboard is the file's default. Without it, the first one declared
+wins, and markup files compile in path order, so that depends on filenames sorting the
+way you expect. Name the artboard here instead.
+
+**`debugLevel`**, **`optimizationLevel`**, **`shaderOutputs`** — Publish settings the
+Editor keeps on the `Backboard`. A fragment declares no `Backboard`, so these live
+here instead, and the build synthesizes one from them. `create --from-rev` writes a
+`.rev`'s `Backboard` back into these keys.
+
+**`artboard`** — Default size and background for generated artboards, used only when
+there is no `.rml`. Sizes default to 800 x 800. `background` takes `#RRGGBB` or
+`#AARRGGBB`; the `#` is required, which is why the value must be quoted. A value the
+CLI cannot read is dropped without a warning, leaving the default `#FF1D1D1D`.
+
+**`artboards`** — The same settings as `artboard`, set per artboard. Key each entry by
+its layout script's path with `.luau` dropped, so `ui/panel.luau` is `ui/panel`.
+
+**`exclude`** — Paths not to bundle at all. An entry matches a file or directory by
+exact path, matches everything under a directory, and matches files by glob with the
+same `*` and `?` as `excludeFromRev`. `output.dir` is excluded for you. Use it to keep
+the scan tidy.
+
+**`excludeFromRev`** — Drops matching things from the exported `.rev` only. The `.riv`
+and the preview window always contain everything. Four categories:
+
+| Category | Matches by |
+|---|---|
+| `scripts` | Module path, for Luau and WGSL |
+| `artboards` | Name |
+| `assets` | Name |
+| `contents` | Asset bytes, keeping the asset referenced but unembedded |
+
+Patterns support `*` (any run of characters, including `/`) and `?` (one character).
+Excluding a layout script also drops its generated artboard.
+
+**`libraries`** — Other project directories whose modules become importable under
+their project name:
+
+```lua
+local button = require('lib:shared_widgets/button')
+```
+
+Dependencies resolve through nested libraries, a library two projects both depend on
+is loaded once, and cycles are an error. Each library also exports its own `.rev`
+alongside the project's.
+
+**`revFlavor`** — `editable` (the default) or `library`. Controls whether the exported
+`.rev` opens as a normal editor file or as a library others import.
+
+**`push`** — `projectId` and `fileId`, the binding `rive push` writes back after the
+first push. `push.fileId` is what `--publish` sends when it asks whether to watermark.
+See [Pushing to a Rive file](#pushing-to-a-rive-file).
+
+**`output.dir`** — Where the `.riv` is written. Defaults to `build`.
+
+**`logs.file`** — Append-only interleave of compiler problems, script `print` output
+and system messages.
+
+**`logs.problems`** — Rewritten on every build, opening with a
+`# rive generation N | E errors, W warnings | OK|FAILED` header, so it always
+describes exactly one build. This is the file to read when scripting around the CLI.
+
+Neither `logs` key has a default. Omit them and no log file is written. `rive create`
+writes both into the scaffolded `rive.yaml`, pointed at `build/`; a hand-written
+`rive.yaml` holding only `name` gets no logs.
+
+Keys the CLI does not know are ignored without a warning, and so is an `artboards:`
+entry naming a script that does not exist. A misspelled key will not fail the build.
+
+## Pushing to a Rive file
+
+`rive push` builds the project and uploads it to a Rive file in your account. The file opens from the Editor's file browser
+like any other, and every push replaces its contents and adds a named entry to its
+revision history, so any push can be inspected or restored from the Editor.
+
+```bash
+rive login   # once per machine, the same session as --publish
+rive push    # build and push. The first push creates the file
+```
+
+### The first push
+
+In your Rive account, files are grouped into projects. That is a different thing from
+the project folder on your machine: the first `rive push` asks which Rive project to
+create the file in, then records your answer so later pushes go back to the same file.
+
+If your account has one project, it is chosen for you. If it has several, the CLI
+lists them and you choose. Your workspace's personal files appear first in that list,
+so a push can land in your own drafts rather than a shared project. Projects you can
+only view are left out.
+
+`--project=<id>` skips the question, and `rive push --list` prints every project with
+its id without building anything.
+
+The file it creates is recorded in `rive.yaml`:
+
+```yaml
+push:
+  projectId: 9
+  fileId: 512
+```
+
+If you're working in version control, commit this so everyone pushing the project updates the same file. Delete the `fileId`
+line to make the next push create a fresh file, or edit `projectId` to create it
+somewhere else.
+
+### Every push after
+
+A later push sends only what differs from the file's live content, then names a
+revision:
+
+```bash
+rive push --name="before the terrain rewrite"
+```
+
+A push with nothing new reports `already up to date` and adds no revision. Previous
+content is never lost: it stays in the revision history, and the Editor can restore
+any entry.
+
+<Warning>
+The push is authoritative. If someone has the file open in the Editor while you push,
+they see the content swap live, and any Editor-made changes to pushed content are
+overwritten.
+</Warning>
+
+What gets pushed is exactly what `--rev` would export: the project's own scripts,
+assets and artboards, minus everything `excludeFromRev` drops. Libraries are not
+pushed, since each one exports its own `.rev` and is published separately.
+
+<Note>
+Push uses the same `rive login` session as `--publish`. If you have any issues, run
+`rive login` to get a new OAuth session going.
+</Note>

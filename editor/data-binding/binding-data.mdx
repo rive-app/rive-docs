@@ -14,7 +14,7 @@ Bindings are not limited to visual properties. You can bind values throughout yo
 
 This allows the same data to drive behavior, animation, and logic across your scene, helping keep everything in sync.
 
-## Binding a Property
+## Binding a property
 
 Let's control the `X` position of a circle using `circleX`, which is a Number property in our View Model.
 
@@ -51,19 +51,19 @@ The circle's horizontal position is now driven by the `circleX` property. Any ti
   ![Preview data binding](/images/editor/data-binding/binding-data/preview-data-binding.gif)
 </Tip>
 
-### Updating a Binding
+### Updating a binding
 
 Right-click the bound element and select **Update Bind**.
 
 ![Update a binding](/images/editor/data-binding/binding-data/update-bind.gif)
 
-### Removing a Binding
+### Removing a binding
 
 Right-click the bound element and select **Unbind**.
 
 ![Remove a binding](/images/editor/data-binding/binding-data/unbind.gif)
 
-## Binding Options
+## Binding options
 
 Each binding has the following properties.
 
@@ -89,13 +89,13 @@ The path determines which specific property instance the binding should use.
 
 See also [Absolute vs Relative Binding](#absolute-vs-relative-binding).
 
-### Bind Direction
+### Bind direction
 
 By default, the View Model property (**source**) controls the bound element or value (**target**), but it can also work the other way around.
 
 <YouTube id="Syt6i4-Bkm4" />
 
-#### Target to Source
+#### Target to source
 
 When a binding has `Target to Source` toggled on, a change to the element will update the view model property.
 
@@ -129,7 +129,7 @@ In rare cases, both the source and target may change at the same time. This sett
   As the piece is dragged, the piece itself (target) updates those property values (target to source).
 </UseCase>
 
-### Bind Once
+### Bind once
 
 When **Bind Once** is enabled, the binding only applies the value a single time when the scene starts or the binding is created.
 
@@ -143,7 +143,7 @@ After the initial value is applied, future changes to the source or target are i
   You could bind the particle's rotation to a random number property using **Bind Once**. Each particle would receive its initial rotation value, but future changes to the property would not affect existing particles.
 </UseCase>
 
-### Absolute vs Relative Binding
+### Absolute vs relative binding
 
 <YouTube id="4LOXhXesG74" />
 

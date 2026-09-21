@@ -16,7 +16,7 @@ import ReferencedAssets from "/snippets/runtimes/playing-audio/referenced-assets
 
 For more information, see [Loading Assets](/runtimes/apple/loading-assets).
 
-## Audio Settings
+## Audio settings
 
 On iOS, playing audio will respect your `AVAudioSession` shared instance settings. For more information, see [Apple's documentation](https://developer.apple.com/documentation/avfaudio/avaudiosession) on `AVAudioSession`. Using this, you can choose to mix audio, duck audio, and more. You can update your shared instance early in your app lifecycle if you would like to ensure all Rive audio plays  with the correct settings.
 
@@ -27,7 +27,7 @@ let options: AVAudioSession.CategoryOptions = [.mixWithOthers]
 AVAudioSession.sharedInstance().setCategory(category, options: options)
 ```
 
-## Setting Volume
+## Setting volume
 
 An artboard is capable of setting its volume. A parent artboard will set the volume of all component instances; however, setting a component's volume will **not** update the parent's volume.
 

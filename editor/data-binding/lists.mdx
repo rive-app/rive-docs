@@ -20,7 +20,7 @@ A List is a way to display a set of items that are dynamically generated based o
 
 ---
 
-## Artboard Lists
+## Artboard lists
 
 Artboard Lists enable you to generate a number of list items using an Artboard to represent each item in your List. Artboard Lists must be added as children of an Artboard or Layout.
 
@@ -37,7 +37,7 @@ The next step is to bind data to it using Data Binding. This will determine the 
 - Using the View Model List property
 - Using a View Model Number property together with a Number to List converter
 
-## View Model List Property
+## View Model list property
 
 <Note>
   Before continuing, it's important to understand the fundamentals of Data Binding, in particular, what a View Model is, how to create one and how to bind it to an object's properties. Learn more in the [Data Binding Overview](/editor/data-binding/overview).
@@ -74,7 +74,7 @@ Run the state machine and you should see your list items. Remember that the layo
   Rive's runtimes provide [APIs to modify the List and List items at runtime](/runtimes/data-binding#lists) (for example, adding or removing items).
 </Note>
 
-## View Model Number with Converter
+## View Model number with Converter
 
 The second way to populate your list is by specifying the number of items you want in your List along with the ViewModel (Artboard) you want to instance. This can be done using a View Model Number property in combination with the new Number to List converter.
 
@@ -106,7 +106,7 @@ To Create a View Model Number to List converter and bind it to an Artboard List:
 
 Run the state machine and you should see your list items. Remember that the layout will be determined by the Artboard List's parent, so modify the parent's settings in order to tweak your List's layout
 
-## View Model List Item Index
+## View Model list item index
 
 There may be times where it is useful for the Artboard to know at which index it exists within its parent List. This is available using the View Model list item index property.
 
@@ -122,7 +122,7 @@ This property can then be bound to an object's properties and used directly (for
   When using item index with the [List property](/editor/data-binding/lists#view-model-list-property) and list items, be aware that if more than 1 list item is bound to the same View Model instance, they will share the same index value
 </Info>
 
-## Lists & Scrolling
+## Lists & scrolling
 
 If you add your Artboard List as a child of a Layout, your List items will behave as children of its parent's Layout. This means things like direction, wrapping, padding, gap, alignment, etc. are all dictated by the parent Layout's properties.
 

@@ -226,7 +226,7 @@ if (labels != null)
 ```
 
 
-#### Overriding Globals After Auto Bind
+#### Overriding globals after Auto Bind
 
 Auto Bind fills every global with a default instance. To replace some of those defaults at runtime, bind again and pass the widget's current main instance plus the globals you want to change. Globals you leave out of the dictionary keep the instance they already have.
 
@@ -245,7 +245,7 @@ riveWidget.StateMachine.BindViewModelInstance(
     globals);
 ```
 
-#### Binding Manually
+#### Binding manually
 
 With **Manual**, nothing is bound after `Load`. Create the main instance and the globals, then bind them together.
 
@@ -265,7 +265,7 @@ riveWidget.StateMachine.BindViewModelInstance(main, globals);
 
 The two-argument overload returns `false` and leaves the state machine unchanged if the main instance is disposed, a dictionary key is not a global in the file, or a value is `null` or disposed. A `null` dictionary is treated as empty: omitted globals still receive defaults on the first bind.
 
-#### Binding Globals Only
+#### Binding globals only
 
 Pass `null` as the main instance to bind globals without supplying a main. Bind creates a default main when the artboard has a default view model, and still fills any global you leave out of the map.
 
@@ -281,7 +281,7 @@ riveWidget.StateMachine.BindViewModelInstance(
 riveWidget.StateMachine.BindViewModelInstance(null);
 ```
 
-#### Sharing a Global Across Widgets
+#### Sharing a global across widgets
 
 Auto Bind creates a new default instance for each widget, so those defaults are not shared. To share a global without binding twice, set both widgets to **Manual**, then pass the same instance in each widget's first bind.
 
@@ -1040,7 +1040,7 @@ private void OnDestroy()
 }
 ```
 
-### Using Custom View Model Instances with Bindable Artboards
+### Using custom View Model instances with bindable artboards
 
 You can link a custom `ViewModelInstance` to a bindable artboard, giving you control over the data being used by that artboard.
 

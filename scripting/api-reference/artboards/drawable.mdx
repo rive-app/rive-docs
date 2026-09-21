@@ -1,0 +1,85 @@
+---
+title: Drawable
+---
+
+A drawable that carries custom properties, handed to the visitor of
+`artboard:draw(renderer, visitor)`. It is only valid inside that visitor
+call.
+
+
+## Methods
+
+### `number`
+
+{/* number: (self: Drawable, key: PropertyKey) -> number? */}
+<div class="signature">
+```lua
+number(key: PropertyKey) -> number?
+```
+</div>
+
+The custom number property of this key, nil when there is none.
+
+
+### `boolean`
+
+{/* boolean: (self: Drawable, key: PropertyKey) -> boolean? */}
+<div class="signature">
+```lua
+boolean(key: PropertyKey) -> boolean?
+```
+</div>
+
+The custom boolean property of this key, nil when there is none.
+
+
+### `color`
+
+{/* color: (self: Drawable, key: PropertyKey) -> Color? */}
+<div class="signature">
+```lua
+color(key: PropertyKey) -> Color?
+```
+</div>
+
+The custom color property of this key, nil when there is none.
+
+
+### `string`
+
+{/* string: (self: Drawable, key: PropertyKey) -> string? */}
+<div class="signature">
+```lua
+string(key: PropertyKey) -> string?
+```
+</div>
+
+The custom string property of this key, nil when there is none.
+
+
+### `properties`
+
+{/* properties: (self: Drawable) -> { { name: string, kind: DrawablePropertyKind } } */}
+<div class="signature">
+```lua
+properties() -> {{name: string, kind: DrawablePropertyKind}}
+```
+</div>
+
+Every custom property on the drawable. For tooling and debugging:
+the editor and rive-cli have it, a shipping runtime does not, so do
+not call it from a script you ship.
+
+
+### `draw`
+
+{/* draw: (self: Drawable, renderer: Renderer) -> () */}
+<div class="signature">
+```lua
+draw(renderer: Renderer) -> ()
+```
+</div>
+
+Draws the drawable under the renderer's current state.
+
+

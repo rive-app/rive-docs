@@ -148,13 +148,13 @@ Create an instance: Right-click in the scene hierarchy `→ Rive → Widgets →
 | --- | --- |
 | Load(ProceduralDrawing proceduralDrawing) | Loads a new procedural drawing into the widget. |
 
-## Panel Renderers
+## Panel renderers
 
 Panel renderers connect RivePanel's render texture to Unity's display systems. By separating rendering logic from display concerns, we can support different rendering contexts (UI, world space, etc.) while keeping the core Rive functionality consistent.
 
 Each renderer type specializes in a specific Unity rendering pathway, handling details like input systems and render order automatically.
 
-### Rive Canvas Renderer
+### Rive canvas renderer
 
 The Rive Canvas Renderer displays Rive content within Unity's UI system (uGUI). It automatically configures the necessary Canvas components and handles UI-specific concerns like proper render order and raycasting.
 
@@ -185,7 +185,7 @@ You can also create a Rive Panel that has been automatically configured to use t
 | --- | --- |
 | Rive Panel | The panel being rendered. |
 
-### Rive Texture Renderer
+### Rive texture renderer
 
 Rive Texture Renderer projects Rive content onto materials in your 3D scene. It bridges the gap between Rive's 2D rendering system and Unity's 3D material system, making it easy to apply Rive content to any mesh in your scene.
 
@@ -218,7 +218,7 @@ Rive Texture Renderer projects Rive content onto materials in your 3D scene. It 
 | SetPanel(IRivePanel panel) | Assigns a new panel to render. |
 | RefreshMaterials() | Updates material references after material changes. |
 
-## Render Target Strategies
+## Render Target strategies
 
 Render Target Strategies control how **Rive Panels** render to textures. They determine whether panels get individual textures or share a texture atlas, and handle details like texture creation, panel arrangement, and memory management.
 
@@ -318,7 +318,7 @@ This approach is particularly useful for scenes with dynamic UI elements that ap
 | Max Pool Size | Current maximum pool size. |
 | Draw Timing | Current draw timing mode. |
 
-#### Public Methods
+#### Public methods
 
 | Name | Description |
 | --- | --- |

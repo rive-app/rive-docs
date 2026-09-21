@@ -41,7 +41,7 @@ The new runtime makes use of the `AutoCloseable` interface to manage lifetimes e
 
 In Compose, lifecycles are tied to `remember` Composables and use `DisposableEffect` to create and dispose of objects as needed, simplifying memory management.
 
-## Shared Features
+## Shared features
 
 ### Shared APIs
 
@@ -61,7 +61,7 @@ The legacy Rive Android runtime is View based and provided the `RiveAnimationVie
 
 The new API is Compose based, with the intention to provide a View API in the future. The main Composable is simply called `Rive`, reflecting the broader feature set and use cases it supports.
 
-#### Setting a Local Raw Resource
+#### Setting a local raw resource
 
 <Info>
   The new API will use the I/O dispatcher by default to load Rive files asynchronously. This is different from the legacy runtime, which loaded files synchronously on the main thread. If you want to load files using a different threading model, load the resource using your preferred method and pass the bytes to a `RiveFileSource.Bytes` source.
@@ -102,7 +102,7 @@ when (riveFile) {
 }
 ```
 
-#### Setting a Rive File from Bytes
+#### Setting a Rive file from bytes
 
 **Legacy RiveAnimationView**
 
@@ -132,7 +132,7 @@ when (riveFile) {
 }
 ```
 
-#### Caching a Rive File
+#### Caching a Rive file
 
 <Card icon="eye" href="/runtimes/android/caching-a-rive-file" horizontal>
   See also Caching a Rive File for more details.
@@ -330,7 +330,7 @@ Rive(
 )
 ```
 
-#### Playing, Pausing, and State Machine Settling
+#### Playing, pausing, and State Machine settling
 
 **Legacy RiveAnimationView**
 
@@ -353,7 +353,7 @@ Rive(
 )
 ```
 
-#### Autoplay and Setting Initial Values
+#### Autoplay and setting initial values
 
 The legacy runtime includes an `autoplay` feature, defaulting to true, that automatically starts playing the given animation or state machine when the Rive file is loaded. This can be disabled to allow setting initial values before playback begins.
 
@@ -400,7 +400,7 @@ Rive(
 )
 ```
 
-#### Touch Pass-Through
+#### Touch pass-through
 
 **Legacy RiveAnimationView**
 
@@ -460,7 +460,7 @@ LaunchedEffect(riveFile) {
 }
 ```
 
-### View Model Instance Properties
+### View Model instance properties
 
 **Legacy**
 
@@ -520,7 +520,7 @@ val artboard = rememberArtboard(riveFile, "My Artboard")
 vmi.setArtboard("My Artboard Property", artboard)
 ```
 
-### Loading Referenced Assets
+### Loading referenced assets
 
 **Legacy**
 
@@ -596,7 +596,7 @@ Rive(
 )
 ```
 
-## New Exclusive Features
+## New exclusive features
 
 A growing number of features are only available in the new runtime. These features were added to address limitations in the legacy runtime or to provide new capabilities that were not previously possible. Below is a list of such features along with brief descriptions.
 
@@ -610,7 +610,7 @@ By comparison, the legacy runtime has limited logs.
   We may consider retrofitting more logging capabilities to the legacy runtime in the future, especially if doing so would illuminate a potential source for bugs.
 </Callout>
 
-### Tracking the Loading State of a Rive File
+### Tracking the loading state of a Rive file
 
 The new runtime provides a `Result` wrapper around Rive file loading operations, allowing you to track the state (loading, success, error) of a Rive file. This is useful for providing user feedback during loading or handling errors gracefully.
 
@@ -638,7 +638,7 @@ The legacy runtime's convenience methods, e.g. `setRiveResource()`, do not provi
   There are no plans to retrofit this feature into the legacy runtime.
 </Callout>
 
-### Rendering to a Bitmap
+### Rendering to a bitmap
 
 The new runtime provides built-in support for [rendering Rive to an Android `Bitmap`](/runtimes/advanced-topic/rendering-to-a-bitmap), which can be useful for scenarios such as snapshot testing or rendering video encoded from data-bound Rive files into image frames on the edge (i.e. the user's device). This is done using the `RenderBuffer` class or the `onBitmapAvailable` callback in the `Rive` Composable.
 
@@ -648,7 +648,7 @@ The new runtime provides built-in support for [rendering Rive to an Android `Bit
     There are no plans to retrofit this feature into the legacy runtime.
 </Callout>
 
-### Updating a Data Bind Unsettles the State Machine
+### Updating a Data Bind unsettles the State Machine
 
 In the new runtime, updating a data-bound property [automatically "unsettles" the state machine](/runtimes/android/android#adding-rive-to-your-composition), causing it to advance and draw based on the new data. By comparison, the legacy runtime required you to call `RiveAnimationView.play()` after updating data-bound properties on a settled state machine to achieve the same effect.
 
@@ -656,11 +656,11 @@ In the new runtime, updating a data-bound property [automatically "unsettles" th
   We may consider retrofitting this behavior into the legacy runtime in the future as it is a common source of confusion. However, doing so would be a breaking change, and it may not be worth the disruption for existing users.
 </Callout>
 
-## Legacy Exclusive Features
+## Legacy exclusive features
 
 Some features are only available in the legacy runtime. This is usually because they were less commonly used, were complex in practice, or were difficult to maintain and support. Below is a list of such features along with guidance on how to handle their absence in the new runtime.
 
-### View-Based API
+### View-based API
 
 The legacy runtime is built around the `RiveAnimationView` class, which is a subclass of Android's `TextureView` (and subsequently `View`). This makes it easy to integrate into existing View-based Android applications. The new runtime is currently Compose-based and does not provide a View subclass. If you need to use Rive in a View-based application, you will need to set up a Compose environment within your View hierarchy using `ComposeView`.
 
@@ -668,7 +668,7 @@ The legacy runtime is built around the `RiveAnimationView` class, which is a sub
   There are plans to provide a View-based API in the future.
 </Callout>
 
-### Frame Metrics
+### Frame metrics
 
 The legacy runtime includes support for frame metrics, providing some rendering performance numbers and potentially helping to identify bottlenecks. This is done by enabling frame metrics collection on the `RiveAnimationView`.
 
@@ -682,7 +682,7 @@ The new runtime does not yet include any comparable feature. Instead, you can us
   We will be adding performance monitoring in the future. The specific form it takes is to be determined.
 </Callout>
 
-### CDN Assets
+### CDN assets
 
 **Legacy**
 
@@ -718,7 +718,7 @@ The new runtime does not include built-in support for loading CDN assets.
   We will be adding a new API in a future update to query the asset manifest for a file, which will include URLs for hosted assets. This will allow you to load them using standard networking libraries and supply them to the Rive worker using existing asset APIs.
 </Callout>
 
-### Setting a Rive File from Network
+### Setting a Rive file from network
 
 The legacy runtime provides built-in support for loading Rive files from network URLs using the now defunct Volley library. This includes methods such as:
 
@@ -740,7 +740,7 @@ RiveAnimationView.Builder(context)
   We are considering adding built-in network loading capabilities in future releases. If implemented, it would not use Volley, preferring a modern alternative. It would also likely be opt-in to avoid adding unnecessary dependencies for users who do not need network loading.
 </Callout>
 
-### Rendering to Canvas
+### Rendering to canvas
 
 <Card icon="eye" href="/runtimes/choose-a-renderer/overview#android" horizontal>
   See also Choose a Renderer for more details.
@@ -777,7 +777,7 @@ The new runtime does not include a Canvas renderer, focusing instead on the Rive
   There are no current plans to reintroduce Canvas rendering in the new runtime.
 </Callout>
 
-### Artboard Volume
+### Artboard volume
 
 The legacy runtime can set an artboard's audio volume through the `Artboard.volume` property or `RiveAnimationView.setVolume()`. This feature is not present in the new runtime.
 
@@ -858,7 +858,7 @@ vmi.setString("My Text Property", "Hello, World!")
   There are no current plans to reintroduce text run support in the new runtime.
 </Callout>
 
-### Linear Animations
+### Linear animations
 
 <Card icon="eye" href="/runtimes/android/animation-playback" horizontal>
   See also the Linear Animation documentation for more details.
@@ -901,7 +901,7 @@ In practice, working with linear animations is more granular and brittle compare
   There are no current plans to reintroduce direct linear animation playback in the new runtime.
 </Callout>
 
-### Multiple State Machines Per View
+### Multiple State Machines per view
 
 The legacy runtime allows multiple state machines to be associated with a single `RiveAnimationView` instance. At the core runtime level there is no technical limitation, and each state machine is processed in sequence. In practice this leads to complexity and difficulty reasoning about state, especially when data binding is involved. Only the Android legacy runtime supported this capability among the various Rive runtimes.
 
@@ -911,7 +911,7 @@ The new runtime enforces a one-to-one relationship between Rive instances and st
   There are no current plans to reintroduce multiple state machines per Rive instance in the new runtime.
 </Callout>
 
-### Observing State Machine State
+### Observing State Machine state
 
 The legacy runtime provides methods to observe which state is currently active in a state machine. This can be useful for triggering actions in your application based on the current state of the animation.
 
@@ -929,7 +929,7 @@ The new runtime does not include this feature. The original feature was added be
   There are no current plans to reintroduce state observation in the new runtime.
 </Callout>
 
-### Single Touch Support
+### Single touch support
 
 The legacy runtime supports single touch input, allowing only one touch interaction at a time. This is to maintain backwards compatibility with existing Rive files that were designed with single touch in mind. As such it is also the default behavior.
 
@@ -959,7 +959,7 @@ The new runtime supports only multitouch input. In practice, Rive files should r
   There are no current plans to reintroduce single touch support in the new runtime.
 </Callout>
 
-### Getting by Index
+### Getting by index
 
 The legacy runtime provides methods to get artboards, animations state machines, view models, and view model instances by their index in addition to their name. This is rarely useful in scenarios where you want to iterate over all elements.
 
@@ -988,7 +988,7 @@ LaunchedEffect(riveFile) {
   There are no current plans to reintroduce getting by index in the new runtime.
 </Callout>
 
-### Renderer Class
+### Renderer class
 
 The legacy runtime includes the `Renderer` and `RiveArtboardRenderer` classes that allow you to override rendering behavior for Rive. It is difficult to use correctly, ensure proper life cycles, and maintain compatibility with the Rive Renderer as it evolves.
 
@@ -998,7 +998,7 @@ The new runtime does not include a `Renderer` class, focusing instead on the mos
   There are no current plans to reintroduce a Renderer class in the new runtime.
 </Callout>
 
-### Controller Class
+### Controller class
 
 The legacy runtime includes a `RiveFileController` class that provides methods to control playback, manage state machines, and observe state changes. It is tightly coupled to the `RiveAnimationView`.
 

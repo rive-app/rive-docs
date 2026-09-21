@@ -18,7 +18,7 @@ This page explains how to use the `CustomAssetLoaderCallback` to swap fonts, ima
 
 This approach is useful when you want your replacement asset to be used everywhere the original appears throughout the file. For example, if you need to replace a font globally, so that all text that uses that font updates automatically, you can do so in one place instead of configuring individual property bindings for each instance.
 
-## Setting Up Asset Loading
+## Setting up asset loading
 
 To swap assets at runtime, provide a callback when loading your Rive file:
 
@@ -64,7 +64,7 @@ private void OnDestroy()
 }
 ```
 
-#### Overload With Fallback
+#### Overload with fallback
 
 An overload of `Rive.File.Load()` includes a `fallbackToAssignedAssets` parameter.
 
@@ -74,7 +74,7 @@ If set to `true `and your custom loader doesn't handle a certain asset, the runt
 var file = File.Load(myRiveAsset, MyCustomAssetLoader, fallbackToAssignedAssets: true);
 ```
 
-## Asset Types
+## Asset types
 
 You can swap these types of assets at runtime:
 
@@ -84,7 +84,7 @@ You can swap these types of assets at runtime:
 
 * `AudioOutOfBandAsset`: For audio files
 
-## Asset Reference Types
+## Asset reference types
 
 When handling assets in your callback, you'll need to check the type of the `EmbeddedAssetReference` before setting the asset. Each asset type has its own reference class with specific setter methods:
 
@@ -116,7 +116,7 @@ private bool AssetLoaderDelegate(EmbeddedAssetReference assetReference)
 }
 ```
 
-## Memory Management
+## Memory management
 
 When working with runtime asset swapping, we recommend following these best practices:
 
@@ -128,7 +128,7 @@ When working with runtime asset swapping, we recommend following these best prac
 
    * Call `Dispose()` on the Rive file when you're done with it
 
-## Creating Out-of-Band Assets Dynamically
+## Creating out-of-band assets dynamically
 
 If you have an asset that isn't in your Unity project at build time (for example, if you're loading an image from a CDN), you can create an out-of-band asset at runtime using the `OutOfBandAsset.Create<T>()` method.  Here, the `bytes` parameter should be the raw file data for the asset.
 

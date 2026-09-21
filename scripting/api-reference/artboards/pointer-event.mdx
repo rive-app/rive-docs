@@ -95,8 +95,15 @@ hit(isTranslucent: boolean?) -> ()
 ```
 </div>
 
-Marks the event as handled. If isTranslucent is true, the event may
-continue to propagate through translucent hit targets.
+Consumes the event. Call it on every event a script owns -- the press,
+each move of a drag, and the release -- or the event keeps travelling
+outward and an enclosing hit target claims the gesture. A
+`ScrollConstraint` viewport is the usual one: without this, dragging a
+control inside a scroll view scrolls the view instead.
+
+The argument inverts. Bare `hit()` is opaque and stops there;
+`hit(true)` marks this target translucent, so the event continues to
+whatever is behind it.
 ```lua highlight={6}
 function handlePointerDown(self: PointerExample, event: PointerEvent)
   if self.instance then

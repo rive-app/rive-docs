@@ -59,11 +59,11 @@ A View Model defines the structure of your data. Before creating View Model Inst
 
 ![Create a View Model](/images/editor/data-binding/view-models/create-view-model.gif)
 
-## Creating and Editing Instances
+## Creating and editing instances
 
 Once your View Model has been created, you can create one or more View Model Instances that store actual values for those properties.
 
-### Creating a View Model Instance
+### Creating a View Model instance
 
 A View Model can have multiple instances. Each instance contains its own set of property values while sharing the same structure defined by the View Model.
 
@@ -96,7 +96,7 @@ When creating a new View Model, Rive automatically creates a View Model Instance
   </Step>
 </Steps>
 
-### Removing Instances
+### Removing instances
 
 Click the `-` icon next to the instance name to delete it.
 
@@ -106,7 +106,7 @@ Click the `-` icon next to the instance name to delete it.
   Deleting a View Model Instance does not remove the View Model or its properties. It only removes that instance and its stored values.
 </Note>
 
-### Exporting Instances
+### Exporting instances
 
 By default, exported View Model Instances are included in the .riv file. Disable Export Instance when the data is only needed during development, not in your application at runtime.
 
@@ -118,7 +118,7 @@ By default, exported View Model Instances are included in the .riv file. Disable
   In this case embedding the example data just increases your .riv file size.
 </UseCase>
 
-## Connecting View Model Instances to Artboards
+## Connecting View Model instances to Artboards
 
 Before binding data, you'll need to decide where the data should live.
 
@@ -131,7 +131,7 @@ Rive supports a few common patterns:
 | [Instances as nested properties](#instances-as-nested-properties) |	The parent view model instance stores a reference to a nested view model instance |
 | [Stateful nested components](#stateful-components) |	Self-contained, reusable components that store their own unique data |
 
-### Global View Model Instances
+### Global View Model instances
 
 Global View Models provide data that can be accessed throughout your Rive file.
 
@@ -146,7 +146,7 @@ If a closer View Model contains a property with the same name, that property wil
 Learn more about [Absolute vs Relative Binding](/editor/data-binding/binding-data#absolute-vs-relative-binding).
 
 
-### Instances Attached to Artboards
+### Instances attached to Artboards
 
 View Model instances can be attached to a specific artboard or nested component. This is useful when only that artboard and its children need access to that data.
 
@@ -159,7 +159,7 @@ EnemyVM
 An Enemy view model might contain a `health` property. This property might be used by the enemy itself, but not by its parent.
 </UseCase>
 
-### Instances as Nested Properties
+### Instances as nested properties
 
 View Models can have properties that are View Model instances.
 
@@ -186,7 +186,7 @@ This approach is useful when a parent artboard needs to manage a collection of i
 An inventory screen might contain a list of Item View Model Instances, with each inventory slot component bound to a different item.
 </UseCase>
 
-### Stateful Components
+### Stateful components
 
 A stateful component is an instance of a component that maintains its own data.
 
