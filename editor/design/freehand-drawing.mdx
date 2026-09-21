@@ -19,11 +19,15 @@ Each new Brush drawing creates a Brush Shape containing a **spine**.
 Unlike a standard path, a spine retains information about the brush
 stroke, including its width variation and smoothing.
 
+![Drawing with the Brush tool]
+
 ### Brush Spines
 
 A Brush Shape can contain one or more spines. Select the Brush Shape to view its spines in the **Brush Spines** section of the Inspector.
 
 Each spine has its own **Width** and **Smoothing**. Changing the width preserves any width variation created while drawing.
+
+![Selecting a brush shape and adjusting its width and smoothing settings]
 
 <Note>
   Use the **Shape Bend Tool** to adjust the width at specific points along a spine.
@@ -33,9 +37,13 @@ Each spine has its own **Width** and **Smoothing**. Changing the width preserves
 
 Select **Edit Spines** to edit the vertices of all spines in the Brush Shape at once. You can also select an individual spine to edit it independently.
 
+![Selecting a brush shape, clicking Edit Spines, and editing a spine]
+
 #### Flattening Spines
 
 Select **Flatten** to bake all spines into regular vector geometry. You can also flatten an individual spine without flattening the others.
+
+![Flattening a spine]
 
 ### Drawing Options
 
@@ -51,6 +59,8 @@ Use the options at the top of the panel to control how the Brush behaves while d
 
 Use **Tip** to choose the shape of the Brush. Rive includes a selection of predefined brush tips.
 
+![Drawing with a round and flat tip brush]
+
 <Note>
   Brush tips maintain a fixed orientation as you draw and don't rotate with the direction of the stroke.
 </Note>
@@ -61,19 +71,27 @@ Use **Size** to set the maximum width of the Brush.
 
 **Min Width** sets the minimum width the Brush can reach when **Pen Pressure** or **Speed** is enabled. Increase the value for more consistent strokes, or decrease it for greater variation in width.
 
+![Drawing with a larger and smaller Min Width]
+
 ### Smoothing
 
 Use **Smoothing** to reduce small variations in the path as you draw, creating smoother curves.
 
 Higher values produce smoother paths, while lower values more closely follow the movement of the pointer.
 
+![Drawing with higher and lower smoothing]
+
 ### Stabilize
 
 Use **Stabilize** to smooth your drawing by adding distance between the pointer and the path as you draw. Higher values increase this distance, giving the path more time to smooth out changes in direction.
 
+![Drawing higher and lower Stabilize values]
+
 #### Show Leash
 
 Enable **Show Leash** to display the distance between the pointer and the path while drawing.
+
+![Displaying a leash while drawing using the brush](/images/editor/drawing/show-leash.png)
 
 ### Add to Selected
 
@@ -81,11 +99,15 @@ Enable **Add to Selected** to add each new stroke as a spine in the selected Bru
 
 This lets you build up a single shape with multiple brush strokes.
 
+![Drawing multiple strokes that add to the same brush shape]
+
 ## Pencil Tool
 
 Use the **Pencil Tool** to draw freehand paths with a consistent thickness. Pencil creates the same type of path and stroke as the [Pen Tool](/editor/fundamentals/pen-tool-overview), but lets you create the path by drawing freehand rather than placing vertices manually.
 
 The Pencil shares many of the same controls as the Brush, including **Smoothing**, **Stabilize**, **Show Leash**, **Hide Bounding Box**, and **Add to Selected**. It does not support brush tips, variable width, **Pen Pressure**, or **Speed**.
+
+[Drawing with the Pencil tool]
 
 ### Thickness
 
@@ -97,8 +119,12 @@ Use the **Eraser Tool** to remove portions of existing shapes by drawing over th
 
 The Eraser shares many of the same controls as the Brush, including **Tip**, **Size**, **Min Width**, **Smoothing**, **Stabilize**, **Hide Bounding Box**, **Pen Pressure**, and **Speed**. It does not include **Color**, **Show Leash**, or **Add to Selected**.
 
+[Erasing various paths and shapes]
+
 ### Simplify
 
 Use **Simplify** to clean up the outline left behind when erasing flattened shapes. Higher values simplify the resulting path more aggressively.
 
 Simplify only affects flattened shapes, which are erased destructively. Brush shapes are erased non-destructively and aren't affected by this setting.
+
+[Erasing a flattened shape with high and low Simplify settings]
