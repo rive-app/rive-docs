@@ -125,7 +125,7 @@ export const FeatureSupportGroup = ({
                 android: { supported: false, description: "Coming soon" },
                 cpp: { supported: true, description: "Supported" },
                 unity: { supported: false, description: "Coming soon" },
-                unreal: { supported: true, version: "0.4.25" }
+                unreal: { supported: true, version: "0.4.26" }
             }
         },
         globalViewModels: {
