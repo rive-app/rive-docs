@@ -199,7 +199,9 @@ Key names are the same ones the markup uses, so `right`, `escape`, `f1` and `kpE
 all resolve.
 
 <Note>
-Keys only reach whatever holds Rive focus
+Keys only reach whatever holds Rive focus. With nothing focused, the CLI says so and
+names the fix: the file needs a `FocusData` on the listener's target, and something to
+focus it.
 </Note>
 
 #### Simulating a pointer
