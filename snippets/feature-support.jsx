@@ -125,7 +125,7 @@ export const FeatureSupportGroup = ({
                 android: { supported: false, description: "Coming soon" },
                 cpp: { supported: true, description: "Supported" },
                 unity: { supported: false, description: "Coming soon" },
-                unreal: { supported: false, description: "Coming soon" }
+                unreal: { supported: true, version: "0.4.26" }
             }
         },
         globalViewModels: {
@@ -230,7 +230,7 @@ export const FeatureSupportGroup = ({
                 android: { supported: true, version: "v10.4.0+" },
                 cpp: { supported: true, description: "Supported" },
                 unity: { supported: true, version: "v0.3.7-canary.142" },
-                unreal: { supported: false, description: "Not yet supported" }
+                unreal: { supported: true, description: "Supported" }
             }
         },
         rightToLeftLayoutsText: {
