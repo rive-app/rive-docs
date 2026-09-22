@@ -25,6 +25,7 @@ installed version.
 | `rive schema` | Look up types |
 | `rive inspect` | Print the resolved scene |
 | `rive push` | Build the project and upload it to a Rive file in your account. Needs `rive login` |
+| `rive pull` | Overwrite the local project from the Rive file it is linked to. Needs `rive login` |
 | `rive doctor` | Check the environment: version, auth, ports, project |
 | `rive lsp` | Language server over stdio, for editor integrations |
 | `rive update` | Install the latest published CLI |
@@ -98,6 +99,7 @@ before the ones it times.
 | `--data-dump-filter=<paths>` | Keep only these property paths, comma separated. Globs allowed, as in `battery/*,score` |
 | `--data-dump-every=<N\|Ns\|Nms>` | Sample every N frames rather than once at the end, as JSON Lines |
 | `--artboard=<name>` | Artboard to show on launch. An unknown name falls back to the first artboard without warning |
+| `--fit=<mode>` | How the artboard maps into the view: `fill`, `contain`, `cover`, `fit-width`, `fit-height`, `none`, `scale-down`, or `layout` (the default) |
 
 Interactions run in the order you write them, and `--pointer` and `--advance` need
 `--screenshot`.
@@ -202,8 +204,8 @@ Keys only reach whatever holds Rive focus
 
 #### Simulating a pointer
 
-`--pointer` takes a kind and a position. `down`, `up`, `move` and `click` each take a
-single point. `click` expands to a move, a press and a release with a frame between
+`--pointer` takes a kind and a position. `down`, `up`, `move`, `exit`, and `click` each
+take a single point. `click` expands to a move, a press and a release with a frame between
 each, because a state machine only sees a gesture when it next runs:
 
 ```bash
@@ -211,7 +213,7 @@ rive myproject --screenshot=out.png --pointer=click@120,60
 ```
 
 `--pointer` only checks the shape of the value. A kind that is not `down`, `up`,
-`move`, `click` or `drag` parses fine, then fails at delivery with
+`move`, `exit`, `click` or `drag` parses fine, then fails at delivery with
 `pointer: unknown gesture` and exits with `1`.
 
 `drag` is a fifth kind, and the only one with a different shape:
@@ -272,6 +274,16 @@ rive create [dir] --from-rev=<file.rev>
 `--from-rev` converts an editor `.rev` into a project: `scene.rml` plus its scripts
 and assets as files. Without a `<dir>`, the `.rev`'s own name is used. The directory
 must be empty or new.
+
+`--from-remote-file` does the same conversion on a file downloaded from your Rive
+account. Without a file ID, the CLI lists your projects and files to pick from. `rive.yaml`
+records the link, so `rive push` updates that source file and `rive pull` brings any remote changes in.
+This requires a logged in session with `rive login`.
+
+```bash
+rive create myproject --from-remote-file        # pick from a list
+rive create myproject --from-remote-file=512    # or name the file id
+```
 
 ### `schema`
 
@@ -344,6 +356,36 @@ entry to its revision history. It is the same artifact `--rev` would export.
 
 See [Pushing to a Rive file](/cli/reference/project-config#pushing-to-a-rive-file).
 
+### `pull`
+
+```bash
+rive pull [dir]       # overwrite the project from its linked Rive file
+```
+
+Downloads the Rive file the project is linked to and writes it over the project: the
+scene markup, and every script, shader and asset as a file. Files whose bytes already
+match are left alone, and build inputs missing from the remote file are reported
+rather than deleted.
+
+`rive.yaml` takes the remote file's main artboard and build settings and keeps every
+other line. `AGENTS.md`, `CLAUDE.md` and anything else you added are untouched.
+
+| Flag | Does |
+|---|---|
+| `--yes` | Skip the confirmation. Required in CI, and anywhere there is no terminal to ask on |
+| `--quiet` | Only report what changed |
+
+This command names the file and the project and asks before it runs, defaulting to no:
+
+```text
+Pulling file 2603061 overwrites /path/to/myproject's scene, scripts and assets with the remote file's.
+Overwrite local changes? [y/N]:
+```
+
+<Warning>
+At this time, pull replaces your local project's scene, scripts and assets with the remote file's.
+</Warning>
+
 ### `doctor`
 
 ```bash
@@ -362,7 +404,7 @@ when a check fails.
 
 | What you run | Session needed |
 |---|---|
-| `--publish`, `--rev`, `rive push` | Yes, with `rive login` |
+| `--publish`, `--rev`, `rive push`, `rive pull`, `create --from-remote-file` | Yes, with `rive login` |
 | Preview window, `--once`, `--verify`, `--test`, `--screenshot`, `--serve`, `--headless-serve` | No, and these work offline |
 | `create`, `docs`, `samples`, `schema`, `inspect` | No |
 | `update`, `whoami`, `doctor` | No account, but they reach the network. `whoami` exits `3` when you are not signed in and `7` when it cannot reach Rive; `doctor` reports a missing session as a warning and still exits `0`, but exits `1` when a check fails |
@@ -411,15 +453,8 @@ object on stdout. `data` differs per mode. `--verify` and `--once` carry the bui
 `--verify`, `"publish"` for `--publish`, `"test"` for `--test`. Each entry in
 `data.problems` is `{severity, kind, code, script, line, column, message}`, with
 `severity` one of `error`, `warning` or `hint`. `errors` repeats them as
-`script:line message` strings, carrying the same zero-based line, and drops the
-`:line` entirely for a problem on the first line. `data.riv` is `null` on `--verify`
+`script:line message` strings. `data.riv` is `null` on `--verify`
 and on any failed build. Logs stay on stderr, so stdout carries nothing else.
-
-<Warning>
-`line` and `column` in `--format=json` are zero-based, while the terminal log and
-`rive inspect` report the same problem one-based. Add 1 before showing either to a
-person.
-</Warning>
 
 ## Environment variables
 

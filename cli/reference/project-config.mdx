@@ -160,8 +160,8 @@ alongside the project's.
 **`revFlavor`** — `editable` (the default) or `library`. Controls whether the exported
 `.rev` opens as a normal editor file or as a library others import.
 
-**`push`** — `projectId` and `fileId`, the binding `rive push` writes back after the
-first push. `push.fileId` is what `--publish` sends when it asks whether to watermark.
+**`push`** — `projectId` and `fileId`, the link to the Rive file. `rive push` writes it
+after the first push, and `rive create --from-remote-file` records it up front. `push.fileId` is what `--publish` sends when it asks whether to watermark.
 See [Pushing to a Rive file](#pushing-to-a-rive-file).
 
 **`output.dir`** — Where the `.riv` is written. Defaults to `build`.
@@ -189,7 +189,12 @@ revision history, so any push can be inspected or restored from the Editor.
 ```bash
 rive login   # once per machine, the same session as --publish
 rive push    # build and push. The first push creates the file
+rive pull    # bring the remote file's changes back into the local project
 ```
+
+`rive pull` is the other direction: it overwrites the project from the linked file.
+See [`pull`](/cli/reference/commands#pull) for what it replaces and what it leaves
+alone.
 
 ### The first push
 
