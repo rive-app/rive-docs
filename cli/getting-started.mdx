@@ -77,10 +77,23 @@ Install the Rive CLI, create a project, and open the live preview. By the end of
 To build without opening a window, use `rive myproject --once`. To check that the
 project compiles without writing anything, use `--verify`.
 
-## Starting from an existing Rive file
+## Starting from a file in your Rive account
 
-If the work already exists in the Rive Editor, convert it into a CLI-ready project rather than
-starting over. Export a `.rev` from the Editor, then point `rive create` at it:
+If the work already exists in your Rive account, download it into a project:
+
+```bash
+rive create myproject --from-remote-file
+rive myproject
+```
+
+The CLI lists your projects and files to pick from. `rive.yaml`
+records the link, so [`rive push`](/cli/reference/project-config#pushing-to-a-rive-file)
+sends your edits back and `rive pull` brings down changes made in the Editor. This
+requires a logged in session with `rive login`.
+
+## Starting from an exported .rev
+
+You can also convert a `.rev` exported from the Editor, which doesn't require a logged in session:
 
 ```bash
 rive create myproject --from-rev=myfile.rev # --from-rev takes a path to the .rev
