@@ -4,6 +4,8 @@ sidebarTitle: "Freehand Drawing"
 description: "Draw and edit vector artwork with the Pencil, Brush, and Eraser tools."
 ---
 
+import { VideoEmbed } from '/snippets/video-embed.jsx'
+
 Use the **Pencil**, **Brush**, and **Eraser** tools to draw with a mouse, trackpad, or stylus. These tools share many of the same drawing controls, but create or modify artwork differently.
 
 - **Brush** creates freehand paths with configurable tips and variable thickness.
@@ -19,31 +21,23 @@ Each new Brush drawing creates a Brush Shape containing a **spine**.
 Unlike a standard path, a spine retains information about the brush
 stroke, including its width variation and smoothing.
 
-![Drawing with the Brush tool]
-
 ### Brush Spines
 
 A Brush Shape can contain one or more spines. Select the Brush Shape to view its spines in the **Brush Spines** section of the Inspector.
 
 Each spine has its own **Width** and **Smoothing**. Changing the width preserves any width variation created while drawing.
 
-![Selecting a brush shape and adjusting its width and smoothing settings]
+![Selecting a brush shape and adjusting its width and smoothing settings](/images/editor/design/spines.png)
 
 <Note>
   Use the **Shape Bend Tool** to adjust the width at specific points along a spine.
 </Note>
 
-#### Editing Spines
-
-Select **Edit Spines** to edit the vertices of all spines in the Brush Shape at once. You can also select an individual spine to edit it independently.
-
-![Selecting a brush shape, clicking Edit Spines, and editing a spine]
-
 #### Flattening Spines
 
 Select **Flatten** to bake all spines into regular vector geometry. You can also flatten an individual spine without flattening the others.
 
-![Flattening a spine]
+![Flattened a spine](/images/editor/design/flattened-spine.png)
 
 ### Drawing Options
 
@@ -59,7 +53,7 @@ Use the options at the top of the panel to control how the Brush behaves while d
 
 Use **Tip** to choose the shape of the Brush. Rive includes a selection of predefined brush tips.
 
-![Drawing with a round and flat tip brush]
+<VideoEmbed src="https://static.rive.app/video/brush-tips.mp4" />
 
 <Note>
   Brush tips maintain a fixed orientation as you draw and don't rotate with the direction of the stroke.
@@ -71,7 +65,7 @@ Use **Size** to set the maximum width of the Brush.
 
 **Min Width** sets the minimum width the Brush can reach when **Pen Pressure** or **Speed** is enabled. Increase the value for more consistent strokes, or decrease it for greater variation in width.
 
-![Drawing with a larger and smaller Min Width]
+<VideoEmbed src="https://static.rive.app/video/brush-size.mp4" />
 
 ### Smoothing
 
@@ -79,13 +73,13 @@ Use **Smoothing** to reduce small variations in the path as you draw, creating s
 
 Higher values produce smoother paths, while lower values more closely follow the movement of the pointer.
 
-![Drawing with higher and lower smoothing]
+<VideoEmbed src="https://static.rive.app/video/brush-smoothing.mp4" />
 
 ### Stabilize
 
 Use **Stabilize** to smooth your drawing by adding distance between the pointer and the path as you draw. Higher values increase this distance, giving the path more time to smooth out changes in direction.
 
-![Drawing higher and lower Stabilize values]
+<VideoEmbed src="https://static.rive.app/video/brush-stabilize.mp4" />
 
 #### Show Leash
 
@@ -99,7 +93,7 @@ Enable **Add to Selected** to add each new stroke as a spine in the selected Bru
 
 This lets you build up a single shape with multiple brush strokes.
 
-![Drawing multiple strokes that add to the same brush shape]
+<VideoEmbed src="https://static.rive.app/video/brush-add-to-selected.mp4" />
 
 ## Pencil Tool
 
@@ -107,7 +101,7 @@ Use the **Pencil Tool** to draw freehand paths with a consistent thickness. Penc
 
 The Pencil shares many of the same controls as the Brush, including **Smoothing**, **Stabilize**, **Show Leash**, **Hide Bounding Box**, and **Add to Selected**. It does not support brush tips, variable width, **Pen Pressure**, or **Speed**.
 
-[Drawing with the Pencil tool]
+<VideoEmbed src="https://static.rive.app/video/pencil.mp4" />
 
 ### Thickness
 
@@ -119,7 +113,7 @@ Use the **Eraser Tool** to remove portions of existing shapes by drawing over th
 
 The Eraser shares many of the same controls as the Brush, including **Tip**, **Size**, **Min Width**, **Smoothing**, **Stabilize**, **Hide Bounding Box**, **Pen Pressure**, and **Speed**. It does not include **Color**, **Show Leash**, or **Add to Selected**.
 
-[Erasing various paths and shapes]
+<VideoEmbed src="https://static.rive.app/video/eraser.mp4" />
 
 ### Simplify
 
@@ -127,4 +121,8 @@ Use **Simplify** to clean up the outline left behind when erasing flattened shap
 
 Simplify only affects flattened shapes, which are erased destructively. Brush shapes are erased non-destructively and aren't affected by this setting.
 
-[Erasing a flattened shape with high and low Simplify settings]
+<VideoEmbed src="https://static.rive.app/video/eraser-simplify.mp4" />
+
+<Tip>
+  Hold <kbd>⌘</kbd> (or <kbd>Ctrl</kbd> on Windows) to temporarily switch to the **Shape Bend Tool** and see how **Simplify** affects the number of vertices created while erasing.
+</Tip>
