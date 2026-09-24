@@ -32,7 +32,7 @@ import PlayingStateMachines from "/snippets/runtimes/state-machines/playing-stat
     let stateMachineByName = try await artboard.createStateMachine("StateMachine")
     ```
 
-    Note that these are all async throwing functions marked as `@MainActor`. Since they are functions called on an `Artboard` object, any thrown errors will be of type `ArtboardError`.
+    Note that these are all async throwing functions marked as `@MainActor`. State machine creation also binds authored main and global view model defaults when available. Binding can throw `StateMachineError`; artboard lookup failures throw `ArtboardError`. To supply instances you retain, use `createStateMachine("StateMachine", binding: instance)` and the optional globals builder described in [Data Binding](/runtimes/apple/data-binding#global-view-models).
 
     An example of when one of these functions will throw is if you call `.createStateMachine(_:)` with a name that is not in the origin `Artboard`, which will throw a `ArtboardError.invalidStateMachine(String)`.
 
