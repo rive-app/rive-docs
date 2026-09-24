@@ -53,6 +53,8 @@ export const FeatureSupportGroup = ({
     ]
 
     const featuresInOrder = [
+        "textInput",
+        "focus",
         "statefulComponents",
         "gpuCanvas",
         "globalViewModels",
@@ -86,6 +88,48 @@ export const FeatureSupportGroup = ({
     ]
 
     const features = {
+        textInput: {
+            title: "Text Input",
+            runtimes: {
+                webCanvas: { supported: false, description: "Coming soon" },
+                webCanvasLite: { supported: false, description: "Not supported" },
+                webWebGL: { supported: false, description: "Coming soon" },
+                webWebGL2: { supported: false, description: "Coming soon" },
+                reactCanvas: { supported: false, description: "Coming soon" },
+                reactCanvasLite: { supported: false, description: "Not supported" },
+                reactWebGL: { supported: false, description: "Coming soon" },
+                reactWebGL2: { supported: false, description: "Coming soon" },
+                reactNative: { supported: false, description: "Coming soon" },
+                reactNativeLegacy: { supported: false, description: "Coming soon" },
+                flutter: { supported: false, description: "Coming soon" },
+                apple: { supported: false, description: "Coming soon" },
+                android: { supported: false, description: "Coming soon" },
+                cpp: { supported: false, description: "Coming soon" },
+                unity: { supported: false, description: "Coming soon" },
+                unreal: { supported: false, description: "Coming soon" }
+            }
+        },
+        focus: {
+            title: "Focus",
+            runtimes: {
+                webCanvas: { supported: true, version: "2.43.1" },
+                webCanvasLite: { supported: false, description: "Not supported" },
+                webWebGL: { supported: false, description: "Not supported" },
+                webWebGL2: { supported: true, version: "2.43.1" },
+                reactCanvas: { supported: true, version: "4.35.0" },
+                reactCanvasLite: { supported: false, description: "Not supported" },
+                reactWebGL: { supported: false, description: "Not supported" },
+                reactWebGL2: { supported: true, version: "4.35.0" },
+                reactNative: { supported: false, description: "Coming soon" },
+                reactNativeLegacy: { supported: false, description: "Coming soon" },
+                flutter: { supported: false, description: "Coming soon" },
+                apple: { supported: false, description: "Coming soon" },
+                android: { supported: false, description: "Coming soon" },
+                cpp: { supported: true, description: "Supported" },
+                unity: { supported: false, description: "Coming soon" },
+                unreal: { supported: false, description: "Coming soon" }
+            }
+        },
         statefulComponents: {
             title: "Stateful Components",
             runtimes: {
@@ -98,7 +142,7 @@ export const FeatureSupportGroup = ({
                 reactWebGL: { supported: true, version: "4.25.0+" },
                 reactWebGL2: { supported: true, version: "4.25.0+" },
                 reactNative: { supported: true, version: "9.8.1+" },
-                reactNativeLegacy: { supported: false, version: "Not supported" },
+                reactNativeLegacy: { supported: false, description: "Not supported" },
                 flutter: { supported: true, version: "0.14.1+" },
                 apple: { supported: true, version: "6.16.0+" },
                 android: { supported: true, version: "11.2.0+" },
@@ -195,11 +239,11 @@ export const FeatureSupportGroup = ({
             title: "Scripting",
             runtimes: {
                 webCanvas: { supported: true, version: "2.34.0+" },
-                webCanvasLite: { supported: false, version: "Not supported" },
+                webCanvasLite: { supported: false, description: "Not supported" },
                 webWebGL: { supported: true, version: "2.34.0+" },
                 webWebGL2: { supported: true, version: "2.34.0+" },
                 reactCanvas: { supported: true, version: "4.26.0+" },
-                reactCanvasLite: { supported: false, version: "Not supported" },
+                reactCanvasLite: { supported: false, description: "Not supported" },
                 reactWebGL: { supported: true, version: "4.26.0+" },
                 reactWebGL2: { supported: true, version: "4.26.0+" },
                 reactNative: { supported: true, version: "v0.1.5+" },
@@ -343,7 +387,7 @@ export const FeatureSupportGroup = ({
             runtimes: {
                 webWebGL2: { supported: true, version: "2.23.3+" },
                 webCanvas: { supported: true, version: "2.23.3+" },
-                webCanvasLite: { supported: false, version: "Not supported" },
+                webCanvasLite: { supported: false, description: "Not supported" },
                 webWebGL: { supported: true, version: "2.23.3+" },
                 reactCanvas: { supported: true, version: "4.16.0+" },
                 reactCanvasLite: { supported: false, version: "Not supported" },
