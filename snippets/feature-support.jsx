@@ -113,11 +113,11 @@ export const FeatureSupportGroup = ({
             title: "Focus",
             runtimes: {
                 webCanvas: { supported: true, version: "2.43.1" },
-                webCanvasLite: { supported: false, description: "Not supported" },
+                webCanvasLite: { supported: false, description: "2.43.1" },
                 webWebGL: { supported: false, description: "Not supported" },
                 webWebGL2: { supported: true, version: "2.43.1" },
                 reactCanvas: { supported: true, version: "4.35.0" },
-                reactCanvasLite: { supported: false, description: "Not supported" },
+                reactCanvasLite: { supported: false, description: "4.35.0" },
                 reactWebGL: { supported: false, description: "Not supported" },
                 reactWebGL2: { supported: true, version: "4.35.0" },
                 reactNative: { supported: false, description: "Coming soon" },
