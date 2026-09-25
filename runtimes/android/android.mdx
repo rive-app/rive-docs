@@ -131,35 +131,6 @@ RiveLog.logger = RiveLog.LogcatLogger()
         }
     }
     ```
-
-    Creating a worker is not a free operation. It is recommended to hoist the worker higher up in the Compose tree so that it can serve multiple Rive instances.
-
-    In some cases, it may be desirable to hoist the worker outside of the Composable context entirely. You will be responsible for managing the lifecycle of the worker and file.
-
-    ```kotlin
-      val worker = RiveWorker().also {
-        it.withLifecycle(this, "RivePreload")
-
-        lifecycleScope.launch {
-          it.beginPolling(lifecycle)
-        }
-      }
-
-      var cachedFile: RiveFile? = null
-
-      lifecycleScope.launch {
-        cachedFile = RiveFile.load(
-          RiveFileSource.RawRes(R.raw.my_rive_file, resources),
-          worker,
-        )
-      }
-
-      // Later, create the composable
-      Rive(cachedFile)
-
-      // Finally, close the file
-      cachedFile?.close()
-    ```
   </Step>
   <Step title="Loading a Rive File">
     Before you can display a Rive element, you must load a Rive file, i.e. an exported .riv file. Rive files are specified by a `RiveFileSource`, which can be either a `RawRes` (for local raw resources) or a `Bytes` (for raw byte data, from any source including the network). In this case, we'll use a raw resource for simplicity. That source, along with the above worker, are passed to `rememberRiveFile`, which internally will load and cache the file for use in the composition.
