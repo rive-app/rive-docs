@@ -1,0 +1,49 @@
+---
+title: 'Logging'
+description: 'Debug logging for the Rive React Native runtime'
+---
+
+import Overview from '/snippets/runtimes/logging/overview.mdx'
+
+<Overview />
+
+The React Native runtime forwards all native Rive logs to the JS console by default. Warnings and errors are shown; debug and info logs are suppressed unless you lower the log level.
+
+## Log Levels
+
+Set the minimum log level with `setLogLevel`. Messages below this level are suppressed.
+
+```ts
+import { RiveLog } from '@rive-app/react-native';
+
+// Show all logs (debug, info, warn, error)
+RiveLog.setLogLevel('debug');
+
+// Only warnings and errors (the default)
+RiveLog.setLogLevel('warn');
+
+// Only errors
+RiveLog.setLogLevel('error');
+```
+
+Available levels (from most to least verbose): `debug`, `info`, `warn`, `error`.
+
+## Custom Log Handler
+
+By default, logs are routed to `console.log` / `console.warn` / `console.error` with a `[Rive/<tag>]` prefix. You can replace this with your own handler:
+
+```ts
+import { RiveLog } from '@rive-app/react-native';
+
+RiveLog.setHandler((level, tag, message) => {
+  // level: 'debug' | 'info' | 'warn' | 'error'
+  // tag: e.g. 'Deprecation', 'RiveView', 'ViewModelInstance', 'Worker', 'File', etc.
+  myLogger.log(`[Rive/${tag}] ${message}`, level);
+});
+```
+
+To restore the default handler:
+
+```ts
+RiveLog.resetHandler();
+```
