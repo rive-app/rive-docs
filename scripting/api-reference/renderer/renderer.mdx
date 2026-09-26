@@ -100,6 +100,34 @@ end
 ```
 
 
+### `drawImageMeshInstanced`
+
+{/* function drawImageMeshInstanced(self, image: Image, sampler: ImageSampler, vertices: VertexBuffer, uvs: VertexBuffer, triangles: TriangleBuffer, instances: MeshInstances): () */}
+<div class="signature">
+```lua
+drawImageMeshInstanced(image: Image, sampler: ImageSampler, vertices: VertexBuffer, uvs: VertexBuffer, triangles: TriangleBuffer, instances: MeshInstances) -> ()
+```
+</div>
+
+Draws one mesh once per entry of a [MeshInstances](/scripting/api-reference/mesh/mesh-instances), in a single call.
+The blend mode is always `srcOver`. Opacity and the UV transform come
+from each instance.
+```lua
+function draw(self: DrawImageMeshInstanced, renderer: Renderer)
+  if self.myImage and self.sampler and self.vertices and self.uvs and self.triangles and self.instances then
+    renderer:drawImageMeshInstanced(
+      self.myImage,
+      self.sampler,
+      self.vertices,
+      self.uvs,
+      self.triangles,
+      self.instances
+    )
+  end
+end
+```
+
+
 ### `clipPath`
 
 {/* function clipPath(self, path: Path): () */}
