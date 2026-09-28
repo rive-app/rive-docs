@@ -1,0 +1,90 @@
+---
+title: TextLine
+---
+
+One line of a [Text](/scripting/api-reference/text/text) after wrapping. Iterate it to visit its glyphs in
+visual order, left to right, whatever the writing direction.
+```lua
+for _, line in text:lines() do
+  for _, glyph in line do
+    renderer:save()
+    renderer:transform(glyph.transform)
+    renderer:drawPath(glyph.font:glyphPath(glyph.id), paint)
+    renderer:restore()
+  end
+end
+```
+
+
+## Fields
+
+### `index`
+
+1 based index of the line within the text.
+
+
+### `x`
+
+Left edge after alignment.
+
+
+### `top`
+
+### `baseline`
+
+### `bottom`
+
+### `width`
+
+### `direction`
+
+Base direction of the paragraph the line belongs to.
+
+
+### `firstIndex`
+
+First and last codepoint index on the line, 1 based.
+
+
+### `lastIndex`
+
+### `glyphCount`
+
+## Methods
+
+### `glyph`
+
+{/* function glyph(self, index: number): Glyph */}
+<div class="signature">
+```lua
+glyph(index: number) -> Glyph
+```
+</div>
+
+The glyph at a 1 based visual position.
+
+
+### `glyphs`
+
+{/* function glyphs(self): { Glyph } */}
+<div class="signature">
+```lua
+glyphs() -> {Glyph}
+```
+</div>
+
+All glyphs in visual order.
+
+
+### `__iter`
+
+{/* function __iter(self): ((TextLine, number) -> (number?, Glyph), TextLine, number) */}
+<div class="signature">
+```lua
+__iter() -> ((TextLine, number) ->(number?, Glyph), TextLine, number)
+```
+</div>
+
+Iterates the glyphs in visual order: `for _, glyph in line do`.
+
+
