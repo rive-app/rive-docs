@@ -53,6 +53,7 @@ export const FeatureSupportGroup = ({
     ]
 
     const featuresInOrder = [
+        "gamepad",
         "textInput",
         "focus",
         "statefulComponents",
@@ -88,6 +89,27 @@ export const FeatureSupportGroup = ({
     ]
 
     const features = {
+        gamepad: {
+            title: "Gamepad",
+            runtimes: {
+                webCanvas: { supported: false, description: "Coming soon" },
+                webCanvasLite: { supported: false, description: "Coming soon" },
+                webWebGL: { supported: false, description: "Coming soon" },
+                webWebGL2: { supported: false, description: "Coming soon" },
+                reactCanvas: { supported: false, description: "Coming soon" },
+                reactCanvasLite: { supported: false, description: "Coming soon" },
+                reactWebGL: { supported: false, description: "Coming soon" },
+                reactWebGL2: { supported: false, description: "Coming soon" },
+                reactNative: { supported: false, description: "Coming soon" },
+                reactNativeLegacy: { supported: false, description: "Coming soon" },
+                flutter: { supported: false, description: "Coming soon" },
+                apple: { supported: false, description: "Coming soon" },
+                android: { supported: false, description: "Coming soon" },
+                cpp: { supported: true, description: "Supported" },
+                unity: { supported: false, description: "Coming soon" },
+                unreal: { supported: false, description: "Coming soon" }
+            }
+        },
         textInput: {
             title: "Text Input",
             runtimes: {
