@@ -3,11 +3,8 @@ title: "Semantics"
 description: "Make your Rive graphics accessible to screen readers by enabling semantics in the Web (JS) runtime."
 ---
 
-import EarlyAccess from "/snippets/runtimes/semantics/early-access.mdx"
 import OverviewIntro from "/snippets/runtimes/semantics/overview-intro.mdx"
 import DefinedInEditor from "/snippets/runtimes/semantics/defined-in-editor.mdx"
-
-<EarlyAccess />
 
 This page covers enabling semantics in the Web (JS) runtime so your Rive graphics are accessible to screen readers. To learn what semantics are and how to add them to a graphic, see the [Semantics](/editor/accessibility/semantics) editor documentation.
 
@@ -98,10 +95,6 @@ const rive = new Rive({
 
 The runtime translates each editor semantic role into an ARIA role, and each state and trait into the matching ARIA attribute. In most cases, these are attached to `<div>` elements to standardize
 on common style/layout patterns across browsers. Text content is wrapped in an inner `<span>` to assist with AT's browsing text.
-
-<Warning>
-  This set of roles and traits may be subject to change while the semantic feature is in early access.
-</Warning>
 
 | Editor role | DOM output |
 | --- | --- |
