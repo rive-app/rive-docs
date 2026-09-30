@@ -71,7 +71,6 @@ export const FeatureSupportGroup = ({
         "nSlicing",
         "layouts",
         "fallbackFonts",
-        "randomization",
         "audio",
         "outOfBandAssets",
         "text",
@@ -457,27 +456,6 @@ export const FeatureSupportGroup = ({
                 cpp: { supported: true, description: "Supported" },
                 unity: { supported: true, description: "Supported" },
                 unreal: { supported: true, version: "0.1.14+" }
-            }
-        },
-        randomization: {
-            title: "Randomization",
-            runtimes: {
-                webCanvas: { supported: true, version: "2.15.6+" },
-                webCanvasLite: { supported: true, version: "2.15.6+" },
-                webWebGL: { supported: true, version: "2.15.6+" },
-                webWebGL2: { supported: true, version: "2.15.6+" },
-                reactCanvas: { supported: true, version: "4.9.5+" },
-                reactCanvasLite: { supported: true, version: "4.9.5+" },
-                reactWebGL: { supported: true, version: "4.9.5+" },
-                reactWebGL2: { supported: true, version: "4.9.5+" },
-                reactNative: { supported: true, version: "0.1.4+" },
-                reactNativeLegacy: { supported: true, version: "7.0.3+" },
-                flutter: { supported: true, version: "0.13.4+" },
-                apple: { supported: true, version: "5.11.5+" },
-                android: { supported: true, version: "9.3.5+" },
-                cpp: { supported: true, description: "Supported" },
-                unity: { supported: true, description: "Supported" },
-                unreal: { supported: true, description: "Supported" }
             }
         },
         audio: {
