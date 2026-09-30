@@ -47,6 +47,18 @@ export const Demos = ({
         editor: "https://rive.app/community/files/28077-53052-accessibility-reduced-motion"
       },
     },
+    listenerExamples: {
+      title: 'Listener Pointer Events',
+      description: 'See each Listen To condition in action.',
+      riv: 'https://static.rive.app/rivs/listen_to.riv ',
+      stateMachines: "State Machine 1",
+      artboard: "Artboard 1",
+      layout: true,
+      links: {},
+      source: [
+        "https://rive.app/community/files/28817-listener-pointer-events/"
+      ]
+    },
     cachingARiveFile: {
       title: 'Caching a Rive File',
       description: 'Load the .riv into memory once, use it multiple times.',
@@ -385,7 +397,7 @@ export const Demos = ({
     const rive = window.rive;
 
     examples.forEach((example) => {
-      const { riv, stateMachines = "State Machine 1", artboard } = examplesData[example];
+      const { riv, stateMachines = "State Machine 1", artboard, layout } = examplesData[example];
       if (riv) {
         const canvasId = `rive-canvas-${example}`;
         const canvas = document.getElementById(canvasId);
@@ -398,8 +410,8 @@ export const Demos = ({
             artboard,
             autoBind: true,
             autoplay: true,
-            Layout: new rive.Layout({
-              fit: rive.Fit.Layout,
+            layout: new rive.Layout({
+              fit: layout ? rive.Fit.Layout : rive.Fit.Contain,
             }),
             onLoad: () => {
               r.resizeDrawingSurfaceToCanvas();

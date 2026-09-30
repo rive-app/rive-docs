@@ -156,59 +156,37 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
 
                 </CodeGroup>
 
-                The above example uses the default artboard and state machine for the file, binding the default view model instance to the state machine if available. This is the default behavior when initializing a `Rive` object without specifying an artboard or state machine.
+                The above example uses the default artboard and state machine for the file, binding authored main and global view model defaults to the state machine when available. This is the default behavior when initializing a `Rive` object without specifying an artboard or state machine.
 
                 Alternatively, you can also specify which artboard and state machine to use. Documentation and examples for manually selecting which artboard to use is available in the [Artboards](/runtimes/apple/artboards#choosing-an-artboard) documentation. Documentation and examples for manually selecting which state machine to use is available in the [State Machines](/runtimes/apple/state-machines#getting-a-state-machine) documentation.
             </Step>
             <Step title="Data Binding">
                 [Data Binding](/runtimes/apple/data-binding) is a feature that allows you to dynamically update your Rive graphics from code. This includes things such as strings, numbers, booleans, and more.
 
-                By default, creating a `Rive` object will automatically data bind to the default view model instance for its artboard. However, there are three options for data binding:
+                `Rive(file:)` creates a state machine and binds authored main and global defaults when available. For property access, create and retain the instances yourself:
 
-                <CodeGroup>
-                    ```swift Auto Bind
-                    let file = try await File(...)
-                    // Automaically find the (editor) default view model instance to bind to the Rive object's artboard.
-                    // Below, the default artboard and state machine will be used, and the default view model instance will be bound to the state machine.
-                    // This is the default value, if you do not pass in a dataBind argument.
-                    let rive = try await Rive(file: file, dataBind: .auto)
+                ```swift
+                let artboard = try await file.createArtboard()
+                let viewModelInstance = try await file.createViewModelInstance(
+                    .viewModelDefault(from: .artboardDefault(artboard))
+                )
+                let stateMachine = try await artboard.createStateMachine(binding: viewModelInstance)
+                let rive = try await Rive(file: file, artboard: artboard, stateMachine: stateMachine)
+                ```
 
-                    // You can then access the bound view model instance via the `viewModelInstance` property.
-                    let viewModelInstance = rive.viewModelInstance
-                    ```
-
-                    ```swift Bind Instance
-                    let file = try await File(...)
-                    let viewModelInstance = try await file.createViewModelInstance(...)
-                    // Bind the supplied view model instance to the Rive object's artboard.
-                    // Below, the default artboard and state machine will be used, and the supplied view model instance will be bound to the state machine.
-                    let rive = try await Rive(file: file, dataBind: .instance(viewModelInstance))
-                    ```
-
-                    ```swift None
-                    let file = try await File(...)
-                    let artboard = try await file.createArtboard()
-                    let stateMachine = try await artboard.createStateMachine()
-                    let viewModelInstance = try await file.createViewModelInstance(...)
-                    // If you have manually bound a view model instance to a state machine, you can opt-out of data binding.
-                    stateMachine.bindViewModelInstance(viewModelInstance)
-                    let rive = try await Rive(file: file, dataBind: .none)
-                    ```
-                </CodeGroup>
+                Store `viewModelInstance` in your app's model. The state machine has no instance getters, and the deprecated `rive.viewModelInstance` getter returns `nil` with these initializers. See [Global View Models](/runtimes/apple/data-binding#global-view-models) for shared bindings and [setup recipe](/runtimes/apple/migrating-from-legacy#setting-up-instances-for-your-app) for creating and retaining instances in your app.
 
                 Once data binding is set up, you can update and listen to data binding properties at runtime.
 
                 <CodeGroup>
                     ```swift Set Values
-                    let rive = try await Rive(...)
-                    let viewModelInstance = rive.viewModelInstance
+                    // Use the viewModelInstance retained during setup.
                     let stringProperty = StringProperty(path: "path/to/string")
                     viewModelInstance.setValue(of: stringProperty, to: "Hello, Rive")
                     ```
 
                     ```swift Get Values
-                    let rive = try await Rive(...)
-                    let viewModelInstance = rive.viewModelInstance
+                    // Use the viewModelInstance retained during setup.
                     let stringProperty = StringProperty(path: "path/to/string")
 
                     // Get the current value of the property

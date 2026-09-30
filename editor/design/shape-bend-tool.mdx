@@ -1,0 +1,78 @@
+---
+title: "Shape Bend Tool"
+description: "Bend and reshape paths by dragging their edges."
+---
+
+
+import { VideoEmbed } from '/snippets/video-embed.jsx'
+
+Use the **Shape Bend Tool** to reshape paths and Brush strokes by dragging directly on their geometry. Drag a shape’s edge to bend it, or on a Brush Shape, drag the center line to reshape the stroke and its edges to adjust its width. Corner points act as anchors while the geometry between them bends.
+
+## Bending shapes
+
+Select the **Shape Bend Tool**, then drag an edge to bend the path.
+
+As you drag, nearby corner points anchor the bend while the path between them reshapes. Use **Corner Threshold** and **Falloff** to control which points act as corners and how far the bend extends.
+
+<VideoEmbed src="https://static.rive.app/video/shape-bend.mp4" />
+
+### Brush shapes
+
+The Shape Bend Tool can also edit the spine and width of Brush Shapes.
+
+- Drag the center line to reshape the stroke.
+- Drag either edge to change the width of the stroke.
+
+<VideoEmbed src="https://static.rive.app/video/brush-stroke-shape-bend.mp4" />
+
+<Tip>
+  While using the **Brush Tool**, hold <kbd>⌘</kbd> (or <kbd>Ctrl</kbd> on Windows) to temporarily switch to the **Shape Bend Tool**.
+</Tip>
+
+## Bend Options
+
+### Corner Threshold
+
+**Corner Threshold** controls how sharp a point must be to act as a corner while bending. Corners remain fixed while the path between them bends.
+
+Lower values identify more points as corners.
+
+<VideoEmbed src="https://static.rive.app/video/shape-bend-corner-threshold.mp4" />
+
+### Falloff
+
+**Falloff** controls how far a bend spreads along the path, as a percentage of the outline.
+
+Higher values allow the bend to affect more of the path. Corners can stop the bend before it reaches the full falloff distance.
+
+<VideoEmbed src="https://static.rive.app/video/shape-tool-falloff.mp4" />
+
+### Smooth Joins
+
+Enable **Smooth Joins** to keep the path smooth where the bent section meets the rest of the path.
+
+Disable it to allow the bend to create a sharp point at the join.
+
+## View options
+
+Use the view options to inspect the geometry and curvature of the path while working with the Shape Bend Tool.
+
+### Show Points
+
+Enable **Show Points** to display the points along the path.
+
+<VideoEmbed src="https://static.rive.app/video/shape-bend-show-points.mp4" />
+
+### Show Curvature
+
+Enable **Show Curvature** to display a comb along the path that visualizes its curvature. Longer lines indicate tighter curves, while sudden changes in the comb indicate abrupt changes in curvature.
+
+Use **Comb Scale** to adjust the size of the curvature visualization.
+
+Enable **Comb Outline** to connect the ends of the comb lines, making changes in curvature easier to see.
+
+<VideoEmbed src="https://static.rive.app/video/shape-bend-show-curvature.mp4" />
+
+### Show Selection
+
+Enable **Show Selection** to display the selection outline and bounding box while bending.

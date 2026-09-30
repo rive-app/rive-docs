@@ -5,6 +5,7 @@ description: "Respond to interactions, property changes, and events in your Rive
 
 import { YouTube } from '/snippets/youtube.mdx'
 import { VideoEmbed } from '/snippets/video-embed.jsx'
+import { Demos } from '/snippets/demos.jsx'
 
 Listeners let you respond to interactions, property changes, and other events in your Rive file. When a listener is triggered, it can perform actions such as updating property values, firing Rive events, or running other logic.
 
@@ -62,6 +63,8 @@ When **Opaque Target** is enabled, pointer events stop at the target. When it's 
 
 **Listen to** is the condition the listener watches for. When the condition is met, the listener is triggered.
 
+<Demos examples={["listenerExamples"]} />
+
 | Listen To                   | Description                                           |
 | --------------------------- | ----------------------------------------------------- |
 | **View Model Property Change*** | Fires whenever the selected view model property changes.** |
@@ -71,6 +74,7 @@ When **Opaque Target** is enabled, pointer events stop at the target. When it's 
 | **Pointer Move**                | Fires repeatedly while the pointer moves over the target area.    |
 | **Pointer Down**                | Fires when the pointer is pressed down on the target. |
 | **Pointer Up**                  | Fires when the pointer is released over the target.   |
+| **Pointer Drag**                  | Fires repeatedly as the pointer moves after being pressed down on the target, until the pointer is released.  |
 | **Click**                       | Fires when the target is clicked or tapped.           |
 
 

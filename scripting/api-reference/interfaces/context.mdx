@@ -262,6 +262,27 @@ end
 ```
 
 
+### `font`
+
+{/* function font(self, name: string): Font? */}
+<div class="signature">
+```lua
+font(name: string) -> Font?
+```
+</div>
+
+Returns a [Font](/scripting/api-reference/text/font) asset by name, or nil if not found.
+```lua highlight={2}
+function init(self: Label, context: Context): boolean
+    local font = context:font('Inter')
+    if font then
+        self.text:append('Hello', { font = font, size = 24, paint = self.paint })
+    end
+    return true
+end
+```
+
+
 ### `audio`
 
 {/* function audio(self, name: string): AudioSource? */}

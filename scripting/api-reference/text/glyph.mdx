@@ -1,0 +1,61 @@
+---
+title: Glyph
+---
+
+One glyph placed by a [Text](/scripting/api-reference/text/text) layout, in the text's local space.
+
+
+## Fields
+
+### `id`
+
+Glyph id within `font`.
+
+
+### `font`
+
+### `size`
+
+### `x`
+
+Pen position on the baseline, the shaper's offset included.
+
+
+### `y`
+
+### `advance`
+
+### `textIndex`
+
+Index of the first codepoint this glyph draws, 1 based.
+
+
+### `direction`
+
+Direction of the run the glyph belongs to.
+
+
+### `isColor`
+
+Whether this is a color glyph (emoji) drawn as layers rather than one outline.
+
+
+### `transform`
+
+Places the 1 point outline from `Font:glyphPath` at this glyph's size and position.
+
+
+## Methods
+
+### `path`
+
+{/* function path(self): Path */}
+<div class="signature">
+```lua
+path() -> Path
+```
+</div>
+
+The outline placed by `transform`, as a new [Path](/scripting/api-reference/path/path).
+
+

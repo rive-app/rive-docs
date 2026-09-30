@@ -4,6 +4,7 @@ description: "No matter the type of vector you create, you can edit the vertices
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
+import { VideoEmbed } from '/snippets/video-embed.jsx'
 
 ## Edit vertices mode
 
@@ -24,47 +25,57 @@ After activating Edit Vertices mode, you can select any vertex, reposition it, a
 Each path in Edit Vertices mode has a set of path options at the top of the Inspector.
 
 
-**Done Editing Button**
+#### Done Editing Button
 
 
 The Done Editing button can be used to exit Edit Vertices Mode.
 
 ![Done Editing button at the top of the path options in the Inspector](/images/DoneEdit.png)
 
-**Open Path**
+#### Open Path
 
 The Open Path button will disconnect the last vertex from the first vertex.
 
 ![Open Path button in the path options at the top of the Inspector, right below the Done Editing button](/images/OpenPath.png)
 
-**Reverse Direction**
+#### Reverse Direction
 
 <YouTube id="zp2NNsSTfO8" />
 
 The Reverse Direction button can be used to reverse the direction of the path. Depending on the Fill-Rule, this can eliminate holes in our shape by changing the mathematical value of the selected path.
 
-**Convert Radial Corners**
+#### Convert Radial Corners
 
 Straight vertices with a corner radius will deform when the scale transform is applied to the shape or path layer. You can convert radial corners from a procedural property to a defined set of vertices. This process will eliminate deformation of the corner.
 
 
 ![Convert Radial Corners button in the path options converts a single rounded corner into two vertices on the stage](/images/convert.gif)
 
+#### Simplify
+
+Use **Simplify** to reduce the number of vertices in a path while preserving its overall shape.
+
+<VideoEmbed src="https://static.rive.app/video/simplify-path.mp4" />
+
+- **Tolerance** controls how far the simplified path can deviate from the original path. Higher values allow greater changes and can remove more vertices.
+- **Corner Angle** controls which angles are preserved as corners.
+- **Straight Lines** removes curves from the simplified path, connecting the remaining vertices with straight lines.
+
+The preview shows the number of vertices before and after simplification. Select **Simplify Path** to apply the changes.
 
 ## Bezier handles
 
-
-**‌Straight**
+### Straight
 
 ‌The default handles are set to straight, which creates straight edges between vertices.
 
 ![Straight handle type selected in the bezier handle options](/images/Straight.png)
 
-**Corner Radius**
+### Corner Radius
 
 The Corner Radius property allows you to round straight corners. This property only appears on vertices that are set to straight.
 
-**‌Mirrored**
+### Mirrored
 
 
 ‌Mirrored is the default handle when you create a vertex by clicking and dragging. These handles always keep the same rotation and length.
@@ -72,13 +83,13 @@ The Corner Radius property allows you to round straight corners. This property o
 ![Mirrored bezier handles on a vertex mirroring each other as they are dragged](/images/mirriored.gif)
 
 
-**‌Detached‌**
+### Detached‌
 
 Detached handles allow each handle to have its own rotation and length.
 
 ![Detached bezier handles on a vertex, each being dragged independently](/images/detached.gif)
 
-**‌Asymmetric**
+### Asymmetric
 
 
 ‌Asymmetric handles share the same rotation but can have lengths independently of each other.

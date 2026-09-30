@@ -1,0 +1,193 @@
+---
+title: Text
+---
+
+Shapes and lays out styled runs of text with the runtime's shaper, so
+scripts get real line breaking and bidirectional ordering. Append runs,
+set the box, then draw it in one call or walk its lines and glyphs to draw
+them yourself. Codepoint indices are 1 based like `utf8.offset`.
+```lua highlight={8,9,10,11,15}
+type Label = {
+  text: Text,
+  paint: Paint,
+}
+
+function init(self: Label, context: Context): boolean
+  local font = context:font('IBM Plex Sans Arabic')
+  self.text:append('مرحبا بالعالم', { font = font, size = 32, paint = self.paint })
+  self.text.sizing = 'fixed'
+  self.text.maxWidth = 240
+  self.text.align = 'start'
+  return true
+end
+
+function draw(self: Label, renderer: Renderer)
+  self.text:draw(renderer)
+end
+```
+
+
+## Fields
+
+### `sizing`
+
+### `overflow`
+
+### `align`
+
+### `wrap`
+
+### `wordBreak`
+
+### `origin`
+
+### `direction`
+
+### `maxWidth`
+
+Wrap width when sizing is not 'autoWidth'.
+
+
+### `maxHeight`
+
+Height the text overflows at when sizing is 'fixed'.
+
+
+### `paragraphSpacing`
+
+Space between paragraphs separated by a newline.
+
+
+### `length`
+
+Number of codepoints appended.
+
+
+### `isEmpty`
+
+### `lineCount`
+
+## Constructors
+
+### `new`
+
+{/* new: () -> Text */}
+<div class="signature">
+```lua
+new() -> Text
+```
+</div>
+
+Creates an empty text.
+
+
+## Methods
+
+### `append`
+
+{/* function append(self, text: string, style: TextRunStyle): () */}
+<div class="signature">
+```lua
+append(text: string, style: TextRunStyle) -> ()
+```
+</div>
+
+Appends a styled run. Runs join into one string; a newline starts a paragraph.
+
+
+### `clear`
+
+{/* function clear(self): () */}
+<div class="signature">
+```lua
+clear() -> ()
+```
+</div>
+
+Removes every run.
+
+
+### `draw`
+
+{/* function draw(self, renderer: Renderer, paint: Paint?): () */}
+<div class="signature">
+```lua
+draw(renderer: Renderer, paint: Paint?) -> ()
+```
+</div>
+
+Draws every run with its own paint, or all of them with the given paint.
+
+
+### `bounds`
+
+{/* function bounds(self): (Vector, Vector) */}
+<div class="signature">
+```lua
+bounds() -> (Vector, Vector)
+```
+</div>
+
+Minimum and maximum corner of the laid out text.
+
+
+### `line`
+
+{/* function line(self, index: number): TextLine */}
+<div class="signature">
+```lua
+line(index: number) -> TextLine
+```
+</div>
+
+The line at a 1 based index, top to bottom.
+
+
+### `lines`
+
+{/* function lines(self): { TextLine } */}
+<div class="signature">
+```lua
+lines() -> {TextLine}
+```
+</div>
+
+Every line, top to bottom.
+
+
+### `hitTest`
+
+{/* function hitTest(self, position: Vector): number */}
+<div class="signature">
+```lua
+hitTest(position: Vector) -> number
+```
+</div>
+
+The codepoint index nearest a point in the text's local space.
+
+
+### `caret`
+
+{/* function caret(self, index: number): (number, number, number) */}
+<div class="signature">
+```lua
+caret(index: number) -> (number, number, number)
+```
+</div>
+
+The caret before the codepoint at index: its x, top and bottom. Nil when the text is empty.
+
+
+### `selectionRects`
+
+{/* function selectionRects(self, from: number, to: number): { { min: Vector, max: Vector } } */}
+<div class="signature">
+```lua
+selectionRects(from: number, to: number) -> {{min: Vector, max: Vector}}
+```
+</div>
+
+Rectangles covering the codepoints from one index to another, one per glyph.
+
+
