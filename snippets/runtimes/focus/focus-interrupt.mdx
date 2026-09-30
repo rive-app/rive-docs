@@ -1,0 +1,5 @@
+## Allowing Rive to take browser focus
+
+A graphic can move focus on its own. For example, a [state action](/editor/state-machine/states#actions) can focus a node when a state starts. By default, this does not move browser focus: the node can be focused in the graphic, but if the user's browser focus is somewhere else on the page, it stays there.
+
+Rive can pull browser focus to the canvas from anywhere on the page as an opt-in behavior by setting `focusOptions.allowFocusInterrupt` to `true`.

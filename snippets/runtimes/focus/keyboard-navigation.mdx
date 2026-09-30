@@ -1,0 +1,26 @@
+## Navigating with the keyboard
+
+| Key | Behavior |
+| --- | --- |
+| <kbd>Tab</kbd> | Moves focus to the next focus node. |
+| <kbd>Shift</kbd> + <kbd>Tab</kbd> | Moves focus to the previous focus node. |
+| <kbd>←</kbd> / <kbd>→</kbd> / <kbd>↑</kbd> / <kbd>↓</kbd> | Moves focus to the nearest focus node in that direction. |
+
+When the Rive graphic handles a key press, the browser's default action for that key is suppressed. Otherwise, the browser handles the key as usual. See <a href={`/runtimes/${runtime}/text-and-key-input`}>Text and key input</a> for how other keys and typed text reach the graphic.
+
+### Entering and leaving the graphic
+
+From the page's point of view, the `<canvas>` is one tab stop. Inside it, the graphic has its own focus order:
+
+- **Tabbing in** - When a user presses <kbd>Tab</kbd> onto the canvas from an earlier element on the page, focus lands on the first focus node. Pressing <kbd>Shift</kbd> + <kbd>Tab</kbd> onto the canvas from a later element lands on the last focus node. If the graphic already has a focused node, focus stays on that node.
+- **Clicking in** - Clicking the canvas gives it browser focus. The runtime does not move focus to a node on click, though the graphic's own listeners may. The next <kbd>Tab</kbd> enters the graphic.
+- **Tabbing out** - Pressing <kbd>Tab</kbd> on the last focus node, or <kbd>Shift</kbd> + <kbd>Tab</kbd> on the first, releases focus to the next or previous element on the page. A graphic's focus nodes can instead be set to wrap around or stop at the edges, in which case focus stays inside the graphic.
+- **Leaving** - When browser focus leaves the canvas for anywhere else on the page (i.e. clicking another DOM element), the runtime clears focus inside the graphic. Switching browser tabs or windows does not clear it.
+
+### Directional focus
+
+Once a focus node has focus, the arrow keys move focus to the nearest focus node in the pressed direction, based on where the nodes are positioned on screen. If there is no focus node in that direction, focus stays where it is.
+
+- While a focus node has focus, the arrow keys do not scroll the page.
+- Arrow keys pressed with <kbd>Alt</kbd>, <kbd>Ctrl</kbd>, or <kbd>Cmd</kbd> are left to the browser, so shortcuts such as back and forward keep working.
+- If the focused node handles the key itself, for example with a keyboard listener, the key goes to that node and focus does not move. This applies to <kbd>Tab</kbd> as well.
