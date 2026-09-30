@@ -54,7 +54,7 @@ export const Demos = ({
       stateMachines: "State Machine 1",
       artboard: "Artboard 1",
       layout: true,
-      layoutScaleFactor: 1,
+      layoutScaleFactor: .8,
       links: {},
       source: [
         "https://rive.app/community/files/28817-listener-pointer-events/"
