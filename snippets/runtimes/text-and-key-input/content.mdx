@@ -1,0 +1,81 @@
+<Note>
+  Text input is new to the {runtimeName} runtime in <code>{version}</code>, and we're actively refining it to feel as close to native text editing as possible across devices. In this first release, some mobile editing features, such as copy, cut, autocorrect, and auto-capitalization may not be available yet to end users. See [On-screen keyboards](#on-screen-keyboards) for details.
+</Note>
+
+## Overview
+
+The {runtimeName} runtime delivers two kinds of keyboard input to a Rive graphic:
+
+- **Key input** - Key presses and releases, delivered to keyboard listeners in the graphic. For example, <kbd>Enter</kbd> to press a button or <kbd>Escape</kbd> to close a menu.
+- **Text input** - Characters that are typed, pasted, or composed with an input method editor (IME), inserted into a text input in the graphic.
+
+Both build on <a href={`/runtimes/${runtime}/focus`}>focus</a>: when the playing state machine has focus nodes, the runtime wires up key and text input along with keyboard navigation. Input goes to the focused node first, then bubbles up through its ancestors until a node handles it.
+
+Two things must be true for input to reach the graphic:
+
+- **A node in the graphic has focus.** Keyboard listeners and text inputs only receive input while a focus node has focus. The runtime does not listen for keys on `document` or `window`.
+- **Browser focus is in the graphic.** The runtime only handles keyboard events while browser focus is on the `<canvas>`, the <a href={`/runtimes/${runtime}/semantics`}>semantics</a> overlay, or the input capturing text described below.
+
+## Key input
+
+When a key is pressed while a node has focus, the runtime sends the key to the graphic along with any held modifiers (<kbd>Shift</kbd>, <kbd>Ctrl</kbd>, <kbd>Alt</kbd>, <kbd>Cmd</kbd>). Key releases and auto-repeat press signals are sent too.
+
+- **Browser defaults** - When the graphic handles a key, the runtime calls `preventDefault()` on the event, so the browser doesn't also act on it. Keys the graphic doesn't handle keep their normal browser behavior.
+- **IME composition** - Keys pressed while an IME is composing belong to the IME and aren't sent to the graphic. The composed text is inserted when the IME commits it.
+- **<kbd>Tab</kbd> and arrow keys** - A keyboard listener on the focused node takes priority over focus traversal. If the graphic handles <kbd>Tab</kbd>, focus doesn't move, and keyboard users can't leave the graphic with <kbd>Tab</kbd>. See [Keyboard traps](#keyboard-traps).
+
+## Text input
+
+Text inputs in a Rive graphic accept typing, pasting, IME composition, and on-screen keyboards, but some native editing features aren't available yet, particularly on mobile. See [On-screen keyboards](#on-screen-keyboards) for the current limitations.
+
+To receive text, the runtime adds a [hidden `<input>`](#the-hidden-input) next to the canvas that receives text from the browser and passes it to the graphic.
+
+While a text input has focus:
+
+- **Typing** - Typed characters and IME compositions are inserted into the text input.
+- **Pasting** - Pasting inserts plain text. Line breaks are kept for multi-line text inputs and removed for single-line ones.
+- **Copying** - On a physical keyboard, <kbd>Ctrl</kbd> + <kbd>C</kbd> (<kbd>Cmd</kbd> + <kbd>C</kbd> on macOS) copies the selected text. Obscured text inputs, such as password fields, copy nothing.
+- **Editing keys** - <kbd>Space</kbd>, the arrow keys, <kbd>Backspace</kbd>, <kbd>Delete</kbd>, <kbd>Home</kbd>, <kbd>End</kbd>, and <kbd>Enter</kbd> don't scroll the page or submit a surrounding form. Editing keys pressed with <kbd>Ctrl</kbd>, <kbd>Alt</kbd>, or <kbd>Cmd</kbd> keep their browser behavior unless the graphic handles them.
+
+### The hidden input
+
+The hidden input exists whenever the runtime wires up keyboard input, even if the graphic has no text inputs, and is removed when you call `cleanup()` or `removeRiveListeners()`. It is:
+
+- An `<input type="text">` inserted as a sibling to the canvas.
+- Outside the page's tab order (`tabindex="-1"`) and ignored by assistive technologies (`aria-hidden="true"`) unless [semantics](#text-input-with-semantics) is enabled.
+- Invisible and absolutely positioned over the canvas, with `pointer-events: none` so it can't be discovered by pointer.
+- Always empty. Text that reaches the hidden input is sent to the state machine and cleared right away, so the text, caret, and selection live in the Rive graphic and the input's `value` is empty.
+
+### On-screen keyboards
+
+On touch devices, the on-screen keyboard opens when the user taps a text input in the graphic. The runtime focuses the hidden input while the tap is still being handled, which is what mobile browsers require before they show a keyboard.
+
+If a text input gains focus without a tap, for example from a state action, mobile browsers may not open the on-screen keyboard.
+
+<Note>
+Because the hidden input stays empty, mobile browsers don't offer their usual text editing tools, such as copy and cut, for Rive text inputs. Other conveniences the on-screen keyboard provides for native text fields may also be missing.
+</Note>
+
+### Text input with semantics
+
+When <a href={`/runtimes/${runtime}/semantics`}>semantics</a> is enabled, the hidden input stands in for the focused text field in the accessibility tree, taking its label, hint, and states. This only happens when the focused node's semantic role is text field, or the node has no semantics.
+
+## Integrating with your page
+
+### Forms, DOM queries, and CSS
+
+The hidden input is a real `<input>` in your page. Also note that if your Rive graphic has multiple text inputs, only one `<input>` is present in the DOM to capture text. Its element attributes are decorated accordingly while traversing the focus tree to distinguish its purpose for screen readers.
+
+### Positioning
+
+The hidden input is absolutely positioned over the canvas, and mobile browsers scroll it into view when the on-screen keyboard opens. As with the [semantics overlay](/runtimes/web/semantics#semantic-overlay-positioning), give the element wrapping the canvas `position: relative` so the hidden input and the canvas resolve their positions against the same ancestor.
+
+{runtime === "react" && (
+  <p>
+    In React, the element wrapping the canvas is the <code>{"<div>"}</code> that <code>RiveComponent</code> renders. Pass <code>{`style={{ position: "relative" }}`}</code> to <code>RiveComponent</code>. If you pass a <code>className</code> instead, <code>RiveComponent</code> drops its default styles, so include <code>position: relative</code> in that class.
+  </p>
+)}
+
+### Keyboard traps
+
+If a focus node in the graphic contains a <kbd>Tab</kbd> key input listener, or its focus nodes are set to wrap around or stop at the edges, keyboard users need another way to leave it, such as adding an <kbd>Escape</kbd> key input listener that clears focus. Your app can also <a href={`/runtimes/${runtime}/focus#clearing-focus`}>clear focus</a> with `rive.clearFocus()`. Once focus is cleared, the next <kbd>Tab</kbd> leaves the canvas.

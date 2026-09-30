@@ -1,0 +1,5 @@
+## Clearing focus
+
+Call `clearFocus()` on the `Rive` instance to remove focus from the focus nodes in the graphic, for example when you dismiss or hide it.
+
+This clears focus inside the graphic only. It does not move browser focus off the `<canvas>`, so if you want focus to land somewhere specific, focus that element yourself. Once focus is cleared, whether by `clearFocus()` or by the graphic itself, the next <kbd>Tab</kbd> leaves the canvas instead of re-entering the graphic.

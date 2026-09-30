@@ -24,6 +24,8 @@ The `useRive` hook is the recommended way to hook into the Rive runtime for full
 
 Most of these parameters come from the underlying web runtime configuration items for the Rive object, with the exception of supplying a `canvas` element. See [Rive Parameters](/runtimes/web/rive-parameters) for all the parameters you can supply in this object.
 
+For keyboard focus, pass `tabIndex` and `focusOptions` here as you would to the `Rive` constructor. See [Focus](/runtimes/react/focus) and [Text and key input](/runtimes/react/text-and-key-input).
+
 The following parameters are specific to `useRive`, or behave differently in React than they do in the web runtime:
 
 - `enableGPUCanvas` - *(optional, experimental)* Render GPU Canvas content — 3D and shaders — on this instance. `@rive-app/react-webgl2` only. Turning it on flips the `useOffscreenRenderer` default to `false`, since the two cannot be combined. False by default. See [GPU Canvas](/runtimes/react/gpu-canvas).
