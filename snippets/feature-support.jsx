@@ -357,11 +357,11 @@ export const FeatureSupportGroup = ({
             title: "Vector Feathering",
             runtimes: {
                 webWebGL2: { supported: true, version: "2.26.0+" },
-                webCanvas: { supported: false, description: "Not supported" },
+                webCanvas: { supported: false, na: true },
                 webCanvasLite: { supported: false, na: true },
                 webWebGL: { supported: false, description: "Not supported" },
                 reactWebGL2: { supported: true, version: "4.18.0+" },
-                reactCanvas: { supported: false, description: "Not supported" },
+                reactCanvas: { supported: false, na: true },
                 reactCanvasLite: { supported: false, na: true },
                 reactWebGL: { supported: false, description: "Not supported" },
                 reactNative: { supported: true, version: "0.1.4+" },
