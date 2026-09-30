@@ -75,6 +75,7 @@ When **Opaque Target** is enabled, pointer events stop at the target. When it's 
 | **Click**                       | Fires when the target is clicked or tapped.           |
 | **Focus**                       | Fires when the target receives focus.                 |
 | **Blur**                        | Fires when the target loses focus.                    |
+| [Keyboard](#keyboard)           | Fires when a key is pressed or released while the target has focus. |
 | **Gamepad**                     | Fires on gamepad input, such as a button press or stick movement. |
 | **Text Input**                  | Fires when text is entered while the target has focus. |
 | **Semantic Action**             | Fires when an assistive technology, such as a screen reader, performs an action on the target, like a tap, increase, or decrease. See [Semantics](/editor/accessibility/semantics#actions). |
@@ -94,6 +95,12 @@ We strongly recommend using [Data Binding](/editor/data-binding/overview) to com
 ### Pointer Exit
 
 **Pointer Exit** only fires while Rive can read the pointer position. If the target touches the edge of the canvas or container, moving the pointer out of the container may not trigger **Pointer Exit** because the pointer has left the area Rive is tracking.
+
+### Keyboard
+
+To react to keys, add a **Keyboard** listener and choose **On Key Down** or **On Key Up**. Keys go to the element that has focus.
+
+To try keyboard input in the editor, press **Option+Space** to play with keyboard capture on, or click **Toggle Keyboard Capture** in the playback header. This lets keys reach your file instead of triggering editor shortcuts.
 
 ## Listener actions
 
