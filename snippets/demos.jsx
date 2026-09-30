@@ -8,7 +8,7 @@ export const Demos = ({
   // where in the list do you want to put the custom children
   childrenIndex = 0,
   // Override the title and description, say "Learn by Example" instead
-  learnByExample = false
+  learnByExample = false,
 }) => {
   const examplesData = {
     accessibilityReducedMotion: {
@@ -54,7 +54,7 @@ export const Demos = ({
       stateMachines: "State Machine 1",
       artboard: "Artboard 1",
       layout: true,
-      layoutScaleFactor: .75,
+      layoutScaleFactor: 1,
       links: {},
       source: [
         "https://rive.app/community/files/28817-listener-pointer-events/"
