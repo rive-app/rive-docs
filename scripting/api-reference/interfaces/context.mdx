@@ -372,6 +372,23 @@ layout scripts that don't know their size at init. Call
 pointing to `resize()`. Check `canvas.width > 0` to gate work.
 
 
+### `gpuTarget`
+
+{/* function gpuTarget(self): GPUTarget? */}
+<div class="signature">
+```lua
+gpuTarget() -> GPUTarget?
+```
+</div>
+
+Rive's render target: passes into it land under all of Rive's
+content. It cannot be sampled and starts each frame undefined, so the
+first pass must clear or cover it. With a sampleCount of 1 it can
+resolve a script's MSAA texture. On a frame the host hides it, `view`
+is nil and passes into it drop. Nil where the host can never expose
+one; keep a `gpuCanvas` and draw its image instead.
+
+
 ### `features`
 
 {/* function features(self): GPUFeatures */}
