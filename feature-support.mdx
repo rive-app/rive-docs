@@ -38,7 +38,9 @@ When a feature requires API changes, migration notes will be included below.
 
 <FeatureSupportGroup runtime="reactNative" />
 <FeatureSupportGroup runtime="flutter" />
-<FeatureSupportGroup runtime="apple" />
+<FeatureSupportGroup runtime="apple">
+    Global View Models and Data Binding Fonts require the Swift Concurrency API in `6.28.0+`. See [Updating existing concurrency runtime code](/runtimes/apple/migrating-from-legacy#updating-existing-concurrency-runtime-code) for migration notes.
+</FeatureSupportGroup>
 <FeatureSupportGroup runtime="android" />
 <FeatureSupportGroup runtime="cpp" />
 <FeatureSupportGroup runtime="unity" />
@@ -95,8 +97,12 @@ Differences may reflect:
 <FeatureSupportGroup feature="gpuCanvas">
   GPU Canvas enables 3D and shader content. See each runtime section for more details.
 </FeatureSupportGroup>
-<FeatureSupportGroup feature="globalViewModels" />
-<FeatureSupportGroup feature="dataBindingFonts" />
+<FeatureSupportGroup feature="globalViewModels">
+    On Apple, this feature requires the Swift Concurrency API. See [Global View Models](/runtimes/apple/data-binding#global-view-models).
+</FeatureSupportGroup>
+<FeatureSupportGroup feature="dataBindingFonts">
+    On Apple, this feature requires the Swift Concurrency API. See [Data Binding](/runtimes/apple/data-binding).
+</FeatureSupportGroup>
 <FeatureSupportGroup feature="semantics">
   Accessibility voice over support with [Semantics](/editor/accessibility/semantics).
 </FeatureSupportGroup>
