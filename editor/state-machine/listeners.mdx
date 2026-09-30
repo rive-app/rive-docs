@@ -67,25 +67,29 @@ When **Opaque Target** is enabled, pointer events stop at the target. When it's 
 
 | Listen To                   | Description                                           |
 | --------------------------- | ----------------------------------------------------- |
-| **View Model Property Change*** | Fires whenever the selected view model property changes.** |
-| **Rive Event***                 | Fires when a Rive event is fired.                     |
+| [View Model Property Change](#view-model-property-change)* | Fires whenever the selected view model property changes. |
+| [Rive Event](#rive-event)*                 | Fires when a Rive event is fired.                     |
 | **Pointer Enter**               | Fires when the pointer enters the target area.        |
-| **Pointer Exit**                | Fires when the pointer leaves the target area.        |
+| [Pointer Exit](#pointer-exit)                | Fires when the pointer leaves the target area.        |
 | **Pointer Move**                | Fires repeatedly while the pointer moves over the target area.    |
 | **Pointer Down**                | Fires when the pointer is pressed down on the target. |
 | **Pointer Up**                  | Fires when the pointer is released over the target.   |
 | **Pointer Drag**                  | Fires repeatedly as the pointer moves after being pressed down on the target, until the pointer is released.  |
 | **Click**                       | Fires when the target is clicked or tapped.           |
 
+_* Available when the listener target is an artboard or nested component._
 
-_* Available when the listener target is an artboard or nested component._ <br/>
-_** View Model Property Change listeners fire whenever the selected property changes. You can’t specify an expected value or direction of change. For example, a Boolean listener fires when the value changes from true to false or from false to true._<br/>
+### View Model Property Change
 
-<Note> **Pointer Exit** only fires while Rive can read the pointer position. If the target touches the edge of the canvas or container, moving the pointer out of the container may not trigger **Pointer Exit** because the pointer has left the area Rive is tracking. </Note>
+View Model Property Change listeners fire whenever the selected property changes. You can’t specify an expected value or direction of change. For example, a Boolean listener fires when the value changes from true to false or from false to true.
 
-<Info>
-  We strongly recommend using [Data Binding](/editor/data-binding/overview) to communicate between artboards instead of relying on nested Rive events.
-</Info>
+### Rive Event
+
+We strongly recommend using [Data Binding](/editor/data-binding/overview) to communicate between artboards instead of relying on nested Rive events.
+
+### Pointer Exit
+
+**Pointer Exit** only fires while Rive can read the pointer position. If the target touches the edge of the canvas or container, moving the pointer out of the container may not trigger **Pointer Exit** because the pointer has left the area Rive is tracking.
 
 ## Listener Actions
 
