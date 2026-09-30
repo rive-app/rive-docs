@@ -54,6 +54,7 @@ export const Demos = ({
       stateMachines: "State Machine 1",
       artboard: "Artboard 1",
       layout: true,
+      layoutScaleFactor: .75,
       links: {},
       source: [
         "https://rive.app/community/files/28817-listener-pointer-events/"
@@ -397,7 +398,7 @@ export const Demos = ({
     const rive = window.rive;
 
     examples.forEach((example) => {
-      const { riv, stateMachines = "State Machine 1", artboard, layout } = examplesData[example];
+      const { riv, stateMachines = "State Machine 1", artboard, layout, layoutScaleFactor } = examplesData[example];
       if (riv) {
         const canvasId = `rive-canvas-${example}`;
         const canvas = document.getElementById(canvasId);
@@ -412,6 +413,7 @@ export const Demos = ({
             autoplay: true,
             layout: new rive.Layout({
               fit: layout ? rive.Fit.Layout : rive.Fit.Contain,
+              ...(layoutScaleFactor !== undefined && { layoutScaleFactor }),
             }),
             onLoad: () => {
               r.resizeDrawingSurfaceToCanvas();
