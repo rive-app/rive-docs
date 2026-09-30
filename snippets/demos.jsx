@@ -17,7 +17,7 @@ export const Demos = ({
       riv: 'https://static.rive.app/rivs/accessibility_reduced_motion.riv',
       stateMachines: "State Machine 1",
       links: {
-        editor: "https://rive.app/community/files/28077-53052-accessibility-reduced-motion"
+        editor: "https://rive.app/community/files/28077-accessibility-reduced-motion"
       },
     },
     randomizeExit: {
@@ -26,7 +26,7 @@ export const Demos = ({
       riv: 'https://static.rive.app/rivs/randomize_exit.riv',
       stateMachines: "State Machine 1",
       links: {
-        editor: "https://rive.app/community/files/28147-53157-randomize-exit/"
+        editor: "https://rive.app/community/files/28147-randomize-exit/"
       },
     },
     ikConstraint: {
@@ -35,7 +35,7 @@ export const Demos = ({
       image: "https://static.rive.app/docs/ik-constraint.gif",
       stateMachines: "State Machine 1",
       links: {
-        editor: "https://rive.app/community/files/28080-53039-ik-constraint/",
+        editor: "https://rive.app/community/files/28080-ik-constraint/",
       }
     },
     accessibilityReducedMotion: {
@@ -44,7 +44,7 @@ export const Demos = ({
       riv: 'https://static.rive.app/rivs/accessibility_reduced_motion.riv',
       stateMachines: "State Machine 1",
       links: {
-        editor: "https://rive.app/community/files/28077-53052-accessibility-reduced-motion"
+        editor: "https://rive.app/community/files/28077-accessibility-reduced-motion"
       },
     },
     listenerExamples: {
@@ -70,7 +70,7 @@ export const Demos = ({
         react: "https://codesandbox.io/p/sandbox/rive-react-caching-a-rive-file-53gmdf?file=%2Fsrc%2FApp.tsx",
       },
       source: [
-        "https://rive.app/marketplace/24644-46045-caching-a-rive-file-at-runtime/"
+        "https://rive.app/marketplace/24644-caching-a-rive-file-at-runtime/"
       ]
     },
     dataBindingFonts: {
@@ -100,8 +100,8 @@ export const Demos = ({
         android: "https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeArtboardBindingActivity.kt"
       },
       source: [
-        "https://rive.app/marketplace/24641-46042-data-binding-artboards/",
-        "https://rive.app/marketplace/24642-47536-data-binding-artboards/"
+        "https://rive.app/marketplace/24641-data-binding-artboards/",
+        "https://rive.app/marketplace/24642-data-binding-artboards/"
       ]
     },
     dataBindingImages: {
@@ -115,7 +115,7 @@ export const Demos = ({
         android: "https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeImageBindingActivity.kt"
       },
       source: [
-        "https://rive.app/marketplace/25472-47537-data-binding-images/"
+        "https://rive.app/marketplace/25472-data-binding-images/"
       ]
     },
     dataBindingLists: {
@@ -130,7 +130,7 @@ export const Demos = ({
         android: "https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeListActivity.kt"
       },
       source: [
-        "https://rive.app/marketplace/25474-47539-data-binding-lists/"
+        "https://rive.app/marketplace/25474-data-binding-lists/"
       ]
     },
     dataBindingQuickStart: {
@@ -145,7 +145,7 @@ export const Demos = ({
         android: "https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeDataBindingActivity.kt"
       },
       source: [
-        "https://rive.app/marketplace/25475-47540-data-binding-demo/"
+        "https://rive.app/marketplace/25475-data-binding-demo/"
       ]
     },
     dataBindingSolos: {
@@ -156,7 +156,7 @@ export const Demos = ({
         react: "https://codesandbox.io/p/sandbox/rive-react-controlling-solos-at-runtime-ctcnlx?file=%2Fsrc%2FApp.tsx"
       },
       source: [
-        "https://rive.app/marketplace/24643-46044-data-binding-solos/"
+        "https://rive.app/marketplace/24643-data-binding-solos/"
       ]
     },
     googleAppAds: {
@@ -181,7 +181,7 @@ export const Demos = ({
         android: "https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeLayoutActivity.kt"
       },
       source: [
-        "https://rive.app/marketplace/24638-46038-layouts-demo/"
+        "https://rive.app/marketplace/24638-layouts-demo/"
       ]
     },
     fontsHostedCompressed: {
@@ -193,7 +193,7 @@ export const Demos = ({
           'https://codesandbox.io/p/sandbox/prod-sound-6yc5xl?file=%2Fsrc%2FApp.tsx%3A19%2C1',
       },
       source: [
-        "https://rive.app/marketplace/25473-47538-loading-compressed-fonts-web/"
+        "https://rive.app/marketplace/25473-loading-compressed-fonts-web/"
       ]
     },
     quickStart: {
@@ -208,7 +208,7 @@ export const Demos = ({
         unity: '/game-runtimes/unity/tutorials/health-bar'
       },
       source: [
-        "https://rive.app/marketplace/24637-46037-health-bar-data-binding-quick-start/"
+        "https://rive.app/marketplace/24637-health-bar-data-binding-quick-start/"
       ]
     },
     quickStartReact: {
@@ -220,7 +220,7 @@ export const Demos = ({
         reactJs: 'https://codesandbox.io/p/devbox/rive-react-vanilla-js-quick-start-kz66t4?file=%2Fsrc%2FApp.tsx%3A53%2C7'
       },
       source: [
-        "https://rive.app/marketplace/24637-46037-health-bar-data-binding-quick-start/"
+        "https://rive.app/marketplace/24637-health-bar-data-binding-quick-start/"
       ]
     },
     reactHome: {
@@ -238,7 +238,7 @@ export const Demos = ({
       image: "https://static.rive.app/docs/drawing-demo.png",
       description: "Draw a squirkle, a star, and an animated wave with scripting.",
       links: {
-        editor: "https://rive.app/community/files/25751-48087-drawing-shapes-with-scripting"
+        editor: "https://rive.app/community/files/25751-drawing-shapes-with-scripting"
       }
     },
     scriptingMasonry: {
@@ -255,7 +255,7 @@ export const Demos = ({
       artboard: "Demo",
       description: "A small, self contained particle system for Rive node and layout scripts.",
       links: {
-        editor: "https://rive.app/community/files/28062-53012-particle-librar/"
+        editor: "https://rive.app/community/files/28062-particle-librar/"
       }
     },
     scriptingTippingConverter: {
@@ -263,7 +263,7 @@ export const Demos = ({
       image: "https://static.rive.app/docs/tipping-scripting-converter.gif",
       description: "Calculate the bill total using the converter's input value added to data binding values.",
       links: {
-        editor: "https://uat.rive.app/community/files/610-1126-custom-converter-with-scripting"
+        editor: "https://uat.rive.app/community/files/610-custom-converter-with-scripting"
       }
     },
     scriptingUnitTesting: {
@@ -271,7 +271,7 @@ export const Demos = ({
       image: "https://static.rive.app/docs/scripting-default-thumb.png",
       description: "This hands-on example demonstrates unit testing rgbToHex and hexToRgb color utilities.",
       links: {
-        editor: "https://rive.app/community/files/25752-48088-test-script"
+        editor: "https://rive.app/community/files/25752-test-script"
       }
     },
     scriptingSnakeGame: {
@@ -279,7 +279,7 @@ export const Demos = ({
       image: "https://static.rive.app/docs/snake-game.png",
       description: "Check out this complete game built entirely with Rive using scripting.",
       links: {
-        editor: "https://rive.app/community/files/25748-48110-snake-game/"
+        editor: "https://rive.app/community/files/25748-snake-game/"
       }
     },
     scriptingMultiTouch: {
@@ -287,7 +287,7 @@ export const Demos = ({
       image: "https://static.rive.app/docs/scripting-default-thumb.png",
       description: "Keep track of every finger.",
       links: {
-        editor: "https://rive.app/community/files/25754-48090-multi-touch-with-scripting"
+        editor: "https://rive.app/community/files/25754-multi-touch-with-scripting"
       }
     },
     scriptingNestedPointers: {
@@ -295,7 +295,7 @@ export const Demos = ({
       image: "https://static.rive.app/docs/scripting-default-thumb.png",
       description: "Pass pointer events from the parent component to the instantiated children.",
       links: {
-        editor: "https://rive.app/community/files/25750-48086-scripting-nested-pointer-events/"
+        editor: "https://rive.app/community/files/25750-scripting-nested-pointer-events/"
       }
     },
     scriptingBoilPathEffect: {
@@ -303,7 +303,7 @@ export const Demos = ({
       image: "https://static.rive.app/docs/boiling-effect.gif",
       description: "Apply a boiling effect to any path using scripting.",
       links: {
-        editor: "https://rive.app/community/files/25767-48113-scripting-path-effect-boil"
+        editor: "https://rive.app/community/files/25767-scripting-path-effect-boil"
       }
     },
     scriptingTextPathEffect: {
@@ -335,7 +335,7 @@ export const Demos = ({
       image: "/images/runtimes/rive-db-lists.webp",
       description: "Add, remove, edit, and swap items in your data binding list using Rive scripting.",
       links: {
-        editor: "https://rive.app/community/files/27098-51051-scripting-lists"
+        editor: "https://rive.app/community/files/27098-scripting-lists"
       }
     },
     scriptingPlinko: {
@@ -351,7 +351,7 @@ export const Demos = ({
       image: "https://static.rive.app/docs/constraints.gif",
       description: "Transform, Translate, Scale, and Rotation Constraints.",
       links: {
-        editor: "https://rive.app/community/files/28081-53040-constraints/"
+        editor: "https://rive.app/community/files/28081-constraints/"
       },
     }
   }

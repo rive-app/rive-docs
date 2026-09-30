@@ -59,7 +59,7 @@ import { YouTube } from '/snippets/youtube.mdx'
 import { Marketplace } from '/snippets/marketplace.mdx'
 
 <Marketplace
-  href="https://rive.app/community/files/26116-48795-animating-draw-order"
+  href="https://rive.app/community/files/26116-animating-draw-order"
 />
 ```
 
