@@ -21,8 +21,6 @@ When a feature requires API changes, migration notes will be included below.
 
 ## Feature support by runtime
 
-### Runtimes
-
 <FeatureSupportGroup runtime="webWebGL2">
     The recommended package for most web projects. Uses the Rive Renderer, so it supports every Rive Editor feature, including vector feathering. See [Canvas vs WebGL2](/runtimes/web/canvas-vs-webgl).
 </FeatureSupportGroup>
@@ -63,8 +61,6 @@ Differences may reflect:
 <Note>
     A feature may still be considered fully supported even if it is unavailable in legacy runtimes.
 </Note>
-
-### Features
 
 <FeatureSupportGroup feature="gamepad" />
 <FeatureSupportGroup feature="textInput" />
@@ -120,6 +116,8 @@ Differences may reflect:
 
 ## Legacy Runtimes & Features
 
+### Runtimes
+
 <FeatureSupportGroup runtime="webWebGL">
     <Warning>
         The `@rive-app/webgl` runtime is deprecated as of `v2.37.0`. Use `@rive-app/webgl2` (recommended for most content), or `@rive-app/canvas` if your Rive graphics do not require vector feathering.
@@ -137,6 +135,8 @@ Differences may reflect:
         [Migration guide](/feature-support#react-native-legacy)
     </Warning>
 </FeatureSupportGroup>
+
+### Features
 
 <FeatureSupportGroup feature="events">
     <Warning>

@@ -126,7 +126,7 @@ export const FeatureSupportGroup = ({
             title: "Focus",
             runtimes: {
                 webCanvas: { supported: true, version: "2.43.1" },
-                webCanvasLite: { supported: false, description: "2.43.1" },
+                webCanvasLite: { supported: false, version: "2.43.1" },
                 webWebGL: { supported: false, description: "Not supported" },
                 webWebGL2: { supported: true, version: "2.43.1" },
                 reactCanvas: { supported: true, version: "4.35.0" },
@@ -627,7 +627,8 @@ export const FeatureSupportGroup = ({
                                             )
                                         }
 
-                                        const { supported, version, description } = runtimeFeatureSupport
+                                        const { supported, version, na } = runtimeFeatureSupport
+                                        const description = na ? "NA" : runtimeFeatureSupport.description
 
                                         return (
                                             <tr>
@@ -663,7 +664,7 @@ export const FeatureSupportGroup = ({
 
     const currentFeature = features[feature]
     const allSupported = Object.entries(currentFeature.runtimes)
-        .filter(([runtimeKey]) => !legacyRuntimes.includes(runtimeKey))
+        .filter(([runtimeKey, runtimeSupport]) => !legacyRuntimes.includes(runtimeKey) && !runtimeSupport.na)
         .every(([, runtimeSupport]) => runtimeSupport.supported === true)
     const statusEmoji = allSupported ? '✅' : '🟡'
     const titleWithEmoji = `${statusEmoji} ${currentFeature.title}`
@@ -703,7 +704,8 @@ export const FeatureSupportGroup = ({
                                             </tr>
                                         )
                                     }
-                                    const { supported, version, description } = currentFeature.runtimes[runtimeKey]
+                                    const { supported, version, na } = currentRuntime
+                                    const description = na ? "NA" : currentRuntime.description
                                     return (
                                         <tr>
                                             <td>{runtimeTitles[runtimeKey]}</td>
