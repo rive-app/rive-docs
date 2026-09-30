@@ -54,6 +54,7 @@ import { YouTube } from '/snippets/youtube.mdx'
 ![Marketplace Snippet](/images/marketplace-snippet.png)
 
 1. Publish the demo to the Marketplace using the support at Rive user account (credentials in 1password).
+2. Copy the URL and delete the version number (`https://rive.app/community/files/28062-53012-myitem` -> `https://rive.app/community/files/28062-myitem`)
 
 ```jsx
 import { Marketplace } from '/snippets/marketplace.mdx'
