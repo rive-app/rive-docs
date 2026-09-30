@@ -2,6 +2,7 @@
 export const FeatureSupportGroup = ({
     feature,
     runtime,
+    title,
     children
 }) => {
     // All accordions are expanded by default
@@ -126,11 +127,11 @@ export const FeatureSupportGroup = ({
             title: "Focus",
             runtimes: {
                 webCanvas: { supported: true, version: "2.43.1" },
-                webCanvasLite: { supported: false, version: "2.43.1" },
+                webCanvasLite: { supported: true, version: "2.43.1" },
                 webWebGL: { supported: false, description: "Not supported" },
                 webWebGL2: { supported: true, version: "2.43.1" },
                 reactCanvas: { supported: true, version: "4.35.0" },
-                reactCanvasLite: { supported: false, description: "4.35.0" },
+                reactCanvasLite: { supported: true, version: "4.35.0" },
                 reactWebGL: { supported: false, description: "Not supported" },
                 reactWebGL2: { supported: true, version: "4.35.0" },
                 reactNative: { supported: false, description: "Coming soon" },
@@ -586,9 +587,40 @@ export const FeatureSupportGroup = ({
         }
     }
 
-    if (runtime) {
+    // Renders a single version cell. Shared by both table layouts.
+    const renderSupportCell = (support) => {
+        if (!support) {
+            return <td>Unknown</td>
+        }
+        const { supported, version, na } = support
+        const description = na ? "NA" : support.description
+        if (version) {
+            return (
+                <td data-numeric="true">
+                    {supported && '✅ '}
+                    <code>{version.endsWith('+') ? version : `${version}+`}</code>
+                </td>
+            )
+        }
         return (
-            <Accordion title={runtimeTitles[runtime]} defaultOpen={defaultOpen}>
+            <td>
+                {supported && '✅ '}
+                {description}
+            </td>
+        )
+    }
+
+    if (runtime) {
+        // `runtime` can be a single key or an array of keys. An array renders one
+        // version column per runtime, e.g. runtime={["webWebGL2", "webCanvas"]} title="Web".
+        const runtimeKeys = Array.isArray(runtime) ? runtime : [runtime]
+        const isMultiRuntime = runtimeKeys.length > 1
+        const accordionTitle = title || runtimeTitles[runtimeKeys[0]]
+        // Drop the platform prefix in column headers ("Web - Canvas" -> "Canvas")
+        const columnTitle = (runtimeKey) => runtimeTitles[runtimeKey].split(' - ').pop()
+
+        return (
+            <Accordion title={accordionTitle} defaultOpen={defaultOpen}>
                  {children}
                 <div
                     data-table-wrapper="true"
@@ -602,12 +634,16 @@ export const FeatureSupportGroup = ({
                         >
                             <thead className="w-full">
                                 <tr>
-                                    <th className="w-2/3">
+                                    <th className={isMultiRuntime ? undefined : "w-2/3"}>
                                         <strong>Feature</strong>
                                     </th>
-                                    <th className="w-1/3">
-                                        <strong>Version</strong>
-                                    </th>
+                                    {
+                                        runtimeKeys.map((runtimeKey) => (
+                                            <th className={isMultiRuntime ? undefined : "w-1/3"}>
+                                                <strong>{isMultiRuntime ? columnTitle(runtimeKey) : 'Version'}</strong>
+                                            </th>
+                                        ))
+                                    }
                                 </tr>
                             </thead>
                             <tbody>
@@ -615,40 +651,10 @@ export const FeatureSupportGroup = ({
                                 {
                                     featuresInOrder.map((featureKey) => {
                                         const currentFeature = features[featureKey]
-                                        const runtimeFeatureSupport = currentFeature.runtimes[runtime]
-                                        console.log(runtimeFeatureSupport)
-
-                                        if (!runtimeFeatureSupport) {
-                                            return (
-                                                <tr>
-                                                    <td>{currentFeature.title}</td>
-                                                    <td>Unknown</td>
-                                                </tr>
-                                            )
-                                        }
-
-                                        const { supported, version, na } = runtimeFeatureSupport
-                                        const description = na ? "NA" : runtimeFeatureSupport.description
-
                                         return (
                                             <tr>
                                                 <td>{currentFeature.title}</td>
-                                                {
-                                                    version && !description && (
-                                                        <td data-numeric="true">
-                                                            {supported && '✅ '}
-                                                            <code>{version.endsWith('+') ? version : `${version}+`}</code>
-                                                        </td>
-                                                    )
-                                                }
-                                                {
-                                                    description && !version && (
-                                                        <td>
-                                                            {supported && '✅ '}
-                                                            {description}
-                                                        </td>
-                                                    )
-                                                }
+                                                {runtimeKeys.map((runtimeKey) => renderSupportCell(currentFeature.runtimes[runtimeKey]))}
                                             </tr>
                                         )
                                     })
@@ -695,36 +701,10 @@ export const FeatureSupportGroup = ({
                         <tbody>
                             {
                                 runtimesInOrder.map((runtimeKey) => {
-                                    const currentRuntime = currentFeature.runtimes[runtimeKey]
-                                    if (!currentRuntime) {
-                                        return (
-                                            <tr>
-                                                <td>{runtimeTitles[runtimeKey]}</td>
-                                                <td>Unknown</td>
-                                            </tr>
-                                        )
-                                    }
-                                    const { supported, version, na } = currentRuntime
-                                    const description = na ? "NA" : currentRuntime.description
                                     return (
                                         <tr>
                                             <td>{runtimeTitles[runtimeKey]}</td>
-                                            {
-                                                version && !description && (
-                                                    <td data-numeric="true">
-                                                        {supported && '✅ '}
-                                                        <code>{version.endsWith('+') ? version : `${version}+`}</code>
-                                                    </td>
-                                                )
-                                            }
-                                            {
-                                                description && !version && (
-                                                    <td>
-                                                        {supported && '✅ '}
-                                                        {description}
-                                                    </td>
-                                                )
-                                            }
+                                            {renderSupportCell(currentFeature.runtimes[runtimeKey])}
                                         </tr>
                                     )
                                 })
