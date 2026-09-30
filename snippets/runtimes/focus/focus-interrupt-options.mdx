@@ -1,0 +1,9 @@
+| Option | Type | Description |
+| --- | --- | --- |
+| `allowFocusInterrupt` | `boolean` | When `true`, the canvas takes browser focus whenever the graphic goes from having no focused node to having one, even if the user's focus is elsewhere on the page. Defaults to `false`. |
+
+<Warning>
+  Only turn on `allowFocusInterrupt` when your graphic needs it. Moving focus away from what a user is doing can be jarring UX. Users lose their place on the page, the browser may scroll to the canvas, and keyboard and screen reader users can be pulled out of a form field or control mid-task. 
+  
+  This opt-in behavior fits best when the graphic is the primary experience on the page, such as a full-page menu or a game interface.
+</Warning>

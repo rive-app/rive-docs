@@ -1,0 +1,5 @@
+## Setting the tab index
+
+When the graphic has focus nodes and the `<canvas>` has no `tabindex` (or its `tabindex` is `-1`), the runtime sets it to `0`, which places the canvas in the page's tab order at its position in the DOM. To use a different value, pass the `tabIndex` parameter, or set the `tabindex` attribute on the `<canvas>` to a value other than `-1`.
+
+For example, pass `tabIndex: -1` to keep the canvas out of the page's tab order. Users then reach the graphic by clicking it (or through `allowFocusInterrupt`, below), and can still use <kbd>Tab</kbd> and the arrow keys once inside.
