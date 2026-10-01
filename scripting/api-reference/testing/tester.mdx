@@ -26,6 +26,24 @@ end)
 ```
 
 
+### `errors`
+
+{/* errors: (name: string, test: (expect: (value: any) -> Expectation) -> (), message: string?) -> () */}
+<div class="signature">
+```lua
+errors(name: string, test: (expect:(value: any) -> Expectation) ->(), message: string?) -> ()
+```
+</div>
+
+Defines a test case that passes only when the callback raises an
+error. With a `message`, the error must also contain it.
+```lua
+errors("rejects a negative size", function(expect)
+  buffer.create(-1)
+end, "invalid argument")
+```
+
+
 ### `group`
 
 {/* group: (name: string, test: () -> ()) -> () */}

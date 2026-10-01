@@ -39,7 +39,8 @@ rgb(r: number, g: number, b: number) -> Color
 </div>
 
 Returns a color constructed from red, green, and blue channels. Alpha
-defaults to 255 (fully opaque). Channel values are clamped to [0, 255].
+defaults to 255 (fully opaque). Only the low 8 bits of each channel are
+kept, so 300 becomes 44 and -1 becomes 255.
 ```lua
 -- Red
 self.color = Color.rgb(255, 0, 0)
@@ -56,7 +57,8 @@ rgba(r: number, g: number, b: number, a: number) -> Color
 </div>
 
 Returns a color constructed from red, green, blue, and alpha channels.
-Channel values are clamped to [0, 255].
+Only the low 8 bits of each channel are kept, so 300 becomes 44 and -1
+becomes 255.
 ```lua
 -- Red at 50% opacity
 self.color = Color.rgba(255, 0, 0, 128)
@@ -144,7 +146,8 @@ alpha(color: Color, value: number?) -> number | Color
 </div>
 
 Returns the alpha channel of the color, or returns a new color with the
-alpha channel set to the specified value. Values are clamped to [0, 255].
+alpha channel set to the specified value. Only the low 8 bits of the
+value are kept.
 ```lua highlight={2,6}
 local myColor = Color.rgba(128, 55, 12, 128)
 local alphaChannel = Color.alpha(myColor)
@@ -175,7 +178,7 @@ local myColor = Color.rgba(255, 0, 0, 128)
 -- Get the opacity of a color
 local myOpacity = Color.opacity(myColor)
 print(myOpacity)
--- 0.5
+-- 0.502
 
 -- Get a new color with the specified opacity
 local newColor = Color.opacity(myColor, 1.0)
