@@ -107,3 +107,21 @@ test("adds two numbers", (expect) => {
 ```
 
 
+### `errors`
+
+<div class="signature">
+```as
+errors(name: string, body: (expect: Expect) => void, message: string = ""): void
+```
+</div>
+
+Declares a test case that passes only when `body` throws. With a
+`message`, the error must also contain it. A case that runs past its
+time budget fails.
+```as
+errors("rejects a negative size", (expect) => {
+  Buffer.create(-1);
+}, "invalid argument #1 to 'create' (size)");
+```
+
+
