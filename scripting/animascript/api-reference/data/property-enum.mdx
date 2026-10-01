@@ -1,0 +1,44 @@
+---
+title: PropertyEnum
+---
+
+An enum property of a view model. Its value is the name of the current
+enum value.
+
+
+## Fields
+
+### `value`
+
+<div class="signature">
+```ts
+value: string
+```
+</div>
+
+The name of the current enum value. You can both read and assign it.
+
+
+## Methods
+
+### `values`
+
+<div class="signature">
+```ts
+unsafe values(): Array<string>
+```
+</div>
+
+The names of the enum's values, in declaration order.
+
+```ts
+let alignment = vm.getEnum("textAlignment");
+if (alignment != null) {
+    let values = alignment.values();
+    if (values.length > 0) {
+        alignment.value = values[0];
+    }
+}
+```
+
+

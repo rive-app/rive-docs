@@ -1,0 +1,302 @@
+---
+title: NodeData
+---
+
+A node of an artboard instance, with its transform and access to its
+parent and children. Get one by name with `Artboard.node`. Reads always
+show the node as the artboard last posed it, animation included.
+
+```ts
+let node = instance.node("Hips");
+if (node != null) {
+    node.rotation = Math.PI / 4;
+    node.setPosition(Vector.xy(199, 299));
+}
+```
+
+
+## Fields
+
+### `x`
+
+<div class="signature">
+```ts
+x: f64
+```
+</div>
+
+The x coordinate of the local position.
+
+```ts
+node.x = 100;
+```
+
+
+### `y`
+
+<div class="signature">
+```ts
+y: f64
+```
+</div>
+
+The y coordinate of the local position.
+
+```ts
+node.y = 200;
+```
+
+
+### `rotation`
+
+<div class="signature">
+```ts
+rotation: f64
+```
+</div>
+
+The local rotation in radians.
+
+```ts
+node.rotation = Math.PI / 4;
+```
+
+
+### `scaleX`
+
+<div class="signature">
+```ts
+scaleX: f64
+```
+</div>
+
+The x component of the local scale.
+
+```ts
+node.scaleX = 2;
+```
+
+
+### `scaleY`
+
+<div class="signature">
+```ts
+scaleY: f64
+```
+</div>
+
+The y component of the local scale.
+
+```ts
+node.scaleY = 2;
+```
+
+
+### `children`
+
+<div class="signature">
+```ts
+readonly children: Array<NodeData>
+```
+</div>
+
+The node's children, empty when it has none.
+
+```ts
+let children = node.children;
+if (children.length > 0) {
+    children[0].decompose(Mat2D.withTranslation(100, 100));
+}
+```
+
+
+### `parent`
+
+<div class="signature">
+```ts
+readonly parent: NodeData | null
+```
+</div>
+
+The node's parent, or null when it has none.
+
+```ts
+let parent = node.parent;
+if (parent != null) {
+    parent.decompose(Mat2D.withTranslation(100, 100));
+}
+```
+
+
+### `paint`
+
+<div class="signature">
+```ts
+readonly paint: Paint | null
+```
+</div>
+
+The node's paint when it is a fill or a stroke, otherwise null. The
+same snapshot as `asPaint`.
+
+```ts
+let fill = instance.node("Fill");
+if (fill != null) {
+    let paint = fill.paint;
+    if (paint != null) {
+        console.log(paint.color.toString());
+    }
+}
+```
+
+
+## Methods
+
+### `position`
+
+<div class="signature">
+```ts
+position(): Vector
+```
+</div>
+
+The local position.
+
+```ts
+let position = node.position();
+```
+
+
+### `setPosition`
+
+<div class="signature">
+```ts
+setPosition(value: Vector): void
+```
+</div>
+
+Sets the local position.
+
+```ts
+node.setPosition(Vector.xy(199, 299));
+```
+
+
+### `scale`
+
+<div class="signature">
+```ts
+scale(): Vector
+```
+</div>
+
+The local scale.
+
+
+### `setScale`
+
+<div class="signature">
+```ts
+setScale(value: Vector): void
+```
+</div>
+
+Sets the local scale.
+
+```ts
+node.setScale(Vector.xy(1.4, 2));
+```
+
+
+### `worldTransform`
+
+<div class="signature">
+```ts
+unsafe worldTransform(): Mat2D
+```
+</div>
+
+The node's world transform.
+
+```ts
+let world = node.worldTransform();
+console.log(world.tx.toString() + ", " + world.ty.toString());
+```
+
+
+### `setWorldTransform`
+
+<div class="signature">
+```ts
+unsafe setWorldTransform(value: Mat2D): void
+```
+</div>
+
+Overwrites the world transform without touching the local transform,
+so it lasts only until the artboard next recomputes it, such as when
+the node or a parent moves. Use `decompose` to move the node for good.
+
+
+### `decompose`
+
+<div class="signature">
+```ts
+unsafe decompose(worldTransform: Mat2D): void
+```
+</div>
+
+Sets the node's position, rotation and scale so that its world
+transform becomes `worldTransform`.
+
+```ts
+node.decompose(Mat2D.withTranslation(100, 100));
+```
+
+
+### `asPath`
+
+<div class="signature">
+```ts
+asPath(): Path | null
+```
+</div>
+
+A copy of the node's geometry as a [Path](/scripting/animascript/api-reference/path/path) when the node is a path,
+otherwise null.
+
+```ts
+let shape = instance.node("MyPath");
+if (shape != null) {
+    let path = shape.asPath();
+    if (path != null && path.length > 0) {
+        console.log(path[0].type); // moveTo
+    }
+}
+```
+
+
+### `asPaint`
+
+<div class="signature">
+```ts
+asPaint(): Paint | null
+```
+</div>
+
+A snapshot of the node's paint as a [Paint](/scripting/animascript/api-reference/paint/paint) when the node is a fill
+or a stroke, otherwise null. Changing the snapshot does not change the
+node.
+
+
+### `release`
+
+<div class="signature">
+```ts
+release(): void
+```
+</div>
+
+Releases the node now instead of when it is collected. It reads
+nothing afterwards.
+
+

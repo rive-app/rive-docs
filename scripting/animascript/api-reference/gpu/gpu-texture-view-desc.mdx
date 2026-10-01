@@ -1,0 +1,79 @@
+---
+title: GPUTextureViewDesc
+---
+
+Descriptor for `GPUTexture.view`, selecting a sub range of the texture.
+The defaults describe the whole texture.
+
+
+## Fields
+
+### `dimension`
+
+<div class="signature">
+```ts
+dimension: TextureViewDimension
+```
+</div>
+
+Reinterprets the texture as another dimensionality. Defaults to the
+texture's own type.
+
+
+### `aspect`
+
+<div class="signature">
+```ts
+aspect: TextureAspect
+```
+</div>
+
+Planes to expose for a depth stencil texture. Default `all`; use
+`depthOnly` for `texture_depth_2d` in WGSL.
+
+
+### `baseMipLevel`
+
+<div class="signature">
+```ts
+baseMipLevel: u32
+```
+</div>
+
+First mip level. Default 0.
+
+
+### `mipCount`
+
+<div class="signature">
+```ts
+mipCount: u32
+```
+</div>
+
+Number of mip levels. Zero, the default, takes all remaining levels.
+
+
+### `baseLayer`
+
+<div class="signature">
+```ts
+baseLayer: u32
+```
+</div>
+
+First array layer or cube face. Default 0.
+
+
+### `layerCount`
+
+<div class="signature">
+```ts
+layerCount: u32
+```
+</div>
+
+Number of layers or faces. Zero, the default, takes all remaining
+layers.
+
+

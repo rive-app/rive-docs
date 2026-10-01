@@ -1,0 +1,145 @@
+---
+title: GPUTexture
+---
+
+A GPU texture: 2D, cube, 3D or array.
+
+
+## Fields
+
+### `width`
+
+<div class="signature">
+```ts
+width: u32
+```
+</div>
+
+Width of mip 0 in texels.
+
+
+### `height`
+
+<div class="signature">
+```ts
+height: u32
+```
+</div>
+
+Height of mip 0 in texels.
+
+
+### `format`
+
+<div class="signature">
+```ts
+format: TextureFormat
+```
+</div>
+
+Pixel format.
+
+
+### `textureType`
+
+<div class="signature">
+```ts
+textureType: TextureType
+```
+</div>
+
+Dimensionality.
+
+
+### `numMipmaps`
+
+<div class="signature">
+```ts
+numMipmaps: u32
+```
+</div>
+
+Number of mip levels.
+
+
+### `sampleCount`
+
+<div class="signature">
+```ts
+sampleCount: u32
+```
+</div>
+
+MSAA sample count.
+
+
+## Constructors
+
+### `constructor`
+
+<div class="signature">
+```ts
+unsafe constructor(desc: GPUTextureDesc)
+```
+</div>
+
+Creates a texture from `desc`. Raises an error when the device
+rejects the descriptor.
+
+
+## Methods
+
+### `view`
+
+<div class="signature">
+```ts
+unsafe view(desc: GPUTextureViewDesc = new GPUTextureViewDesc()): GPUTextureView
+```
+</div>
+
+Creates a view into a sub range of this texture; omit `desc` for the
+whole texture. Views are immutable. Create them once next to the
+texture and reuse them every frame; calling `view` in `draw` creates
+and destroys a native GPU object each frame.
+
+
+### `upload`
+
+<div class="signature">
+```ts
+unsafe upload(region: rive_gpu_texture_upload_v1, data: ArrayBuffer): void
+```
+</div>
+
+Uploads raw pixel bytes in the texture's format into one region of a mip
+level and layer. `region` is a `rive_gpu_texture_upload_v1` from
+`rive/bindings`, all zero when created:
+
+* `mipLevel`, `layer`, `x`, `y` and `z` place the region.
+* `width`, `height` and `depth` size it; zero covers the rest of the
+  mip from the origin.
+* `bytesPerRow` and `rowsPerImage` describe the layout of `data`; zero
+  means tightly packed. Block compressed formats need an explicit
+  `bytesPerRow`.
+
+Raises an error when the region falls outside the texture.
+
+```ts
+let region = new rive_gpu_texture_upload_v1();
+region.width = 4;
+region.height = 4;
+texture.upload(region, pixels);
+```
+
+
+### `release`
+
+<div class="signature">
+```ts
+release(): void
+```
+</div>
+
+Releases the texture now instead of when it is collected.
+
+

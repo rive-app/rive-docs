@@ -1,0 +1,43 @@
+---
+title: ImageDecodeListener
+---
+
+Receives the result of `Context.decodeImage`. Extend it and override the
+callbacks you need; both fire on a later advance.
+```ts
+class AvatarDecode extends ImageDecodeListener {
+    width: u32 = 0;
+    height: u32 = 0;
+
+    override onImageDecoded(image: DecodedImage): void {
+        this.width = image.width;
+        this.height = image.height;
+    }
+}
+```
+
+
+## Methods
+
+### `onImageDecoded`
+
+<div class="signature">
+```ts
+onImageDecoded(image: DecodedImage): void
+```
+</div>
+
+Called with the decoded pixels when a decode succeeds.
+
+
+### `onImageDecodeFailed`
+
+<div class="signature">
+```ts
+onImageDecodeFailed(message: string): void
+```
+</div>
+
+Called with a description of the error when a decode fails.
+
+

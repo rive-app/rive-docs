@@ -1,0 +1,93 @@
+---
+title: Image
+---
+
+An image that can be drawn by the [Renderer](/scripting/animascript/api-reference/renderer/renderer). Get one from the file's
+assets with `context.image(name)`, or from a canvas.
+```ts
+export class DrawImage extends Node {
+    myImage: Image | null = null;
+    sampler: ImageSampler = ImageSampler(ImageWrap.clamp, ImageWrap.clamp, ImageFilter.bilinear);
+
+    override init(context: Context): bool {
+        this.myImage = context.image("myImage");
+        return true;
+    }
+
+    override draw(renderer: Renderer): void {
+        let image = this.myImage;
+        if (image != null) {
+            renderer.drawImage(image, this.sampler, BlendMode.srcOver, 1);
+        }
+    }
+}
+```
+
+
+## Fields
+
+### `width`
+
+<div class="signature">
+```ts
+width: u32
+```
+</div>
+
+Width of the image in pixels.
+```ts
+let image = context.image("myImage");
+if (image != null) {
+    context.log("myImage width: " + image.width.toString());
+}
+```
+
+
+### `height`
+
+<div class="signature">
+```ts
+height: u32
+```
+</div>
+
+Height of the image in pixels.
+```ts
+let image = context.image("myImage");
+if (image != null) {
+    context.log("myImage height: " + image.height.toString());
+}
+```
+
+
+## Methods
+
+### `view`
+
+<div class="signature">
+```ts
+unsafe view(): GPUTextureView | null
+```
+</div>
+
+Returns a [GPUTextureView](/scripting/animascript/api-reference/gpu/gpu-texture-view) for sampling this image in WGSL shaders, or
+`null` when no view can be made. The view wraps the underlying GPU
+texture directly, with no copy or decode, and needs a GPU context,
+only available when the file uses GPU canvases. A view is immutable,
+so build it once and reuse it; a canvas image's view follows every
+frame drawn into the canvas. A view of an image asset currently
+samples as all zeros, with no error; draw the asset into a canvas and
+sample that canvas's image instead.
+
+
+### `release`
+
+<div class="signature">
+```ts
+release(): void
+```
+</div>
+
+Releases the image. Afterward it reads as 0 by 0 and draws nothing.
+
+

@@ -1,0 +1,109 @@
+---
+title: Tests
+---
+
+A test suite. Extend it, export the class, and declare test cases and groups
+in `run`. The editor's test pane and `rive <dir> --test` run every exported
+suite.
+
+Test code exists only at edit time and never ships in the exported file.
+Subclasses of [Tests](/scripting/animascript/api-reference/test/tests) are edit time already; mark any other declaration
+that names [Expect](/scripting/animascript/api-reference/test/expect) or [Expectation](/scripting/animascript/api-reference/test/expectation), such as a helper, `@editTime`.
+```ts
+import { Expect, Tests } from "rive/test";
+
+function clamp(value: f64, low: f64, high: f64): f64 {
+  return Math.min(Math.max(value, low), high);
+}
+
+@editTime
+function expectClamped(expect: Expect, value: f64, want: f64): void {
+  expect.that(clamp(value, 0, 5)).is(want);
+}
+
+export class MathTests extends Tests {
+  override run(): void {
+    group("clamp", () => {
+      test("clamps high values", (expect) => {
+        expectClamped(expect, 10, 5);
+      });
+      test("passes values in range through", (expect) => {
+        expect.that(clamp(3, 0, 5)).is(3);
+      });
+    });
+  }
+}
+```
+
+
+## Methods
+
+### `run`
+
+<div class="signature">
+```ts
+abstract run(): void
+```
+</div>
+
+Declares the suite's test cases and groups by calling `test` and
+`group`. Inside `run` and its lambdas they need no `this.`.
+
+
+### `blob`
+
+<div class="signature">
+```ts
+unsafe blob(name: string): ArrayBuffer | null
+```
+</div>
+
+Looks up a blob asset by name, or null when it is missing or empty.
+The test runner supplies the project's blobs.
+```ts
+test("reads fixtures", (expect) => {
+    let data = this.blob("fixtures");
+    expect.that(data != null).is(true);
+});
+```
+
+
+### `group`
+
+<div class="signature">
+```ts
+group(name: string, body: () => void): void
+```
+</div>
+
+Groups related test cases under a common name. Groups can nest.
+```ts
+group("math", () => {
+  test("adds numbers", (expect) => {
+    expect.that(2 + 2).is(4);
+  });
+  test("multiplies numbers", (expect) => {
+    expect.that(3 * 4).is(12);
+  });
+});
+```
+
+
+### `test`
+
+<div class="signature">
+```ts
+test(name: string, body: (expect: Expect) => void): void
+```
+</div>
+
+Declares a named test case. `body` receives the case's [Expect](/scripting/animascript/api-reference/test/expect), used to
+create expectations on values.
+```ts
+test("adds two numbers", (expect) => {
+  let result = 2 + 3;
+  expect.that(result).is(5);
+});
+```
+
+

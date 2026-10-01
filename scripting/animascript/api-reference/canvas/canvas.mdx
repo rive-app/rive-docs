@@ -1,0 +1,126 @@
+---
+title: Canvas
+---
+
+An offscreen target for Rive 2D drawing. Call `beginFrame` to get a
+[Renderer](/scripting/animascript/api-reference/renderer/renderer), draw with it, then call `endFrame`. Composite the result by
+drawing `image`, or sample it in a shader through `image.view()`.
+
+```ts
+let canvas = context.canvas(256, 256);
+if (canvas != null) {
+    let r = canvas.beginFrame(0xFF000000);
+    if (r != null) {
+        r.drawPath(path, paint);
+        canvas.endFrame();
+    }
+    renderer.drawImage(canvas.image, sampler, BlendMode.srcOver, 1);
+}
+```
+
+
+## Fields
+
+### `width`
+
+<div class="signature">
+```ts
+readonly width: u32
+```
+</div>
+
+Width in pixels.
+
+
+### `height`
+
+<div class="signature">
+```ts
+readonly height: u32
+```
+</div>
+
+Height in pixels.
+
+
+### `image`
+
+<div class="signature">
+```ts
+readonly image: Image
+```
+</div>
+
+The image holding what the canvas drew, for `drawImage` on a
+[Renderer](/scripting/animascript/api-reference/renderer/renderer). It is never null, and 0x0 until the canvas has a size.
+
+
+## Constructors
+
+### `constructor`
+
+<div class="signature">
+```ts
+constructor(width: u32 = 0, height: u32 = 0)
+```
+</div>
+
+Creates a canvas of the given size in pixels. A zero size allocates
+nothing until `resize`. `context.canvas()` does the same and answers
+null when the host cannot make a canvas.
+
+
+## Methods
+
+### `resize`
+
+<div class="signature">
+```ts
+resize(width: u32, height: u32): bool
+```
+</div>
+
+Resizes the canvas. Returns false, leaving the canvas as it was,
+between `beginFrame` and `endFrame` or when the device refuses the
+size. A reference to `image` kept across a resize follows the new
+backing.
+
+
+### `beginFrame`
+
+<div class="signature">
+```ts
+beginFrame(clearColor: u32 = 0): Renderer | null
+```
+</div>
+
+Begins a frame and returns a [Renderer](/scripting/animascript/api-reference/renderer/renderer) that draws into the canvas
+until `endFrame`. `clearColor` is a packed ARGB color, such as
+`0xFF000000` for opaque black; the default is transparent. Returns
+null when the canvas has no size, a frame is already open, or the
+host cannot record canvas frames.
+
+
+### `endFrame`
+
+<div class="signature">
+```ts
+endFrame(): void
+```
+</div>
+
+Ends the frame, flushing its drawing into `image`. The renderer from
+`beginFrame` must not be used after this.
+
+
+### `release`
+
+<div class="signature">
+```ts
+release(): void
+```
+</div>
+
+Frees the canvas and its backing now instead of when it is collected.
+
+

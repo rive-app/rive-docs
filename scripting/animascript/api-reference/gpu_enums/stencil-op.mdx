@@ -1,0 +1,49 @@
+---
+title: StencilOp
+---
+
+What a stencil test does to the stored stencil value. Set it on a [GPUStencilFaceState](/scripting/animascript/api-reference/gpu/gpu-stencil-face-state).
+
+
+## Fields
+
+### `keep`
+
+Keep the stored value.
+
+
+### `zero`
+
+Set the value to zero.
+
+
+### `replace`
+
+Set the value to the pass stencil reference, set with `setStencilReference`.
+
+
+### `incrementClamp`
+
+Add one, stopping at the maximum.
+
+
+### `decrementClamp`
+
+Subtract one, stopping at zero.
+
+
+### `invert`
+
+Invert every bit of the value.
+
+
+### `incrementWrap`
+
+Add one, wrapping to zero past the maximum.
+
+
+### `decrementWrap`
+
+Subtract one, wrapping to the maximum below zero.
+
+

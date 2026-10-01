@@ -1,0 +1,84 @@
+---
+title: KeyboardEvent
+---
+
+A keyboard interaction, delivered to `Node.keyboardEvent`.
+```ts
+override keyboardEvent(event: KeyboardEvent): bool {
+    if (event.phase == "down" && event.shift) {
+        this.boost = true;
+        return true;
+    }
+    return false;
+}
+```
+
+
+## Fields
+
+### `key`
+
+<div class="signature">
+```ts
+key: f64
+```
+</div>
+
+The key code of the key.
+
+
+### `shift`
+
+<div class="signature">
+```ts
+shift: bool
+```
+</div>
+
+True if the Shift modifier is active.
+
+
+### `control`
+
+<div class="signature">
+```ts
+control: bool
+```
+</div>
+
+True if the Control modifier is active.
+
+
+### `alt`
+
+<div class="signature">
+```ts
+alt: bool
+```
+</div>
+
+True if the Alt modifier is active.
+
+
+### `meta`
+
+<div class="signature">
+```ts
+meta: bool
+```
+</div>
+
+True if the Meta (Command or Windows) modifier is active.
+
+
+### `phase`
+
+<div class="signature">
+```ts
+phase: string
+```
+</div>
+
+The phase of the interaction: `down`, `repeat` or `up`.
+
+

@@ -12,7 +12,8 @@ A contour is one continuous drawing sequence that starts with a `moveTo` and con
 
 Returns the next [ContourMeasure](/scripting/api-reference/path/contour-measure) in the path, or nil if this is the last
 contour. Use this to iterate through all contours in a path after calling
-path:contours().
+path:contours(). Each read advances through the path, so read it once
+per contour.
 ```lua
 local contour = pathData:contours()
 while contour do

@@ -1,0 +1,54 @@
+---
+title: TriangleBuffer
+---
+
+Stores triangle index data for use with image meshes. Each triangle is
+three zero based indices into the mesh's [VertexBuffer](/scripting/animascript/api-reference/image/vertex-buffer).
+
+
+## Fields
+
+### `length`
+
+<div class="signature">
+```ts
+readonly length: i32
+```
+</div>
+
+Number of triangles in the buffer.
+
+
+## Methods
+
+### `add`
+
+<div class="signature">
+```ts
+add(a: u32, b: u32, c: u32): void
+```
+</div>
+
+Adds a triangle defined by the three vertex indices `a`, `b` and `c`,
+which are zero based.
+```ts
+let tb = new TriangleBuffer();
+tb.add(0, 1, 2);
+```
+
+
+### `reset`
+
+<div class="signature">
+```ts
+reset(): void
+```
+</div>
+
+Clears all triangles from the buffer.
+```ts
+let tb = new TriangleBuffer();
+tb.reset();
+```
+
+

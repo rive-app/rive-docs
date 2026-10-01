@@ -1,0 +1,39 @@
+---
+title: GPUBindGroup
+---
+
+Resource bindings for one `@group(N)`, made once and reused across many
+draws; creating bind groups every draw is costly in a 3D scene. Holds
+every bound buffer, view and sampler alive for its own lifetime.
+
+
+## Constructors
+
+### `constructor`
+
+<div class="signature">
+```ts
+unsafe constructor(layout: GPUBindGroupLayout, ubos: Array<GPUBindGroupUBO> = [], textures: Array<GPUBindGroupTexture> = [], samplers: Array<GPUBindGroupSampler> = [])
+```
+</div>
+
+Creates a bind group for `layout` from uniform buffer, texture and
+sampler entries. The layout's group index decides which `@group(N)`
+it binds to. Raises an error when the entries do not match the
+layout.
+
+
+## Methods
+
+### `release`
+
+<div class="signature">
+```ts
+release(): void
+```
+</div>
+
+Releases the bind group now instead of when it is collected, along
+with its hold on the bound resources.
+
+

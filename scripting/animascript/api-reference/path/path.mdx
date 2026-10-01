@@ -1,0 +1,283 @@
+---
+title: Path
+---
+
+A mutable path that a [Renderer](/scripting/animascript/api-reference/renderer/renderer) can draw. An unchanged path can be drawn
+multiple times per frame. However, if you change it (with `moveTo`,
+`lineTo`, `cubicTo`, `add` and so on) after drawing it, wait until the next
+frame to draw it again.
+
+A path is also a list of [PathCommand](/scripting/animascript/api-reference/path/path-command) values, from `path[0]` to
+`path[path.length - 1]`, that `for...of` walks in order.
+```ts
+let path = new Path();
+path.moveTo(Vector.xy(0, 0));
+path.lineTo(Vector.xy(10, 0));
+
+for (const command of path) {
+  console.log(command.type);
+}
+// moveTo
+// lineTo
+```
+
+
+## Fields
+
+### `fillRule`
+
+<div class="signature">
+```ts
+fillRule: FillRule
+```
+</div>
+
+How the path decides what is inside when filled, see [FillRule](/scripting/animascript/api-reference/path/fill-rule). Defaults
+to `clockwise`.
+
+
+### `length`
+
+<div class="signature">
+```ts
+readonly length: i32
+```
+</div>
+
+The number of commands in the path.
+```ts
+let count = path.length;
+```
+
+
+## Static Functions
+
+### `fromRaw`
+
+<div class="signature">
+```ts
+unsafe static fromRaw(verbs: usize, verbCount: u32, points: usize, floatCount: u32): Path
+```
+</div>
+
+Returns a new path built from raw geometry: `verbCount` [PathVerb](/scripting/animascript/api-reference/path/path-verb) bytes at
+`verbs` and `floatCount` interleaved x and y floats at `points`.
+
+
+## Methods
+
+### `operator[]`
+
+<div class="signature">
+```ts
+operator[](index: i32): PathCommand
+```
+</div>
+
+The command at `index`, from 0 to `length - 1`. An index out of range
+returns a command of type `none` with no points.
+```ts
+let first = path[0];
+console.log(first.type);
+```
+
+
+### `moveTo`
+
+<div class="signature">
+```ts
+moveTo(to: Vector): void
+```
+</div>
+
+Moves the current point to `to`, starting a new contour.
+```ts
+path.moveTo(Vector.xy(0, 0));
+```
+
+
+### `lineTo`
+
+<div class="signature">
+```ts
+lineTo(to: Vector): void
+```
+</div>
+
+Adds a straight line from the current point to `to`. Without an open
+contour, one starts at the last `moveTo` point, or at the origin on an empty
+path.
+```ts
+path.lineTo(Vector.xy(10, 0));
+```
+
+
+### `quadTo`
+
+<div class="signature">
+```ts
+quadTo(control: Vector, to: Vector): void
+```
+</div>
+
+Adds a quadratic Bézier curve from the current point to `to`, shaped by
+`control`.
+```ts
+path.quadTo(
+  Vector.xy(-50, -50), // control point
+  Vector.xy(0, 0) // end point
+);
+```
+
+
+### `cubicTo`
+
+<div class="signature">
+```ts
+cubicTo(controlOut: Vector, controlIn: Vector, to: Vector): void
+```
+</div>
+
+Adds a cubic Bézier curve from the current point to `to`, using
+`controlOut` for the start tangent and `controlIn` for the end tangent.
+```ts
+path.cubicTo(
+  Vector.xy(25, -40), // control point out
+  Vector.xy(75, 40), // control point in
+  Vector.xy(100, 0) // end point
+);
+```
+
+
+### `close`
+
+<div class="signature">
+```ts
+close(): void
+```
+</div>
+
+Closes the current contour with a line from the current point back to its
+first point, the last `moveTo`. Does nothing without an open contour.
+```ts
+// A square
+path.moveTo(Vector.xy(-10, -10));
+path.lineTo(Vector.xy(10, -10));
+path.lineTo(Vector.xy(10, 10));
+path.lineTo(Vector.xy(-10, 10));
+path.close();
+```
+
+
+### `reset`
+
+<div class="signature">
+```ts
+reset(): void
+```
+</div>
+
+Removes every command so the path can be rebuilt. Do not reset a path in
+the same frame after drawing it; wait until the next frame.
+```ts
+path.reset();
+```
+
+
+### `add`
+
+<div class="signature">
+```ts
+unsafe add(other: Path, transform: Mat2D = Mat2D()): void
+```
+</div>
+
+Appends the commands of `other` onto this path, transformed by `transform`
+when given.
+```ts
+let dst = new Path();
+let src = new Path();
+
+src.moveTo(Vector.xy(0, 0));
+src.lineTo(Vector.xy(10, 0));
+src.lineTo(Vector.xy(10, 10));
+src.close();
+
+dst.add(src);
+dst.add(src, Mat2D.withTranslation(20, 0));
+```
+
+
+### `appendRaw`
+
+<div class="signature">
+```ts
+unsafe appendRaw(verbs: usize, verbCount: u32, points: usize, floatCount: u32): void
+```
+</div>
+
+Appends raw geometry in bulk: `verbCount` [PathVerb](/scripting/animascript/api-reference/path/path-verb) bytes at `verbs` and
+`floatCount` interleaved x and y floats at `points`. Later commands continue
+the contour the raw geometry leaves open.
+```ts
+// A line from 0, 0 to 10, 0, closed
+unsafe function appendLine(path: Path): void {
+  let verbs = new StaticArray<u8>(3);
+  verbs[0] = <u8>PathVerb.move;
+  verbs[1] = <u8>PathVerb.line;
+  verbs[2] = <u8>PathVerb.close;
+  let points = new StaticArray<f32>(4);
+  points[2] = 10;
+  path.appendRaw(changetype<usize>(verbs), 3, changetype<usize>(points), 4);
+}
+```
+
+
+### `measure`
+
+<div class="signature">
+```ts
+unsafe measure(): PathMeasure
+```
+</div>
+
+Returns a [PathMeasure](/scripting/animascript/api-reference/path/path-measure) over the whole path across all contours, for its
+total length and operations on the path as a whole.
+```ts
+let measure = path.measure();
+let pathLength = measure.length;
+```
+
+
+### `contours`
+
+<div class="signature">
+```ts
+unsafe contours(): ContourMeasure | null
+```
+</div>
+
+Returns a [ContourMeasure](/scripting/animascript/api-reference/path/contour-measure) for the first contour in the path, or `null` if
+the path has none. A contour is a sequence of segments starting at a
+`moveTo` and ending before the next `moveTo` or the end of the path. Read
+`next` on the result to walk the rest.
+```ts
+let contour = path.contours();
+while (contour != null) {
+  console.log(contour.length.toString());
+  contour = contour.next;
+}
+```
+
+
+### `release`
+
+<div class="signature">
+```ts
+release(): void
+```
+</div>
+
+Frees the path's host resources now instead of when it is collected.
+
+

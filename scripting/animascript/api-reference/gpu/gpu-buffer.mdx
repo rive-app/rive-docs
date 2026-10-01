@@ -1,0 +1,77 @@
+---
+title: GPUBuffer
+---
+
+A GPU buffer for vertex, index or uniform data.
+
+
+## Fields
+
+### `size`
+
+<div class="signature">
+```ts
+size: u32
+```
+</div>
+
+Size in bytes.
+
+
+## Constructors
+
+### `constructor`
+
+<div class="signature">
+```ts
+unsafe constructor(usage: BufferUsage, sizeInBytes: u32, data: ArrayBuffer | null = null, immutable: bool = false)
+```
+</div>
+
+Creates a buffer of `sizeInBytes` bytes for `usage`. When given,
+`data` is the initial contents and must be exactly `sizeInBytes`
+long. An `immutable` buffer takes its contents from `data` and cannot
+be updated afterward.
+
+The size is not checked against the shader's struct. Lay a uniform
+buffer out by hand to the WGSL alignment rules (`vec2` to 8 bytes,
+`vec3`, `vec4` and array elements to 16); a wrong offset reads garbage
+silently.
+
+
+## Methods
+
+### `update`
+
+<div class="signature">
+```ts
+unsafe update(dstOffset: u32, data: ArrayBuffer, byteCount: u32 = 0, srcOffset: u32 = 0): void
+```
+</div>
+
+Copies bytes of `data`, starting at byte `srcOffset`, into the buffer
+at byte offset `dstOffset`. `byteCount` limits the copy, so a region
+of an oversized staging buffer uploads without slicing; zero copies
+the rest of `data` from `srcOffset`.
+
+Raises an error when the buffer is immutable, when the source range
+runs past the end of `data`, or when the copy runs past the end of
+the buffer.
+
+```ts
+// Uploads bytes 64 to 127 of staging to the start of the buffer.
+buffer.update(0, staging, 64, 64);
+```
+
+
+### `release`
+
+<div class="signature">
+```ts
+release(): void
+```
+</div>
+
+Releases the buffer now instead of when it is collected.
+
+

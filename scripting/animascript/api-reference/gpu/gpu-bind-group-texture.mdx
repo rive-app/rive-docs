@@ -1,0 +1,44 @@
+---
+title: GPUBindGroupTexture
+---
+
+A texture entry of a [GPUBindGroup](/scripting/animascript/api-reference/gpu/gpu-bind-group).
+
+
+## Fields
+
+### `slot`
+
+<div class="signature">
+```ts
+slot: u32
+```
+</div>
+
+WGSL `@binding` of the texture.
+
+
+### `view`
+
+<div class="signature">
+```ts
+view: GPUTextureView
+```
+</div>
+
+The texture view to bind.
+
+
+## Constructors
+
+### `constructor`
+
+<div class="signature">
+```ts
+constructor(slot: u32, view: GPUTextureView)
+```
+</div>
+
+Creates an entry binding `view` at `slot`.
+
+

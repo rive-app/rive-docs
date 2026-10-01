@@ -1,0 +1,53 @@
+---
+title: Converter
+---
+
+A script that transforms values between view model data bindings and
+Rive properties. Both directions take and return a [DataValue](/scripting/animascript/api-reference/data_value/data-value), or null
+for no result.
+
+It inherits `init`, `advance` and `dispose` from [Protocol](/scripting/animascript/api-reference/host/protocol).
+```ts
+export class AddOne extends Converter {
+    override convert(input: DataValue): DataValue | null {
+        if (input.isNumber()) {
+            return new DataValueNumber((<DataValueNumber>input).value + 1);
+        }
+        return null;
+    }
+
+    override reverseConvert(input: DataValue): DataValue | null {
+        if (input.isNumber()) {
+            return new DataValueNumber((<DataValueNumber>input).value - 1);
+        }
+        return null;
+    }
+}
+```
+
+
+## Methods
+
+### `convert`
+
+<div class="signature">
+```ts
+abstract convert(input: DataValue): DataValue | null
+```
+</div>
+
+Converts the input value, a view model property, to an output value.
+
+
+### `reverseConvert`
+
+<div class="signature">
+```ts
+reverseConvert(input: DataValue): DataValue | null
+```
+</div>
+
+Converts an output value back to an input value, a view model
+property.
+
+

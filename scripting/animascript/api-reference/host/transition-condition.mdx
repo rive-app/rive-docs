@@ -1,0 +1,33 @@
+---
+title: TransitionCondition
+---
+
+A condition a transition between state machine states must meet to be
+taken.
+
+It inherits `init`, `advance` and `dispose` from [Protocol](/scripting/animascript/api-reference/host/protocol).
+```ts
+export class WhenReady extends TransitionCondition {
+    @input ready: bool = false;
+
+    override evaluate(): bool {
+        return this.ready;
+    }
+}
+```
+
+
+## Methods
+
+### `evaluate`
+
+<div class="signature">
+```ts
+abstract evaluate(): bool
+```
+</div>
+
+Called every frame while the transition is active. Return true to
+allow the transition, or false to prevent it.
+
+

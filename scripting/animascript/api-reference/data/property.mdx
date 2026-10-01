@@ -1,0 +1,138 @@
+---
+title: Property
+---
+
+A view model property that notifies listeners when its value changes.
+Each kind of property is a subclass with a typed `value`.
+
+
+## Methods
+
+### `addListener`
+
+<div class="signature">
+```ts
+addListener(listener: () => void): void
+```
+</div>
+
+Registers a listener that is called whenever the property's value
+changes. Listening stops when the host disposes the script instance
+that added it.
+
+```ts
+function onHealthChanged(): void {
+    console.log("health changed");
+}
+
+let health = vm.getNumber("health");
+if (health != null) {
+    health.addListener(onHealthChanged);
+    health.value = 50; // Notifies onHealthChanged
+}
+```
+
+
+### `addListenerWith`
+
+<div class="signature">
+```ts
+addListenerWith<K>(context: K, listener: (context: K) => void): void
+```
+</div>
+
+Registers a listener that receives `context` each time it is called,
+and keeps `context` alive while registered. Remove it with
+`removeListenerWith`.
+
+```ts
+export class Cannon extends Node {
+    shots: i32 = 0;
+
+    override init(context: Context): bool {
+        let vm = context.viewModel();
+        if (vm != null) {
+            let fire = vm.getTrigger("fire");
+            if (fire != null) {
+                fire.addListenerWith(this, (self: Cannon): void => {
+                    self.shots++;
+                });
+            }
+        }
+        return true;
+    }
+}
+```
+
+
+### `removeListener`
+
+<div class="signature">
+```ts
+removeListener(listener: () => void): void
+```
+</div>
+
+Removes every registration of a listener added with `addListener`,
+matched by function.
+
+```ts
+health.removeListener(onHealthChanged);
+```
+
+
+### `removeListenerWith`
+
+<div class="signature">
+```ts
+removeListenerWith<K>(context: K, listener: (context: K) => void): void
+```
+</div>
+
+Removes every registration of a listener added with `addListenerWith`
+with this same `context` and `listener`. Other contexts registered
+with the same function keep listening.
+
+```ts
+export class Cannon extends Node {
+    fire: PropertyTrigger | null = null;
+    shots: i32 = 0;
+
+    static onFire(self: Cannon): void {
+        self.shots++;
+    }
+
+    override init(context: Context): bool {
+        let vm = context.viewModel();
+        if (vm != null) {
+            let fire = vm.getTrigger("fire");
+            if (fire != null) {
+                fire.addListenerWith(this, Cannon.onFire);
+                this.fire = fire;
+            }
+        }
+        return true;
+    }
+
+    stopListening(): void {
+        let fire = this.fire;
+        if (fire != null) {
+            fire.removeListenerWith(this, Cannon.onFire);
+        }
+    }
+}
+```
+
+
+### `release`
+
+<div class="signature">
+```ts
+release(): void
+```
+</div>
+
+Drops every listener and releases the property now instead of when it
+is collected. It reads nothing afterwards.
+
+

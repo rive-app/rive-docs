@@ -1,0 +1,135 @@
+---
+title: TextureFormat
+---
+
+Pixel format of a texture or color target. The block compressed formats depend on
+the device; check [GPUFeatures](/scripting/animascript/api-reference/gpu/gpu-features) before using them.
+
+
+## Fields
+
+### `r8unorm`
+
+One 8 bit normalized channel.
+
+
+### `rg8unorm`
+
+Two 8 bit normalized channels.
+
+
+### `rgba8unorm`
+
+Four 8 bit normalized channels.
+
+
+### `rgba8snorm`
+
+Four 8 bit signed normalized channels.
+
+
+### `bgra8unorm`
+
+Four 8 bit normalized channels in BGRA order.
+
+
+### `rgba16float`
+
+Four 16 bit float channels. Rendering into it needs the `colorBufferHalfFloat` feature.
+
+
+### `rg16float`
+
+Two 16 bit float channels. Rendering into it needs the `colorBufferHalfFloat` feature.
+
+
+### `r16float`
+
+One 16 bit float channel. Rendering into it needs the `colorBufferHalfFloat` feature.
+
+
+### `rgba32float`
+
+Four 32 bit float channels. Rendering into it needs the `colorBufferFloat` feature.
+
+
+### `rg32float`
+
+Two 32 bit float channels. Rendering into it needs the `colorBufferFloat` feature.
+
+
+### `r32float`
+
+One 32 bit float channel. Rendering into it needs the `colorBufferFloat` feature.
+
+
+### `rgb10a2unorm`
+
+10 bit RGB and 2 bit alpha, normalized.
+
+
+### `r11g11b10float`
+
+Packed 11, 11 and 10 bit float RGB with no alpha.
+
+
+### `depth16unorm`
+
+16 bit normalized depth.
+
+
+### `depth24plusStencil8`
+
+At least 24 bits of depth plus 8 bits of stencil.
+
+
+### `depth32float`
+
+32 bit float depth.
+
+
+### `depth32floatStencil8`
+
+32 bit float depth plus 8 bits of stencil.
+
+
+### `bc1unorm`
+
+BC1 (DXT1) compressed RGBA. Needs the `bc` feature.
+
+
+### `bc3unorm`
+
+BC3 (DXT5) compressed RGBA. Needs the `bc` feature.
+
+
+### `bc7unorm`
+
+BC7 compressed RGBA. Needs the `bc` feature.
+
+
+### `etc2rgb8`
+
+ETC2 compressed RGB. Needs the `etc2` feature.
+
+
+### `etc2rgba8`
+
+ETC2 compressed RGBA. Needs the `etc2` feature.
+
+
+### `astc4x4`
+
+ASTC compressed with 4x4 blocks. Needs the `astc` feature.
+
+
+### `astc6x6`
+
+ASTC compressed with 6x6 blocks. Needs the `astc` feature.
+
+
+### `astc8x8`
+
+ASTC compressed with 8x8 blocks. Needs the `astc` feature.
+
+

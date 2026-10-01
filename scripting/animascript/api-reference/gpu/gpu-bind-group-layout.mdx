@@ -1,0 +1,44 @@
+---
+title: GPUBindGroupLayout
+---
+
+The contract a [GPUBindGroup](/scripting/animascript/api-reference/gpu/gpu-bind-group) conforms to for one `@group(N)` of a
+pipeline. Build one from a shader with `fromShader`, then pass it in
+`bindGroupLayouts` of [GPUPipelineDesc](/scripting/animascript/api-reference/gpu/gpu-pipeline-desc) at index N and to every
+[GPUBindGroup](/scripting/animascript/api-reference/gpu/gpu-bind-group) for that group. One layout shared by several pipelines
+lets one bind group serve all of them, such as a per frame camera and
+lights group reused by many materials.
+
+
+## Static Functions
+
+### `fromShader`
+
+<div class="signature">
+```ts
+static unsafe fromShader(module: GPUShaderModule, groupIndex: u32, dynamicUBOs: Array<u32> = [], fragment: GPUShaderModule | null = null): GPUBindGroupLayout | null
+```
+</div>
+
+Derives the layout of WGSL `@group(groupIndex)` from `module`'s
+bindings. `dynamicUBOs` lists the `@binding` values in the group whose
+uniform buffers take a dynamic offset in `setBindGroup`. Pass
+`fragment` when the pipeline's fragment stage comes from another
+shader, so the layout covers what either stage binds. Raises an error
+when `groupIndex` is 4 or more. Returns null when there is no GPU
+device or the device rejects the layout.
+
+
+## Methods
+
+### `release`
+
+<div class="signature">
+```ts
+release(): void
+```
+</div>
+
+Releases the layout now instead of when it is collected.
+
+

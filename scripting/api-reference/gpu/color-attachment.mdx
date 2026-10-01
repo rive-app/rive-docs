@@ -9,8 +9,8 @@ Color attachment descriptor for canvas:beginRenderPass.
 
 ### `view`
 
-Optional render target view. Defaults to the receiving canvas's
-own colorView() when omitted. Provide an explicit view for cases
+Optional render target view. Defaults to the receiving target's
+own `view` when omitted. Provide an explicit view for cases
 where the target differs — most commonly MSAA, where `view` is the
 multisampled GPUTexture:view() and `resolveTarget` is the canvas's
 1× colorView().

@@ -1,0 +1,47 @@
+---
+title: TransitionChild
+---
+
+One child, a nested artboard, of a [Transition](/scripting/animascript/api-reference/host/transition), valid only during the
+`changed` or `draw` call it is passed to. Draw it with `draw`, wrapping
+the call in renderer state (save, opacity, transform, clip, restore) to
+author the transition effect.
+
+
+## Fields
+
+### `width`
+
+<div class="signature">
+```ts
+readonly width: f64
+```
+</div>
+
+The child artboard's natural width, useful for slide and scale math.
+
+
+### `height`
+
+<div class="signature">
+```ts
+readonly height: f64
+```
+</div>
+
+The child artboard's natural height.
+
+
+## Methods
+
+### `draw`
+
+<div class="signature">
+```ts
+draw(renderer: Renderer): void
+```
+</div>
+
+Draws this child's content at the renderer's current transform.
+
+

@@ -1,0 +1,40 @@
+---
+title: DataContext
+---
+
+A level of the data context hierarchy and its [ViewModel](/scripting/animascript/api-reference/data/view-model). Get the one
+bound to a script with `Context.dataContext`.
+
+
+## Methods
+
+### `parent`
+
+<div class="signature">
+```ts
+parent(): DataContext | null
+```
+</div>
+
+The parent data context, or null at the top.
+
+```ts
+let dc = context.dataContext();
+if (dc != null) {
+    let parent = dc.parent();
+    let vm = dc.viewModel();
+}
+```
+
+
+### `viewModel`
+
+<div class="signature">
+```ts
+viewModel(): ViewModel | null
+```
+</div>
+
+The view model bound to this context, or null when there is none.
+
+

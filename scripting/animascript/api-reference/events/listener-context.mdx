@@ -1,0 +1,259 @@
+---
+title: ListenerContext
+---
+
+The event that triggered a listener action, passed to
+`ListenerAction.performAction`.
+
+It can hold a pointer, keyboard, text input, focus, gamepad, view model
+change or reported event. Check the type with the `is` methods, or switch
+on `kind`, and read the event with the matching `as` method.
+```ts
+override performAction(context: ListenerContext): void {
+    let pointer = context.asPointerEvent();
+    if (pointer != null) {
+        this.lastClick = pointer.position;
+    }
+}
+```
+
+
+## Fields
+
+### `kind`
+
+<div class="signature">
+```ts
+kind: ListenerKind
+```
+</div>
+
+What triggered the action.
+
+
+## Methods
+
+### `isPointerEvent`
+
+<div class="signature">
+```ts
+isPointerEvent(): bool
+```
+</div>
+
+Returns true if the action was triggered by a pointer event.
+
+
+### `isKeyboardEvent`
+
+<div class="signature">
+```ts
+isKeyboardEvent(): bool
+```
+</div>
+
+Returns true if the action was triggered by a keyboard event.
+
+
+### `isTextInput`
+
+<div class="signature">
+```ts
+isTextInput(): bool
+```
+</div>
+
+Returns true if the action was triggered by a text input event.
+
+
+### `isFocus`
+
+<div class="signature">
+```ts
+isFocus(): bool
+```
+</div>
+
+Returns true if the action was triggered by a focus change.
+
+
+### `isReportedEvent`
+
+<div class="signature">
+```ts
+isReportedEvent(): bool
+```
+</div>
+
+Returns true if the action was triggered by a reported Rive event.
+
+
+### `isViewModelChange`
+
+<div class="signature">
+```ts
+isViewModelChange(): bool
+```
+</div>
+
+Returns true if the action was triggered by a view model change.
+
+
+### `isNone`
+
+<div class="signature">
+```ts
+isNone(): bool
+```
+</div>
+
+Returns true if the action was triggered by an unknown or unsupported
+event.
+
+
+### `isGamepadConnected`
+
+<div class="signature">
+```ts
+isGamepadConnected(): bool
+```
+</div>
+
+Returns true if the action was triggered by a gamepad connecting.
+
+
+### `isGamepadEvent`
+
+<div class="signature">
+```ts
+isGamepadEvent(): bool
+```
+</div>
+
+Returns true if the action was triggered by a gamepad button or axis
+change.
+
+
+### `isGamepadDisconnected`
+
+<div class="signature">
+```ts
+isGamepadDisconnected(): bool
+```
+</div>
+
+Returns true if the action was triggered by a gamepad disconnecting.
+
+
+### `asPointerEvent`
+
+<div class="signature">
+```ts
+asPointerEvent(): PointerEvent | null
+```
+</div>
+
+Returns the pointer event if applicable, otherwise null.
+
+
+### `asKeyboardEvent`
+
+<div class="signature">
+```ts
+asKeyboardEvent(): KeyboardEvent | null
+```
+</div>
+
+Returns the keyboard event if applicable, otherwise null.
+
+
+### `asTextInput`
+
+<div class="signature">
+```ts
+asTextInput(): TextInput | null
+```
+</div>
+
+Returns the text input event if applicable, otherwise null.
+
+
+### `asFocus`
+
+<div class="signature">
+```ts
+asFocus(): FocusEvent | null
+```
+</div>
+
+Returns the focus event if applicable, otherwise null.
+
+
+### `asGamepadConnected`
+
+<div class="signature">
+```ts
+asGamepadConnected(): GamepadEvent | null
+```
+</div>
+
+Returns the gamepad state for a connect if applicable, otherwise null.
+
+
+### `asGamepadEvent`
+
+<div class="signature">
+```ts
+asGamepadEvent(): GamepadEvent | null
+```
+</div>
+
+Returns the gamepad state after a button or axis change if applicable,
+otherwise null.
+
+
+### `asGamepadDisconnected`
+
+<div class="signature">
+```ts
+asGamepadDisconnected(): GamepadEvent | null
+```
+</div>
+
+Returns the gamepad state for a disconnect if applicable, otherwise
+null.
+
+
+### `asReportedEvent`
+
+<div class="signature">
+```ts
+asReportedEvent(): ReportedEvent | null
+```
+</div>
+
+Returns the reported event if applicable, otherwise null.
+
+
+### `asViewModelChange`
+
+<div class="signature">
+```ts
+asViewModelChange(): ViewModelChange | null
+```
+</div>
+
+Returns the view model change if applicable, otherwise null.
+
+
+### `asNone`
+
+<div class="signature">
+```ts
+asNone(): NoneEvent | null
+```
+</div>
+
+Returns a none event if applicable, otherwise null.
+
+

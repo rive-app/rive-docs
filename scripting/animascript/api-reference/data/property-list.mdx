@@ -1,0 +1,181 @@
+---
+title: PropertyList
+---
+
+A mutable list of [ViewModel](/scripting/animascript/api-reference/data/view-model) items.
+
+Use it to manage repeating data from scripts, such as menu items,
+inventory entries or dynamic rows. A list supports:
+- Reading the item count with `length`
+- Indexed access counting from 0 (`list[0]`, `list[1]`, ...)
+- Changes with `push`, `insert`, `swap`, `pop`, `shift`, `clear` and
+  the `remove` methods
+- Change notifications with `addListener` and `removeListener`
+
+
+## Fields
+
+### `length`
+
+<div class="signature">
+```ts
+readonly length: i32
+```
+</div>
+
+The current number of items in the list.
+
+```ts
+if (menu.length >= 2) {
+    menu.swap(0, 1);
+}
+```
+
+
+## Methods
+
+### `operator[]`
+
+<div class="signature">
+```ts
+operator[](index: i32): ViewModel
+```
+</div>
+
+The item at `index`, counting from 0.
+
+```ts
+let item = menu[0];
+let label = item.getString("label");
+if (label != null) {
+    label.value = "Play";
+}
+```
+
+
+### `get`
+
+<div class="signature">
+```ts
+get(index: i32): ViewModel
+```
+</div>
+
+The item at `index`, counting from 0. The same as `list[index]`.
+
+
+### `push`
+
+<div class="signature">
+```ts
+push(vm: ViewModel): void
+```
+</div>
+
+Adds a view model to the end of the list.
+
+```ts
+let button = ViewModel.create("Button");
+let label = button.getString("label");
+if (label != null) {
+    label.value = "Play";
+}
+menu.push(button);
+```
+
+
+### `pop`
+
+<div class="signature">
+```ts
+pop(): ViewModel | null
+```
+</div>
+
+Removes and returns the last view model in the list, or null when the
+list is empty.
+
+
+### `shift`
+
+<div class="signature">
+```ts
+shift(): ViewModel | null
+```
+</div>
+
+Removes and returns the first view model in the list, or null when
+the list is empty.
+
+
+### `clear`
+
+<div class="signature">
+```ts
+clear(): void
+```
+</div>
+
+Removes all view models from the list.
+
+
+### `swap`
+
+<div class="signature">
+```ts
+swap(index1: i32, index2: i32): void
+```
+</div>
+
+Swaps the positions of the view models at `index1` and `index2`,
+counting from 0.
+
+
+### `insert`
+
+<div class="signature">
+```ts
+insert(vm: ViewModel, index: i32): void
+```
+</div>
+
+Inserts a view model at `index`, counting from 0.
+
+```ts
+menu.insert(ViewModel.create("Button"), 0);
+```
+
+
+### `remove`
+
+<div class="signature">
+```ts
+remove(vm: ViewModel): void
+```
+</div>
+
+Removes the first entry that references the given view model.
+
+
+### `removeAt`
+
+<div class="signature">
+```ts
+removeAt(index: i32): void
+```
+</div>
+
+Removes the view model at `index`, counting from 0.
+
+
+### `removeAllOf`
+
+<div class="signature">
+```ts
+removeAllOf(vm: ViewModel): void
+```
+</div>
+
+Removes every entry that references the given view model.
+
+

@@ -1,0 +1,29 @@
+---
+title: FillRule
+---
+
+Decides which areas of a self intersecting or multi contour [Path](/scripting/animascript/api-reference/path/path) count as
+inside when it is filled.
+```ts
+let path = new Path();
+path.fillRule = FillRule.evenOdd;
+```
+
+
+## Fields
+
+### `nonZero`
+
+Inside where the contours wind around a point a nonzero number of times.
+
+
+### `evenOdd`
+
+Inside where a ray from a point crosses the contours an odd number of times.
+
+
+### `clockwise`
+
+Inside where the contours wind clockwise around a point. The default.
+
+

@@ -1,0 +1,45 @@
+---
+title: PropertyBlob
+---
+
+A blob property of a view model: raw bytes, such as a data file added
+to the Rive file or bytes a script sets.
+
+
+## Fields
+
+### `value`
+
+<div class="signature">
+```ts
+value: ArrayBuffer | null
+```
+</div>
+
+A copy of the blob's bytes, or null while the property holds none.
+Assign bytes to replace the blob, or null to clear it.
+
+```ts
+let data = vm.getBlob("levelData");
+if (data != null) {
+    let bytes = data.value;
+    if (bytes != null && bytes.byteLength > 0) {
+        let first = Uint8Array.wrap(bytes)[0];
+    }
+    data.value = new ArrayBuffer(16);
+}
+```
+
+
+### `assetName`
+
+<div class="signature">
+```ts
+readonly assetName: string
+```
+</div>
+
+The name of the blob asset the property holds, empty when it holds
+none or holds bytes set at runtime.
+
+

@@ -31,7 +31,8 @@ stop(fadeToStopTime: number?) -> ()
 ```
 </div>
 
-stop the audio
+Stops the audio, fading out over `fadeToStopTime` PCM frames. Omit it
+to stop at once.
 ```lua highlight={3}
 function stopSound(self: AudioScript)
   if self.soundInstance then
@@ -43,14 +44,15 @@ end
 
 ### `seek`
 
-{/* function seek(self, seconds: number) : () */}
+{/* function seek(self, seconds: number) : boolean */}
 <div class="signature">
 ```lua
-seek(seconds: number) -> ()
+seek(seconds: number) -> boolean
 ```
 </div>
 
-seek the audio to a specific time in seconds.
+Seeks the audio to a specific time in seconds. Returns false when the
+sound was disposed or the seek failed.
 ```lua
 if self.soundInstance then
   self.soundInstance:seek(self.seekSeconds)
@@ -60,14 +62,15 @@ end
 
 ### `seekFrame`
 
-{/* function seekFrame(self, frame: number) : () */}
+{/* function seekFrame(self, frame: number) : boolean */}
 <div class="signature">
 ```lua
-seekFrame(frame: number) -> ()
+seekFrame(frame: number) -> boolean
 ```
 </div>
 
-seek the audio to a specific time in PCM frames.
+Seeks the audio to a specific time in PCM frames. Returns false when
+the sound was disposed or the seek failed.
 ```lua
 if self.soundInstance then
   self.soundInstance:seekFrame(self.seekFrameNumber)

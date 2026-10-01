@@ -1,0 +1,544 @@
+---
+title: GamepadEvent
+---
+
+A gamepad's full state, delivered when a device connects, when one of its
+buttons or axes changes, and when it disconnects. `kind` says which.
+
+Button and axis indices are 0 based W3C Standard Gamepad slots. The named
+reads such as `south` or `leftStick` answer only when `isStandardMapping`
+is true, and read false or 0 otherwise; read any other device by index.
+```ts
+override gamepadEvent(event: GamepadEvent): bool {
+    if (event.south) {
+        this.jump = true;
+        return true;
+    }
+    this.move = event.leftStick;
+    return false;
+}
+```
+
+
+## Fields
+
+### `kind`
+
+<div class="signature">
+```ts
+kind: string
+```
+</div>
+
+Why the event fired: `connected`, `event` or `disconnected`.
+
+
+### `deviceId`
+
+<div class="signature">
+```ts
+deviceId: i32
+```
+</div>
+
+A stable id for this device for as long as it stays connected.
+
+
+### `gamepadMapping`
+
+<div class="signature">
+```ts
+gamepadMapping: u32
+```
+</div>
+
+The raw mapping value: 0 for the standard layout, 1 for unknown.
+
+
+### `changeKind`
+
+<div class="signature">
+```ts
+changeKind: string
+```
+</div>
+
+What changed on an `event`: `button` or `axis`. Empty for the
+other kinds.
+
+
+### `changeIndex`
+
+<div class="signature">
+```ts
+changeIndex: u32
+```
+</div>
+
+The 0 based index of the button or axis that changed.
+
+
+### `changeValue`
+
+<div class="signature">
+```ts
+changeValue: f32
+```
+</div>
+
+The new value of the button or axis that changed.
+
+
+### `hasStandardButtonIntent`
+
+<div class="signature">
+```ts
+hasStandardButtonIntent: bool
+```
+</div>
+
+True when the change maps to a standard layout button, named by
+`intentButton`.
+
+
+### `standardButton`
+
+<div class="signature">
+```ts
+standardButton: u32
+```
+</div>
+
+The 0 based standard button index behind `intentButton`, valid when
+`hasStandardButtonIntent` is true.
+
+
+### `hasStandardAxisIntent`
+
+<div class="signature">
+```ts
+hasStandardAxisIntent: bool
+```
+</div>
+
+True when the change maps to a standard layout axis, named by
+`intentAxis`.
+
+
+### `standardAxis`
+
+<div class="signature">
+```ts
+standardAxis: u32
+```
+</div>
+
+The 0 based standard axis index behind `intentAxis`, valid when
+`hasStandardAxisIntent` is true.
+
+
+### `buttons`
+
+<div class="signature">
+```ts
+buttons: StaticArray<f32>
+```
+</div>
+
+The analog value of every button, from 0 to 1, by 0 based W3C index.
+
+
+### `axes`
+
+<div class="signature">
+```ts
+axes: StaticArray<f32>
+```
+</div>
+
+The value of every axis by 0 based W3C index. The standard layout
+has at least six: the two sticks, then the two triggers.
+
+
+### `buttonMask`
+
+<div class="signature">
+```ts
+readonly buttonMask: u64
+```
+</div>
+
+Every button's pressed state as bits: bit `i` is set when the button at
+index `i` is pressed.
+
+
+### `isStandardMapping`
+
+<div class="signature">
+```ts
+readonly isStandardMapping: bool
+```
+</div>
+
+True when the host normalized the device to the W3C standard layout.
+
+
+### `mapping`
+
+<div class="signature">
+```ts
+readonly mapping: string
+```
+</div>
+
+The layout: `standard` or `unknown`. Named reads answer only on
+`standard`.
+
+
+### `intentButton`
+
+<div class="signature">
+```ts
+readonly intentButton: string | null
+```
+</div>
+
+The standard name of the button that changed, such as `south` or
+`dpadUp`, or null when the change has no standard button intent.
+
+
+### `intentAxis`
+
+<div class="signature">
+```ts
+readonly intentAxis: string | null
+```
+</div>
+
+The standard name of the axis that changed, such as `leftX` or
+`rightTriggerAxis`, or null when the change has no standard axis
+intent.
+
+
+### `south`
+
+<div class="signature">
+```ts
+readonly south: bool
+```
+</div>
+
+True when the bottom face button (A on Xbox, Cross on PlayStation) is
+pressed. Standard mapping only.
+
+
+### `east`
+
+<div class="signature">
+```ts
+readonly east: bool
+```
+</div>
+
+True when the right face button (B on Xbox, Circle on PlayStation) is
+pressed. Standard mapping only.
+
+
+### `west`
+
+<div class="signature">
+```ts
+readonly west: bool
+```
+</div>
+
+True when the left face button (X on Xbox, Square on PlayStation) is
+pressed. Standard mapping only.
+
+
+### `north`
+
+<div class="signature">
+```ts
+readonly north: bool
+```
+</div>
+
+True when the top face button (Y on Xbox, Triangle on PlayStation) is
+pressed. Standard mapping only.
+
+
+### `leftShoulder`
+
+<div class="signature">
+```ts
+readonly leftShoulder: bool
+```
+</div>
+
+True when the left shoulder button is pressed. Standard mapping only.
+
+
+### `rightShoulder`
+
+<div class="signature">
+```ts
+readonly rightShoulder: bool
+```
+</div>
+
+True when the right shoulder button is pressed. Standard mapping only.
+
+
+### `leftTriggerPressed`
+
+<div class="signature">
+```ts
+readonly leftTriggerPressed: bool
+```
+</div>
+
+True when the left trigger is pressed as a digital button. Standard
+mapping only.
+
+
+### `rightTriggerPressed`
+
+<div class="signature">
+```ts
+readonly rightTriggerPressed: bool
+```
+</div>
+
+True when the right trigger is pressed as a digital button. Standard
+mapping only.
+
+
+### `back`
+
+<div class="signature">
+```ts
+readonly back: bool
+```
+</div>
+
+True when the back (select) button is pressed. Standard mapping only.
+
+
+### `forward`
+
+<div class="signature">
+```ts
+readonly forward: bool
+```
+</div>
+
+True when the forward (start) button is pressed. Standard mapping only.
+
+
+### `leftStickButton`
+
+<div class="signature">
+```ts
+readonly leftStickButton: bool
+```
+</div>
+
+True when the left stick is clicked. Standard mapping only.
+
+
+### `rightStickButton`
+
+<div class="signature">
+```ts
+readonly rightStickButton: bool
+```
+</div>
+
+True when the right stick is clicked. Standard mapping only.
+
+
+### `dpadUp`
+
+<div class="signature">
+```ts
+readonly dpadUp: bool
+```
+</div>
+
+True when the d-pad up button is pressed. Standard mapping only.
+
+
+### `dpadDown`
+
+<div class="signature">
+```ts
+readonly dpadDown: bool
+```
+</div>
+
+True when the d-pad down button is pressed. Standard mapping only.
+
+
+### `dpadLeft`
+
+<div class="signature">
+```ts
+readonly dpadLeft: bool
+```
+</div>
+
+True when the d-pad left button is pressed. Standard mapping only.
+
+
+### `dpadRight`
+
+<div class="signature">
+```ts
+readonly dpadRight: bool
+```
+</div>
+
+True when the d-pad right button is pressed. Standard mapping only.
+
+
+### `start`
+
+<div class="signature">
+```ts
+readonly start: bool
+```
+</div>
+
+True when the center (home) button is pressed. Standard mapping only.
+
+
+### `leftX`
+
+<div class="signature">
+```ts
+readonly leftX: f32
+```
+</div>
+
+The left stick's horizontal deflection, from -1 to 1. Standard mapping
+only.
+
+
+### `leftY`
+
+<div class="signature">
+```ts
+readonly leftY: f32
+```
+</div>
+
+The left stick's vertical deflection, from -1 to 1. Standard mapping
+only.
+
+
+### `rightX`
+
+<div class="signature">
+```ts
+readonly rightX: f32
+```
+</div>
+
+The right stick's horizontal deflection, from -1 to 1. Standard mapping
+only.
+
+
+### `rightY`
+
+<div class="signature">
+```ts
+readonly rightY: f32
+```
+</div>
+
+The right stick's vertical deflection, from -1 to 1. Standard mapping
+only.
+
+
+### `leftStick`
+
+<div class="signature">
+```ts
+readonly leftStick: Vector
+```
+</div>
+
+The left stick's deflection, axes 0 and 1. Standard mapping only.
+
+
+### `rightStick`
+
+<div class="signature">
+```ts
+readonly rightStick: Vector
+```
+</div>
+
+The right stick's deflection, axes 2 and 3. Standard mapping only.
+
+
+### `leftTrigger`
+
+<div class="signature">
+```ts
+readonly leftTrigger: f32
+```
+</div>
+
+The left trigger's analog value, axis 4. Standard mapping only.
+
+
+### `rightTrigger`
+
+<div class="signature">
+```ts
+readonly rightTrigger: f32
+```
+</div>
+
+The right trigger's analog value, axis 5. Standard mapping only.
+
+
+## Methods
+
+### `axis`
+
+<div class="signature">
+```ts
+axis(index: i32): f32
+```
+</div>
+
+The value of the axis at the given 0 based index, or 0 when the
+device does not report it.
+
+
+### `buttonValue`
+
+<div class="signature">
+```ts
+buttonValue(index: i32): f32
+```
+</div>
+
+The analog value, from 0 to 1, of the button at the given 0 based
+index, or 0 when the device does not report it.
+
+
+### `buttonPressed`
+
+<div class="signature">
+```ts
+buttonPressed(index: i32): bool
+```
+</div>
+
+True if the button at the given 0 based W3C index is pressed.
+
+

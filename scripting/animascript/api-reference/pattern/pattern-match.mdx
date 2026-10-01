@@ -1,0 +1,71 @@
+---
+title: PatternMatch
+---
+
+A match found by `Pattern.find`: where it is in the searched string and what
+its captures hold.
+
+
+## Fields
+
+### `start`
+
+<div class="signature">
+```ts
+start: i32
+```
+</div>
+
+The index of the first character of the match.
+
+
+### `end`
+
+<div class="signature">
+```ts
+end: i32
+```
+</div>
+
+The index just past the last character of the match, so the match is
+`s.substring(start, end)`.
+
+
+### `groupCount`
+
+<div class="signature">
+```ts
+groupCount: i32
+```
+</div>
+
+The number of captures in the pattern, 0 when it has none.
+
+
+## Methods
+
+### `group`
+
+<div class="signature">
+```ts
+group(i: i32): string
+```
+</div>
+
+The text of capture `i`: 0 is the whole match and 1 to `groupCount` are
+the captures in pattern order. A position capture `()` gives its 0 based
+index as text. Throws for any other `i`.
+
+
+### `captures`
+
+<div class="signature">
+```ts
+captures(): Array<string>
+```
+</div>
+
+The captures' texts in pattern order, or the whole match alone when the
+pattern has no captures: what Luau's `match` and `gmatch` give.
+
+

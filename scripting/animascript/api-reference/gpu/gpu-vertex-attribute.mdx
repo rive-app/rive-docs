@@ -1,0 +1,57 @@
+---
+title: GPUVertexAttribute
+---
+
+One attribute within a vertex buffer layout.
+
+
+## Fields
+
+### `format`
+
+<div class="signature">
+```ts
+format: VertexFormat
+```
+</div>
+
+Attribute format.
+
+
+### `shaderSlot`
+
+<div class="signature">
+```ts
+shaderSlot: u32
+```
+</div>
+
+WGSL `@location` the attribute feeds.
+
+
+### `offset`
+
+<div class="signature">
+```ts
+offset: u32
+```
+</div>
+
+Byte offset of the attribute within a vertex. An interleaved layout
+sets each one, such as 0 for a `float3` position and 12 for the
+normal after it.
+
+
+## Constructors
+
+### `constructor`
+
+<div class="signature">
+```ts
+constructor(format: VertexFormat, shaderSlot: u32, offset: u32)
+```
+</div>
+
+Creates an attribute.
+
+

@@ -1,0 +1,61 @@
+---
+title: GPUPipeline
+---
+
+A compiled GPU render pipeline: shaders plus fixed function state.
+
+
+## Constructors
+
+### `constructor`
+
+<div class="signature">
+```ts
+unsafe constructor(desc: GPUPipelineDesc)
+```
+</div>
+
+Creates a pipeline from `desc`. Raises an error when the device
+rejects the descriptor. A missing vertex shader or an entry point
+that does not resolve leaves the pipeline empty, and setting it on a
+pass does nothing.
+
+
+## Methods
+
+### `getBindGroupLayout`
+
+<div class="signature">
+```ts
+getBindGroupLayout(groupIndex: u32): GPUBindGroupLayout
+```
+</div>
+
+Returns the layout the pipeline derived for `@group(groupIndex)`, for
+building a [GPUBindGroup](/scripting/animascript/api-reference/gpu/gpu-bind-group), like WebGPU's `getBindGroupLayout`. Raises
+an error when the pipeline was given `bindGroupLayouts`, whose layouts
+serve instead, or when the shader does not use the group.
+
+```ts
+let desc = new GPUPipelineDesc();
+desc.vertexModule = shader;
+desc.colorTargets = [new GPUColorTargetDesc()];
+let pipeline = new GPUPipeline(desc);
+let group = new GPUBindGroup(
+    pipeline.getBindGroupLayout(0),
+    [new GPUBindGroupUBO(0, uniforms)]);
+```
+
+
+### `release`
+
+<div class="signature">
+```ts
+release(): void
+```
+</div>
+
+Releases the pipeline now instead of when it is collected, along with
+its hold on the layouts it derived.
+
+

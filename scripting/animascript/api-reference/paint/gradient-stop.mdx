@@ -1,0 +1,51 @@
+---
+title: GradientStop
+---
+
+A color stop in a [Gradient](/scripting/animascript/api-reference/paint/gradient): a position from 0 to 1 and the color there.
+
+
+## Fields
+
+### `position`
+
+<div class="signature">
+```ts
+position: f32
+```
+</div>
+
+Position of the stop along the gradient, where 0 is the start and 1 is the
+end.
+
+
+### `color`
+
+<div class="signature">
+```ts
+color: Color
+```
+</div>
+
+The [Color](/scripting/animascript/api-reference/color/color) at `position`.
+
+
+## Constructors
+
+### `constructor`
+
+<div class="signature">
+```ts
+constructor(position: f32, color: Color)
+```
+</div>
+
+Creates a stop with `color` at `position`.
+```ts
+let stops: Array<GradientStop> = [
+  GradientStop(0, Color.rgb(255, 0, 0)),
+  GradientStop(1, Color.rgb(0, 0, 255)),
+];
+```
+
+

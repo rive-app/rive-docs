@@ -1,0 +1,205 @@
+---
+title: Pattern
+---
+
+Searches and rewrites strings with Lua style patterns, a lighter alternative
+to regular expressions. Positions start at 0 and end positions are
+exclusive.
+
+A pattern is a sequence of items:
+
+| Item | Matches |
+| --- | --- |
+| `.` | Any character |
+| `%` and a class letter | A character in the class: `%a` letter, `%d` digit, `%l` lowercase, `%u` uppercase, `%s` whitespace, `%w` letter or digit, `%x` hex digit, `%p` punctuation, `%c` control, `%g` printable other than space |
+| `%A`, `%D`, and so on | A character not in the lowercase class |
+| `%.` | A `%` before any other symbol matches that symbol literally |
+| `[abc]`, `[a-z%d]` | Any character in the set, which can hold ranges and classes |
+| `[^abc]` | Any character not in the set |
+| `*` `+` `-` `?` | After a single character item: 0 or more (longest), 1 or more (longest), 0 or more (shortest), 0 or 1 |
+| `(...)` | A capture of what the enclosed items match |
+| `()` | A capture of the current position |
+| `%1` to `%9` | The same text as an earlier capture |
+| `%bxy` | A balanced run from `x` to its matching `y`, such as `%b()` |
+| `%f[set]` | The frontier where the previous character is not in `set` and the next one is |
+| `^` / `$` | At the start or end of the pattern, anchors the match to the start or end of the string |
+
+Classes cover ASCII only, and each UTF-16 code unit counts as one character.
+A malformed pattern throws.
+```ts
+import { Pattern } from "rive/pattern";
+
+export function parseSize(text: string): f64 {
+  let m = Pattern.find(text, "(%a+)=(%d+)");
+  if (m == null) {
+    return 0;
+  }
+  // For "size=128", m.group(1) is "size" and m.group(2) is "128".
+  return parseFloat(m.group(2));
+}
+```
+
+
+## Static Functions
+
+### `find`
+
+<div class="signature">
+```ts
+function find(s: string, p: string, init: i32 = 0, plain: bool = false): PatternMatch | null
+```
+</div>
+
+Finds the first match of pattern `p` in `s` at or after index `init` as
+a [PatternMatch](/scripting/animascript/api-reference/pattern/pattern-match), or returns `null`. A negative `init` counts back from
+the end of `s`. When `plain` is true, or `p` has no special characters,
+`p` is searched for as literal text.
+
+
+### `gmatch`
+
+<div class="signature">
+```ts
+function gmatch(s: string, p: string): Array<string>
+```
+</div>
+
+Returns every match of `p` in `s`, in order. Each entry is the match's
+first capture, or the whole match when `p` has no captures; use
+`findAll` for every capture. A leading `^` matches a literal `^` here
+rather than anchoring.
+```ts
+import { Pattern } from "rive/pattern";
+
+export function sumNumbers(text: string): f64 {
+  let total = 0.0;
+  let numbers = Pattern.gmatch(text, "%d+");
+  for (let i = 0; i < numbers.length; i++) {
+    total += parseFloat(numbers[i]);
+  }
+  return total;
+}
+```
+
+
+### `findAll`
+
+<div class="signature">
+```ts
+function findAll(s: string, p: string): Array<PatternMatch>
+```
+</div>
+
+Returns every match of `p` in `s` as a [PatternMatch](/scripting/animascript/api-reference/pattern/pattern-match), in the order
+`gmatch` finds them: Luau's `gmatch` with all of each match's captures,
+read with `captures` or `group`.
+```ts
+import { Pattern } from "rive/pattern";
+
+export function pairs(text: string): string {
+  // "a=1, b=2" gives "a:1 b:2".
+  let out = "";
+  let matches = Pattern.findAll(text, "(%w+)=(%w+)");
+  for (let i = 0; i < matches.length; i++) {
+    let parts = matches[i].captures();
+    out += (i > 0 ? " " : "") + parts[0] + ":" + parts[1];
+  }
+  return out;
+}
+```
+
+
+### `match`
+
+<div class="signature">
+```ts
+function match(s: string, p: string, init: i32 = 0): Array<string> | null
+```
+</div>
+
+Finds the first match of `p` in `s` at or after index `init` and returns
+its captures, or the whole match when `p` has no captures, or `null`
+when there is no match: Luau's `match`. A negative `init` counts back
+from the end of `s`. A position capture `()` gives its 0 based index as
+text.
+```ts
+import { Pattern } from "rive/pattern";
+
+export function key(line: string): string {
+  let parts = Pattern.match(line, "^(%w+)%s*=");
+  return parts != null ? parts[0] : "";
+}
+```
+
+
+### `gsub`
+
+<div class="signature">
+```ts
+function gsub(s: string, p: string, repl: string, max: i32 = -1): PatternReplace
+```
+</div>
+
+Replaces matches of `p` in `s` with `repl`, at most `max` of them, or
+all when `max` is negative. In `repl`, `%0` stands for the whole match,
+`%1` to `%9` for its captures and `%%` for a literal `%`. Returns the
+new string and the count as a [PatternReplace](/scripting/animascript/api-reference/pattern/pattern-replace).
+```ts
+import { Pattern } from "rive/pattern";
+
+export function bracketWords(text: string): string {
+  // "hello world" becomes "[hello] [world]", with count 2.
+  let result = Pattern.gsub(text, "(%w+)", "[%1]");
+  return result.text;
+}
+```
+
+
+### `gsubWith`
+
+<div class="signature">
+```ts
+function gsubWith(s: string, p: string, repl: (m: PatternMatch) => string | null, max: i32 = -1): PatternReplace
+```
+</div>
+
+Replaces matches of `p` in `s` with what `repl` returns for each match,
+at most `max` of them, or all when `max` is negative. A `null` result
+keeps the match as it is. Returns the new string and the count of
+matches as a [PatternReplace](/scripting/animascript/api-reference/pattern/pattern-replace).
+```ts
+import { Pattern, PatternMatch } from "rive/pattern";
+
+export function shout(text: string): string {
+  // "hi there" becomes "HI THERE".
+  return Pattern.gsubWith(text, "%a+", (m: PatternMatch): string | null =>
+    m.group(0).toUpperCase()).text;
+}
+```
+
+
+### `gsubMap`
+
+<div class="signature">
+```ts
+function gsubMap(s: string, p: string, repl: Map<string, string>, max: i32 = -1): PatternReplace
+```
+</div>
+
+Replaces matches of `p` in `s` with the value `repl` holds for the
+match's first capture, or the whole match when `p` has no captures, at
+most `max` of them, or all when `max` is negative. A match with no entry
+is kept as it is. Returns the new string and the count of matches as a
+[PatternReplace](/scripting/animascript/api-reference/pattern/pattern-replace): Luau's `gsub` given a table.
+```ts
+import { Pattern } from "rive/pattern";
+
+export function fill(template: string): string {
+  // "Hi $name" becomes "Hi Ana".
+  let values = new Map<string, string>();
+  values.set("name", "Ana");
+  return Pattern.gsubMap(template, "%$(%w+)", values).text;
+}
+```
+
+

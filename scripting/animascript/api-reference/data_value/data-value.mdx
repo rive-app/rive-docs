@@ -1,0 +1,143 @@
+---
+title: DataValue
+---
+
+Base type for the values a [Converter](/scripting/animascript/api-reference/host/converter) converts between. Check the kind
+with the `is` methods or narrow with `instanceof`, then read `value` on
+the subclass.
+
+```ts
+export class Doubler extends Converter {
+    override convert(input: DataValue): DataValue | null {
+        if (input instanceof DataValueNumber) {
+            return DataValue.newNumber(input.value * 2);
+        }
+        return null;
+    }
+}
+```
+
+
+## Fields
+
+### `kind`
+
+<div class="signature">
+```ts
+kind: DataValueKind
+```
+</div>
+
+The kind of value stored.
+
+
+## Static Functions
+
+### `newNumber`
+
+<div class="signature">
+```ts
+static newNumber(value: f64 = 0): DataValueNumber
+```
+</div>
+
+Creates a [DataValueNumber](/scripting/animascript/api-reference/data_value/data-value-number) that stores `value`.
+
+```ts
+let data = DataValue.newNumber();
+data.value = 42;
+```
+
+
+### `newString`
+
+<div class="signature">
+```ts
+static newString(value: string = ""): DataValueString
+```
+</div>
+
+Creates a [DataValueString](/scripting/animascript/api-reference/data_value/data-value-string) that stores `value`.
+
+```ts
+let data = DataValue.newString("Rive for life!");
+```
+
+
+### `newBoolean`
+
+<div class="signature">
+```ts
+static newBoolean(value: bool = false): DataValueBoolean
+```
+</div>
+
+Creates a [DataValueBoolean](/scripting/animascript/api-reference/data_value/data-value-boolean) that stores `value`.
+
+
+### `newColor`
+
+<div class="signature">
+```ts
+static newColor(value: Color = 0): DataValueColor
+```
+</div>
+
+Creates a [DataValueColor](/scripting/animascript/api-reference/data_value/data-value-color) that stores `value`.
+
+```ts
+let data = DataValue.newColor(Color.rgba(128, 55, 12, 128));
+```
+
+
+## Methods
+
+### `isNumber`
+
+<div class="signature">
+```ts
+isNumber(): bool
+```
+</div>
+
+Returns true if the value is a number.
+
+```ts
+let value = DataValue.newNumber();
+console.log(value.isNumber().toString()); // true
+```
+
+
+### `isString`
+
+<div class="signature">
+```ts
+isString(): bool
+```
+</div>
+
+Returns true if the value is a string.
+
+
+### `isBoolean`
+
+<div class="signature">
+```ts
+isBoolean(): bool
+```
+</div>
+
+Returns true if the value is a boolean.
+
+
+### `isColor`
+
+<div class="signature">
+```ts
+isColor(): bool
+```
+</div>
+
+Returns true if the value is a color.
+
+

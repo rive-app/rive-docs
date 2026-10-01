@@ -1,0 +1,35 @@
+---
+title: PathVerb
+---
+
+The verb bytes a [Path](/scripting/animascript/api-reference/path/path) stores, one per command, as passed to
+`Path.appendRaw` and `Path.fromRaw`.
+
+
+## Fields
+
+### `move`
+
+Starts a new contour. Takes 1 point.
+
+
+### `line`
+
+A straight line. Takes 1 point.
+
+
+### `quad`
+
+A quadratic Bézier curve. Takes 2 points, the control point and the end.
+
+
+### `cubic`
+
+A cubic Bézier curve. Takes 3 points, two control points and the end.
+
+
+### `close`
+
+Closes the contour. Takes no points.
+
+

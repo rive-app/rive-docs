@@ -1,0 +1,103 @@
+---
+title: GPUTarget
+---
+
+Something a render pass can draw into. It promises neither sampling nor
+contents kept between frames; [GPUCanvas](/scripting/animascript/api-reference/gpu/gpu-canvas) adds both. `context.gpuTarget()`
+returns Rive's own render target as one.
+
+
+## Fields
+
+### `width`
+
+<div class="signature">
+```ts
+readonly width: u32
+```
+</div>
+
+Width in pixels.
+
+
+### `height`
+
+<div class="signature">
+```ts
+readonly height: u32
+```
+</div>
+
+Height in pixels.
+
+
+### `format`
+
+<div class="signature">
+```ts
+readonly format: u32
+```
+</div>
+
+Pixel format, as a [TextureFormat](/scripting/animascript/api-reference/gpu_enums/texture-format) value. An MSAA resolve needs
+source and target of identical formats, so derive texture and
+pipeline formats from this value.
+
+```ts
+let color = new GPUColorTargetDesc();
+color.format = <TextureFormat>target.format;
+let desc = new GPUPipelineDesc();
+desc.vertexModule = shader;
+desc.fragmentModule = shader;
+desc.colorTargets = [color];
+desc.sampleCount = 4;
+```
+
+
+### `sampleCount`
+
+<div class="signature">
+```ts
+readonly sampleCount: u32
+```
+</div>
+
+Samples per pixel. Always 1 for a canvas; can be above 1 for
+`context.gpuTarget()` on some hosts.
+
+
+### `view`
+
+<div class="signature">
+```ts
+readonly view: GPUTextureView | null
+```
+</div>
+
+View of the target, for a color attachment or an MSAA resolve target.
+Null on a frame with nothing to draw into. Read it each frame; a view
+kept across a resize errors when a pass uses it.
+
+
+## Methods
+
+### `beginRenderPass`
+
+<div class="signature">
+```ts
+unsafe beginRenderPass(desc: GPUPassDesc, into: GPURenderPass | null = null): GPURenderPass
+```
+</div>
+
+Opens a render pass. A color attachment with a null `view` renders
+into this target; set views explicitly to render elsewhere, as for
+MSAA. Call it while drawing, issue draw calls on the returned pass,
+then call `finish`. Pass `into` to reuse a pass object from an
+earlier frame instead of allocating one.
+
+A pass may begin while another is open, as when a drawn artboard's
+own scripts render: it runs ahead of the pass it was begun inside, so
+that pass can sample its output. With nothing to draw into, the pass
+drops its commands.
+
+

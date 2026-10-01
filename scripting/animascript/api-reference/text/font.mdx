@@ -1,0 +1,216 @@
+---
+title: Font
+---
+
+A font that shapes and draws text. Fonts come from the file's assets with
+`context.font(name)`, from a view model [PropertyFont](/scripting/animascript/api-reference/data/property-font), or from bytes with
+`Font.decode`. Metrics are for a 1 point font and grow negative upwards,
+so multiply by the size and expect `ascent` below zero.
+```ts
+export class Label extends Node {
+    text: Text = new Text();
+
+    override init(context: Context): bool {
+        let font = context.font("Inter");
+        if (font != null) {
+            let style = new TextRunStyle(font);
+            style.size = 24;
+            style.paint = new Paint();
+            this.text.append("Hello", style);
+        }
+        return true;
+    }
+}
+```
+
+
+## Fields
+
+### `ascent`
+
+<div class="signature">
+```ts
+ascent: f32
+```
+</div>
+
+Distance from the baseline to the top of the em box for a 1 point
+font, negative.
+
+
+### `descent`
+
+<div class="signature">
+```ts
+descent: f32
+```
+</div>
+
+Distance from the baseline to the bottom of the em box for a 1 point
+font.
+
+
+### `capHeight`
+
+<div class="signature">
+```ts
+capHeight: f32
+```
+</div>
+
+Distance from the baseline to the top of capital letters, negative.
+
+
+### `xHeight`
+
+<div class="signature">
+```ts
+xHeight: f32
+```
+</div>
+
+Distance from the baseline to the top of lowercase letters, negative.
+
+
+### `weight`
+
+<div class="signature">
+```ts
+readonly weight: u32
+```
+</div>
+
+Weight from 1 to 1000, 400 being regular.
+
+
+### `isItalic`
+
+<div class="signature">
+```ts
+readonly isItalic: bool
+```
+</div>
+
+Whether the font is italic.
+
+
+## Static Functions
+
+### `decode`
+
+<div class="signature">
+```ts
+static unsafe decode(bytes: ArrayBuffer): Font | null
+```
+</div>
+
+Decodes a TrueType or OpenType font from bytes a script obtained
+itself, such as a downloaded file. Font files in a project are font
+assets, reached with `context.font`. Returns `null` when the bytes
+are not a font.
+```ts
+let downloadedBytes = new ArrayBuffer(0);
+let font = Font.decode(downloadedBytes);
+```
+
+
+## Methods
+
+### `lineHeight`
+
+<div class="signature">
+```ts
+lineHeight(size: f32): f32
+```
+</div>
+
+Height of one line of text at the given size.
+
+
+### `hasGlyph`
+
+<div class="signature">
+```ts
+hasGlyph(codepoint: u32): bool
+```
+</div>
+
+Whether the font has a glyph for the unicode codepoint.
+
+
+### `axisValue`
+
+<div class="signature">
+```ts
+axisValue(tag: string): f32
+```
+</div>
+
+Current value of a variable axis, by tag.
+
+
+### `axes`
+
+<div class="signature">
+```ts
+unsafe axes(): Array<FontAxis>
+```
+</div>
+
+Variable axes the font offers.
+
+
+### `features`
+
+<div class="signature">
+```ts
+unsafe features(): Array<string>
+```
+</div>
+
+Four letter OpenType feature tags the font offers, such as "liga".
+
+
+### `withOptions`
+
+<div class="signature">
+```ts
+unsafe withOptions(axes: Map<string, f32> | null = null, features: Map<string, u32> | null = null): Font
+```
+</div>
+
+A new font at the given axis values and feature settings, both keyed
+by four letter tag.
+```ts
+let axes = new Map<string, f32>();
+axes.set("wght", 700);
+let features = new Map<string, u32>();
+features.set("liga", 0);
+let bold = font.withOptions(axes, features);
+```
+
+
+### `glyphPath`
+
+<div class="signature">
+```ts
+unsafe glyphPath(glyphId: u32): Path
+```
+</div>
+
+Outline of one glyph in 1 point units with the baseline at y 0, wound
+for a clockwise fill. Scale by the font size to draw it.
+
+
+### `release`
+
+<div class="signature">
+```ts
+release(): void
+```
+</div>
+
+Releases the font. A font read from a [Glyph](/scripting/animascript/api-reference/text/glyph) belongs to its [Text](/scripting/animascript/api-reference/text/text)
+and is left alone.
+
+

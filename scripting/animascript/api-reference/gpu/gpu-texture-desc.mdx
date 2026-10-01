@@ -1,0 +1,100 @@
+---
+title: GPUTextureDesc
+---
+
+Descriptor for the [GPUTexture](/scripting/animascript/api-reference/gpu/gpu-texture) constructor.
+
+
+## Fields
+
+### `width`
+
+<div class="signature">
+```ts
+width: u32
+```
+</div>
+
+Width of mip 0 in texels. Default 1.
+
+
+### `height`
+
+<div class="signature">
+```ts
+height: u32
+```
+</div>
+
+Height of mip 0 in texels. Default 1.
+
+
+### `depthOrArrayLayers`
+
+<div class="signature">
+```ts
+depthOrArrayLayers: u32
+```
+</div>
+
+Depth of a 3D texture, or the layer count of an array texture.
+Default 1.
+
+
+### `format`
+
+<div class="signature">
+```ts
+format: TextureFormat
+```
+</div>
+
+Pixel format. Default `rgba8unorm`.
+
+
+### `textureType`
+
+<div class="signature">
+```ts
+textureType: TextureType
+```
+</div>
+
+Dimensionality. Default `texture2D`.
+
+
+### `renderTarget`
+
+<div class="signature">
+```ts
+renderTarget: bool
+```
+</div>
+
+Allows use as a render pass color attachment. Default false.
+
+
+### `numMipmaps`
+
+<div class="signature">
+```ts
+numMipmaps: u32
+```
+</div>
+
+Number of mip levels. Default 1.
+
+
+### `sampleCount`
+
+<div class="signature">
+```ts
+sampleCount: u32
+```
+</div>
+
+MSAA sample count. Default 1, and above 1 only with `renderTarget`.
+A multisampled texture cannot have mipmaps or be uploaded to or
+sampled directly; resolve it into a single sampled texture first.
+
+

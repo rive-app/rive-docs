@@ -1,0 +1,76 @@
+---
+title: Protocol
+---
+
+The hooks every script shares. A script extends one of its subclasses,
+[Node](/scripting/animascript/api-reference/host/node), [Layout](/scripting/animascript/api-reference/host/layout), [Converter](/scripting/animascript/api-reference/host/converter), [PathEffect](/scripting/animascript/api-reference/host/path-effect), [ListenerAction](/scripting/animascript/api-reference/host/listener-action),
+[TransitionCondition](/scripting/animascript/api-reference/host/transition-condition) or [Interpolator](/scripting/animascript/api-reference/host/interpolator), never [Protocol](/scripting/animascript/api-reference/host/protocol) itself.
+
+Override only the hooks the script needs; the host calls only those.
+Abstract hooks such as `Converter.convert` are required. Declare inputs
+as fields marked `@input`.
+```ts
+export class MyNode extends Node {
+    @input speed: f64 = 1;
+    @input title: string = "Rive";
+    @input enabled: bool = false;
+
+    override init(context: Context): bool {
+        return true;
+    }
+}
+```
+
+
+## Methods
+
+### `init`
+
+<div class="signature">
+```ts
+init(context: Context): bool
+```
+</div>
+
+Called once when the script is created. Return true if
+initialization succeeds, or false to stop the script.
+```ts
+override init(context: Context): bool {
+    this.context = context;
+    return true;
+}
+```
+
+
+### `advance`
+
+<div class="signature">
+```ts
+advance(seconds: f64): bool
+```
+</div>
+
+Called every frame to advance the script over time. `seconds` is the
+time since the previous frame. Return true to keep receiving advance
+calls.
+```ts
+override advance(seconds: f64): bool {
+    this.elapsed += seconds;
+    return true;
+}
+```
+
+
+### `dispose`
+
+<div class="signature">
+```ts
+dispose(): void
+```
+</div>
+
+Called once when the host drops the script, for example when its
+artboard is disposed or the editor reloads. Release long lived
+resources here.
+
+

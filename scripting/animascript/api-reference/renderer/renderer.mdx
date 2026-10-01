@@ -1,0 +1,233 @@
+---
+title: Renderer
+---
+
+Draws paths and images, manages clipping and applies transforms. A node
+receives one in its `draw` method, valid only for that call.
+
+
+## Methods
+
+### `save`
+
+<div class="signature">
+```ts
+save(): void
+```
+</div>
+
+Saves the current rendering state, including the transform, clipping and
+modulation, until the matching `restore`.
+```ts
+export class MyGame extends Node {
+  enemies: Array<Artboard> = [];
+
+  override draw(renderer: Renderer): void {
+    for (let i = 0; i < this.enemies.length; i++) {
+      renderer.save();
+      this.enemies[i].draw(renderer);
+      renderer.restore();
+    }
+  }
+}
+```
+
+
+### `restore`
+
+<div class="signature">
+```ts
+restore(): void
+```
+</div>
+
+Restores the most recently saved rendering state.
+```ts
+renderer.save();
+renderer.transform(Mat2D.withTranslation(100, 0));
+renderer.drawPath(path, paint);
+renderer.restore();
+```
+
+
+### `transform`
+
+<div class="signature">
+```ts
+transform(m: Mat2D): void
+```
+</div>
+
+Applies a transform on top of the current one. Transforms accumulate until
+the matching `restore`.
+```ts
+let m = Mat2D.withScale(2, 3);
+// Adjust matrix terms directly for additional skew or stretch.
+m.xx = 5;
+
+renderer.save();
+renderer.transform(m);
+renderer.drawImage(image, sampler, BlendMode.srcOver, 1);
+renderer.restore();
+```
+
+
+### `drawPath`
+
+<div class="signature">
+```ts
+drawPath(path: Path, paint: Paint): void
+```
+</div>
+
+Draws `path` with `paint`.
+```ts
+export class Rectangle extends Node {
+  path: Path = new Path();
+  paint: Paint = new Paint();
+
+  override draw(renderer: Renderer): void {
+    renderer.drawPath(this.path, this.paint);
+  }
+}
+```
+
+
+### `clipPath`
+
+<div class="signature">
+```ts
+clipPath(path: Path): void
+```
+</div>
+
+Restricts later drawing to the area inside `path`. The clip stays in effect
+until the matching `restore`.
+```ts
+renderer.save();
+renderer.clipPath(clip);
+renderer.drawImage(image, sampler, BlendMode.srcOver, 1);
+renderer.restore();
+```
+
+
+### `modulateOpacity`
+
+<div class="signature">
+```ts
+modulateOpacity(opacity: f64): void
+```
+</div>
+
+Multiplies the opacity of later draws by `opacity`, from 0 to 1. Calls stack
+multiplicatively and are scoped by `save` and `restore`.
+```ts
+renderer.save();
+renderer.modulateOpacity(0.5);
+renderer.drawPath(path, paint);
+renderer.restore();
+```
+
+
+### `modulateColor`
+
+<div class="signature">
+```ts
+modulateColor(color: Color): void
+```
+</div>
+
+Multiplies `color` into later draws, channel by channel. Calls stack like
+`modulateOpacity` and are scoped by `save` and `restore`.
+
+
+### `setColorModulation`
+
+<div class="signature">
+```ts
+setColorModulation(color: Color): void
+```
+</div>
+
+Sets the modulation color outright instead of multiplying, which lets an
+inner scope undo an outer one: draw an artboard under black, then set the
+color for the drawables that should keep their paint. Scoped by `save` and
+`restore`. Inside a draw visitor it ends with the visit, so the visitor
+needs no `save` or `restore` of its own.
+
+
+### `drawImage`
+
+<div class="signature">
+```ts
+drawImage(image: Image, sampler: ImageSampler, blend: BlendMode, opacity: f32): void
+```
+</div>
+
+Draws `image` with `sampler`, `blend` and `opacity`.
+```ts
+export class DrawImage extends Node {
+  myImage: Image | null = null;
+  sampler: ImageSampler = ImageSampler(ImageWrap.clamp, ImageWrap.clamp, ImageFilter.bilinear);
+
+  override init(context: Context): bool {
+    this.myImage = context.image("myImage");
+    return true;
+  }
+
+  override draw(renderer: Renderer): void {
+    let image = this.myImage;
+    if (image != null) {
+      renderer.drawImage(image, this.sampler, BlendMode.srcOver, 1);
+    }
+  }
+}
+```
+
+
+### `drawImageMesh`
+
+<div class="signature">
+```ts
+drawImageMesh(image: Image, sampler: ImageSampler, vertices: VertexBuffer, uvs: VertexBuffer, triangles: TriangleBuffer, blend: BlendMode, opacity: f32): void
+```
+</div>
+
+Draws `image` over a mesh: `vertices` holds the positions, `uvs` the texture
+coordinates and `triangles` the vertex indices.
+```ts
+renderer.drawImageMesh(
+  image,
+  sampler,
+  vertices,
+  uvs,
+  triangles,
+  BlendMode.srcOver,
+  1
+);
+```
+
+
+### `drawImageMeshInstanced`
+
+<div class="signature">
+```ts
+drawImageMeshInstanced(image: Image, sampler: ImageSampler, vertices: VertexBuffer, uvs: VertexBuffer, triangles: TriangleBuffer, instances: MeshInstances): void
+```
+</div>
+
+Draws one mesh once per entry of `instances`, in a single call. The blend
+mode is always `srcOver`. Opacity and the UV transform come from each
+instance.
+```ts
+renderer.drawImageMeshInstanced(
+  image,
+  sampler,
+  vertices,
+  uvs,
+  triangles,
+  instances
+);
+```
+
+

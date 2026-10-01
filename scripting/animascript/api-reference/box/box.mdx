@@ -1,0 +1,50 @@
+---
+title: Box
+---
+
+A class that holds one value, so a value that cannot be null on its own can
+be optional. Numbers, booleans and structs are never null, so an optional
+one is written `Box<T> | null`: `null` means no value.
+
+Structs cannot be generic arguments, so use [Box_Vector](/scripting/animascript/api-reference/box/box_vector) and [Box_Mat2D](/scripting/animascript/api-reference/box/box_mat2d) for
+[Vector](/scripting/animascript/api-reference/vector/vector) and [Mat2D](/scripting/animascript/api-reference/mat2d/mat2d).
+```ts
+import { Box } from "rive/box";
+
+function half(value: f64): Box<f64> | null {
+  return value > 0 ? new Box<f64>(value / 2) : null;
+}
+
+export function describe(value: f64): string {
+  let result = half(value);
+  return result != null ? result.value.toString() : "none";
+}
+```
+
+
+## Fields
+
+### `value`
+
+<div class="signature">
+```ts
+value: T
+```
+</div>
+
+The held value.
+
+
+## Constructors
+
+### `constructor`
+
+<div class="signature">
+```ts
+constructor(value: T)
+```
+</div>
+
+Creates a box holding `value`.
+
+

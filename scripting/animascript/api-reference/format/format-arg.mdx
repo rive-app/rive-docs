@@ -1,0 +1,43 @@
+---
+title: FormatArg
+---
+
+One argument to [format](/scripting/animascript/api-reference/format/format): a number, a string or a bool. Create it with
+`FormatArg.number`, `FormatArg.string` or `FormatArg.bool`.
+
+
+## Static Functions
+
+### `number`
+
+<div class="signature">
+```ts
+static number(value: f64): FormatArg
+```
+</div>
+
+An argument holding the number `value`.
+
+
+### `string`
+
+<div class="signature">
+```ts
+static string(text: string): FormatArg
+```
+</div>
+
+An argument holding the string `text`.
+
+
+### `bool`
+
+<div class="signature">
+```ts
+static bool(flag: bool): FormatArg
+```
+</div>
+
+An argument holding the bool `flag`. Only `%*` accepts it.
+
+

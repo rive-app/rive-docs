@@ -1,0 +1,67 @@
+---
+title: GPUPassDesc
+---
+
+Descriptor for `beginRenderPass`. It needs at least one color attachment
+or a depth view. All attachments share one sample count, which the pass
+takes from its views.
+
+
+## Fields
+
+### `color`
+
+<div class="signature">
+```ts
+color: Array<GPUColorAttachment>
+```
+</div>
+
+Color attachments, up to 4.
+
+
+### `depthView`
+
+<div class="signature">
+```ts
+depthView: GPUTextureView | null
+```
+</div>
+
+Depth attachment, from a depth texture's `view`, or null for none.
+
+
+### `depthLoadOp`
+
+<div class="signature">
+```ts
+depthLoadOp: LoadOp
+```
+</div>
+
+What to do with depth when the pass begins. Default `clear`.
+
+
+### `depthStoreOp`
+
+<div class="signature">
+```ts
+depthStoreOp: StoreOp
+```
+</div>
+
+What to do with depth when the pass ends: `discard` for transient
+depth, `store` to read it later. Default `discard`.
+
+
+### `depthClearValue`
+
+<div class="signature">
+```ts
+depthClearValue: f32
+```
+</div>
+
+Depth the `clear` load op fills with. Default 1.
+
+

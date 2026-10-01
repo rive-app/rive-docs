@@ -1,0 +1,161 @@
+---
+title: Drawable
+---
+
+A drawable that carries custom properties, handed to the visitor of
+`Artboard.draw`. It is only valid inside that visitor call. Custom
+properties are added to a drawable in the editor's inspector.
+
+
+## Methods
+
+### `has`
+
+<div class="signature">
+```ts
+has(key: PropertyKey): bool
+```
+</div>
+
+Whether the drawable has a custom property of this key, of any kind.
+
+
+### `holds`
+
+<div class="signature">
+```ts
+holds(key: PropertyKey, kind: PropertyKind): bool
+```
+</div>
+
+Whether the drawable has a custom property of this key and kind. Use
+it to tell a missing property from one holding the typed reads'
+fallback value.
+
+```ts
+if (drawable.holds(EMISSIVE, PropertyKind.number)) {
+    console.log(drawable.number(EMISSIVE).toString());
+}
+```
+
+
+### `number`
+
+<div class="signature">
+```ts
+number(key: PropertyKey): f64
+```
+</div>
+
+The custom number property of this key, 0 when there is none. Use
+`numberOrNull` to tell the two apart.
+
+
+### `boolean`
+
+<div class="signature">
+```ts
+boolean(key: PropertyKey): bool
+```
+</div>
+
+The custom boolean property of this key, false when there is none.
+
+
+### `color`
+
+<div class="signature">
+```ts
+color(key: PropertyKey): Color
+```
+</div>
+
+The custom color property of this key, 0 when there is none.
+
+
+### `string`
+
+<div class="signature">
+```ts
+string(key: PropertyKey): string
+```
+</div>
+
+The custom string property of this key, empty when there is none.
+
+
+### `numberOrNull`
+
+<div class="signature">
+```ts
+numberOrNull(key: PropertyKey): Box<f64> | null
+```
+</div>
+
+The custom number property of this key, or null when there is none.
+
+```ts
+let emissive = drawable.numberOrNull(EMISSIVE);
+if (emissive != null) {
+    console.log(emissive.value.toString());
+}
+```
+
+
+### `booleanOrNull`
+
+<div class="signature">
+```ts
+booleanOrNull(key: PropertyKey): Box<bool> | null
+```
+</div>
+
+The custom boolean property of this key, or null when there is none.
+
+
+### `colorOrNull`
+
+<div class="signature">
+```ts
+colorOrNull(key: PropertyKey): Box<Color> | null
+```
+</div>
+
+The custom color property of this key, or null when there is none.
+
+
+### `stringOrNull`
+
+<div class="signature">
+```ts
+stringOrNull(key: PropertyKey): string | null
+```
+</div>
+
+The custom string property of this key, or null when there is none.
+
+
+### `properties`
+
+<div class="signature">
+```ts
+properties(): DrawableProperty[]
+```
+</div>
+
+Every custom property on the drawable. For tooling and debugging:
+the editor and rive-cli have it, a shipping runtime does not, so do
+not call it from a script you ship.
+
+
+### `draw`
+
+<div class="signature">
+```ts
+draw(renderer: Renderer): void
+```
+</div>
+
+Draws the drawable under the renderer's current state.
+
+

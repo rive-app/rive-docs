@@ -1,0 +1,30 @@
+---
+title: PropertyViewModel
+---
+
+A view model property that holds a nested [ViewModel](/scripting/animascript/api-reference/data/view-model).
+
+
+## Fields
+
+### `value`
+
+<div class="signature">
+```ts
+value: ViewModel
+```
+</div>
+
+The current view model. You can both read and assign it.
+
+```ts
+let nested = vm.getViewModel("nestedVM");
+if (nested != null) {
+    let age = nested.value.getNumber("age");
+    if (age != null) {
+        console.log(age.value.toString());
+    }
+}
+```
+
+

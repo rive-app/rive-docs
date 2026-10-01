@@ -1,0 +1,88 @@
+---
+title: VertexBuffer
+---
+
+Stores a list of 2D vertex positions for use with image meshes, drawn by
+`Renderer.drawImageMesh` and `Renderer.drawImageMeshInstanced`. The same
+type holds the texture coordinates.
+```ts
+let vertices = new VertexBuffer();
+vertices.add3(Vector.xy(0, 0), Vector.xy(100, 0), Vector.xy(100, 100));
+let uvs = new VertexBuffer();
+uvs.add3(Vector.xy(0, 0), Vector.xy(1, 0), Vector.xy(1, 1));
+let triangles = new TriangleBuffer();
+triangles.add(0, 1, 2);
+```
+
+
+## Fields
+
+### `length`
+
+<div class="signature">
+```ts
+readonly length: i32
+```
+</div>
+
+Number of vertices in the buffer.
+
+
+## Methods
+
+### `add`
+
+<div class="signature">
+```ts
+unsafe add(v: Vector): void
+```
+</div>
+
+Adds a vertex to the buffer.
+```ts
+let vb = new VertexBuffer();
+vb.add(Vector.xy(0, 0));
+```
+
+
+### `add2`
+
+<div class="signature">
+```ts
+add2(a: Vector, b: Vector): void
+```
+</div>
+
+Adds two vertices to the buffer.
+
+
+### `add3`
+
+<div class="signature">
+```ts
+add3(a: Vector, b: Vector, c: Vector): void
+```
+</div>
+
+Adds three vertices to the buffer.
+```ts
+let vb = new VertexBuffer();
+vb.add3(Vector.xy(0, 0), Vector.xy(1, 0), Vector.xy(1, 1));
+```
+
+
+### `reset`
+
+<div class="signature">
+```ts
+reset(): void
+```
+</div>
+
+Clears all vertices from the buffer.
+```ts
+let vb = new VertexBuffer();
+vb.reset();
+```
+
+

@@ -1,0 +1,76 @@
+---
+title: MeshInstances
+---
+
+Holds the per instance data for `Renderer.drawImageMeshInstanced`. Unlike
+the mesh buffers it is meant to be rewritten every frame.
+```ts
+let instances = new MeshInstances(2);
+instances.set(0, Mat2D.withTranslation(10, 20));
+instances.set(1, Mat2D.identity(), 0.5, 0, Vector.xy(0, 0), Vector.xy(0.5, 0.5));
+```
+
+
+## Fields
+
+### `length`
+
+<div class="signature">
+```ts
+readonly length: i32
+```
+</div>
+
+Number of instances.
+
+
+## Constructors
+
+### `constructor`
+
+<div class="signature">
+```ts
+constructor(count: i32 = 0)
+```
+</div>
+
+Creates a [MeshInstances](/scripting/animascript/api-reference/image/mesh-instances) holding `count` instances, none by default.
+Every instance starts at the identity transform and full opacity.
+
+
+## Methods
+
+### `resize`
+
+<div class="signature">
+```ts
+resize(count: i32): void
+```
+</div>
+
+Sets the number of instances. New instances start at the identity
+transform and full opacity.
+```ts
+let mi = new MeshInstances();
+mi.resize(3);
+```
+
+
+### `set`
+
+<div class="signature">
+```ts
+set(index: i32, transform: Mat2D, opacity: f32 = 1, additiveness: f32 = 0, uvTranslate: Vector = Vector(0, 0), uvScale: Vector = Vector(1, 1)): void
+```
+</div>
+
+Writes the instance at `index`, which is zero based. Everything past
+`transform` is optional: `opacity` defaults to 1, `additiveness` to 0,
+and the UV transform to no translation and a scale of 1.
+```ts
+let mi = new MeshInstances(2);
+mi.set(0, Mat2D.withTranslationVector(Vector.xy(10, 20)));
+mi.set(1, Mat2D.identity(), 0.5, 0, Vector.xy(0, 0), Vector.xy(0.5, 0.5));
+```
+
+

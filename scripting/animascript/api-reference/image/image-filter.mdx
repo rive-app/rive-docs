@@ -1,0 +1,23 @@
+---
+title: ImageFilter
+---
+
+Defines how image sampling is performed when scaling or transforming the
+image. See [ImageSampler](/scripting/animascript/api-reference/image/image-sampler) for usage.
+```ts
+let sampler = ImageSampler(ImageWrap.clamp, ImageWrap.clamp, ImageFilter.nearest);
+```
+
+
+## Fields
+
+### `bilinear`
+
+Blends the nearest pixels for smooth results.
+
+
+### `nearest`
+
+Picks the nearest pixel, keeping hard pixel edges.
+
+

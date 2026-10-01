@@ -4,7 +4,7 @@ title: PathEffect
 
 A scripted effect applied to a path
 For effects that can change over time, even
-when the path does not change, markNeedsAdvance()
+when the path does not change, markNeedsUpdate()
 should be called on its context in the advance function
 
 For more information, see [Path Effect Scripts](/scripting/protocols/path-effect-scripts).
@@ -42,11 +42,11 @@ update(self: T, path: PathData, node: NodeReadData) -> PathData
 ```
 </div>
 
-Called any time an input changes.
-You receive the original [PathData](/scripting/api-reference/path/path-data) and must return the path
-that should be used for rendering.
+Called any time an input changes or an update is requested.
+You receive the original [PathData](/scripting/api-reference/path/path-data) and the node it belongs to, and
+must return the path that should be used for rendering.
 ```lua
-function update(self: MyPathEffect, inPath: PathData): PathData
+function update(self: MyPathEffect, inPath: PathData, node: NodeReadData): PathData
     local path = Path.new()
     return path
 end

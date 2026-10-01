@@ -1,0 +1,401 @@
+---
+title: Context
+---
+
+The bridge between a script and the Rive runtime, passed to `init`. It
+gives access to:
+- Update scheduling: request an `update` on the next frame.
+- Data: the view models bound to the script's object or the root
+  artboard.
+- Assets: the images, fonts, audio, blobs and shaders added to the file.
+- Canvases: offscreen 2D and GPU render targets.
+
+
+## Methods
+
+### `log`
+
+<div class="signature">
+```ts
+log(message: string): void
+```
+</div>
+
+Logs a message through the host: the CLI watch log and problems
+surface, or the editor console.
+```ts
+override init(context: Context): bool {
+    context.log("hello");
+    return true;
+}
+```
+
+
+### `markNeedsUpdate`
+
+<div class="signature">
+```ts
+markNeedsUpdate(): void
+```
+</div>
+
+Marks the object as needing an update on the next frame. Call it when
+something has changed, for example from an event handler, and the
+runtime should call `update` again.
+
+Calls from inside `update` are ignored. Use it from `init`,
+`advance`, listener callbacks or event handlers instead.
+```ts
+override advance(seconds: f64): bool {
+    this.elapsed += seconds;
+    let context = this.context;
+    if (context != null) {
+        context.markNeedsUpdate();
+    }
+    return true;
+}
+```
+
+
+### `image`
+
+<div class="signature">
+```ts
+image(name: string): Image | null
+```
+</div>
+
+Returns the image asset with the given name, or null if not found.
+Draw it with `Renderer.drawImage`. See also [ImageSampler](/scripting/animascript/api-reference/image/image-sampler).
+```ts
+export class DrawImage extends Node {
+    myImage: Image | null = null;
+    sampler: ImageSampler = ImageSampler(ImageWrap.clamp, ImageWrap.clamp, ImageFilter.bilinear);
+
+    override init(context: Context): bool {
+        this.myImage = context.image("myImage");
+        return true;
+    }
+
+    override draw(renderer: Renderer): void {
+        let image = this.myImage;
+        if (image != null) {
+            renderer.drawImage(image, this.sampler, BlendMode.srcOver, 1);
+        }
+    }
+}
+```
+
+
+### `font`
+
+<div class="signature">
+```ts
+font(name: string): Font | null
+```
+</div>
+
+Returns the font asset with the given name, or null if not found.
+```ts
+let font = context.font("Inter");
+if (font != null) {
+    let style = new TextRunStyle(font);
+    style.size = 24;
+}
+```
+
+
+### `audio`
+
+<div class="signature">
+```ts
+audio(name: string): AudioSource | null
+```
+</div>
+
+Returns the audio asset with the given name, or null if not found.
+Play it with the [Audio](/scripting/animascript/api-reference/audio/audio) functions.
+```ts
+export class AudioExample extends Node {
+    source: AudioSource | null = null;
+
+    override init(context: Context): bool {
+        this.source = context.audio("myAudio");
+        return true;
+    }
+
+    override pointerDown(event: PointerEvent): void {
+        let source = this.source;
+        if (source != null) {
+            Audio.play(source);
+        }
+        event.hit();
+    }
+}
+```
+
+
+### `viewModel`
+
+<div class="signature">
+```ts
+viewModel(): ViewModel | null
+```
+</div>
+
+Returns the [ViewModel](/scripting/animascript/api-reference/data/view-model) bound to the object's immediate data context,
+or null before data binds. This is the most common way to read data
+bound properties from a script.
+```ts
+override init(context: Context): bool {
+    let vm = context.viewModel();
+    if (vm != null) {
+        this.cannon = vm.getTrigger("cannon");
+    }
+    return true;
+}
+```
+
+
+### `rootViewModel`
+
+<div class="signature">
+```ts
+rootViewModel(): ViewModel | null
+```
+</div>
+
+Returns the [ViewModel](/scripting/animascript/api-reference/data/view-model) bound to the root artboard's data context, or
+null if there is none. Useful for reaching top level data from a
+deeply nested object.
+```ts
+let vm = context.rootViewModel();
+if (vm != null) {
+    let score = vm.getNumber("score");
+}
+```
+
+
+### `globalViewModel`
+
+<div class="signature">
+```ts
+globalViewModel(name: string): ViewModel | null
+```
+</div>
+
+Returns the global [ViewModel](/scripting/animascript/api-reference/data/view-model) with the given name, or null if there is
+no global view model by that name or none is currently bound. Global
+view models are shared, singleton like view models addressed by name
+rather than through the object's own data context.
+```ts
+let settings = context.globalViewModel("AppSettings");
+if (settings != null) {
+    let volume = settings.getNumber("volume");
+}
+```
+
+
+### `globalViewModelNames`
+
+<div class="signature">
+```ts
+unsafe globalViewModelNames(): Array<string>
+```
+</div>
+
+Returns the names of all global view models defined in the file, in
+file order. Pass any of them to `globalViewModel` to fetch that view
+model. Returns an empty array when the file defines none.
+```ts
+let names = context.globalViewModelNames();
+for (let i = 0; i < names.length; i++) {
+    context.log(names[i]);
+}
+```
+
+
+### `dataContext`
+
+<div class="signature">
+```ts
+dataContext(): DataContext | null
+```
+</div>
+
+Returns the data context provided to this object, or null if there is
+none.
+```ts
+let dc = context.dataContext();
+if (dc != null) {
+    let parent = dc.parent();
+    let vm = dc.viewModel();
+}
+```
+
+
+### `canvas`
+
+<div class="signature">
+```ts
+canvas(width: u32 = 0, height: u32 = 0): Canvas | null
+```
+</div>
+
+Creates a 2D [Canvas](/scripting/animascript/api-reference/canvas/canvas) for Rive Renderer drawing, or returns null when
+the host cannot create one. Draw into it with `beginFrame` and
+`endFrame` during `draw`.
+
+A zero width or height, the default, creates a deferred canvas with no
+backing texture, useful in layouts that do not know their size at
+`init`. Call `resize` once the size is known. While deferred, `width`
+and `height` read 0 and `beginFrame` returns null.
+```ts
+override init(context: Context): bool {
+    this.canvas = context.canvas(256, 256);
+    return true;
+}
+
+override draw(renderer: Renderer): void {
+    let canvas = this.canvas;
+    if (canvas == null) {
+        return;
+    }
+    let frame = canvas.beginFrame(0xFF202020);
+    if (frame != null) {
+        frame.drawPath(this.path, this.paint);
+        canvas.endFrame();
+    }
+    renderer.drawImage(canvas.image, ImageSampler(), BlendMode.srcOver, 1);
+}
+```
+
+
+### `gpuCanvas`
+
+<div class="signature">
+```ts
+gpuCanvas(width: u32 = 0, height: u32 = 0): GPUCanvas | null
+```
+</div>
+
+Creates a [GPUCanvas](/scripting/animascript/api-reference/gpu/gpu-canvas), a 1x presentation target, or returns null when
+the host cannot create one. Render to it with `beginRenderPass`. For
+MSAA, allocate the multisampled color and depth textures yourself and
+resolve into the canvas.
+
+A zero width or height, the default, creates a deferred canvas with no
+backing texture, useful in layouts that do not know their size at
+`init`. Call `resize` once the size is known. While deferred, `width`
+and `height` read 0 and `view` is null.
+
+
+### `gpuTarget`
+
+<div class="signature">
+```ts
+gpuTarget(): GPUTarget | null
+```
+</div>
+
+Returns Rive's own render target: passes into it land under all of
+Rive's content. It cannot be sampled and starts each frame undefined,
+so the first pass must clear or cover it. With a `sampleCount` of 1 it
+can resolve a script's MSAA texture. On a frame the host hides it,
+`view` is null and passes into it are dropped.
+
+Returns null where the host can never expose one; keep a `gpuCanvas`
+and draw its image instead.
+
+
+### `features`
+
+<div class="signature">
+```ts
+features(): GPUFeatures
+```
+</div>
+
+Returns the GPU features and limits the current backend supports.
+
+
+### `blob`
+
+<div class="signature">
+```ts
+unsafe blob(name: string): ArrayBuffer | null
+```
+</div>
+
+Returns the bytes of the blob asset with the given name, or null if
+not found or empty. Useful for loading custom data files embedded in
+the Rive file. The blob's size is the buffer's `byteLength`.
+```ts
+let bytes = context.blob("myBlob");
+if (bytes != null && bytes.byteLength > 0) {
+    let first = Uint8Array.wrap(bytes)[0];
+}
+```
+
+
+### `shader`
+
+<div class="signature">
+```ts
+unsafe shader(name: string): GPUShaderModule | null
+```
+</div>
+
+Returns the compiled shader modules for the current backend from the
+shader asset with the given name (as added in the editor, with no
+`.wgsl` extension), ready for a [GPUPipelineDesc](/scripting/animascript/api-reference/gpu/gpu-pipeline-desc). Returns null when
+the asset is not found or was not compiled for this backend.
+
+
+### `decodeImage`
+
+<div class="signature">
+```ts
+unsafe decodeImage(bytes: ArrayBuffer, listener: ImageDecodeListener): u32
+```
+</div>
+
+Decodes compressed image data (PNG, JPEG or WebP) into premultiplied
+RGBA8 pixels. The listener receives the [DecodedImage](/scripting/animascript/api-reference/host/decoded-image), or the error,
+on a later advance.
+
+Returns a token for `cancelImageDecode`. Returns 0 when this platform
+cannot decode images, after calling the listener's
+`onImageDecodeFailed`.
+```ts
+let bytes = context.blob("avatar");
+if (bytes != null) {
+    this.decodeToken = context.decodeImage(bytes, new AvatarDecode());
+}
+```
+
+
+### `cancelImageDecode`
+
+<div class="signature">
+```ts
+cancelImageDecode(token: u32): void
+```
+</div>
+
+Cancels a pending decode started by `decodeImage`. Its listener is not
+called.
+
+
+### `shaderAssetId`
+
+<div class="signature">
+```ts
+shaderAssetId(name: string): u32
+```
+</div>
+
+Returns the id of the shader asset with the given name, or 0 when the
+file has none. Modules returned by `shader` already carry it.
+
+

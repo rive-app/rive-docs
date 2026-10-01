@@ -1,0 +1,141 @@
+---
+title: GPUCanvas
+---
+
+A [GPUTarget](/scripting/animascript/api-reference/gpu/gpu-target) the script owns, like a WebGPU surface texture: single
+sampled, kept between frames and sampleable. Render into it with
+`beginRenderPass`, then composite `image` with `drawImage` on a
+[Renderer](/scripting/animascript/api-reference/renderer/renderer), or sample it in a later pass through `view`. For MSAA, render
+into a multisampled [GPUTexture](/scripting/animascript/api-reference/gpu/gpu-texture) made with `renderTarget` and resolve into
+the canvas's `view`.
+
+```ts
+let canvas = context.gpuCanvas(256, 256);
+if (canvas != null) {
+    let color = new GPUColorAttachment();
+    color.loadOp = LoadOp.clear;
+    color.storeOp = StoreOp.store;
+    let desc = new GPUPassDesc();
+    desc.color = [color];
+    let pass = canvas.beginRenderPass(desc);
+    pass.setPipeline(pipeline);
+    pass.draw(3);
+    pass.finish();
+    renderer.drawImage(canvas.image, sampler, BlendMode.srcOver, 1);
+}
+```
+
+
+## Fields
+
+### `width`
+
+<div class="signature">
+```ts
+readonly width: u32
+```
+</div>
+
+Width in pixels.
+
+
+### `height`
+
+<div class="signature">
+```ts
+readonly height: u32
+```
+</div>
+
+Height in pixels.
+
+
+### `format`
+
+<div class="signature">
+```ts
+readonly format: u32
+```
+</div>
+
+Pixel format, as a [TextureFormat](/scripting/animascript/api-reference/gpu_enums/texture-format) value. Known even before a canvas
+created at zero size allocates its texture.
+
+
+### `image`
+
+<div class="signature">
+```ts
+readonly image: Image
+```
+</div>
+
+The image holding what the canvas rendered, for `drawImage` on a
+[Renderer](/scripting/animascript/api-reference/renderer/renderer). It is never null, and a reference kept across a resize
+follows the new backing.
+
+
+## Constructors
+
+### `constructor`
+
+<div class="signature">
+```ts
+constructor(width: u32, height: u32)
+```
+</div>
+
+Creates a canvas of the given size in pixels. A zero size allocates
+nothing until `resize`. `context.gpuCanvas()` does the same and
+answers null when the host cannot make a canvas.
+
+
+## Methods
+
+### `colorView`
+
+<div class="signature">
+```ts
+colorView(): GPUTextureView
+```
+</div>
+
+View of the canvas's backing texture, for a color attachment, an MSAA
+resolve target, or sampling in a later pass. The same view as `view`,
+but raises an error instead of answering null when the canvas has no
+backing yet, as when created at zero size.
+
+```ts
+let color = new GPUColorAttachment();
+color.view = msaaView;
+color.resolveTarget = canvas.colorView();
+color.storeOp = StoreOp.discard;
+```
+
+
+### `resize`
+
+<div class="signature">
+```ts
+resize(width: u32, height: u32): bool
+```
+</div>
+
+Resizes the canvas, recreating its backing texture. Returns false,
+leaving the canvas as it was, when the size is zero or the device
+refuses it. Multisampled or depth textures sized to the canvas must
+be recreated to match.
+
+
+### `release`
+
+<div class="signature">
+```ts
+release(): void
+```
+</div>
+
+Releases the canvas and its backing now instead of when it is
+collected.
+
+

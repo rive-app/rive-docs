@@ -1,0 +1,31 @@
+---
+title: PropertyTrigger
+---
+
+A trigger property of a view model. Unlike other properties it stores no
+value: `fire` notifies its listeners.
+
+
+## Methods
+
+### `fire`
+
+<div class="signature">
+```ts
+fire(): void
+```
+</div>
+
+Fires the trigger and notifies its listeners.
+
+```ts
+let cannon = vm.getTrigger("cannon");
+if (cannon != null) {
+    cannon.addListener((): void => {
+        console.log("cannon fired!");
+    });
+    cannon.fire();
+}
+```
+
+

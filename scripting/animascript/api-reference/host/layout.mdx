@@ -1,0 +1,54 @@
+---
+title: Layout
+---
+
+A [Node](/scripting/animascript/api-reference/host/node) that also fits into a layout box. The host sizes it through
+`resize`, and it can be intrinsically sized: hosting layouts that fit to
+their content ask `measure` for the size it wants.
+
+It inherits every [Node](/scripting/animascript/api-reference/host/node) and [Protocol](/scripting/animascript/api-reference/host/protocol) hook.
+```ts
+export class Panel extends Layout {
+    width: f64 = 0;
+    height: f64 = 0;
+
+    override measure(): Vector {
+        return Vector.xy(100, 100);
+    }
+
+    override resize(width: f64, height: f64, scale: f64): void {
+        this.width = width;
+        this.height = height;
+    }
+}
+```
+
+
+## Methods
+
+### `measure`
+
+<div class="signature">
+```ts
+measure(): Vector
+```
+</div>
+
+Returns the size this layout wants to be. It is not guaranteed, as
+the layout may have min and max dimensions; `resize` is called with
+the granted size after measuring.
+
+
+### `resize`
+
+<div class="signature">
+```ts
+resize(width: f64, height: f64, scale: f64): void
+```
+</div>
+
+Called with the initial size and again whenever the size changes.
+`width` and `height` are in points and `scale` is the presenting
+surface's device pixels per point.
+
+

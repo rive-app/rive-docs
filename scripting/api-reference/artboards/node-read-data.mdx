@@ -117,9 +117,17 @@ end
 
 ### `paint`
 
-If node is a Path, paint trait is available with paint data
-
-(Coming soon)
+If the node is a fill or a stroke, its paint, otherwise nil. The same
+as `asPaint`.
+```lua highlight={3}
+local fill = self.instance:node('Fill')
+if fill then
+  local paint = fill.paint
+  if paint then
+    print(paint.color)
+  end
+end
+```
 
 
 ## Methods
@@ -159,8 +167,16 @@ asPaint() -> Paint?
 ```
 </div>
 
-If node is a ShapePaint (Fill or Stroke), returns node as [Paint](/scripting/api-reference/paint/paint)
-
-(Coming soon)
+If the node is a fill or a stroke, returns its paint as a [Paint](/scripting/api-reference/paint/paint),
+otherwise nil.
+```lua highlight={3}
+local stroke = self.instance:node('Stroke')
+if stroke then
+  local paint = stroke:asPaint()
+  if paint then
+    print(paint.thickness)
+  end
+end
+```
 
 

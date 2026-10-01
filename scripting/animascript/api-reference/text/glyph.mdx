@@ -1,0 +1,136 @@
+---
+title: Glyph
+---
+
+One glyph placed by a [Text](/scripting/animascript/api-reference/text/text) layout, in the text's local space.
+
+
+## Fields
+
+### `id`
+
+<div class="signature">
+```ts
+id: u32
+```
+</div>
+
+Glyph id within `font`.
+
+
+### `textIndex`
+
+<div class="signature">
+```ts
+textIndex: i32
+```
+</div>
+
+Zero based UTF-16 code unit index of the first character this glyph
+draws.
+
+
+### `x`
+
+<div class="signature">
+```ts
+x: f32
+```
+</div>
+
+Horizontal pen position on the baseline, the shaper's offset
+included.
+
+
+### `y`
+
+<div class="signature">
+```ts
+y: f32
+```
+</div>
+
+Vertical pen position on the baseline, the shaper's offset included.
+
+
+### `advance`
+
+<div class="signature">
+```ts
+advance: f32
+```
+</div>
+
+Horizontal distance the pen moves past this glyph.
+
+
+### `isColor`
+
+<div class="signature">
+```ts
+isColor: bool
+```
+</div>
+
+Whether this is a color glyph (emoji) drawn as layers rather than one
+outline.
+
+
+### `font`
+
+<div class="signature">
+```ts
+readonly font: Font
+```
+</div>
+
+Font of the run the glyph belongs to.
+
+
+### `size`
+
+<div class="signature">
+```ts
+readonly size: f32
+```
+</div>
+
+Font size of the run the glyph belongs to.
+
+
+### `direction`
+
+<div class="signature">
+```ts
+readonly direction: TextDirection
+```
+</div>
+
+Direction of the run the glyph belongs to, `ltr` or `rtl`.
+
+
+## Methods
+
+### `transform`
+
+<div class="signature">
+```ts
+transform(): Mat2D
+```
+</div>
+
+Places the 1 point outline from `Font.glyphPath` at this glyph's size
+and position.
+
+
+### `path`
+
+<div class="signature">
+```ts
+path(): Path
+```
+</div>
+
+The outline placed by `transform`, as a new [Path](/scripting/animascript/api-reference/path/path).
+
+

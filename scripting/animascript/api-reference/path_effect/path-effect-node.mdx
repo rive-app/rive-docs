@@ -1,0 +1,185 @@
+---
+title: PathEffectNode
+---
+
+The shape a [PathEffect](/scripting/animascript/api-reference/host/path-effect) applies to, passed to its `update` alongside the
+path: the stroke or fill being drawn, and the shape's transform.
+
+The paint is a snapshot of the stroke or fill: its style, thickness, cap,
+join, solid color, feather and blend mode. Gradients are not included.
+```ts
+override update(path: Path, node: PathEffectNode): Path {
+    let paint = node.asPaint();
+    this.spacing = paint.thickness * 2;
+    return path;
+}
+```
+
+
+## Fields
+
+### `paint`
+
+<div class="signature">
+```ts
+paint: Paint
+```
+</div>
+
+The stroke or fill the effect applies to.
+
+
+### `x`
+
+<div class="signature">
+```ts
+x: f64
+```
+</div>
+
+The shape's x position in its parent's space.
+
+
+### `y`
+
+<div class="signature">
+```ts
+y: f64
+```
+</div>
+
+The shape's y position in its parent's space.
+
+
+### `rotation`
+
+<div class="signature">
+```ts
+rotation: f64
+```
+</div>
+
+The shape's rotation in radians.
+
+
+### `scaleX`
+
+<div class="signature">
+```ts
+scaleX: f64
+```
+</div>
+
+The shape's horizontal scale.
+
+
+### `scaleY`
+
+<div class="signature">
+```ts
+scaleY: f64
+```
+</div>
+
+The shape's vertical scale.
+
+
+## Methods
+
+### `asPaint`
+
+<div class="signature">
+```ts
+asPaint(): Paint
+```
+</div>
+
+Returns the stroke or fill the effect applies to, the same as
+`paint`.
+
+
+### `position`
+
+<div class="signature">
+```ts
+position(): Vector
+```
+</div>
+
+The shape's position in its parent's space.
+```ts
+let center = node.position();
+```
+
+
+### `setPosition`
+
+<div class="signature">
+```ts
+setPosition(value: Vector): void
+```
+</div>
+
+Moves the shape within its parent's space.
+
+
+### `scale`
+
+<div class="signature">
+```ts
+scale(): Vector
+```
+</div>
+
+The shape's scale.
+
+
+### `setScale`
+
+<div class="signature">
+```ts
+setScale(value: Vector): void
+```
+</div>
+
+Sets the shape's scale.
+
+
+### `worldTransform`
+
+<div class="signature">
+```ts
+unsafe worldTransform(): Mat2D
+```
+</div>
+
+The shape's transform in artboard space, for example to place the
+effect's geometry in world coordinates.
+```ts
+let toWorld = node.worldTransform();
+```
+
+
+### `setWorldTransform`
+
+<div class="signature">
+```ts
+unsafe setWorldTransform(value: Mat2D): void
+```
+</div>
+
+Sets the shape's transform in artboard space.
+
+
+### `decompose`
+
+<div class="signature">
+```ts
+unsafe decompose(worldTransform: Mat2D): void
+```
+</div>
+
+Sets the shape's position, rotation and scale so that its world
+transform becomes `worldTransform`.
+
+

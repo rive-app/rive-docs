@@ -1,0 +1,32 @@
+---
+title: ImageWrap
+---
+
+Defines how texture coordinates outside the [0, 1] range are handled. See
+[ImageSampler](/scripting/animascript/api-reference/image/image-sampler) for usage.
+```ts
+let sampler = ImageSampler(
+    ImageWrap.clamp, // wrap x
+    ImageWrap.repeat, // wrap y
+    ImageFilter.bilinear
+);
+```
+
+
+## Fields
+
+### `clamp`
+
+Stretches the edge pixels outward.
+
+
+### `repeat`
+
+Tiles the image.
+
+
+### `mirror`
+
+Tiles the image, flipping every other copy.
+
+

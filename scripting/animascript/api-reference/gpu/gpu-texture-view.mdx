@@ -1,0 +1,49 @@
+---
+title: GPUTextureView
+---
+
+A view into a [GPUTexture](/scripting/animascript/api-reference/gpu/gpu-texture) or a canvas's backing, used as a render pass
+attachment or bound for sampling with a [GPUBindGroupTexture](/scripting/animascript/api-reference/gpu/gpu-bind-group-texture). Get one
+from `GPUTexture.view`, `Image.view` or the `view` of a [GPUTarget](/scripting/animascript/api-reference/gpu/gpu-target).
+
+
+## Fields
+
+### `sampleCount`
+
+<div class="signature">
+```ts
+sampleCount: u32
+```
+</div>
+
+Samples per texel of the underlying texture.
+
+
+### `format`
+
+<div class="signature">
+```ts
+format: TextureFormat
+```
+</div>
+
+Pixel format of the underlying texture. Check it when pairing a
+multisampled view with a resolve target, whose formats must match.
+Image views are `rgba8unorm`.
+
+
+## Methods
+
+### `release`
+
+<div class="signature">
+```ts
+release(): void
+```
+</div>
+
+Releases the view now instead of when it is collected. Does nothing
+for a view the script does not own, such as the `view` of a target.
+
+

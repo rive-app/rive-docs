@@ -1,0 +1,152 @@
+---
+title: os
+---
+
+## Static Functions
+
+### `clock`
+
+<div class="signature">
+```ts
+function clock(): f64
+```
+</div>
+
+Seconds on a high resolution monotonic clock. Its starting point is
+arbitrary, so subtract two readings to time work.
+```ts
+import { clock } from "rive/os";
+
+export function timeWork(): f64 {
+  let start = clock();
+  let total = 0.0;
+  for (let i = 0; i < 1000; i++) {
+    total += Math.sqrt(<f64>i);
+  }
+  return clock() - start;
+}
+```
+
+
+### `time`
+
+<div class="signature">
+```ts
+function time(): f64
+```
+</div>
+
+Whole seconds since the Unix epoch, 1970-01-01 00:00:00 UTC, on the wall
+clock. Pass it to `date` or `dateTable` to render that instant.
+
+
+### `difftime`
+
+<div class="signature">
+```ts
+function difftime(t2: f64, t1: f64 = 0): f64
+```
+</div>
+
+The number of seconds from `t1` to `t2`, both in seconds since the Unix
+epoch. Each is truncated to whole seconds first.
+```ts
+import { difftime, time } from "rive/os";
+
+let start = time();
+
+export function elapsed(): f64 {
+  return difftime(time(), start);
+}
+```
+
+
+### `date`
+
+<div class="signature">
+```ts
+function date(format: string = "%c", time: f64 = NaN): string
+```
+</div>
+
+Formats a moment as text. `time` is seconds since the Unix epoch and
+defaults to now. The result uses the local time zone, or UTC when the format
+starts with `!`.
+
+The format is copied as text with these specifiers replaced, in English:
+
+| Specifier | Output |
+| --- | --- |
+| `%a` / `%A` | Weekday name, short (`Thu`) or full (`Thursday`) |
+| `%b` / `%B` | Month name, short (`Jan`) or full (`January`) |
+| `%c` | Date and time, like `Thu Jan  1 00:00:00 1970` |
+| `%x` / `%X` | Date as `01/01/70`, time as `00:00:00` |
+| `%d` | Day of the month, `01` to `31` |
+| `%H` / `%I` | Hour, `00` to `23` or `01` to `12` |
+| `%p` | `AM` or `PM` |
+| `%M` / `%S` | Minute and second, `00` to `59` |
+| `%m` | Month, `01` to `12` |
+| `%y` / `%Y` | Year, two digits (`70`) or full (`1970`) |
+| `%j` | Day of the year, `001` to `366` |
+| `%w` | Weekday, `0` for Sunday to `6` |
+| `%U` / `%W` | Week of the year, `00` to `53`, starting on Sunday or Monday |
+| `%z` / `%Z` | Time zone offset (`+0100`) or abbreviation |
+| `%%` | A literal `%` |
+
+Any other specifier throws. A `%` at the very end is copied as written.
+```ts
+import { date } from "rive/os";
+
+export function labels(): string {
+  let local = date("%A %H:%M");
+  let utc = date("!%Y-%m-%dT%H:%M:%SZ", 0);
+  return local + " " + utc;
+}
+```
+
+
+### `dateTable`
+
+<div class="signature">
+```ts
+function dateTable(format: string = "*t", time: f64 = NaN): DateTable
+```
+</div>
+
+Breaks a moment into a [DateTable](/scripting/animascript/api-reference/os/date-table). `time` is seconds since the Unix epoch
+and defaults to now. Local time by default; pass `"!*t"` as the format for
+UTC.
+```ts
+import { dateTable } from "rive/os";
+
+export function isWeekend(): bool {
+  let now = dateTable();
+  return now.wday == 0 || now.wday == 6;
+}
+```
+
+
+### `timeFromTable`
+
+<div class="signature">
+```ts
+function timeFromTable(date: DateTable): Box<f64> | null
+```
+</div>
+
+The seconds since the Unix epoch of the moment `date` describes, read as
+UTC: Luau's `time` given a table. Only `year`, `month`, `day`, `hour`, `min`
+and `sec` are read, and values out of range carry over, so month 13 is
+January of the next year. Returns `null` for a moment before the epoch.
+```ts
+import { DateTable, timeFromTable } from "rive/os";
+
+export function newYear(): f64 {
+  let date = new DateTable();
+  date.year = 2027;
+  let seconds = timeFromTable(date);
+  return seconds != null ? seconds.value : -1;
+}
+```
+
+

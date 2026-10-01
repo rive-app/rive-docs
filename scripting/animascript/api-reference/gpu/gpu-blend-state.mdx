@@ -1,0 +1,82 @@
+---
+title: GPUBlendState
+---
+
+Blend equation for one color target. The defaults replace the
+destination with the source.
+
+```ts
+let premultipliedOver = new GPUBlendState();
+premultipliedOver.dstColor = BlendFactor.oneMinusSrcAlpha;
+premultipliedOver.dstAlpha = BlendFactor.oneMinusSrcAlpha;
+```
+
+
+## Fields
+
+### `srcColor`
+
+<div class="signature">
+```ts
+srcColor: BlendFactor
+```
+</div>
+
+Factor on the source color. Default `one`.
+
+
+### `dstColor`
+
+<div class="signature">
+```ts
+dstColor: BlendFactor
+```
+</div>
+
+Factor on the destination color. Default `zero`.
+
+
+### `colorOp`
+
+<div class="signature">
+```ts
+colorOp: BlendOp
+```
+</div>
+
+Operation combining the color terms. Default `add`.
+
+
+### `srcAlpha`
+
+<div class="signature">
+```ts
+srcAlpha: BlendFactor
+```
+</div>
+
+Factor on the source alpha. Default `one`.
+
+
+### `dstAlpha`
+
+<div class="signature">
+```ts
+dstAlpha: BlendFactor
+```
+</div>
+
+Factor on the destination alpha. Default `zero`.
+
+
+### `alphaOp`
+
+<div class="signature">
+```ts
+alphaOp: BlendOp
+```
+</div>
+
+Operation combining the alpha terms. Default `add`.
+
+

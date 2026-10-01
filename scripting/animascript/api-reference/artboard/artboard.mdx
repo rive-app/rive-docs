@@ -1,0 +1,400 @@
+---
+title: Artboard
+---
+
+An artboard instance a script draws, advances and forwards pointer
+events to, with access to its
+[named nodes](/editor/exporting/exporting-names), animations and data.
+
+Declare one as an input and make instances of it. `T` is a class
+extending [ViewModel](/scripting/animascript/api-reference/data/view-model) that names the view model the artboard binds, so
+the editor offers matching view models for an input declared as
+`Artboard<Character>`, and `data` returns a `Character`.
+
+```ts
+export class Scene extends Node {
+    @input character: Artboard | null = null;
+    instance: Artboard | null = null;
+
+    override init(context: Context): bool {
+        let character = this.character;
+        if (character != null) {
+            this.instance = character.instance(ViewModel.create("Character"));
+        }
+        return true;
+    }
+
+    override advance(seconds: f64): bool {
+        let instance = this.instance;
+        return instance != null ? instance.advance(seconds) : true;
+    }
+
+    override draw(renderer: Renderer): void {
+        let instance = this.instance;
+        if (instance != null) {
+            renderer.save();
+            instance.draw(renderer);
+            renderer.restore();
+        }
+    }
+}
+```
+
+
+## Fields
+
+### `width`
+
+<div class="signature">
+```ts
+width: f64
+```
+</div>
+
+The width of the artboard.
+
+
+### `height`
+
+<div class="signature">
+```ts
+height: f64
+```
+</div>
+
+The height of the artboard.
+
+
+### `frameOrigin`
+
+<div class="signature">
+```ts
+frameOrigin: bool
+```
+</div>
+
+If true, the artboard's origin is treated as the frame origin.
+
+```ts
+instance.frameOrigin = true;
+```
+
+
+## Methods
+
+### `instance`
+
+<div class="signature">
+```ts
+instance(viewModel: T | null = null): Artboard<T>
+```
+</div>
+
+Creates a new instance of the artboard with independent state, bound
+to `viewModel` when one is given.
+
+```ts
+let instance = character.instance(ViewModel.create("Character"));
+```
+
+
+### `advance`
+
+<div class="signature">
+```ts
+advance(seconds: f64): bool
+```
+</div>
+
+Advances the artboard by the given time in seconds. Returns true if
+the artboard should keep receiving advance calls.
+
+
+### `propertyKey`
+
+<div class="signature">
+```ts
+propertyKey(name: string): PropertyKey
+```
+</div>
+
+The key custom properties called `name` are read by. When no property
+in the file carries that name the key matches nothing, so every read
+by it finds no property.
+
+
+### `drawModulated`
+
+<div class="signature">
+```ts
+drawModulated(renderer: Renderer, key: PropertyKey): void
+```
+</div>
+
+Draws the artboard with the color modulation set, per drawable, from
+its custom property of this key: a number as a gray level clamped to
+0 to 1, a color as is. Drawables without it draw under the renderer's
+current state. Levels multiply down through tagged drawables that
+hold others: inside a nested artboard tagged 0.5, a shape tagged 0.2
+draws at 0.1 and an untagged one at 0.5. Nothing calls back into the
+script, so this is the cheapest way to draw a pass like emission.
+
+```ts
+// In init: EMISSIVE = artboard.propertyKey("emissive");
+// Everything black except drawables tagged emissive.
+renderer.save();
+renderer.setColorModulation(Color.rgba(0, 0, 0, 255));
+artboard.drawModulated(renderer, EMISSIVE);
+renderer.restore();
+```
+
+
+### `draw`
+
+<div class="signature">
+```ts
+draw(renderer: Renderer, visitor: ((context: usize, drawable: Drawable, renderer: Renderer) => void) | null = null, context: usize = 0): void
+```
+</div>
+
+Draws the artboard using the provided renderer.
+
+With a `visitor`, each drawable that has custom properties is handed
+to it instead of being drawn: the visitor decides whether to call
+`drawable.draw(renderer)` and under what renderer state. Whatever it
+sets on the renderer ends with that visit. Every other drawable draws
+as usual, and clipping still applies. `context` is passed through to
+the visitor untouched.
+
+```ts
+let GLOW: PropertyKey = 0; // In init: GLOW = artboard.propertyKey("glow");
+
+// Draws only the drawables tagged glow, in their own paint.
+function drawGlow(context: usize, drawable: Drawable, renderer: Renderer): void {
+    if (drawable.boolean(GLOW)) {
+        drawable.draw(renderer);
+    }
+}
+
+artboard.draw(renderer, drawGlow);
+```
+
+Drawing a tagged nested artboard visits the tagged drawables inside
+it from within that `drawable.draw` call, so a value carries down in
+a variable:
+
+```ts
+let level: f64 = 1;
+
+function drawEmission(context: usize, drawable: Drawable, renderer: Renderer): void {
+    let outer = level;
+    level = outer * Math.min(drawable.number(EMISSIVE), 1);
+    let c = <u32>Math.floor(level * 255);
+    renderer.setColorModulation(Color.rgba(c, c, c, 255));
+    drawable.draw(renderer);
+    level = outer;
+}
+```
+
+
+### `data`
+
+<div class="signature">
+```ts
+data(): T | null
+```
+</div>
+
+The view model bound to the artboard, typed as `T`, or null when none
+is bound.
+
+```ts
+let data = instance.data();
+if (data != null) {
+    let nickname = data.getString("nickname");
+    if (nickname != null) {
+        console.log(nickname.value);
+    }
+}
+```
+
+
+### `animation`
+
+<div class="signature">
+```ts
+animation(name: string): Animation | null
+```
+</div>
+
+Creates an instance of the named animation that plays into this
+artboard, or null when there is no animation by that name.
+
+
+### `addToPath`
+
+<div class="signature">
+```ts
+unsafe addToPath(path: Path, transform: Mat2D = Mat2D()): void
+```
+</div>
+
+Adds the artboard's visible shapes to `path`, transformed by
+`transform` when given.
+
+```ts
+// Rebuild an outline of the artboard each frame, offset slightly.
+outline.reset();
+instance.addToPath(outline, Mat2D.withTranslation(8, 8));
+renderer.drawPath(outline, outlinePaint);
+```
+
+
+### `node`
+
+<div class="signature">
+```ts
+node(name: string): NodeData | null
+```
+</div>
+
+The node with the given name, or null when no such node exists.
+
+```ts
+let root = instance.node("Root");
+if (root != null) {
+    root.decompose(Mat2D.withTranslation(100, 100));
+}
+```
+
+
+### `bounds`
+
+<div class="signature">
+```ts
+unsafe bounds(): ArtboardBounds
+```
+</div>
+
+The bounding box of the artboard as its minimum point `v0` and
+maximum point `v1`.
+
+```ts
+let bounds = instance.bounds();
+console.log((bounds.v1.x - bounds.v0.x).toString());
+console.log((bounds.v1.y - bounds.v0.y).toString());
+```
+
+
+### `pointerDown`
+
+<div class="signature">
+```ts
+pointerDown(event: PointerEvent): f64
+```
+</div>
+
+Forwards a pointer down event to the artboard. Returns a hit test
+result, 0 when nothing was hit. Only returns a non zero value when a
+hit testable object inside the artboard is hit.
+
+```ts
+override pointerDown(event: PointerEvent): void {
+    let instance = this.instance;
+    if (instance != null && instance.pointerDown(event) != 0) {
+        event.hit();
+    }
+}
+```
+
+
+### `pointerMove`
+
+<div class="signature">
+```ts
+pointerMove(event: PointerEvent): f64
+```
+</div>
+
+Forwards a pointer move event to the artboard. Returns a hit test
+result, 0 when nothing was hit.
+
+
+### `pointerUp`
+
+<div class="signature">
+```ts
+pointerUp(event: PointerEvent): f64
+```
+</div>
+
+Forwards a pointer up event to the artboard. Returns a hit test
+result, 0 when nothing was hit.
+
+
+### `pointerExit`
+
+<div class="signature">
+```ts
+pointerExit(event: PointerEvent): f64
+```
+</div>
+
+Forwards a pointer exit event to the artboard. Returns a hit test
+result, 0 when nothing was hit.
+
+
+### `gamepadConnected`
+
+<div class="signature">
+```ts
+gamepadConnected(event: GamepadEvent): f64
+```
+</div>
+
+Forwards a gamepad connection to the artboard: its focused control
+first, then every scripted node that did not take it. Returns how
+many scripted nodes received it.
+```ts
+override gamepadConnected(event: GamepadEvent): void {
+    this.instance.gamepadConnected(event);
+}
+```
+
+
+### `gamepadEvent`
+
+<div class="signature">
+```ts
+gamepadEvent(event: GamepadEvent): f64
+```
+</div>
+
+Forwards a gamepad button or axis change to the artboard, the same
+way as `gamepadConnected`.
+
+
+### `gamepadDisconnected`
+
+<div class="signature">
+```ts
+gamepadDisconnected(event: GamepadEvent): f64
+```
+</div>
+
+Forwards a gamepad disconnection to the artboard, the same way as
+`gamepadConnected`.
+
+
+### `release`
+
+<div class="signature">
+```ts
+release(): void
+```
+</div>
+
+Releases the artboard instance now instead of when it is collected.
+Do not use it afterwards.
+
+

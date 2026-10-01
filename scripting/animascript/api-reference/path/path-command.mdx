@@ -1,0 +1,76 @@
+---
+title: PathCommand
+---
+
+A single drawing command inside a [Path](/scripting/animascript/api-reference/path/path): its `type` and the points that
+type uses. It copies its points, so later edits to the path leave it
+unchanged. `for...of` walks the points in order.
+```ts
+for (const command of path) {
+  for (const point of command) {
+    console.log(point.x.toString() + ", " + point.y.toString());
+  }
+}
+```
+
+
+## Fields
+
+### `type`
+
+<div class="signature">
+```ts
+type: string
+```
+</div>
+
+The command name: `moveTo`, `lineTo`, `quadTo`, `cubicTo` or `close`, or
+`none` for an index past the end of the path.
+```ts
+let path = new Path();
+path.moveTo(Vector.xy(0, 0));
+path.lineTo(Vector.xy(10, 0));
+console.log(path[1].type); // lineTo
+```
+
+
+### `length`
+
+<div class="signature">
+```ts
+readonly length: i32
+```
+</div>
+
+The number of points the command uses:
+- `moveTo`: 1 point
+- `lineTo`: 1 point
+- `quadTo`: 2 points
+- `cubicTo`: 3 points
+- `close`: 0 points
+
+
+## Methods
+
+### `operator[]`
+
+<div class="signature">
+```ts
+operator[](index: i32): Vector
+```
+</div>
+
+The point at `index`, from 0 to `length - 1`. The last point is where the
+command ends. An index out of range returns the zero vector, where Luau
+returns nil.
+```ts
+let path = new Path();
+path.moveTo(Vector.xy(0, 0));
+path.cubicTo(Vector.xy(25, -40), Vector.xy(75, 40), Vector.xy(100, 0));
+
+let command = path[1];
+console.log(command.type); // cubicTo
+let end = command[command.length - 1]; // 100, 0
+```
+
+
