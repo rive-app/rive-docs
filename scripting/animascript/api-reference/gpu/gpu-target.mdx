@@ -70,7 +70,7 @@ Samples per pixel. Always 1 for a canvas; can be above 1 for
 
 <div class="signature">
 ```as
-readonly view: GPUTextureView | null
+readonly view: GPUTextureView?
 ```
 </div>
 
@@ -85,7 +85,7 @@ kept across a resize errors when a pass uses it.
 
 <div class="signature">
 ```as
-beginRenderPass(desc: GPUPassDesc, into: GPURenderPass | null = null): GPURenderPass
+beginRenderPass(desc: GPUPassDesc, into: GPURenderPass? = null): GPURenderPass
 ```
 </div>
 

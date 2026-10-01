@@ -6,7 +6,7 @@ An image that can be drawn by the [Renderer](/scripting/animascript/api-referenc
 assets with `context.image(name)`, or from a canvas.
 ```as
 export class DrawImage extends Node {
-    myImage: Image | null = null;
+    myImage: Image? = null;
     sampler: ImageSampler = ImageSampler(ImageWrap.clamp, ImageWrap.clamp, ImageFilter.bilinear);
 
     override init(context: Context): bool {
@@ -66,7 +66,7 @@ if (image != null) {
 
 <div class="signature">
 ```as
-view(): GPUTextureView | null
+view(): GPUTextureView?
 ```
 </div>
 

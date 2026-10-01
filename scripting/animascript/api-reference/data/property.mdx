@@ -95,7 +95,7 @@ with the same function keep listening.
 
 ```as
 export class Cannon extends Node {
-    fire: PropertyTrigger | null = null;
+    fire: PropertyTrigger? = null;
     shots: i32 = 0;
 
     static onFire(self: Cannon): void {

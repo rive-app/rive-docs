@@ -61,7 +61,7 @@ override advance(seconds: f64): bool {
 
 <div class="signature">
 ```as
-image(name: string): Image | null
+image(name: string): Image?
 ```
 </div>
 
@@ -69,7 +69,7 @@ Returns the image asset with the given name, or null if not found.
 Draw it with `Renderer.drawImage`. See also [ImageSampler](/scripting/animascript/api-reference/image/image-sampler).
 ```as
 export class DrawImage extends Node {
-    myImage: Image | null = null;
+    myImage: Image? = null;
     sampler: ImageSampler = ImageSampler(ImageWrap.clamp, ImageWrap.clamp, ImageFilter.bilinear);
 
     override init(context: Context): bool {
@@ -91,7 +91,7 @@ export class DrawImage extends Node {
 
 <div class="signature">
 ```as
-font(name: string): Font | null
+font(name: string): Font?
 ```
 </div>
 
@@ -109,7 +109,7 @@ if (font != null) {
 
 <div class="signature">
 ```as
-audio(name: string): AudioSource | null
+audio(name: string): AudioSource?
 ```
 </div>
 
@@ -117,7 +117,7 @@ Returns the audio asset with the given name, or null if not found.
 Play it with the [Audio](/scripting/animascript/api-reference/audio/audio) functions.
 ```as
 export class AudioExample extends Node {
-    source: AudioSource | null = null;
+    source: AudioSource? = null;
 
     override init(context: Context): bool {
         this.source = context.audio("myAudio");
@@ -139,7 +139,7 @@ export class AudioExample extends Node {
 
 <div class="signature">
 ```as
-viewModel(): ViewModel | null
+viewModel(): ViewModel?
 ```
 </div>
 
@@ -161,7 +161,7 @@ override init(context: Context): bool {
 
 <div class="signature">
 ```as
-rootViewModel(): ViewModel | null
+rootViewModel(): ViewModel?
 ```
 </div>
 
@@ -180,7 +180,7 @@ if (vm != null) {
 
 <div class="signature">
 ```as
-globalViewModel(name: string): ViewModel | null
+globalViewModel(name: string): ViewModel?
 ```
 </div>
 
@@ -219,7 +219,7 @@ for (let i = 0; i < names.length; i++) {
 
 <div class="signature">
 ```as
-dataContext(): DataContext | null
+dataContext(): DataContext?
 ```
 </div>
 
@@ -238,7 +238,7 @@ if (dc != null) {
 
 <div class="signature">
 ```as
-canvas(width: u32 = 0, height: u32 = 0): Canvas | null
+canvas(width: u32 = 0, height: u32 = 0): Canvas?
 ```
 </div>
 
@@ -275,7 +275,7 @@ override draw(renderer: Renderer): void {
 
 <div class="signature">
 ```as
-gpuCanvas(width: u32 = 0, height: u32 = 0): GPUCanvas | null
+gpuCanvas(width: u32 = 0, height: u32 = 0): GPUCanvas?
 ```
 </div>
 
@@ -294,7 +294,7 @@ and `height` read 0 and `view` is null.
 
 <div class="signature">
 ```as
-gpuTarget(): GPUTarget | null
+gpuTarget(): GPUTarget?
 ```
 </div>
 
@@ -323,7 +323,7 @@ Returns the GPU features and limits the current backend supports.
 
 <div class="signature">
 ```as
-blob(name: string): ArrayBuffer | null
+blob(name: string): ArrayBuffer?
 ```
 </div>
 
@@ -342,7 +342,7 @@ if (bytes != null && bytes.byteLength > 0) {
 
 <div class="signature">
 ```as
-shader(name: string): GPUShaderModule | null
+shader(name: string): GPUShaderModule?
 ```
 </div>
 

@@ -234,7 +234,7 @@
             "patterns": [
                 {
                     "name": "keyword.operator.assignment.animascript",
-                    "match": "(\\+=|-=|\\*=|/=|%=|<<=|>>=|>>>=|&=|\\|=|\\^=|\\*\\*=|=)"
+                    "match": "(\\?\\?=|\\+=|-=|\\*=|/=|%=|<<=|>>=|>>>=|&=|\\|=|\\^=|\\*\\*=|=)"
                 },
                 {
                     "name": "keyword.operator.comparison.animascript",
@@ -242,11 +242,15 @@
                 },
                 {
                     "name": "keyword.operator.logical.animascript",
-                    "match": "(&&|\\|\\||!)"
+                    "match": "(\\?\\?|&&|\\|\\||!)"
                 },
                 {
                     "name": "keyword.operator.arithmetic.animascript",
                     "match": "(\\+\\+|--|\\+|-|\\*\\*|\\*|/|%|<<|>>>|>>|&|\\||\\^|~)"
+                },
+                {
+                    "name": "punctuation.accessor.optional.animascript",
+                    "match": "\\?\\.(?!\\d)"
                 },
                 {
                     "name": "keyword.operator.ternary.animascript",

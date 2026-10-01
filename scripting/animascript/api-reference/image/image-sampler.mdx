@@ -8,7 +8,7 @@ and filtering. [ImageSampler](/scripting/animascript/api-reference/image/image-s
 [ImageFilter](/scripting/animascript/api-reference/image/image-filter).
 ```as
 export class DrawImage extends Node {
-    myImage: Image | null = null;
+    myImage: Image? = null;
     sampler: ImageSampler = ImageSampler(ImageWrap.clamp, ImageWrap.clamp, ImageFilter.bilinear);
 
     override init(context: Context): bool {

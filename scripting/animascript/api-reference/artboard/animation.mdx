@@ -9,9 +9,9 @@ time twice.
 
 ```as
 export class Walker extends Node {
-    @input character: Artboard | null = null;
-    instance: Artboard | null = null;
-    walk: Animation | null = null;
+    @input character: Artboard? = null;
+    instance: Artboard? = null;
+    walk: Animation? = null;
 
     override init(context: Context): bool {
         let character = this.character;

@@ -100,7 +100,7 @@ Whether the font is italic.
 
 <div class="signature">
 ```as
-static decode(bytes: ArrayBuffer): Font | null
+static decode(bytes: ArrayBuffer): Font?
 ```
 </div>
 
@@ -175,7 +175,7 @@ Four letter OpenType feature tags the font offers, such as "liga".
 
 <div class="signature">
 ```as
-withOptions(axes: Map<string, f32> | null = null, features: Map<string, u32> | null = null): Font
+withOptions(axes: Map<string, f32>? = null, features: Map<string, u32>? = null): Font
 ```
 </div>
 

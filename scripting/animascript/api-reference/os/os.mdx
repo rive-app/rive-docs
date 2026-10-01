@@ -130,7 +130,7 @@ export function isWeekend(): bool {
 
 <div class="signature">
 ```as
-function timeFromTable(date: DateTable): Box<f64> | null
+function timeFromTable(date: DateTable): Box<f64>?
 ```
 </div>
 
@@ -146,8 +146,7 @@ import { DateTable, timeFromTable } from "rive/os";
 export function newYear(): f64 {
   let date = new DateTable();
   date.year = 2027;
-  let seconds = timeFromTable(date);
-  return seconds != null ? seconds.value : -1;
+  return timeFromTable(date)?.value ?? -1;
 }
 ```
 

@@ -167,7 +167,7 @@ drawImage(image: Image, sampler: ImageSampler, blend: BlendMode, opacity: f32): 
 Draws `image` with `sampler`, `blend` and `opacity`.
 ```as
 export class DrawImage extends Node {
-  myImage: Image | null = null;
+  myImage: Image? = null;
   sampler: ImageSampler = ImageSampler(ImageWrap.clamp, ImageWrap.clamp, ImageFilter.bilinear);
 
   override init(context: Context): bool {

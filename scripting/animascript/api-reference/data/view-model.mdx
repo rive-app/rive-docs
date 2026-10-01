@@ -18,8 +18,8 @@ export class Character extends ViewModel {
 }
 
 export class Scene extends Node {
-    @input settings: Character | null = null;
-    @input character: Artboard<Character> | null = null;
+    @input settings: Character? = null;
+    @input character: Artboard<Character>? = null;
 
     override init(context: Context): bool {
         let settings = this.settings;
@@ -72,7 +72,7 @@ Whether the file has a view model called `name`.
 
 <div class="signature">
 ```as
-getNumber(name: string): PropertyNumber | null
+getNumber(name: string): PropertyNumber?
 ```
 </div>
 
@@ -93,7 +93,7 @@ if (vm != null) {
 
 <div class="signature">
 ```as
-getBoolean(name: string): PropertyBoolean | null
+getBoolean(name: string): PropertyBoolean?
 ```
 </div>
 
@@ -104,7 +104,7 @@ The boolean property with the given name, or null when there is none.
 
 <div class="signature">
 ```as
-getString(name: string): PropertyString | null
+getString(name: string): PropertyString?
 ```
 </div>
 
@@ -115,7 +115,7 @@ The string property with the given name, or null when there is none.
 
 <div class="signature">
 ```as
-getTrigger(name: string): PropertyTrigger | null
+getTrigger(name: string): PropertyTrigger?
 ```
 </div>
 
@@ -126,7 +126,7 @@ The trigger property with the given name, or null when there is none.
 
 <div class="signature">
 ```as
-getColor(name: string): PropertyColor | null
+getColor(name: string): PropertyColor?
 ```
 </div>
 
@@ -137,7 +137,7 @@ The color property with the given name, or null when there is none.
 
 <div class="signature">
 ```as
-getEnum(name: string): PropertyEnum | null
+getEnum(name: string): PropertyEnum?
 ```
 </div>
 
@@ -148,7 +148,7 @@ The enum property with the given name, or null when there is none.
 
 <div class="signature">
 ```as
-getList(name: string): PropertyList | null
+getList(name: string): PropertyList?
 ```
 </div>
 
@@ -159,7 +159,7 @@ The list property with the given name, or null when there is none.
 
 <div class="signature">
 ```as
-getViewModel(name: string): PropertyViewModel | null
+getViewModel(name: string): PropertyViewModel?
 ```
 </div>
 
@@ -171,7 +171,7 @@ there is none.
 
 <div class="signature">
 ```as
-getImage(name: string): PropertyImage | null
+getImage(name: string): PropertyImage?
 ```
 </div>
 
@@ -182,7 +182,7 @@ The image property with the given name, or null when there is none.
 
 <div class="signature">
 ```as
-getFont(name: string): PropertyFont | null
+getFont(name: string): PropertyFont?
 ```
 </div>
 
@@ -193,7 +193,7 @@ The font property with the given name, or null when there is none.
 
 <div class="signature">
 ```as
-getBlob(name: string): PropertyBlob | null
+getBlob(name: string): PropertyBlob?
 ```
 </div>
 
@@ -246,7 +246,7 @@ or -1 when it has none.
 
 <div class="signature">
 ```as
-equals(other: ViewModel | null): bool
+equals(other: ViewModel?): bool
 ```
 </div>
 

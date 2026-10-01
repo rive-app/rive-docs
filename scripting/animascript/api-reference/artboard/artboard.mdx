@@ -13,8 +13,8 @@ the editor offers matching view models for an input declared as
 
 ```as
 export class Scene extends Node {
-    @input character: Artboard | null = null;
-    instance: Artboard | null = null;
+    @input character: Artboard? = null;
+    instance: Artboard? = null;
 
     override init(context: Context): bool {
         let character = this.character;
@@ -25,8 +25,7 @@ export class Scene extends Node {
     }
 
     override advance(seconds: f64): bool {
-        let instance = this.instance;
-        return instance != null ? instance.advance(seconds) : true;
+        return this.instance?.advance(seconds) ?? true;
     }
 
     override draw(renderer: Renderer): void {
@@ -86,7 +85,7 @@ instance.frameOrigin = true;
 
 <div class="signature">
 ```as
-instance(viewModel: T | null = null): Artboard<T>
+instance(viewModel: T? = null): Artboard<T>
 ```
 </div>
 
@@ -153,7 +152,7 @@ renderer.restore();
 
 <div class="signature">
 ```as
-draw(renderer: Renderer, visitor: ((context: usize, drawable: Drawable, renderer: Renderer) => void) | null = null, context: usize = 0): void
+draw(renderer: Renderer, visitor: ((context: usize, drawable: Drawable, renderer: Renderer) => void)? = null, context: usize = 0): void
 ```
 </div>
 
@@ -201,7 +200,7 @@ function drawEmission(context: usize, drawable: Drawable, renderer: Renderer): v
 
 <div class="signature">
 ```as
-data(): T | null
+data(): T?
 ```
 </div>
 
@@ -223,7 +222,7 @@ if (data != null) {
 
 <div class="signature">
 ```as
-animation(name: string): Animation | null
+animation(name: string): Animation?
 ```
 </div>
 
@@ -254,7 +253,7 @@ renderer.drawPath(outline, outlinePaint);
 
 <div class="signature">
 ```as
-node(name: string): NodeData | null
+node(name: string): NodeData?
 ```
 </div>
 

@@ -14,8 +14,8 @@ after which the runtime retires the outgoing child.
 export class Crossfade extends Transition {
     progress: f64 = 0;
 
-    override changed(from: TransitionChild | null,
-                     to: TransitionChild | null, direction: f64): void {
+    override changed(from: TransitionChild?,
+                     to: TransitionChild?, direction: f64): void {
         this.progress = 0;
     }
 
@@ -24,8 +24,8 @@ export class Crossfade extends Transition {
         return this.progress < 1;
     }
 
-    override draw(renderer: Renderer, from: TransitionChild | null,
-                  to: TransitionChild | null): void {
+    override draw(renderer: Renderer, from: TransitionChild?,
+                  to: TransitionChild?): void {
         if (from != null) {
             renderer.save();
             renderer.modulateOpacity(1 - this.progress);
@@ -65,7 +65,7 @@ start of each transition, so set it in `init` or `changed`.
 
 <div class="signature">
 ```as
-changed(from: TransitionChild | null, to: TransitionChild | null, direction: f64): void
+changed(from: TransitionChild?, to: TransitionChild?, direction: f64): void
 ```
 </div>
 
@@ -80,7 +80,7 @@ on interruption, with the previously incoming child as `from`.
 
 <div class="signature">
 ```as
-abstract draw(renderer: Renderer, from: TransitionChild | null, to: TransitionChild | null): void
+abstract draw(renderer: Renderer, from: TransitionChild?, to: TransitionChild?): void
 ```
 </div>
 

@@ -8,7 +8,7 @@ the subclass.
 
 ```as
 export class Doubler extends Converter {
-    override convert(input: DataValue): DataValue | null {
+    override convert(input: DataValue): DataValue? {
         if (input instanceof DataValueNumber) {
             return DataValue.newNumber(input.value * 2);
         }

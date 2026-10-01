@@ -6,7 +6,7 @@ An audio asset from the file, returned by `Context.audio` and played with
 the [Audio](/scripting/animascript/api-reference/audio/audio) functions.
 ```as
 export class AudioExample extends Node {
-    source: AudioSource | null = null;
+    source: AudioSource? = null;
 
     override init(context: Context): bool {
         this.source = context.audio("myAudio");

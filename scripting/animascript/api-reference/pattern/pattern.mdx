@@ -46,7 +46,7 @@ export function parseSize(text: string): f64 {
 
 <div class="signature">
 ```as
-function find(s: string, p: string, init: i32 = 0, plain: bool = false): PatternMatch | null
+function find(s: string, p: string, init: i32 = 0, plain: bool = false): PatternMatch?
 ```
 </div>
 
@@ -136,7 +136,7 @@ export function bracketWords(text: string): string {
 
 <div class="signature">
 ```as
-function gsubWith(s: string, p: string, repl: (m: PatternMatch) => string | null, max: i32 = -1): PatternReplace
+function gsubWith(s: string, p: string, repl: (m: PatternMatch) => string?, max: i32 = -1): PatternReplace
 ```
 </div>
 
@@ -149,7 +149,7 @@ import { Pattern, PatternMatch } from "rive/pattern";
 
 export function shout(text: string): string {
   // "hi there" becomes "HI THERE".
-  return Pattern.gsubWith(text, "%a+", (m: PatternMatch): string | null =>
+  return Pattern.gsubWith(text, "%a+", (m: PatternMatch): string? =>
     m.group(0).toUpperCase()).text;
 }
 ```

@@ -246,7 +246,7 @@ let p = m.transformPoint(1, 1, 1); // 12 2 2
 
 <div class="signature">
 ```as
-static operator==(a: Mat4 | null, b: Mat4 | null): bool
+static operator==(a: Mat4?, b: Mat4?): bool
 ```
 </div>
 
@@ -260,7 +260,7 @@ let same = Mat4.fromScale(1, 1, 1) == Mat4.identity(); // true
 
 <div class="signature">
 ```as
-static operator!=(a: Mat4 | null, b: Mat4 | null): bool
+static operator!=(a: Mat4?, b: Mat4?): bool
 ```
 </div>
 
@@ -703,7 +703,7 @@ Mat4.identity().writeToBuffer(ubo, 0);
 
 <div class="signature">
 ```as
-invert(): Mat4 | null
+invert(): Mat4?
 ```
 </div>
 
@@ -720,7 +720,7 @@ if (inv != null) {
 
 <div class="signature">
 ```as
-invertAffine(): Mat4 | null
+invertAffine(): Mat4?
 ```
 </div>
 
