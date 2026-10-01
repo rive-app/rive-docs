@@ -35,7 +35,7 @@ async function doubled(): Promise<f64> {
 
 export function start(): void {
   doubled()
-    .map<f64>((value: f64): f64 => value + 1)
+    .map((value: f64): f64 => value + 1)
     .andThen((value: f64): void => {
       result = value;
     })
@@ -96,7 +96,7 @@ need a value type, so `Promise<void>` cannot be combined.
 import { Promise } from "rive/promise";
 
 export function total(a: Promise<f64>, b: Promise<f64>): Promise<f64> {
-  return Promise.all<f64>([a, b]).map<f64>((values: Array<f64>): f64 =>
+  return Promise.all<f64>([a, b]).map((values: Array<f64>): f64 =>
     values[0] + values[1]);
 }
 ```
@@ -157,13 +157,14 @@ map<U>(onFulfilled: (value: T) => U): Promise<U>
 
 Returns a new promise that fulfills with what `onFulfilled` returns when
 given this promise's value: Luau's `andThen` with a handler that returns a
-value. A rejection passes through unchanged. Name the new value type,
-which rasc cannot infer from the handler.
+value. A rejection passes through unchanged. The new value type comes
+from the handler's return type, so give a function expression one, or
+name it as in `map<string>`.
 ```as
 import { Promise } from "rive/promise";
 
 export function label(count: Promise<f64>): Promise<string> {
-  return count.map<string>((value: f64): string => value.toString() + " items");
+  return count.map((value: f64): string => value.toString() + " items");
 }
 ```
 
@@ -180,7 +181,8 @@ Returns a new promise that follows the promise `onFulfilled` returns when
 given this promise's value: Luau's `andThen` with a handler that returns a
 promise. It fulfills, rejects or is cancelled as that promise is, so
 returning `Promise.reject` rejects it. A rejection of this promise passes
-through unchanged. Name the new value type.
+through unchanged. The new value type comes from the handler's return
+type, as with `map`.
 ```as
 import { Promise } from "rive/promise";
 
@@ -189,7 +191,7 @@ function check(value: f64): Promise<f64> {
 }
 
 export function validated(input: Promise<f64>): Promise<f64> {
-  return input.flatMap<f64>((value: f64): Promise<f64> => check(value));
+  return input.flatMap((value: f64): Promise<f64> => check(value));
 }
 ```
 
