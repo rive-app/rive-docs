@@ -11,11 +11,12 @@ A compiled GPU render pipeline: shaders plus fixed function state.
 
 <div class="signature">
 ```as
-unsafe constructor(desc: GPUPipelineDesc)
+constructor(desc: GPUPipelineDesc)
 ```
 </div>
 
-Creates a pipeline from `desc`. Raises an error when the device
+Creates a pipeline from `desc`. Raises an error when `desc` has more
+than 4 color targets or bind group layouts, or when the device
 rejects the descriptor. A missing vertex shader or an entry point
 that does not resolve leaves the pipeline empty, and setting it on a
 pass does nothing.

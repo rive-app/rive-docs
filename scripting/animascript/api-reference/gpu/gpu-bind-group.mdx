@@ -13,14 +13,14 @@ every bound buffer, view and sampler alive for its own lifetime.
 
 <div class="signature">
 ```as
-unsafe constructor(layout: GPUBindGroupLayout, ubos: Array<GPUBindGroupUBO> = [], textures: Array<GPUBindGroupTexture> = [], samplers: Array<GPUBindGroupSampler> = [])
+constructor(layout: GPUBindGroupLayout, ubos: Array<GPUBindGroupUBO> = [], textures: Array<GPUBindGroupTexture> = [], samplers: Array<GPUBindGroupSampler> = [])
 ```
 </div>
 
 Creates a bind group for `layout` from uniform buffer, texture and
 sampler entries. The layout's group index decides which `@group(N)`
-it binds to. Raises an error when the entries do not match the
-layout.
+it binds to. Raises an error when a slot is above 7 or the entries
+do not match the layout.
 
 
 ## Methods

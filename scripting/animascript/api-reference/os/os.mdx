@@ -2,7 +2,7 @@
 title: os
 ---
 
-## Static Functions
+## Functions
 
 ### `clock`
 
@@ -137,7 +137,9 @@ function timeFromTable(date: DateTable): Box<f64> | null
 The seconds since the Unix epoch of the moment `date` describes, read as
 UTC: Luau's `time` given a table. Only `year`, `month`, `day`, `hour`, `min`
 and `sec` are read, and values out of range carry over, so month 13 is
-January of the next year. Returns `null` for a moment before the epoch.
+January of the next year. Fields left unset keep [DateTable](/scripting/animascript/api-reference/os/date-table)'s defaults, so
+the hour is 0 rather than Luau's noon, and a missing field is not an error
+as it is in Luau. Returns `null` for a moment before the epoch.
 ```as
 import { DateTable, timeFromTable } from "rive/os";
 

@@ -117,15 +117,15 @@ end
 
 ### `paint`
 
-If the node is a fill or a stroke, its paint, otherwise nil. The same
-as `asPaint`.
-```lua highlight={3}
-local fill = self.instance:node('Fill')
-if fill then
-  local paint = fill.paint
+The stroke or fill a path effect applies to, on the node its `update`
+receives, otherwise nil. The same as `asPaint`.
+```lua highlight={2}
+function update(self: MyEffect, path: PathData, node: NodeReadData): PathData
+  local paint = node.paint
   if paint then
     print(paint.color)
   end
+  return path
 end
 ```
 
@@ -167,15 +167,15 @@ asPaint() -> Paint?
 ```
 </div>
 
-If the node is a fill or a stroke, returns its paint as a [Paint](/scripting/api-reference/paint/paint),
-otherwise nil.
-```lua highlight={3}
-local stroke = self.instance:node('Stroke')
-if stroke then
-  local paint = stroke:asPaint()
+Returns the stroke or fill a path effect applies to, on the node its
+`update` receives, otherwise nil.
+```lua highlight={2}
+function update(self: MyEffect, path: PathData, node: NodeReadData): PathData
+  local paint = node:asPaint()
   if paint then
     print(paint.thickness)
   end
+  return path
 end
 ```
 

@@ -136,18 +136,8 @@ readonly paint: Paint | null
 ```
 </div>
 
-The node's paint when it is a fill or a stroke, otherwise null. The
-same snapshot as `asPaint`.
-
-```as
-let fill = instance.node("Fill");
-if (fill != null) {
-    let paint = fill.paint;
-    if (paint != null) {
-        console.log(paint.color.toString());
-    }
-}
-```
+Null, the same as `asPaint`. A path effect gets the stroke or fill it
+applies to as `PathEffectNode.paint`.
 
 
 ## Methods
@@ -212,7 +202,7 @@ node.setScale(Vector.xy(1.4, 2));
 
 <div class="signature">
 ```as
-unsafe worldTransform(): Mat2D
+worldTransform(): Mat2D
 ```
 </div>
 
@@ -228,7 +218,7 @@ console.log(world.tx.toString() + ", " + world.ty.toString());
 
 <div class="signature">
 ```as
-unsafe setWorldTransform(value: Mat2D): void
+setWorldTransform(value: Mat2D): void
 ```
 </div>
 
@@ -241,7 +231,7 @@ the node or a parent moves. Use `decompose` to move the node for good.
 
 <div class="signature">
 ```as
-unsafe decompose(worldTransform: Mat2D): void
+decompose(worldTransform: Mat2D): void
 ```
 </div>
 
@@ -283,9 +273,9 @@ asPaint(): Paint | null
 ```
 </div>
 
-A snapshot of the node's paint as a [Paint](/scripting/animascript/api-reference/paint/paint) when the node is a fill
-or a stroke, otherwise null. Changing the snapshot does not change the
-node.
+Always null: nodes are transforms, never a fill or a stroke. A path
+effect gets the stroke or fill it applies to as
+`PathEffectNode.paint`.
 
 
 ### `release`

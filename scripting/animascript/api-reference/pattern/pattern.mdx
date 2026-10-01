@@ -92,7 +92,7 @@ function findAll(s: string, p: string): Array<PatternMatch>
 
 Returns every match of `p` in `s` as a [PatternMatch](/scripting/animascript/api-reference/pattern/pattern-match), in the order
 `gmatch` finds them: Luau's `gmatch` with all of each match's captures,
-read with `captures` or `group`.
+read with `group`.
 ```as
 import { Pattern } from "rive/pattern";
 
@@ -101,33 +101,10 @@ export function pairs(text: string): string {
   let out = "";
   let matches = Pattern.findAll(text, "(%w+)=(%w+)");
   for (let i = 0; i < matches.length; i++) {
-    let parts = matches[i].captures();
-    out += (i > 0 ? " " : "") + parts[0] + ":" + parts[1];
+    let m = matches[i];
+    out += (i > 0 ? " " : "") + m.group(1) + ":" + m.group(2);
   }
   return out;
-}
-```
-
-
-### `match`
-
-<div class="signature">
-```as
-function match(s: string, p: string, init: i32 = 0): Array<string> | null
-```
-</div>
-
-Finds the first match of `p` in `s` at or after index `init` and returns
-its captures, or the whole match when `p` has no captures, or `null`
-when there is no match: Luau's `match`. A negative `init` counts back
-from the end of `s`. A position capture `()` gives its 0 based index as
-text.
-```as
-import { Pattern } from "rive/pattern";
-
-export function key(line: string): string {
-  let parts = Pattern.match(line, "^(%w+)%s*=");
-  return parts != null ? parts[0] : "";
 }
 ```
 

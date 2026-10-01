@@ -24,14 +24,15 @@ Size in bytes.
 
 <div class="signature">
 ```as
-unsafe constructor(usage: BufferUsage, sizeInBytes: u32, data: ArrayBuffer | null = null, immutable: bool = false)
+constructor(usage: BufferUsage, sizeInBytes: u32, data: ArrayBuffer | null = null, immutable: bool = false)
 ```
 </div>
 
 Creates a buffer of `sizeInBytes` bytes for `usage`. When given,
 `data` is the initial contents and must be exactly `sizeInBytes`
 long. An `immutable` buffer takes its contents from `data` and cannot
-be updated afterward.
+be updated afterward. Raises an error when `sizeInBytes` is 0, when
+`data` has another length, or when an `immutable` buffer has no `data`.
 
 The size is not checked against the shader's struct. Lay a uniform
 buffer out by hand to the WGSL alignment rules (`vec2` to 8 bytes,
@@ -45,7 +46,7 @@ silently.
 
 <div class="signature">
 ```as
-unsafe update(dstOffset: u32, data: ArrayBuffer, byteCount: u32 = 0, srcOffset: u32 = 0): void
+update(dstOffset: u32, data: ArrayBuffer, byteCount: u32 = 0, srcOffset: u32 = 0): void
 ```
 </div>
 

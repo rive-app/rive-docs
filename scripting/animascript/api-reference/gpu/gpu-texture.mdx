@@ -79,12 +79,13 @@ MSAA sample count.
 
 <div class="signature">
 ```as
-unsafe constructor(desc: GPUTextureDesc)
+constructor(desc: GPUTextureDesc)
 ```
 </div>
 
-Creates a texture from `desc`. Raises an error when the device
-rejects the descriptor.
+Creates a texture from `desc`. Raises an error when `width` or
+`height` is 0, when `sampleCount` is not a power of two, or when the
+device rejects the descriptor.
 
 
 ## Methods
@@ -93,7 +94,7 @@ rejects the descriptor.
 
 <div class="signature">
 ```as
-unsafe view(desc: GPUTextureViewDesc = new GPUTextureViewDesc()): GPUTextureView
+view(desc: GPUTextureViewDesc = new GPUTextureViewDesc()): GPUTextureView
 ```
 </div>
 
@@ -107,7 +108,7 @@ and destroys a native GPU object each frame.
 
 <div class="signature">
 ```as
-unsafe upload(region: rive_gpu_texture_upload_v1, data: ArrayBuffer): void
+upload(region: rive_gpu_texture_upload_v1, data: ArrayBuffer): void
 ```
 </div>
 

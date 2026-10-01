@@ -56,7 +56,7 @@ let count = path.length;
 
 <div class="signature">
 ```as
-unsafe static fromRaw(verbs: usize, verbCount: u32, points: usize, floatCount: u32): Path
+static fromRaw(verbs: usize, verbCount: u32, points: usize, floatCount: u32): Path
 ```
 </div>
 
@@ -188,7 +188,7 @@ path.reset();
 
 <div class="signature">
 ```as
-unsafe add(other: Path, transform: Mat2D = Mat2D()): void
+add(other: Path, transform: Mat2D = Mat2D()): void
 ```
 </div>
 
@@ -212,7 +212,7 @@ dst.add(src, Mat2D.withTranslation(20, 0));
 
 <div class="signature">
 ```as
-unsafe appendRaw(verbs: usize, verbCount: u32, points: usize, floatCount: u32): void
+appendRaw(verbs: usize, verbCount: u32, points: usize, floatCount: u32): void
 ```
 </div>
 
@@ -237,7 +237,7 @@ unsafe function appendLine(path: Path): void {
 
 <div class="signature">
 ```as
-unsafe measure(): PathMeasure
+measure(): PathMeasure
 ```
 </div>
 
@@ -253,7 +253,7 @@ let pathLength = measure.length;
 
 <div class="signature">
 ```as
-unsafe contours(): ContourMeasure | null
+contours(): ContourMeasure | null
 ```
 </div>
 
@@ -279,5 +279,6 @@ release(): void
 </div>
 
 Frees the path's host resources now instead of when it is collected.
+The path keeps its commands and can still be read, edited or drawn.
 
 

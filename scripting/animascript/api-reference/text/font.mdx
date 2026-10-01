@@ -100,7 +100,7 @@ Whether the font is italic.
 
 <div class="signature">
 ```as
-static unsafe decode(bytes: ArrayBuffer): Font | null
+static decode(bytes: ArrayBuffer): Font | null
 ```
 </div>
 
@@ -153,7 +153,7 @@ Current value of a variable axis, by tag.
 
 <div class="signature">
 ```as
-unsafe axes(): Array<FontAxis>
+axes(): Array<FontAxis>
 ```
 </div>
 
@@ -164,7 +164,7 @@ Variable axes the font offers.
 
 <div class="signature">
 ```as
-unsafe features(): Array<string>
+features(): Array<string>
 ```
 </div>
 
@@ -175,7 +175,7 @@ Four letter OpenType feature tags the font offers, such as "liga".
 
 <div class="signature">
 ```as
-unsafe withOptions(axes: Map<string, f32> | null = null, features: Map<string, u32> | null = null): Font
+withOptions(axes: Map<string, f32> | null = null, features: Map<string, u32> | null = null): Font
 ```
 </div>
 
@@ -194,7 +194,7 @@ let bold = font.withOptions(axes, features);
 
 <div class="signature">
 ```as
-unsafe glyphPath(glyphId: u32): Path
+glyphPath(glyphId: u32): Path
 ```
 </div>
 

@@ -42,7 +42,9 @@ operator[](index: i32): ViewModel
 ```
 </div>
 
-The item at `index`, counting from 0.
+The item at `index`, counting from 0. An index out of range gives an
+empty view model whose property lookups return null, so check `length`
+first.
 
 ```as
 let item = menu[0];
