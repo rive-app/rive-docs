@@ -54,7 +54,7 @@ reject(error: any?) -> Promise<T>
 </div>
 
 Create an already-rejected promise. Error can be any Lua value.
-Uses a default reason if no argument is provided.
+Rejects with "rejected" if no argument is provided.
 
 
 ### `all`
@@ -67,7 +67,8 @@ all(promises: {Promise<T>}) -> Promise<{T}>
 </div>
 
 Wait for all promises to resolve; rejects if any rejects.
-On rejection, remaining promises are cancelled.
+On rejection, the remaining promises that nothing else waits on are
+cancelled.
 
 
 ## Methods
@@ -123,6 +124,7 @@ onCancel(hook: () ->()) -> Promise<T>
 
 Register a cancellation hook that fires when cancel() is called.
 Used to clean up in-flight work (e.g. abort a network request).
+Replaces any hook registered before.
 
 
 ### `getStatus`

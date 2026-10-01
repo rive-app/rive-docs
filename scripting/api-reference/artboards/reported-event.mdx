@@ -4,6 +4,19 @@ title: ReportedEvent
 
 Represents a reported Rive event.
 
-(Coming soon)
+
+## Fields
+
+### `delaySeconds`
+
+How long ago the event fired, in seconds: the time from its keyframe
+to where the reporting animation's advance ended. 0 for an event
+fired by a state or a listener rather than a keyframe.
+```lua
+local event = context:asReportedEvent()
+if event then
+  print(event.delaySeconds)
+end
+```
 
 
