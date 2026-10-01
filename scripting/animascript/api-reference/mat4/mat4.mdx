@@ -6,7 +6,7 @@ A 4x4 column-major transformation matrix, suitable for 3D transforms and
 direct upload to a GPU uniform buffer. Projections are right-handed and
 map depth to the [0, 1] range. `new Mat4()` is all zeros, so start from
 `Mat4.identity()` or one of the builders.
-```ts
+```as
 // Construct a model-view-projection matrix
 let proj = Mat4.perspective(Mathf.PI / 3, 16.0 / 9.0, 0.1, 100);
 let view = Mat4.fromTranslation(0, 0, -3); // camera 3 units back
@@ -24,7 +24,7 @@ mvp.writeToBuffer(ubo, 0);
 ### `m`
 
 <div class="signature">
-```ts
+```as
 m: StaticArray<f32>
 ```
 </div>
@@ -32,7 +32,7 @@ m: StaticArray<f32>
 The 16 entries in column-major order: indices 0 to 3 are column 0,
 4 to 7 column 1, 8 to 11 column 2 and 12 to 15 column 3, the
 translation.
-```ts
+```as
 let m = Mat4.identity();
 m.m[12] = 50; // translate x
 m.m[13] = 100; // translate y
@@ -43,14 +43,14 @@ m.m[14] = 25; // translate z
 ### `m11`
 
 <div class="signature">
-```ts
+```as
 m11: f32
 ```
 </div>
 
 The entry at row R, column C, both counted from 1, so `m12` is row
 1, column 2. `m14`, `m24` and `m34` are the translation.
-```ts
+```as
 let m = Mat4.identity();
 m.m11 = 2; // scale x
 m.m22 = 3; // scale y
@@ -61,7 +61,7 @@ m.m14 = 50; // translate x
 ### `m12`
 
 <div class="signature">
-```ts
+```as
 m12: f32
 ```
 </div>
@@ -72,7 +72,7 @@ The entry at row 1, column 2, `m[4]`.
 ### `m13`
 
 <div class="signature">
-```ts
+```as
 m13: f32
 ```
 </div>
@@ -83,7 +83,7 @@ The entry at row 1, column 3, `m[8]`.
 ### `m14`
 
 <div class="signature">
-```ts
+```as
 m14: f32
 ```
 </div>
@@ -94,7 +94,7 @@ The entry at row 1, column 4, `m[12]`.
 ### `m21`
 
 <div class="signature">
-```ts
+```as
 m21: f32
 ```
 </div>
@@ -105,7 +105,7 @@ The entry at row 2, column 1, `m[1]`.
 ### `m22`
 
 <div class="signature">
-```ts
+```as
 m22: f32
 ```
 </div>
@@ -116,7 +116,7 @@ The entry at row 2, column 2, `m[5]`.
 ### `m23`
 
 <div class="signature">
-```ts
+```as
 m23: f32
 ```
 </div>
@@ -127,7 +127,7 @@ The entry at row 2, column 3, `m[9]`.
 ### `m24`
 
 <div class="signature">
-```ts
+```as
 m24: f32
 ```
 </div>
@@ -138,7 +138,7 @@ The entry at row 2, column 4, `m[13]`.
 ### `m31`
 
 <div class="signature">
-```ts
+```as
 m31: f32
 ```
 </div>
@@ -149,7 +149,7 @@ The entry at row 3, column 1, `m[2]`.
 ### `m32`
 
 <div class="signature">
-```ts
+```as
 m32: f32
 ```
 </div>
@@ -160,7 +160,7 @@ The entry at row 3, column 2, `m[6]`.
 ### `m33`
 
 <div class="signature">
-```ts
+```as
 m33: f32
 ```
 </div>
@@ -171,7 +171,7 @@ The entry at row 3, column 3, `m[10]`.
 ### `m34`
 
 <div class="signature">
-```ts
+```as
 m34: f32
 ```
 </div>
@@ -182,7 +182,7 @@ The entry at row 3, column 4, `m[14]`.
 ### `m41`
 
 <div class="signature">
-```ts
+```as
 m41: f32
 ```
 </div>
@@ -193,7 +193,7 @@ The entry at row 4, column 1, `m[3]`.
 ### `m42`
 
 <div class="signature">
-```ts
+```as
 m42: f32
 ```
 </div>
@@ -204,7 +204,7 @@ The entry at row 4, column 2, `m[7]`.
 ### `m43`
 
 <div class="signature">
-```ts
+```as
 m43: f32
 ```
 </div>
@@ -215,7 +215,7 @@ The entry at row 4, column 3, `m[11]`.
 ### `m44`
 
 <div class="signature">
-```ts
+```as
 m44: f32
 ```
 </div>
@@ -228,7 +228,7 @@ The entry at row 4, column 4, `m[15]`.
 ### `operator*`
 
 <div class="signature">
-```ts
+```as
 static operator*(a: Mat4, b: Mat4): Mat4
 ```
 </div>
@@ -236,7 +236,7 @@ static operator*(a: Mat4, b: Mat4): Mat4
 Returns the matrix product of two matrices as a new [Mat4](/scripting/animascript/api-reference/mat4/mat4), for
 composing transforms such as `proj * view * model`. In tight loops
 prefer `Mat4.multiply` to reuse storage.
-```ts
+```as
 let m = Mat4.fromTranslation(10, 0, 0) * Mat4.fromScale(2, 2, 2);
 let p = m.transformPoint(1, 1, 1); // 12 2 2
 ```
@@ -245,13 +245,13 @@ let p = m.transformPoint(1, 1, 1); // 12 2 2
 ### `operator==`
 
 <div class="signature">
-```ts
+```as
 static unsafe operator==(a: Mat4 | null, b: Mat4 | null): bool
 ```
 </div>
 
 Returns true if all 16 entries of the two matrices are equal.
-```ts
+```as
 let same = Mat4.fromScale(1, 1, 1) == Mat4.identity(); // true
 ```
 
@@ -259,13 +259,13 @@ let same = Mat4.fromScale(1, 1, 1) == Mat4.identity(); // true
 ### `operator!=`
 
 <div class="signature">
-```ts
+```as
 static operator!=(a: Mat4 | null, b: Mat4 | null): bool
 ```
 </div>
 
 Returns true if any entry of the two matrices differs.
-```ts
+```as
 let changed = Mat4.fromUniformScale(2) != Mat4.identity(); // true
 ```
 
@@ -273,7 +273,7 @@ let changed = Mat4.fromUniformScale(2) != Mat4.identity(); // true
 ### `identity`
 
 <div class="signature">
-```ts
+```as
 static identity(): Mat4
 ```
 </div>
@@ -284,14 +284,14 @@ Returns the 4x4 identity matrix.
 ### `values`
 
 <div class="signature">
-```ts
+```as
 static values(c0x: f32, c0y: f32, c0z: f32, c0w: f32, c1x: f32, c1y: f32, c1z: f32, c1w: f32, c2x: f32, c2y: f32, c2z: f32, c2w: f32, c3x: f32, c3y: f32, c3z: f32, c3w: f32): Mat4
 ```
 </div>
 
 Creates a matrix from 16 entries supplied column-major, column 0
 first.
-```ts
+```as
 let t = Mat4.values(
     1, 0, 0, 0,
     0, 1, 0, 0,
@@ -304,13 +304,13 @@ let t = Mat4.values(
 ### `fromTranslation`
 
 <div class="signature">
-```ts
+```as
 static fromTranslation(x: f32, y: f32, z: f32): Mat4
 ```
 </div>
 
 Creates a translation matrix.
-```ts
+```as
 let t = Mat4.fromTranslation(10, 20, 30);
 ```
 
@@ -318,13 +318,13 @@ let t = Mat4.fromTranslation(10, 20, 30);
 ### `fromScale`
 
 <div class="signature">
-```ts
+```as
 static fromScale(x: f32, y: f32, z: f32): Mat4
 ```
 </div>
 
 Creates a scale matrix.
-```ts
+```as
 let s = Mat4.fromScale(1, 2, 1); // 2x in y only
 ```
 
@@ -332,13 +332,13 @@ let s = Mat4.fromScale(1, 2, 1); // 2x in y only
 ### `fromUniformScale`
 
 <div class="signature">
-```ts
+```as
 static fromUniformScale(scale: f32): Mat4
 ```
 </div>
 
 Creates a matrix that scales all three axes by the same value.
-```ts
+```as
 let s = Mat4.fromUniformScale(2);
 ```
 
@@ -346,13 +346,13 @@ let s = Mat4.fromUniformScale(2);
 ### `fromRotationX`
 
 <div class="signature">
-```ts
+```as
 static fromRotationX(radians: f32): Mat4
 ```
 </div>
 
 Creates a rotation matrix around the x axis, in radians.
-```ts
+```as
 let r = Mat4.fromRotationX(Mathf.PI / 2);
 let p = r.transformPoint(0, 1, 0); // 0 0 1, rounded
 ```
@@ -361,13 +361,13 @@ let p = r.transformPoint(0, 1, 0); // 0 0 1, rounded
 ### `fromRotationY`
 
 <div class="signature">
-```ts
+```as
 static fromRotationY(radians: f32): Mat4
 ```
 </div>
 
 Creates a rotation matrix around the y axis, in radians.
-```ts
+```as
 let r = Mat4.fromRotationY(Mathf.PI / 2);
 let p = r.transformPoint(0, 0, 1); // 1 0 0, rounded
 ```
@@ -376,13 +376,13 @@ let p = r.transformPoint(0, 0, 1); // 1 0 0, rounded
 ### `fromRotationZ`
 
 <div class="signature">
-```ts
+```as
 static fromRotationZ(radians: f32): Mat4
 ```
 </div>
 
 Creates a rotation matrix around the z axis, in radians.
-```ts
+```as
 let r = Mat4.fromRotationZ(Mathf.PI / 2);
 let p = r.transformPoint(1, 0, 0); // 0 1 0, rounded
 ```
@@ -391,7 +391,7 @@ let p = r.transformPoint(1, 0, 0); // 0 1 0, rounded
 ### `perspectiveInto`
 
 <div class="signature">
-```ts
+```as
 static perspectiveInto(out: Mat4, fovYRadians: f32, aspect: f32, near: f32, far: f32): Mat4
 ```
 </div>
@@ -403,7 +403,7 @@ it instead of allocating a new matrix.
 ### `perspective`
 
 <div class="signature">
-```ts
+```as
 static perspective(fovYRadians: f32, aspect: f32, near: f32, far: f32): Mat4
 ```
 </div>
@@ -411,7 +411,7 @@ static perspective(fovYRadians: f32, aspect: f32, near: f32, far: f32): Mat4
 Creates a right-handed perspective projection matrix that maps z to
 the [0, 1] depth range. `fovYRadians` is the vertical field of view;
 `near` and `far` are positive distances.
-```ts
+```as
 let proj = Mat4.perspective(Mathf.PI / 3, 16.0 / 9.0, 0.1, 100);
 ```
 
@@ -419,7 +419,7 @@ let proj = Mat4.perspective(Mathf.PI / 3, 16.0 / 9.0, 0.1, 100);
 ### `perspectiveReverseZ`
 
 <div class="signature">
-```ts
+```as
 static perspectiveReverseZ(fovYRadians: f32, aspect: f32, near: f32): Mat4
 ```
 </div>
@@ -429,7 +429,7 @@ mapping to 1 and far to 0, and an infinite far plane. With a float
 depth buffer this gives a near uniform depth precision across the
 whole frustum. Clear the depth buffer to 0, not 1, and use the
 `greater` depth test.
-```ts
+```as
 let proj = Mat4.perspectiveReverseZ(Mathf.PI / 3, 16.0 / 9.0, 0.1);
 ```
 
@@ -437,7 +437,7 @@ let proj = Mat4.perspectiveReverseZ(Mathf.PI / 3, 16.0 / 9.0, 0.1);
 ### `lookAtInto`
 
 <div class="signature">
-```ts
+```as
 static lookAtInto(out: Mat4, ex: f32, ey: f32, ez: f32, cx: f32, cy: f32, cz: f32, ux: f32, uy: f32, uz: f32): Mat4
 ```
 </div>
@@ -449,7 +449,7 @@ instead of allocating a new matrix.
 ### `lookAt`
 
 <div class="signature">
-```ts
+```as
 static lookAt(ex: f32, ey: f32, ez: f32, cx: f32, cy: f32, cz: f32, ux: f32, uy: f32, uz: f32): Mat4
 ```
 </div>
@@ -458,7 +458,7 @@ Creates a right-handed view matrix looking from the eye position
 (`ex`, `ey`, `ez`) toward the center (`cx`, `cy`, `cz`), with the up
 direction (`ux`, `uy`, `uz`). The up direction need not be
 normalized.
-```ts
+```as
 let view = Mat4.lookAt(0, 2, 5, 0, 0, 0, 0, 1, 0);
 ```
 
@@ -466,13 +466,13 @@ let view = Mat4.lookAt(0, 2, 5, 0, 0, 0, 0, 1, 0);
 ### `lookAtVector`
 
 <div class="signature">
-```ts
+```as
 static lookAtVector(eye: Vector, center: Vector, up: Vector): Mat4
 ```
 </div>
 
 Like `Mat4.lookAt`, but takes the eye, center and up as vectors.
-```ts
+```as
 let view = Mat4.lookAtVector(Vector.xyz(0, 2, 5), Vector.origin(), Vector.xyz(0, 1, 0));
 ```
 
@@ -480,7 +480,7 @@ let view = Mat4.lookAtVector(Vector.xyz(0, 2, 5), Vector.origin(), Vector.xyz(0,
 ### `orthoInto`
 
 <div class="signature">
-```ts
+```as
 static orthoInto(out: Mat4, left: f32, right: f32, bottom: f32, top: f32, near: f32, far: f32): Mat4
 ```
 </div>
@@ -492,7 +492,7 @@ instead of allocating a new matrix.
 ### `ortho`
 
 <div class="signature">
-```ts
+```as
 static ortho(left: f32, right: f32, bottom: f32, top: f32, near: f32, far: f32): Mat4
 ```
 </div>
@@ -500,7 +500,7 @@ static ortho(left: f32, right: f32, bottom: f32, top: f32, near: f32, far: f32):
 Creates a right-handed orthographic projection matrix that maps z to
 the [0, 1] depth range, matching `Mat4.perspective`. Useful for
 shadow map cascades or 2D overlays.
-```ts
+```as
 let proj = Mat4.ortho(-10, 10, -10, 10, 0.1, 100);
 ```
 
@@ -508,7 +508,7 @@ let proj = Mat4.ortho(-10, 10, -10, 10, 0.1, 100);
 ### `multiply`
 
 <div class="signature">
-```ts
+```as
 static multiply(out: Mat4, a: Mat4, b: Mat4): Mat4
 ```
 </div>
@@ -516,7 +516,7 @@ static multiply(out: Mat4, a: Mat4, b: Mat4): Mat4
 Writes `a * b` into `out`, reusing its storage, and returns `out`. Use
 this in tight loops to avoid allocating a new [Mat4](/scripting/animascript/api-reference/mat4/mat4) per
 multiplication. `out` may be `a` or `b`.
-```ts
+```as
 let view = Mat4.lookAt(0, 0, 3, 0, 0, 0, 0, 1, 0);
 let model = Mat4.identity();
 let out = Mat4.identity();
@@ -529,7 +529,7 @@ for (let i = 0; i < 1000; i++) {
 ### `multiplyAffine`
 
 <div class="signature">
-```ts
+```as
 static multiplyAffine(out: Mat4, a: Mat4, b: Mat4): Mat4
 ```
 </div>
@@ -539,7 +539,7 @@ bottom row of [0, 0, 0, 1]. Any composition of translation, scale and
 rotation matrices qualifies. Skips the bottom row work and always
 returns an affine result; a non-affine input gives a wrong result.
 `out` may be `a` or `b`.
-```ts
+```as
 let parent = Mat4.fromTranslation(0, 1, 0);
 let child = Mat4.fromRotationZ(0.5);
 let world = Mat4.identity();
@@ -550,14 +550,14 @@ Mat4.multiplyAffine(world, parent, child);
 ### `invert`
 
 <div class="signature">
-```ts
+```as
 static invert(out: Mat4, src: Mat4): bool
 ```
 </div>
 
 Writes the inverse of `src` into `out` and returns true, or returns
 false and leaves `out` unchanged when `src` is singular.
-```ts
+```as
 let m = Mat4.lookAt(0, 2, 5, 0, 0, 0, 0, 1, 0);
 let inv = Mat4.identity();
 let ok = Mat4.invert(inv, m);
@@ -567,7 +567,7 @@ let ok = Mat4.invert(inv, m);
 ### `invertAffine`
 
 <div class="signature">
-```ts
+```as
 static invertAffine(out: Mat4, src: Mat4): bool
 ```
 </div>
@@ -577,7 +577,7 @@ of [0, 0, 0, 1]; any composition of translation, scale and rotation
 matrices qualifies. Faster than the full inverse. Returns false and
 leaves `out` unchanged when the linear part is singular. `out` may be
 `src`.
-```ts
+```as
 let m = Mat4.fromTranslation(3, -4, 5) * Mat4.fromRotationY(0.4);
 let inv = Mat4.identity();
 let ok = Mat4.invertAffine(inv, m); // true
@@ -589,14 +589,14 @@ let ok = Mat4.invertAffine(inv, m); // true
 ### `operator[]`
 
 <div class="signature">
-```ts
+```as
 operator[](index: i32): f32
 ```
 </div>
 
 Returns the entry at column-major `index`, 0 to 15, the same entry as
 `m[index]`.
-```ts
+```as
 let m = Mat4.fromTranslation(50, 100, 25);
 let tx = m[12]; // 50
 ```
@@ -605,13 +605,13 @@ let tx = m[12]; // 50
 ### `operator[]=`
 
 <div class="signature">
-```ts
+```as
 operator[]=(index: i32, value: f32): void
 ```
 </div>
 
 Sets the entry at column-major `index`, 0 to 15.
-```ts
+```as
 let m = Mat4.identity();
 m[12] = 50; // translate x
 ```
@@ -620,7 +620,7 @@ m[12] = 50; // translate x
 ### `mul`
 
 <div class="signature">
-```ts
+```as
 mul(rhs: Mat4): Mat4
 ```
 </div>
@@ -634,7 +634,7 @@ reuse storage.
 ### `transformVec4`
 
 <div class="signature">
-```ts
+```as
 transformVec4(out: StaticArray<f32>, x: f32, y: f32, z: f32, w: f32): void
 ```
 </div>
@@ -643,7 +643,7 @@ Transforms the homogeneous 4D vector (`x`, `y`, `z`, `w`) by the
 matrix and writes the four result components into `out`, without a
 perspective divide. Use it when you need the homogeneous w, for
 example for clip space coordinates.
-```ts
+```as
 let mvp = Mat4.perspective(Mathf.PI / 3, 1, 0.1, 100);
 let clip = new StaticArray<f32>(4);
 mvp.transformVec4(clip, 1, 2, -5, 1);
@@ -654,7 +654,7 @@ let w = clip[3];
 ### `transformPoint`
 
 <div class="signature">
-```ts
+```as
 transformPoint(x: f32, y: f32, z: f32): Vector
 ```
 </div>
@@ -662,7 +662,7 @@ transformPoint(x: f32, y: f32, z: f32): Vector
 Transforms the 3D point (`x`, `y`, `z`) by the matrix, treating w as
 1. When the resulting w is neither 0 nor 1, as after a perspective
 matrix, the point is divided through by it.
-```ts
+```as
 let m = Mat4.fromTranslation(10, 20, 30);
 let p = m.transformPoint(1, 2, 3); // 11 22 33
 ```
@@ -671,13 +671,13 @@ let p = m.transformPoint(1, 2, 3); // 11 22 33
 ### `transpose`
 
 <div class="signature">
-```ts
+```as
 transpose(): Mat4
 ```
 </div>
 
 Returns the transpose of the matrix.
-```ts
+```as
 let t = Mat4.fromTranslation(1, 2, 3).transpose();
 let bottomLeft = t.m41; // 1
 ```
@@ -686,14 +686,14 @@ let bottomLeft = t.m41; // 1
 ### `writeToBuffer`
 
 <div class="signature">
-```ts
+```as
 unsafe writeToBuffer(buffer: ArrayBuffer, byteOffset: u32): void
 ```
 </div>
 
 Writes the matrix as 64 bytes, 16 column-major 32 bit floats, into
 `buffer` at `byteOffset`. Throws when the 64 bytes do not fit.
-```ts
+```as
 let ubo = new ArrayBuffer(64);
 Mat4.identity().writeToBuffer(ubo, 0);
 ```
@@ -702,13 +702,13 @@ Mat4.identity().writeToBuffer(ubo, 0);
 ### `invert`
 
 <div class="signature">
-```ts
+```as
 invert(): Mat4 | null
 ```
 </div>
 
 Returns the inverse of the matrix, or null when it is singular.
-```ts
+```as
 let inv = Mat4.fromTranslation(50, 100, 25).invert();
 if (inv != null) {
     let p = inv.transformPoint(50, 100, 25); // 0 0 0
@@ -719,14 +719,14 @@ if (inv != null) {
 ### `invertAffine`
 
 <div class="signature">
-```ts
+```as
 invertAffine(): Mat4 | null
 ```
 </div>
 
 Returns the affine inverse of the matrix, or null when its linear part
 is singular. See `Mat4.invertAffine` for the contract.
-```ts
+```as
 let m = Mat4.fromTranslation(3, -4, 5) * Mat4.fromRotationY(0.4);
 let inv = m.invertAffine();
 ```

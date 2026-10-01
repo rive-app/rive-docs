@@ -4,7 +4,7 @@ title: ImageDecodeListener
 
 Receives the result of `Context.decodeImage`. Extend it and override the
 callbacks you need; both fire on a later advance.
-```ts
+```as
 class AvatarDecode extends ImageDecodeListener {
     width: u32 = 0;
     height: u32 = 0;
@@ -22,7 +22,7 @@ class AvatarDecode extends ImageDecodeListener {
 ### `onImageDecoded`
 
 <div class="signature">
-```ts
+```as
 onImageDecoded(image: DecodedImage): void
 ```
 </div>
@@ -33,7 +33,7 @@ Called with the decoded pixels when a decode succeeds.
 ### `onImageDecodeFailed`
 
 <div class="signature">
-```ts
+```as
 onImageDecodeFailed(message: string): void
 ```
 </div>

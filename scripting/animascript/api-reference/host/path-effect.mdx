@@ -7,7 +7,7 @@ when the path does not, call `markNeedsUpdate` on its context from
 `advance`.
 
 It inherits `init`, `advance` and `dispose` from [Protocol](/scripting/animascript/api-reference/host/protocol).
-```ts
+```as
 export class Shrink extends PathEffect {
     outPath: Path = new Path();
 
@@ -25,7 +25,7 @@ export class Shrink extends PathEffect {
 ### `update`
 
 <div class="signature">
-```ts
+```as
 abstract update(path: Path, node: PathEffectNode): Path
 ```
 </div>

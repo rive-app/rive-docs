@@ -7,7 +7,7 @@ gradient and blending.
 
 Set several properties in one expression with a cascade, the counterpart
 of the Luau `Paint.with`.
-```ts
+```as
 let strokePaint = new Paint()
   ..style = PaintStyle.stroke
   ..thickness = 3
@@ -22,13 +22,13 @@ let strokePaint = new Paint()
 ### `style`
 
 <div class="signature">
-```ts
+```as
 style: PaintStyle
 ```
 </div>
 
 Whether the paint fills or strokes, see [PaintStyle](/scripting/animascript/api-reference/paint/paint-style). Defaults to `fill`.
-```ts
+```as
 let paint = new Paint();
 paint.color = Color.rgb(255, 100, 50);
 paint.style = PaintStyle.stroke;
@@ -38,13 +38,13 @@ paint.style = PaintStyle.stroke;
 ### `color`
 
 <div class="signature">
-```ts
+```as
 color: Color
 ```
 </div>
 
 The paint's [Color](/scripting/animascript/api-reference/color/color). Defaults to opaque black.
-```ts
+```as
 let paint = new Paint();
 paint.color = Color.rgb(255, 100, 50);
 ```
@@ -53,13 +53,13 @@ paint.color = Color.rgb(255, 100, 50);
 ### `thickness`
 
 <div class="signature">
-```ts
+```as
 thickness: f32
 ```
 </div>
 
 Thickness of the stroke. Defaults to 1.
-```ts
+```as
 let paint = new Paint();
 paint.style = PaintStyle.stroke;
 paint.thickness = 4;
@@ -69,13 +69,13 @@ paint.thickness = 4;
 ### `join`
 
 <div class="signature">
-```ts
+```as
 join: StrokeJoin
 ```
 </div>
 
 How stroke segments join at corners, see [StrokeJoin](/scripting/animascript/api-reference/paint/stroke-join). Defaults to `miter`.
-```ts
+```as
 let paint = new Paint();
 paint.style = PaintStyle.stroke;
 paint.join = StrokeJoin.round;
@@ -85,13 +85,13 @@ paint.join = StrokeJoin.round;
 ### `cap`
 
 <div class="signature">
-```ts
+```as
 cap: StrokeCap
 ```
 </div>
 
 The shape at the ends of open strokes, see [StrokeCap](/scripting/animascript/api-reference/paint/stroke-cap). Defaults to `butt`.
-```ts
+```as
 let paint = new Paint();
 paint.style = PaintStyle.stroke;
 paint.cap = StrokeCap.round;
@@ -101,13 +101,13 @@ paint.cap = StrokeCap.round;
 ### `feather`
 
 <div class="signature">
-```ts
+```as
 feather: f32
 ```
 </div>
 
 How far the edges are softened. Defaults to 0, a sharp edge.
-```ts
+```as
 let paint = new Paint();
 paint.feather = 4;
 ```
@@ -116,14 +116,14 @@ paint.feather = 4;
 ### `blendMode`
 
 <div class="signature">
-```ts
+```as
 blendMode: BlendMode
 ```
 </div>
 
 How the paint composites with the content behind it, see [BlendMode](/scripting/animascript/api-reference/paint/blend-mode).
 Defaults to `srcOver`.
-```ts
+```as
 let paint = new Paint();
 paint.blendMode = BlendMode.multiply;
 ```
@@ -132,14 +132,14 @@ paint.blendMode = BlendMode.multiply;
 ### `gradient`
 
 <div class="signature">
-```ts
+```as
 gradient: Gradient | null
 ```
 </div>
 
 The [Gradient](/scripting/animascript/api-reference/paint/gradient) the paint draws with, or `null` for none. Assign `null` to
 remove a gradient.
-```ts
+```as
 let paint = new Paint();
 paint.gradient = Gradient.linear(Vector.xy(0, 0), Vector.xy(10, 0), [
   GradientStop(0, Color.rgb(255, 0, 0)),
@@ -153,13 +153,13 @@ paint.gradient = Gradient.linear(Vector.xy(0, 0), Vector.xy(10, 0), [
 ### `constructor`
 
 <div class="signature">
-```ts
+```as
 constructor()
 ```
 </div>
 
 Creates a paint with default settings, an opaque black fill.
-```ts
+```as
 let paint = new Paint();
 paint.style = PaintStyle.fill;
 paint.color = Color.rgb(255, 200, 80);
@@ -171,14 +171,14 @@ paint.color = Color.rgb(255, 200, 80);
 ### `copy`
 
 <div class="signature">
-```ts
+```as
 copy(): Paint
 ```
 </div>
 
 Returns a new paint with every property of this one. Override selected
 properties with a cascade on the copy.
-```ts
+```as
 let base = new Paint()..color = Color.rgb(255, 0, 0);
 
 let outline = base.copy()
@@ -190,7 +190,7 @@ let outline = base.copy()
 ### `release`
 
 <div class="signature">
-```ts
+```as
 release(): void
 ```
 </div>

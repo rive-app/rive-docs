@@ -10,14 +10,14 @@ Measures a path, or one contour of it, and samples points along it.
 ### `length`
 
 <div class="signature">
-```ts
+```as
 readonly length: f64
 ```
 </div>
 
 The total length of the measured path across all contours, or of the
 one contour for a [ContourMeasure](/scripting/animascript/api-reference/path/contour-measure).
-```ts
+```as
 let path = new Path();
 path.moveTo(Vector.xy(-150, 0));
 path.cubicTo(Vector.xy(-80, -120), Vector.xy(80, 120), Vector.xy(150, 0));
@@ -30,7 +30,7 @@ console.log("length: " + measure.length.toString());
 ### `isClosed`
 
 <div class="signature">
-```ts
+```as
 readonly isClosed: bool
 ```
 </div>
@@ -38,7 +38,7 @@ readonly isClosed: bool
 True only if the path has exactly one contour and that contour is closed.
 Paths with several contours are never closed, even when every contour is.
 For a [ContourMeasure](/scripting/animascript/api-reference/path/contour-measure), whether its contour is closed.
-```ts
+```as
 let measure = path.measure();
 let closed = measure.isClosed;
 ```
@@ -49,14 +49,14 @@ let closed = measure.isClosed;
 ### `positionAndTangent`
 
 <div class="signature">
-```ts
+```as
 unsafe positionAndTangent(distance: f64): PosTan
 ```
 </div>
 
 Returns the position and normalized tangent at `distance` along the path.
 The distance is clamped between 0 and `length`.
-```ts
+```as
 override draw(renderer: Renderer): void {
   renderer.drawPath(this.path, this.pathPaint);
 
@@ -75,14 +75,14 @@ override draw(renderer: Renderer): void {
 ### `warp`
 
 <div class="signature">
-```ts
+```as
 unsafe warp(source: Vector): Vector
 ```
 </div>
 
 Warps a point onto the path: `source.x` is a distance along the path and
 `source.y` an offset along the normal there. Returns the warped position.
-```ts
+```as
 // Map a grid of points onto the path, x as distance and y as offset
 let measure = this.path.measure();
 let len = measure.length;
@@ -103,7 +103,7 @@ renderer.drawPath(this.warpPath, this.warpPaint);
 ### `extract`
 
 <div class="signature">
-```ts
+```as
 unsafe extract(startDistance: f64, endDistance: f64, destination: Path, startWithMove: bool = true): void
 ```
 </div>
@@ -112,7 +112,7 @@ Appends the section of the path between `startDistance` and `endDistance`
 to `destination`. Distances are clamped between 0 and `length`. When
 `startWithMove` is true, the default, the section starts with a `moveTo`;
 otherwise it continues from the last point of `destination`.
-```ts
+```as
 // A highlight window traveling along the path
 let measure = this.path.measure();
 let len = measure.length;
@@ -133,7 +133,7 @@ renderer.drawPath(this.extractedPath, this.extractPaint);
 ### `release`
 
 <div class="signature">
-```ts
+```as
 release(): void
 ```
 </div>

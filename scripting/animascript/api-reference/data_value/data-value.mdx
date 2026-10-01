@@ -6,7 +6,7 @@ Base type for the values a [Converter](/scripting/animascript/api-reference/host
 with the `is` methods or narrow with `instanceof`, then read `value` on
 the subclass.
 
-```ts
+```as
 export class Doubler extends Converter {
     override convert(input: DataValue): DataValue | null {
         if (input instanceof DataValueNumber) {
@@ -23,7 +23,7 @@ export class Doubler extends Converter {
 ### `kind`
 
 <div class="signature">
-```ts
+```as
 kind: DataValueKind
 ```
 </div>
@@ -36,14 +36,14 @@ The kind of value stored.
 ### `newNumber`
 
 <div class="signature">
-```ts
+```as
 static newNumber(value: f64 = 0): DataValueNumber
 ```
 </div>
 
 Creates a [DataValueNumber](/scripting/animascript/api-reference/data_value/data-value-number) that stores `value`.
 
-```ts
+```as
 let data = DataValue.newNumber();
 data.value = 42;
 ```
@@ -52,14 +52,14 @@ data.value = 42;
 ### `newString`
 
 <div class="signature">
-```ts
+```as
 static newString(value: string = ""): DataValueString
 ```
 </div>
 
 Creates a [DataValueString](/scripting/animascript/api-reference/data_value/data-value-string) that stores `value`.
 
-```ts
+```as
 let data = DataValue.newString("Rive for life!");
 ```
 
@@ -67,7 +67,7 @@ let data = DataValue.newString("Rive for life!");
 ### `newBoolean`
 
 <div class="signature">
-```ts
+```as
 static newBoolean(value: bool = false): DataValueBoolean
 ```
 </div>
@@ -78,14 +78,14 @@ Creates a [DataValueBoolean](/scripting/animascript/api-reference/data_value/dat
 ### `newColor`
 
 <div class="signature">
-```ts
+```as
 static newColor(value: Color = 0): DataValueColor
 ```
 </div>
 
 Creates a [DataValueColor](/scripting/animascript/api-reference/data_value/data-value-color) that stores `value`.
 
-```ts
+```as
 let data = DataValue.newColor(Color.rgba(128, 55, 12, 128));
 ```
 
@@ -95,14 +95,14 @@ let data = DataValue.newColor(Color.rgba(128, 55, 12, 128));
 ### `isNumber`
 
 <div class="signature">
-```ts
+```as
 isNumber(): bool
 ```
 </div>
 
 Returns true if the value is a number.
 
-```ts
+```as
 let value = DataValue.newNumber();
 console.log(value.isNumber().toString()); // true
 ```
@@ -111,7 +111,7 @@ console.log(value.isNumber().toString()); // true
 ### `isString`
 
 <div class="signature">
-```ts
+```as
 isString(): bool
 ```
 </div>
@@ -122,7 +122,7 @@ Returns true if the value is a string.
 ### `isBoolean`
 
 <div class="signature">
-```ts
+```as
 isBoolean(): bool
 ```
 </div>
@@ -133,7 +133,7 @@ Returns true if the value is a boolean.
 ### `isColor`
 
 <div class="signature">
-```ts
+```as
 isColor(): bool
 ```
 </div>

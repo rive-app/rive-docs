@@ -7,7 +7,7 @@ scripted node can be attached to any Node and renders in the local
 transform space of the hosting Node.
 
 It inherits `init`, `advance` and `dispose` from [Protocol](/scripting/animascript/api-reference/host/protocol).
-```ts
+```as
 export class Spinner extends Node {
     @input speed: f64 = 1;
     angle: f64 = 0;
@@ -43,14 +43,14 @@ export class Spinner extends Node {
 ### `update`
 
 <div class="signature">
-```ts
+```as
 update(): void
 ```
 </div>
 
 Called when an input value changes, and on the next frame after
 `Context.markNeedsUpdate`.
-```ts
+```as
 override update(): void {
     this.dirty = true;
 }
@@ -60,7 +60,7 @@ override update(): void {
 ### `draw`
 
 <div class="signature">
-```ts
+```as
 draw(renderer: Renderer): void
 ```
 </div>
@@ -68,7 +68,7 @@ draw(renderer: Renderer): void
 Called every frame, after advance, to render the node with the given
 [Renderer](/scripting/animascript/api-reference/renderer/renderer), which is valid only for this call. Work on a [Canvas](/scripting/animascript/api-reference/canvas/canvas) or
 [GPUCanvas](/scripting/animascript/api-reference/gpu/gpu-canvas) also happens here, in any order.
-```ts
+```as
 override draw(renderer: Renderer): void {
     renderer.drawPath(this.path, this.paint);
 }
@@ -78,13 +78,13 @@ override draw(renderer: Renderer): void {
 ### `pointerDown`
 
 <div class="signature">
-```ts
+```as
 pointerDown(event: PointerEvent): void
 ```
 </div>
 
 Handles a pointer press. Call `event.hit()` to consume it.
-```ts
+```as
 override pointerDown(event: PointerEvent): void {
     this.pressedAt = event.position;
     event.hit();
@@ -95,7 +95,7 @@ override pointerDown(event: PointerEvent): void {
 ### `pointerMove`
 
 <div class="signature">
-```ts
+```as
 pointerMove(event: PointerEvent): void
 ```
 </div>
@@ -106,7 +106,7 @@ Handles a pointer move. Call `event.hit()` to consume it.
 ### `pointerUp`
 
 <div class="signature">
-```ts
+```as
 pointerUp(event: PointerEvent): void
 ```
 </div>
@@ -117,7 +117,7 @@ Handles a pointer release. Call `event.hit()` to consume it.
 ### `pointerExit`
 
 <div class="signature">
-```ts
+```as
 pointerExit(event: PointerEvent): void
 ```
 </div>
@@ -128,7 +128,7 @@ Handles a pointer leaving. Call `event.hit()` to consume it.
 ### `keyboardEvent`
 
 <div class="signature">
-```ts
+```as
 keyboardEvent(event: KeyboardEvent): bool
 ```
 </div>
@@ -139,7 +139,7 @@ Handles a keyboard event. Return true to stop it propagating.
 ### `textEvent`
 
 <div class="signature">
-```ts
+```as
 textEvent(event: TextInput): bool
 ```
 </div>
@@ -150,7 +150,7 @@ Handles text input. Return true to stop it propagating.
 ### `gamepadConnected`
 
 <div class="signature">
-```ts
+```as
 gamepadConnected(event: GamepadEvent): void
 ```
 </div>
@@ -162,7 +162,7 @@ reach the focused node and bubble up.
 ### `gamepadEvent`
 
 <div class="signature">
-```ts
+```as
 gamepadEvent(event: GamepadEvent): bool
 ```
 </div>
@@ -175,7 +175,7 @@ bubble.
 ### `gamepadDisconnected`
 
 <div class="signature">
-```ts
+```as
 gamepadDisconnected(event: GamepadEvent): void
 ```
 </div>

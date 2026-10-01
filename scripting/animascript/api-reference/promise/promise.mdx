@@ -22,7 +22,7 @@ async function and rejects its promise with the same error, or with
 which always fulfills. Each resumed function runs inside the call that
 settled its promise, so a chain of thousands of async functions awaiting
 each other can run out of stack.
-```ts
+```as
 import { Promise } from "rive/promise";
 
 let ready = new Promise<f64>();
@@ -53,13 +53,13 @@ export function start(): void {
 ### `resolve`
 
 <div class="signature">
-```ts
+```as
 static resolve<V>(value: V): Promise<V>
 ```
 </div>
 
 A promise already fulfilled with `value`.
-```ts
+```as
 let ready = Promise.resolve<f64>(42);
 ```
 
@@ -67,14 +67,14 @@ let ready = Promise.resolve<f64>(42);
 ### `reject`
 
 <div class="signature">
-```ts
+```as
 static reject<V>(error: string = "rejected"): Promise<V>
 ```
 </div>
 
 A promise already rejected with `error`. Name the value type, which the
 error cannot tell.
-```ts
+```as
 let failed = Promise.reject<f64>("not found");
 ```
 
@@ -82,7 +82,7 @@ let failed = Promise.reject<f64>("not found");
 ### `all`
 
 <div class="signature">
-```ts
+```as
 static all<V>(promises: Array<Promise<V>>): Promise<Array<V>>
 ```
 </div>
@@ -92,7 +92,7 @@ once every one has fulfilled. It rejects with the first rejection, and
 then cancels the other inputs that nothing else waits on. Cancelling it
 cancels those inputs too. An empty list fulfills right away. The inputs
 need a value type, so `Promise<void>` cannot be combined.
-```ts
+```as
 import { Promise } from "rive/promise";
 
 export function total(a: Promise<f64>, b: Promise<f64>): Promise<f64> {
@@ -107,7 +107,7 @@ export function total(a: Promise<f64>, b: Promise<f64>): Promise<f64> {
 ### `andThen`
 
 <div class="signature">
-```ts
+```as
 andThen(onFulfilled: (value: T) => void, onRejected: ((error: string) => void) | null = null): Promise<void>
 ```
 </div>
@@ -123,7 +123,7 @@ run in the order they were added. For a handler that returns a value, use
 ### `catch`
 
 <div class="signature">
-```ts
+```as
 catch(onRejected: (error: string) => void): Promise<void>
 ```
 </div>
@@ -137,7 +137,7 @@ handler returns. For a handler that returns a replacement value, use
 ### `finally`
 
 <div class="signature">
-```ts
+```as
 finally(onFinally: () => void): Promise<T>
 ```
 </div>
@@ -150,7 +150,7 @@ promise that settles like this one once `onFinally` returns.
 ### `map`
 
 <div class="signature">
-```ts
+```as
 map<U>(onFulfilled: (value: T) => U): Promise<U>
 ```
 </div>
@@ -159,7 +159,7 @@ Returns a new promise that fulfills with what `onFulfilled` returns when
 given this promise's value: Luau's `andThen` with a handler that returns a
 value. A rejection passes through unchanged. Name the new value type,
 which rasc cannot infer from the handler.
-```ts
+```as
 import { Promise } from "rive/promise";
 
 export function label(count: Promise<f64>): Promise<string> {
@@ -171,7 +171,7 @@ export function label(count: Promise<f64>): Promise<string> {
 ### `flatMap`
 
 <div class="signature">
-```ts
+```as
 flatMap<U>(onFulfilled: (value: T) => Promise<U>): Promise<U>
 ```
 </div>
@@ -181,7 +181,7 @@ given this promise's value: Luau's `andThen` with a handler that returns a
 promise. It fulfills, rejects or is cancelled as that promise is, so
 returning `Promise.reject` rejects it. A rejection of this promise passes
 through unchanged. Name the new value type.
-```ts
+```as
 import { Promise } from "rive/promise";
 
 function check(value: f64): Promise<f64> {
@@ -197,7 +197,7 @@ export function validated(input: Promise<f64>): Promise<f64> {
 ### `recover`
 
 <div class="signature">
-```ts
+```as
 recover(onRejected: (error: string) => T): Promise<T>
 ```
 </div>
@@ -205,7 +205,7 @@ recover(onRejected: (error: string) => T): Promise<T>
 Returns a new promise that fulfills with this promise's value, or with
 what `onRejected` returns when this promise rejects: Luau's `catch` with
 a handler that returns a value.
-```ts
+```as
 import { Promise } from "rive/promise";
 
 export function orZero(value: Promise<f64>): Promise<f64> {
@@ -217,7 +217,7 @@ export function orZero(value: Promise<f64>): Promise<f64> {
 ### `cancel`
 
 <div class="signature">
-```ts
+```as
 cancel(): Promise<T>
 ```
 </div>
@@ -235,7 +235,7 @@ settled. Returns this promise.
 ### `onCancel`
 
 <div class="signature">
-```ts
+```as
 onCancel(hook: () => void): Promise<T>
 ```
 </div>
@@ -248,7 +248,7 @@ each other. Ignored once the promise has settled. Returns this promise.
 ### `getStatus`
 
 <div class="signature">
-```ts
+```as
 getStatus(): string
 ```
 </div>
@@ -260,7 +260,7 @@ The current state: `"Pending"`, `"Fulfilled"`, `"Rejected"` or
 ### `resolve`
 
 <div class="signature">
-```ts
+```as
 resolve(value: T): void
 ```
 </div>
@@ -272,7 +272,7 @@ nothing once the promise has settled or been cancelled.
 ### `reject`
 
 <div class="signature">
-```ts
+```as
 reject(error: string): void
 ```
 </div>
@@ -284,7 +284,7 @@ nothing once the promise has settled or been cancelled.
 ### `settled`
 
 <div class="signature">
-```ts
+```as
 settled<S = T>(): Promise<Settled<S>>
 ```
 </div>
@@ -292,7 +292,7 @@ settled<S = T>(): Promise<Settled<S>>
 A promise that always fulfills with a [Settled](/scripting/animascript/api-reference/promise/settled) telling how this one
 settled, so an async function can handle a failure without stopping.
 Cancelling it cancels this promise when nothing else waits on it.
-```ts
+```as
 import { Promise } from "rive/promise";
 
 async function load(source: Promise<string>): Promise<string> {

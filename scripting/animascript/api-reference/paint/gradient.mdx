@@ -11,14 +11,14 @@ as either a linear or a radial gradient. Assign it to `Paint.gradient`.
 ### `linear`
 
 <div class="signature">
-```ts
+```as
 static linear(from: Vector, to: Vector, stops: Array<GradientStop>): Gradient
 ```
 </div>
 
 Creates a linear gradient that transitions between `stops` along the line
 from `from` to `to`.
-```ts
+```as
 let g = Gradient.linear(Vector.xy(0, 0), Vector.xy(100, 0), [
   GradientStop(0, Color.rgb(255, 0, 0)),
   GradientStop(1, Color.rgb(0, 0, 255)),
@@ -29,14 +29,14 @@ let g = Gradient.linear(Vector.xy(0, 0), Vector.xy(100, 0), [
 ### `radial`
 
 <div class="signature">
-```ts
+```as
 static radial(center: Vector, radius: f32, stops: Array<GradientStop>): Gradient
 ```
 </div>
 
 Creates a radial gradient centered at `center` that transitions between
 `stops` out to `radius`.
-```ts
+```as
 let g = Gradient.radial(Vector.xy(50, 50), 40, [
   GradientStop(0, Color.rgb(255, 0, 0)),
   GradientStop(1, Color.rgb(0, 0, 255)),
@@ -49,7 +49,7 @@ let g = Gradient.radial(Vector.xy(50, 50), 40, [
 ### `release`
 
 <div class="signature">
-```ts
+```as
 release(): void
 ```
 </div>

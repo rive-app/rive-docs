@@ -7,7 +7,7 @@ title: format
 ### `formatInt`
 
 <div class="signature">
-```ts
+```as
 function formatInt(value: f64, width: i32 = 0, zero: bool = false): string
 ```
 </div>
@@ -20,7 +20,7 @@ zeros after any minus sign. Matches `%d` in [format](/scripting/animascript/api-
 ### `formatFixed`
 
 <div class="signature">
-```ts
+```as
 function formatFixed(value: f64, precision: i32 = 6, width: i32 = 0, zero: bool = false): string
 ```
 </div>
@@ -34,7 +34,7 @@ from its exact value with ties to even, as C's `printf` does: 0.125 gives
 ### `formatHex`
 
 <div class="signature">
-```ts
+```as
 function formatHex(value: f64, width: i32 = 0, zero: bool = false, upper: bool = false): string
 ```
 </div>
@@ -48,7 +48,7 @@ gives `ffffffffffffffff`. `width` and `zero` pad as in `formatInt`. Matches
 ### `formatNumber`
 
 <div class="signature">
-```ts
+```as
 function formatNumber(value: f64): string
 ```
 </div>
@@ -63,7 +63,7 @@ given a number in [format](/scripting/animascript/api-reference/format/format).
 ### `format`
 
 <div class="signature">
-```ts
+```as
 function format(pattern: string, args: Array<FormatArg>): string
 ```
 </div>
@@ -98,7 +98,7 @@ number.
 Like Luau, [format](/scripting/animascript/api-reference/format/format) throws for an unknown specifier, for a specifier with
 no argument left, for a bool given to anything but `%*`, and for a string
 that is not a number given to a number specifier.
-```ts
+```as
 import { format, FormatArg } from "rive/format";
 
 export function label(name: string, score: f64): string {

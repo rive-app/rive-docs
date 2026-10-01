@@ -10,14 +10,14 @@ A view model property that holds a nested [ViewModel](/scripting/animascript/api
 ### `value`
 
 <div class="signature">
-```ts
+```as
 value: ViewModel
 ```
 </div>
 
 The current view model. You can both read and assign it.
 
-```ts
+```as
 let nested = vm.getViewModel("nestedVM");
 if (nested != null) {
     let age = nested.value.getNumber("age");

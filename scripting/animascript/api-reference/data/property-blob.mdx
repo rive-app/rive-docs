@@ -11,7 +11,7 @@ to the Rive file or bytes a script sets.
 ### `value`
 
 <div class="signature">
-```ts
+```as
 value: ArrayBuffer | null
 ```
 </div>
@@ -19,7 +19,7 @@ value: ArrayBuffer | null
 A copy of the blob's bytes, or null while the property holds none.
 Assign bytes to replace the blob, or null to clear it.
 
-```ts
+```as
 let data = vm.getBlob("levelData");
 if (data != null) {
     let bytes = data.value;
@@ -34,7 +34,7 @@ if (data != null) {
 ### `assetName`
 
 <div class="signature">
-```ts
+```as
 readonly assetName: string
 ```
 </div>

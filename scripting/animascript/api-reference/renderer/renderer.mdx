@@ -11,14 +11,14 @@ receives one in its `draw` method, valid only for that call.
 ### `save`
 
 <div class="signature">
-```ts
+```as
 save(): void
 ```
 </div>
 
 Saves the current rendering state, including the transform, clipping and
 modulation, until the matching `restore`.
-```ts
+```as
 export class MyGame extends Node {
   enemies: Array<Artboard> = [];
 
@@ -36,13 +36,13 @@ export class MyGame extends Node {
 ### `restore`
 
 <div class="signature">
-```ts
+```as
 restore(): void
 ```
 </div>
 
 Restores the most recently saved rendering state.
-```ts
+```as
 renderer.save();
 renderer.transform(Mat2D.withTranslation(100, 0));
 renderer.drawPath(path, paint);
@@ -53,14 +53,14 @@ renderer.restore();
 ### `transform`
 
 <div class="signature">
-```ts
+```as
 transform(m: Mat2D): void
 ```
 </div>
 
 Applies a transform on top of the current one. Transforms accumulate until
 the matching `restore`.
-```ts
+```as
 let m = Mat2D.withScale(2, 3);
 // Adjust matrix terms directly for additional skew or stretch.
 m.xx = 5;
@@ -75,13 +75,13 @@ renderer.restore();
 ### `drawPath`
 
 <div class="signature">
-```ts
+```as
 drawPath(path: Path, paint: Paint): void
 ```
 </div>
 
 Draws `path` with `paint`.
-```ts
+```as
 export class Rectangle extends Node {
   path: Path = new Path();
   paint: Paint = new Paint();
@@ -96,14 +96,14 @@ export class Rectangle extends Node {
 ### `clipPath`
 
 <div class="signature">
-```ts
+```as
 clipPath(path: Path): void
 ```
 </div>
 
 Restricts later drawing to the area inside `path`. The clip stays in effect
 until the matching `restore`.
-```ts
+```as
 renderer.save();
 renderer.clipPath(clip);
 renderer.drawImage(image, sampler, BlendMode.srcOver, 1);
@@ -114,14 +114,14 @@ renderer.restore();
 ### `modulateOpacity`
 
 <div class="signature">
-```ts
+```as
 modulateOpacity(opacity: f64): void
 ```
 </div>
 
 Multiplies the opacity of later draws by `opacity`, from 0 to 1. Calls stack
 multiplicatively and are scoped by `save` and `restore`.
-```ts
+```as
 renderer.save();
 renderer.modulateOpacity(0.5);
 renderer.drawPath(path, paint);
@@ -132,7 +132,7 @@ renderer.restore();
 ### `modulateColor`
 
 <div class="signature">
-```ts
+```as
 modulateColor(color: Color): void
 ```
 </div>
@@ -144,7 +144,7 @@ Multiplies `color` into later draws, channel by channel. Calls stack like
 ### `setColorModulation`
 
 <div class="signature">
-```ts
+```as
 setColorModulation(color: Color): void
 ```
 </div>
@@ -159,13 +159,13 @@ needs no `save` or `restore` of its own.
 ### `drawImage`
 
 <div class="signature">
-```ts
+```as
 drawImage(image: Image, sampler: ImageSampler, blend: BlendMode, opacity: f32): void
 ```
 </div>
 
 Draws `image` with `sampler`, `blend` and `opacity`.
-```ts
+```as
 export class DrawImage extends Node {
   myImage: Image | null = null;
   sampler: ImageSampler = ImageSampler(ImageWrap.clamp, ImageWrap.clamp, ImageFilter.bilinear);
@@ -188,14 +188,14 @@ export class DrawImage extends Node {
 ### `drawImageMesh`
 
 <div class="signature">
-```ts
+```as
 drawImageMesh(image: Image, sampler: ImageSampler, vertices: VertexBuffer, uvs: VertexBuffer, triangles: TriangleBuffer, blend: BlendMode, opacity: f32): void
 ```
 </div>
 
 Draws `image` over a mesh: `vertices` holds the positions, `uvs` the texture
 coordinates and `triangles` the vertex indices.
-```ts
+```as
 renderer.drawImageMesh(
   image,
   sampler,
@@ -211,7 +211,7 @@ renderer.drawImageMesh(
 ### `drawImageMeshInstanced`
 
 <div class="signature">
-```ts
+```as
 drawImageMeshInstanced(image: Image, sampler: ImageSampler, vertices: VertexBuffer, uvs: VertexBuffer, triangles: TriangleBuffer, instances: MeshInstances): void
 ```
 </div>
@@ -219,7 +219,7 @@ drawImageMeshInstanced(image: Image, sampler: ImageSampler, vertices: VertexBuff
 Draws one mesh once per entry of `instances`, in a single call. The blend
 mode is always `srcOver`. Opacity and the UV transform come from each
 instance.
-```ts
+```as
 renderer.drawImageMeshInstanced(
   image,
   sampler,

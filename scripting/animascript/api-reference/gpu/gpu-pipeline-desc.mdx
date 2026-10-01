@@ -16,7 +16,7 @@ bindings. Declaring the same bindings in both files always works.
 ### `vertexModule`
 
 <div class="signature">
-```ts
+```as
 vertexModule: GPUShaderModule | null
 ```
 </div>
@@ -27,7 +27,7 @@ Shader for the vertex stage. Required.
 ### `vertexEntryPoint`
 
 <div class="signature">
-```ts
+```as
 vertexEntryPoint: string
 ```
 </div>
@@ -39,7 +39,7 @@ takes the first one.
 ### `fragmentModule`
 
 <div class="signature">
-```ts
+```as
 fragmentModule: GPUShaderModule | null
 ```
 </div>
@@ -52,7 +52,7 @@ them is depth only.
 ### `fragmentEntryPoint`
 
 <div class="signature">
-```ts
+```as
 fragmentEntryPoint: string
 ```
 </div>
@@ -64,7 +64,7 @@ default, takes the first one.
 ### `colorTargets`
 
 <div class="signature">
-```ts
+```as
 colorTargets: Array<GPUColorTargetDesc>
 ```
 </div>
@@ -76,7 +76,7 @@ pass, up to 4.
 ### `vertexBuffers`
 
 <div class="signature">
-```ts
+```as
 vertexBuffers: Array<GPUVertexBufferLayout>
 ```
 </div>
@@ -88,7 +88,7 @@ a shader that builds its positions from `@builtin(vertex_index)`.
 ### `bindGroupLayouts`
 
 <div class="signature">
-```ts
+```as
 bindGroupLayouts: Array<GPUBindGroupLayout | null>
 ```
 </div>
@@ -106,7 +106,7 @@ when the vertex and fragment come from different shaders.
 ### `topology`
 
 <div class="signature">
-```ts
+```as
 topology: PrimitiveTopology
 ```
 </div>
@@ -117,7 +117,7 @@ Primitive topology. Default `triangleList`.
 ### `indexFormat`
 
 <div class="signature">
-```ts
+```as
 indexFormat: IndexFormat
 ```
 </div>
@@ -129,7 +129,7 @@ format's largest value. Default `none`.
 ### `cullMode`
 
 <div class="signature">
-```ts
+```as
 cullMode: CullMode
 ```
 </div>
@@ -140,7 +140,7 @@ Face culling. Default `none`.
 ### `winding`
 
 <div class="signature">
-```ts
+```as
 winding: FaceWinding
 ```
 </div>
@@ -151,7 +151,7 @@ Winding of front faces. Default `counterClockwise`.
 ### `depthStencil`
 
 <div class="signature">
-```ts
+```as
 depthStencil: GPUDepthStencilDesc | null
 ```
 </div>
@@ -162,7 +162,7 @@ Depth test state, or null to disable depth testing. Default null.
 ### `sampleCount`
 
 <div class="signature">
-```ts
+```as
 sampleCount: u32
 ```
 </div>

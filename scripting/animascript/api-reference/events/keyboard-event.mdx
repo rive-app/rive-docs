@@ -3,7 +3,7 @@ title: KeyboardEvent
 ---
 
 A keyboard interaction, delivered to `Node.keyboardEvent`.
-```ts
+```as
 override keyboardEvent(event: KeyboardEvent): bool {
     if (event.phase == "down" && event.shift) {
         this.boost = true;
@@ -19,7 +19,7 @@ override keyboardEvent(event: KeyboardEvent): bool {
 ### `key`
 
 <div class="signature">
-```ts
+```as
 key: f64
 ```
 </div>
@@ -30,7 +30,7 @@ The key code of the key.
 ### `shift`
 
 <div class="signature">
-```ts
+```as
 shift: bool
 ```
 </div>
@@ -41,7 +41,7 @@ True if the Shift modifier is active.
 ### `control`
 
 <div class="signature">
-```ts
+```as
 control: bool
 ```
 </div>
@@ -52,7 +52,7 @@ True if the Control modifier is active.
 ### `alt`
 
 <div class="signature">
-```ts
+```as
 alt: bool
 ```
 </div>
@@ -63,7 +63,7 @@ True if the Alt modifier is active.
 ### `meta`
 
 <div class="signature">
-```ts
+```as
 meta: bool
 ```
 </div>
@@ -74,7 +74,7 @@ True if the Meta (Command or Windows) modifier is active.
 ### `phase`
 
 <div class="signature">
-```ts
+```as
 phase: string
 ```
 </div>

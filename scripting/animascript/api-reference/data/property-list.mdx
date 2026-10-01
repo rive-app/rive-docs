@@ -18,14 +18,14 @@ inventory entries or dynamic rows. A list supports:
 ### `length`
 
 <div class="signature">
-```ts
+```as
 readonly length: i32
 ```
 </div>
 
 The current number of items in the list.
 
-```ts
+```as
 if (menu.length >= 2) {
     menu.swap(0, 1);
 }
@@ -37,14 +37,14 @@ if (menu.length >= 2) {
 ### `operator[]`
 
 <div class="signature">
-```ts
+```as
 operator[](index: i32): ViewModel
 ```
 </div>
 
 The item at `index`, counting from 0.
 
-```ts
+```as
 let item = menu[0];
 let label = item.getString("label");
 if (label != null) {
@@ -56,7 +56,7 @@ if (label != null) {
 ### `get`
 
 <div class="signature">
-```ts
+```as
 get(index: i32): ViewModel
 ```
 </div>
@@ -67,14 +67,14 @@ The item at `index`, counting from 0. The same as `list[index]`.
 ### `push`
 
 <div class="signature">
-```ts
+```as
 push(vm: ViewModel): void
 ```
 </div>
 
 Adds a view model to the end of the list.
 
-```ts
+```as
 let button = ViewModel.create("Button");
 let label = button.getString("label");
 if (label != null) {
@@ -87,7 +87,7 @@ menu.push(button);
 ### `pop`
 
 <div class="signature">
-```ts
+```as
 pop(): ViewModel | null
 ```
 </div>
@@ -99,7 +99,7 @@ list is empty.
 ### `shift`
 
 <div class="signature">
-```ts
+```as
 shift(): ViewModel | null
 ```
 </div>
@@ -111,7 +111,7 @@ the list is empty.
 ### `clear`
 
 <div class="signature">
-```ts
+```as
 clear(): void
 ```
 </div>
@@ -122,7 +122,7 @@ Removes all view models from the list.
 ### `swap`
 
 <div class="signature">
-```ts
+```as
 swap(index1: i32, index2: i32): void
 ```
 </div>
@@ -134,14 +134,14 @@ counting from 0.
 ### `insert`
 
 <div class="signature">
-```ts
+```as
 insert(vm: ViewModel, index: i32): void
 ```
 </div>
 
 Inserts a view model at `index`, counting from 0.
 
-```ts
+```as
 menu.insert(ViewModel.create("Button"), 0);
 ```
 
@@ -149,7 +149,7 @@ menu.insert(ViewModel.create("Button"), 0);
 ### `remove`
 
 <div class="signature">
-```ts
+```as
 remove(vm: ViewModel): void
 ```
 </div>
@@ -160,7 +160,7 @@ Removes the first entry that references the given view model.
 ### `removeAt`
 
 <div class="signature">
-```ts
+```as
 removeAt(index: i32): void
 ```
 </div>
@@ -171,7 +171,7 @@ Removes the view model at `index`, counting from 0.
 ### `removeAllOf`
 
 <div class="signature">
-```ts
+```as
 removeAllOf(vm: ViewModel): void
 ```
 </div>

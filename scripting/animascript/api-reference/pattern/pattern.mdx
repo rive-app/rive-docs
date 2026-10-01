@@ -26,7 +26,7 @@ A pattern is a sequence of items:
 
 Classes cover ASCII only, and each UTF-16 code unit counts as one character.
 A malformed pattern throws.
-```ts
+```as
 import { Pattern } from "rive/pattern";
 
 export function parseSize(text: string): f64 {
@@ -45,7 +45,7 @@ export function parseSize(text: string): f64 {
 ### `find`
 
 <div class="signature">
-```ts
+```as
 function find(s: string, p: string, init: i32 = 0, plain: bool = false): PatternMatch | null
 ```
 </div>
@@ -59,7 +59,7 @@ the end of `s`. When `plain` is true, or `p` has no special characters,
 ### `gmatch`
 
 <div class="signature">
-```ts
+```as
 function gmatch(s: string, p: string): Array<string>
 ```
 </div>
@@ -68,7 +68,7 @@ Returns every match of `p` in `s`, in order. Each entry is the match's
 first capture, or the whole match when `p` has no captures; use
 `findAll` for every capture. A leading `^` matches a literal `^` here
 rather than anchoring.
-```ts
+```as
 import { Pattern } from "rive/pattern";
 
 export function sumNumbers(text: string): f64 {
@@ -85,7 +85,7 @@ export function sumNumbers(text: string): f64 {
 ### `findAll`
 
 <div class="signature">
-```ts
+```as
 function findAll(s: string, p: string): Array<PatternMatch>
 ```
 </div>
@@ -93,7 +93,7 @@ function findAll(s: string, p: string): Array<PatternMatch>
 Returns every match of `p` in `s` as a [PatternMatch](/scripting/animascript/api-reference/pattern/pattern-match), in the order
 `gmatch` finds them: Luau's `gmatch` with all of each match's captures,
 read with `captures` or `group`.
-```ts
+```as
 import { Pattern } from "rive/pattern";
 
 export function pairs(text: string): string {
@@ -112,7 +112,7 @@ export function pairs(text: string): string {
 ### `match`
 
 <div class="signature">
-```ts
+```as
 function match(s: string, p: string, init: i32 = 0): Array<string> | null
 ```
 </div>
@@ -122,7 +122,7 @@ its captures, or the whole match when `p` has no captures, or `null`
 when there is no match: Luau's `match`. A negative `init` counts back
 from the end of `s`. A position capture `()` gives its 0 based index as
 text.
-```ts
+```as
 import { Pattern } from "rive/pattern";
 
 export function key(line: string): string {
@@ -135,7 +135,7 @@ export function key(line: string): string {
 ### `gsub`
 
 <div class="signature">
-```ts
+```as
 function gsub(s: string, p: string, repl: string, max: i32 = -1): PatternReplace
 ```
 </div>
@@ -144,7 +144,7 @@ Replaces matches of `p` in `s` with `repl`, at most `max` of them, or
 all when `max` is negative. In `repl`, `%0` stands for the whole match,
 `%1` to `%9` for its captures and `%%` for a literal `%`. Returns the
 new string and the count as a [PatternReplace](/scripting/animascript/api-reference/pattern/pattern-replace).
-```ts
+```as
 import { Pattern } from "rive/pattern";
 
 export function bracketWords(text: string): string {
@@ -158,7 +158,7 @@ export function bracketWords(text: string): string {
 ### `gsubWith`
 
 <div class="signature">
-```ts
+```as
 function gsubWith(s: string, p: string, repl: (m: PatternMatch) => string | null, max: i32 = -1): PatternReplace
 ```
 </div>
@@ -167,7 +167,7 @@ Replaces matches of `p` in `s` with what `repl` returns for each match,
 at most `max` of them, or all when `max` is negative. A `null` result
 keeps the match as it is. Returns the new string and the count of
 matches as a [PatternReplace](/scripting/animascript/api-reference/pattern/pattern-replace).
-```ts
+```as
 import { Pattern, PatternMatch } from "rive/pattern";
 
 export function shout(text: string): string {
@@ -181,7 +181,7 @@ export function shout(text: string): string {
 ### `gsubMap`
 
 <div class="signature">
-```ts
+```as
 function gsubMap(s: string, p: string, repl: Map<string, string>, max: i32 = -1): PatternReplace
 ```
 </div>
@@ -191,7 +191,7 @@ match's first capture, or the whole match when `p` has no captures, at
 most `max` of them, or all when `max` is negative. A match with no entry
 is kept as it is. Returns the new string and the count of matches as a
 [PatternReplace](/scripting/animascript/api-reference/pattern/pattern-replace): Luau's `gsub` given a table.
-```ts
+```as
 import { Pattern } from "rive/pattern";
 
 export function fill(template: string): string {

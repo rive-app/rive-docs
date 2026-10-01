@@ -7,7 +7,7 @@ Rive properties. Both directions take and return a [DataValue](/scripting/animas
 for no result.
 
 It inherits `init`, `advance` and `dispose` from [Protocol](/scripting/animascript/api-reference/host/protocol).
-```ts
+```as
 export class AddOne extends Converter {
     override convert(input: DataValue): DataValue | null {
         if (input.isNumber()) {
@@ -31,7 +31,7 @@ export class AddOne extends Converter {
 ### `convert`
 
 <div class="signature">
-```ts
+```as
 abstract convert(input: DataValue): DataValue | null
 ```
 </div>
@@ -42,7 +42,7 @@ Converts the input value, a view model property, to an output value.
 ### `reverseConvert`
 
 <div class="signature">
-```ts
+```as
 reverseConvert(input: DataValue): DataValue | null
 ```
 </div>

@@ -6,7 +6,7 @@ An action performed when its
 [State Machine Listener](/editor/state-machine/listeners) is triggered.
 
 It inherits `init`, `advance` and `dispose` from [Protocol](/scripting/animascript/api-reference/host/protocol).
-```ts
+```as
 export class CountClicks extends ListenerAction {
     clicks: i32 = 0;
 
@@ -24,7 +24,7 @@ export class CountClicks extends ListenerAction {
 ### `perform`
 
 <div class="signature">
-```ts
+```as
 perform(event: PointerEvent): void
 ```
 </div>
@@ -40,7 +40,7 @@ triggered it. Only called when `performAction` is not overridden.
 ### `performAction`
 
 <div class="signature">
-```ts
+```as
 performAction(context: ListenerContext): void
 ```
 </div>

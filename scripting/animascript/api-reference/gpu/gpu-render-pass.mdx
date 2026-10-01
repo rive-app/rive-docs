@@ -10,7 +10,7 @@ An open render pass. Issue its draw calls, then call `finish`.
 ### `setPipeline`
 
 <div class="signature">
-```ts
+```as
 setPipeline(pipeline: GPUPipeline): void
 ```
 </div>
@@ -22,7 +22,7 @@ pipeline does not fit the pass's attachments.
 ### `setBindGroup`
 
 <div class="signature">
-```ts
+```as
 unsafe setBindGroup(groupIndex: u32, bindGroup: GPUBindGroup, dynamicOffsets: Array<u32> = []): void
 ```
 </div>
@@ -38,7 +38,7 @@ offset at 0.
 ### `setVertexBuffer`
 
 <div class="signature">
-```ts
+```as
 setVertexBuffer(slot: u32, buffer: GPUBuffer, offset: u32 = 0): void
 ```
 </div>
@@ -50,7 +50,7 @@ Binds a vertex buffer to `slot`, the index of its layout in
 ### `setIndexBuffer`
 
 <div class="signature">
-```ts
+```as
 setIndexBuffer(buffer: GPUBuffer, indexFormat: u32, offset: u32 = 0): void
 ```
 </div>
@@ -62,7 +62,7 @@ Binds an index buffer, reading from byte `offset`. `indexFormat` is an
 ### `setViewport`
 
 <div class="signature">
-```ts
+```as
 setViewport(x: f32, y: f32, width: f32, height: f32, minDepth: f32 = 0, maxDepth: f32 = 1): void
 ```
 </div>
@@ -74,7 +74,7 @@ top left on every backend except GL, where it is the bottom left.
 ### `setScissor`
 
 <div class="signature">
-```ts
+```as
 setScissor(x: u32, y: u32, width: u32, height: u32): void
 ```
 </div>
@@ -85,7 +85,7 @@ Sets the scissor rectangle in pixels.
 ### `setStencilReference`
 
 <div class="signature">
-```ts
+```as
 setStencilReference(reference: u32): void
 ```
 </div>
@@ -94,7 +94,7 @@ Sets the stencil reference value that the pipeline's stencil test
 compares against and the `replace` stencil op writes. See
 `stencilFront` and `stencilBack` of [GPUDepthStencilDesc](/scripting/animascript/api-reference/gpu/gpu-depth-stencil-desc).
 
-```ts
+```as
 pass.setStencilReference(1);
 ```
 
@@ -102,7 +102,7 @@ pass.setStencilReference(1);
 ### `setBlendColor`
 
 <div class="signature">
-```ts
+```as
 setBlendColor(r: f32, g: f32, b: f32, a: f32): void
 ```
 </div>
@@ -110,7 +110,7 @@ setBlendColor(r: f32, g: f32, b: f32, a: f32): void
 Sets the constant color that the `blendColor` and
 `oneMinusBlendColor` blend factors read, as 0 to 1 channels.
 
-```ts
+```as
 // Blends the source in at a constant 25 percent.
 let blend = new GPUBlendState();
 blend.srcColor = BlendFactor.blendColor;
@@ -122,7 +122,7 @@ pass.setBlendColor(0.25, 0.25, 0.25, 0.25);
 ### `draw`
 
 <div class="signature">
-```ts
+```as
 draw(vertexCount: u32, instanceCount: u32 = 1, firstVertex: u32 = 0, firstInstance: u32 = 0): void
 ```
 </div>
@@ -135,7 +135,7 @@ when no pipeline is set.
 ### `drawIndexed`
 
 <div class="signature">
-```ts
+```as
 drawIndexed(indexCount: u32, instanceCount: u32 = 1, firstIndex: u32 = 0, baseVertex: i32 = 0, firstInstance: u32 = 0): void
 ```
 </div>
@@ -148,7 +148,7 @@ Raises an error when no pipeline is set.
 ### `finish`
 
 <div class="signature">
-```ts
+```as
 finish(): void
 ```
 </div>

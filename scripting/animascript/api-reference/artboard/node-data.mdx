@@ -6,7 +6,7 @@ A node of an artboard instance, with its transform and access to its
 parent and children. Get one by name with `Artboard.node`. Reads always
 show the node as the artboard last posed it, animation included.
 
-```ts
+```as
 let node = instance.node("Hips");
 if (node != null) {
     node.rotation = Math.PI / 4;
@@ -20,14 +20,14 @@ if (node != null) {
 ### `x`
 
 <div class="signature">
-```ts
+```as
 x: f64
 ```
 </div>
 
 The x coordinate of the local position.
 
-```ts
+```as
 node.x = 100;
 ```
 
@@ -35,14 +35,14 @@ node.x = 100;
 ### `y`
 
 <div class="signature">
-```ts
+```as
 y: f64
 ```
 </div>
 
 The y coordinate of the local position.
 
-```ts
+```as
 node.y = 200;
 ```
 
@@ -50,14 +50,14 @@ node.y = 200;
 ### `rotation`
 
 <div class="signature">
-```ts
+```as
 rotation: f64
 ```
 </div>
 
 The local rotation in radians.
 
-```ts
+```as
 node.rotation = Math.PI / 4;
 ```
 
@@ -65,14 +65,14 @@ node.rotation = Math.PI / 4;
 ### `scaleX`
 
 <div class="signature">
-```ts
+```as
 scaleX: f64
 ```
 </div>
 
 The x component of the local scale.
 
-```ts
+```as
 node.scaleX = 2;
 ```
 
@@ -80,14 +80,14 @@ node.scaleX = 2;
 ### `scaleY`
 
 <div class="signature">
-```ts
+```as
 scaleY: f64
 ```
 </div>
 
 The y component of the local scale.
 
-```ts
+```as
 node.scaleY = 2;
 ```
 
@@ -95,14 +95,14 @@ node.scaleY = 2;
 ### `children`
 
 <div class="signature">
-```ts
+```as
 readonly children: Array<NodeData>
 ```
 </div>
 
 The node's children, empty when it has none.
 
-```ts
+```as
 let children = node.children;
 if (children.length > 0) {
     children[0].decompose(Mat2D.withTranslation(100, 100));
@@ -113,14 +113,14 @@ if (children.length > 0) {
 ### `parent`
 
 <div class="signature">
-```ts
+```as
 readonly parent: NodeData | null
 ```
 </div>
 
 The node's parent, or null when it has none.
 
-```ts
+```as
 let parent = node.parent;
 if (parent != null) {
     parent.decompose(Mat2D.withTranslation(100, 100));
@@ -131,7 +131,7 @@ if (parent != null) {
 ### `paint`
 
 <div class="signature">
-```ts
+```as
 readonly paint: Paint | null
 ```
 </div>
@@ -139,7 +139,7 @@ readonly paint: Paint | null
 The node's paint when it is a fill or a stroke, otherwise null. The
 same snapshot as `asPaint`.
 
-```ts
+```as
 let fill = instance.node("Fill");
 if (fill != null) {
     let paint = fill.paint;
@@ -155,14 +155,14 @@ if (fill != null) {
 ### `position`
 
 <div class="signature">
-```ts
+```as
 position(): Vector
 ```
 </div>
 
 The local position.
 
-```ts
+```as
 let position = node.position();
 ```
 
@@ -170,14 +170,14 @@ let position = node.position();
 ### `setPosition`
 
 <div class="signature">
-```ts
+```as
 setPosition(value: Vector): void
 ```
 </div>
 
 Sets the local position.
 
-```ts
+```as
 node.setPosition(Vector.xy(199, 299));
 ```
 
@@ -185,7 +185,7 @@ node.setPosition(Vector.xy(199, 299));
 ### `scale`
 
 <div class="signature">
-```ts
+```as
 scale(): Vector
 ```
 </div>
@@ -196,14 +196,14 @@ The local scale.
 ### `setScale`
 
 <div class="signature">
-```ts
+```as
 setScale(value: Vector): void
 ```
 </div>
 
 Sets the local scale.
 
-```ts
+```as
 node.setScale(Vector.xy(1.4, 2));
 ```
 
@@ -211,14 +211,14 @@ node.setScale(Vector.xy(1.4, 2));
 ### `worldTransform`
 
 <div class="signature">
-```ts
+```as
 unsafe worldTransform(): Mat2D
 ```
 </div>
 
 The node's world transform.
 
-```ts
+```as
 let world = node.worldTransform();
 console.log(world.tx.toString() + ", " + world.ty.toString());
 ```
@@ -227,7 +227,7 @@ console.log(world.tx.toString() + ", " + world.ty.toString());
 ### `setWorldTransform`
 
 <div class="signature">
-```ts
+```as
 unsafe setWorldTransform(value: Mat2D): void
 ```
 </div>
@@ -240,7 +240,7 @@ the node or a parent moves. Use `decompose` to move the node for good.
 ### `decompose`
 
 <div class="signature">
-```ts
+```as
 unsafe decompose(worldTransform: Mat2D): void
 ```
 </div>
@@ -248,7 +248,7 @@ unsafe decompose(worldTransform: Mat2D): void
 Sets the node's position, rotation and scale so that its world
 transform becomes `worldTransform`.
 
-```ts
+```as
 node.decompose(Mat2D.withTranslation(100, 100));
 ```
 
@@ -256,7 +256,7 @@ node.decompose(Mat2D.withTranslation(100, 100));
 ### `asPath`
 
 <div class="signature">
-```ts
+```as
 asPath(): Path | null
 ```
 </div>
@@ -264,7 +264,7 @@ asPath(): Path | null
 A copy of the node's geometry as a [Path](/scripting/animascript/api-reference/path/path) when the node is a path,
 otherwise null.
 
-```ts
+```as
 let shape = instance.node("MyPath");
 if (shape != null) {
     let path = shape.asPath();
@@ -278,7 +278,7 @@ if (shape != null) {
 ### `asPaint`
 
 <div class="signature">
-```ts
+```as
 asPaint(): Paint | null
 ```
 </div>
@@ -291,7 +291,7 @@ node.
 ### `release`
 
 <div class="signature">
-```ts
+```as
 release(): void
 ```
 </div>

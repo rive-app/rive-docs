@@ -11,7 +11,7 @@ enum value.
 ### `value`
 
 <div class="signature">
-```ts
+```as
 value: string
 ```
 </div>
@@ -24,14 +24,14 @@ The name of the current enum value. You can both read and assign it.
 ### `values`
 
 <div class="signature">
-```ts
+```as
 unsafe values(): Array<string>
 ```
 </div>
 
 The names of the enum's values, in declaration order.
 
-```ts
+```as
 let alignment = vm.getEnum("textAlignment");
 if (alignment != null) {
     let values = alignment.values();

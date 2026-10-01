@@ -8,7 +8,7 @@ The event that triggered a listener action, passed to
 It can hold a pointer, keyboard, text input, focus, gamepad, view model
 change or reported event. Check the type with the `is` methods, or switch
 on `kind`, and read the event with the matching `as` method.
-```ts
+```as
 override performAction(context: ListenerContext): void {
     let pointer = context.asPointerEvent();
     if (pointer != null) {
@@ -23,7 +23,7 @@ override performAction(context: ListenerContext): void {
 ### `kind`
 
 <div class="signature">
-```ts
+```as
 kind: ListenerKind
 ```
 </div>
@@ -36,7 +36,7 @@ What triggered the action.
 ### `isPointerEvent`
 
 <div class="signature">
-```ts
+```as
 isPointerEvent(): bool
 ```
 </div>
@@ -47,7 +47,7 @@ Returns true if the action was triggered by a pointer event.
 ### `isKeyboardEvent`
 
 <div class="signature">
-```ts
+```as
 isKeyboardEvent(): bool
 ```
 </div>
@@ -58,7 +58,7 @@ Returns true if the action was triggered by a keyboard event.
 ### `isTextInput`
 
 <div class="signature">
-```ts
+```as
 isTextInput(): bool
 ```
 </div>
@@ -69,7 +69,7 @@ Returns true if the action was triggered by a text input event.
 ### `isFocus`
 
 <div class="signature">
-```ts
+```as
 isFocus(): bool
 ```
 </div>
@@ -80,7 +80,7 @@ Returns true if the action was triggered by a focus change.
 ### `isReportedEvent`
 
 <div class="signature">
-```ts
+```as
 isReportedEvent(): bool
 ```
 </div>
@@ -91,7 +91,7 @@ Returns true if the action was triggered by a reported Rive event.
 ### `isViewModelChange`
 
 <div class="signature">
-```ts
+```as
 isViewModelChange(): bool
 ```
 </div>
@@ -102,7 +102,7 @@ Returns true if the action was triggered by a view model change.
 ### `isNone`
 
 <div class="signature">
-```ts
+```as
 isNone(): bool
 ```
 </div>
@@ -114,7 +114,7 @@ event.
 ### `isGamepadConnected`
 
 <div class="signature">
-```ts
+```as
 isGamepadConnected(): bool
 ```
 </div>
@@ -125,7 +125,7 @@ Returns true if the action was triggered by a gamepad connecting.
 ### `isGamepadEvent`
 
 <div class="signature">
-```ts
+```as
 isGamepadEvent(): bool
 ```
 </div>
@@ -137,7 +137,7 @@ change.
 ### `isGamepadDisconnected`
 
 <div class="signature">
-```ts
+```as
 isGamepadDisconnected(): bool
 ```
 </div>
@@ -148,7 +148,7 @@ Returns true if the action was triggered by a gamepad disconnecting.
 ### `asPointerEvent`
 
 <div class="signature">
-```ts
+```as
 asPointerEvent(): PointerEvent | null
 ```
 </div>
@@ -159,7 +159,7 @@ Returns the pointer event if applicable, otherwise null.
 ### `asKeyboardEvent`
 
 <div class="signature">
-```ts
+```as
 asKeyboardEvent(): KeyboardEvent | null
 ```
 </div>
@@ -170,7 +170,7 @@ Returns the keyboard event if applicable, otherwise null.
 ### `asTextInput`
 
 <div class="signature">
-```ts
+```as
 asTextInput(): TextInput | null
 ```
 </div>
@@ -181,7 +181,7 @@ Returns the text input event if applicable, otherwise null.
 ### `asFocus`
 
 <div class="signature">
-```ts
+```as
 asFocus(): FocusEvent | null
 ```
 </div>
@@ -192,7 +192,7 @@ Returns the focus event if applicable, otherwise null.
 ### `asGamepadConnected`
 
 <div class="signature">
-```ts
+```as
 asGamepadConnected(): GamepadEvent | null
 ```
 </div>
@@ -203,7 +203,7 @@ Returns the gamepad state for a connect if applicable, otherwise null.
 ### `asGamepadEvent`
 
 <div class="signature">
-```ts
+```as
 asGamepadEvent(): GamepadEvent | null
 ```
 </div>
@@ -215,7 +215,7 @@ otherwise null.
 ### `asGamepadDisconnected`
 
 <div class="signature">
-```ts
+```as
 asGamepadDisconnected(): GamepadEvent | null
 ```
 </div>
@@ -227,7 +227,7 @@ null.
 ### `asReportedEvent`
 
 <div class="signature">
-```ts
+```as
 asReportedEvent(): ReportedEvent | null
 ```
 </div>
@@ -238,7 +238,7 @@ Returns the reported event if applicable, otherwise null.
 ### `asViewModelChange`
 
 <div class="signature">
-```ts
+```as
 asViewModelChange(): ViewModelChange | null
 ```
 </div>
@@ -249,7 +249,7 @@ Returns the view model change if applicable, otherwise null.
 ### `asNone`
 
 <div class="signature">
-```ts
+```as
 asNone(): NoneEvent | null
 ```
 </div>

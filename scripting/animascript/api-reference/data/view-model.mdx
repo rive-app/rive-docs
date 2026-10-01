@@ -10,7 +10,7 @@ view model input, or to name the view model an [Artboard](/scripting/animascript
 The class needs a constructor that takes the handle, since constructors
 are not inherited.
 
-```ts
+```as
 export class Character extends ViewModel {
     constructor(handle: u32) {
         super(handle);
@@ -37,7 +37,7 @@ export class Scene extends Node {
 ### `create`
 
 <div class="signature">
-```ts
+```as
 static create(name: string, instanceName: string = ""): ViewModel
 ```
 </div>
@@ -46,7 +46,7 @@ Creates a new instance of the file's view model called `name`, copied
 from its instance called `instanceName` when given. When the file has
 no such view model the result has no properties; check with `exists`.
 
-```ts
+```as
 let button = ViewModel.create("Button");
 let label = button.getString("label");
 if (label != null) {
@@ -58,7 +58,7 @@ if (label != null) {
 ### `exists`
 
 <div class="signature">
-```ts
+```as
 static exists(name: string): bool
 ```
 </div>
@@ -71,14 +71,14 @@ Whether the file has a view model called `name`.
 ### `getNumber`
 
 <div class="signature">
-```ts
+```as
 getNumber(name: string): PropertyNumber | null
 ```
 </div>
 
 The number property with the given name, or null when there is none.
 
-```ts
+```as
 let vm = context.viewModel();
 if (vm != null) {
     let score = vm.getNumber("score");
@@ -92,7 +92,7 @@ if (vm != null) {
 ### `getBoolean`
 
 <div class="signature">
-```ts
+```as
 getBoolean(name: string): PropertyBoolean | null
 ```
 </div>
@@ -103,7 +103,7 @@ The boolean property with the given name, or null when there is none.
 ### `getString`
 
 <div class="signature">
-```ts
+```as
 getString(name: string): PropertyString | null
 ```
 </div>
@@ -114,7 +114,7 @@ The string property with the given name, or null when there is none.
 ### `getTrigger`
 
 <div class="signature">
-```ts
+```as
 getTrigger(name: string): PropertyTrigger | null
 ```
 </div>
@@ -125,7 +125,7 @@ The trigger property with the given name, or null when there is none.
 ### `getColor`
 
 <div class="signature">
-```ts
+```as
 getColor(name: string): PropertyColor | null
 ```
 </div>
@@ -136,7 +136,7 @@ The color property with the given name, or null when there is none.
 ### `getEnum`
 
 <div class="signature">
-```ts
+```as
 getEnum(name: string): PropertyEnum | null
 ```
 </div>
@@ -147,7 +147,7 @@ The enum property with the given name, or null when there is none.
 ### `getList`
 
 <div class="signature">
-```ts
+```as
 getList(name: string): PropertyList | null
 ```
 </div>
@@ -158,7 +158,7 @@ The list property with the given name, or null when there is none.
 ### `getViewModel`
 
 <div class="signature">
-```ts
+```as
 getViewModel(name: string): PropertyViewModel | null
 ```
 </div>
@@ -170,7 +170,7 @@ there is none.
 ### `getImage`
 
 <div class="signature">
-```ts
+```as
 getImage(name: string): PropertyImage | null
 ```
 </div>
@@ -181,7 +181,7 @@ The image property with the given name, or null when there is none.
 ### `getFont`
 
 <div class="signature">
-```ts
+```as
 getFont(name: string): PropertyFont | null
 ```
 </div>
@@ -192,14 +192,14 @@ The font property with the given name, or null when there is none.
 ### `getBlob`
 
 <div class="signature">
-```ts
+```as
 getBlob(name: string): PropertyBlob | null
 ```
 </div>
 
 The blob property with the given name, or null when there is none.
 
-```ts
+```as
 let data = vm.getBlob("levelData");
 if (data != null) {
     let bytes = data.value;
@@ -213,7 +213,7 @@ if (data != null) {
 ### `instance`
 
 <div class="signature">
-```ts
+```as
 instance(instanceName: string = ""): ViewModel
 ```
 </div>
@@ -221,7 +221,7 @@ instance(instanceName: string = ""): ViewModel
 Creates a new instance of this view model, copied from its instance
 called `instanceName` when the file has one.
 
-```ts
+```as
 let copy = vm.instance();
 let age = copy.getNumber("age");
 if (age != null) {
@@ -233,7 +233,7 @@ if (age != null) {
 ### `getIndex`
 
 <div class="signature">
-```ts
+```as
 getIndex(): i32
 ```
 </div>
@@ -245,7 +245,7 @@ or -1 when it has none.
 ### `equals`
 
 <div class="signature">
-```ts
+```as
 equals(other: ViewModel | null): bool
 ```
 </div>
@@ -257,7 +257,7 @@ a new wrapper, so compare with this rather than `==`.
 ### `release`
 
 <div class="signature">
-```ts
+```as
 release(): void
 ```
 </div>

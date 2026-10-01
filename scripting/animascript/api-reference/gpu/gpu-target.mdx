@@ -12,7 +12,7 @@ returns Rive's own render target as one.
 ### `width`
 
 <div class="signature">
-```ts
+```as
 readonly width: u32
 ```
 </div>
@@ -23,7 +23,7 @@ Width in pixels.
 ### `height`
 
 <div class="signature">
-```ts
+```as
 readonly height: u32
 ```
 </div>
@@ -34,7 +34,7 @@ Height in pixels.
 ### `format`
 
 <div class="signature">
-```ts
+```as
 readonly format: u32
 ```
 </div>
@@ -43,7 +43,7 @@ Pixel format, as a [TextureFormat](/scripting/animascript/api-reference/gpu_enum
 source and target of identical formats, so derive texture and
 pipeline formats from this value.
 
-```ts
+```as
 let color = new GPUColorTargetDesc();
 color.format = <TextureFormat>target.format;
 let desc = new GPUPipelineDesc();
@@ -57,7 +57,7 @@ desc.sampleCount = 4;
 ### `sampleCount`
 
 <div class="signature">
-```ts
+```as
 readonly sampleCount: u32
 ```
 </div>
@@ -69,7 +69,7 @@ Samples per pixel. Always 1 for a canvas; can be above 1 for
 ### `view`
 
 <div class="signature">
-```ts
+```as
 readonly view: GPUTextureView | null
 ```
 </div>
@@ -84,7 +84,7 @@ kept across a resize errors when a pass uses it.
 ### `beginRenderPass`
 
 <div class="signature">
-```ts
+```as
 unsafe beginRenderPass(desc: GPUPassDesc, into: GPURenderPass | null = null): GPURenderPass
 ```
 </div>

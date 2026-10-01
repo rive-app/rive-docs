@@ -6,7 +6,7 @@ A condition a transition between state machine states must meet to be
 taken.
 
 It inherits `init`, `advance` and `dispose` from [Protocol](/scripting/animascript/api-reference/host/protocol).
-```ts
+```as
 export class WhenReady extends TransitionCondition {
     @input ready: bool = false;
 
@@ -22,7 +22,7 @@ export class WhenReady extends TransitionCondition {
 ### `evaluate`
 
 <div class="signature">
-```ts
+```as
 abstract evaluate(): bool
 ```
 </div>

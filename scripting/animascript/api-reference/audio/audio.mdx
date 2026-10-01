@@ -6,7 +6,7 @@ Plays [AudioSource](/scripting/animascript/api-reference/audio/audio-source) ass
 
 Every play function returns the new [AudioSound](/scripting/animascript/api-reference/audio/audio-sound), or null when there is
 no audio engine or the source was released.
-```ts
+```as
 let source = context.audio("myAudio");
 if (source != null) {
     // Start half a second from now.
@@ -20,13 +20,13 @@ if (source != null) {
 ### `play`
 
 <div class="signature">
-```ts
+```as
 function play(source: AudioSource): AudioSound | null
 ```
 </div>
 
 Plays the source immediately.
-```ts
+```as
 let source = this.source;
 if (source != null) {
     this.sound = Audio.play(source);
@@ -37,14 +37,14 @@ if (source != null) {
 ### `playAtTime`
 
 <div class="signature">
-```ts
+```as
 function playAtTime(source: AudioSource, seconds: f64): AudioSound | null
 ```
 </div>
 
 Plays the source at an absolute engine time in seconds, for precise
 scheduling against `Audio.time`.
-```ts
+```as
 let source = this.source;
 if (source != null) {
     this.sound = Audio.playAtTime(source, Audio.time() + 1);
@@ -55,14 +55,14 @@ if (source != null) {
 ### `playInTime`
 
 <div class="signature">
-```ts
+```as
 function playInTime(source: AudioSource, seconds: f64): AudioSound | null
 ```
 </div>
 
 Plays the source after a delay in seconds, relative to the current
 engine time.
-```ts
+```as
 let source = this.source;
 if (source != null) {
     this.sound = Audio.playInTime(source, this.scheduleSeconds);
@@ -73,14 +73,14 @@ if (source != null) {
 ### `playAtFrame`
 
 <div class="signature">
-```ts
+```as
 function playAtFrame(source: AudioSource, frame: f64): AudioSound | null
 ```
 </div>
 
 Plays the source at an absolute engine time in PCM frames, for precise
 scheduling against `Audio.timeFrame`.
-```ts
+```as
 let source = this.source;
 if (source != null) {
     let frame = Audio.timeFrame() + Audio.sampleRate();
@@ -92,7 +92,7 @@ if (source != null) {
 ### `playInFrame`
 
 <div class="signature">
-```ts
+```as
 function playInFrame(source: AudioSource, frame: f64): AudioSound | null
 ```
 </div>
@@ -100,7 +100,7 @@ function playInFrame(source: AudioSource, frame: f64): AudioSound | null
 Plays the source after a delay in PCM frames, relative to the current
 engine time. Convert from seconds with frames = seconds *
 `Audio.sampleRate()`.
-```ts
+```as
 let source = this.source;
 if (source != null) {
     this.sound = Audio.playInFrame(source, this.scheduleFrames);
@@ -111,14 +111,14 @@ if (source != null) {
 ### `time`
 
 <div class="signature">
-```ts
+```as
 function time(): f64
 ```
 </div>
 
 Returns the absolute time of the audio engine in seconds, a clock
 independent of any sound.
-```ts
+```as
 override advance(seconds: f64): bool {
     this.engineTime = Audio.time();
     this.engineTimeFrame = Audio.timeFrame();
@@ -131,7 +131,7 @@ override advance(seconds: f64): bool {
 ### `timeFrame`
 
 <div class="signature">
-```ts
+```as
 function timeFrame(): f64
 ```
 </div>
@@ -142,7 +142,7 @@ Returns the absolute time of the audio engine in PCM frames.
 ### `sampleRate`
 
 <div class="signature">
-```ts
+```as
 function sampleRate(): f64
 ```
 </div>

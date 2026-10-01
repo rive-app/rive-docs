@@ -9,7 +9,7 @@ suite.
 Test code exists only at edit time and never ships in the exported file.
 Subclasses of [Tests](/scripting/animascript/api-reference/test/tests) are edit time already; mark any other declaration
 that names [Expect](/scripting/animascript/api-reference/test/expect) or [Expectation](/scripting/animascript/api-reference/test/expectation), such as a helper, `@editTime`.
-```ts
+```as
 import { Expect, Tests } from "rive/test";
 
 function clamp(value: f64, low: f64, high: f64): f64 {
@@ -41,7 +41,7 @@ export class MathTests extends Tests {
 ### `run`
 
 <div class="signature">
-```ts
+```as
 abstract run(): void
 ```
 </div>
@@ -53,14 +53,14 @@ Declares the suite's test cases and groups by calling `test` and
 ### `blob`
 
 <div class="signature">
-```ts
+```as
 unsafe blob(name: string): ArrayBuffer | null
 ```
 </div>
 
 Looks up a blob asset by name, or null when it is missing or empty.
 The test runner supplies the project's blobs.
-```ts
+```as
 test("reads fixtures", (expect) => {
     let data = this.blob("fixtures");
     expect.that(data != null).is(true);
@@ -71,13 +71,13 @@ test("reads fixtures", (expect) => {
 ### `group`
 
 <div class="signature">
-```ts
+```as
 group(name: string, body: () => void): void
 ```
 </div>
 
 Groups related test cases under a common name. Groups can nest.
-```ts
+```as
 group("math", () => {
   test("adds numbers", (expect) => {
     expect.that(2 + 2).is(4);
@@ -92,14 +92,14 @@ group("math", () => {
 ### `test`
 
 <div class="signature">
-```ts
+```as
 test(name: string, body: (expect: Expect) => void): void
 ```
 </div>
 
 Declares a named test case. `body` receives the case's [Expect](/scripting/animascript/api-reference/test/expect), used to
 create expectations on values.
-```ts
+```as
 test("adds two numbers", (expect) => {
   let result = 2 + 3;
   expect.that(result).is(5);

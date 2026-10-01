@@ -6,7 +6,7 @@ An offscreen target for Rive 2D drawing. Call `beginFrame` to get a
 [Renderer](/scripting/animascript/api-reference/renderer/renderer), draw with it, then call `endFrame`. Composite the result by
 drawing `image`, or sample it in a shader through `image.view()`.
 
-```ts
+```as
 let canvas = context.canvas(256, 256);
 if (canvas != null) {
     let r = canvas.beginFrame(0xFF000000);
@@ -24,7 +24,7 @@ if (canvas != null) {
 ### `width`
 
 <div class="signature">
-```ts
+```as
 readonly width: u32
 ```
 </div>
@@ -35,7 +35,7 @@ Width in pixels.
 ### `height`
 
 <div class="signature">
-```ts
+```as
 readonly height: u32
 ```
 </div>
@@ -46,7 +46,7 @@ Height in pixels.
 ### `image`
 
 <div class="signature">
-```ts
+```as
 readonly image: Image
 ```
 </div>
@@ -60,7 +60,7 @@ The image holding what the canvas drew, for `drawImage` on a
 ### `constructor`
 
 <div class="signature">
-```ts
+```as
 constructor(width: u32 = 0, height: u32 = 0)
 ```
 </div>
@@ -75,7 +75,7 @@ null when the host cannot make a canvas.
 ### `resize`
 
 <div class="signature">
-```ts
+```as
 resize(width: u32, height: u32): bool
 ```
 </div>
@@ -89,7 +89,7 @@ backing.
 ### `beginFrame`
 
 <div class="signature">
-```ts
+```as
 beginFrame(clearColor: u32 = 0): Renderer | null
 ```
 </div>
@@ -104,7 +104,7 @@ host cannot record canvas frames.
 ### `endFrame`
 
 <div class="signature">
-```ts
+```as
 endFrame(): void
 ```
 </div>
@@ -116,7 +116,7 @@ Ends the frame, flushing its drawing into `image`. The renderer from
 ### `release`
 
 <div class="signature">
-```ts
+```as
 release(): void
 ```
 </div>

@@ -7,7 +7,7 @@ coordinates.
 
 [Node](/scripting/animascript/api-reference/host/node) pointer handlers receive one, and an [Artboard](/scripting/animascript/api-reference/artboard/artboard) instance takes one
 to forward the interaction to its state machine.
-```ts
+```as
 export class RenderInstance extends Node {
     @input character: Artboard | null = null;
     instance: Artboard | null = null;
@@ -41,7 +41,7 @@ export class RenderInstance extends Node {
 ### `id`
 
 <div class="signature">
-```ts
+```as
 id: f64
 ```
 </div>
@@ -52,7 +52,7 @@ The unique identifier for the pointer.
 ### `position`
 
 <div class="signature">
-```ts
+```as
 position: Vector
 ```
 </div>
@@ -63,7 +63,7 @@ The position of the pointer in local coordinates.
 ### `previousPosition`
 
 <div class="signature">
-```ts
+```as
 previousPosition: Vector
 ```
 </div>
@@ -75,7 +75,7 @@ The pointer's previous position in local coordinates. Set on events a
 ### `type`
 
 <div class="signature">
-```ts
+```as
 type: string
 ```
 </div>
@@ -88,7 +88,7 @@ The kind of interaction: `pointerEnter`, `pointerExit`, `pointerDown`,
 ### `timeStamp`
 
 <div class="signature">
-```ts
+```as
 timeStamp: f64
 ```
 </div>
@@ -101,14 +101,14 @@ When the interaction happened, in seconds.
 ### `constructor`
 
 <div class="signature">
-```ts
+```as
 constructor(id: f64, position: Vector, previousPosition: Vector = Vector(), type: string = "unknown", timeStamp: f64 = 0)
 ```
 </div>
 
 Creates a pointer event with the given id and position, for example to
 forward an interaction to an [Artboard](/scripting/animascript/api-reference/artboard/artboard) instance in its own space.
-```ts
+```as
 let event = new PointerEvent(0, Vector.xy(10, 20));
 ```
 
@@ -118,7 +118,7 @@ let event = new PointerEvent(0, Vector.xy(10, 20));
 ### `hit`
 
 <div class="signature">
-```ts
+```as
 hit(isTranslucent: bool = false): void
 ```
 </div>
@@ -132,7 +132,7 @@ control inside a scroll view scrolls the view instead.
 The argument inverts. Bare `hit()` is opaque and stops there;
 `hit(true)` marks this target translucent, so the event continues to
 whatever is behind it.
-```ts
+```as
 override pointerDown(event: PointerEvent): void {
     let instance = this.instance;
     if (instance != null && instance.pointerDown(event) != 0) {

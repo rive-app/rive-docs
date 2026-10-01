@@ -10,7 +10,7 @@ A GPU buffer for vertex, index or uniform data.
 ### `size`
 
 <div class="signature">
-```ts
+```as
 size: u32
 ```
 </div>
@@ -23,7 +23,7 @@ Size in bytes.
 ### `constructor`
 
 <div class="signature">
-```ts
+```as
 unsafe constructor(usage: BufferUsage, sizeInBytes: u32, data: ArrayBuffer | null = null, immutable: bool = false)
 ```
 </div>
@@ -44,7 +44,7 @@ silently.
 ### `update`
 
 <div class="signature">
-```ts
+```as
 unsafe update(dstOffset: u32, data: ArrayBuffer, byteCount: u32 = 0, srcOffset: u32 = 0): void
 ```
 </div>
@@ -58,7 +58,7 @@ Raises an error when the buffer is immutable, when the source range
 runs past the end of `data`, or when the copy runs past the end of
 the buffer.
 
-```ts
+```as
 // Uploads bytes 64 to 127 of staging to the start of the buffer.
 buffer.update(0, staging, 64, 64);
 ```
@@ -67,7 +67,7 @@ buffer.update(0, staging, 64, 64);
 ### `release`
 
 <div class="signature">
-```ts
+```as
 release(): void
 ```
 </div>

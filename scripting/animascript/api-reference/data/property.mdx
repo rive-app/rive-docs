@@ -11,7 +11,7 @@ Each kind of property is a subclass with a typed `value`.
 ### `addListener`
 
 <div class="signature">
-```ts
+```as
 addListener(listener: () => void): void
 ```
 </div>
@@ -20,7 +20,7 @@ Registers a listener that is called whenever the property's value
 changes. Listening stops when the host disposes the script instance
 that added it.
 
-```ts
+```as
 function onHealthChanged(): void {
     console.log("health changed");
 }
@@ -36,7 +36,7 @@ if (health != null) {
 ### `addListenerWith`
 
 <div class="signature">
-```ts
+```as
 addListenerWith<K>(context: K, listener: (context: K) => void): void
 ```
 </div>
@@ -45,7 +45,7 @@ Registers a listener that receives `context` each time it is called,
 and keeps `context` alive while registered. Remove it with
 `removeListenerWith`.
 
-```ts
+```as
 export class Cannon extends Node {
     shots: i32 = 0;
 
@@ -68,7 +68,7 @@ export class Cannon extends Node {
 ### `removeListener`
 
 <div class="signature">
-```ts
+```as
 removeListener(listener: () => void): void
 ```
 </div>
@@ -76,7 +76,7 @@ removeListener(listener: () => void): void
 Removes every registration of a listener added with `addListener`,
 matched by function.
 
-```ts
+```as
 health.removeListener(onHealthChanged);
 ```
 
@@ -84,7 +84,7 @@ health.removeListener(onHealthChanged);
 ### `removeListenerWith`
 
 <div class="signature">
-```ts
+```as
 removeListenerWith<K>(context: K, listener: (context: K) => void): void
 ```
 </div>
@@ -93,7 +93,7 @@ Removes every registration of a listener added with `addListenerWith`
 with this same `context` and `listener`. Other contexts registered
 with the same function keep listening.
 
-```ts
+```as
 export class Cannon extends Node {
     fire: PropertyTrigger | null = null;
     shots: i32 = 0;
@@ -127,7 +127,7 @@ export class Cannon extends Node {
 ### `release`
 
 <div class="signature">
-```ts
+```as
 release(): void
 ```
 </div>

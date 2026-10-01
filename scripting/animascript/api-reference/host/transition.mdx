@@ -10,7 +10,7 @@ inputs the effect needs as ordinary `@input` members.
 It inherits `init`, `advance` and `dispose` from [Protocol](/scripting/animascript/api-reference/host/protocol). Return true
 from `advance` while the transition runs and false once it completes,
 after which the runtime retires the outgoing child.
-```ts
+```as
 export class Crossfade extends Transition {
     progress: f64 = 0;
 
@@ -48,7 +48,7 @@ export class Crossfade extends Transition {
 ### `managesTo`
 
 <div class="signature">
-```ts
+```as
 managesTo: bool
 ```
 </div>
@@ -64,7 +64,7 @@ start of each transition, so set it in `init` or `changed`.
 ### `changed`
 
 <div class="signature">
-```ts
+```as
 changed(from: TransitionChild | null, to: TransitionChild | null, direction: f64): void
 ```
 </div>
@@ -79,7 +79,7 @@ on interruption, with the previously incoming child as `from`.
 ### `draw`
 
 <div class="signature">
-```ts
+```as
 abstract draw(renderer: Renderer, from: TransitionChild | null, to: TransitionChild | null): void
 ```
 </div>

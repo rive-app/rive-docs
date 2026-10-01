@@ -11,14 +11,14 @@ channels readable and writable on their own.
 ### `value`
 
 <div class="signature">
-```ts
+```as
 value: Color
 ```
 </div>
 
 The stored color.
 
-```ts
+```as
 let data = DataValue.newColor();
 data.value = Color.rgba(255, 0, 0, 155);
 ```
@@ -27,7 +27,7 @@ data.value = Color.rgba(255, 0, 0, 155);
 ### `red`
 
 <div class="signature">
-```ts
+```as
 red: f64
 ```
 </div>
@@ -35,7 +35,7 @@ red: f64
 The red channel, from 0 to 255. Assigning it changes `value`,
 keeping the low 8 bits.
 
-```ts
+```as
 let data = DataValue.newColor(Color.rgba(128, 55, 12, 255));
 console.log(data.red.toString()); // 128
 data.red = 233;
@@ -45,7 +45,7 @@ data.red = 233;
 ### `green`
 
 <div class="signature">
-```ts
+```as
 green: f64
 ```
 </div>
@@ -57,7 +57,7 @@ keeping the low 8 bits.
 ### `blue`
 
 <div class="signature">
-```ts
+```as
 blue: f64
 ```
 </div>
@@ -69,7 +69,7 @@ keeping the low 8 bits.
 ### `alpha`
 
 <div class="signature">
-```ts
+```as
 alpha: f64
 ```
 </div>
@@ -83,7 +83,7 @@ keeping the low 8 bits.
 ### `constructor`
 
 <div class="signature">
-```ts
+```as
 constructor(value: Color = 0)
 ```
 </div>

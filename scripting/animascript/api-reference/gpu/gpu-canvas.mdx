@@ -9,7 +9,7 @@ sampled, kept between frames and sampleable. Render into it with
 into a multisampled [GPUTexture](/scripting/animascript/api-reference/gpu/gpu-texture) made with `renderTarget` and resolve into
 the canvas's `view`.
 
-```ts
+```as
 let canvas = context.gpuCanvas(256, 256);
 if (canvas != null) {
     let color = new GPUColorAttachment();
@@ -31,7 +31,7 @@ if (canvas != null) {
 ### `width`
 
 <div class="signature">
-```ts
+```as
 readonly width: u32
 ```
 </div>
@@ -42,7 +42,7 @@ Width in pixels.
 ### `height`
 
 <div class="signature">
-```ts
+```as
 readonly height: u32
 ```
 </div>
@@ -53,7 +53,7 @@ Height in pixels.
 ### `format`
 
 <div class="signature">
-```ts
+```as
 readonly format: u32
 ```
 </div>
@@ -65,7 +65,7 @@ created at zero size allocates its texture.
 ### `image`
 
 <div class="signature">
-```ts
+```as
 readonly image: Image
 ```
 </div>
@@ -80,7 +80,7 @@ follows the new backing.
 ### `constructor`
 
 <div class="signature">
-```ts
+```as
 constructor(width: u32, height: u32)
 ```
 </div>
@@ -95,7 +95,7 @@ answers null when the host cannot make a canvas.
 ### `colorView`
 
 <div class="signature">
-```ts
+```as
 colorView(): GPUTextureView
 ```
 </div>
@@ -105,7 +105,7 @@ resolve target, or sampling in a later pass. The same view as `view`,
 but raises an error instead of answering null when the canvas has no
 backing yet, as when created at zero size.
 
-```ts
+```as
 let color = new GPUColorAttachment();
 color.view = msaaView;
 color.resolveTarget = canvas.colorView();
@@ -116,7 +116,7 @@ color.storeOp = StoreOp.discard;
 ### `resize`
 
 <div class="signature">
-```ts
+```as
 resize(width: u32, height: u32): bool
 ```
 </div>
@@ -130,7 +130,7 @@ be recreated to match.
 ### `release`
 
 <div class="signature">
-```ts
+```as
 release(): void
 ```
 </div>

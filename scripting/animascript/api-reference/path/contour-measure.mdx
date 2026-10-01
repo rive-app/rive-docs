@@ -12,14 +12,14 @@ the path. It extends [PathMeasure](/scripting/animascript/api-reference/path/pat
 ### `next`
 
 <div class="signature">
-```ts
+```as
 readonly next: ContourMeasure | null
 ```
 </div>
 
 The next contour in the path, or `null` after the last. Reading it again
 returns the same contour.
-```ts
+```as
 let contour = path.contours();
 while (contour != null) {
   console.log(contour.length.toString());

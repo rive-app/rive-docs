@@ -16,14 +16,14 @@ gives access to:
 ### `log`
 
 <div class="signature">
-```ts
+```as
 log(message: string): void
 ```
 </div>
 
 Logs a message through the host: the CLI watch log and problems
 surface, or the editor console.
-```ts
+```as
 override init(context: Context): bool {
     context.log("hello");
     return true;
@@ -34,7 +34,7 @@ override init(context: Context): bool {
 ### `markNeedsUpdate`
 
 <div class="signature">
-```ts
+```as
 markNeedsUpdate(): void
 ```
 </div>
@@ -45,7 +45,7 @@ runtime should call `update` again.
 
 Calls from inside `update` are ignored. Use it from `init`,
 `advance`, listener callbacks or event handlers instead.
-```ts
+```as
 override advance(seconds: f64): bool {
     this.elapsed += seconds;
     let context = this.context;
@@ -60,14 +60,14 @@ override advance(seconds: f64): bool {
 ### `image`
 
 <div class="signature">
-```ts
+```as
 image(name: string): Image | null
 ```
 </div>
 
 Returns the image asset with the given name, or null if not found.
 Draw it with `Renderer.drawImage`. See also [ImageSampler](/scripting/animascript/api-reference/image/image-sampler).
-```ts
+```as
 export class DrawImage extends Node {
     myImage: Image | null = null;
     sampler: ImageSampler = ImageSampler(ImageWrap.clamp, ImageWrap.clamp, ImageFilter.bilinear);
@@ -90,13 +90,13 @@ export class DrawImage extends Node {
 ### `font`
 
 <div class="signature">
-```ts
+```as
 font(name: string): Font | null
 ```
 </div>
 
 Returns the font asset with the given name, or null if not found.
-```ts
+```as
 let font = context.font("Inter");
 if (font != null) {
     let style = new TextRunStyle(font);
@@ -108,14 +108,14 @@ if (font != null) {
 ### `audio`
 
 <div class="signature">
-```ts
+```as
 audio(name: string): AudioSource | null
 ```
 </div>
 
 Returns the audio asset with the given name, or null if not found.
 Play it with the [Audio](/scripting/animascript/api-reference/audio/audio) functions.
-```ts
+```as
 export class AudioExample extends Node {
     source: AudioSource | null = null;
 
@@ -138,7 +138,7 @@ export class AudioExample extends Node {
 ### `viewModel`
 
 <div class="signature">
-```ts
+```as
 viewModel(): ViewModel | null
 ```
 </div>
@@ -146,7 +146,7 @@ viewModel(): ViewModel | null
 Returns the [ViewModel](/scripting/animascript/api-reference/data/view-model) bound to the object's immediate data context,
 or null before data binds. This is the most common way to read data
 bound properties from a script.
-```ts
+```as
 override init(context: Context): bool {
     let vm = context.viewModel();
     if (vm != null) {
@@ -160,7 +160,7 @@ override init(context: Context): bool {
 ### `rootViewModel`
 
 <div class="signature">
-```ts
+```as
 rootViewModel(): ViewModel | null
 ```
 </div>
@@ -168,7 +168,7 @@ rootViewModel(): ViewModel | null
 Returns the [ViewModel](/scripting/animascript/api-reference/data/view-model) bound to the root artboard's data context, or
 null if there is none. Useful for reaching top level data from a
 deeply nested object.
-```ts
+```as
 let vm = context.rootViewModel();
 if (vm != null) {
     let score = vm.getNumber("score");
@@ -179,7 +179,7 @@ if (vm != null) {
 ### `globalViewModel`
 
 <div class="signature">
-```ts
+```as
 globalViewModel(name: string): ViewModel | null
 ```
 </div>
@@ -188,7 +188,7 @@ Returns the global [ViewModel](/scripting/animascript/api-reference/data/view-mo
 no global view model by that name or none is currently bound. Global
 view models are shared, singleton like view models addressed by name
 rather than through the object's own data context.
-```ts
+```as
 let settings = context.globalViewModel("AppSettings");
 if (settings != null) {
     let volume = settings.getNumber("volume");
@@ -199,7 +199,7 @@ if (settings != null) {
 ### `globalViewModelNames`
 
 <div class="signature">
-```ts
+```as
 unsafe globalViewModelNames(): Array<string>
 ```
 </div>
@@ -207,7 +207,7 @@ unsafe globalViewModelNames(): Array<string>
 Returns the names of all global view models defined in the file, in
 file order. Pass any of them to `globalViewModel` to fetch that view
 model. Returns an empty array when the file defines none.
-```ts
+```as
 let names = context.globalViewModelNames();
 for (let i = 0; i < names.length; i++) {
     context.log(names[i]);
@@ -218,14 +218,14 @@ for (let i = 0; i < names.length; i++) {
 ### `dataContext`
 
 <div class="signature">
-```ts
+```as
 dataContext(): DataContext | null
 ```
 </div>
 
 Returns the data context provided to this object, or null if there is
 none.
-```ts
+```as
 let dc = context.dataContext();
 if (dc != null) {
     let parent = dc.parent();
@@ -237,7 +237,7 @@ if (dc != null) {
 ### `canvas`
 
 <div class="signature">
-```ts
+```as
 canvas(width: u32 = 0, height: u32 = 0): Canvas | null
 ```
 </div>
@@ -250,7 +250,7 @@ A zero width or height, the default, creates a deferred canvas with no
 backing texture, useful in layouts that do not know their size at
 `init`. Call `resize` once the size is known. While deferred, `width`
 and `height` read 0 and `beginFrame` returns null.
-```ts
+```as
 override init(context: Context): bool {
     this.canvas = context.canvas(256, 256);
     return true;
@@ -274,7 +274,7 @@ override draw(renderer: Renderer): void {
 ### `gpuCanvas`
 
 <div class="signature">
-```ts
+```as
 gpuCanvas(width: u32 = 0, height: u32 = 0): GPUCanvas | null
 ```
 </div>
@@ -293,7 +293,7 @@ and `height` read 0 and `view` is null.
 ### `gpuTarget`
 
 <div class="signature">
-```ts
+```as
 gpuTarget(): GPUTarget | null
 ```
 </div>
@@ -311,7 +311,7 @@ and draw its image instead.
 ### `features`
 
 <div class="signature">
-```ts
+```as
 features(): GPUFeatures
 ```
 </div>
@@ -322,7 +322,7 @@ Returns the GPU features and limits the current backend supports.
 ### `blob`
 
 <div class="signature">
-```ts
+```as
 unsafe blob(name: string): ArrayBuffer | null
 ```
 </div>
@@ -330,7 +330,7 @@ unsafe blob(name: string): ArrayBuffer | null
 Returns the bytes of the blob asset with the given name, or null if
 not found or empty. Useful for loading custom data files embedded in
 the Rive file. The blob's size is the buffer's `byteLength`.
-```ts
+```as
 let bytes = context.blob("myBlob");
 if (bytes != null && bytes.byteLength > 0) {
     let first = Uint8Array.wrap(bytes)[0];
@@ -341,7 +341,7 @@ if (bytes != null && bytes.byteLength > 0) {
 ### `shader`
 
 <div class="signature">
-```ts
+```as
 unsafe shader(name: string): GPUShaderModule | null
 ```
 </div>
@@ -355,7 +355,7 @@ the asset is not found or was not compiled for this backend.
 ### `decodeImage`
 
 <div class="signature">
-```ts
+```as
 unsafe decodeImage(bytes: ArrayBuffer, listener: ImageDecodeListener): u32
 ```
 </div>
@@ -367,7 +367,7 @@ on a later advance.
 Returns a token for `cancelImageDecode`. Returns 0 when this platform
 cannot decode images, after calling the listener's
 `onImageDecodeFailed`.
-```ts
+```as
 let bytes = context.blob("avatar");
 if (bytes != null) {
     this.decodeToken = context.decodeImage(bytes, new AvatarDecode());
@@ -378,7 +378,7 @@ if (bytes != null) {
 ### `cancelImageDecode`
 
 <div class="signature">
-```ts
+```as
 cancelImageDecode(token: u32): void
 ```
 </div>
@@ -390,7 +390,7 @@ called.
 ### `shaderAssetId`
 
 <div class="signature">
-```ts
+```as
 shaderAssetId(name: string): u32
 ```
 </div>

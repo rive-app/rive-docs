@@ -7,14 +7,14 @@ title: os
 ### `clock`
 
 <div class="signature">
-```ts
+```as
 function clock(): f64
 ```
 </div>
 
 Seconds on a high resolution monotonic clock. Its starting point is
 arbitrary, so subtract two readings to time work.
-```ts
+```as
 import { clock } from "rive/os";
 
 export function timeWork(): f64 {
@@ -31,7 +31,7 @@ export function timeWork(): f64 {
 ### `time`
 
 <div class="signature">
-```ts
+```as
 function time(): f64
 ```
 </div>
@@ -43,14 +43,14 @@ clock. Pass it to `date` or `dateTable` to render that instant.
 ### `difftime`
 
 <div class="signature">
-```ts
+```as
 function difftime(t2: f64, t1: f64 = 0): f64
 ```
 </div>
 
 The number of seconds from `t1` to `t2`, both in seconds since the Unix
 epoch. Each is truncated to whole seconds first.
-```ts
+```as
 import { difftime, time } from "rive/os";
 
 let start = time();
@@ -64,7 +64,7 @@ export function elapsed(): f64 {
 ### `date`
 
 <div class="signature">
-```ts
+```as
 function date(format: string = "%c", time: f64 = NaN): string
 ```
 </div>
@@ -94,7 +94,7 @@ The format is copied as text with these specifiers replaced, in English:
 | `%%` | A literal `%` |
 
 Any other specifier throws. A `%` at the very end is copied as written.
-```ts
+```as
 import { date } from "rive/os";
 
 export function labels(): string {
@@ -108,7 +108,7 @@ export function labels(): string {
 ### `dateTable`
 
 <div class="signature">
-```ts
+```as
 function dateTable(format: string = "*t", time: f64 = NaN): DateTable
 ```
 </div>
@@ -116,7 +116,7 @@ function dateTable(format: string = "*t", time: f64 = NaN): DateTable
 Breaks a moment into a [DateTable](/scripting/animascript/api-reference/os/date-table). `time` is seconds since the Unix epoch
 and defaults to now. Local time by default; pass `"!*t"` as the format for
 UTC.
-```ts
+```as
 import { dateTable } from "rive/os";
 
 export function isWeekend(): bool {
@@ -129,7 +129,7 @@ export function isWeekend(): bool {
 ### `timeFromTable`
 
 <div class="signature">
-```ts
+```as
 function timeFromTable(date: DateTable): Box<f64> | null
 ```
 </div>
@@ -138,7 +138,7 @@ The seconds since the Unix epoch of the moment `date` describes, read as
 UTC: Luau's `time` given a table. Only `year`, `month`, `day`, `hour`, `min`
 and `sec` are read, and values out of range carry over, so month 13 is
 January of the next year. Returns `null` for a moment before the epoch.
-```ts
+```as
 import { DateTable, timeFromTable } from "rive/os";
 
 export function newYear(): f64 {

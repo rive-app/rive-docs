@@ -12,7 +12,7 @@ properties are added to a drawable in the editor's inspector.
 ### `has`
 
 <div class="signature">
-```ts
+```as
 has(key: PropertyKey): bool
 ```
 </div>
@@ -23,7 +23,7 @@ Whether the drawable has a custom property of this key, of any kind.
 ### `holds`
 
 <div class="signature">
-```ts
+```as
 holds(key: PropertyKey, kind: PropertyKind): bool
 ```
 </div>
@@ -32,7 +32,7 @@ Whether the drawable has a custom property of this key and kind. Use
 it to tell a missing property from one holding the typed reads'
 fallback value.
 
-```ts
+```as
 if (drawable.holds(EMISSIVE, PropertyKind.number)) {
     console.log(drawable.number(EMISSIVE).toString());
 }
@@ -42,7 +42,7 @@ if (drawable.holds(EMISSIVE, PropertyKind.number)) {
 ### `number`
 
 <div class="signature">
-```ts
+```as
 number(key: PropertyKey): f64
 ```
 </div>
@@ -54,7 +54,7 @@ The custom number property of this key, 0 when there is none. Use
 ### `boolean`
 
 <div class="signature">
-```ts
+```as
 boolean(key: PropertyKey): bool
 ```
 </div>
@@ -65,7 +65,7 @@ The custom boolean property of this key, false when there is none.
 ### `color`
 
 <div class="signature">
-```ts
+```as
 color(key: PropertyKey): Color
 ```
 </div>
@@ -76,7 +76,7 @@ The custom color property of this key, 0 when there is none.
 ### `string`
 
 <div class="signature">
-```ts
+```as
 string(key: PropertyKey): string
 ```
 </div>
@@ -87,14 +87,14 @@ The custom string property of this key, empty when there is none.
 ### `numberOrNull`
 
 <div class="signature">
-```ts
+```as
 numberOrNull(key: PropertyKey): Box<f64> | null
 ```
 </div>
 
 The custom number property of this key, or null when there is none.
 
-```ts
+```as
 let emissive = drawable.numberOrNull(EMISSIVE);
 if (emissive != null) {
     console.log(emissive.value.toString());
@@ -105,7 +105,7 @@ if (emissive != null) {
 ### `booleanOrNull`
 
 <div class="signature">
-```ts
+```as
 booleanOrNull(key: PropertyKey): Box<bool> | null
 ```
 </div>
@@ -116,7 +116,7 @@ The custom boolean property of this key, or null when there is none.
 ### `colorOrNull`
 
 <div class="signature">
-```ts
+```as
 colorOrNull(key: PropertyKey): Box<Color> | null
 ```
 </div>
@@ -127,7 +127,7 @@ The custom color property of this key, or null when there is none.
 ### `stringOrNull`
 
 <div class="signature">
-```ts
+```as
 stringOrNull(key: PropertyKey): string | null
 ```
 </div>
@@ -138,7 +138,7 @@ The custom string property of this key, or null when there is none.
 ### `properties`
 
 <div class="signature">
-```ts
+```as
 properties(): DrawableProperty[]
 ```
 </div>
@@ -151,7 +151,7 @@ not call it from a script you ship.
 ### `draw`
 
 <div class="signature">
-```ts
+```as
 draw(renderer: Renderer): void
 ```
 </div>

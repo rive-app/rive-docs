@@ -9,7 +9,7 @@ The hooks every script shares. A script extends one of its subclasses,
 Override only the hooks the script needs; the host calls only those.
 Abstract hooks such as `Converter.convert` are required. Declare inputs
 as fields marked `@input`.
-```ts
+```as
 export class MyNode extends Node {
     @input speed: f64 = 1;
     @input title: string = "Rive";
@@ -27,14 +27,14 @@ export class MyNode extends Node {
 ### `init`
 
 <div class="signature">
-```ts
+```as
 init(context: Context): bool
 ```
 </div>
 
 Called once when the script is created. Return true if
 initialization succeeds, or false to stop the script.
-```ts
+```as
 override init(context: Context): bool {
     this.context = context;
     return true;
@@ -45,7 +45,7 @@ override init(context: Context): bool {
 ### `advance`
 
 <div class="signature">
-```ts
+```as
 advance(seconds: f64): bool
 ```
 </div>
@@ -53,7 +53,7 @@ advance(seconds: f64): bool
 Called every frame to advance the script over time. `seconds` is the
 time since the previous frame. Return true to keep receiving advance
 calls.
-```ts
+```as
 override advance(seconds: f64): bool {
     this.elapsed += seconds;
     return true;
@@ -64,7 +64,7 @@ override advance(seconds: f64): bool {
 ### `dispose`
 
 <div class="signature">
-```ts
+```as
 dispose(): void
 ```
 </div>

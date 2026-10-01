@@ -10,7 +10,7 @@ A GPU texture: 2D, cube, 3D or array.
 ### `width`
 
 <div class="signature">
-```ts
+```as
 width: u32
 ```
 </div>
@@ -21,7 +21,7 @@ Width of mip 0 in texels.
 ### `height`
 
 <div class="signature">
-```ts
+```as
 height: u32
 ```
 </div>
@@ -32,7 +32,7 @@ Height of mip 0 in texels.
 ### `format`
 
 <div class="signature">
-```ts
+```as
 format: TextureFormat
 ```
 </div>
@@ -43,7 +43,7 @@ Pixel format.
 ### `textureType`
 
 <div class="signature">
-```ts
+```as
 textureType: TextureType
 ```
 </div>
@@ -54,7 +54,7 @@ Dimensionality.
 ### `numMipmaps`
 
 <div class="signature">
-```ts
+```as
 numMipmaps: u32
 ```
 </div>
@@ -65,7 +65,7 @@ Number of mip levels.
 ### `sampleCount`
 
 <div class="signature">
-```ts
+```as
 sampleCount: u32
 ```
 </div>
@@ -78,7 +78,7 @@ MSAA sample count.
 ### `constructor`
 
 <div class="signature">
-```ts
+```as
 unsafe constructor(desc: GPUTextureDesc)
 ```
 </div>
@@ -92,7 +92,7 @@ rejects the descriptor.
 ### `view`
 
 <div class="signature">
-```ts
+```as
 unsafe view(desc: GPUTextureViewDesc = new GPUTextureViewDesc()): GPUTextureView
 ```
 </div>
@@ -106,7 +106,7 @@ and destroys a native GPU object each frame.
 ### `upload`
 
 <div class="signature">
-```ts
+```as
 unsafe upload(region: rive_gpu_texture_upload_v1, data: ArrayBuffer): void
 ```
 </div>
@@ -124,7 +124,7 @@ level and layer. `region` is a `rive_gpu_texture_upload_v1` from
 
 Raises an error when the region falls outside the texture.
 
-```ts
+```as
 let region = new rive_gpu_texture_upload_v1();
 region.width = 4;
 region.height = 4;
@@ -135,7 +135,7 @@ texture.upload(region, pixels);
 ### `release`
 
 <div class="signature">
-```ts
+```as
 release(): void
 ```
 </div>

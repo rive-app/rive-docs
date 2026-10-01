@@ -10,7 +10,7 @@ A compiled GPU render pipeline: shaders plus fixed function state.
 ### `constructor`
 
 <div class="signature">
-```ts
+```as
 unsafe constructor(desc: GPUPipelineDesc)
 ```
 </div>
@@ -26,7 +26,7 @@ pass does nothing.
 ### `getBindGroupLayout`
 
 <div class="signature">
-```ts
+```as
 getBindGroupLayout(groupIndex: u32): GPUBindGroupLayout
 ```
 </div>
@@ -36,7 +36,7 @@ building a [GPUBindGroup](/scripting/animascript/api-reference/gpu/gpu-bind-grou
 an error when the pipeline was given `bindGroupLayouts`, whose layouts
 serve instead, or when the shader does not use the group.
 
-```ts
+```as
 let desc = new GPUPipelineDesc();
 desc.vertexModule = shader;
 desc.colorTargets = [new GPUColorTargetDesc()];
@@ -50,7 +50,7 @@ let group = new GPUBindGroup(
 ### `release`
 
 <div class="signature">
-```ts
+```as
 release(): void
 ```
 </div>

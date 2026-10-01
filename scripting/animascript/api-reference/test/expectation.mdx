@@ -12,13 +12,13 @@ when it does not hold.
 ### `never`
 
 <div class="signature">
-```ts
+```as
 readonly never: Expectation<T>
 ```
 </div>
 
 An expectation that negates the assertion that follows.
-```ts
+```as
 expect.that(5).never.is(3);
 expect.that(5).never.greaterThan(10);
 ```
@@ -29,14 +29,14 @@ expect.that(5).never.greaterThan(10);
 ### `is`
 
 <div class="signature">
-```ts
+```as
 is(expected: T): void
 ```
 </div>
 
 Asserts that the value equals the expected value. Class instances
 compare by reference unless their class overloads `==`.
-```ts
+```as
 expect.that(5).is(5);
 expect.that("hello").is("hello");
 ```
@@ -45,13 +45,13 @@ expect.that("hello").is("hello");
 ### `lessThan`
 
 <div class="signature">
-```ts
+```as
 lessThan(expected: T): void
 ```
 </div>
 
 Asserts that the value is less than the expected value.
-```ts
+```as
 expect.that(3).lessThan(10);
 ```
 
@@ -59,13 +59,13 @@ expect.that(3).lessThan(10);
 ### `lessThanOrEqual`
 
 <div class="signature">
-```ts
+```as
 lessThanOrEqual(expected: T): void
 ```
 </div>
 
 Asserts that the value is less than or equal to the expected value.
-```ts
+```as
 expect.that(5).lessThanOrEqual(5);
 expect.that(4).lessThanOrEqual(5);
 ```
@@ -74,13 +74,13 @@ expect.that(4).lessThanOrEqual(5);
 ### `greaterThan`
 
 <div class="signature">
-```ts
+```as
 greaterThan(expected: T): void
 ```
 </div>
 
 Asserts that the value is greater than the expected value.
-```ts
+```as
 expect.that(10).greaterThan(5);
 ```
 
@@ -88,13 +88,13 @@ expect.that(10).greaterThan(5);
 ### `greaterThanOrEqual`
 
 <div class="signature">
-```ts
+```as
 greaterThanOrEqual(expected: T): void
 ```
 </div>
 
 Asserts that the value is greater than or equal to the expected value.
-```ts
+```as
 expect.that(5).greaterThanOrEqual(5);
 expect.that(6).greaterThanOrEqual(5);
 ```

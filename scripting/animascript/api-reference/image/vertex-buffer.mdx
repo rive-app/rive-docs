@@ -5,7 +5,7 @@ title: VertexBuffer
 Stores a list of 2D vertex positions for use with image meshes, drawn by
 `Renderer.drawImageMesh` and `Renderer.drawImageMeshInstanced`. The same
 type holds the texture coordinates.
-```ts
+```as
 let vertices = new VertexBuffer();
 vertices.add3(Vector.xy(0, 0), Vector.xy(100, 0), Vector.xy(100, 100));
 let uvs = new VertexBuffer();
@@ -20,7 +20,7 @@ triangles.add(0, 1, 2);
 ### `length`
 
 <div class="signature">
-```ts
+```as
 readonly length: i32
 ```
 </div>
@@ -33,13 +33,13 @@ Number of vertices in the buffer.
 ### `add`
 
 <div class="signature">
-```ts
+```as
 unsafe add(v: Vector): void
 ```
 </div>
 
 Adds a vertex to the buffer.
-```ts
+```as
 let vb = new VertexBuffer();
 vb.add(Vector.xy(0, 0));
 ```
@@ -48,7 +48,7 @@ vb.add(Vector.xy(0, 0));
 ### `add2`
 
 <div class="signature">
-```ts
+```as
 add2(a: Vector, b: Vector): void
 ```
 </div>
@@ -59,13 +59,13 @@ Adds two vertices to the buffer.
 ### `add3`
 
 <div class="signature">
-```ts
+```as
 add3(a: Vector, b: Vector, c: Vector): void
 ```
 </div>
 
 Adds three vertices to the buffer.
-```ts
+```as
 let vb = new VertexBuffer();
 vb.add3(Vector.xy(0, 0), Vector.xy(1, 0), Vector.xy(1, 1));
 ```
@@ -74,13 +74,13 @@ vb.add3(Vector.xy(0, 0), Vector.xy(1, 0), Vector.xy(1, 1));
 ### `reset`
 
 <div class="signature">
-```ts
+```as
 reset(): void
 ```
 </div>
 
 Clears all vertices from the buffer.
-```ts
+```as
 let vb = new VertexBuffer();
 vb.reset();
 ```

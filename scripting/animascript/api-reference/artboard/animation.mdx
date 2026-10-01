@@ -7,7 +7,7 @@ with `Artboard.animation`. It poses the instance it came from; advance
 that artboard by 0 afterwards so the change propagates without counting
 time twice.
 
-```ts
+```as
 export class Walker extends Node {
     @input character: Artboard | null = null;
     instance: Artboard | null = null;
@@ -41,7 +41,7 @@ export class Walker extends Node {
 ### `duration`
 
 <div class="signature">
-```ts
+```as
 readonly duration: f64
 ```
 </div>
@@ -54,7 +54,7 @@ The duration of the animation in seconds.
 ### `advance`
 
 <div class="signature">
-```ts
+```as
 advance(seconds: f64): bool
 ```
 </div>
@@ -67,14 +67,14 @@ end; a looping or ping pong animation always returns true.
 ### `setTime`
 
 <div class="signature">
-```ts
+```as
 setTime(time: f64): void
 ```
 </div>
 
 Sets the animation time in seconds and applies it to the artboard.
 
-```ts
+```as
 walk.setTime(0.3);
 instance.advance(0);
 ```
@@ -83,14 +83,14 @@ instance.advance(0);
 ### `setTimeFrames`
 
 <div class="signature">
-```ts
+```as
 setTimeFrames(frames: f64): void
 ```
 </div>
 
 Sets the animation time in frames and applies it to the artboard.
 
-```ts
+```as
 walk.setTimeFrames(3);
 instance.advance(0);
 ```
@@ -99,7 +99,7 @@ instance.advance(0);
 ### `setTimePercentage`
 
 <div class="signature">
-```ts
+```as
 setTimePercentage(percentage: f64): void
 ```
 </div>
@@ -107,7 +107,7 @@ setTimePercentage(percentage: f64): void
 Sets the animation time as a fraction of its duration, from 0 to 1,
 and applies it to the artboard.
 
-```ts
+```as
 walk.setTimePercentage(0.5);
 instance.advance(0);
 ```
@@ -116,7 +116,7 @@ instance.advance(0);
 ### `release`
 
 <div class="signature">
-```ts
+```as
 release(): void
 ```
 </div>

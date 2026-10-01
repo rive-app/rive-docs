@@ -5,7 +5,7 @@ title: Interpolator
 A custom interpolation curve.
 
 It inherits `init`, `advance` and `dispose` from [Protocol](/scripting/animascript/api-reference/host/protocol).
-```ts
+```as
 export class EaseIn extends Interpolator {
     override transform(value: f64): f64 {
         return value * value;
@@ -19,7 +19,7 @@ export class EaseIn extends Interpolator {
 ### `transform`
 
 <div class="signature">
-```ts
+```as
 abstract transform(value: f64): f64
 ```
 </div>
@@ -30,7 +30,7 @@ Maps linear progress, from 0 to 1, to eased progress.
 ### `transformValue`
 
 <div class="signature">
-```ts
+```as
 transformValue(from: f64, to: f64, value: f64): f64
 ```
 </div>

@@ -7,7 +7,7 @@ A [Node](/scripting/animascript/api-reference/host/node) that also fits into a l
 their content ask `measure` for the size it wants.
 
 It inherits every [Node](/scripting/animascript/api-reference/host/node) and [Protocol](/scripting/animascript/api-reference/host/protocol) hook.
-```ts
+```as
 export class Panel extends Layout {
     width: f64 = 0;
     height: f64 = 0;
@@ -29,7 +29,7 @@ export class Panel extends Layout {
 ### `measure`
 
 <div class="signature">
-```ts
+```as
 measure(): Vector
 ```
 </div>
@@ -42,7 +42,7 @@ the granted size after measuring.
 ### `resize`
 
 <div class="signature">
-```ts
+```as
 resize(width: f64, height: f64, scale: f64): void
 ```
 </div>

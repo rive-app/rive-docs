@@ -5,7 +5,7 @@ title: PathCommand
 A single drawing command inside a [Path](/scripting/animascript/api-reference/path/path): its `type` and the points that
 type uses. It copies its points, so later edits to the path leave it
 unchanged. `for...of` walks the points in order.
-```ts
+```as
 for (const command of path) {
   for (const point of command) {
     console.log(point.x.toString() + ", " + point.y.toString());
@@ -19,14 +19,14 @@ for (const command of path) {
 ### `type`
 
 <div class="signature">
-```ts
+```as
 type: string
 ```
 </div>
 
 The command name: `moveTo`, `lineTo`, `quadTo`, `cubicTo` or `close`, or
 `none` for an index past the end of the path.
-```ts
+```as
 let path = new Path();
 path.moveTo(Vector.xy(0, 0));
 path.lineTo(Vector.xy(10, 0));
@@ -37,7 +37,7 @@ console.log(path[1].type); // lineTo
 ### `length`
 
 <div class="signature">
-```ts
+```as
 readonly length: i32
 ```
 </div>
@@ -55,7 +55,7 @@ The number of points the command uses:
 ### `operator[]`
 
 <div class="signature">
-```ts
+```as
 operator[](index: i32): Vector
 ```
 </div>
@@ -63,7 +63,7 @@ operator[](index: i32): Vector
 The point at `index`, from 0 to `length - 1`. The last point is where the
 command ends. An index out of range returns the zero vector, where Luau
 returns nil.
-```ts
+```as
 let path = new Path();
 path.moveTo(Vector.xy(0, 0));
 path.cubicTo(Vector.xy(25, -40), Vector.xy(75, 40), Vector.xy(100, 0));

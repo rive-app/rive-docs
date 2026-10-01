@@ -4,7 +4,7 @@ title: Image
 
 An image that can be drawn by the [Renderer](/scripting/animascript/api-reference/renderer/renderer). Get one from the file's
 assets with `context.image(name)`, or from a canvas.
-```ts
+```as
 export class DrawImage extends Node {
     myImage: Image | null = null;
     sampler: ImageSampler = ImageSampler(ImageWrap.clamp, ImageWrap.clamp, ImageFilter.bilinear);
@@ -29,13 +29,13 @@ export class DrawImage extends Node {
 ### `width`
 
 <div class="signature">
-```ts
+```as
 width: u32
 ```
 </div>
 
 Width of the image in pixels.
-```ts
+```as
 let image = context.image("myImage");
 if (image != null) {
     context.log("myImage width: " + image.width.toString());
@@ -46,13 +46,13 @@ if (image != null) {
 ### `height`
 
 <div class="signature">
-```ts
+```as
 height: u32
 ```
 </div>
 
 Height of the image in pixels.
-```ts
+```as
 let image = context.image("myImage");
 if (image != null) {
     context.log("myImage height: " + image.height.toString());
@@ -65,7 +65,7 @@ if (image != null) {
 ### `view`
 
 <div class="signature">
-```ts
+```as
 unsafe view(): GPUTextureView | null
 ```
 </div>
@@ -83,7 +83,7 @@ sample that canvas's image instead.
 ### `release`
 
 <div class="signature">
-```ts
+```as
 release(): void
 ```
 </div>

@@ -10,7 +10,7 @@ A color stop in a [Gradient](/scripting/animascript/api-reference/paint/gradient
 ### `position`
 
 <div class="signature">
-```ts
+```as
 position: f32
 ```
 </div>
@@ -22,7 +22,7 @@ end.
 ### `color`
 
 <div class="signature">
-```ts
+```as
 color: Color
 ```
 </div>
@@ -35,13 +35,13 @@ The [Color](/scripting/animascript/api-reference/color/color) at `position`.
 ### `constructor`
 
 <div class="signature">
-```ts
+```as
 constructor(position: f32, color: Color)
 ```
 </div>
 
 Creates a stop with `color` at `position`.
-```ts
+```as
 let stops: Array<GradientStop> = [
   GradientStop(0, Color.rgb(255, 0, 0)),
   GradientStop(1, Color.rgb(0, 0, 255)),

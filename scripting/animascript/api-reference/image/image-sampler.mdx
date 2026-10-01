@@ -6,7 +6,7 @@ Sampling parameters applied when drawing an image: wrapping on each axis
 and filtering. [ImageSampler](/scripting/animascript/api-reference/image/image-sampler) is a value type, built with
 `ImageSampler(wrapX, wrapY, filter)`. See also [ImageWrap](/scripting/animascript/api-reference/image/image-wrap) and
 [ImageFilter](/scripting/animascript/api-reference/image/image-filter).
-```ts
+```as
 export class DrawImage extends Node {
     myImage: Image | null = null;
     sampler: ImageSampler = ImageSampler(ImageWrap.clamp, ImageWrap.clamp, ImageFilter.bilinear);
@@ -31,7 +31,7 @@ export class DrawImage extends Node {
 ### `wrapX`
 
 <div class="signature">
-```ts
+```as
 wrapX: ImageWrap
 ```
 </div>
@@ -42,7 +42,7 @@ How the image wraps horizontally.
 ### `wrapY`
 
 <div class="signature">
-```ts
+```as
 wrapY: ImageWrap
 ```
 </div>
@@ -53,7 +53,7 @@ How the image wraps vertically.
 ### `filter`
 
 <div class="signature">
-```ts
+```as
 filter: ImageFilter
 ```
 </div>
@@ -66,7 +66,7 @@ How the image is filtered.
 ### `constructor`
 
 <div class="signature">
-```ts
+```as
 constructor()
 ```
 </div>
@@ -77,14 +77,14 @@ Creates a sampler that clamps on both axes with bilinear filtering.
 ### `constructor`
 
 <div class="signature">
-```ts
+```as
 constructor(wrapX: ImageWrap, wrapY: ImageWrap, filter: ImageFilter)
 ```
 </div>
 
 Creates a sampler using the specified wrapping for the x and y axes
 and the specified filtering.
-```ts
+```as
 let sampler = ImageSampler(ImageWrap.repeat, ImageWrap.repeat, ImageFilter.nearest);
 ```
 
