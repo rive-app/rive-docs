@@ -54,8 +54,8 @@ setBindGroup(groupIndex: number, bg: GPUBindGroup, dynamicOffsets: {number}?) ->
 
 Bind a pre-created BindGroup to a group slot.
 dynamicOffsets: one byte offset per dynamic UBO in this group
-(dynamic UBOs are declared on the pipeline via
-`BindGroupLayoutEntry.hasDynamicOffset`). Order matches the UBOs' appearance
+(dynamic UBOs are declared with `dynamicUBOs` on
+`GPUBindGroupLayout.new`; auto-derived layouts have none). Order matches the UBOs' appearance
 in `BindGroupDesc.ubos`. Typical 3D pattern: shared texture
 BindGroup at group 1, per-object UBO dynamic offset at group 0.
 
@@ -105,7 +105,8 @@ setBlendColor(r: number, g: number, b: number, a: number) -> ()
 ```
 </div>
 
-Set the constant blend color for 'constant' / 'one-minus-constant' factors.
+Set the constant blend color, 0–1 per channel, for 'constant' /
+'one-minus-constant' factors.
 
 
 ### `draw`

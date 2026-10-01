@@ -117,9 +117,17 @@ end
 
 ### `paint`
 
-If node is a Path, paint trait is available with paint data
-
-(Coming soon)
+The stroke or fill a path effect applies to, on the node its `update`
+receives, otherwise nil. The same as `asPaint`.
+```lua highlight={2}
+function update(self: MyEffect, path: PathData, node: NodeReadData): PathData
+  local paint = node.paint
+  if paint then
+    print(paint.color)
+  end
+  return path
+end
+```
 
 
 ## Methods
@@ -159,8 +167,16 @@ asPaint() -> Paint?
 ```
 </div>
 
-If node is a ShapePaint (Fill or Stroke), returns node as [Paint](/scripting/api-reference/paint/paint)
-
-(Coming soon)
+Returns the stroke or fill a path effect applies to, on the node its
+`update` receives, otherwise nil.
+```lua highlight={2}
+function update(self: MyEffect, path: PathData, node: NodeReadData): PathData
+  local paint = node:asPaint()
+  if paint then
+    print(paint.thickness)
+  end
+  return path
+end
+```
 
 
