@@ -71,7 +71,7 @@ getString(name: string) -> Property<string>?
 </div>
 
 Looks up a string property by name.
-Returns a [DataValueString](/scripting/api-reference/data-value/data-value-string).
+Returns a `Property<string>`, or nil when there is none.
 ```lua
 local vmi = context:viewModel()
 if vmi then
@@ -93,7 +93,7 @@ getBoolean(name: string) -> Property<boolean>?
 </div>
 
 Looks up a boolean property by name.
-Returns a [DataValueBoolean](/scripting/api-reference/data-value/data-value-boolean).
+Returns a `Property<boolean>`, or nil when there is none.
 ```lua
 local vmi = context:viewModel()
 if vmi then
@@ -115,7 +115,7 @@ getColor(name: string) -> Property<Color>?
 </div>
 
 Looks up a color property by name.
-Returns a [DataValueColor](/scripting/api-reference/data-value/data-value-color).
+Returns a `Property<Color>`, or nil when there is none.
 ```lua
 local vmi = context:viewModel()
 if vmi then

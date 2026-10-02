@@ -38,31 +38,31 @@ print(r.x, r.y) -- 20, 5
 
 ### `xy`
 
-The xy component of the matrix.
+The xy component of the matrix, the vertical skew.
 ```lua highlight={4}
 local m = Mat2D.identity()
 
--- Add horizontal skew
+-- Add vertical skew
 m.xy = 1
 
 local r = m * Vector.xy(10, 5)
--- x = 10 + (1 * 5)
-print(r.x, r.y) -- 15, 5
+-- y = 5 + (1 * 10)
+print(r.x, r.y) -- 10, 15
 ```
 
 
 ### `yx`
 
-The yx component of the matrix.
+The yx component of the matrix, the horizontal skew.
 ```lua highlight={4}
 local m = Mat2D.identity()
 
--- Add vertical skew
+-- Add horizontal skew
 m.yx = 1
 
 local r = m * Vector.xy(10, 5)
--- y = 5 + (1 * 10)
-print(r.x, r.y) -- 10, 15
+-- x = 10 + (1 * 5)
+print(r.x, r.y) -- 15, 5
 ```
 
 
@@ -176,7 +176,7 @@ values(xx: number, xy: number, yx: number, yy: number, tx: number, ty: number) -
 
 Creates a matrix using the specified components.
 ```lua
--- xx=1, xy=skewX (horizontal skew), yx=skewY (vertical skew), yy=1, tx=0, ty=0
+-- xx=1, xy=skewY (vertical skew), yx=skewX (horizontal skew), yy=1, tx=0, ty=0
 local newMat = Mat2D.values(1, self.skewY, self.skewX, 1, 0, 0)
 ```
 

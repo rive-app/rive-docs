@@ -467,6 +467,16 @@ gamepadConnected(event: GamepadConnected) -> number
 ```
 </div>
 
+Forwards a gamepad connection to the artboard: its focused control
+first, then every scripted node that did not take it. Returns how
+many scripted nodes received it.
+```lua
+function gamepadConnected(self: Forwarder, event: GamepadConnected)
+  self.instance:gamepadConnected(event)
+end
+```
+
+
 ### `gamepadEvent`
 
 {/* gamepadEvent: (self: Artboard<T>, event: GamepadEvent) -> number */}
@@ -476,6 +486,10 @@ gamepadEvent(event: GamepadEvent) -> number
 ```
 </div>
 
+Forwards a gamepad button or axis change to the artboard, the same way
+as `gamepadConnected`.
+
+
 ### `gamepadDisconnected`
 
 {/* gamepadDisconnected: (self: Artboard<T>, event: GamepadDisconnected) -> number */}
@@ -484,4 +498,8 @@ gamepadEvent(event: GamepadEvent) -> number
 gamepadDisconnected(event: GamepadDisconnected) -> number
 ```
 </div>
+
+Forwards a gamepad disconnection to the artboard, the same way as
+`gamepadConnected`.
+
 
