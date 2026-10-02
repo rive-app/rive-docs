@@ -21,19 +21,19 @@ When a feature requires API changes, migration notes will be included below.
 
 ## Feature support by runtime
 
-### Runtimes
+<FeatureSupportGroup runtime={["webWebGL2", "webCanvas", "webCanvasLite"]} title="Web">
+    - **WebGL2** (`@rive-app/webgl2`): The recommended package for most web projects. Uses the Rive Renderer, so it supports every Rive Editor feature, including vector feathering.
+    - **Canvas** (`@rive-app/canvas`): Uses the browser's Canvas2D renderer. Does not support vector feathering at this time.
+    - **Canvas Lite** (`@rive-app/canvas-lite`): Uses the same API as `@rive-app/canvas`, but excludes certain features to reduce bundle size.
 
-<FeatureSupportGroup runtime="webWebGL2">
-    The recommended package for most web projects. Uses the Rive Renderer, so it supports every Rive Editor feature, including vector feathering. See [Canvas vs WebGL2](/runtimes/web/canvas-vs-webgl).
+    See [Canvas vs WebGL2](/runtimes/web/canvas-vs-webgl) for the tradeoffs.
 </FeatureSupportGroup>
-<FeatureSupportGroup runtime="webCanvas">
-    Uses the browser's Canvas2D renderer. Does not support vector feathering at this time. See [Canvas vs WebGL2](/runtimes/web/canvas-vs-webgl) for the tradeoffs.
-</FeatureSupportGroup>
-<FeatureSupportGroup runtime="reactWebGL2">
-    The recommended package for most React projects. Uses the Rive Renderer, so it supports every Rive Editor feature, including vector feathering. See [Canvas vs WebGL2](/runtimes/web/canvas-vs-webgl).
-</FeatureSupportGroup>
-<FeatureSupportGroup runtime="reactCanvas">
-    Uses the browser's Canvas2D renderer. Does not support vector feathering at this time. See [Canvas vs WebGL2](/runtimes/web/canvas-vs-webgl) for the tradeoffs.
+<FeatureSupportGroup runtime={["reactWebGL2", "reactCanvas", "reactCanvasLite"]} title="React">
+    - **WebGL2** (`@rive-app/react-webgl2`): The recommended package for most React projects. Uses the Rive Renderer, so it supports every Rive Editor feature, including vector feathering.
+    - **Canvas** (`@rive-app/react-canvas`): Uses the browser's Canvas2D renderer. Does not support vector feathering at this time.
+    - **Canvas Lite** (`@rive-app/react-canvas-lite`): Uses the same API as `@rive-app/react-canvas`, but excludes certain features to reduce bundle size.
+
+    See [Canvas vs WebGL2](/runtimes/web/canvas-vs-webgl) for the tradeoffs.
 </FeatureSupportGroup>
 
 <FeatureSupportGroup runtime="reactNative" />
@@ -44,38 +44,10 @@ When a feature requires API changes, migration notes will be included below.
 <FeatureSupportGroup runtime="unity" />
 <FeatureSupportGroup runtime="unreal" />
 
-### Lite runtimes
-
-<FeatureSupportGroup runtime="webCanvasLite">
-    This lightweight version uses the same API as `@rive-app/canvas`, but excludes certain features to reduce bundle size.
-</FeatureSupportGroup>
-<FeatureSupportGroup runtime="reactCanvasLite">
-    This lightweight version uses the same API as `@rive-app/react-canvas`, but excludes certain features to reduce bundle size.
-</FeatureSupportGroup>
-
-### Legacy runtimes
-
-<FeatureSupportGroup runtime="webWebGL">
-    <Warning>
-        The `@rive-app/webgl` runtime is deprecated as of `v2.37.0`. Use `@rive-app/webgl2` (recommended for most content), or `@rive-app/canvas` if your Rive graphics do not require vector feathering.
-    </Warning>
-</FeatureSupportGroup>
-<FeatureSupportGroup runtime="reactWebGL" >
-    <Warning>
-        The `@rive-app/react-webgl` runtime is deprecated as of `v4.30.0`. Use `@rive-app/react-webgl2` (recommended for most content), or `@rive-app/react-canvas` if your Rive graphics do not require vector feathering.
-    </Warning>
-</FeatureSupportGroup>
-<FeatureSupportGroup runtime="reactNativeLegacy" >
-    <Warning>
-        The `rive-react-native` runtime is deprecated. For better performance and the latest features, use `rive-nitro-react-native`.
-
-        [Migration guide](/feature-support#react-native-legacy)
-    </Warning>
-</FeatureSupportGroup>
 
 ## Runtime support by feature
 
-A green checkmark (✅) indicates that a feature is supported in all current runtimes.
+A green checkmark (✅) indicates that a feature is supported in all relevant runtimes.
 A yellow circle (🟡) indicates that support varies by runtime or renderer.
 
 Differences may reflect:
@@ -85,8 +57,6 @@ Differences may reflect:
 <Note>
     A feature may still be considered fully supported even if it is unavailable in legacy runtimes.
 </Note>
-
-### Features
 
 <FeatureSupportGroup feature="gamepad" />
 <FeatureSupportGroup feature="textInput" />
@@ -127,9 +97,6 @@ Differences may reflect:
 <FeatureSupportGroup feature="fallbackFonts">
     Allows Rive to use a fallback font if a glyph is not available. A default font is automatically chosen, or you can optionally configure the desired fallback font based on various options. See [Fallback Fonts](/runtimes/text#fallback-fonts).
 </FeatureSupportGroup>
-<FeatureSupportGroup feature="randomization">
-    Enables randomizing transitions between animations and customizing the probability.
-</FeatureSupportGroup>
 <FeatureSupportGroup feature="audio">
     See [Rive Events](/runtimes/rive-events) and [Audio Events](/editor/events/audio-events).
 </FeatureSupportGroup>
@@ -139,18 +106,31 @@ Differences may reflect:
 <FeatureSupportGroup feature="text">
     See [Text](/runtimes/text).
 </FeatureSupportGroup>
-<FeatureSupportGroup feature="followPath" />
-<FeatureSupportGroup feature="interpolationOnStates" />
-<FeatureSupportGroup feature="joysticks" />
-<FeatureSupportGroup feature="solos" />
-<FeatureSupportGroup feature="speedOnStates" />
-<FeatureSupportGroup feature="graphEditor" />
-<FeatureSupportGroup feature="listeners" />
-<FeatureSupportGroup feature="meshDeformation" />
 <FeatureSupportGroup feature="cachingARiveFile" />
-<FeatureSupportGroup feature="rasterAssets" />
 
-### Legacy features
+## Legacy
+
+**Legacy runtimes**
+
+<FeatureSupportGroup runtime="webWebGL">
+    <Warning>
+        The `@rive-app/webgl` runtime is deprecated as of `v2.37.0`. Use `@rive-app/webgl2` (recommended for most content), or `@rive-app/canvas` if your Rive graphics do not require vector feathering.
+    </Warning>
+</FeatureSupportGroup>
+<FeatureSupportGroup runtime="reactWebGL" >
+    <Warning>
+        The `@rive-app/react-webgl` runtime is deprecated as of `v4.30.0`. Use `@rive-app/react-webgl2` (recommended for most content), or `@rive-app/react-canvas` if your Rive graphics do not require vector feathering.
+    </Warning>
+</FeatureSupportGroup>
+<FeatureSupportGroup runtime="reactNativeLegacy" >
+    <Warning>
+        The `rive-react-native` runtime is deprecated. For better performance and the latest features, use `rive-nitro-react-native`.
+
+        [Migration guide](/runtimes/react-native/migration-guide#migrating-from-rive-react-native-to-@rive-app/react-native)
+    </Warning>
+</FeatureSupportGroup>
+
+**Deprecated features**
 
 <FeatureSupportGroup feature="events">
     <Warning>
@@ -166,3 +146,4 @@ Differences may reflect:
         Instead, use [Data Binding](/runtimes/data-binding) to update a string, which is bound to a text run.
     </Warning>
 </FeatureSupportGroup>
+
