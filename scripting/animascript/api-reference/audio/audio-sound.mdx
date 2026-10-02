@@ -1,0 +1,213 @@
+---
+title: AudioSound
+---
+
+One playback of an [AudioSource](/scripting/animascript/api-reference/audio/audio-source), returned by the [Audio](/scripting/animascript/api-reference/audio/audio) play
+functions, with transport and volume controls.
+```as
+let sound = Audio.play(source);
+if (sound != null) {
+    sound.volume = 0.5;
+}
+```
+
+
+## Fields
+
+### `volume`
+
+<div class="signature">
+```as
+volume: f64
+```
+</div>
+
+The volume of the sound, where 1 is full volume.
+```as
+override update(): void {
+    let sound = this.sound;
+    if (sound != null) {
+        sound.volume = this.volumeNumber / 100;
+    }
+}
+```
+
+
+## Methods
+
+### `play`
+
+<div class="signature">
+```as
+play(): void
+```
+</div>
+
+Plays the sound.
+```as
+let sound = this.sound;
+if (sound != null) {
+    sound.play();
+}
+```
+
+
+### `pause`
+
+<div class="signature">
+```as
+pause(): void
+```
+</div>
+
+Pauses the sound.
+```as
+let sound = this.sound;
+if (sound != null) {
+    sound.pause();
+}
+```
+
+
+### `resume`
+
+<div class="signature">
+```as
+resume(): void
+```
+</div>
+
+Resumes the sound from its current position.
+```as
+let sound = this.sound;
+if (sound != null) {
+    sound.resume();
+}
+```
+
+
+### `stop`
+
+<div class="signature">
+```as
+stop(fadeFrames: f64 = 0): void
+```
+</div>
+
+Stops the sound, fading out over `fadeFrames` PCM frames. The default
+of 0 stops at once.
+```as
+let sound = this.sound;
+if (sound != null) {
+    // Fade out over a quarter second.
+    sound.stop(Audio.sampleRate() * 0.25);
+}
+```
+
+
+### `seek`
+
+<div class="signature">
+```as
+seek(seconds: f64): bool
+```
+</div>
+
+Seeks the sound to a time in seconds. Returns true on success.
+```as
+let sound = this.sound;
+if (sound != null) {
+    sound.seek(this.seekSeconds);
+}
+```
+
+
+### `seekFrame`
+
+<div class="signature">
+```as
+seekFrame(frame: f64): bool
+```
+</div>
+
+Seeks the sound to a time in PCM frames. Returns true on success.
+```as
+let sound = this.sound;
+if (sound != null) {
+    sound.seekFrame(this.seekFrameNumber);
+}
+```
+
+
+### `completed`
+
+<div class="signature">
+```as
+completed(): bool
+```
+</div>
+
+Returns true when the sound has finished playing.
+```as
+override advance(seconds: f64): bool {
+    let sound = this.sound;
+    if (sound != null) {
+        this.isCompleted = sound.completed();
+    }
+    return true;
+}
+```
+
+
+### `time`
+
+<div class="signature">
+```as
+time(): f64
+```
+</div>
+
+Returns the current playback time in seconds.
+```as
+override advance(seconds: f64): bool {
+    let sound = this.sound;
+    if (sound != null) {
+        this.currentTime = sound.time();
+    }
+    return true;
+}
+```
+
+
+### `timeFrame`
+
+<div class="signature">
+```as
+timeFrame(): f64
+```
+</div>
+
+Returns the current playback time in PCM frames.
+```as
+override advance(seconds: f64): bool {
+    let sound = this.sound;
+    if (sound != null) {
+        this.currentTimeFrame = sound.timeFrame();
+    }
+    return true;
+}
+```
+
+
+### `release`
+
+<div class="signature">
+```as
+release(): void
+```
+</div>
+
+Releases the sound now instead of when it is collected. Later calls
+on it do nothing.
+
+

@@ -1,0 +1,268 @@
+---
+title: ViewModel
+---
+
+A view model instance: named properties used for data binding between
+your script and a Rive file.
+
+Extend it with a class named after a view model in the file to declare a
+view model input, or to name the view model an [Artboard](/scripting/animascript/api-reference/artboard/artboard) input binds.
+The class needs a constructor that takes the handle, since constructors
+are not inherited.
+
+```as
+export class Character extends ViewModel {
+    constructor(handle: u32) {
+        super(handle);
+    }
+}
+
+export class Scene extends Node {
+    @input settings: Character? = null;
+    @input character: Artboard<Character>? = null;
+
+    override init(context: Context): bool {
+        let settings = this.settings;
+        if (settings != null) {
+            let health = settings.getNumber("health");
+        }
+        return true;
+    }
+}
+```
+
+
+## Static Functions
+
+### `create`
+
+<div class="signature">
+```as
+static create(name: string, instanceName: string = ""): ViewModel
+```
+</div>
+
+Creates a new instance of the file's view model called `name`, copied
+from its instance called `instanceName` when given. When the file has
+no such view model the result has no properties; check with `exists`.
+
+```as
+let button = ViewModel.create("Button");
+let label = button.getString("label");
+if (label != null) {
+    label.value = "Play";
+}
+```
+
+
+### `exists`
+
+<div class="signature">
+```as
+static exists(name: string): bool
+```
+</div>
+
+Whether the file has a view model called `name`.
+
+
+## Methods
+
+### `getNumber`
+
+<div class="signature">
+```as
+getNumber(name: string): PropertyNumber?
+```
+</div>
+
+The number property with the given name, or null when there is none.
+
+```as
+let vm = context.viewModel();
+if (vm != null) {
+    let score = vm.getNumber("score");
+    if (score != null) {
+        console.log(score.value.toString());
+    }
+}
+```
+
+
+### `getBoolean`
+
+<div class="signature">
+```as
+getBoolean(name: string): PropertyBoolean?
+```
+</div>
+
+The boolean property with the given name, or null when there is none.
+
+
+### `getString`
+
+<div class="signature">
+```as
+getString(name: string): PropertyString?
+```
+</div>
+
+The string property with the given name, or null when there is none.
+
+
+### `getTrigger`
+
+<div class="signature">
+```as
+getTrigger(name: string): PropertyTrigger?
+```
+</div>
+
+The trigger property with the given name, or null when there is none.
+
+
+### `getColor`
+
+<div class="signature">
+```as
+getColor(name: string): PropertyColor?
+```
+</div>
+
+The color property with the given name, or null when there is none.
+
+
+### `getEnum`
+
+<div class="signature">
+```as
+getEnum(name: string): PropertyEnum?
+```
+</div>
+
+The enum property with the given name, or null when there is none.
+
+
+### `getList`
+
+<div class="signature">
+```as
+getList(name: string): PropertyList?
+```
+</div>
+
+The list property with the given name, or null when there is none.
+
+
+### `getViewModel`
+
+<div class="signature">
+```as
+getViewModel(name: string): PropertyViewModel?
+```
+</div>
+
+The nested view model property with the given name, or null when
+there is none.
+
+
+### `getImage`
+
+<div class="signature">
+```as
+getImage(name: string): PropertyImage?
+```
+</div>
+
+The image property with the given name, or null when there is none.
+
+
+### `getFont`
+
+<div class="signature">
+```as
+getFont(name: string): PropertyFont?
+```
+</div>
+
+The font property with the given name, or null when there is none.
+
+
+### `getBlob`
+
+<div class="signature">
+```as
+getBlob(name: string): PropertyBlob?
+```
+</div>
+
+The blob property with the given name, or null when there is none.
+
+```as
+let data = vm.getBlob("levelData");
+if (data != null) {
+    let bytes = data.value;
+    if (bytes != null) {
+        console.log(bytes.byteLength.toString());
+    }
+}
+```
+
+
+### `instance`
+
+<div class="signature">
+```as
+instance(instanceName: string = ""): ViewModel
+```
+</div>
+
+Creates a new instance of this view model, copied from its instance
+called `instanceName` when the file has one.
+
+```as
+let copy = vm.instance();
+let age = copy.getNumber("age");
+if (age != null) {
+    age.value = 99;
+}
+```
+
+
+### `getIndex`
+
+<div class="signature">
+```as
+getIndex(): i32
+```
+</div>
+
+The view model's index in the list that holds it, counting from 0,
+or -1 when it has none.
+
+
+### `equals`
+
+<div class="signature">
+```as
+equals(other: ViewModel?): bool
+```
+</div>
+
+Whether `other` is the same view model instance. Each lookup returns
+a new wrapper, so compare with this rather than `==`.
+
+
+### `release`
+
+<div class="signature">
+```as
+release(): void
+```
+</div>
+
+Releases the view model now instead of when it is collected. It reads
+nothing afterwards.
+
+

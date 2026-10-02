@@ -1,0 +1,41 @@
+---
+title: Interpolator
+---
+
+A custom interpolation curve.
+
+It inherits `init`, `advance` and `dispose` from [Protocol](/scripting/animascript/api-reference/host/protocol).
+```as
+export class EaseIn extends Interpolator {
+    override transform(value: f64): f64 {
+        return value * value;
+    }
+}
+```
+
+
+## Methods
+
+### `transform`
+
+<div class="signature">
+```as
+abstract transform(value: f64): f64
+```
+</div>
+
+Maps linear progress, from 0 to 1, to eased progress.
+
+
+### `transformValue`
+
+<div class="signature">
+```as
+transformValue(from: f64, to: f64, value: f64): f64
+```
+</div>
+
+Interpolates between `from` and `to` at progress `value`. By default
+it applies `transform` to `value` and blends linearly.
+
+

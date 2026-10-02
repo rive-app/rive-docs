@@ -1,0 +1,581 @@
+---
+title: Vector
+---
+
+A vector with three components. Vectors built from x and y alone have
+z = 0. All magnitude and interpolation operations (`length`, `dot`,
+`distance`, `normalized`, `lerp`, ...) use all three components; with
+z = 0 they behave exactly as 2D math. [Vector](/scripting/animascript/api-reference/vector/vector) is a value type: assigning
+or passing one copies it.
+```as
+let a = Vector.xy(3, 4);
+let b = Vector(1, 2);
+let c = a + b * 2; // 5 8
+let len = a.length(); // 5
+```
+
+
+## Fields
+
+### `x`
+
+<div class="signature">
+```as
+x: f32
+```
+</div>
+
+The x component of the vector.
+```as
+let v = Vector.xy(10, -5);
+let xValue = v.x; // 10
+```
+
+
+### `y`
+
+<div class="signature">
+```as
+y: f32
+```
+</div>
+
+The y component of the vector.
+```as
+let v = Vector.xy(10, -5);
+let yValue = v.y; // -5
+```
+
+
+### `z`
+
+<div class="signature">
+```as
+z: f32
+```
+</div>
+
+The z component of the vector. Zero for vectors built from x and y
+alone; populated by 3D APIs that return a [Vector](/scripting/animascript/api-reference/vector/vector).
+```as
+let v = Vector.xyz(1, 2, 3);
+let zValue = v.z; // 3
+```
+
+
+## Constructors
+
+### `constructor`
+
+<div class="signature">
+```as
+constructor()
+```
+</div>
+
+Creates the zero vector.
+
+
+### `constructor`
+
+<div class="signature">
+```as
+constructor(x: f32, y: f32)
+```
+</div>
+
+Creates a vector with the given x and y components and z = 0.
+```as
+let v = Vector(5, -2); // 5 -2
+```
+
+
+### `constructor`
+
+<div class="signature">
+```as
+constructor(x: f32, y: f32, z: f32)
+```
+</div>
+
+Creates a vector with the given x, y and z components.
+```as
+let v = Vector(1, 2, 3);
+```
+
+
+## Static Functions
+
+### `xy`
+
+<div class="signature">
+```as
+function xy(x: f32, y: f32): Vector
+```
+</div>
+
+Creates a vector with the specified x and y components.
+```as
+let v = Vector.xy(5, -2); // 5 -2
+```
+
+
+### `xyz`
+
+<div class="signature">
+```as
+function xyz(x: f32, y: f32, z: f32): Vector
+```
+</div>
+
+Creates a vector with the specified x, y and z components.
+```as
+let v = Vector.xyz(1, 2, 3);
+```
+
+
+### `origin`
+
+<div class="signature">
+```as
+function origin(): Vector
+```
+</div>
+
+Returns the zero vector.
+```as
+let origin = Vector.origin(); // 0 0
+```
+
+
+### `distance`
+
+<div class="signature">
+```as
+function distance(a: Vector, b: Vector): f32
+```
+</div>
+
+Returns the distance between the two vectors.
+```as
+let d = Vector.distance(Vector.xy(3, 4), Vector.xy(0, 0)); // 5
+```
+
+
+### `distanceSquared`
+
+<div class="signature">
+```as
+function distanceSquared(a: Vector, b: Vector): f32
+```
+</div>
+
+Returns the squared distance between the two vectors.
+```as
+let d2 = Vector.distanceSquared(Vector.xy(3, 4), Vector.xy(0, 0)); // 25
+```
+
+
+### `dot`
+
+<div class="signature">
+```as
+function dot(a: Vector, b: Vector): f32
+```
+</div>
+
+Returns the dot product of the two vectors.
+```as
+let dp = Vector.dot(Vector.xy(1, 2), Vector.xy(3, 4)); // 11 (1*3 + 2*4)
+```
+
+
+### `cross`
+
+<div class="signature">
+```as
+function cross(a: Vector, b: Vector): f32
+```
+</div>
+
+Returns the 2D cross product of two vectors, the z component of their
+3D cross product.
+```as
+let c = Vector.cross(Vector.xy(1, 0), Vector.xy(0, 1)); // 1
+```
+
+
+### `cross3`
+
+<div class="signature">
+```as
+function cross3(a: Vector, b: Vector): Vector
+```
+</div>
+
+Returns the 3D cross product of two vectors.
+```as
+let z = Vector.cross3(Vector.xyz(1, 0, 0), Vector.xyz(0, 1, 0)); // 0 0 1
+```
+
+
+### `scaleAndAdd`
+
+<div class="signature">
+```as
+function scaleAndAdd(a: Vector, b: Vector, scale: f32): Vector
+```
+</div>
+
+Returns a + b * scale.
+```as
+let r = Vector.scaleAndAdd(Vector.xy(1, 2), Vector.xy(3, 4), 2); // 7 10
+```
+
+
+### `scaleAndSub`
+
+<div class="signature">
+```as
+function scaleAndSub(a: Vector, b: Vector, scale: f32): Vector
+```
+</div>
+
+Returns a - b * scale.
+```as
+let r = Vector.scaleAndSub(Vector.xy(7, 10), Vector.xy(3, 4), 2); // 1 2
+```
+
+
+### `lerp`
+
+<div class="signature">
+```as
+function lerp(from: Vector, to: Vector, t: f32): Vector
+```
+</div>
+
+Returns the linear interpolation from one vector to another, using t
+where 0 returns `from` and 1 returns `to`.
+```as
+let p = Vector.lerp(Vector.xy(0, 0), Vector.xy(8, 0), 0.25); // 2 0
+```
+
+
+### `length`
+
+<div class="signature">
+```as
+function length(v: Vector): f32
+```
+</div>
+
+Returns the length of the given vector.
+```as
+let len = Vector.length(Vector.xy(3, 4)); // 5
+```
+
+
+### `lengthSquared`
+
+<div class="signature">
+```as
+function lengthSquared(v: Vector): f32
+```
+</div>
+
+Returns the squared length of the given vector.
+```as
+let len2 = Vector.lengthSquared(Vector.xy(3, 4)); // 25
+```
+
+
+### `normalized`
+
+<div class="signature">
+```as
+function normalized(v: Vector): Vector
+```
+</div>
+
+Returns a normalized copy of the given vector, or the zero vector when
+its length is zero.
+```as
+let n = Vector.normalized(Vector.xy(10, 0)); // 1 0
+```
+
+
+## Methods
+
+### `operator+`
+
+<div class="signature">
+```as
+operator+(a: Vector, b: Vector): Vector
+```
+</div>
+
+Returns the sum of two vectors.
+```as
+let a = Vector.xy(2, 3);
+let b = Vector.xy(-1, 5);
+let c = a + b; // 1 8
+```
+
+
+### `operator-`
+
+<div class="signature">
+```as
+operator-(a: Vector, b: Vector): Vector
+```
+</div>
+
+Returns the difference between two vectors.
+```as
+let a = Vector.xy(2, 3);
+let b = Vector.xy(-1, 5);
+let c = a - b; // 3 -2
+```
+
+
+### `operator-`
+
+<div class="signature">
+```as
+operator-(v: Vector): Vector
+```
+</div>
+
+Returns the negated vector.
+```as
+let v = Vector.xy(2, -3);
+let neg = -v; // -2 3
+```
+
+
+### `operator*`
+
+<div class="signature">
+```as
+operator*(v: Vector, s: f32): Vector
+```
+</div>
+
+Returns the vector scaled by the given number. The number goes on the
+right; `2 * v` does not compile.
+```as
+let v = Vector.xy(3, -2);
+let doubled = v * 2; // 6 -4
+```
+
+
+### `operator/`
+
+<div class="signature">
+```as
+operator/(v: Vector, s: f32): Vector
+```
+</div>
+
+Returns the vector divided by the given number.
+```as
+let v = Vector.xy(6, -4);
+let half = v / 2; // 3 -2
+```
+
+
+### `operator==`
+
+<div class="signature">
+```as
+operator==(a: Vector, b: Vector): bool
+```
+</div>
+
+Returns true if the two vectors have equal components.
+```as
+let a = Vector.xy(1, 2);
+let b = Vector.xy(1, 2);
+let c = Vector.xy(2, 1);
+let same = a == b; // true
+let different = a == c; // false
+```
+
+
+### `hash`
+
+<div class="signature">
+```as
+readonly hash(): u32
+```
+</div>
+
+A hash of the components. Together with `==` it lets vectors key a
+`Map` or `Set`.
+
+
+### `lengthSquared`
+
+<div class="signature">
+```as
+readonly lengthSquared(): f32
+```
+</div>
+
+Returns the squared length of the vector.
+```as
+let v = Vector.xy(3, 4);
+let len2 = v.lengthSquared(); // 25
+```
+
+
+### `length`
+
+<div class="signature">
+```as
+readonly length(): f32
+```
+</div>
+
+Returns the length of the vector.
+```as
+let v = Vector.xy(3, 4);
+let len = v.length(); // 5
+```
+
+
+### `normalized`
+
+<div class="signature">
+```as
+readonly normalized(): Vector
+```
+</div>
+
+Returns a normalized copy of the vector. If the length is zero, the
+result is the zero vector.
+```as
+let v = Vector.xy(10, 0);
+let n = v.normalized(); // 1 0
+```
+
+
+### `dot`
+
+<div class="signature">
+```as
+readonly dot(other: Vector): f32
+```
+</div>
+
+Returns the dot product of the vector and the other vector.
+```as
+let a = Vector.xy(1, 2);
+let b = Vector.xy(3, 4);
+let dp = a.dot(b); // 11 (1*3 + 2*4)
+```
+
+
+### `distanceSquared`
+
+<div class="signature">
+```as
+readonly distanceSquared(other: Vector): f32
+```
+</div>
+
+Returns the squared distance to the other vector.
+```as
+let a = Vector.xy(0, 0);
+let b = Vector.xy(3, 4);
+let d2 = a.distanceSquared(b); // 25
+```
+
+
+### `distance`
+
+<div class="signature">
+```as
+readonly distance(other: Vector): f32
+```
+</div>
+
+Returns the distance to the other vector.
+```as
+let a = Vector.xy(0, 0);
+let b = Vector.xy(3, 4);
+let d = a.distance(b); // 5
+```
+
+
+### `lerp`
+
+<div class="signature">
+```as
+readonly lerp(other: Vector, t: f32): Vector
+```
+</div>
+
+Returns the linear interpolation between the vector and the other
+vector, using t where 0 returns the vector and 1 returns the other.
+```as
+let a = Vector.xy(0, 0);
+let b = Vector.xy(10, 0);
+let p = a.lerp(b, 0.5); // 5 0
+```
+
+
+### `at`
+
+<div class="signature">
+```as
+readonly at(index: i32): f32
+```
+</div>
+
+Returns the component at `index`: 0 is x, 1 is y and 2 is z. Throws
+for any other index.
+```as
+let v = Vector.xyz(3, 4, 5);
+let sum: f32 = 0;
+for (let i = 0; i < 3; i++) {
+    sum += v.at(i); // 12 after the loop
+}
+```
+
+
+### `writeToBuffer`
+
+<div class="signature">
+```as
+readonly writeToBuffer(buffer: ArrayBuffer, byteOffset: u32): void
+```
+</div>
+
+Writes x, y and z as 12 bytes, three 32 bit floats, into `buffer` at
+`byteOffset`. Throws when the 12 bytes do not fit.
+```as
+let bytes = new ArrayBuffer(12);
+Vector.xyz(1, 2, 3).writeToBuffer(bytes, 0);
+```
+
+
+### `writeVec4`
+
+<div class="signature">
+```as
+readonly writeVec4(buffer: ArrayBuffer, byteOffset: u32, w: f32): void
+```
+</div>
+
+Writes x, y, z and `w` as 16 bytes, four 32 bit floats, into `buffer`
+at `byteOffset`, matching a `vec4` slot of a uniform buffer. Throws
+when the 16 bytes do not fit.
+```as
+let ubo = new ArrayBuffer(16);
+let lightDir = Vector.xyz(0, -1, 0);
+lightDir.writeVec4(ubo, 0, 0); // w = 0 for a direction
+```
+
+

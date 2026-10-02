@@ -1,0 +1,51 @@
+---
+title: ListenerAction
+---
+
+An action performed when its
+[State Machine Listener](/editor/state-machine/listeners) is triggered.
+
+It inherits `init`, `advance` and `dispose` from [Protocol](/scripting/animascript/api-reference/host/protocol).
+```as
+export class CountClicks extends ListenerAction {
+    clicks: i32 = 0;
+
+    override performAction(context: ListenerContext): void {
+        if (context.isPointerEvent()) {
+            this.clicks++;
+        }
+    }
+}
+```
+
+
+## Methods
+
+### `perform`
+
+<div class="signature">
+```as
+perform(event: PointerEvent): void
+```
+</div>
+
+<Warning>
+  **Deprecated** - Use `performAction` instead.
+</Warning>
+
+Called when the listener is triggered, with the [PointerEvent](/scripting/animascript/api-reference/events/pointer-event) that
+triggered it. Only called when `performAction` is not overridden.
+
+
+### `performAction`
+
+<div class="signature">
+```as
+performAction(context: ListenerContext): void
+```
+</div>
+
+Called when the listener is triggered, with a [ListenerContext](/scripting/animascript/api-reference/events/listener-context)
+describing the event that triggered it.
+
+

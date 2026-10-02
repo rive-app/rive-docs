@@ -1,0 +1,39 @@
+---
+title: GPUSampler
+---
+
+Describes how a shader samples a texture.
+
+
+## Constructors
+
+### `constructor`
+
+<div class="signature">
+```as
+constructor(minFilter: Filter, magFilter: Filter, mipmapFilter: Filter, wrapU: WrapMode, wrapV: WrapMode, compare: CompareFunction = <CompareFunction>0xFFFFFFFF, maxAnisotropy: u32 = 1, minLod: f32 = 0, maxLod: f32 = 32)
+```
+</div>
+
+Creates a sampler. `minFilter`, `magFilter` and `mipmapFilter` pick
+the minification, magnification and mipmap blending filters, and
+`wrapU` and `wrapV` the wrap modes; W wraps like U. Set `compare` only
+for a comparison sampler reading a depth texture, as in shadow maps.
+`maxAnisotropy` is a power of two from 1 to 16, and `minLod` and
+`maxLod` clamp the sampled mip level. Raises an error when
+`maxAnisotropy` is out of range or `minLod` exceeds `maxLod`.
+
+
+## Methods
+
+### `release`
+
+<div class="signature">
+```as
+release(): void
+```
+</div>
+
+Releases the sampler now instead of when it is collected.
+
+

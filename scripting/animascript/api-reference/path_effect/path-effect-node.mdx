@@ -1,0 +1,47 @@
+---
+title: PathEffectNode
+---
+
+The shape a [PathEffect](/scripting/animascript/api-reference/host/path-effect) applies to, passed to its `update` alongside the
+path: a [NodeData](/scripting/animascript/api-reference/artboard/node-data) for the shape, carrying the stroke or fill being drawn.
+It is only valid during that `update` call; kept past it, it reads
+nothing and its writes do nothing.
+
+The paint is a snapshot of the stroke or fill: its style, thickness, cap,
+join, solid color, feather and blend mode. Gradients are not included.
+```as
+override update(path: Path, node: PathEffectNode): Path {
+    let paint = node.asPaint();
+    this.spacing = paint.thickness * 2;
+    return path;
+}
+```
+
+
+## Fields
+
+### `paint`
+
+<div class="signature">
+```as
+readonly paint: Paint
+```
+</div>
+
+The stroke or fill the effect applies to.
+
+
+## Methods
+
+### `asPaint`
+
+<div class="signature">
+```as
+override asPaint(): Paint
+```
+</div>
+
+Returns the stroke or fill the effect applies to, the same as
+`paint`.
+
+

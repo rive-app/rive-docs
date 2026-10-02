@@ -1,0 +1,75 @@
+---
+title: AudioSource
+---
+
+An audio asset from the file, returned by `Context.audio` and played with
+the [Audio](/scripting/animascript/api-reference/audio/audio) functions.
+```as
+export class AudioExample extends Node {
+    source: AudioSource? = null;
+
+    override init(context: Context): bool {
+        this.source = context.audio("myAudio");
+        return true;
+    }
+
+    override pointerDown(event: PointerEvent): void {
+        let source = this.source;
+        if (source != null) {
+            Audio.play(source);
+        }
+        event.hit();
+    }
+}
+```
+
+
+## Fields
+
+### `duration`
+
+<div class="signature">
+```as
+readonly duration: f64
+```
+</div>
+
+The duration of the audio in seconds.
+
+
+### `sampleRate`
+
+<div class="signature">
+```as
+readonly sampleRate: u32
+```
+</div>
+
+The sample rate of the audio in Hz.
+
+
+### `channels`
+
+<div class="signature">
+```as
+readonly channels: u32
+```
+</div>
+
+The number of audio channels.
+
+
+## Methods
+
+### `release`
+
+<div class="signature">
+```as
+release(): void
+```
+</div>
+
+Releases the source now instead of when it is collected. Playing a
+released source returns null.
+
+

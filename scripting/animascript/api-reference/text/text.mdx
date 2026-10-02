@@ -1,0 +1,347 @@
+---
+title: Text
+---
+
+Shapes and lays out styled runs of text with the runtime's shaper, so
+scripts get real line breaking and bidirectional ordering. Append runs,
+set the box, then draw it in one call or walk its lines and glyphs to
+draw them yourself. Indices are zero based UTF-16 code units, like
+`string` indices.
+```as
+export class Label extends Node {
+    text: Text = new Text();
+    paint: Paint = new Paint();
+
+    override init(context: Context): bool {
+        let font = context.font("IBM Plex Sans Arabic");
+        if (font == null) {
+            return false;
+        }
+        let style = new TextRunStyle(font);
+        style.size = 32;
+        style.paint = this.paint;
+        this.text.append("مرحبا بالعالم", style);
+        this.text.sizing = TextSizing.fixed;
+        this.text.maxWidth = 240;
+        this.text.align = TextAlign.start;
+        return true;
+    }
+
+    override draw(renderer: Renderer): void {
+        this.text.draw(renderer);
+    }
+}
+```
+
+
+## Fields
+
+### `revision`
+
+<div class="signature">
+```as
+revision: u32
+```
+</div>
+
+Increments on every change, so lines and glyphs read earlier can tell
+they went stale.
+
+
+### `sizing`
+
+<div class="signature">
+```as
+sizing: TextSizing
+```
+</div>
+
+How the text sizes its box, `autoWidth` by default.
+
+
+### `overflow`
+
+<div class="signature">
+```as
+overflow: TextOverflow
+```
+</div>
+
+What happens to text that does not fit the box, `visible` by default.
+
+
+### `align`
+
+<div class="signature">
+```as
+align: TextAlign
+```
+</div>
+
+Horizontal alignment of each line, `left` by default.
+
+
+### `wrap`
+
+<div class="signature">
+```as
+wrap: TextWrap
+```
+</div>
+
+Whether lines wrap at the box width, `wrap` by default.
+
+
+### `wordBreak`
+
+<div class="signature">
+```as
+wordBreak: TextWordBreak
+```
+</div>
+
+How a word that does not fit its line may be split, `breakWord` by
+default.
+
+
+### `origin`
+
+<div class="signature">
+```as
+origin: TextOrigin
+```
+</div>
+
+Where y 0 sits, `top` by default.
+
+
+### `direction`
+
+<div class="signature">
+```as
+direction: TextDirection
+```
+</div>
+
+Base writing direction, `auto` by default.
+
+
+### `maxWidth`
+
+<div class="signature">
+```as
+maxWidth: f32
+```
+</div>
+
+Wrap width when sizing is not `autoWidth`.
+
+
+### `maxHeight`
+
+<div class="signature">
+```as
+maxHeight: f32
+```
+</div>
+
+Height the text overflows at when sizing is `fixed`.
+
+
+### `paragraphSpacing`
+
+<div class="signature">
+```as
+paragraphSpacing: f32
+```
+</div>
+
+Space between paragraphs separated by a newline.
+
+
+### `length`
+
+<div class="signature">
+```as
+readonly length: i32
+```
+</div>
+
+Number of UTF-16 code units appended.
+
+
+### `isEmpty`
+
+<div class="signature">
+```as
+readonly isEmpty: bool
+```
+</div>
+
+Whether no text has been appended.
+
+
+### `lineCount`
+
+<div class="signature">
+```as
+readonly lineCount: i32
+```
+</div>
+
+Number of lines after layout.
+
+
+## Constructors
+
+### `constructor`
+
+<div class="signature">
+```as
+constructor()
+```
+</div>
+
+Creates an empty text.
+
+
+## Methods
+
+### `append`
+
+<div class="signature">
+```as
+append(text: string, style: TextRunStyle): void
+```
+</div>
+
+Appends a styled run. Runs join into one string; a newline starts a
+paragraph.
+```as
+let style = new TextRunStyle(font);
+style.paint = paint;
+text.append("Hello, ", style);
+text.append("world", style);
+```
+
+
+### `clear`
+
+<div class="signature">
+```as
+clear(): void
+```
+</div>
+
+Removes every run.
+
+
+### `draw`
+
+<div class="signature">
+```as
+draw(renderer: Renderer, paint: Paint? = null): void
+```
+</div>
+
+Draws every run with its own paint, or all of them with the given
+paint.
+
+
+### `bounds`
+
+<div class="signature">
+```as
+bounds(): ArtboardBounds
+```
+</div>
+
+Minimum and maximum corner of the laid out text.
+```as
+let bounds = text.bounds();
+let width = bounds.v1.x - bounds.v0.x;
+```
+
+
+### `line`
+
+<div class="signature">
+```as
+line(index: i32): TextLine
+```
+</div>
+
+The line at a zero based index, top to bottom.
+
+
+### `lines`
+
+<div class="signature">
+```as
+lines(): Array<TextLine>
+```
+</div>
+
+Every line, top to bottom.
+
+
+### `hitTest`
+
+<div class="signature">
+```as
+hitTest(position: Vector): i32
+```
+</div>
+
+The UTF-16 code unit index nearest a point in the text's local space.
+
+
+### `caret`
+
+<div class="signature">
+```as
+caret(index: i32): StaticArray<f32>?
+```
+</div>
+
+The caret before the code unit at `index`, as three values: its x, top
+and bottom. Returns `null` when the text has no layout.
+```as
+let caret = text.caret(0);
+if (caret != null) {
+    let x = caret[0];
+    let height = caret[2] - caret[1];
+}
+```
+
+
+### `selectionRects`
+
+<div class="signature">
+```as
+selectionRects(from: i32, to: i32): Array<Vector>
+```
+</div>
+
+Rectangles covering the code units from one index to another, one per
+glyph, as consecutive minimum and maximum corners.
+```as
+let corners = text.selectionRects(0, 5);
+for (let i = 0; i + 1 < corners.length; i += 2) {
+    let min = corners[i];
+    let max = corners[i + 1];
+}
+```
+
+
+### `release`
+
+<div class="signature">
+```as
+release(): void
+```
+</div>
+
+Releases the text and its layout.
+
+

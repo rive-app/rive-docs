@@ -1,0 +1,22 @@
+---
+title: GPUShaderModule
+---
+
+A compiled shader. Get one with `context.shader(name)`, where `name` is the
+shader asset's name as added in the editor, such as "myEffect" with no
+".wgsl" extension. Raw WGSL source strings are not accepted at runtime.
+
+
+## Methods
+
+### `release`
+
+<div class="signature">
+```as
+release(): void
+```
+</div>
+
+Releases the shader now instead of when it is collected.
+
+

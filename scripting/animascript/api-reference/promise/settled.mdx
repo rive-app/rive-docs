@@ -1,0 +1,54 @@
+---
+title: Settled
+---
+
+How a promise settled, from `settled` on a [Promise](/scripting/animascript/api-reference/promise/promise).
+
+
+## Fields
+
+### `ok`
+
+<div class="signature">
+```as
+ok: bool
+```
+</div>
+
+True when the promise fulfilled, so `value` is readable.
+
+
+### `cancelled`
+
+<div class="signature">
+```as
+cancelled: bool
+```
+</div>
+
+True when the promise was cancelled.
+
+
+### `error`
+
+<div class="signature">
+```as
+error: string
+```
+</div>
+
+The rejection error, `"Promise was cancelled"` after a cancellation, or
+empty when `ok` is true.
+
+
+### `value`
+
+<div class="signature">
+```as
+readonly value: T
+```
+</div>
+
+The fulfilled value. Throws when `ok` is false.
+
+
