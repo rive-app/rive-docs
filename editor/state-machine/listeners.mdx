@@ -37,21 +37,18 @@ Use listeners to create dynamic experiences that react to user input and changes
     Click the **+** icon to create a new listener and select the action the listener should perform.
   </Step>
   <Step>
-    With the listener selected, set its **Target**, **Listen To**, and other options in the right sidebar.
+    With the listener selected, set its **Target**, **Listen to**, and other options in the right sidebar.
   </Step>
 </Steps>
 
 <VideoEmbed src="https://static.rive.app/video/docs/create-new-listener-6.mp4" />
-
-With a listener selected, you’ll see its options in the right sidebar.
-
 ## Target
 
 The **Target** determines what the listener watches. The target can be an element in your scene, an artboard, or a nested component.
 
 Use an element as the target when you want to listen for interactions on that element, such as clicks or drags. Use an artboard or nested component as the target when you want to listen for view model property changes, Rive events, or other events that belong to that artboard or component.
 
-### Opaque target
+### Opaque Target
 
 **Opaque Target** controls whether pointer events stop at this listener's hit area or continue through to elements behind it.
 
@@ -65,52 +62,93 @@ When **Opaque Target** is enabled, pointer events stop at the target. When it's 
 
 <Demos examples={["listenerExamples"]} />
 
-| Listen To                   | Description                                           |
+| Listen to                   | Description                                           |
 | --------------------------- | ----------------------------------------------------- |
-| **View Model Property Change*** | Fires whenever the selected view model property changes.** |
-| **Rive Event***                 | Fires when a Rive event is fired.                     |
+| [View Model Change](#view-model-change) | Fires whenever the selected view model property changes. |
+| [Rive Event](#rive-event)                 | Fires when the selected Rive event is fired.          |
 | **Pointer Enter**               | Fires when the pointer enters the target area.        |
-| **Pointer Exit**                | Fires when the pointer leaves the target area.        |
+| [Pointer Exit](#pointer-exit)                | Fires when the pointer leaves the target area.        |
 | **Pointer Move**                | Fires repeatedly while the pointer moves over the target area.    |
 | **Pointer Down**                | Fires when the pointer is pressed down on the target. |
 | **Pointer Up**                  | Fires when the pointer is released over the target.   |
 | **Pointer Drag**                  | Fires repeatedly as the pointer moves after being pressed down on the target, until the pointer is released.  |
 | **Click**                       | Fires when the target is clicked or tapped.           |
+| [Focus](#focus)                 | Fires when the target receives focus.                 |
+| [Blur](#focus)                  | Fires when the target loses focus.                    |
+| [Keyboard](#keyboard)           | Fires when a key is pressed or released while the target has focus. |
+| [Gamepad](#gamepad)              | Fires on gamepad input, such as a button press or stick movement. |
+| [Text Input](#text-input)        | Fires when text is entered while the target has focus. |
+| [Semantic Action](#semantic-action) | Fires when an assistive technology, such as a screen reader, performs an action on the target, like a tap, increase, or decrease. |
 
+### View Model Change
 
-_* Available when the listener target is an artboard or nested component._ <br/>
-_** View Model Property Change listeners fire whenever the selected property changes. You can’t specify an expected value or direction of change. For example, a Boolean listener fires when the value changes from true to false or from false to true._<br/>
+This **Listen to** option is only available when the listener target is an artboard or nested component.
 
-<Note> **Pointer Exit** only fires while Rive can read the pointer position. If the target touches the edge of the canvas or container, moving the pointer out of the container may not trigger **Pointer Exit** because the pointer has left the area Rive is tracking. </Note>
+View Model Change listeners fire whenever the selected property changes. You can’t specify an expected value or direction of change. For example, a Boolean listener fires when the value changes from true to false or from false to true.
 
-<Info>
-  We strongly recommend using [Data Binding](/editor/data-binding/overview) to communicate between artboards instead of relying on nested Rive events.
-</Info>
+### Rive Event
 
-## Listener Actions
+This **Listen to** option is only available when the listener target is an artboard or nested component.
+
+We strongly recommend using [Data Binding](/editor/data-binding/overview) to communicate between artboards instead of relying on nested Rive events.
+
+### Pointer Exit
+
+**Pointer Exit** only fires while Rive can read the pointer position. If the target touches the edge of the canvas or container, moving the pointer out of the container may not trigger **Pointer Exit** because the pointer has left the area Rive is tracking.
+
+### Focus
+
+Turn on **Focusable** for an element to add it to the focus order. Use **Focus** listeners to react when the element gains focus and **Blur** listeners to react when it loses focus.
+
+The **Focus Target** action moves focus to a specific element, and **Focus Traversal** steps through the focus order.
+
+### Keyboard
+
+To react to keys, add a **Keyboard** listener and choose **On Key Down** or **On Key Up**. Keys go to the element that has focus.
+
+To try keyboard input in the editor, press **Option+Space** to play with keyboard capture on, or click **Toggle Keyboard Capture** in the playback header. This lets keys reach your file instead of triggering editor shortcuts.
+
+### Gamepad
+
+Add a **Gamepad** listener to drive a state machine from a controller's buttons and sticks. Scripts can listen to gamepad events too.
+
+The gamepad icon at the bottom of an open file turns green when Rive can see your controller.
+
+### Text Input
+
+Pick the **Text Input** tool in the toolbar and draw an editable text field. Draw it over a layout to add it to that layout.
+
+Use the **Text Input** section of the Inspector to set the field's font, colors, placeholder, selection color, background, and single line or multiline mode. Add a **Text Input** listener to react when text is entered while the field has focus.
+
+### Semantic Action
+
+The **Semantic** section of the Inspector gives an element a role, such as button, checkbox, slider, or text, plus its traits and state. This helps screen readers read and navigate your file.
+
+Use **Semantic Tap**, **Semantic Increase**, and **Semantic Decrease** listeners to respond to screen reader actions. See [Semantics](/editor/accessibility/semantics#actions) for details on configuring semantic actions.
+
+## Listener actions
 
 A listener action runs when a listener is triggered.
-
-Actions include:
-
-* Changing a view model property
-* [Aligning an element to a target](#align-target)
-* Reporting an event
-* Triggering a scripted action
-* Firing a Rive event
-* Updating an input value (deprecated)
 
 To add a listener action, click the **+** icon in the panel below the **State Machine Graph**.
 
 <VideoEmbed src="https://static.rive.app/video/docs/add-action-to-listener.mp4" />
 
-You can add multiple actions to a single listener.
+| Action                      | Description                                           |
+| --------------------------- | ----------------------------------------------------- |
+| **View Model Change**           | Sets the value of a view model property. See [Data Binding](/editor/data-binding/overview). |
+| **Input Change** (deprecated)   | Sets the value of a state machine [input](/editor/state-machine/inputs). |
+| [Align Target](#align-target)   | Positions an object so it follows the pointer.        |
+| **Focus Target**                | Moves focus to a specific element.                    |
+| **Focus Traversal**             | Steps through the focus order.                        |
+| **Report Event**                | Fires a [Rive event](/editor/events/overview).        |
+| **Scripted Action**             | Runs a [listener action script](/scripting/protocols/listener-action-scripts). |
 
 <Tip>
-  You can data bind values in listener actions.
+  You can add multiple actions to a single listener, and you can data bind values in listener actions.
 </Tip>
 
-### Align target
+### Align Target
 
 The **Align Target** action positions an object so it follows the pointer when the listener is triggered within the listener area.
 
