@@ -25,6 +25,7 @@ In the Data panel, click the **Add View Model Property** button next to the view
 | [Enum](#enum)         | One value from a predefined list    |
 | [Image](#image)       | Image asset reference               |
 | [Font](#font)         | Font asset reference    |
+| [Blob](#blob)         | Blob asset reference                |
 | [Artboard](#artboard) | Artboard reference                  |
 | [View Model](#view-model) | Nested View Model instance                  |
 | [List](#list)         | Collection of view models |
@@ -74,6 +75,14 @@ Font properties store a reference to a font, allowing you to change which font i
 
   If you need to update a font globally across your entire file, use [asset loading instead](/runtimes/loading-assets). Asset loading replaces the underlying asset, updating all instances that use it.
 </Note>
+
+### Blob
+
+Blob properties store a reference to a [blob asset](/editor/fundamentals/assets-overview#asset-types), letting you bind arbitrary binary data, such as a custom file format, to a view model.
+
+To bind a blob, first import a file Rive doesn't natively recognize and choose **Import as Blob**, then bind it to a Blob property.
+
+Scripts can read and write the blob's bytes at runtime. See [Blob](/scripting/api-reference/interfaces/blob) in the Scripting API reference.
 
 ### Artboard
 
