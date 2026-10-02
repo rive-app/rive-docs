@@ -4,6 +4,7 @@ description: 'Layout parameters can broadly be grouped into one of two categorie
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
+import { UseCase } from '/snippets/use-case.mdx'
 
 <Tip>In Rive, it's important to remember that layout parameters generally only affect other layout containers. This can often result in the nesting of layouts for desired results, but unlocks opportunities to blend with Rive's more freeform canvas in creative ways.</Tip>
 
@@ -11,7 +12,7 @@ import { YouTube } from '/snippets/youtube.mdx'
 
 ## Absolute vs relative
 
-To control the flow of child Layouts in a Row or Column requires the Layout children to be Relative, i.e. not have their Absolute position option enabled. Use the icon in the top right of the Layout inspector to toggle between an Absolute and Relative Layout.
+To control the flow of child Layouts in a Row, Column, Grid, or Stack requires the Layout children to be Relative, i.e. not have their Absolute position option enabled. Use the icon in the top right of the Layout inspector to toggle between an Absolute and Relative Layout.
 
 ![Image](/images/editor/layouts/3412f52f-c283-4617-b6c5-f5af8ad1ddcc.webp)
 
@@ -75,16 +76,67 @@ Padding and margin can be applied symmetrically along an axis, or to individual 
 
 <Note>A layout’s flex parameters are only applied to other layouts contained within it. In order to generate rows, columns, and grids of content that reflow, content items must themselves be wrapped in an additional layout container.</Note>
 
-## Row/column
+## Layout type
+
+The layout type determines how a Layout arranges its relative Layout children.
 
 - **Row:** Lay out children along the horizontal axis.
 - **Column:** Layout children along the vertical axis.
 - **Row Reverse:** Lay out children horizontally, in reverse order.
 - **Column Reverse:** Lay out children vertically, in reverse order.
+- **Grid:** Lay out children in cells defined by columns and rows. See [Grid](#grid).
+- **Stack:** Place all children in the same space, layered on top of each other. See [Stack](#stack).
 
 ![Image](/images/editor/layouts/c64d65de-0d9e-4325-a1b3-ef7d3310c842.webp)
 
+<YouTube id="54fj9_zUemc" />
+
+## Grid
+
+A Grid Layout arranges its children into columns and rows. When you set a Layout to Grid, it starts with one column and one row. Increase the number of columns and rows to build out the grid. While the Layout is selected, the stage shows guides for each cell and shading for the gaps between them.
+
+Children are placed into the grid in hierarchy order, filling each row from left to right before moving to the next row.
+
+### Columns and rows
+
+Each column and row (or *track*) has its own size, using the same [scale types](#scale-types) as Layouts:
+
+- **Fill:** The track expands to fill the available space, measured in `fr` (fill ratio) units. For example, three columns set to `1fr` share the width equally, while a `2fr` column takes twice the space of a `1fr` column.
+- **Fixed:** The track has a fixed width or height.
+- **Hug:** The track shrinks to fit the content inside it.
+
+Drag tracks to reorder them. To edit several tracks at once, `Shift`-click their track numbers.
+
+Use [Gap](#gap) to add space between columns and rows.
+
+### Grid cell
+
+Children of a Grid Layout show **Grid Cell** options in the inspector:
+
+- **Position:** The column and row the child is placed in. By default, children are placed automatically in the next available cell.
+- **Span:** The number of columns and/or rows the child occupies.
+
+When a child spans multiple cells, the children after it are pushed to the next available cells. If there are more children than cells, Rive adds rows to fit them. To control how these extra rows are sized, add them to the grid explicitly and set their scale type.
+
+<Tip>To make a child fill its cell, set its width and height to **Fill**. A component instance in **Layout** mode set to Fill will fill its cell, but to use Grid Cell options such as span, wrap the instance in a Layout and give that Layout a Fill width and height.</Tip>
+
+<Info>The number of columns and rows in a grid can't be animated. Track sizes, gaps, and Grid Cell spans and positions can be keyed, which lets you animate children reflowing within the grid.</Info>
+
+## Stack
+
+A Stack Layout places all of its children in the same space, layered on top of each other. Children are drawn in hierarchy order: the topmost child in the hierarchy is drawn in front, and the bottommost is drawn at the back.
+
+Use [Alignment](#alignment) to position the children within the Stack. Children set to **Fill** expand to cover the whole Stack, while Fixed or Hug children are positioned by the alignment.
+
+Stacks are useful for components made of layered parts.
+
+<UseCase title="Inventory item card">
+  An item card is a Stack with four layers: a badge, the item info, the item art, and a background. Each layer is a Layout set to Fill, so they all cover the card. Each layer uses its own padding and alignment to place its content: the badge sits in the top-left corner, and the item name and category are aligned to the bottom. An inventory screen then places these cards in a Grid, with one card spanning two columns.
+</UseCase>
+
 ## Wrap
+
+Wrap applies to Row and Column Layouts.
 
 - **No Wrap:** When the content reaches the bounds of the layout, continue to extend beyond it.
 - **Wrap:** When the content reached the bounds of the layout, place the next item on below or alongside the currently row/column.

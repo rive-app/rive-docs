@@ -24,7 +24,7 @@ You can use these techniques to create all kinds of production-ready buttons, li
 
 ## Introduction
 
-Prior to the addition of Layouts in Rive, all objects on an Artboard were positioned in a freeform way, with few rules limiting this (one exception being [Constraints](/editor/constraints/constraints-overview)). Layouts provide a rules based way to position and size your content using Rows and Columns.
+Prior to the addition of Layouts in Rive, all objects on an Artboard were positioned in a freeform way, with few rules limiting this (one exception being [Constraints](/editor/constraints/constraints-overview)). Layouts provide a rules based way to position and size your content using Rows, Columns, Grids, and Stacks.
 
 
 
@@ -52,7 +52,7 @@ In the image below we will focus on the regions contained by the dashed lines. T
 
 Layouts can exist within Rive's freeform transform space, which means that you can draw a Layout to the Artboard and position it as you would any other Rive object. This type of Layout is referred to as **Absolute** (positioned absolutely).
 
-On the other hand, when you want a Layout to participate in the flow of its parent layout, this is referred to as **Relative** (positioned relative to its parent). The position of Relative Layouts are determined by their parent via many parameters such as Row/Column, alignment, padding, gap, etc.
+On the other hand, when you want a Layout to participate in the flow of its parent layout, this is referred to as **Relative** (positioned relative to its parent). The position of Relative Layouts are determined by their parent via many parameters such as [layout type](/editor/layouts/layout-parameters#layout-type) (Row, Column, Grid, or Stack), alignment, padding, gap, etc.
 
 Use the icon in the top right of the layout inspector to toggle between an absolute and relative layout.
 
@@ -79,6 +79,8 @@ All other objects will only have their positioned set by the layout. The [N-Slic
 
 Unlike in some other tools, Rive will provide an additional hierarchy item to represent the Layout container of an object. This helps differentiate the freeform nature of Rive with the structured Layout system. For example, an object within a Layout container can still apply additional transforms such as position, scale, and rotation to allow it to break out of the Layout. This becomes particularly powerful when coupled with constraints. Furthermore, a Layout container can house multiple objects that can be placed in front of each other.
 
+Shapes, text, and images can also participate in a Layout directly, without a wrapper Layout. Select **Layout** instead of **Node** at the top of the **Inspector** to give it its own width, height, and fit as a Layout child.
+
 ---
 
 ## Use cases
@@ -94,6 +96,12 @@ This tutorial shows how you can build a responsive button from scratch.
 This tutorial explains how to build Rive files that can reposition their elements dynamically when resized.
 
 <YouTube id="_dE4ndRZB6U" />
+
+#### Grid and stack layouts
+
+This tutorial introduces the Grid and Stack layout types and builds an inventory screen that combines them: a Grid of item cards, where each card is a Stack. See [Grid](/editor/layouts/layout-parameters#grid) and [Stack](/editor/layouts/layout-parameters#stack) for details.
+
+<YouTube id="54fj9_zUemc" />
 
 <Tip>
   If layouts aren't visible on the stage, open the **View Options** menu and make sure **Layouts** is enabled.
