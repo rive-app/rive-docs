@@ -7,6 +7,8 @@ Focus nodes and their order are set up in the Rive Editor, and the runtime autom
 - Makes the `<canvas>` focusable, so the graphic becomes a single stop in the page's tab order.
 - Listens for keyboard events on the `<canvas>` and routes them to the focus nodes in the graphic.
 
+The runtime itself doesn't draw a visual focus indicator on focused nodes. How a focused node looks, such as a highlight or outline, should be designed in the graphic itself.
+
 If the graphic has no focus nodes or is at the end of a focus sequence, the runtime leaves the `<canvas>` to the next element on the page
 
 <Note>
