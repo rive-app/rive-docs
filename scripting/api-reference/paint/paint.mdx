@@ -98,6 +98,24 @@ self.paint = Paint.with({
 ```
 
 
+### `gradientTransform`
+
+Transform applied to the paint's `gradient`.
+
+```lua highlight={9}
+local g = Gradient.linear(Vector.xy(0, 0), Vector.xy(10, 0), {
+  { position = 0, color = Color.rgb(255, 0, 0) },
+  { position = 1, color = Color.rgb(0, 0, 255) },
+})
+
+self.paint = Paint.with({
+  gradient = g,
+  gradientTransform = Mat2D.withTranslation(10, 0),
+  style = 'fill',
+})
+```
+
+
 ### `color`
 
 Color. See [Color](/scripting/api-reference/color/color).
