@@ -247,6 +247,34 @@ end
 ```
 
 
+### `pointerScroll`
+
+{/* pointerScroll: (self: T, event:ScrollEvent) -> ()? */}
+<div class="signature">
+```lua
+pointerScroll(self: T, event: ScrollEvent) -> ()
+```
+</div>
+
+Mouse wheel and trackpad scroll handler. Call `event:hit()` to claim
+the scroll; otherwise it passes to whatever lies behind, such as a
+`ScrollConstraint` view.
+```lua
+function handlePointerScroll(self: MyZoomView, event: ScrollEvent)
+  self.zoom *= math.exp(-event.delta.y * 0.01)
+  event:hit()
+end
+
+return function(): Node<MyZoomView>
+    return {
+        init = init,
+        draw = draw,
+        pointerScroll = handlePointerScroll,
+    }
+end
+```
+
+
 ### `gamepadConnected`
 
 {/* gamepadConnected: (self: T, event:GamepadConnected) -> ()? */}
