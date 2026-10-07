@@ -36,7 +36,29 @@ When a feature requires API changes, migration notes will be included below.
     See [Canvas vs WebGL2](/runtimes/web/canvas-vs-webgl) for the tradeoffs.
 </FeatureSupportGroup>
 
-<FeatureSupportGroup runtime="reactNative" />
+<FeatureSupportGroup runtime="reactNative">
+    Versions refer to the `@rive-app/react-native` package, built with Nitro.
+
+    GPU Canvas is supported on iOS and Android in `0.5.3` and later. It is disabled by default. Enable it before loading any Rive files:
+
+    ```ts
+    import { RiveRuntime } from '@rive-app/react-native';
+
+    RiveRuntime.setGPUCanvasEnabled(true);
+    ```
+
+    This setting applies to every Rive file in the app and cannot be changed after the shared render worker is created. If you [override the native SDK versions](/runtimes/react-native/native-version-customization), GPU Canvas requires Rive iOS `6.25.0` or later and Rive Android `11.12.0` or later.
+
+    Semantics are supported on iOS in `0.5.0` and later. Import `Semantics` from `@rive-app/react-native` and set `semantics={Semantics.Automatic}` on `RiveView` to enable accessibility when VoiceOver is running. Android semantics are not yet supported by the React Native runtime.
+
+    Global view models and font data binding are not yet exposed by the React Native API.
+
+    <Note>
+        In `0.5.0` and later, the deprecated event and text-run methods are unavailable. Use [data binding](/runtimes/react-native/data-binding) to listen for triggers and update text instead.
+    </Note>
+
+    See the [runtime source](https://github.com/rive-app/rive-nitro-react-native) and [release notes](https://github.com/rive-app/rive-nitro-react-native/releases).
+</FeatureSupportGroup>
 <FeatureSupportGroup runtime="flutter" />
 <FeatureSupportGroup runtime="apple" />
 <FeatureSupportGroup runtime="android" />
