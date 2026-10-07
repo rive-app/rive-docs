@@ -419,6 +419,38 @@ end
 ```
 
 
+### `pointerScroll`
+
+{/* pointerScroll: (self: Artboard<T>, event: ScrollEvent) -> number */}
+<div class="signature">
+```lua
+pointerScroll(event: ScrollEvent) -> number
+```
+</div>
+
+Scroll handler. Returns a hit-test result (0 = no hit), non-zero when
+a `ScrollConstraint` view inside the artboard took the scroll. Claim
+the outer event when it does, so the gesture stays with this node.
+```lua highlight={12}
+function handlePointerScroll(self: RenderInstance, event: ScrollEvent)
+  if self.instance then
+    local localPos = event.position - Vector.xy(self.x, self.y)
+    local localEvent = ScrollEvent.new(
+      event.id,
+      localPos,
+      event.delta,
+      event.phase,
+      event.precise,
+      event.timeStamp
+    )
+    if self.instance:pointerScroll(localEvent) ~= 0 then
+      event:hit()
+    end
+  end
+end
+```
+
+
 ### `addToPath`
 
 {/* addToPath: (self:Artboard<T>, path:Path, transform:Mat2D?) -> () */}
