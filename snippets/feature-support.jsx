@@ -154,7 +154,7 @@ export const FeatureSupportGroup = ({
                 reactCanvasLite: { supported: true, version: "4.25.0+" },
                 reactWebGL: { supported: true, version: "4.25.0+" },
                 reactWebGL2: { supported: true, version: "4.25.0+" },
-                reactNative: { supported: true, version: "9.8.1+" },
+                reactNative: { supported: true, version: "0.3.1+" },
                 reactNativeLegacy: { supported: false, description: "Not supported" },
                 flutter: { supported: true, version: "0.14.1+" },
                 apple: { supported: true, version: "6.16.0+" },
@@ -175,7 +175,7 @@ export const FeatureSupportGroup = ({
                 reactCanvasLite: { supported: false, na: true },
                 reactWebGL: { supported: false, description: "Not supported" },
                 reactWebGL2: { supported: true, version: "4.34.0+" },
-                reactNative: { supported: false, description: "Coming soon" },
+                reactNative: { supported: true, version: "0.5.3+" },
                 reactNativeLegacy: { supported: false, description: "Not supported" },
                 flutter: { supported: true, version: "0.15.0-dev.1" },
                 apple: { supported: true, version: "6.25.0" },
@@ -238,7 +238,7 @@ export const FeatureSupportGroup = ({
                 reactCanvasLite: { supported: true, version: "4.30.0+" },
                 reactWebGL: { supported: false, description: "Not supported" },
                 reactWebGL2: { supported: true, version: "4.30.0+" },
-                reactNative: { supported: false, description: "Coming soon" },
+                reactNative: { supported: true, version: "0.5.0+", description: "iOS only" },
                 reactNativeLegacy: { supported: false, description: "Not supported" },
                 flutter: { supported: true, version: "0.15.0" },
                 apple: { supported: true, version: "6.21.0" },
@@ -448,7 +448,7 @@ export const FeatureSupportGroup = ({
                 reactCanvasLite: { supported: false, na: true },
                 reactWebGL: { supported: true, version: "4.14.0+" },
                 reactWebGL2: { supported: true, version: "4.14.0+" },
-                reactNative: { supported: true, version: "0.1.4+" },
+                reactNative: { supported: false, description: "Supported in 0.1.4–0.4.x; removed in 0.5.0+" },
                 reactNativeLegacy: { supported: true, version: "5.8.2+" },
                 flutter: { supported: true, version: "0.13.7+" },
                 apple: { supported: true, version: "6.1.0+" },
@@ -511,7 +511,7 @@ export const FeatureSupportGroup = ({
                 reactCanvasLite: { supported: true, version: "4.3.3+" },
                 reactWebGL: { supported: true, version: "4.3.3+" },
                 reactWebGL2: { supported: true, version: "4.3.3+" },
-                reactNative: { supported: true, version: "0.1.4+" },
+                reactNative: { supported: false, description: "Supported in 0.1.4–0.4.x; removed in 0.5.0+" },
                 reactNativeLegacy: { supported: true, version: "6.1.0+" },
                 flutter: { supported: true, version: "0.11.17+" },
                 apple: { supported: true, version: "5.3.1+" },
@@ -577,6 +577,7 @@ export const FeatureSupportGroup = ({
                 <td data-numeric="true">
                     {supported && '✅ '}
                     <code>{version.endsWith('+') ? version : `${version}+`}</code>
+                    {description && ` (${description})`}
                 </td>
             )
         }
