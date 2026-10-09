@@ -1,0 +1,331 @@
+---
+title: Buffer
+---
+
+Reads and writes binary data in an `ArrayBuffer`, such as file contents or
+packed vertex data.
+
+Offsets are byte positions starting at 0. Offsets, counts and values are
+`f64` and truncated to integers. Integer writes keep the low bits of the
+value, so `writeu8` with 256 stores 0. An access that reaches outside the
+buffer throws `"buffer access out of bounds"`, as in Luau.
+```as
+import { Buffer } from "rive/buffer";
+
+export function roundTrip(): f64 {
+  let b = Buffer.create(8);
+  Buffer.writeu16(b, 0, 513);
+  Buffer.writef32(b, 4, 1.5);
+  return Buffer.readu16(b, 0) + Buffer.readf32(b, 4);
+}
+```
+
+
+## Static Functions
+
+### `create`
+
+<div class="signature">
+```as
+function create(size: f64): ArrayBuffer
+```
+</div>
+
+Creates a zero filled buffer of `size` bytes. Throws for a negative
+size.
+
+
+### `len`
+
+<div class="signature">
+```as
+function len(b: ArrayBuffer): f64
+```
+</div>
+
+The size of `b` in bytes.
+
+
+### `readu8`
+
+<div class="signature">
+```as
+function readu8(b: ArrayBuffer, offset: f64): f64
+```
+</div>
+
+Reads an unsigned 8 bit integer at `offset`.
+
+
+### `readi8`
+
+<div class="signature">
+```as
+function readi8(b: ArrayBuffer, offset: f64): f64
+```
+</div>
+
+Reads a signed 8 bit integer at `offset`.
+
+
+### `readu16`
+
+<div class="signature">
+```as
+function readu16(b: ArrayBuffer, offset: f64): f64
+```
+</div>
+
+Reads an unsigned 16 bit integer at `offset`.
+
+
+### `readi16`
+
+<div class="signature">
+```as
+function readi16(b: ArrayBuffer, offset: f64): f64
+```
+</div>
+
+Reads a signed 16 bit integer at `offset`.
+
+
+### `readu32`
+
+<div class="signature">
+```as
+function readu32(b: ArrayBuffer, offset: f64): f64
+```
+</div>
+
+Reads an unsigned 32 bit integer at `offset`.
+
+
+### `readi32`
+
+<div class="signature">
+```as
+function readi32(b: ArrayBuffer, offset: f64): f64
+```
+</div>
+
+Reads a signed 32 bit integer at `offset`.
+
+
+### `readf32`
+
+<div class="signature">
+```as
+function readf32(b: ArrayBuffer, offset: f64): f64
+```
+</div>
+
+Reads a 32 bit float at `offset`.
+
+
+### `readf64`
+
+<div class="signature">
+```as
+function readf64(b: ArrayBuffer, offset: f64): f64
+```
+</div>
+
+Reads a 64 bit float at `offset`.
+
+
+### `writeu8`
+
+<div class="signature">
+```as
+function writeu8(b: ArrayBuffer, offset: f64, value: f64): void
+```
+</div>
+
+Writes `value` as an unsigned 8 bit integer at `offset`.
+
+
+### `writei8`
+
+<div class="signature">
+```as
+function writei8(b: ArrayBuffer, offset: f64, value: f64): void
+```
+</div>
+
+Writes `value` as a signed 8 bit integer at `offset`.
+
+
+### `writeu16`
+
+<div class="signature">
+```as
+function writeu16(b: ArrayBuffer, offset: f64, value: f64): void
+```
+</div>
+
+Writes `value` as an unsigned 16 bit integer at `offset`.
+
+
+### `writei16`
+
+<div class="signature">
+```as
+function writei16(b: ArrayBuffer, offset: f64, value: f64): void
+```
+</div>
+
+Writes `value` as a signed 16 bit integer at `offset`.
+
+
+### `writeu32`
+
+<div class="signature">
+```as
+function writeu32(b: ArrayBuffer, offset: f64, value: f64): void
+```
+</div>
+
+Writes `value` as an unsigned 32 bit integer at `offset`.
+
+
+### `writei32`
+
+<div class="signature">
+```as
+function writei32(b: ArrayBuffer, offset: f64, value: f64): void
+```
+</div>
+
+Writes `value` as a signed 32 bit integer at `offset`.
+
+
+### `writef32`
+
+<div class="signature">
+```as
+function writef32(b: ArrayBuffer, offset: f64, value: f64): void
+```
+</div>
+
+Writes `value` as a 32 bit float at `offset`.
+
+
+### `writef64`
+
+<div class="signature">
+```as
+function writef64(b: ArrayBuffer, offset: f64, value: f64): void
+```
+</div>
+
+Writes `value` as a 64 bit float at `offset`.
+
+
+### `copy`
+
+<div class="signature">
+```as
+function copy(target: ArrayBuffer, targetOffset: f64, source: ArrayBuffer, sourceOffset: f64 = 0, count: f64 = NaN): void
+```
+</div>
+
+Copies `count` bytes from `source` at `sourceOffset` into `target` at
+`targetOffset`. Without `count`, copies to the end of `source`. The
+ranges may overlap.
+
+
+### `fill`
+
+<div class="signature">
+```as
+function fill(b: ArrayBuffer, offset: f64, value: f64, count: f64 = NaN): void
+```
+</div>
+
+Sets `count` bytes of `b` from `offset` to `value`, truncated to a byte.
+Without `count`, fills to the end of `b`.
+
+
+### `readbits`
+
+<div class="signature">
+```as
+function readbits(b: ArrayBuffer, bitOffset: f64, bitCount: f64): f64
+```
+</div>
+
+Reads `bitCount` bits, 0 to 32, starting `bitOffset` bits into `b`, as
+an unsigned integer. Bits count from the lowest bit of each byte, and
+bytes in order, so a read can span byte boundaries.
+```as
+import { Buffer } from "rive/buffer";
+
+export function nibble(): f64 {
+  let b = Buffer.create(1);
+  Buffer.writeu8(b, 0, 0xa5);
+  return Buffer.readbits(b, 4, 4); // 0xa
+}
+```
+
+
+### `writebits`
+
+<div class="signature">
+```as
+function writebits(b: ArrayBuffer, bitOffset: f64, bitCount: f64, value: f64): void
+```
+</div>
+
+Writes the low `bitCount` bits, 0 to 32, of `value` starting `bitOffset`
+bits into `b`, leaving the bits around them unchanged. Bits are laid
+out as in `readbits`.
+
+
+### `tostring`
+
+<div class="signature">
+```as
+function tostring(b: ArrayBuffer): string
+```
+</div>
+
+Decodes the whole buffer as UTF-8 text.
+
+
+### `fromstring`
+
+<div class="signature">
+```as
+function fromstring(text: string): ArrayBuffer
+```
+</div>
+
+Creates a buffer holding `text` encoded as UTF-8.
+
+
+### `readstring`
+
+<div class="signature">
+```as
+function readstring(b: ArrayBuffer, offset: f64, count: f64): string
+```
+</div>
+
+Decodes `count` bytes at `offset` as UTF-8 text. Throws for a negative
+count.
+
+
+### `writestring`
+
+<div class="signature">
+```as
+function writestring(b: ArrayBuffer, offset: f64, text: string, count: f64 = NaN): void
+```
+</div>
+
+Writes `text` encoded as UTF-8 at `offset`. With `count`, writes only
+that many bytes of the encoding; a count past the end of the encoding
+throws.
+
+

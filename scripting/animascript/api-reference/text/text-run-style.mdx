@@ -1,0 +1,95 @@
+---
+title: TextRunStyle
+---
+
+Style of one run appended to a [Text](/scripting/animascript/api-reference/text/text).
+```as
+let style = new TextRunStyle(font);
+style.size = 24;
+style.paint = paint;
+text.append("Hello", style);
+```
+
+
+## Fields
+
+### `font`
+
+<div class="signature">
+```as
+font: Font
+```
+</div>
+
+Font the run is shaped with.
+
+
+### `size`
+
+<div class="signature">
+```as
+size: f32
+```
+</div>
+
+Font size, 16 by default.
+
+
+### `lineHeight`
+
+<div class="signature">
+```as
+lineHeight: f32
+```
+</div>
+
+Line height, or the font's own when negative, the default.
+
+
+### `letterSpacing`
+
+<div class="signature">
+```as
+letterSpacing: f32
+```
+</div>
+
+Extra space added after each glyph.
+
+
+### `paint`
+
+<div class="signature">
+```as
+paint: Paint?
+```
+</div>
+
+Runs sharing a paint draw as one path. A run without a paint only
+draws when `Text.draw` is given one.
+
+
+### `foregroundColor`
+
+<div class="signature">
+```as
+foregroundColor: Color
+```
+</div>
+
+Color used by emoji layers that take the text color.
+
+
+## Constructors
+
+### `constructor`
+
+<div class="signature">
+```as
+constructor(font: Font)
+```
+</div>
+
+Creates a style for `font` with the default size and spacing.
+
+

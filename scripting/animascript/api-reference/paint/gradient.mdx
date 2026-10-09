@@ -1,0 +1,60 @@
+---
+title: Gradient
+---
+
+A gradient for filling or stroking a shape, built from [GradientStop](/scripting/animascript/api-reference/paint/gradient-stop) values
+as either a linear or a radial gradient. Assign it to `Paint.gradient`.
+
+
+## Static Functions
+
+### `linear`
+
+<div class="signature">
+```as
+static linear(from: Vector, to: Vector, stops: Array<GradientStop>): Gradient
+```
+</div>
+
+Creates a linear gradient that transitions between `stops` along the line
+from `from` to `to`.
+```as
+let g = Gradient.linear(Vector.xy(0, 0), Vector.xy(100, 0), [
+  GradientStop(0, Color.rgb(255, 0, 0)),
+  GradientStop(1, Color.rgb(0, 0, 255)),
+]);
+```
+
+
+### `radial`
+
+<div class="signature">
+```as
+static radial(center: Vector, radius: f32, stops: Array<GradientStop>): Gradient
+```
+</div>
+
+Creates a radial gradient centered at `center` that transitions between
+`stops` out to `radius`.
+```as
+let g = Gradient.radial(Vector.xy(50, 50), 40, [
+  GradientStop(0, Color.rgb(255, 0, 0)),
+  GradientStop(1, Color.rgb(0, 0, 255)),
+]);
+```
+
+
+## Methods
+
+### `release`
+
+<div class="signature">
+```as
+release(): void
+```
+</div>
+
+Frees the gradient's host resources now instead of when it is collected.
+Do not use the gradient afterwards.
+
+

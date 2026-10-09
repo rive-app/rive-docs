@@ -1,0 +1,99 @@
+---
+title: BlendMode
+---
+
+How a paint's color or gradient is composited with the content behind it.
+```as
+let paint = new Paint();
+paint.color = Color.rgb(255, 100, 50);
+paint.blendMode = BlendMode.multiply;
+```
+
+
+## Fields
+
+### `srcOver`
+
+Draws over the content behind it. The default.
+
+
+### `additive`
+
+Adds the colors, which lightens.
+
+
+### `screen`
+
+Multiplies the inverted colors and inverts the result, which lightens.
+
+
+### `overlay`
+
+Multiplies or screens depending on the color behind.
+
+
+### `darken`
+
+Keeps the darker of the two colors.
+
+
+### `lighten`
+
+Keeps the lighter of the two colors.
+
+
+### `colorDodge`
+
+Brightens the color behind to reflect the paint.
+
+
+### `colorBurn`
+
+Darkens the color behind to reflect the paint.
+
+
+### `hardLight`
+
+Multiplies or screens depending on the paint color.
+
+
+### `softLight`
+
+Darkens or lightens depending on the paint color, softer than `hardLight`.
+
+
+### `difference`
+
+Subtracts the darker color from the lighter one.
+
+
+### `exclusion`
+
+Like `difference` with lower contrast.
+
+
+### `multiply`
+
+Multiplies the colors, which darkens.
+
+
+### `hue`
+
+The hue of the paint with the saturation and luminosity behind.
+
+
+### `saturation`
+
+The saturation of the paint with the hue and luminosity behind.
+
+
+### `color`
+
+The hue and saturation of the paint with the luminosity behind.
+
+
+### `luminosity`
+
+The luminosity of the paint with the hue and saturation behind.
+
+

@@ -1,0 +1,37 @@
+---
+title: PathEffect
+---
+
+An effect applied to a path. For an effect that changes over time even
+when the path does not, call `markNeedsUpdate` on its context from
+`advance`.
+
+It inherits `init`, `advance` and `dispose` from [Protocol](/scripting/animascript/api-reference/host/protocol).
+```as
+export class Shrink extends PathEffect {
+    outPath: Path = new Path();
+
+    override update(path: Path, node: PathEffectNode): Path {
+        this.outPath.reset();
+        this.outPath.add(path, Mat2D.withScale(0.5, 0.5));
+        return this.outPath;
+    }
+}
+```
+
+
+## Methods
+
+### `update`
+
+<div class="signature">
+```as
+abstract update(path: Path, node: PathEffectNode): Path
+```
+</div>
+
+Called when an input changes or an update is requested. Receives the
+original path and the [PathEffectNode](/scripting/animascript/api-reference/path_effect/path-effect-node) it belongs to, and returns the
+path to render.
+
+

@@ -1,0 +1,30 @@
+---
+title: ContourMeasure
+---
+
+Measures a single contour of a path. A contour is one continuous sequence
+that starts with a `moveTo` and runs until the next `moveTo` or the end of
+the path. It extends [PathMeasure](/scripting/animascript/api-reference/path/path-measure), so it has every member of one.
+
+
+## Fields
+
+### `next`
+
+<div class="signature">
+```as
+readonly next: ContourMeasure?
+```
+</div>
+
+The next contour in the path, or `null` after the last. Reading it again
+returns the same contour.
+```as
+let contour = path.contours();
+while (contour != null) {
+  console.log(contour.length.toString());
+  contour = contour.next;
+}
+```
+
+

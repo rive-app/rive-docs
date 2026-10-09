@@ -1,0 +1,273 @@
+---
+title: Color
+---
+
+A color packed into a `u32` as 0xAARRGGBB, alpha in the top byte.
+
+Build colors with the helpers on [Color](/scripting/animascript/api-reference/color/color) or write the hex value directly.
+```as
+let red: Color = Color.rgb(255, 0, 0);
+let halfRed: Color = 0x80ff0000;
+```
+
+
+## Static Functions
+
+### `argb`
+
+<div class="signature">
+```as
+function argb(a: i32, r: i32, g: i32, b: i32): Color
+```
+</div>
+
+Returns a color built from alpha, red, green and blue channels, each 0 to
+255. Only the low 8 bits are kept, so 300 becomes 44 and -1 becomes 255.
+```as
+// Red at 50% opacity
+let color = Color.argb(128, 255, 0, 0);
+```
+
+
+### `rgb`
+
+<div class="signature">
+```as
+function rgb(r: i32, g: i32, b: i32): Color
+```
+</div>
+
+Returns a fully opaque color built from red, green and blue channels, each 0
+to 255. Only the low 8 bits are kept, so 300 becomes 44 and -1 becomes 255.
+```as
+// Red
+let color = Color.rgb(255, 0, 0);
+```
+
+
+### `rgba`
+
+<div class="signature">
+```as
+function rgba(r: i32, g: i32, b: i32, a: i32): Color
+```
+</div>
+
+Returns a color built from red, green, blue and alpha channels, each 0 to
+255. Only the low 8 bits are kept, so 300 becomes 44 and -1 becomes 255.
+```as
+// Red at 50% opacity
+let color = Color.rgba(255, 0, 0, 128);
+```
+
+
+### `red`
+
+<div class="signature">
+```as
+function red(color: Color): u32
+```
+</div>
+
+Returns the red channel of `color`, 0 to 255.
+```as
+let myColor = Color.rgba(128, 55, 12, 128);
+let redChannel = Color.red(myColor); // 128
+```
+
+
+### `green`
+
+<div class="signature">
+```as
+function green(color: Color): u32
+```
+</div>
+
+Returns the green channel of `color`, 0 to 255.
+```as
+let myColor = Color.rgba(128, 55, 12, 128);
+let greenChannel = Color.green(myColor); // 55
+```
+
+
+### `blue`
+
+<div class="signature">
+```as
+function blue(color: Color): u32
+```
+</div>
+
+Returns the blue channel of `color`, 0 to 255.
+```as
+let myColor = Color.rgba(128, 55, 12, 128);
+let blueChannel = Color.blue(myColor); // 12
+```
+
+
+### `alpha`
+
+<div class="signature">
+```as
+function alpha(color: Color): u32
+```
+</div>
+
+Returns the alpha channel of `color`, 0 to 255.
+```as
+let myColor = Color.rgba(128, 55, 12, 128);
+let alphaChannel = Color.alpha(myColor); // 128
+```
+
+
+### `withRed`
+
+<div class="signature">
+```as
+function withRed(color: Color, value: i32): Color
+```
+</div>
+
+Returns a copy of `color` with its red channel set to `value`, 0 to 255.
+Only the low 8 bits are kept.
+```as
+let myColor = Color.rgba(128, 55, 12, 128);
+let newColor = Color.withRed(myColor, 200);
+let channel = Color.red(newColor); // 200
+```
+
+
+### `withGreen`
+
+<div class="signature">
+```as
+function withGreen(color: Color, value: i32): Color
+```
+</div>
+
+Returns a copy of `color` with its green channel set to `value`, 0 to 255.
+Only the low 8 bits are kept.
+```as
+let myColor = Color.rgba(128, 55, 12, 128);
+let newColor = Color.withGreen(myColor, 200);
+let channel = Color.green(newColor); // 200
+```
+
+
+### `withBlue`
+
+<div class="signature">
+```as
+function withBlue(color: Color, value: i32): Color
+```
+</div>
+
+Returns a copy of `color` with its blue channel set to `value`, 0 to 255.
+Only the low 8 bits are kept.
+```as
+let myColor = Color.rgba(128, 55, 12, 128);
+let newColor = Color.withBlue(myColor, 200);
+let channel = Color.blue(newColor); // 200
+```
+
+
+### `withAlpha`
+
+<div class="signature">
+```as
+function withAlpha(color: Color, value: i32): Color
+```
+</div>
+
+Returns a copy of `color` with its alpha channel set to `value`, 0 to 255.
+Only the low 8 bits are kept.
+```as
+let myColor = Color.rgba(128, 55, 12, 128);
+let newColor = Color.withAlpha(myColor, 200);
+let channel = Color.alpha(newColor); // 200
+```
+
+
+### `opacity`
+
+<div class="signature">
+```as
+function opacity(color: Color): f32
+```
+</div>
+
+Returns the opacity of `color` as a value from 0 to 1.
+```as
+let myColor = Color.rgba(255, 0, 0, 128);
+let myOpacity = Color.opacity(myColor); // about 0.5
+```
+
+
+### `opacityToAlpha`
+
+<div class="signature">
+```as
+function opacityToAlpha(opacity: f32): u32
+```
+</div>
+
+Converts an opacity from 0 to 1 into an alpha channel from 0 to 255,
+clamping out of range values.
+```as
+let alpha = Color.opacityToAlpha(0.5); // 128
+```
+
+
+### `withOpacity`
+
+<div class="signature">
+```as
+function withOpacity(color: Color, value: f32): Color
+```
+</div>
+
+Returns a copy of `color` with its alpha set from an opacity from 0 to 1.
+Out of range values are clamped.
+```as
+let myColor = Color.rgba(255, 0, 0, 128);
+let opaque = Color.withOpacity(myColor, 1.0);
+let myOpacity = Color.opacity(opaque); // 1
+```
+
+
+### `lerp`
+
+<div class="signature">
+```as
+function lerp(from: Color, to: Color, mix: f32): Color
+```
+</div>
+
+Linearly interpolates each channel between two colors, where a `mix` of 0
+returns `from` and 1 returns `to`.
+```as
+let black = Color.rgb(0, 0, 0);
+let white = Color.rgb(255, 255, 255);
+
+// Halfway between black and white
+let gray = Color.lerp(black, white, 0.5);
+```
+
+
+### `toFloat`
+
+<div class="signature">
+```as
+function toFloat(color: Color): StaticArray<f32>
+```
+</div>
+
+Converts `color` into four floats, red, green, blue and alpha, each from 0
+to 1. Useful for the clear values of a [GPUColorAttachment](/scripting/animascript/api-reference/gpu/gpu-color-attachment).
+```as
+let channels = Color.toFloat(Color.rgba(255, 0, 0, 128));
+// [1.0, 0.0, 0.0, 0.502]
+```
+
+

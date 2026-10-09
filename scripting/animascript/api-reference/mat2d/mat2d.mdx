@@ -1,0 +1,471 @@
+---
+title: Mat2D
+---
+
+A 2D transformation matrix with components for scaling, rotation, shear
+and translation. [Mat2D](/scripting/animascript/api-reference/mat2d/mat2d) is a value type: assigning or passing one copies
+it.
+```as
+// Construct a matrix manually
+let m = Mat2D.identity();
+
+m.xx = 2; // scale x
+m.yy = 3; // scale y
+m.tx = 50; // translate x
+m.ty = 100; // translate y
+
+// (10,20) -> (20,60) -> (70,160)
+let r = m.transformPoint(Vector.xy(10, 20)); // 70 160
+```
+
+
+## Fields
+
+### `xx`
+
+<div class="signature">
+```as
+xx: f32
+```
+</div>
+
+The xx component of the matrix, the horizontal scale.
+```as
+let m = Mat2D.identity();
+m.xx = 2;
+let r = m.transformPoint(Vector.xy(10, 5)); // 20 5
+```
+
+
+### `xy`
+
+<div class="signature">
+```as
+xy: f32
+```
+</div>
+
+The xy component of the matrix, the vertical skew.
+```as
+let m = Mat2D.identity();
+m.xy = 1;
+// y = 5 + (1 * 10)
+let r = m.transformPoint(Vector.xy(10, 5)); // 10 15
+```
+
+
+### `yx`
+
+<div class="signature">
+```as
+yx: f32
+```
+</div>
+
+The yx component of the matrix, the horizontal skew.
+```as
+let m = Mat2D.identity();
+m.yx = 1;
+// x = 10 + (1 * 5)
+let r = m.transformPoint(Vector.xy(10, 5)); // 15 5
+```
+
+
+### `yy`
+
+<div class="signature">
+```as
+yy: f32
+```
+</div>
+
+The yy component of the matrix, the vertical scale.
+```as
+let m = Mat2D.identity();
+m.yy = 3;
+let r = m.transformPoint(Vector.xy(4, 5)); // 4 15
+```
+
+
+### `tx`
+
+<div class="signature">
+```as
+tx: f32
+```
+</div>
+
+Translation along the x axis.
+```as
+let m = Mat2D.identity();
+m.tx = 50;
+let r = m.transformPoint(Vector.xy(10, 20)); // 60 20
+```
+
+
+### `ty`
+
+<div class="signature">
+```as
+ty: f32
+```
+</div>
+
+Translation along the y axis.
+```as
+let m = Mat2D.identity();
+m.ty = 100;
+let r = m.transformPoint(Vector.xy(10, 20)); // 10 120
+```
+
+
+## Constructors
+
+### `constructor`
+
+<div class="signature">
+```as
+constructor()
+```
+</div>
+
+Creates the identity matrix.
+
+
+### `constructor`
+
+<div class="signature">
+```as
+constructor(xx: f32, xy: f32, yx: f32, yy: f32, tx: f32, ty: f32)
+```
+</div>
+
+Creates a matrix from the specified components, like `Mat2D.values`.
+
+
+## Static Functions
+
+### `identity`
+
+<div class="signature">
+```as
+function identity(): Mat2D
+```
+</div>
+
+Returns the identity matrix: xx = 1, xy = 0, yx = 0, yy = 1, tx = 0,
+ty = 0.
+```as
+let m = Mat2D.identity();
+```
+
+
+### `values`
+
+<div class="signature">
+```as
+function values(xx: f32, xy: f32, yx: f32, yy: f32, tx: f32, ty: f32): Mat2D
+```
+</div>
+
+Creates a matrix using the specified components.
+```as
+let skewX: f32 = 0.5;
+let skewY: f32 = 0.25;
+let m = Mat2D.values(1, skewY, skewX, 1, 0, 0);
+```
+
+
+### `withTranslation`
+
+<div class="signature">
+```as
+function withTranslation(x: f32, y: f32): Mat2D
+```
+</div>
+
+Creates a translation matrix from x and y values.
+```as
+let t = Mat2D.withTranslation(50, 100);
+```
+
+
+### `withTranslationVector`
+
+<div class="signature">
+```as
+function withTranslationVector(pos: Vector): Mat2D
+```
+</div>
+
+Creates a translation matrix from a [Vector](/scripting/animascript/api-reference/vector/vector) position.
+```as
+let t = Mat2D.withTranslationVector(Vector.xy(50, 100));
+```
+
+
+### `withRotation`
+
+<div class="signature">
+```as
+function withRotation(radians: f32): Mat2D
+```
+</div>
+
+Creates a rotation matrix from the given angle in radians.
+```as
+let rot = Mat2D.withRotation(Mathf.PI / 2);
+let r = rot.transformPoint(Vector.xy(1, 0)); // 0 1, rounded
+```
+
+
+### `withScale`
+
+<div class="signature">
+```as
+function withScale(x: f32, y: f32): Mat2D
+```
+</div>
+
+Creates a scale matrix from x and y values.
+```as
+let s = Mat2D.withScale(2, 3);
+```
+
+
+### `withScaleVector`
+
+<div class="signature">
+```as
+function withScaleVector(scale: Vector): Mat2D
+```
+</div>
+
+Creates a scale matrix from a [Vector](/scripting/animascript/api-reference/vector/vector)'s x and y.
+```as
+let s = Mat2D.withScaleVector(Vector.xy(2, 3));
+```
+
+
+### `withUniformScale`
+
+<div class="signature">
+```as
+function withUniformScale(scale: f32): Mat2D
+```
+</div>
+
+Creates a matrix that scales both axes by the same value.
+```as
+let s = Mat2D.withUniformScale(2);
+```
+
+
+### `withScaleAndTranslation`
+
+<div class="signature">
+```as
+function withScaleAndTranslation(xs: f32, ys: f32, x: f32, y: f32): Mat2D
+```
+</div>
+
+Creates a matrix that scales by `xs` and `ys`, then translates by `x`
+and `y`.
+```as
+// Scale by (2, 3) then translate by (50, 100)
+let st = Mat2D.withScaleAndTranslation(2, 3, 50, 100);
+
+// (10,20) -> scaled (20,60) -> translated (70,160)
+let r = st.transformPoint(Vector.xy(10, 20)); // 70 160
+```
+
+
+### `withScaleAndTranslationVector`
+
+<div class="signature">
+```as
+function withScaleAndTranslationVector(scale: Vector, position: Vector): Mat2D
+```
+</div>
+
+Creates a matrix that scales by `scale`, then translates by
+`position`.
+```as
+let st = Mat2D.withScaleAndTranslationVector(Vector.xy(2, 3), Vector.xy(50, 100));
+let r = st.transformPoint(Vector.xy(10, 20)); // 70 160
+```
+
+
+### `invert`
+
+<div class="signature">
+```as
+function invert(output: ref Mat2D, input: Mat2D): bool
+```
+</div>
+
+Writes the inverse of `input` into `output`. Returns true if the input
+matrix is invertible; otherwise `output` is left untouched.
+```as
+let m = Mat2D.withTranslation(50, 100);
+
+let inv = Mat2D.identity();
+let ok = Mat2D.invert(inv, m); // true
+
+// Applying m then inv returns the original point
+let r = inv.transformPoint(m.transformPoint(Vector.xy(10, 20))); // 10 20
+```
+
+
+## Methods
+
+### `operator*`
+
+<div class="signature">
+```as
+operator*(a: Mat2D, b: Mat2D): Mat2D
+```
+</div>
+
+Returns the matrix product of two matrices. The right hand matrix
+applies first. To transform a [Vector](/scripting/animascript/api-reference/vector/vector), use `transformPoint`.
+```as
+let translation = Mat2D.values(1, 0, 0, 1, 50, 100);
+let scale = Mat2D.values(2, 0, 0, 2, 0, 0);
+
+// Combine transforms
+let combined = translation * scale;
+
+let r = combined.transformPoint(Vector.xy(10, 20)); // 70 140
+```
+
+
+### `operator==`
+
+<div class="signature">
+```as
+operator==(a: Mat2D, b: Mat2D): bool
+```
+</div>
+
+Returns true if all components of the two matrices are equal.
+```as
+let a = Mat2D.values(1, 0, 0, 1, 0, 0);
+let b = Mat2D.identity();
+let same = a == b; // true
+```
+
+
+### `hash`
+
+<div class="signature">
+```as
+readonly hash(): u32
+```
+</div>
+
+A hash of the components. Together with `==` it lets matrices key a
+`Map` or `Set`.
+
+
+### `transformPoint`
+
+<div class="signature">
+```as
+readonly transformPoint(v: Vector): Vector
+```
+</div>
+
+Transforms the given point by the matrix and returns the result.
+```as
+let translation = Mat2D.values(1, 0, 0, 1, 50, 100);
+let r = translation.transformPoint(Vector.xy(10, 20)); // 60 120
+```
+
+
+### `at`
+
+<div class="signature">
+```as
+readonly at(index: i32): f32
+```
+</div>
+
+Returns the component at `index`, in the order xx, xy, yx, yy, tx,
+ty from 0 to 5. Throws for any other index.
+```as
+let m = Mat2D.values(2, 0, 0, 3, 50, 100);
+let tx = m.at(4); // 50
+```
+
+
+### `setAt`
+
+<div class="signature">
+```as
+setAt(index: i32, value: f32): void
+```
+</div>
+
+Sets the component at `index`, in the order xx, xy, yx, yy, tx, ty
+from 0 to 5. Throws for any other index.
+```as
+let m = Mat2D.identity();
+m.setAt(0, 2); // xx
+m.setAt(4, 50); // tx
+let r = m.transformPoint(Vector.xy(10, 20)); // 70 20
+```
+
+
+### `isIdentity`
+
+<div class="signature">
+```as
+readonly isIdentity(): bool
+```
+</div>
+
+Returns true if the matrix is the identity transform.
+```as
+let isIdentity = Mat2D.identity().isIdentity(); // true
+```
+
+
+### `invertInto`
+
+<div class="signature">
+```as
+readonly invertInto(out: ref Mat2D): bool
+```
+</div>
+
+Writes the inverse of the matrix into `out` and returns true, or
+returns false and leaves `out` untouched when the matrix is not
+invertible.
+```as
+let m = Mat2D.withTranslation(50, 100);
+let inv = Mat2D.identity();
+if (m.invertInto(inv)) {
+    let p = Vector.xy(10, 20);
+    let r = inv.transformPoint(m.transformPoint(p)); // 10 20
+}
+```
+
+
+### `invert`
+
+<div class="signature">
+```as
+readonly invert(): Mat2D
+```
+</div>
+
+Returns the inverse of the matrix, or the identity when the matrix is
+not invertible. Use `invertInto` to tell the two apart.
+```as
+let m = Mat2D.withTranslation(50, 100);
+let inv = m.invert();
+let r = (inv * m).transformPoint(Vector.xy(10, 20)); // 10 20
+```
+
+

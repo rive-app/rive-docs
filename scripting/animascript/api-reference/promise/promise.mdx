@@ -1,0 +1,309 @@
+---
+title: Promise
+---
+
+A value that will be available in the future, or an error if the work behind
+it fails. Create one with `new Promise<T>()` and settle it once with
+`resolve` or `reject`, or start from `Promise.resolve`, `Promise.reject` or
+`Promise.all`. Chain work with `andThen`, `catch`, `finally`, `map`,
+`flatMap` and `recover`, or `await` it inside an `async` function.
+
+Each chaining method returns a new promise that settles once its handler
+has run, so steps chain one after another. A rejection skips the steps that
+have no rejection handler and reaches the next `catch`. Errors are strings.
+Handlers run inside the `resolve` or `reject` call that settles the promise,
+or right away when it has already settled. A handler that throws stops the
+script rather than rejecting its chained promise; return
+`Promise.reject` from `flatMap` to reject instead.
+
+`await p` gives the fulfilled value. A rejection or cancellation stops the
+async function and rejects its promise with the same error, or with
+`"Promise was cancelled"`. To handle a failure inline, await `p.settled()`,
+which always fulfills. Each resumed function runs inside the call that
+settled its promise, so a chain of thousands of async functions awaiting
+each other can run out of stack.
+```as
+import { Promise } from "rive/promise";
+
+let ready = new Promise<f64>();
+let result = 0.0;
+
+async function doubled(): Promise<f64> {
+  let value = await ready;
+  return value * 2;
+}
+
+export function start(): void {
+  doubled()
+    .map((value: f64): f64 => value + 1)
+    .andThen((value: f64): void => {
+      result = value;
+    })
+    .catch((error: string): void => {
+      result = -1;
+    });
+  // Runs the rest of doubled, then map and andThen: result is 43.
+  ready.resolve(21);
+}
+```
+
+
+## Static Functions
+
+### `resolve`
+
+<div class="signature">
+```as
+static resolve<V>(value: V): Promise<V>
+```
+</div>
+
+A promise already fulfilled with `value`.
+```as
+let ready = Promise.resolve<f64>(42);
+```
+
+
+### `reject`
+
+<div class="signature">
+```as
+static reject<V>(error: string = "rejected"): Promise<V>
+```
+</div>
+
+A promise already rejected with `error`. Name the value type, which the
+error cannot tell.
+```as
+let failed = Promise.reject<f64>("not found");
+```
+
+
+### `all`
+
+<div class="signature">
+```as
+static all<V>(promises: Array<Promise<V>>): Promise<Array<V>>
+```
+</div>
+
+A promise that fulfills with the values of `promises`, in their order,
+once every one has fulfilled. It rejects with the first rejection, and
+then cancels the other inputs that nothing else waits on. Cancelling it
+cancels those inputs too. An empty list fulfills right away. The inputs
+need a value type, so `Promise<void>` cannot be combined.
+```as
+import { Promise } from "rive/promise";
+
+export function total(a: Promise<f64>, b: Promise<f64>): Promise<f64> {
+  return Promise.all<f64>([a, b]).map((values: Array<f64>): f64 =>
+    values[0] + values[1]);
+}
+```
+
+
+## Methods
+
+### `andThen`
+
+<div class="signature">
+```as
+andThen(onFulfilled: (value: T) => void, onRejected: ((error: string) => void)? = null): Promise<void>
+```
+</div>
+
+Registers `onFulfilled` to run with the value when the promise fulfills,
+and `onRejected` to run with the error when it rejects. Returns a new
+promise that fulfills once the handler that ran returns. Without
+`onRejected`, a rejection passes to the new promise unchanged. Handlers
+run in the order they were added. For a handler that returns a value, use
+`map` or `flatMap`.
+
+
+### `catch`
+
+<div class="signature">
+```as
+catch(onRejected: (error: string) => void): Promise<void>
+```
+</div>
+
+Registers `onRejected` to run with the error when the promise rejects.
+Returns a new promise that fulfills once the promise fulfills or the
+handler returns. For a handler that returns a replacement value, use
+`recover`.
+
+
+### `finally`
+
+<div class="signature">
+```as
+finally(onFinally: () => void): Promise<T>
+```
+</div>
+
+Registers `onFinally` to run once the promise fulfills or rejects, after
+every other handler. It never runs for a cancelled promise. Returns a new
+promise that settles like this one once `onFinally` returns.
+
+
+### `map`
+
+<div class="signature">
+```as
+map<U>(onFulfilled: (value: T) => U): Promise<U>
+```
+</div>
+
+Returns a new promise that fulfills with what `onFulfilled` returns when
+given this promise's value: Luau's `andThen` with a handler that returns a
+value. A rejection passes through unchanged. The new value type comes
+from the handler's return type, so give a function expression one, or
+name it as in `map<string>`.
+```as
+import { Promise } from "rive/promise";
+
+export function label(count: Promise<f64>): Promise<string> {
+  return count.map((value: f64): string => value.toString() + " items");
+}
+```
+
+
+### `flatMap`
+
+<div class="signature">
+```as
+flatMap<U>(onFulfilled: (value: T) => Promise<U>): Promise<U>
+```
+</div>
+
+Returns a new promise that follows the promise `onFulfilled` returns when
+given this promise's value: Luau's `andThen` with a handler that returns a
+promise. It fulfills, rejects or is cancelled as that promise is, so
+returning `Promise.reject` rejects it. A rejection of this promise passes
+through unchanged. The new value type comes from the handler's return
+type, as with `map`.
+```as
+import { Promise } from "rive/promise";
+
+function check(value: f64): Promise<f64> {
+  return value >= 0 ? Promise.resolve<f64>(value) : Promise.reject<f64>("negative");
+}
+
+export function validated(input: Promise<f64>): Promise<f64> {
+  return input.flatMap((value: f64): Promise<f64> => check(value));
+}
+```
+
+
+### `recover`
+
+<div class="signature">
+```as
+recover(onRejected: (error: string) => T): Promise<T>
+```
+</div>
+
+Returns a new promise that fulfills with this promise's value, or with
+what `onRejected` returns when this promise rejects: Luau's `catch` with
+a handler that returns a value.
+```as
+import { Promise } from "rive/promise";
+
+export function orZero(value: Promise<f64>): Promise<f64> {
+  return value.recover((error: string): f64 => 0);
+}
+```
+
+
+### `cancel`
+
+<div class="signature">
+```as
+cancel(): Promise<T>
+```
+</div>
+
+Cancels a pending promise for good: its `onCancel` hooks run, none of
+its handlers ever will, and async functions awaiting it stop. The
+promises chained from it are cancelled too, and the promise it was
+chained from is cancelled once every promise chained from that one is
+cancelled and no async function awaits it. Cancelling the promise of an
+async function stops that function, and cancels the promise it awaits
+when nothing else waits on that one. Does nothing once the promise has
+settled. Returns this promise.
+
+
+### `onCancel`
+
+<div class="signature">
+```as
+onCancel(hook: () => void): Promise<T>
+```
+</div>
+
+Registers `hook` to run when the promise is cancelled, to clean up work
+in flight such as a network request. Hooks add up rather than replace
+each other. Ignored once the promise has settled. Returns this promise.
+
+
+### `getStatus`
+
+<div class="signature">
+```as
+getStatus(): string
+```
+</div>
+
+The current state: `"Pending"`, `"Fulfilled"`, `"Rejected"` or
+`"Cancelled"`.
+
+
+### `resolve`
+
+<div class="signature">
+```as
+resolve(value: T): void
+```
+</div>
+
+Fulfills a pending promise with `value` and runs its handlers. Does
+nothing once the promise has settled or been cancelled.
+
+
+### `reject`
+
+<div class="signature">
+```as
+reject(error: string): void
+```
+</div>
+
+Rejects a pending promise with `error` and runs its handlers. Does
+nothing once the promise has settled or been cancelled.
+
+
+### `settled`
+
+<div class="signature">
+```as
+settled<S = T>(): Promise<Settled<S>>
+```
+</div>
+
+A promise that always fulfills with a [Settled](/scripting/animascript/api-reference/promise/settled) telling how this one
+settled, so an async function can handle a failure without stopping.
+Cancelling it cancels this promise when nothing else waits on it.
+```as
+import { Promise } from "rive/promise";
+
+async function load(source: Promise<string>): Promise<string> {
+  let outcome = await source.settled();
+  if (!outcome.ok) {
+    return "failed: " + outcome.error;
+  }
+  return outcome.value;
+}
+```
+
+
