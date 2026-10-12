@@ -1,0 +1,74 @@
+---
+title: 'Hoisting the Rive Worker'
+description: 'Considerations when creating workers.'
+---
+
+Creating a worker starts a new thread and initializes the graphics pipeline; is not a free operation.
+
+If a worker is serving multiple Rive instances, hoisting the worker higher up in the Compose tree consolidates asset and graphics pipeline initialization costs. Hoisting can also be utilized to preserve the worker between page navigation. Generally, it makes sense to hoist the worker to the level where it makes sense for caching Rive data.
+
+Workers are not Compose-specific; they can be freely created outside of Composable contexts, and then later used within it. It may be desirable to hoist the worker outside of the Composable context entirely in cases where worker initialization should occur before a Composable screen is loaded. With this approach, you will be responsible for managing the lifecycle of the worker.
+
+```kotlin
+package com.example.rive
+
+import ...
+
+private const val WORKER_OWNER = "MainActivity"
+
+class MainActivity : ComponentActivity() {
+    private lateinit var riveWorker: RiveWorker
+    private var cachedRiveFile: RiveFile? = null
+
+    private val riveFileState =
+        mutableStateOf<RiveResult<RiveFile>>(RiveResult.Loading)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        riveWorker = RiveWorker().also { worker ->
+            worker.withLifecycle(this, WORKER_OWNER)
+
+            // Manually poll the worker.
+            lifecycleScope.launch { worker.beginPolling(lifecycle) }
+        }
+
+        setContent {
+            when (val result = riveFileState.value) {
+                is RiveResult.Loading -> CircularProgressIndicator()
+                is RiveResult.Error -> Text("Unable to load animation")
+                is RiveResult.Success -> Rive(file = result.value)
+            }
+        }
+
+        preloadRiveFile()
+    }
+
+    // Load the Rive file outside of a Composable context.
+    private fun preloadRiveFile() {
+        lifecycleScope.launch {
+            try {
+                val file = RiveFile.load(
+                    RiveFileSource.RawRes.from(R.raw.my_rive_file),
+                    riveWorker,
+                )
+
+                cachedRiveFile = file
+                riveFileState.value = RiveResult.Success(file)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                riveFileState.value = RiveResult.Error(e)
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        // Manually close file.
+        cachedRiveFile?.close()
+        cachedRiveFile = null
+
+        super.onDestroy()
+    }
+}
+```
