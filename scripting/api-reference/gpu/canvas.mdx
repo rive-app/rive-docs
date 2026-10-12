@@ -4,6 +4,8 @@ title: Canvas
 
 A Rive 2-D renderer canvas. Use `.image` with `renderer:drawImage()`.
 Call `beginFrame()` to get a Renderer, issue draw calls, then `endFrame()`.
+Its contents last until the next `beginFrame()`, so a frame that skips it
+still draws or samples the last one.
 
 
 ## Fields
