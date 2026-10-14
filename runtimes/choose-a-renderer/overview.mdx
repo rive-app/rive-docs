@@ -23,7 +23,7 @@ The Rive Renderer is designed to provide better performance and visual fidelity 
 | [Apple](#apple) | Rive | Rive |
 | Android (Compose)     | Rive             | Rive |
 | [Android (Legacy)](#android-legacy)     | Rive             | Rive / Canvas / Skia (removed as of v10.0.0) |
-| React Native | Rive             | Rive                     |
+| [React Native](#react-native) | Rive             | Rive                     |
 | [Flutter](#flutter)      | No default       | Rive / Flutter Skia / Flutter Impeller       |
 
 
@@ -83,6 +83,25 @@ If a runtime is not listed here, there is no renderer setup to configure. It use
         ```kotlin
         Rive.init(applicationContext, defaultRenderer = RendererType.Rive)
         ```
+    </Tab>
+    <Tab title="React Native">
+        `@rive-app/react-native` uses the Rive Renderer. In `0.5.3` and later, you can opt into [GPU Canvas](/runtimes/react-native/gpu-canvas), which is required for 3D content:
+
+        ```ts
+        import { RiveRuntime } from '@rive-app/react-native';
+
+        RiveRuntime.setGPUCanvasEnabled(true);
+        ```
+
+        On Android, the Rive Renderer uses OpenGL by default. In `0.5.0` and later, you can opt into Vulkan:
+
+        ```ts
+        RiveRuntime.setAndroidRenderBackend('vulkan');
+        ```
+
+        Vulkan requires Android 10 (API 29) or later. The runtime falls back to OpenGL when Vulkan is unavailable or fails to initialize. The call has no effect on iOS.
+
+        Both settings apply to every Rive file in the app and must be made before the first Rive file is loaded. Calls made after that are ignored and log a warning.
     </Tab>
     <Tab title="Flutter">
         The Rive Renderer is available in the Flutter runtime as of `0.14.0`. Use the latest version (**{{versionFlutter}}**) of the `rive` package for the newest fixes and improvements.
