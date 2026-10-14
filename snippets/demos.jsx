@@ -29,6 +29,14 @@ export const Demos = ({
         editor: "https://rive.app/community/files/28147-randomize-exit/"
       },
     },
+    gamepadListeners: {
+      title: 'Gamepad Listeners',
+      description: 'Control shapes with a gamepad\'s joystick and buttons.',
+      image: "https://static.rive.app/docs/gamepad.png",
+      links: {
+        editor: "https://rive.app/community/files/28995-54925-gamepad-listeners"
+      },
+    },
     ikConstraint: {
       title: 'IK Constraints',
       description: 'Check out this example to see IK constraints in action.',
