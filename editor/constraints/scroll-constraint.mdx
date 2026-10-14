@@ -2,9 +2,7 @@
 title: 'Scroll Constraints'
 ---
 
-Scrolling comes to Rive in the form of two new constraints; one to add touch-based scrolling to overflowed content, and another to create a scroll bar. Both constraints work in conjunction with the existing layout components. We plan to provide generalised scrolling components for quicker setup in future.
-
-<Note>Scroll wheel/trackpad gestures aren't currently supported but are on our v1 Roadmap.</Note>
+Scrolling comes to Rive in the form of two constraints; one to add scrolling to overflowed content, and another to create a scroll bar. Both constraints work in conjunction with the existing layout components. We plan to provide generalized scrolling components for quicker setup in future.
 
 ---
 
@@ -55,7 +53,13 @@ This property allows you to set the 0 based index of the Scroll item to scroll t
 
 When enabled, the scroll content will always settle with a whole item at the top/left of the scroll area.
 
-Once you have applied your desired properties, switch to animate mode and start playback of a State Machine to preview the applied scroll constraint. You should be able to click/drag/release within the Scroll view area to manually control the scroll.
+#### Wheel / Trackpad
+
+This option is on by default. When enabled, the Scroll view scrolls with a mouse wheel or trackpad, in addition to a pointer drag. Turn it off to make the Scroll view drag-only.
+
+When scroll views are nested, such as a horizontal strip inside a vertical list, each wheel or trackpad gesture scrolls the view that matches its direction. A flick that starts in the inner view keeps scrolling the inner view instead of passing to the outer one.
+
+Once you have applied your desired properties, switch to animate mode and start playback of a State Machine to preview the applied scroll constraint. You should be able to click/drag/release, or use a mouse wheel or trackpad, within the Scroll view area to manually control the scroll.
 
 ---
 
