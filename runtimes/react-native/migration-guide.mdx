@@ -3,11 +3,9 @@ title: "Migration Guide"
 description: "Learn how to migrate your React Native app when upgrading between major versions of the Rive React Native runtime, including breaking changes and new features."
 ---
 
-## Upgrading to the `v0.5` beta (new native runtime)
+## Upgrading to `v0.5` (new native runtime)
 
-`v0.5` rebuilds `@rive-app/react-native` on top of Rive's new native runtimes for Android and iOS. It is currently a **beta** release.
-
-The public React API is largely unchanged, but the deprecated synchronous APIs behave differently on the new runtime. The safest path is to get your app running cleanly on the latest `v0.4` — using the non-deprecated async APIs — *before* switching to the beta.
+`v0.5` rebuilds `@rive-app/react-native` on top of Rive's new native runtimes for Android and iOS. The public React API is largely unchanged, but some deprecated APIs behave differently. The safest path is to get your app running cleanly on the latest `v0.4` using the non-deprecated async APIs, *before* upgrading to `v0.5`.
 
 ### Recommended path
 
@@ -21,7 +19,7 @@ The public React API is largely unchanged, but the deprecated synchronous APIs b
       Requires `0.4.19` or later — earlier `0.4.x` releases don't include the complete async API surface.
     </Note>
 
-    This keeps you on the stable runtime while you migrate your API usage.
+    This keeps you on the previous native runtime while you migrate your API usage.
   </Step>
   <Step title="Switch to the non-deprecated async APIs">
     Once you're on `v0.4`, replace the deprecated synchronous ViewModel and property accessors with their async equivalents. Convert state machine inputs, text runs, and events to [data binding](/runtimes/react-native/data-binding).
@@ -29,15 +27,15 @@ The public React API is largely unchanged, but the deprecated synchronous APIs b
     See [Migrating to the Async API](#migrating-to-the-async-api-v032) below for the full list of replacements.
 
     <Tip>
-      The async APIs work the same on `v0.4.19`+ and the `v0.5` beta. Once this migration is done, moving between the two is just a dependency change — you can try the beta and roll back to `v0.4` at any time without touching your code.
+      The async APIs work the same on `v0.4.19`+ and `v0.5`. Once this migration is done, moving between the two is a dependency change, and you can roll back to `v0.4` without touching your code.
     </Tip>
   </Step>
-  <Step title="Try the v0.5 beta">
-    Install the beta:
-
+  <Step title="Upgrade to v0.5">
     ```bash
-    npm install @rive-app/react-native@beta
+    npm install @rive-app/react-native@latest react-native-nitro-modules
     ```
+
+    `v0.5` requires `react-native-nitro-modules` `0.35.10` or later (`0.36.2` or later on React Native 0.87+).
 
     <Note>
       Report any issues on [GitHub](https://github.com/rive-app/rive-nitro-react-native/issues).
@@ -45,14 +43,35 @@ The public React API is largely unchanged, but the deprecated synchronous APIs b
   </Step>
 </Steps>
 
+### Behavior changes in `v0.5`
+
+- **State machine inputs, text runs, and events throw.** `setNumberInputValue`, `triggerInput`, `setTextRunValue`, `onEventListener`, and the other methods on the view reference throw an error. Use [data binding](/runtimes/react-native/data-binding) instead. To react to an animation finishing, fire a trigger from the state machine and listen for it with `useRiveTrigger`.
+- **`reset()` does nothing.** It logs an error. Remount the `RiveView` (for example, by changing its `key`) to restart it.
+- **A state machine is required.** Timeline-only artboards don't play. If an artboard has no default state machine, set `stateMachineName`.
+- **Deprecated sync APIs log warnings.** They still work, but block the JS thread and log a `[Rive/Deprecation]` warning once per API.
+- **Property paths aren't validated on lookup.** `numberProperty(path)` and the other accessors return a handle even if the path is wrong. The error surfaces when you read the value (`getValueAsync()` rejects) or through the `useRive*` hooks' `error`.
+- **Image and list listeners don't fire.** `addListener` on image and list properties is a no-op. `useRiveList` refreshes after its own mutations.
+- **`replaceViewModel` is iOS only.** On Android it logs a warning and does nothing.
+- **Referenced assets are resolved once.** Changing `referencedAssets` after the file loads has no effect, and CDN-hosted assets aren't downloaded automatically. Set `type` on each referenced asset to avoid a warning.
+- **View errors are untyped.** `onError` always reports `RiveErrorType.Unknown`; use `error.message`.
+- **Changes since the `v0.5` betas.** If you used a beta, note that the `RiveAsset` type is renamed to `RiveFileSource`, and the short-lived `onStop` callback was removed in favor of data binding triggers.
+
+### New in `v0.5`
+
+- The [`frameRate`](/runtimes/react-native/react-native#frame-rate) prop to cap the render loop.
+- [Semantics](/runtimes/react-native/semantics) for VoiceOver on iOS.
+- [GPU Canvas](/runtimes/react-native/gpu-canvas) for 3D content (`0.5.3`+), and an opt-in Vulkan backend on Android through `RiveRuntime.setAndroidRenderBackend('vulkan')`.
+- `getPropertiesAsync()` on view models and `getEnums()` on files. See [Data Binding](/runtimes/react-native/data-binding).
+- `setValueAsync()` on value properties, to await a write.
+
 ### Deprecation timeline
 
-The deprecated synchronous APIs (and the state machine input, text run, and event methods) are being phased out as the runtime moves to the new native foundation:
+The deprecated synchronous APIs (and the state machine input, text run, and event methods) are being phased out:
 
 | Version | Status of deprecated APIs |
 |---|---|
 | `v0.4` | Async replacements are available. Deprecated APIs still work with no warning. |
-| `v0.5` | Calling a deprecated API logs a runtime warning. |
+| `v0.5` | Calling a deprecated sync API logs a runtime warning. State machine input, text run, and event methods throw. |
 | `v0.6` | Deprecated APIs are removed. |
 
 ---
@@ -479,7 +498,7 @@ Error handling is improved. See the [error handling](/runtimes/react-native/erro
 - **Android**: SDK 24+
 - **Xcode**: 16.4+
 - **JDK**: 17+
-- **Nitro Modules**: 0.25.2+
+- **Nitro Modules**: 0.35.10+ (0.36.2+ on React Native 0.87+)
 
 ### Migration steps
 
@@ -593,8 +612,8 @@ See [Rive ref methods](/runtimes/react-native/rive-ref-methods) for more informa
 #### 6. State Machine inputs (deprecated)
 
 <Warning>
-  These methods are deprecated. Migrate to [data binding](#8-data-binding)
-  instead.
+  These methods are deprecated, and throw in `@rive-app/react-native` `0.5.0`
+  and later. Migrate to [data binding](#8-data-binding) instead.
 </Warning>
 
 <Tabs>
@@ -621,8 +640,8 @@ See [state machine inputs](/runtimes/react-native/inputs) for more information.
 #### 7. Rive Events (deprecated)
 
 <Warning>
-  These methods are deprecated. Use [data binding triggers](#8-data-binding)
-  instead.
+  These methods are deprecated, and throw in `@rive-app/react-native` `0.5.0`
+  and later. Use [data binding triggers](#8-data-binding) instead.
 </Warning>
 
 <Tabs>
@@ -738,7 +757,8 @@ See [loading assets](/runtimes/react-native/loading-assets) for more information
 
 <Warning>
   Direct text run methods (`.setTextRunValue()`, `.getTextRunValue()`) are
-  **deprecated**. Migrate to [data binding](#8-data-binding) strings instead.
+  **deprecated**, and throw in `@rive-app/react-native` `0.5.0` and later.
+  Migrate to [data binding](#8-data-binding) strings instead.
 </Warning>
 
 <Tabs>
@@ -751,7 +771,7 @@ See [loading assets](/runtimes/react-native/loading-assets) for more information
   </Tab>
   <Tab title="New Runtime (Deprecated)">
     ```tsx
-    // The new runtime still supports text run methods like the old runtime
+    // Supported in 0.4.x only; throws in 0.5.0 and later
     riveViewRef?.setTextRunValue('playerName', 'John Doe');
     const name = riveViewRef?.getTextRunValue('playerName');
     ```
