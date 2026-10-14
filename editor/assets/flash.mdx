@@ -1,0 +1,96 @@
+---
+title: 'Flash and Animate Files'
+description: 'Converting Adobe Animate and Flash files into Rive files.'
+---
+
+import { UseCase } from '/snippets/use-case.mdx'
+
+Rive can convert Adobe Animate files into Rive files. Library symbols, timelines, tweens, buttons, frame scripts, and sounds are rebuilt as Rive content you can edit, so you can bring existing Flash animation into Rive without recreating it by hand.
+
+Rive supports two file types:
+
+- `.fla` files saved in Animate CC or later
+- XFL folders, zipped into a single `.zip` file
+
+## Converting a Flash file
+
+<Steps>
+  <Step>
+    Open the [File Browser](/editor/interface-overview/file-browser) and select the project and folder you want the file to go in.
+  </Step>
+  <Step>
+    Drag the `.fla` or zipped XFL file into the file browser.
+  </Step>
+</Steps>
+
+Rive converts the file and adds a new Rive file to the folder. The new file uses the original file's name.
+
+<Note>
+  The original `.fla` or `.zip` file isn't kept. Keep a copy if you want to make changes in Animate later.
+</Note>
+
+## How Animate content converts
+
+The converter uses Rive features that work the same way as the original Animate features.
+
+| Animate | Rive |
+| --- | --- |
+| Main timeline | An [Artboard](/editor/fundamentals/artboards) named **Scene 1**, sized to the stage, with the stage color as its background |
+| Library symbol | An artboard for each symbol, placed as [Components](/editor/fundamentals/components) |
+| Timeline | A [Timeline](/editor/animate-mode/timeline) on each artboard, played by a [State Machine](/editor/state-machine/state-machine) |
+| Classic, motion, and shape tweens | Keys with [interpolation](/editor/animate-mode/interpolation-easing), including custom eases and tween rotation |
+| Frame-by-frame animation | Solos |
+| Motion guides | [Follow Path constraints](/editor/constraints/follow-path-constraint), including orient to path |
+| Layer parenting | Groups nested to match the layer hierarchy |
+| Mask layers | Clipping shapes |
+| IK bones and poses | Bones and their animation |
+| Bitmaps | Embedded image assets. Bitmap fill transforms, smoothing, and instance alpha carry over |
+| 9-slice scaling | [N-Slicing](/editor/layouts/n-slicing) |
+| Frame sounds (MP3, WAV, FLAC) | [Audio Events](/editor/events/audio-events) |
+| Static, dynamic, and input text | [Text](/editor/text/text-overview) |
+
+Shapes, primitives, solid and gradient fills, dashed and dotted strokes, and guide and folder layers also carry over.
+
+### Frame labels and scripts
+
+Frame labels become states in the artboard's state machine. Frame scripts that call `stop()`, `gotoAndPlay()`, or `gotoAndStop()` become [transitions](/editor/state-machine/transitions) between those states. Targets can be frame numbers or labels. Scripts can be ActionScript 2, ActionScript 3, or HTML5 Canvas JavaScript.
+
+Only top-level calls convert. Calls inside functions, event handlers, or conditionals depend on information the state machine doesn't have, so they're skipped.
+
+<UseCase title="Looping an idle section">
+  Your main timeline has an `intro` label on frame 1 and an `idle` label on frame 30. A frame script on the last frame of `idle` calls `gotoAndPlay("idle")`.
+
+  After converting, the state machine has an `intro` state followed by an `idle` state. The `idle` state transitions back to itself, so the intro plays once and the idle section loops.
+</UseCase>
+
+### Buttons
+
+Button symbols get a state machine with **Up**, **Over**, and **Down** states. The Hit frame becomes an invisible hit area with [Listeners](/editor/state-machine/listeners) that track hover and press. If the Hit frame is empty, the Up frame is used instead, as in Animate.
+
+Hover and press are stored as `hovered` and `pressed` properties on a [View Model](/editor/data-binding/view-models) named after the symbol. Each placed button gets its own instance of that view model, so each button responds on its own.
+
+### Graphic symbols
+
+Graphic symbols keep their playback settings: **Loop**, **Play Once**, **Single Frame**, and both reverse modes, along with first and last frame. Their playback stays synced to the parent timeline.
+
+### Fonts
+
+Font names carry over to text styles. Inter is embedded as the default font. If a font isn't available in Rive, [import it](/editor/text/fonts) and assign it to the affected text.
+
+## Limitations
+
+Some Animate features don't convert:
+
+- **Additional scenes:** Only the first scene converts. Scripts that jump to another scene are skipped.
+- **Color effects, filters, and blend modes:** Tint, brightness, advanced color effects, filters, and blend modes are removed. Alpha converts to opacity.
+- **ActionScript logic:** Only the frame script calls described in [Frame labels and scripts](#frame-labels-and-scripts) convert. Other code is removed.
+- **Images that can't be decoded:** These are left out of the converted file.
+
+## After converting
+
+The converted file is a starting point. Review it and adjust as needed:
+
+- Check that fonts look correct, and import any that are missing.
+- Rebuild color effects and filters with Rive features, such as fills, opacity, or [Blend Modes](/editor/fundamentals/fill-and-stroke).
+- Remove artboards you don't need. To match Animate's 9-slice behavior, a symbol placed at several different scales gets a separate artboard for each scale.
+- Rename states, timelines, and view models to fit your project.
