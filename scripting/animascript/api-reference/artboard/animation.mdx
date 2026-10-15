@@ -1,0 +1,127 @@
+---
+title: Animation
+---
+
+An animation of an artboard instance, played by script. Get one by name
+with `Artboard.animation`. It poses the instance it came from; advance
+that artboard by 0 afterwards so the change propagates without counting
+time twice.
+
+```as
+export class Walker extends Node {
+    @input character: Artboard? = null;
+    instance: Artboard? = null;
+    walk: Animation? = null;
+
+    override init(context: Context): bool {
+        let character = this.character;
+        if (character != null) {
+            let instance = character.instance();
+            this.walk = instance.animation("Walk");
+            this.instance = instance;
+        }
+        return true;
+    }
+
+    override advance(seconds: f64): bool {
+        let instance = this.instance;
+        let walk = this.walk;
+        if (instance != null && walk != null) {
+            walk.advance(seconds * 2);
+            instance.advance(0);
+        }
+        return true;
+    }
+}
+```
+
+
+## Fields
+
+### `duration`
+
+<div class="signature">
+```as
+readonly duration: f64
+```
+</div>
+
+The duration of the animation in seconds.
+
+
+## Methods
+
+### `advance`
+
+<div class="signature">
+```as
+advance(seconds: f64): bool
+```
+</div>
+
+Advances the animation by the given time in seconds and applies it to
+the artboard. Returns true while the animation has not reached its
+end; a looping or ping pong animation always returns true.
+
+
+### `setTime`
+
+<div class="signature">
+```as
+setTime(time: f64): void
+```
+</div>
+
+Sets the animation time in seconds and applies it to the artboard.
+
+```as
+walk.setTime(0.3);
+instance.advance(0);
+```
+
+
+### `setTimeFrames`
+
+<div class="signature">
+```as
+setTimeFrames(frames: f64): void
+```
+</div>
+
+Sets the animation time in frames and applies it to the artboard.
+
+```as
+walk.setTimeFrames(3);
+instance.advance(0);
+```
+
+
+### `setTimePercentage`
+
+<div class="signature">
+```as
+setTimePercentage(percentage: f64): void
+```
+</div>
+
+Sets the animation time as a fraction of its duration, from 0 to 1,
+and applies it to the artboard.
+
+```as
+walk.setTimePercentage(0.5);
+instance.advance(0);
+```
+
+
+### `release`
+
+<div class="signature">
+```as
+release(): void
+```
+</div>
+
+Releases the animation now instead of when it is collected. It does
+nothing afterwards.
+
+

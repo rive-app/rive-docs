@@ -1,0 +1,115 @@
+---
+title: format
+---
+
+## Functions
+
+### `formatInt`
+
+<div class="signature">
+```as
+function formatInt(value: f64, width: i32 = 0, zero: bool = false): string
+```
+</div>
+
+Formats `value` as a whole number, truncated toward zero. The text is padded
+on the left to `width` characters, with spaces or, when `zero` is true, with
+zeros after any minus sign. Matches `%d` in [format](#format).
+
+
+### `formatFixed`
+
+<div class="signature">
+```as
+function formatFixed(value: f64, precision: i32 = 6, width: i32 = 0, zero: bool = false): string
+```
+</div>
+
+Formats `value` with `precision` digits after the decimal point, rounded
+from its exact value with ties to even, as C's `printf` does: 0.125 gives
+`0.12` with precision 2. `width` and `zero` pad as in `formatInt`. Matches
+`%f` in [format](#format).
+
+
+### `formatHex`
+
+<div class="signature">
+```as
+function formatHex(value: f64, width: i32 = 0, zero: bool = false, upper: bool = false): string
+```
+</div>
+
+Formats the whole part of `value` in hexadecimal, lowercase unless `upper`
+is true. A negative value prints as its 64 bit two's complement, so -1
+gives `ffffffffffffffff`. `width` and `zero` pad as in `formatInt`. Matches
+`%x` and `%X` in [format](#format).
+
+
+### `formatNumber`
+
+<div class="signature">
+```as
+function formatNumber(value: f64): string
+```
+</div>
+
+Formats `value` the way a number prints as text: the fewest digits that
+read back as the same number, in fixed point such as `0.000001` or
+`100000000000000000000`, and in exponent form such as `1e-07` or `1e+21`
+beyond those. Special values print as `nan`, `inf` or `-inf`. Matches `%s`
+given a number in [format](#format).
+
+
+### `format`
+
+<div class="signature">
+```as
+function format(pattern: string, args: Array<FormatArg>): string
+```
+</div>
+
+Builds a string from `pattern`, replacing each specifier with the next
+argument from `args`, as Luau's `string.format` does.
+
+A specifier is `%`, optional flags, an optional width and an optional
+`.precision`, each at most two digits, then one of:
+
+| Specifier | Output |
+| --- | --- |
+| `%d` / `%i` | A whole number, truncated toward zero |
+| `%u` | A whole number as unsigned, so a negative one wraps around 2^64 |
+| `%o` / `%x` / `%X` | The unsigned whole number in octal, or in lowercase or uppercase hexadecimal |
+| `%c` | The character with code `value`, modulo 256 |
+| `%f` | A number with `precision` decimals, 6 by default |
+| `%e` / `%E` | A number in exponent form, `1.500000e+03`, with `precision` decimals |
+| `%g` / `%G` | `%f` when the exponent is at least -4 and below `precision`, else `%e`, with `precision` significant digits, 6 by default, and trailing zeros dropped |
+| `%s` | Text, or a number as `formatNumber` prints it, with at most `precision` characters |
+| `%q` | Text in double quotes, with quotes, backslashes and line breaks escaped |
+| `%*` | Any argument as text, including a bool as `true` or `false`; takes no flags |
+| `%%` | A literal `%` |
+
+The flags are `-` to pad on the right, `+` to show a plus sign on positive
+numbers, a space to put a space there instead, `#` for a `0x` prefix on
+hexadecimal, a leading `0` on octal or a point that always shows, and `0`
+to pad with zeros. Floats round from their exact value with ties to even,
+as C's `printf` does. Number specifiers read a numeric string argument as a
+number.
+
+Like Luau, [format](#format) throws for an unknown specifier, for a specifier with
+no argument left, for a bool given to anything but `%*`, and for a string
+that is not a number given to a number specifier.
+```as
+import { format, FormatArg } from "rive/format";
+
+export function label(name: string, score: f64): string {
+  // "Ana: 012.5 (0XFF) +1.2e+03" for score 12.5.
+  return format("%-4s %05.1f (%#X) %+.1e", [
+    FormatArg.string(name + ":"),
+    FormatArg.number(score),
+    FormatArg.number(255),
+    FormatArg.number(1234),
+  ]);
+}
+```
+
+

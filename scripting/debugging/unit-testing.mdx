@@ -24,6 +24,7 @@ Beyond validating your code, tests also serve as precise instructions for the [A
 A Test script exposes a single `setup(test: Tester)` function. The `Tester` object gives you helpers to define and group tests:
 
 - `test.case(name, fn)` – define a single test case.
+- `test.errors(name, fn, message?)` – define a test case that passes only when `fn` raises an error.
 - `test.group(name, fn)` – group related tests. Groups can be nested.
 - `expect(value)` – create an expectation object to assert on a value.
 
@@ -101,6 +102,18 @@ case('never examples', function(expect)
   expect(4).never.greaterThanOrEqual(6)
 end)
 ```
+
+### Expecting errors
+
+Use `test.errors` to check that code fails when it should. The case passes only if its callback raises an error. Pass a `message` to also require that the error contains that text.
+
+```lua
+test.errors('rejects a negative size', function(expect)
+  MyUtil.makeGrid(-1)
+end, 'size must be positive')
+```
+
+A case that runs past its time budget always fails, even when it is a `test.errors` case.
 
 ## Running tests
 

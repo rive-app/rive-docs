@@ -1,0 +1,103 @@
+---
+title: GPUColorAttachment
+---
+
+A color attachment of a render pass.
+
+
+## Fields
+
+### `view`
+
+<div class="signature">
+```as
+view: GPUTextureView?
+```
+</div>
+
+The view to render into, or null for the `view` of the target the
+pass begins on. Set it when the target differs, most commonly for
+MSAA, where `view` is a multisampled texture's view and
+`resolveTarget` is the target's own `view`.
+
+
+### `resolveTarget`
+
+<div class="signature">
+```as
+resolveTarget: GPUTextureView?
+```
+</div>
+
+Single sampled view that a multisampled `view` resolves into. Its
+format must match `view`.
+
+
+### `loadOp`
+
+<div class="signature">
+```as
+loadOp: LoadOp
+```
+</div>
+
+What to do with the attachment when the pass begins. Default `clear`.
+
+
+### `storeOp`
+
+<div class="signature">
+```as
+storeOp: StoreOp
+```
+</div>
+
+What to do with the attachment when the pass ends: `discard` after an
+MSAA resolve, `store` otherwise. Default `store`.
+
+
+### `clearR`
+
+<div class="signature">
+```as
+clearR: f32
+```
+</div>
+
+Red of the clear color. Values above 1 are kept on float targets.
+
+
+### `clearG`
+
+<div class="signature">
+```as
+clearG: f32
+```
+</div>
+
+Green of the clear color.
+
+
+### `clearB`
+
+<div class="signature">
+```as
+clearB: f32
+```
+</div>
+
+Blue of the clear color.
+
+
+### `clearA`
+
+<div class="signature">
+```as
+clearA: f32
+```
+</div>
+
+Alpha of the clear color. Default 1, so the default clear is opaque
+black.
+
+
