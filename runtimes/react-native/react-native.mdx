@@ -9,22 +9,13 @@ import { Demos } from "/snippets/demos.jsx";
 <NoteOnFeatureSupport />
 
 <Note>
-🚀 **The new Rive React Native runtime is now available!** Built with Nitro for improved performance and better React Native integration.
+`@rive-app/react-native` is the recommended Rive runtime for React Native. Built with [Nitro](https://nitro.margelo.com/), it replaces the legacy `rive-react-native` package.
 
-**Get started:**
+Starting with `0.5.0`, it runs on Rive's new native runtimes: the [new Apple runtime](/runtimes/apple/apple) on iOS, and on Android the runtime behind the new [Compose API](/runtimes/android/android). If you're upgrading from `0.4.x` or from `rive-react-native`, see the [migration guide](/runtimes/react-native/migration-guide).
 
-- [Migration guide](/runtimes/react-native/migration-guide)
 - [GitHub](https://github.com/rive-app/rive-nitro-react-native)
 - [NPM](https://www.npmjs.com/package/@rive-app/react-native)
-
-**Migration Timeline:**
-
-- **Short term:** Complete the new runtime, see [Feature Support](https://github.com/rive-app/rive-nitro-react-native?tab=readme-ov-file#feature-support) and [Roadmap](https://github.com/rive-app/rive-nitro-react-native?tab=readme-ov-file#roadmap)
-- **Medium term:** Address major concerns in the legacy package while supporting migration
-- **Long term:** Full migration to the new package
-
-We're actively gathering feedback to improve the new runtime. Please share your thoughts and report any issues you encounter.
-
+- [Release notes](https://github.com/rive-app/rive-nitro-react-native/releases)
 </Note>
 
 ## Overview
@@ -41,7 +32,7 @@ This guide documents how to get started using the Rive React Native runtime. The
       - **Android**: SDK 24 (Android 7.0) or later
       - **Xcode**: 16.4 or later
       - **JDK**: 17 or later
-      - **Nitro Modules**: 0.25.2 or later
+      - **Nitro Modules**: 0.35.10 or later (0.36.2 or later on React Native 0.87+)
 
     ## Quick Start
 
@@ -376,7 +367,7 @@ This guide documents how to get started using the Rive React Native runtime. The
 
     Hook to create a view model instance from a `RiveFile`, `ViewModel`, or `RiveViewRef`. 
     
-    Pass `async: true` to opt in to asynchronous instance creation — the flag signals that your component handles the loading state. The hook returns `{ instance, isLoading, error }` and the instance is not available on the first render. This prepares your code for the new runtime implementation, where creating an instance is an asynchronous operation.
+    Pass `async: true` to create the instance asynchronously. The hook returns `{ instance, isLoading, error }` and the instance is not available on the first render, so gate rendering on it. Without `async: true`, the instance is created through deprecated synchronous APIs that block the JS thread.
 
     ```ts
     // From RiveFile — default artboard's ViewModel, default instance
@@ -430,6 +421,30 @@ This guide documents how to get started using the Rive React Native runtime. The
     ```
 
     See the [runtime data binding documentation](/runtimes/react-native/data-binding) for more information.
+
+    ## Frame rate
+
+    By default, `RiveView` renders at the display's refresh rate. Use the `frameRate` prop to cap it, for example to reduce the CPU and battery cost of a looping animation that doesn't need 120 Hz:
+
+    ```tsx
+    // Cap rendering at 30 frames per second
+    <RiveView file={riveFile} frameRate={30} />
+
+    // Let the system pick a rate between 30 and 60, ideally 60
+    <RiveView file={riveFile} frameRate={{ minimum: 30, maximum: 60, preferred: 60 }} />
+    ```
+
+    A range maps to `CAFrameRateRange` on iOS. Android doesn't support ranges, so it caps at `preferred`, or `maximum` if `preferred` isn't set. Remove the prop to return to the display's refresh rate.
+
+    Capping limits how many frames are drawn, not animation speed: playback still advances by the real time elapsed between frames.
+
+    <Note>
+      `frameRate` requires `0.5.0` or later.
+    </Note>
+
+    ## Semantics
+
+    Rive views can expose [semantics defined in the editor](/editor/accessibility/semantics) to VoiceOver on iOS. See [Semantics](/runtimes/react-native/semantics) for the available modes.
 
     ## Troubleshooting
 
