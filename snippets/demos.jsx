@@ -39,10 +39,18 @@ export const Demos = ({
     },
     gamepadRadialMenu: {
       title: 'Gamepad Radial Menu',
-      description: '3D game menu controlled by a gamepad.',
+      description: 'Pick items from a 3D radial menu with a gamepad\'s joystick and buttons.',
       image: "https://static.rive.app/docs/gamepad-radial-menu.png",
       links: {
         editor: "https://rive.app/community/files/29015-gamepad-radial-demo/"
+      },
+    },
+    gamepadGame: {
+      title: 'Gamepad Game',
+      description: 'A playable game you control entirely with a gamepad.',
+      image: "https://static.rive.app/docs/gamepad-game-demo.png",
+      links: {
+        editor: "https://rive.app/community/files/29016-gamepad-game/"
       },
     },
     ikConstraint: {
