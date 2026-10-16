@@ -1,0 +1,102 @@
+---
+title: "Focus"
+description: "Let users move through your file with a keyboard or gamepad, and control which element receives their input."
+---
+
+import { UseCase } from '/snippets/use-case.mdx'
+
+<Note>
+  Focus requires a runtime that supports it. See [Focus Feature Support](/feature-support#focus).
+</Note>
+
+Focus determines which element receives keyboard, text, and gamepad input. Only one element has primary focus at a time, but its focusable ancestors are also considered focused. For example, when a button inside a focusable menu has primary focus, the menu has focus too.
+
+Users move focus by clicking an element, pressing **Tab** and **Shift+Tab**, or using the arrow keys, and your state machine can move focus with listener actions.
+
+Focus is what makes your file usable without a pointer. Keyboard users, switch users, and gamepad players all rely on a predictable focus order to reach buttons, inputs, and other interactive elements.
+
+## Making an element focusable
+
+Any element in the hierarchy can receive focus once you add a focus node to it.
+
+<Steps>
+  <Step>
+    Select the element you want to make focusable.
+  </Step>
+  <Step>
+    In the Inspector, click **+** in the **Focus** section.
+  </Step>
+  <Step>
+    Configure the [focus properties](#focus-properties).
+  </Step>
+</Steps>
+
+<Tip>
+  [Text inputs](/editor/state-machine/listeners#text-input) and other elements need focus before they can receive typed text or key presses. If a **Keyboard** or **Text Input** listener isn't firing, check that its target has a focus node.
+</Tip>
+
+### Focus properties
+
+| Property        | Description |
+| --------------- | ----------- |
+| **Focusable**   | Turns focus on or off for the element. When off, the element can't receive focus at all. |
+| **Traversable** | Includes the element in **Tab**, **Shift+Tab**, and arrow-key navigation. When off, the element can still receive focus from a click or a **Focus** action, but users can't tab to it. |
+| **Behavior**    | Controls what happens when focus reaches the first or last element inside this one. See [Focus scopes](#focus-scopes). |
+
+**Focusable** and **Traversable** can be keyed on the timeline and data bound, so you can turn focus on or off as your file changes state. For example, turn off **Focusable** on buttons behind a modal while the modal is open.
+
+## Focus order
+
+**Tab** moves focus to the next traversable element and **Shift+Tab** moves it to the previous one. The order follows the [hierarchy](/editor/interface-overview/hierarchy), from top to bottom. To change the order, reorder the elements in the hierarchy.
+
+The arrow keys move focus directionally, to the nearest focusable element in that direction on the canvas.
+
+An element can't hold focus while it's hidden. If the focused element is collapsed, hidden, or has an opacity of 0, focus moves to the nearest focusable ancestor.
+
+## Focus scopes
+
+When an element with a focus node contains other focusable elements, it acts as a scope: its children form a group in the focus order. The scope's **Behavior** decides what happens when focus reaches the edge of the group.
+
+| Behavior         | Description |
+| ---------------- | ----------- |
+| **Parent Scope** | Focus leaves the group and continues to the next element outside it. This is the default. |
+| **Closed Loop**  | Focus wraps from the last element back to the first, and from the first back to the last. Focus can't leave the group by tabbing. |
+| **Stop**         | Focus stays on the first or last element. |
+
+<UseCase title="Trapping focus in a dialog">
+  When a dialog is open, keyboard users shouldn't be able to tab to the content behind it. Add a focus node to the dialog's group and set **Behavior** to **Closed Loop**. Tabbing now cycles through the dialog's buttons until the dialog closes.
+</UseCase>
+
+## Reacting to focus
+
+Use the [State Machine](/editor/state-machine/state-machine) to show focus and respond to it.
+
+- **Focus** and **Blur** [listeners](/editor/state-machine/listeners#focus) fire when an element gains or loses focus. Because ancestors share focus, a **Focus** listener on a container fires when focus first enters it, and its **Blur** listener fires when focus leaves it. Moving focus between children inside the container doesn't fire either listener on the container. Use them to show a focus ring, highlight, or other visible focus indicator.
+- A **Focus** [transition condition](/editor/state-machine/transitions) checks whether a specific element currently has focus. The condition is true when the element or any of its focusable descendants has primary focus.
+- **Keyboard** and **Text Input** listeners respond to input on the element with primary focus. If that element doesn't handle a key, the key passes up to its nearest focusable ancestor.
+
+<Warning>
+  Always give focused elements a visible focus indicator. Without one, keyboard users can't tell where they are.
+</Warning>
+
+## Moving focus with listener actions
+
+Add a **Focus** action to a listener to move focus from your state machine. Choose a mode from the dropdown:
+
+| Mode         | Description |
+| ------------ | ----------- |
+| **target**   | Moves focus to a specific element. The target must have a focus node. |
+| **traverse** | Moves focus in a direction: **next**, **previous**, **up**, **down**, **left**, or **right**. |
+| **clear**    | Removes focus from the current element. |
+
+For example, use **target** to focus a search field when a search button is clicked, or **clear** to remove focus when a menu closes.
+
+## Previewing focus in the editor
+
+When you play your file, the editor draws brackets around the element that has focus. Toggle **Focus Indicator** in the viewport options to show or hide them.
+
+To send keys to your file instead of triggering editor shortcuts, press **Option+Space** to play with keyboard capture on, or click **Toggle Keyboard Capture** in the playback header.
+
+## Focus and screen readers
+
+Elements with a focus node automatically get the **Focusable** trait in the [Semantics](/editor/accessibility/semantics) panel. Combine focus with semantics so assistive technologies can describe the focused element, such as announcing it as a button with a label.

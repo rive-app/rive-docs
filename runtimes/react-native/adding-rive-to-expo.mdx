@@ -202,7 +202,7 @@ You can use the following component to test Rive:
       if (error || !riveFile) {
         return (
           <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-            <Text>Error loading Rive file: {error || "Unknown error"}</Text>
+            <Text>Error loading Rive file: {error?.message ?? "Unknown error"}</Text>
           </View>
         );
       }

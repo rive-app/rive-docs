@@ -96,11 +96,21 @@ We strongly recommend using [Data Binding](/editor/data-binding/overview) to com
 
 **Pointer Exit** only fires while Rive can read the pointer position. If the target touches the edge of the canvas or container, moving the pointer out of the container may not trigger **Pointer Exit** because the pointer has left the area Rive is tracking.
 
+### Mouse buttons
+
+**Pointer Down**, **Pointer Up**, **Click**, and **Pointer Drag** listeners have a second dropdown to choose which mouse button triggers them: **Primary Button**, **Secondary Button**, or **Middle Button**. Use **Secondary Button** for right-click interactions, such as custom context menus.
+
+When a state machine is playing in the editor, right-click still pans the canvas and opens menus, except over a listener set to **Secondary Button**.
+
+<Warning>
+  Runtimes that don't support this feature ignore **Secondary Button** and **Middle Button** listeners. They don't fire them on a left click instead.
+</Warning>
+
 ### Focus
 
 Turn on **Focusable** for an element to add it to the focus order. Use **Focus** listeners to react when the element gains focus and **Blur** listeners to react when it loses focus.
 
-The **Focus Target** action moves focus to a specific element, and **Focus Traversal** steps through the focus order.
+The **Focus Target** action moves focus to a specific element, and **Focus Traversal** steps through the focus order. See [Focus](/editor/accessibility/focus) for focus order, scopes, and more.
 
 ### Keyboard
 
@@ -120,7 +130,7 @@ The gamepad icon at the bottom of an open file turns green when Rive can see you
 
 Pick the **Text Input** tool in the toolbar and draw an editable text field. Draw it over a layout to add it to that layout.
 
-Use the **Text Input** section of the Inspector to set the field's font, colors, placeholder, selection color, background, and single line or multiline mode. Add a **Text Input** listener to react when text is entered while the field has focus.
+Use the **Text Input** section of the Inspector to set the field's font, colors, placeholder, selection color, background, and single line or multiline mode. Add a **Text Input** listener to react when text is entered while the field has focus. See [Text Input](/editor/text/text-input) for details.
 
 ### Semantic Action
 
