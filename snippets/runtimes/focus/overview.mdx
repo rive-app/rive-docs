@@ -4,7 +4,7 @@ A Rive graphic can define focus nodes: elements that can take focus, such as but
 
 Focus nodes and their order are set up in the Rive Editor, and the runtime automatically detects how to traverse them with focus navigation. When the playing state machine has focus nodes, the runtime:
 
-- Makes the `<canvas>` focusable, so the graphic becomes a single stop in the page's tab order.
+- Allows the `<canvas>` to be focusable, so the graphic becomes a single stop in the page's tab order.
 - Listens for keyboard events on the `<canvas>` and routes them to the focus nodes in the graphic.
 
 The runtime itself doesn't draw a visual focus indicator on focused nodes. How a focused node looks, such as a highlight or outline, should be designed in the graphic itself.
