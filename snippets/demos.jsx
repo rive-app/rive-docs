@@ -31,10 +31,18 @@ export const Demos = ({
     },
     gamepadListeners: {
       title: 'Gamepad Listeners',
-      description: 'Control shapes with a gamepad\'s joystick and buttons.',
+      description: 'Minimal demo that controls shapes with a gamepad\'s joystick and buttons.',
       image: "https://static.rive.app/docs/gamepad.png",
       links: {
         editor: "https://rive.app/community/files/28995-54925-gamepad-listeners"
+      },
+    },
+    gamepadRadialMenu: {
+      title: 'Gamepad Radial Menu',
+      description: '3D game menu controlled by a gamepad.',
+      image: "https://static.rive.app/docs/gamepad-radial-menu.png",
+      links: {
+        editor: "https://rive.app/community/files/29015-gamepad-radial-demo/"
       },
     },
     ikConstraint: {
