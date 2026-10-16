@@ -45,6 +45,7 @@ This allows converter behavior to update dynamically. For example, you could bin
 |          | Trim                     | Remove leading or trailing whitespace     |
 |          | Convert to String        | Convert a value to a string               |
 |          | Remove Trailing Zeros    | Remove unnecessary decimal zeros          |
+|          | [String Template](#string-template) | Build text from a template and view model values |
 | Number   | Round                    | Round to the nearest value                |
 |          | Calculate                | Perform simple calculations               |
 |          | [Range Map](#range-map)                | Map a value from one range to another     |
@@ -71,6 +72,80 @@ If the string is shorter than the specified length, the pad value is repeated an
 - **Length:** 3
 
 **Result**: "001"
+
+---
+
+### String template
+
+Builds text by filling placeholders in a template with view model values.
+
+The converter takes a template string as its input, such as `You scored ${score} of ${total}`, and replaces each placeholder with the value of a matching argument. Each argument is a **Number** or **String** that you bind to a view model property.
+
+Store the template in a view model String property so you can swap it at runtime. This is useful for localization, where word order changes between languages. You can also format numbers within placeholders.
+
+<Steps>
+  <Step title="Create the template property">
+    Add a String property to your view model and set its value to `You scored ${score} of ${total}`. Add Number properties for `score` and `total` to hold the values you want to insert.
+  </Step>
+  <Step title="Create the converter">
+    In the Assets panel, click the `+` button and select **String** > **Template**.
+  </Step>
+  <Step title="Add arguments">
+    Under **Arguments**, click **Add Argument** and choose **Number** or **String**. Add an argument for each value you want to insert. For this example, add two Number arguments.
+  </Step>
+  <Step title="Name and bind each argument">
+    Name the arguments `score` and `total`, and bind each argument's value to the corresponding view model property.
+  </Step>
+  <Step title="Apply the converter">
+    Bind your text to the String property that holds the template, and set **Converter** to your string template.
+  </Step>
+</Steps>
+
+**Example:**
+
+- **Template:** `You scored ${score} of ${total}`
+- **Arguments:** `score` (Number) bound to a Number property with a value of `10`, `total` (Number) bound to a Number property with a value of `12`
+
+**Result:** "You scored 10 of 12"
+
+<Tip>
+  Templates let translations reorder values without changing the arguments. For example, `${score} of ${total}` can be translated into a template that places `${total}` before `${score}`.
+</Tip>
+
+#### Placeholders
+
+A placeholder can refer to an argument by name, by position, or by order.
+
+| Placeholder | Uses |
+|-------------|------|
+| `${score}`  | The argument named `score` |
+| `${0}`      | The argument at position 0 (the first argument) |
+| `${}`       | The next argument in order. The first `${}` uses the first argument, the second uses the second, and so on. |
+
+
+#### Formatting numbers
+
+Add a colon and a printf-style format after the placeholder name to control how a Number argument is displayed.
+
+| Placeholder        | Value     | Result      |
+|--------------------|-----------|-------------|
+| `${score}`         | `3.14159` | `3.14159`   |
+| `${score:%.1f}`    | `3.14159` | `3.1`       |
+| `${score:%,d}`     | `1234567` | `1,234,567` |
+| `${score:%05.2f}`       | `3.14159` | `03.14`     |
+
+Without a format, numbers show up to 6 decimal places with trailing zeros removed. The `,` flag adds thousands separators.
+
+#### Syntax
+
+Use **Syntax** to choose how placeholders are written:
+
+- `${name}` (default)
+- `{name}`
+- `{{name}}`
+- **Custom**: set your own **Open** and **Close** delimiters. Each delimiter is 1 to 4 symbols and can't include letters, digits, spaces, `_`, `\`, or `:`.
+
+To show a delimiter as literal text, put a backslash before it. For example, `\${score}` displays `${score}` instead of the value.
 
 ---
 
