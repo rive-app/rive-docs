@@ -39,7 +39,7 @@ getBindGroupLayout(groupIndex: number) -> GPUBindGroupLayout
 
 Returns the layout the pipeline auto-derived for `@group(N)`.
 Errors if `bindGroupLayouts` was supplied at construction (reuse
-the explicit one) or if N is not bound by the shader. Mirrors
-WebGPU's `pipeline.getBindGroupLayout(index)`.
+the explicit one) or if the pipeline's entry points do not bind N.
+Mirrors WebGPU's `pipeline.getBindGroupLayout(index)`.
 
 
