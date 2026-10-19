@@ -5,9 +5,11 @@ description: "Joysticks make it easy to set up sophisticated rigs with simple co
 
 import { YouTube } from '/snippets/youtube.mdx'
 
-Joysticks work by allowing you to pan through different timelines that are assigned to either the X or Y axis of the joystick. Once you’ve assigned the timelines, you can use the joystick to set keys to create animations.
+Joysticks turn complex poses and deformations into simple, reusable controls. Instead of keying every shape, bone, or other property each time you animate, you can set up the motion once and use a joystick to control it across multiple animations.
 
-Either watch the video, or read more below.
+For example, a character looking left or right might require coordinated changes to the eyes, face, and head. A joystick lets you control those changes with a single handle, making it easier to animate the character while keeping those movements consistent.
+
+Each axis of a joystick controls the playback position of an assigned timeline. Moving the handle scrubs through the poses in those timelines. You can then key the handle’s position in a new timeline to animate using the control you’ve built.
 
 <YouTube id="PvZYDAUnLXE" />
 
@@ -19,8 +21,6 @@ To create a new joystick, either find the Joystick Tool in the Stage Controls To
 
 <Tip>
   If joysticks aren't visible on the stage, open the **View Options** menu and make sure **Joysticks** is enabled.
-
-  ![toggle joysticks visibility](/images/editor/interface/toggle-show-joysticks.gif)
 </Tip>
 
 ## Joystick properties
