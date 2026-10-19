@@ -19,14 +19,12 @@ With Libraries:
 - Updates flow downstream with version history and change notifications.
 - Teams can collaborate without worrying about mismatched assets.
 
-<Note>Libraries are available on Voyager and Enterprise plans. [Learn more about our plans and pricing](https://rive.app/pricing?utm_source=docs&utm_medium=content).</Note>
-
 ## Creating a library
 Any file can be made into a library. First, you'll need to create a [component](/editor/fundamentals/components) and/or a view model before you can publish the file as a library. Select an artboard on the stage and use the component icon in the inspector or `Shift` + `N` to toggle its status as a component.
 
 ![Image](/images/editor/libraries/01-component.webp)
 
-With a component or view model present in the file, select the **Publish Library** option via the export action on the toolbar, or via the file menu. The publishing panel provides an opportunity to select which of the components, view models, and enums you'd like to be published as part of the library.
+With a component or view model present in the file, select the **To Library** option via the publish button in the toolbar, or the **Publish Library** option in the file menu. The publishing panel provides an opportunity to select which of the components, view models, and enums you'd like to be published as part of the library.
 
 ![Image](/images/editor/libraries/15-publish-alt.webp)
 
@@ -52,11 +50,12 @@ With the chosen elements added to your file, you can access and reuse components
 ![Image](/images/editor/libraries/08-assets.webp)
 
 ## Updating a library
-After publishing, you can continue to make changes, add, or remove components, view models, and enums. Republish the library via the same option in the export or file menus. Upon publishing an updated version of the library, any files that have imported elements from it will display a small badge indicating an available update.
+
+After publishing, you can continue to make changes, add, or remove components, view models, and enums. Republish the library via the same options in the toolbar or file menus. Upon publishing an updated version of the library, any files that have imported elements from it will display a small badge indicating an available update.
 
 ![Image](/images/editor/libraries/09-update-badge.webp)
 
-To update a component, right-click it in asset panel and select **Library Options** -> **Update Component** from the context menu. Choose the library elements you'd like to update and select **Update Selected**.
+To update a component, right-click it in the **Assets** panel and select **Library Options** -> **Update Component** from the context menu. Choose the library elements you'd like to update and select **Update Selected**.
 
 <Note>
   When you add a view model from a library to another file, Rive creates a unique instance of that view model in the Data panel. Its property values are independent of the library's defaults, even if the instance isn't used on an artboard.
@@ -66,11 +65,29 @@ To update a component, right-click it in asset panel and select **Library Option
 
 ![Image](/images/editor/libraries/10-update.webp)
 
+### Syncing View Model instances
+
+To bring a library View Model's instances in line with the library, right-click the View Model in the **Data** panel and select **Library Options** > **Sync Instances**.
+
+Syncing matches instances by name and:
+
+- Adds any library instances that are missing from your file.
+- Sets the default instance to match the library's default instance.
+- Copies the library's values into properties that are still set to their type's default (for example, `0`, `false`, or an empty string).
+
+Syncing never deletes instances and never overwrites values you've changed in your file.
+
+<Note>When you update a library, Rive automatically adds any new instances, but it doesn't change your file's default instance. Use **Sync Instances** if you also want the default instance to match the library's.</Note>
+
 ## Detaching
 
 <YouTube id="TtOOPSAm6pI" />
 
-After importing a component from a library and creating an instance of it on the stage, you may choose to detach it. Detaching a component will decouple it from the source and copy over its contents into your active file. Any references to it will be redirected to the new local copy. You may want to detach a component to make changes to it, without changing the source.
+After importing a component from a library, you may choose to detach it. Detaching a component will decouple it from the source and copy over its contents into your active file.
+
+Right click the component or view model in the left sidebar panel and select **Library Options** > **Detach**
+
+Any references to it will be redirected to the new local copy. You may want to detach a component to make changes to it, without changing the source.
 
 <Note>It's not possible to re-attach a component after it has been detached.</Note>
 
