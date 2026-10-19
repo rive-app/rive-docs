@@ -29,6 +29,30 @@ export const Demos = ({
         editor: "https://rive.app/community/files/28147-randomize-exit/"
       },
     },
+    gamepadListeners: {
+      title: 'Gamepad Listeners',
+      description: 'Minimal demo that controls shapes with a gamepad\'s joystick and buttons.',
+      image: "https://static.rive.app/docs/gamepad.png",
+      links: {
+        editor: "https://rive.app/community/files/28995-54925-gamepad-listeners"
+      },
+    },
+    gamepadRadialMenu: {
+      title: 'Gamepad Radial Menu',
+      description: 'Pick items from a 3D radial menu with a gamepad\'s joystick and buttons.',
+      image: "https://static.rive.app/docs/gamepad-radial-menu.png",
+      links: {
+        editor: "https://rive.app/community/files/29015-gamepad-radial-demo/"
+      },
+    },
+    gamepadGame: {
+      title: 'Gamepad Game',
+      description: 'A playable game you control entirely with a gamepad.',
+      image: "https://static.rive.app/docs/gamepad-game-demo.png",
+      links: {
+        editor: "https://rive.app/community/files/29016-gamepad-game/"
+      },
+    },
     ikConstraint: {
       title: 'IK Constraints',
       description: 'Check out this example to see IK constraints in action.',
