@@ -33,14 +33,19 @@ The Handle X and Y property describes the position that the handle is currently 
 
 ### Position
 
-The position property describes the position of the Joystick on the stage. For the most part, we won't need to update this property at all while animating.
-
+The position property describes the position of the Joystick on the stage.
 
 ### Size
 
 The size property describes the size of the joystick. We can modify this property to fit our needs by making the joystick longer/shorter or wider/skinnier.
 
 ![Height Width](/images/editor/manipulating-shapes/Height_Width.gif)
+
+### Origin
+
+The origin property sets which point of the joystick sits at its position. Values are relative to the joystick's size: `0, 0` is the top-left corner, `1, 1` is the bottom-right corner, and the default `0.5, 0.5` is the center.
+
+Changing the origin moves the joystick's bounds around its position without changing how the handle maps to the assigned timelines. For example, set the origin to `0, 0.5` to make a slider extend to the right of its position instead of centering on it.
 
 ### Draw in World Space
 
