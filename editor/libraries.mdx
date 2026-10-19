@@ -92,7 +92,7 @@ Syncing matches instances by name and:
 - Sets the default instance to match the library's default instance.
 - Copies the library's values into properties that are still set to their type's default (for example, `0`, `false`, or an empty string).
 
-Syncing never deletes instances and never overwrites values you've changed in your file.
+Syncing never deletes instances. It preserves property values that differ from their type's default, but can replace default-valued properties even if you set them intentionally.
 
 <Note>When you update a library, Rive automatically adds any new instances, but it doesn't change your file's default instance. Use **Sync Instances** if you also want the default instance to match the library's.</Note>
 
