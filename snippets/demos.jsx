@@ -67,7 +67,9 @@ export const Demos = ({
       description: 'Use the Follow Path text modifier to make text follow a vector path.',
       riv: 'https://static.rive.app/rivs/text_follow_path.riv',
       stateMachines: "State Machine 1",
-      links: {},
+      links: {
+        editor: "https://rive.app/community/files/29023-text-follow-path"
+      },
     },
     accessibilityReducedMotion: {
       title: 'Reduced Motion Example',
