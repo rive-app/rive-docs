@@ -72,8 +72,8 @@ export const Demos = ({
       },
     },
     nSlicing: {
-      title: 'N-Slicing Rasters & Vectors',
-      description: 'N-Slice vector and raster artwork to build a panel that resizes without distorting.',
+      title: 'N-Slicing ',
+      description: 'N-Slice a group that includes vector and raster artwork to build a panel that resizes without distorting.',
       riv: 'https://static.rive.app/rivs/n-slicing.riv',
       stateMachines: "State Machine 1",
       links: {
