@@ -5,6 +5,7 @@ description: "Text Modifiers let you animate or transform individual characters,
 
 import { YouTube } from '/snippets/youtube.mdx'
 import { UseCase } from '/snippets/use-case.mdx'
+import { Demos } from '/snippets/demos.jsx'
 
 
 By combining ranges, falloff, and animated offsets, you can create effects such as text reveals, wave animations, bouncing characters, and per-letter motion.
@@ -76,7 +77,7 @@ The Invert option controls the opacity of text outside the range:
 
 The Follow Path modifier allows text to follow the shape of a vector path. This can be used to create curved text, circular text layouts, or animated text that moves along a path.
 
-![Follow Path Modifier](/images/editor/text/follow-path.gif)
+<Demos examples={["textFollowPath"]} />
 
 - **Follow** - The path to follow.
 - **Trim Start and End** - Defines where text begins and stops following the path. Text outside the trimmed section continues from the nearest trim point in the direction the path is facing.
@@ -84,6 +85,7 @@ The Follow Path modifier allows text to follow the shape of a vector path. This 
 - **Strength** - Controls how strongly the text follows the path. At 0%, text stays in its original position. At 100%, text follows the path completely. Animate Strength to transition text onto or off of a path.
 - **Auto Orient Glyphs** - Make the rotation of the glyph follow the path.
 - **Auto Orient Lines** - Rotates each line to follow the direction of the path.
+
 
 
 ### Range

@@ -62,6 +62,13 @@ export const Demos = ({
         editor: "https://rive.app/community/files/28080-ik-constraint/",
       }
     },
+    textFollowPath: {
+      title: 'Text Follow Path',
+      description: 'Use the Follow Path text modifier to make text follow a vector path.',
+      riv: 'https://static.rive.app/rivs/text_follow_path.riv',
+      stateMachines: "State Machine 1",
+      links: {},
+    },
     accessibilityReducedMotion: {
       title: 'Reduced Motion Example',
       description: 'Strategies for respecting a user\'s reduced motion preferences.',
