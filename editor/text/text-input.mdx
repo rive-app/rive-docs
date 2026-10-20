@@ -51,6 +51,15 @@ Use the alignment toggles at the top of the section to set the horizontal and ve
 - **Multiline:** Allows the text to wrap onto multiple lines and the user to enter line breaks. Turn it off for single-line fields like search bars.
 - **Obscure:** Masks the text as bullets. Use it for password fields.
 
+### Limits
+
+- **Max Characters:** The most characters the field accepts.
+- **Max Lines:** The most lines the field accepts. Lines are counted as they wrap on screen, not by line breaks.
+
+Set either to `0` for no limit. You can set them in the Inspector or bind them. The bundled Text Input component also exposes both as view model properties.
+
+Once the field reaches a limit, typing and `Enter` stop adding text, and a paste keeps only the part that fits. The limits only apply to what the user enters. Text set through a data binding is never trimmed.
+
 ### Placeholder
 
 - **Placeholder:** Text shown when the field is empty, such as "Search" or "Email address."
