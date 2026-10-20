@@ -15,7 +15,7 @@ From the page's point of view, the `<canvas>` is one tab stop. Inside it, the gr
 - **Tabbing in** - When a user presses <kbd>Tab</kbd> onto the canvas from an earlier element on the page, focus lands on the first focus node. Pressing <kbd>Shift</kbd> + <kbd>Tab</kbd> onto the canvas from a later element lands on the last focus node. If the graphic already has a focused node, focus stays on that node.
 - **Clicking in** - Clicking the canvas gives it browser focus. The runtime does not move focus to a node on click, though the graphic's own listeners may. The next <kbd>Tab</kbd> enters the graphic.
 - **Tabbing out** - Pressing <kbd>Tab</kbd> on the last focus node, or <kbd>Shift</kbd> + <kbd>Tab</kbd> on the first, releases focus to the next or previous element on the page. A graphic's focus nodes can instead be set to wrap around or stop at the edges, in which case focus stays inside the graphic.
-- **Leaving** - When browser focus leaves the canvas for anywhere else on the page (i.e. clicking another DOM element), the runtime clears focus inside the graphic. Switching browser tabs or windows does not clear it.
+- **Leaving** - When browser focus leaves the canvas for anywhere else on the page (for example, when the user clicks another element), the runtime clears focus inside the graphic. Switching browser tabs or windows does not clear it.
 
 ### Directional focus
 

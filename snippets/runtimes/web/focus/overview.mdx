@@ -9,7 +9,7 @@ Focus nodes and their order are set up in the Rive Editor, and the runtime autom
 
 The runtime itself doesn't draw a visual focus indicator on focused nodes. How a focused node looks, such as a highlight or outline, should be designed in the graphic itself.
 
-If the graphic has no focus nodes or is at the end of a focus sequence, the runtime leaves the `<canvas>` to the next element on the page
+If the graphic has no focus nodes, or the user tabs past its last focus node, focus moves on to the next element on the page as usual.
 
 <Note>
   Keyboard focus is not wired up when `shouldDisableRiveListeners` is `true`.

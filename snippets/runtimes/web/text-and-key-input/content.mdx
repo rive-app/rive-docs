@@ -1,5 +1,5 @@
 <Note>
-  Text input is new to the {runtimeName} runtime in <code>{version}</code>, and we're actively refining it to feel as close to native text editing as possible across devices. In this first release, some mobile editing features, such as copy, cut, autocorrect, and auto-capitalization may not be available yet to end users. See [On-screen keyboards](#on-screen-keyboards) for details.
+  Text input is new to the {runtimeName} runtime in <code>{version}</code>, and we're actively refining it to feel as close to native text editing as possible across devices. In this first release, some mobile editing features, such as copy, cut, autocorrect, and auto-capitalization, may not be available yet to end users. See [On-screen keyboards](#on-screen-keyboards) for details.
 </Note>
 
 ## Overview
@@ -64,7 +64,7 @@ When <a href={`/runtimes/${runtime}/semantics`}>semantics</a> is enabled, the hi
 
 ### Forms, DOM queries, and CSS
 
-The hidden input is a real `<input>` in your page. Also note that if your Rive graphic has multiple text inputs, only one `<input>` is present in the DOM to capture text. Its element attributes are decorated accordingly while traversing the focus tree to distinguish its purpose for screen readers.
+The hidden input is a real `<input>` in your page, so anything that targets input elements generically will see it: a CSS rule for `input`, `document.querySelectorAll("input")`, or code that walks the fields of a surrounding `<form>`. Scope that code to your own inputs. There is only one hidden input per Rive instance, even when the graphic has several text inputs, and its `value` is always empty.
 
 ### Positioning
 
@@ -78,4 +78,4 @@ The hidden input is absolutely positioned over the canvas, and mobile browsers s
 
 ### Keyboard traps
 
-If a focus node in the graphic contains a <kbd>Tab</kbd> key input listener, or its focus nodes are set to wrap around or stop at the edges, keyboard users need another way to leave it, such as adding an <kbd>Escape</kbd> key input listener that clears focus. Your app can also <a href={`/runtimes/${runtime}/focus#clearing-focus`}>clear focus</a> with `rive.clearFocus()`. Once focus is cleared, the next <kbd>Tab</kbd> leaves the canvas.
+If a focus node in the graphic handles <kbd>Tab</kbd> with a key input listener, or the graphic's focus nodes are set to wrap around or stop at the edges, keyboard users need another way to leave the graphic, such as an <kbd>Escape</kbd> key input listener that clears focus. Your app can also <a href={`/runtimes/${runtime}/focus#clearing-focus`}>clear focus</a> with `rive.clearFocus()`. Once focus is cleared, the next <kbd>Tab</kbd> leaves the canvas.
