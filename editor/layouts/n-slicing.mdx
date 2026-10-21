@@ -3,17 +3,21 @@ title: 'N-Slicing'
 description: ''
 ---
 
+import { Demos } from '/snippets/demos.jsx'
+
 ## What is N-Slicing?
 
 Rive's N-Slice feature is inspired by the 9-slicing technique commonly used in game design. A 9-slice is typically applied to an image to prevent the four corner segments from scaling when resized. Meanwhile, the remaining five inner segments stretch or tile to allow raster artwork to scale up and change ratio without distorting.
 
 N-Slicing takes things a step further; allowing you to create any number of segments, to both raster and vector artwork within Rive.
 
+<Demos examples={["nSlicing"]} />
+
 ## Creating an N-Slice
 
-There are two types of N-Slice — those applied to images and those applied to vector objects in the form of a group. Whilst much of the functionality between them is shared, there are some subtle differences, starting with the way you apply them.
+There are three types of N-Slice — those applied to images, those applied to vector objects in the form of a group, and those applied to components. Whilst much of the functionality between them is shared, there are some subtle differences, starting with the way you apply them.
 
-**Image/Raster N-Slice**
+### Image/Raster N-Slice
 
 <Steps>
     <Step>
@@ -30,7 +34,7 @@ There are two types of N-Slice — those applied to images and those applied to 
     </Step>
 </Steps>
 
-**Group/Vector N-Slice**
+### Group/Vector N-Slice
 
 <Steps>
     <Step>
@@ -38,6 +42,19 @@ There are two types of N-Slice — those applied to images and those applied to 
     </Step>
     <Step>
         With the N-Slice group selected, use the 'Edit N-Slice' option in the inspector (or press `enter`) to enable the edit mode. From here, you can setup your axes and tile modes. Once completed, select the 'Done' action in the inspector or stage prompt. Learn more about how to best setup your N-Slice in the 'Setting up an N-Slice' section below.
+    </Step>
+</Steps>
+
+### Component N-Slice
+
+A [component](/editor/fundamentals/components#deform) instance with **Mode** set to **Node** can take an N-Slice the same way an image can. The component draws its artboard as a flat image and slices that image. Like an image, it can look soft when scaled up.
+
+<Steps>
+    <Step>
+        Select the component instance and set **Mode** to **Node**.
+    </Step>
+    <Step>
+        In the **Deform** section of the Inspector, click **+** and select **N-Slice**. Set up the axes and tile modes the same way you would for an image.
     </Step>
 </Steps>
 

@@ -29,7 +29,7 @@ A click creates a 200 × 40 single-line field with its text centered vertically.
 
 Draw over an existing [Layout](/editor/layouts/layouts-overview) to add the input to that layout. Draw over the bare artboard to place the input at that spot, inside its own absolutely positioned layout.
 
-To try the input, switch to [animate mode](/editor/fundamentals/design-vs-animate-mode), select a state machine, and play it. Click the field to focus it, then type.
+To try the input, switch to [animate mode](/editor/fundamentals/design-vs-animate-mode), select a state machine, and play it. Click the field to focus it, then type. Click anywhere outside the field, including the empty space around the artboard, to remove focus. This works the same way in the editor and at runtime.
 
 <Tip>
   Press `Esc` while placing an input to cancel it.
@@ -50,6 +50,15 @@ Use the alignment toggles at the top of the section to set the horizontal and ve
 - **Text color:** The color of the typed text.
 - **Multiline:** Allows the text to wrap onto multiple lines and the user to enter line breaks. Turn it off for single-line fields like search bars.
 - **Obscure:** Masks the text as bullets. Use it for password fields.
+
+### Limits
+
+- **Max Characters:** The most characters the field accepts.
+- **Max Lines:** The most lines the field accepts. Lines are counted as they wrap on screen, not by line breaks.
+
+Set either to `0` for no limit. You can set them in the Inspector or bind them. The bundled Text Input component also exposes both as view model properties.
+
+Once the field reaches a limit, typing and `Enter` stop adding text, and a paste keeps only the part that fits. The limits only apply to what the user enters. Text set through a data binding is never trimmed.
 
 ### Placeholder
 
