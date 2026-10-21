@@ -80,6 +80,15 @@ export const Demos = ({
         editor: "https://rive.app/community/files/29026-n-slicing/"
       },
     },
+    componentMesh: {
+      title: 'Component Mesh',
+      description: 'Add a mesh deformation to a nested component.',
+      riv: 'https://static.rive.app/rivs/component_mesh.riv',
+      stateMachines: "State Machine 1",
+      links: {
+        editor: "https://rive.app/community/files/29045-component-mesh/"
+      },
+    },
     listenerExamples: {
       title: 'Listener Pointer Events',
       description: 'See each Listen To condition in action.',
