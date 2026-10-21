@@ -1,0 +1,235 @@
+---
+title: GPUFeatures
+---
+
+Optional GPU capabilities, returned by `context.features()`. When the device
+is not known yet, `known` is false and every field holds a conservative
+fallback.
+
+
+## Fields
+
+### `known`
+
+<div class="signature">
+```as
+known: bool
+```
+</div>
+
+True when the fields come from the device, false when they are
+fallbacks.
+
+
+### `bc`
+
+<div class="signature">
+```as
+bc: bool
+```
+</div>
+
+BC (S3TC/DXT) compressed texture formats supported.
+
+
+### `etc2`
+
+<div class="signature">
+```as
+etc2: bool
+```
+</div>
+
+ETC2 compressed texture formats supported, common on mobile.
+
+
+### `astc`
+
+<div class="signature">
+```as
+astc: bool
+```
+</div>
+
+ASTC compressed texture formats supported.
+
+
+### `maxTextureSize2D`
+
+<div class="signature">
+```as
+maxTextureSize2D: u32
+```
+</div>
+
+Maximum 2D texture width or height in texels.
+
+
+### `maxTextureSizeCube`
+
+<div class="signature">
+```as
+maxTextureSizeCube: u32
+```
+</div>
+
+Maximum cube map face size in texels.
+
+
+### `maxTextureSize3D`
+
+<div class="signature">
+```as
+maxTextureSize3D: u32
+```
+</div>
+
+Maximum 3D texture depth or layer count.
+
+
+### `anisotropicFiltering`
+
+<div class="signature">
+```as
+anisotropicFiltering: bool
+```
+</div>
+
+Anisotropic texture filtering supported.
+
+
+### `texture3D`
+
+<div class="signature">
+```as
+texture3D: bool
+```
+</div>
+
+3D textures supported.
+
+
+### `textureArrays`
+
+<div class="signature">
+```as
+textureArrays: bool
+```
+</div>
+
+Texture arrays supported.
+
+
+### `colorBufferFloat`
+
+<div class="signature">
+```as
+colorBufferFloat: bool
+```
+</div>
+
+32 bit float color render targets supported, such as `rgba32float`.
+
+
+### `colorBufferHalfFloat`
+
+<div class="signature">
+```as
+colorBufferHalfFloat: bool
+```
+</div>
+
+16 bit float color render targets supported, such as `rgba16float`.
+Implied by `colorBufferFloat`, but can be present without it on WebGL.
+
+
+### `perTargetBlend`
+
+<div class="signature">
+```as
+perTargetBlend: bool
+```
+</div>
+
+Independent blend state per color attachment supported.
+
+
+### `perTargetWriteMask`
+
+<div class="signature">
+```as
+perTargetWriteMask: bool
+```
+</div>
+
+Independent write mask per color attachment supported.
+
+
+### `drawBaseInstance`
+
+<div class="signature">
+```as
+drawBaseInstance: bool
+```
+</div>
+
+Nonzero `firstInstance` and `baseVertex` in draw calls supported.
+
+
+### `depthBiasClamp`
+
+<div class="signature">
+```as
+depthBiasClamp: bool
+```
+</div>
+
+Depth bias clamping (`depthBiasClamp` on [GPUDepthStencilDesc](/scripting/animascript/api-reference/gpu/gpu-depth-stencil-desc))
+supported.
+
+
+### `maxColorAttachments`
+
+<div class="signature">
+```as
+maxColorAttachments: u32
+```
+</div>
+
+Maximum number of simultaneous color attachments.
+
+
+### `maxUniformBufferSize`
+
+<div class="signature">
+```as
+maxUniformBufferSize: u32
+```
+</div>
+
+Maximum uniform buffer binding size in bytes.
+
+
+### `maxSamplers`
+
+<div class="signature">
+```as
+maxSamplers: u32
+```
+</div>
+
+Maximum number of samplers per shader stage.
+
+
+### `maxSamples`
+
+<div class="signature">
+```as
+maxSamples: u32
+```
+</div>
+
+Maximum MSAA sample count for color render targets, always a power of
+two: 1, 2, 4 or 8.
+
+

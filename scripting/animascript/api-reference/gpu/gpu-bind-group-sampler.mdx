@@ -1,0 +1,44 @@
+---
+title: GPUBindGroupSampler
+---
+
+A sampler entry of a [GPUBindGroup](/scripting/animascript/api-reference/gpu/gpu-bind-group).
+
+
+## Fields
+
+### `slot`
+
+<div class="signature">
+```as
+slot: u32
+```
+</div>
+
+WGSL `@binding` of the sampler.
+
+
+### `sampler`
+
+<div class="signature">
+```as
+sampler: GPUSampler
+```
+</div>
+
+The sampler to bind.
+
+
+## Constructors
+
+### `constructor`
+
+<div class="signature">
+```as
+constructor(slot: u32, sampler: GPUSampler)
+```
+</div>
+
+Creates an entry binding `sampler` at `slot`.
+
+

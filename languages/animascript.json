@@ -1,0 +1,262 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "AnimaScript",
+    "$comment": "rive_vscode ships an identical copy so either extension can register this scope.",
+    "scopeName": "source.animascript",
+    "aliases": ["as", "animascript"],
+    "patterns": [
+        { "include": "#comments" },
+        { "include": "#decorators" },
+        { "include": "#strings" },
+        { "include": "#numbers" },
+        { "include": "#type-declarations" },
+        { "include": "#function-declarations" },
+        { "include": "#storage" },
+        { "include": "#keywords" },
+        { "include": "#language-constants" },
+        { "include": "#primitive-types" },
+        { "include": "#support-types" },
+        { "include": "#function-calls" },
+        { "include": "#cascade" },
+        { "include": "#identifiers" },
+        { "include": "#operators" }
+    ],
+    "repository": {
+        "comments": {
+            "patterns": [
+                {
+                    "name": "comment.line.double-slash.animascript",
+                    "begin": "//",
+                    "end": "$"
+                },
+                {
+                    "name": "comment.block.animascript",
+                    "begin": "/\\*",
+                    "end": "\\*/"
+                }
+            ]
+        },
+        "decorators": {
+            "patterns": [
+                {
+                    "match": "(@)(operator)(?:\\s*(\\.)\\s*(prefix|postfix))?",
+                    "captures": {
+                        "1": { "name": "punctuation.decorator.animascript" },
+                        "2": { "name": "entity.name.function.decorator.animascript" },
+                        "3": { "name": "punctuation.accessor.animascript" },
+                        "4": { "name": "entity.name.function.decorator.animascript" }
+                    }
+                },
+                {
+                    "match": "(@)([A-Za-z_][A-Za-z0-9_]*)",
+                    "captures": {
+                        "1": { "name": "punctuation.decorator.animascript" },
+                        "2": { "name": "entity.name.function.decorator.animascript" }
+                    }
+                }
+            ]
+        },
+        "strings": {
+            "patterns": [
+                {
+                    "name": "string.quoted.double.animascript",
+                    "begin": "\"",
+                    "end": "\"",
+                    "patterns": [{ "include": "#string-escape" }]
+                },
+                {
+                    "name": "string.quoted.single.animascript",
+                    "begin": "'",
+                    "end": "'",
+                    "patterns": [{ "include": "#string-escape" }]
+                },
+                {
+                    "name": "string.template.animascript",
+                    "begin": "`",
+                    "end": "`",
+                    "patterns": [
+                        { "include": "#string-escape" },
+                        {
+                            "name": "meta.embedded.expression.animascript",
+                            "begin": "\\$\\{",
+                            "beginCaptures": {
+                                "0": { "name": "punctuation.definition.template-expression.begin.animascript" }
+                            },
+                            "end": "\\}",
+                            "endCaptures": {
+                                "0": { "name": "punctuation.definition.template-expression.end.animascript" }
+                            },
+                            "patterns": [{ "include": "$self" }]
+                        }
+                    ]
+                }
+            ]
+        },
+        "string-escape": {
+            "name": "constant.character.escape.animascript",
+            "match": "\\\\(x[0-9A-Fa-f]{2}|u\\{?[0-9A-Fa-f]+\\}?|.)"
+        },
+        "numbers": {
+            "patterns": [
+                {
+                    "name": "constant.numeric.hex.animascript",
+                    "match": "\\b0[xX][0-9A-Fa-f_]+\\b"
+                },
+                {
+                    "name": "constant.numeric.binary.animascript",
+                    "match": "\\b0[bB][01_]+\\b"
+                },
+                {
+                    "name": "constant.numeric.octal.animascript",
+                    "match": "\\b0[oO][0-7_]+\\b"
+                },
+                {
+                    "name": "constant.numeric.decimal.animascript",
+                    "match": "\\b[0-9][0-9_]*\\.(?![0-9])([eE][+-]?[0-9]+)?|\\b[0-9][0-9_]*(\\.[0-9][0-9_]*)?([eE][+-]?[0-9]+)?\\b"
+                }
+            ]
+        },
+        "type-declarations": {
+            "patterns": [
+                {
+                    "match": "\\b(struct|class|interface|enum|namespace)\\s+([A-Za-z_][A-Za-z0-9_]*)",
+                    "captures": {
+                        "1": { "name": "storage.type.animascript" },
+                        "2": { "name": "entity.name.type.animascript" }
+                    }
+                },
+                {
+                    "match": "\\b(type)\\s+([A-Za-z_][A-Za-z0-9_]*)",
+                    "captures": {
+                        "1": { "name": "storage.type.animascript" },
+                        "2": { "name": "entity.name.type.animascript" }
+                    }
+                },
+                {
+                    "match": "\\b(extends|implements)\\s+([A-Za-z_][A-Za-z0-9_]*)",
+                    "captures": {
+                        "1": { "name": "storage.modifier.animascript" },
+                        "2": { "name": "entity.other.inherited-class.animascript" }
+                    }
+                }
+            ]
+        },
+        "function-declarations": {
+            "patterns": [
+                {
+                    "match": "\\b(?:(unchecked)\\s+)?(operator)\\s*(\\[\\]=?|==|!=|<=|>=|<<|>>>|>>|\\*\\*|[+\\-*/%&|^<>!~])(?=\\s*\\()",
+                    "captures": {
+                        "1": { "name": "storage.modifier.animascript" },
+                        "2": { "name": "storage.type.function.animascript" },
+                        "3": { "name": "entity.name.function.operator.animascript" }
+                    }
+                },
+                {
+                    "match": "\\b(function)(\\*?)\\s+([A-Za-z_][A-Za-z0-9_]*)",
+                    "captures": {
+                        "1": { "name": "storage.type.function.animascript" },
+                        "2": { "name": "keyword.generator.asterisk.animascript" },
+                        "3": { "name": "entity.name.function.animascript" }
+                    }
+                },
+                {
+                    "match": "\\b(constructor)\\s*(?=\\()",
+                    "name": "storage.type.animascript"
+                },
+                {
+                    "match": "\\b(get|set)\\s+([A-Za-z_][A-Za-z0-9_]*)\\s*(?=\\()",
+                    "captures": {
+                        "1": { "name": "storage.type.property.animascript" },
+                        "2": { "name": "entity.name.function.animascript" }
+                    }
+                }
+            ]
+        },
+        "storage": {
+            "patterns": [
+                {
+                    "name": "storage.type.animascript",
+                    "match": "\\b(let|const|var|function|enum|struct|class|interface|namespace|type)\\b"
+                },
+                {
+                    "name": "storage.modifier.animascript",
+                    "match": "\\b(export|import|default|from|declare|readonly|static|abstract|final|override|private|protected|public|unsafe|async|ref|unmanaged|extends|implements)\\b"
+                }
+            ]
+        },
+        "keywords": {
+            "patterns": [
+                {
+                    "name": "keyword.control.animascript",
+                    "match": "\\b(if|else|for|while|do|return|break|continue|switch|case|yield|await|throw|try|catch|finally|in|of|delete|new)\\b"
+                },
+                {
+                    "name": "keyword.operator.expression.animascript",
+                    "match": "\\b(instanceof|typeof|as|is|keyof)\\b"
+                }
+            ]
+        },
+        "language-constants": {
+            "name": "constant.language.animascript",
+            "match": "\\b(true|false|null|this|super)\\b"
+        },
+        "primitive-types": {
+            "name": "support.type.primitive.animascript",
+            "match": "\\b(i8|i16|i32|i64|u8|u16|u32|u64|f32|f64|bool|isize|usize|v128|void|string|anyref|externref|auto)\\b"
+        },
+        "support-types": {
+            "name": "support.class.animascript",
+            "match": "\\b(FixedArray|StaticArray|Array|Map|Set|String|Math|Mathf|ArrayBuffer|DataView|Int8Array|Uint8Array|Int16Array|Uint16Array|Int32Array|Uint32Array|Int64Array|Uint64Array|Float32Array|Float64Array|I8|I16|I32|I64|U8|U16|U32|U64|F32|F64|Bool)\\b"
+        },
+        "function-calls": {
+            "match": "\\b([A-Za-z_][A-Za-z0-9_]*)\\s*(?=(<[^<>()]*>)?\\()",
+            "captures": {
+                "1": { "name": "entity.name.function.animascript" }
+            }
+        },
+        "identifiers": {
+            "patterns": [
+                {
+                    "name": "variable.other.constant.animascript",
+                    "match": "\\b[A-Z][A-Z0-9_]+\\b"
+                },
+                {
+                    "name": "entity.name.type.animascript",
+                    "match": "\\b[A-Z][A-Za-z0-9_]*\\b"
+                }
+            ]
+        },
+        "cascade": {
+            "name": "punctuation.accessor.cascade.animascript",
+            "match": "(?:(?<=[0-9_]\\.)|(?<!\\.))\\.\\.(?!\\.)"
+        },
+        "operators": {
+            "patterns": [
+                {
+                    "name": "keyword.operator.assignment.animascript",
+                    "match": "(\\?\\?=|\\+=|-=|\\*=|/=|%=|<<=|>>=|>>>=|&=|\\|=|\\^=|\\*\\*=|=)"
+                },
+                {
+                    "name": "keyword.operator.comparison.animascript",
+                    "match": "(===|!==|==|!=|<=|>=)"
+                },
+                {
+                    "name": "keyword.operator.logical.animascript",
+                    "match": "(\\?\\?|&&|\\|\\||!)"
+                },
+                {
+                    "name": "keyword.operator.arithmetic.animascript",
+                    "match": "(\\+\\+|--|\\+|-|\\*\\*|\\*|/|%|<<|>>>|>>|&|\\||\\^|~)"
+                },
+                {
+                    "name": "punctuation.accessor.optional.animascript",
+                    "match": "\\?\\.(?!\\d)"
+                },
+                {
+                    "name": "keyword.operator.ternary.animascript",
+                    "match": "(\\?|:)"
+                }
+            ]
+        }
+    }
+}

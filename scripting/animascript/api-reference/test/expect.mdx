@@ -1,0 +1,24 @@
+---
+title: Expect
+---
+
+Creates expectations for one test case. Each test body receives its own
+[Expect](/scripting/animascript/api-reference/test/expect), and a helper that asserts takes it as a parameter.
+
+
+## Methods
+
+### `that`
+
+<div class="signature">
+```as
+that<T>(value: T): Expectation<T>
+```
+</div>
+
+Starts an [Expectation](/scripting/animascript/api-reference/test/expectation) on `value`.
+```as
+expect.that(2 + 3).is(5);
+```
+
+

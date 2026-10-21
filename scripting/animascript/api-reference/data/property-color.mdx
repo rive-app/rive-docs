@@ -1,0 +1,27 @@
+---
+title: PropertyColor
+---
+
+A color property of a view model.
+
+
+## Fields
+
+### `value`
+
+<div class="signature">
+```as
+value: Color
+```
+</div>
+
+The current value. You can both read and assign it.
+
+```as
+let primary = vm.getColor("primaryColor");
+if (primary != null) {
+    primary.value = Color.rgba(255, 0, 0, 155);
+}
+```
+
+

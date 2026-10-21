@@ -1,0 +1,102 @@
+---
+title: Expectation
+---
+
+An expectation on a value, from `that` on an [Expect](/scripting/animascript/api-reference/test/expect). Each method asserts
+how the value compares to the expected one and records a failure on the test
+when it does not hold.
+
+
+## Fields
+
+### `never`
+
+<div class="signature">
+```as
+readonly never: Expectation<T>
+```
+</div>
+
+An expectation that negates the assertion that follows.
+```as
+expect.that(5).never.is(3);
+expect.that(5).never.greaterThan(10);
+```
+
+
+## Methods
+
+### `is`
+
+<div class="signature">
+```as
+is(expected: T): void
+```
+</div>
+
+Asserts that the value equals the expected value. Class instances
+compare by reference unless their class overloads `==`.
+```as
+expect.that(5).is(5);
+expect.that("hello").is("hello");
+```
+
+
+### `lessThan`
+
+<div class="signature">
+```as
+lessThan(expected: T): void
+```
+</div>
+
+Asserts that the value is less than the expected value.
+```as
+expect.that(3).lessThan(10);
+```
+
+
+### `lessThanOrEqual`
+
+<div class="signature">
+```as
+lessThanOrEqual(expected: T): void
+```
+</div>
+
+Asserts that the value is less than or equal to the expected value.
+```as
+expect.that(5).lessThanOrEqual(5);
+expect.that(4).lessThanOrEqual(5);
+```
+
+
+### `greaterThan`
+
+<div class="signature">
+```as
+greaterThan(expected: T): void
+```
+</div>
+
+Asserts that the value is greater than the expected value.
+```as
+expect.that(10).greaterThan(5);
+```
+
+
+### `greaterThanOrEqual`
+
+<div class="signature">
+```as
+greaterThanOrEqual(expected: T): void
+```
+</div>
+
+Asserts that the value is greater than or equal to the expected value.
+```as
+expect.that(5).greaterThanOrEqual(5);
+expect.that(6).greaterThanOrEqual(5);
+```
+
+

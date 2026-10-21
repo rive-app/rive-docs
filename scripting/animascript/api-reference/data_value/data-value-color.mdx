@@ -1,0 +1,93 @@
+---
+title: DataValueColor
+---
+
+A [DataValue](/scripting/animascript/api-reference/data_value/data-value) that stores a [Color](/scripting/animascript/api-reference/color/color), with its red, green, blue and alpha
+channels readable and writable on their own.
+
+
+## Fields
+
+### `value`
+
+<div class="signature">
+```as
+value: Color
+```
+</div>
+
+The stored color.
+
+```as
+let data = DataValue.newColor();
+data.value = Color.rgba(255, 0, 0, 155);
+```
+
+
+### `red`
+
+<div class="signature">
+```as
+red: f64
+```
+</div>
+
+The red channel, from 0 to 255. Assigning it changes `value`,
+keeping the low 8 bits.
+
+```as
+let data = DataValue.newColor(Color.rgba(128, 55, 12, 255));
+console.log(data.red.toString()); // 128
+data.red = 233;
+```
+
+
+### `green`
+
+<div class="signature">
+```as
+green: f64
+```
+</div>
+
+The green channel, from 0 to 255. Assigning it changes `value`,
+keeping the low 8 bits.
+
+
+### `blue`
+
+<div class="signature">
+```as
+blue: f64
+```
+</div>
+
+The blue channel, from 0 to 255. Assigning it changes `value`,
+keeping the low 8 bits.
+
+
+### `alpha`
+
+<div class="signature">
+```as
+alpha: f64
+```
+</div>
+
+The alpha channel, from 0 to 255. Assigning it changes `value`,
+keeping the low 8 bits.
+
+
+## Constructors
+
+### `constructor`
+
+<div class="signature">
+```as
+constructor(value: Color = 0)
+```
+</div>
+
+Creates a color value.
+
+

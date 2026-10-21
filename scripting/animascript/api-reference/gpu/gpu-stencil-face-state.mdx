@@ -1,0 +1,56 @@
+---
+title: GPUStencilFaceState
+---
+
+Stencil test and update for one triangle facing. The defaults always pass
+and keep the stencil value.
+
+
+## Fields
+
+### `compare`
+
+<div class="signature">
+```as
+compare: CompareFunction
+```
+</div>
+
+Comparison of the reference value against the stored stencil value.
+Default `always`.
+
+
+### `failOp`
+
+<div class="signature">
+```as
+failOp: StencilOp
+```
+</div>
+
+What to write when the stencil test fails. Default `keep`.
+
+
+### `depthFailOp`
+
+<div class="signature">
+```as
+depthFailOp: StencilOp
+```
+</div>
+
+What to write when the stencil test passes and the depth test fails.
+Default `keep`.
+
+
+### `passOp`
+
+<div class="signature">
+```as
+passOp: StencilOp
+```
+</div>
+
+What to write when both tests pass. Default `keep`.
+
+

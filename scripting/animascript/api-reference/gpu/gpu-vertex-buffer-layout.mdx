@@ -1,0 +1,42 @@
+---
+title: GPUVertexBufferLayout
+---
+
+How one vertex buffer feeds attributes to the vertex shader.
+
+
+## Fields
+
+### `stride`
+
+<div class="signature">
+```as
+stride: u32
+```
+</div>
+
+Byte stride between elements.
+
+
+### `stepMode`
+
+<div class="signature">
+```as
+stepMode: VertexStepMode
+```
+</div>
+
+Advance per vertex or per instance. Default `vertex`.
+
+
+### `attributes`
+
+<div class="signature">
+```as
+attributes: Array<GPUVertexAttribute>
+```
+</div>
+
+Vertex attributes read from this buffer.
+
+

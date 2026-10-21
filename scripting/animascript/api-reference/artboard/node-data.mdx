@@ -1,0 +1,292 @@
+---
+title: NodeData
+---
+
+A node of an artboard instance, with its transform and access to its
+parent and children. Get one by name with `Artboard.node`. Reads always
+show the node as the artboard last posed it, animation included.
+
+```as
+let node = instance.node("Hips");
+if (node != null) {
+    node.rotation = Math.PI / 4;
+    node.setPosition(Vector.xy(199, 299));
+}
+```
+
+
+## Fields
+
+### `x`
+
+<div class="signature">
+```as
+x: f64
+```
+</div>
+
+The x coordinate of the local position.
+
+```as
+node.x = 100;
+```
+
+
+### `y`
+
+<div class="signature">
+```as
+y: f64
+```
+</div>
+
+The y coordinate of the local position.
+
+```as
+node.y = 200;
+```
+
+
+### `rotation`
+
+<div class="signature">
+```as
+rotation: f64
+```
+</div>
+
+The local rotation in radians.
+
+```as
+node.rotation = Math.PI / 4;
+```
+
+
+### `scaleX`
+
+<div class="signature">
+```as
+scaleX: f64
+```
+</div>
+
+The x component of the local scale.
+
+```as
+node.scaleX = 2;
+```
+
+
+### `scaleY`
+
+<div class="signature">
+```as
+scaleY: f64
+```
+</div>
+
+The y component of the local scale.
+
+```as
+node.scaleY = 2;
+```
+
+
+### `children`
+
+<div class="signature">
+```as
+readonly children: Array<NodeData>
+```
+</div>
+
+The node's children, empty when it has none.
+
+```as
+let children = node.children;
+if (children.length > 0) {
+    children[0].decompose(Mat2D.withTranslation(100, 100));
+}
+```
+
+
+### `parent`
+
+<div class="signature">
+```as
+readonly parent: NodeData?
+```
+</div>
+
+The node's parent, or null when it has none.
+
+```as
+let parent = node.parent;
+if (parent != null) {
+    parent.decompose(Mat2D.withTranslation(100, 100));
+}
+```
+
+
+### `paint`
+
+<div class="signature">
+```as
+readonly paint: Paint?
+```
+</div>
+
+Null, the same as `asPaint`. A path effect gets the stroke or fill it
+applies to as `PathEffectNode.paint`.
+
+
+## Methods
+
+### `position`
+
+<div class="signature">
+```as
+position(): Vector
+```
+</div>
+
+The local position.
+
+```as
+let position = node.position();
+```
+
+
+### `setPosition`
+
+<div class="signature">
+```as
+setPosition(value: Vector): void
+```
+</div>
+
+Sets the local position.
+
+```as
+node.setPosition(Vector.xy(199, 299));
+```
+
+
+### `scale`
+
+<div class="signature">
+```as
+scale(): Vector
+```
+</div>
+
+The local scale.
+
+
+### `setScale`
+
+<div class="signature">
+```as
+setScale(value: Vector): void
+```
+</div>
+
+Sets the local scale.
+
+```as
+node.setScale(Vector.xy(1.4, 2));
+```
+
+
+### `worldTransform`
+
+<div class="signature">
+```as
+worldTransform(): Mat2D
+```
+</div>
+
+The node's world transform.
+
+```as
+let world = node.worldTransform();
+console.log(world.tx.toString() + ", " + world.ty.toString());
+```
+
+
+### `setWorldTransform`
+
+<div class="signature">
+```as
+setWorldTransform(value: Mat2D): void
+```
+</div>
+
+Overwrites the world transform without touching the local transform,
+so it lasts only until the artboard next recomputes it, such as when
+the node or a parent moves. Use `decompose` to move the node for good.
+
+
+### `decompose`
+
+<div class="signature">
+```as
+decompose(worldTransform: Mat2D): void
+```
+</div>
+
+Sets the node's position, rotation and scale so that its world
+transform becomes `worldTransform`.
+
+```as
+node.decompose(Mat2D.withTranslation(100, 100));
+```
+
+
+### `asPath`
+
+<div class="signature">
+```as
+asPath(): Path?
+```
+</div>
+
+A copy of the node's geometry as a [Path](/scripting/animascript/api-reference/path/path) when the node is a path,
+otherwise null.
+
+```as
+let shape = instance.node("MyPath");
+if (shape != null) {
+    let path = shape.asPath();
+    if (path != null && path.length > 0) {
+        console.log(path[0].type); // moveTo
+    }
+}
+```
+
+
+### `asPaint`
+
+<div class="signature">
+```as
+asPaint(): Paint?
+```
+</div>
+
+Always null: nodes are transforms, never a fill or a stroke. A path
+effect gets the stroke or fill it applies to as
+`PathEffectNode.paint`.
+
+
+### `release`
+
+<div class="signature">
+```as
+release(): void
+```
+</div>
+
+Releases the node now instead of when it is collected. It reads
+nothing afterwards.
+
+

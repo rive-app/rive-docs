@@ -1,0 +1,145 @@
+---
+title: PointerEvent
+---
+
+A pointer interaction: the pointer's id and its position in local
+coordinates.
+
+[Node](/scripting/animascript/api-reference/host/node) pointer handlers receive one, and an [Artboard](/scripting/animascript/api-reference/artboard/artboard) instance takes one
+to forward the interaction to its state machine.
+```as
+export class RenderInstance extends Node {
+    @input character: Artboard? = null;
+    instance: Artboard? = null;
+    x: f32 = 100;
+    y: f32 = 50;
+
+    override init(context: Context): bool {
+        let character = this.character;
+        if (character != null) {
+            this.instance = character.instance();
+        }
+        return true;
+    }
+
+    override pointerDown(event: PointerEvent): void {
+        let instance = this.instance;
+        if (instance != null) {
+            let localPos = event.position - Vector.xy(this.x, this.y);
+            let localEvent = new PointerEvent(event.id, localPos);
+            if (instance.pointerDown(localEvent) != 0) {
+                event.hit();
+            }
+        }
+    }
+}
+```
+
+
+## Fields
+
+### `id`
+
+<div class="signature">
+```as
+id: f64
+```
+</div>
+
+The unique identifier for the pointer.
+
+
+### `position`
+
+<div class="signature">
+```as
+position: Vector
+```
+</div>
+
+The position of the pointer in local coordinates.
+
+
+### `previousPosition`
+
+<div class="signature">
+```as
+previousPosition: Vector
+```
+</div>
+
+The pointer's previous position in local coordinates. Set on events a
+[ListenerContext](/scripting/animascript/api-reference/events/listener-context) delivers; [Node](/scripting/animascript/api-reference/host/node) pointer handlers read the origin.
+
+
+### `type`
+
+<div class="signature">
+```as
+type: string
+```
+</div>
+
+The kind of interaction: `pointerEnter`, `pointerExit`, `pointerDown`,
+`pointerUp`, `pointerMove`, `click`, `pointerDrag` or `unknown`.
+`pointerMove` handlers see every move, enter, click and drag this way.
+
+
+### `timeStamp`
+
+<div class="signature">
+```as
+timeStamp: f64
+```
+</div>
+
+When the interaction happened, in seconds.
+
+
+## Constructors
+
+### `constructor`
+
+<div class="signature">
+```as
+constructor(id: f64, position: Vector, previousPosition: Vector = Vector(), type: string = "unknown", timeStamp: f64 = 0)
+```
+</div>
+
+Creates a pointer event with the given id and position, for example to
+forward an interaction to an [Artboard](/scripting/animascript/api-reference/artboard/artboard) instance in its own space.
+```as
+let event = new PointerEvent(0, Vector.xy(10, 20));
+```
+
+
+## Methods
+
+### `hit`
+
+<div class="signature">
+```as
+hit(isTranslucent: bool = false): void
+```
+</div>
+
+Consumes the event. Call it on every event a script owns (the press,
+each move of a drag, and the release) or the event keeps travelling
+outward and an enclosing hit target claims the gesture. A
+`ScrollConstraint` viewport is the usual one: without this, dragging a
+control inside a scroll view scrolls the view instead.
+
+The argument inverts. Bare `hit()` is opaque and stops there;
+`hit(true)` marks this target translucent, so the event continues to
+whatever is behind it.
+```as
+override pointerDown(event: PointerEvent): void {
+    let instance = this.instance;
+    if (instance != null && instance.pointerDown(event) != 0) {
+        // Handled, but translucent targets behind still receive it.
+        event.hit(true);
+    }
+}
+```
+
+

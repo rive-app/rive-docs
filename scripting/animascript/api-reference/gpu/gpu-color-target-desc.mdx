@@ -1,0 +1,44 @@
+---
+title: GPUColorTargetDesc
+---
+
+Format, blending and write mask of one pipeline color target.
+
+
+## Fields
+
+### `format`
+
+<div class="signature">
+```as
+format: TextureFormat
+```
+</div>
+
+Pixel format. Must match the attachment the pass renders into, so set
+it from the target's [format](/scripting/animascript/api-reference/format/format). Default `bgra8unorm`.
+
+
+### `blend`
+
+<div class="signature">
+```as
+blend: GPUBlendState?
+```
+</div>
+
+Blend equation, or null for no blending. Default null.
+
+
+### `writeMask`
+
+<div class="signature">
+```as
+writeMask: u32
+```
+</div>
+
+Channels to write, as [ColorWriteMask](/scripting/animascript/api-reference/gpu_enums/color-write-mask) values combined with `|`.
+Default all channels.
+
+
