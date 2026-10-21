@@ -12,7 +12,7 @@ The runtime itself doesn't draw a visual focus indicator on focused nodes. How a
 If the graphic has no focus nodes, or the user tabs past its last focus node, focus moves on to the next element on the page as usual.
 
 <Note>
-  Keyboard focus is not wired up when `shouldDisableRiveListeners` is `true`.
+  When `shouldDisableRiveListeners` is `true`, Rive won't receive focus from the browser.
 </Note>
 
 {/* Focus does not depend on [semantics](/runtimes/web/semantics). When semantics is enabled, the accessibility overlay counts as part of the graphic, so moving browser focus between the `<canvas>` and the overlay does not clear focus in the graphic. */}
