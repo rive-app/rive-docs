@@ -89,6 +89,14 @@ export const Demos = ({
         editor: "https://rive.app/community/files/29026-n-slicing/"
       },
     },
+    meshAndBones: {
+      title: 'Mesh and Bones',
+      description: 'Deform raster images with meshes controlled by bones.',
+      video: 'https://static.rive.app/docs/mesh.mp4',
+      links: {
+        editor: "https://rive.app/community/files/28327-mesh-and-bones/"
+      },
+    },
     componentMesh: {
       title: 'Component Mesh',
       description: 'Add a mesh deformation to a nested component.',
@@ -560,7 +568,7 @@ export const Demos = ({
       `
     }>
       {examples.map((example, index) => {
-        const { title, image, links, description, source, riv } = examplesData[example]
+        const { title, image, video, links, description, source, riv } = examplesData[example]
         const canvasId = `rive-canvas-${example}`
 
         return (
@@ -584,7 +592,20 @@ export const Demos = ({
                   }
 
                   {
-                    riv && !image && (
+                    video && !image && (
+                      <video
+                        src={getSrc(video)}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="w-full h-full object-cover object-center"
+                      />
+                    )
+                  }
+
+                  {
+                    riv && !image && !video && (
                       <canvas id={canvasId} style={{ width: "100%", height: "100%"}} />
                     )
                   }
