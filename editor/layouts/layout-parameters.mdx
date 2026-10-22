@@ -17,15 +17,15 @@ To control the flow of child Layouts in a Row, Column, Grid, or Stack requires t
 ![Image](/images/editor/layouts/3412f52f-c283-4617-b6c5-f5af8ad1ddcc.webp)
 
 - **Absolute:** An Absolute Layout positions itself within an artboard or parent Layout container. It can have 2 or more of it’s edges pinned to the container.
-- **Relative:** A Relative Layout has it’s position defined by the parent artboard or Layout. Changing the flex properties on the parent will determine the child layout behaviour.
+- **Relative:** A Relative Layout has it’s position defined by the parent artboard or Layout. Changing the flex properties on the parent will determine the child layout behavior.
 
 ## Scale types
 
-A layout’s width and height can make use of 3 different scale behaviours:
+A layout’s width and height can make use of 3 different scale behaviors:
 
 - **Fixed:** A fixed width or height for the Layout. The defined value can be either a point or percentage value. Use the unit toggle within the fields to toggle between value types.
 - **Hug:** The width and/or height of the Layout shrinks to fit its children. For example, you may want a Layout to hug a text object; resizing itself based on the length of the text inside.
-- **Fill:** The width and/or height of the Layout expands to fill the available space within the parent Layout or artboard. The fill option switches the width/height fields to be represented in `fr` (fill ratio) units and reveals a base size field. The fill ratio values make it possible to control the fill behaviour between a number of children with the fill scale behaviour. For example, you may want the children to fill the available space equally, or perhaps have one child scale at a greater factor than the rest.
+- **Fill:** The width and/or height of the Layout expands to fill the available space within the parent Layout or artboard. The fill option switches the width/height fields to be represented in `fr` (fill ratio) units and reveals a base size field. The fill ratio values make it possible to control the fill behavior between a number of children with the fill scale behavior. For example, you may want the children to fill the available space equally, or perhaps have one child scale at a greater factor than the rest.
 
 Options to set the scale type are below the width and height fields in the inspector.
 
@@ -126,7 +126,9 @@ When a child spans multiple cells, the children after it are pushed to the next 
 
 A Stack Layout places all of its children in the same space, layered on top of each other. Children are drawn in hierarchy order: the topmost child in the hierarchy is drawn in front, and the bottommost is drawn at the back.
 
-Use [Alignment](#alignment) to position the children within the Stack. Children set to **Fill** expand to cover the whole Stack, while Fixed or Hug children are positioned by the alignment.
+Use [Alignment](#alignment) to position the children within the Stack. Children set to **Fill** expand to cover the whole Stack, while Fixed or Hug children are positioned by the alignment. Fill and Hug children stay inside the Stack, the same as in a Row or Column. To keep a Hug child at its full content size, turn on **Hug past bounds**.
+
+Content larger than the Stack overflows based on the alignment. A centered Stack overflows equally on all sides, while a bottom-left Stack overflows up and to the right.
 
 Stacks are useful for components made of layered parts.
 

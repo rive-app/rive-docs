@@ -71,6 +71,15 @@ export const Demos = ({
         editor: "https://rive.app/community/files/28077-accessibility-reduced-motion"
       },
     },
+    nSlicing: {
+      title: 'N-Slicing ',
+      description: 'N-Slice a group that includes vector and raster artwork to build a panel that resizes without distorting.',
+      riv: 'https://static.rive.app/rivs/n-slicing.riv',
+      stateMachines: "State Machine 1",
+      links: {
+        editor: "https://rive.app/community/files/29026-n-slicing/"
+      },
+    },
     listenerExamples: {
       title: 'Listener Pointer Events',
       description: 'See each Listen To condition in action.',

@@ -7,7 +7,7 @@ import { VideoEmbed } from '/snippets/video-embed.jsx'
 import { Marketplace } from '/snippets/marketplace.mdx'
 import { UseCase } from '/snippets/use-case.mdx'
 
-Meshes let you deform raster images by moving vertices instead of transforming the image as a flat rectangle. They are useful for natural motion, such as skin flexing, fabric rippling, hair flowing, or creating faux 3D effects.
+Meshes let you deform raster images and [components](/editor/fundamentals/components#deform) by moving vertices instead of transforming the image as a flat rectangle. They are useful for natural motion, such as skin flexing, fabric rippling, hair flowing, or creating faux 3D effects.
 
 A mesh is built from a [contour](#contours), which defines the mesh’s shape and vertices. Rive uses that contour to create a triangulated surface over the image.
 
@@ -16,7 +16,11 @@ A mesh is built from a [contour](#contours), which defines the mesh’s shape an
   href="https://rive.app/community/files/28327-mesh-and-bones/"
 />
 
-## Adding a Mesh to an image
+## Adding a Mesh to an element
+
+Meshes can be applied to images, as well as instances of components with their **Mode** set to **Node**
+
+### Images
 
 <Steps>
   <Step>
@@ -28,6 +32,19 @@ A mesh is built from a [contour](#contours), which defines the mesh’s shape an
 </Steps>
 
 ![In the Inspector, in the Deform panel click the plus icon and select Mesh](/images/editor/meshes/adding-mesh.png)
+
+### Components
+
+You can also add a mesh to a [component](/editor/fundamentals/components#deform) instance with **Mode** set to **Node**. The component draws its artboard as a flat image and the mesh deforms that image, so you can bind it to bones and animate its vertices like any other mesh.
+
+<Steps>
+  <Step>
+    Select the component instance and set **Mode** to **Node**.
+  </Step>
+  <Step>
+    In the **Deform** section of the Inspector, click **+** and select **Mesh**.
+  </Step>
+</Steps>
 
 ## Deforming a Mesh
 
