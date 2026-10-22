@@ -1,0 +1,18 @@
+## Overview
+
+A Rive graphic can define focus nodes: elements that can take focus, such as buttons, list items, or menu entries. The {runtimeName} runtime connects those focus nodes to the keyboard, so users can move through your graphic with <kbd>Tab</kbd>, <kbd>Shift</kbd> + <kbd>Tab</kbd>, and the arrow keys, the same way they move through the rest of the page.
+
+Focus nodes and their order are set up in the Rive Editor, and the runtime automatically detects how to traverse them with focus navigation. When the playing state machine has focus nodes, the runtime:
+
+- Allows the `<canvas>` to be focusable, so the graphic becomes a single stop in the page's tab order.
+- Listens for keyboard events on the `<canvas>` and routes them to the focus nodes in the graphic.
+
+The runtime itself doesn't draw a visual focus indicator on focused nodes. How a focused node looks, such as a highlight or outline, should be designed in the graphic itself.
+
+If the graphic has no focus nodes, or the user tabs past its last focus node, focus moves on to the next element on the page as usual.
+
+<Note>
+  When `shouldDisableRiveListeners` is `true`, Rive won't receive focus from the browser.
+</Note>
+
+{/* Focus does not depend on [semantics](/runtimes/web/semantics). When semantics is enabled, the accessibility overlay counts as part of the graphic, so moving browser focus between the `<canvas>` and the overlay does not clear focus in the graphic. */}

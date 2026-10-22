@@ -1,13 +1,13 @@
 ---
 title: "Joysticks"
-description: "Joysticks make it easy to set up sophisticated rigs with simple controls. You can quickly animate body poses, eyes, mouths, hands, and more. You can even control joysticks with other joysticks."
+description: "Create reusable controls for complex animations"
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
 
-Joysticks work by allowing you to pan through different timelines that are assigned to either the X or Y axis of the joystick. Once you’ve assigned the timelines, you can use the joystick to set keys to create animations.
+Joysticks let you control complex poses and deformations with a single handle. Use them to combine multiple animated properties into reusable controls, such as moving a character's eyes and head together.
 
-Either watch the video, or read more below.
+Each joystick axis controls the playback position of an assigned timeline. Moving the handle scrubs through those timelines, and you can key its position to animate the resulting poses.
 
 <YouTube id="PvZYDAUnLXE" />
 
@@ -19,8 +19,6 @@ To create a new joystick, either find the Joystick Tool in the Stage Controls To
 
 <Tip>
   If joysticks aren't visible on the stage, open the **View Options** menu and make sure **Joysticks** is enabled.
-
-  ![toggle joysticks visibility](/images/editor/interface/toggle-show-joysticks.gif)
 </Tip>
 
 ## Joystick properties
@@ -31,17 +29,23 @@ With the Joystick selected, you’ll see a number of properties that you can use
 
 The Handle X and Y property describes the position that the handle is currently in. You’ll notice that these properties update as you move the handle around the Joystick.
 
+![Handle](/images/editor/manipulating-shapes/Handle.gif)
+
 ### Position
 
-The position property describes the position of the Joystick on the stage. For the most part, we won't need to update this property at all while animating.
-
-![Handle](/images/editor/manipulating-shapes/Handle.gif)
+The position property describes the position of the Joystick on the stage.
 
 ### Size
 
 The size property describes the size of the joystick. We can modify this property to fit our needs by making the joystick longer/shorter or wider/skinnier.
 
 ![Height Width](/images/editor/manipulating-shapes/Height_Width.gif)
+
+### Origin
+
+The origin property sets which point of the joystick sits at its position. Values are relative to the joystick's size: `0, 0` is the top-left corner, `1, 1` is the bottom-right corner, and the default `0.5, 0.5` is the center.
+
+Changing the origin moves the joystick's bounds around its position without changing how the handle maps to the assigned timelines. For example, set the origin to `0, 0.5` to make a slider extend to the right of its position instead of centering on it.
 
 ### Draw in World Space
 
@@ -59,8 +63,6 @@ When the timeline is assigned to the X axis of the Joystick, notice that the joy
 
 ![Use Joy](/images/editor/manipulating-shapes/UseJoy.gif)
 
-As we move the joystick up and down, you’ll notice that the ball also moves up and down. Keep in mind that we are scrubbing through the assigned timeline. We can now use this joystick to set keys on a new timeline to create animations.
-
 **Invert Toggle**
 
 After you add a timeline to an axis, you’ll notice a toggle that appears next to it. This allows you to invert the direction that the joystick scrubs through the timeline.
@@ -73,16 +75,3 @@ The handle source allows you to constrain the position of the handle to another 
 
 ![Handle Source](/images/editor/manipulating-shapes/HandleSource.gif)
 
-## Joystick considerations
-
-Joysticks are a powerful tool that allows you to create complex deformations, but like with many things in the Rive editor, there are a few things to keep in mind as you set up these controls.
-
-### Conflicting properties
-
-The most important consideration is that when you have multiple animations assigned to the joystick, those timelines will blend. If, for example, both timelines Y property of an object, these joysticks will conflict and prevent that object from moving in the Y direction.
-
-Be sure to separate animated properties to prevent any conflicts. We now actively prevent you from creating keys for properties that are already being used in a timeline assigned to a joystick.
-
-### Creating complex deformations
-
-You can add as many keys to a joystick timeline as you’d like. By doing this, we can create incredibly complex deformations, but remember, these deformations will often bloat the size of your file, so use them sparingly.
