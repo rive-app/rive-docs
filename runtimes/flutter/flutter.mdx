@@ -502,6 +502,10 @@ For shared textures the surface owns the allocation: set `renderResolution` on t
 
 ### Draw optimization
 
+<Note>
+Available from `rive` `0.15.0`. See the [migration guide](/runtimes/flutter/migration-guide#version-0-15-0).
+</Note>
+
 By default, a Rive widget draws a frame only when something in its Artboard changed since the last draw. Advancing is unaffected: the widget advances while the content animates and stops once it settles. On frames that change nothing, the draw is skipped and the last drawn frame stays on screen. This applies to `Factory.rive` and `Factory.flutter`.
 
 `drawOptimization` takes a `DrawOptimization`:
