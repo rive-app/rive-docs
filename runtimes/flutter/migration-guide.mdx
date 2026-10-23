@@ -168,7 +168,7 @@ On native platforms, `Factory.rive` resolves to the render context's recording s
 
 Rive widgets skip the draw on frames where nothing in the Artboard changed, with both `Factory.rive` and `Factory.flutter`. Advancing is unchanged: the widget advances while the content animates and stops once it settles. A skipped frame keeps showing the last drawn frame. See [Draw optimization](/runtimes/flutter/flutter#draw-optimization).
 
-Typical `RiveWidget`, `RivePanel`, and `RiveArtboardWidget` usage needs no change. If a custom painter draws content that is not part of its Artboard, such as Dart-side overlays or other state, call `notifyListeners()` on the painter when that content changes, or pass `drawOptimization: DrawOptimization.alwaysDraw`:
+Typical `RiveWidget`, `RivePanel`, and `RiveArtboardWidget` usage needs no change. If your Artboard painter (for example a `StateMachinePainter` subclass) draws more than its Artboard in `paint`, call `notifyListeners()` when that extra content changes, or pass `drawOptimization: DrawOptimization.alwaysDraw`:
 
 ```dart
 RiveWidget(

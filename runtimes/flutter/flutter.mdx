@@ -523,7 +523,7 @@ These still redraw even when the Artboard did not change: layout and resize, `fi
 **Lower-level widgets:** `RiveArtboardWidget`, `RiveFileWidget`, and `RiveProceduralRenderingWidget` take the same `drawOptimization` parameter. `Artboard.didChange` is `true` when the Artboard changed since it was last drawn. Drawing clears it.
 
 <Note>
-A painter that draws more than its Artboard, such as Dart-side overlays or other state, must call `notifyListeners()` when that content changes, or use `DrawOptimization.alwaysDraw`. Otherwise those changes do not show until the Artboard changes. A painter without an Artboard always draws.
+If your Artboard painter (for example a `StateMachinePainter` subclass) draws more than its Artboard in `paint`, call `notifyListeners()` when that extra content changes, or use `DrawOptimization.alwaysDraw`. Otherwise those changes do not show until the Artboard changes. A painter without an Artboard always draws.
 </Note>
 
 ### `RiveWidgetController`
