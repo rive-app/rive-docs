@@ -377,6 +377,7 @@ Follow the steps below to integrate Rive into your Flutter apps.
 - `sharedTexture`: An explicit `SharedRenderTexture` to draw into, bypassing the ancestor-based `RivePanel` lookup. Use this with [`SharedRenderTexture` and `RiveSurface`](#sharedrendertexture-and-rivesurface) to share a texture across arbitrary parts of the widget tree.
 - `drawOrder`: Stacking order when drawing to a shared texture with `Factory.rive` (default: `1`). Higher values draw on top. See [Draw Order](#draw-order).
 - `renderResolution`: How the widget's backing texture is sized with `Factory.rive` (default: `RenderResolution.display()`). Not valid with `useSharedTexture`/`sharedTexture`. See [Render Resolution](#render-resolution).
+- `drawOptimization`: When the widget redraws (default: `DrawOptimization.drawWhenChanged`). Not valid with `useSharedTexture`/`sharedTexture`. See [Draw optimization](#draw-optimization).
 
 ### `RiveWidgetBuilder`
 
@@ -427,6 +428,7 @@ RivePanel(
 - Set `useSharedTexture: true` in your `RiveWidget`s to enable shared texture rendering
 - Set `drawOrder` in your `RiveWidget`s to control stacking (see [Draw Order](#draw-order))
 - Set `renderResolution` on the panel to control how its shared texture is sized (see [Render Resolution](#render-resolution))
+- Set `drawOptimization` on the panel to control when its shared texture redraws (see [Draw optimization](#draw-optimization))
 - If you need to interleave Rive content with Flutter content, consider using separate `RivePanel`s or `Factory.flutter`
 - For complex scenarios, benchmark both approaches to determine the best performance strategy
 
@@ -470,6 +472,7 @@ Widget build(BuildContext context) {
 - You must call `dispose()` on textures created with `SharedRenderTexture.create()` to release the native texture.
 - `RiveSurface` is wrapped in `IgnorePointer` by default so pointer events are handled by the individual `RiveWidget`s. Set `ignorePointer: false` if pointer events should reach the native texture widget directly.
 - Set `renderResolution` on the `RiveSurface` to control how the shared texture is sized (see [Render Resolution](#render-resolution)).
+- Pass `drawOptimization` to `SharedRenderTexture.create()` to control when the shared texture redraws (see [Draw optimization](#draw-optimization)).
 
 ### Draw Order
 
@@ -495,6 +498,32 @@ For shared textures the surface owns the allocation: set `renderResolution` on t
 
 <Note>
 `renderResolution` only applies with `Factory.rive`. `Factory.flutter` paints directly into Flutter's canvas at composite resolution.
+</Note>
+
+### Draw optimization
+
+By default, a Rive widget draws a frame only when something in its Artboard changed since the last draw. Advancing is unaffected: the widget advances while the content animates and stops once it settles. On frames that change nothing, the draw is skipped and the last drawn frame stays on screen. This applies to `Factory.rive` and `Factory.flutter`.
+
+`drawOptimization` takes a `DrawOptimization`:
+
+- `DrawOptimization.drawWhenChanged` (default): draw only when the Artboard changed.
+- `DrawOptimization.alwaysDraw`: draw on every advanced frame.
+
+```dart
+RiveWidget(
+  controller: controller,
+  drawOptimization: DrawOptimization.alwaysDraw,
+)
+```
+
+These still redraw even when the Artboard did not change: layout and resize, `fit` and `alignment` changes, texture recreation, a new painter, and a painter calling `notifyListeners()`.
+
+**Shared textures:** a [RivePanel](#rivepanel) or [`SharedRenderTexture`](#sharedrendertexture-and-rivesurface) redraws when any widget drawing into it changed, and then redraws all of them. It also redraws when a widget moves relative to the panel or the panel resizes. Set `drawOptimization` on the `RivePanel` or pass it to `SharedRenderTexture.create()`. Setting it on a `RiveWidget` alongside `useSharedTexture` or `sharedTexture` throws an assertion error.
+
+**Lower-level widgets:** `RiveArtboardWidget`, `RiveFileWidget`, and `RiveProceduralRenderingWidget` take the same `drawOptimization` parameter. `Artboard.didChange` is `true` when the Artboard changed since it was last drawn. Drawing clears it.
+
+<Note>
+A painter that draws more than its Artboard, such as Dart-side overlays or other state, must call `notifyListeners()` when that content changes, or use `DrawOptimization.alwaysDraw`. Otherwise those changes do not show until the Artboard changes. A painter without an Artboard always draws.
 </Note>
 
 ### `RiveWidgetController`
