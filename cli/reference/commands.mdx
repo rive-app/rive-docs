@@ -247,6 +247,7 @@ Quote the `drag` value so the shell does not read `>` as a redirection.
 | `--quiet` | No terminal log at all, compiler errors included. Read the exit code, `--format=json`, or `logs.problems` instead |
 | `--optimize` | Compile scripts at Luau O2 instead of O1. The scripts run faster and the bytecode is harder to debug |
 | `--immediate` | Render on the main thread |
+| `--no-status-bar` | Hide the window's [status bar](/cli/reference/status-bar). Paid plans only |
 | `--format=json` or `--format=human` | `human` is the default terminal log. `json` needs `--once`, `--verify`, `--publish` or `--test`, and prints one JSON report object on stdout. `--json` is an alias for `--format=json` |
 
 ## Preview window commands
@@ -261,6 +262,7 @@ Type these in the terminal while the preview window is open.
 | `f` or `fit [mode]` | Switch how the artboard maps into the window. Bare `f` lists the modes |
 | `z` or `size` | Resize the window to the artboard, and follow it again after a manual drag |
 | `rev [path]` | Write an editor `.rev`. Needs `rive login` |
+| `b` or `bar` | Show or hide the [status bar](/cli/reference/status-bar). Paid plans only |
 | `?` or `help` | List commands |
 
 ## Per-command flags

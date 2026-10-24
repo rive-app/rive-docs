@@ -99,6 +99,9 @@ libraries:
 
 revFlavor: editable          # or "library"
 
+window:
+  statusBar: false           # paid plans only
+
 output:
   dir: build
 
@@ -127,6 +130,10 @@ CLI cannot read is dropped without a warning, leaving the default `#FF1D1D1D`.
 
 **`artboards`** — The same settings as `artboard`, set per artboard. Key each entry by
 its layout script's path with `.luau` dropped, so `ui/panel.luau` is `ui/panel`.
+
+**`window.statusBar`** — `false` hides the preview window's
+[status bar](/cli/reference/status-bar) on a paid plan. Free and signed-out accounts
+always see it.
 
 **`exclude`** — Paths not to bundle at all. An entry matches a file or directory by
 exact path, matches everything under a directory, and matches files by glob with the
