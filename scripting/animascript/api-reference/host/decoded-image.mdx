@@ -1,0 +1,43 @@
+---
+title: DecodedImage
+---
+
+Raw decoded image pixels, delivered by `Context.decodeImage` to an
+[ImageDecodeListener](/scripting/animascript/api-reference/host/image-decode-listener).
+
+
+## Fields
+
+### `width`
+
+<div class="signature">
+```as
+width: u32
+```
+</div>
+
+Width in pixels.
+
+
+### `height`
+
+<div class="signature">
+```as
+height: u32
+```
+</div>
+
+Height in pixels.
+
+
+### `data`
+
+<div class="signature">
+```as
+data: ArrayBuffer
+```
+</div>
+
+Premultiplied RGBA8 pixel data, `width * height * 4` bytes.
+
+

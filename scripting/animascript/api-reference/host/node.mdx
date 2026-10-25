@@ -1,0 +1,186 @@
+---
+title: Node
+---
+
+A script that renders shapes, images, text, artboards and more. A
+scripted node can be attached to any Node and renders in the local
+transform space of the hosting Node.
+
+It inherits `init`, `advance` and `dispose` from [Protocol](/scripting/animascript/api-reference/host/protocol).
+```as
+export class Spinner extends Node {
+    @input speed: f64 = 1;
+    angle: f64 = 0;
+    path: Path = new Path();
+    paint: Paint = new Paint();
+
+    override init(context: Context): bool {
+        this.paint.color = Color.rgba(255, 180, 90, 255);
+        return true;
+    }
+
+    override advance(seconds: f64): bool {
+        this.angle += seconds * this.speed;
+        return true;
+    }
+
+    override draw(renderer: Renderer): void {
+        let x = <f32>(Math.cos(this.angle) * 50);
+        let y = <f32>(Math.sin(this.angle) * 50);
+        this.path.reset();
+        this.path.moveTo(Vector.xy(0, 0));
+        this.path.lineTo(Vector.xy(x, y));
+        this.path.lineTo(Vector.xy(-y, x));
+        this.path.close();
+        renderer.drawPath(this.path, this.paint);
+    }
+}
+```
+
+
+## Methods
+
+### `update`
+
+<div class="signature">
+```as
+update(): void
+```
+</div>
+
+Called when an input value changes, and on the next frame after
+`Context.markNeedsUpdate`.
+```as
+override update(): void {
+    this.dirty = true;
+}
+```
+
+
+### `draw`
+
+<div class="signature">
+```as
+draw(renderer: Renderer): void
+```
+</div>
+
+Called every frame, after advance, to render the node with the given
+[Renderer](/scripting/animascript/api-reference/renderer/renderer), which is valid only for this call. Work on a [Canvas](/scripting/animascript/api-reference/canvas/canvas) or
+[GPUCanvas](/scripting/animascript/api-reference/gpu/gpu-canvas) also happens here, in any order.
+```as
+override draw(renderer: Renderer): void {
+    renderer.drawPath(this.path, this.paint);
+}
+```
+
+
+### `pointerDown`
+
+<div class="signature">
+```as
+pointerDown(event: PointerEvent): void
+```
+</div>
+
+Handles a pointer press. Call `event.hit()` to consume it.
+```as
+override pointerDown(event: PointerEvent): void {
+    this.pressedAt = event.position;
+    event.hit();
+}
+```
+
+
+### `pointerMove`
+
+<div class="signature">
+```as
+pointerMove(event: PointerEvent): void
+```
+</div>
+
+Handles a pointer move. Call `event.hit()` to consume it.
+
+
+### `pointerUp`
+
+<div class="signature">
+```as
+pointerUp(event: PointerEvent): void
+```
+</div>
+
+Handles a pointer release. Call `event.hit()` to consume it.
+
+
+### `pointerExit`
+
+<div class="signature">
+```as
+pointerExit(event: PointerEvent): void
+```
+</div>
+
+Handles a pointer leaving. Call `event.hit()` to consume it.
+
+
+### `keyboardEvent`
+
+<div class="signature">
+```as
+keyboardEvent(event: KeyboardEvent): bool
+```
+</div>
+
+Handles a keyboard event. Return true to stop it propagating.
+
+
+### `textEvent`
+
+<div class="signature">
+```as
+textEvent(event: TextInput): bool
+```
+</div>
+
+Handles text input. Return true to stop it propagating.
+
+
+### `gamepadConnected`
+
+<div class="signature">
+```as
+gamepadConnected(event: GamepadEvent): void
+```
+</div>
+
+Called when a gamepad connects, with its full state. Gamepad events
+reach the focused node and bubble up.
+
+
+### `gamepadEvent`
+
+<div class="signature">
+```as
+gamepadEvent(event: GamepadEvent): bool
+```
+</div>
+
+Called when a button or axis changes on a connected gamepad. Gamepad
+events reach the focused node and bubble up; return true to stop the
+bubble.
+
+
+### `gamepadDisconnected`
+
+<div class="signature">
+```as
+gamepadDisconnected(event: GamepadEvent): void
+```
+</div>
+
+Called when a gamepad disconnects. Gamepad events reach the focused
+node and bubble up.
+
+

@@ -1,0 +1,89 @@
+---
+title: Transition
+---
+
+Renders the visual change between an outgoing (`from`) and incoming
+(`to`) child when a transition's active child changes. The runtime picks
+the active child; the script owns how the two are composited. Declare any
+inputs the effect needs as ordinary `@input` members.
+
+It inherits `init`, `advance` and `dispose` from [Protocol](/scripting/animascript/api-reference/host/protocol). Return true
+from `advance` while the transition runs and false once it completes,
+after which the runtime retires the outgoing child.
+```as
+export class Crossfade extends Transition {
+    progress: f64 = 0;
+
+    override changed(from: TransitionChild?,
+                     to: TransitionChild?, direction: f64): void {
+        this.progress = 0;
+    }
+
+    override advance(seconds: f64): bool {
+        this.progress = Math.min(1, this.progress + seconds * 2);
+        return this.progress < 1;
+    }
+
+    override draw(renderer: Renderer, from: TransitionChild?,
+                  to: TransitionChild?): void {
+        if (from != null) {
+            renderer.save();
+            renderer.modulateOpacity(1 - this.progress);
+            from.draw(renderer);
+            renderer.restore();
+        }
+        if (to != null) {
+            renderer.save();
+            renderer.modulateOpacity(this.progress);
+            to.draw(renderer);
+            renderer.restore();
+        }
+    }
+}
+```
+
+
+## Fields
+
+### `managesTo`
+
+<div class="signature">
+```as
+managesTo: bool
+```
+</div>
+
+When false, the incoming child renders through the artboard's normal
+draw loop and `draw` receives null for it, so the script composites
+only the outgoing child, as for a reveal. Default true. Read at the
+start of each transition, so set it in `init` or `changed`.
+
+
+## Methods
+
+### `changed`
+
+<div class="signature">
+```as
+changed(from: TransitionChild?, to: TransitionChild?, direction: f64): void
+```
+</div>
+
+Called when the active child changes. `from` is the outgoing child,
+null on the first show; `to` is the incoming one. `direction` is 1
+when `to` sits at a higher index than `from`, -1 when lower and 0 when
+unknown, as on the first show. Reset any progress here. Called again
+on interruption, with the previously incoming child as `from`.
+
+
+### `draw`
+
+<div class="signature">
+```as
+abstract draw(renderer: Renderer, from: TransitionChild?, to: TransitionChild?): void
+```
+</div>
+
+Composites the two children. Either may be null; see `managesTo`.
+
+

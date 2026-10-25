@@ -1,0 +1,159 @@
+---
+title: GPURenderPass
+---
+
+An open render pass. Issue its draw calls, then call `finish`.
+
+
+## Methods
+
+### `setPipeline`
+
+<div class="signature">
+```as
+setPipeline(pipeline: GPUPipeline): void
+```
+</div>
+
+Sets the pipeline for the draws that follow. Raises an error when the
+pipeline does not fit the pass's attachments.
+
+
+### `setBindGroup`
+
+<div class="signature">
+```as
+setBindGroup(groupIndex: u32, bindGroup: GPUBindGroup, dynamicOffsets: Array<u32> = []): void
+```
+</div>
+
+Binds `bindGroup` to `@group(groupIndex)`. `dynamicOffsets` holds one
+byte offset per dynamic uniform buffer in the group, in the order of
+the group's uniform buffer entries; see `dynamicUBOs` in
+`GPUBindGroupLayout.fromShader`. A typical 3D pattern binds a shared
+texture group at 1 and a per object uniform buffer with a dynamic
+offset at 0.
+
+
+### `setVertexBuffer`
+
+<div class="signature">
+```as
+setVertexBuffer(slot: u32, buffer: GPUBuffer, offset: u32 = 0): void
+```
+</div>
+
+Binds a vertex buffer to `slot`, the index of its layout in
+`vertexBuffers` of [GPUPipelineDesc](/scripting/animascript/api-reference/gpu/gpu-pipeline-desc), reading from byte `offset`.
+
+
+### `setIndexBuffer`
+
+<div class="signature">
+```as
+setIndexBuffer(buffer: GPUBuffer, indexFormat: u32, offset: u32 = 0): void
+```
+</div>
+
+Binds an index buffer, reading from byte `offset`. `indexFormat` is an
+[IndexFormat](/scripting/animascript/api-reference/gpu_enums/index-format) value, such as `<u32>IndexFormat.uint16`.
+
+
+### `setViewport`
+
+<div class="signature">
+```as
+setViewport(x: f32, y: f32, width: f32, height: f32, minDepth: f32 = 0, maxDepth: f32 = 1): void
+```
+</div>
+
+Sets the viewport in pixels and its depth range. The origin is the
+top left on every backend except GL, where it is the bottom left.
+
+
+### `setScissor`
+
+<div class="signature">
+```as
+setScissor(x: u32, y: u32, width: u32, height: u32): void
+```
+</div>
+
+Sets the scissor rectangle in pixels.
+
+
+### `setStencilReference`
+
+<div class="signature">
+```as
+setStencilReference(reference: u32): void
+```
+</div>
+
+Sets the stencil reference value that the pipeline's stencil test
+compares against and the `replace` stencil op writes. See
+`stencilFront` and `stencilBack` of [GPUDepthStencilDesc](/scripting/animascript/api-reference/gpu/gpu-depth-stencil-desc).
+
+```as
+pass.setStencilReference(1);
+```
+
+
+### `setBlendColor`
+
+<div class="signature">
+```as
+setBlendColor(r: f32, g: f32, b: f32, a: f32): void
+```
+</div>
+
+Sets the constant color that the `blendColor` and
+`oneMinusBlendColor` blend factors read, as 0 to 1 channels.
+
+```as
+// Blends the source in at a constant 25 percent.
+let blend = new GPUBlendState();
+blend.srcColor = BlendFactor.blendColor;
+blend.dstColor = BlendFactor.oneMinusBlendColor;
+pass.setBlendColor(0.25, 0.25, 0.25, 0.25);
+```
+
+
+### `draw`
+
+<div class="signature">
+```as
+draw(vertexCount: u32, instanceCount: u32 = 1, firstVertex: u32 = 0, firstInstance: u32 = 0): void
+```
+</div>
+
+Draws `vertexCount` vertices without an index buffer. A nonzero
+`firstInstance` needs the `drawBaseInstance` feature. Raises an error
+when no pipeline is set.
+
+
+### `drawIndexed`
+
+<div class="signature">
+```as
+drawIndexed(indexCount: u32, instanceCount: u32 = 1, firstIndex: u32 = 0, baseVertex: i32 = 0, firstInstance: u32 = 0): void
+```
+</div>
+
+Draws `indexCount` indices from the index buffer. A nonzero
+`baseVertex` or `firstInstance` needs the `drawBaseInstance` feature.
+Raises an error when no pipeline is set.
+
+
+### `finish`
+
+<div class="signature">
+```as
+finish(): void
+```
+</div>
+
+Submits the pass, along with any pass begun inside it that is still
+open. Later calls on this pass do nothing.
+
+

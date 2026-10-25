@@ -1,0 +1,134 @@
+---
+title: GPUDepthStencilDesc
+---
+
+Depth and stencil test state of a pipeline. Leave `depthStencil` of
+[GPUPipelineDesc](/scripting/animascript/api-reference/gpu/gpu-pipeline-desc) null to disable both.
+
+Stencil needs a `depth24plusStencil8` or `depth32floatStencil8` depth
+view. Each pass clears stencil to 0, and `setStencilReference` on the
+pass sets the reference value.
+
+```as
+// Marks covered pixels with 1.
+let depth = new GPUDepthStencilDesc();
+depth.format = TextureFormat.depth24plusStencil8;
+depth.stencilFront.passOp = StencilOp.replace;
+depth.stencilBack.passOp = StencilOp.replace;
+```
+
+
+## Fields
+
+### `format`
+
+<div class="signature">
+```as
+format: TextureFormat
+```
+</div>
+
+Format of the depth attachment, such as `depth32float`. Must match
+the depth view of the pass.
+
+
+### `compare`
+
+<div class="signature">
+```as
+compare: CompareFunction
+```
+</div>
+
+Comparison that decides whether a fragment passes. Default `always`.
+
+
+### `write`
+
+<div class="signature">
+```as
+write: bool
+```
+</div>
+
+Writes depth for passing fragments. Default false.
+
+
+### `depthBias`
+
+<div class="signature">
+```as
+depthBias: i32
+```
+</div>
+
+Constant depth bias. Default 0.
+
+
+### `depthBiasSlopeScale`
+
+<div class="signature">
+```as
+depthBiasSlopeScale: f32
+```
+</div>
+
+Depth bias scaled by the slope of the primitive. Default 0.
+
+
+### `depthBiasClamp`
+
+<div class="signature">
+```as
+depthBiasClamp: f32
+```
+</div>
+
+Largest depth bias allowed; needs the `depthBiasClamp` feature.
+Default 0, no clamp.
+
+
+### `stencilFront`
+
+<div class="signature">
+```as
+stencilFront: GPUStencilFaceState
+```
+</div>
+
+Stencil state for front facing triangles.
+
+
+### `stencilBack`
+
+<div class="signature">
+```as
+stencilBack: GPUStencilFaceState
+```
+</div>
+
+Stencil state for back facing triangles.
+
+
+### `stencilReadMask`
+
+<div class="signature">
+```as
+stencilReadMask: u32
+```
+</div>
+
+Bits of the stored stencil value the test reads. Default `0xFF`.
+
+
+### `stencilWriteMask`
+
+<div class="signature">
+```as
+stencilWriteMask: u32
+```
+</div>
+
+Bits of the stored stencil value the ops write. Default `0xFF`.
+
+

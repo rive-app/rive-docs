@@ -1,0 +1,28 @@
+---
+title: PropertyNumber
+---
+
+A number property of a view model.
+
+
+## Fields
+
+### `value`
+
+<div class="signature">
+```as
+value: f64
+```
+</div>
+
+The current value. You can both read and assign it.
+
+```as
+let health = vm.getNumber("health");
+if (health != null) {
+    console.log(health.value.toString());
+    health.value = 100;
+}
+```
+
+

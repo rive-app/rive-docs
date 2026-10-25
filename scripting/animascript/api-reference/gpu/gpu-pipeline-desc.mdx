@@ -1,0 +1,173 @@
+---
+title: GPUPipelineDesc
+---
+
+Descriptor for the [GPUPipeline](/scripting/animascript/api-reference/gpu/gpu-pipeline) constructor.
+
+Vertex and fragment may come from different shaders. Each file's bindings
+are numbered on its own, so on Vulkan, D3D12 and GL, which share one slot
+namespace between the stages, two files that declare different bindings
+can collide; the [GPUPipeline](/scripting/animascript/api-reference/gpu/gpu-pipeline) constructor rejects that case naming both
+bindings. Declaring the same bindings in both files always works.
+
+
+## Fields
+
+### `vertexModule`
+
+<div class="signature">
+```as
+vertexModule: GPUShaderModule?
+```
+</div>
+
+Shader for the vertex stage. Required.
+
+
+### `vertexEntryPoint`
+
+<div class="signature">
+```as
+vertexEntryPoint: string
+```
+</div>
+
+Name of the vertex shader's `@vertex` function. Empty, the default,
+takes the first one.
+
+
+### `fragmentModule`
+
+<div class="signature">
+```as
+fragmentModule: GPUShaderModule?
+```
+</div>
+
+Shader for the fragment stage. When null, a pipeline with color
+targets takes the fragment entry from `vertexModule`, and one without
+them is depth only.
+
+
+### `fragmentEntryPoint`
+
+<div class="signature">
+```as
+fragmentEntryPoint: string
+```
+</div>
+
+Name of the fragment shader's `@fragment` function. Empty, the
+default, takes the first one.
+
+
+### `colorTargets`
+
+<div class="signature">
+```as
+colorTargets: Array<GPUColorTargetDesc>
+```
+</div>
+
+Color target formats and blending, one per color attachment of the
+pass, up to 4.
+
+
+### `vertexBuffers`
+
+<div class="signature">
+```as
+vertexBuffers: Array<GPUVertexBufferLayout>
+```
+</div>
+
+Vertex buffer layouts, one per vertex buffer slot. Leave it empty for
+a shader that builds its positions from `@builtin(vertex_index)`.
+
+
+### `bindGroupLayouts`
+
+<div class="signature">
+```as
+bindGroupLayouts: Array<GPUBindGroupLayout?>
+```
+</div>
+
+Bind group layouts, where index N serves `@group(N)`, with null
+entries for unused groups. Leave it empty, the default, to derive one
+layout per group from the shader, like WebGPU's `layout: 'auto'`, and
+read them back with `getBindGroupLayout`. Supply layouts built with
+`GPUBindGroupLayout.fromShader` to share one across several
+pipelines, so a single bind group, such as a per frame camera and
+lights group, serves all of them. Derived layouts cover both stages
+when the vertex and fragment come from different shaders.
+
+
+### `topology`
+
+<div class="signature">
+```as
+topology: PrimitiveTopology
+```
+</div>
+
+Primitive topology. Default `triangleList`.
+
+
+### `indexFormat`
+
+<div class="signature">
+```as
+indexFormat: IndexFormat
+```
+</div>
+
+Index format of indexed strip draws, which restart the strip at the
+format's largest value. Default `none`.
+
+
+### `cullMode`
+
+<div class="signature">
+```as
+cullMode: CullMode
+```
+</div>
+
+Face culling. Default `none`.
+
+
+### `winding`
+
+<div class="signature">
+```as
+winding: FaceWinding
+```
+</div>
+
+Winding of front faces. Default `counterClockwise`.
+
+
+### `depthStencil`
+
+<div class="signature">
+```as
+depthStencil: GPUDepthStencilDesc?
+```
+</div>
+
+Depth test state, or null to disable depth testing. Default null.
+
+
+### `sampleCount`
+
+<div class="signature">
+```as
+sampleCount: u32
+```
+</div>
+
+MSAA sample count. Must match the sample count of the pass's
+attachments. Default 1.
+
+

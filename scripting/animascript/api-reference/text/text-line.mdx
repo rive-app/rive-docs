@@ -1,0 +1,157 @@
+---
+title: TextLine
+---
+
+One line of a [Text](/scripting/animascript/api-reference/text/text) after wrapping. Its glyphs come in visual order,
+left to right, whatever the writing direction.
+```as
+let lines = text.lines();
+for (let i = 0; i < lines.length; i++) {
+    let glyphs = lines[i].glyphs();
+    for (let g = 0; g < glyphs.length; g++) {
+        let glyph = glyphs[g];
+        renderer.save();
+        renderer.transform(glyph.transform());
+        renderer.drawPath(glyph.font.glyphPath(glyph.id), paint);
+        renderer.restore();
+    }
+}
+```
+
+
+## Fields
+
+### `index`
+
+<div class="signature">
+```as
+index: u32
+```
+</div>
+
+Zero based index of the line within the text.
+
+
+### `x`
+
+<div class="signature">
+```as
+x: f32
+```
+</div>
+
+Left edge after alignment.
+
+
+### `top`
+
+<div class="signature">
+```as
+top: f32
+```
+</div>
+
+Top of the line.
+
+
+### `baseline`
+
+<div class="signature">
+```as
+baseline: f32
+```
+</div>
+
+Baseline of the line.
+
+
+### `bottom`
+
+<div class="signature">
+```as
+bottom: f32
+```
+</div>
+
+Bottom of the line.
+
+
+### `direction`
+
+<div class="signature">
+```as
+direction: TextDirection
+```
+</div>
+
+Base direction of the paragraph the line belongs to, `ltr` or `rtl`.
+
+
+### `firstIndex`
+
+<div class="signature">
+```as
+firstIndex: i32
+```
+</div>
+
+UTF-16 code unit index of the first character on the line.
+
+
+### `lastIndex`
+
+<div class="signature">
+```as
+lastIndex: i32
+```
+</div>
+
+UTF-16 code unit index of the last character on the line.
+
+
+### `glyphCount`
+
+<div class="signature">
+```as
+readonly glyphCount: i32
+```
+</div>
+
+Number of glyphs on the line.
+
+
+### `width`
+
+<div class="signature">
+```as
+readonly width: f32
+```
+</div>
+
+Width of the line, the sum of its glyph advances.
+
+
+## Methods
+
+### `glyph`
+
+<div class="signature">
+```as
+glyph(index: i32): Glyph
+```
+</div>
+
+The glyph at a zero based visual position.
+
+
+### `glyphs`
+
+<div class="signature">
+```as
+glyphs(): Array<Glyph>
+```
+</div>
+
+All glyphs in visual order.
+
+
