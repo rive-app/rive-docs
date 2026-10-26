@@ -85,8 +85,15 @@ waiting for the page to go live. With `--quiet`, stdout is two lines: the name (
 its expiry date, if it has one) and then the url.
 
 ```bash
+set -euo pipefail
 url=$(rive myproject --publish=web --no-wait --quiet | tail -1)
 ```
+
+<Warning>
+Set `pipefail` before piping the output. Without it the pipeline reports `tail`'s
+status rather than the CLI's, so a failed sign-in, build or upload exits `0` and the
+job carries on with an empty `url`.
+</Warning>
 
 Pass `--team=<id>` as well, since the CLI will not pick a team when stdin is not a
 terminal.
