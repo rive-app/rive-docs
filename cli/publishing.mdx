@@ -1,0 +1,162 @@
+---
+title: "Publishing CLI Projects"
+sidebarTitle: "Publishing"
+description: "Build, sign and host a CLI project as a page anyone can open, with nothing to host yourself."
+---
+
+`--publish=web` builds and signs a Rive project, and hosts it as a public page anyone
+can open: one URL playing the built `.riv`. `--publish` on its own writes a signed `.riv` to disk.
+
+```bash
+rive login                      # once per machine, the same session as --publish
+rive myproject --publish=web    # build, sign, upload, wait for it to go live
+
+# published my-scene
+# https://my-scene-k2f9qa.pages.rive.app
+```
+
+## Publish a page
+
+<Steps>
+  <Step title="Login">
+    ```bash
+    rive login
+    ```
+
+    Publishing needs a signed-in session, for the reason covered under
+    [signing and the web runtime](#signing-and-the-web-runtime).
+  </Step>
+
+  <Step title="Choose a team">
+    Pages belong to a team, not your personal files. Create
+    a team in the Editor, or join an existing one.
+
+    With one team, the CLI picks it for you. With several teams your account is attached to, CLI opens a picker to select a team.
+    Alternatively, set the `--team=<id>` flag to skip the question.
+  </Step>
+
+  <Step title="Publish">
+    ```bash
+    rive myproject --publish=web
+    ```
+
+    The CLI builds the project, signs it, uploads it, waits for the page to go live,
+    and prints the public URL. The name comes from `--name=<name>` if you pass one, then
+    `pages.name` once the project has published before, then the project's `name` in
+    `rive.yaml`. So renaming the project does not move an existing page.
+  </Step>
+</Steps>
+
+The first publish records where the page lives by writing a `pages:` block into
+`rive.yaml`. Later publishes leave it alone:
+
+```yaml
+pages:
+  teamId: 77
+  name: "my-scene"
+```
+
+## Signing and the web runtime
+
+A published page is played by the Rive web runtime, and web runtimes refuse unsigned scripts.
+An unsigned build would load and then play nothing, so `--publish=web` always builds
+the way `--publish` does.
+
+The same watermark rule as `--publish` applies. See
+[Pushing to a Rive file](/cli/reference/project-config#pushing-to-a-rive-file).
+
+## Republish a page
+
+A page is identified by its name within the team. The name is lowercased into a slug
+(anything outside `a-z0-9` becomes a dash), and the url is that slug plus a short
+random suffix minted once, when the page is created.
+
+Publishing the same name again replaces what the url serves. The url does not change,
+so a link you handed out keeps working and starts showing the new build. Publishing a
+different name creates a different page at a different url.
+
+`--name=<name>` on a later publish is a one-off: it publishes to that name without
+changing the `pages:` block, so the project keeps pointing at its original page.
+
+## Publish from CI
+
+`--no-wait` prints the url and exits as soon as the upload is accepted, without
+waiting for the page to go live. With `--quiet`, stdout is two lines: the name (with
+its expiry date, if it has one) and then the url.
+
+```bash
+url=$(rive myproject --publish=web --no-wait --quiet | tail -1)
+```
+
+Pass `--team=<id>` as well, since the CLI will not pick a team when stdin is not a
+terminal.
+
+<Note>
+Publishing is rate limited per account. A run that hits the limit reports
+`too many publishes for now`.
+</Note>
+
+## Set how the control bar starts
+
+A published page carries a small bar of controls for its fit, full screen, and copying
+its url. The bar shows for a moment and then hides to a lip at the bottom of the page.
+`--drawer=<mode>` changes how it starts:
+
+| Mode | The page |
+|---|---|
+| `docked` | keeps the bar out |
+| `hidden` | starts with only the lip showing |
+| `none` | has no bar at all |
+
+## List published pages
+
+List your published pages with the `list-published` command.
+
+```bash
+rive myproject --list-published        # where is this project published
+rive myproject --list-published=web    # every page on the team, with its url
+```
+
+`built` means the file is on disk, not that it is signed. `--once` writes the same path
+as `--publish=local`, so a `built` row can still be an unsigned build. `not published`
+means no page was found for the project's `pages:` binding.
+
+## Unpublish a page
+
+```bash
+rive myproject --unpublish=web                    # take the project's page down
+rive myproject --unpublish=web --name=prototype   # take down a page by name
+```
+
+<Warning>
+`--unpublish=web` has no undo. The url stops resolving, the files are removed, and the
+name frees up. Publishing that name again mints a new url, so the old link does not
+come back. The CLI asks for confirmation unless `--yes` is passed; in CI, where there
+is no terminal to confirm on, set this flag.
+</Warning>
+
+## Page expiry
+
+On some plans, a page may expire after its first publish. When a page
+has an expiry date, the publish prints it on its first line, in your own time zone:
+
+```text
+published my-scene (expires 4 Oct)
+https://my-scene-k2f9qa.pages.rive.app
+```
+
+Republishing a live page keeps its date. Once a page has expired, its url stays offline
+and its name frees up, so publishing the name again makes a new page at a new url.
+
+## Flags
+
+| Flag | Does |
+|---|---|
+| `--publish=web` | Build, sign and publish the page |
+| `--team=<id>` | The team that owns the page, instead of being asked |
+| `--name=<name>` | Publish under this name, instead of the project's |
+| `--no-wait` | Print the url and exit without waiting for the page to go live |
+| `--drawer=<mode>` | How the page's control bar starts: `docked`, `hidden` or `none` |
+| `--list-published[=<target>]` | Where this project is published. Bare prints `local` and `web`; `web` lists every page on the team |
+| `--unpublish=web` | Take the page down |
+| `--yes`, `-y` | Skip the `--unpublish=web` confirmation |
