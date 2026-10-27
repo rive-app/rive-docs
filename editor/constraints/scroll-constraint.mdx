@@ -1,96 +1,126 @@
 ---
 title: 'Scroll Constraints'
+description: 'Make Layout content scrollable, scroll Data Binding lists, and add draggable scroll bars.'
 ---
 
-Scrolling comes to Rive in the form of two constraints; one to add scrolling to overflowed content, and another to create a scroll bar. Both constraints work in conjunction with the existing layout components. We plan to provide generalized scrolling components for quicker setup in future.
+Scrolling in Rive is built from two constraints that work with [Layouts](/editor/layouts/layouts-overview):
 
----
+- **Scroll** makes the content of a Layout scrollable when it overflows its parent.
+- **Scroll Bar Thumb** turns a Layout into a draggable scroll bar thumb that stays in sync with a scrolling Layout.
 
-## Content scrolling
+You can drive scrolling by dragging, with a mouse wheel or trackpad, or from an animation or [Data Binding](/editor/data-binding/overview).
 
-To create a content scroll region, set up a hierarchy that includes:
-- Scroll view - the Layout that defines the area that is the scroll region
-- Scroll content - the Layout that contains the items to be scrolled (this is the Layout you will apply the Scroll Constraint to). The scroll amount will be determined by the size of this Layout. Typically you want to set this Layout to hug (or fixed)
-- Scroll items - the Layout items to be scrolled
+## Making content scrollable
 
-![Image](/images/editor/scroll-content-hierarchy.png)
+A scroll region needs three levels of Layouts:
 
-Select your Scroll content Layout and use the add action within the constraint inspector to add a Scroll Content constraint.
+- **Scroll view**: The Layout that defines the visible scroll area.
+- **Scroll content**: A Layout inside the scroll view that holds everything that scrolls. Add the Scroll constraint to this Layout. Its size sets how far the content can scroll, so set it to hug its contents or to a fixed size larger than the scroll view.
+- **Scroll items**: The Layouts inside the scroll content.
 
-![Image](/images/editor/layouts/1ee7adc4-4698-4f6d-a0e7-8ec73f53c492.webp)
+![Hierarchy with a scroll view Layout containing a scroll content Layout and its items](/images/editor/scroll-content-hierarchy.png)
 
-Once added, use the options fly-out to adjust the Scroll content properties.
+<Steps>
+  <Step>
+    Select the scroll content Layout.
+  </Step>
+  <Step>
+    In the **Constraints** section of the Inspector, click **+** and select **Scroll**.
+    ![Adding a Scroll constraint in the Inspector](/images/editor/layouts/add-scroll-constraint.webp)
+  </Step>
+  <Step>
+    Click the options button on the constraint to open **Scroll Constraint** and set its properties.
+    ![Scroll Constraint options](/images/editor/scroll-content-properties.png)
+  </Step>
+  <Step>
+    Switch to Animate mode and play a State Machine to test the scrolling. Drag inside the scroll view, or use a mouse wheel or trackpad.
+  </Step>
+</Steps>
 
-![Image](/images/editor/scroll-content-properties.png)
 
-#### Direction
 
-**Vertical** - Only scrolls in the vertical direction
+## Scroll constraint properties
 
-**Horizontal** - Only scrolls in the horizontal direction
+### Direction
 
-**All** - Scrolls in both directions
+- **Vertical** scrolls up and down only.
+- **Horizontal** scrolls left and right only.
+- **All** scrolls in both directions.
 
-#### Scroll percent X/Y (animatable)
+### Interaction
 
-This property allows you to set the percentage scroll of the content where 0% is scrolled to the top/left and 100% is scrolled to the bottom/right. This property works when the content is set to scroll in one or all directions and can be keyed on the timeline
-
-#### Scroll index (animatable)
-
-This property allows you to set the 0 based index of the Scroll item to scroll to. This only works when scroll is set to either Vertical or Horizontal and can be keyed on the timeline.
-
-<Tip>Scroll Percent and Scroll Index both control the offset within the Scroll content area. As such, you should only set one or the other because there will be contention when both are set at the same time. For example, you should only key one of these values on a given frame in your timeline.</Tip>
-
-<Tip>In order to use Scroll Percent and Scroll Index together with physical scroll dragging, you should create an empty "reset" timeline/state which you should transition to as soon as the scroll area is interacted with. One way to do this is to add a Mouse down listener to the Scroll View.</Tip>
-
-#### Physics
-
-**Elastic** - An iOS style scroll with deceleration and rubber banding at the edges
-
-**Clamped** - A basic drag and drop with no physics
-
-#### Snap
-
-When enabled, the scroll content will always settle with a whole item at the top/left of the scroll area.
-
-#### Wheel / Trackpad
-
-This option is on by default. When enabled, the Scroll view scrolls with a mouse wheel or trackpad, in addition to a pointer drag. Turn it off to make the Scroll view drag-only.
+- **Interactive** lets the viewer scroll the content by dragging. Turn it off to scroll only from an animation or Data Binding. It's on by default.
+- **Wheel / Trackpad** also lets the viewer scroll with a mouse wheel or trackpad. Turn it off to make the scroll view drag-only. It's on by default and has no effect when **Interactive** is off.
+- **Threshold** is how far, in units, the pointer must move before a drag starts scrolling. Raise it so that taps on scroll items aren't mistaken for drags.
+- **Drag Multiplier** scales how far the content moves for each drag or wheel movement. The default is 1.
 
 When scroll views are nested, such as a horizontal strip inside a vertical list, each wheel or trackpad gesture scrolls the view that matches its direction. A flick that starts in the inner view keeps scrolling the inner view instead of passing to the outer one.
 
-Once you have applied your desired properties, switch to animate mode and start playback of a State Machine to preview the applied scroll constraint. You should be able to click/drag/release, or use a mouse wheel or trackpad, within the Scroll view area to manually control the scroll.
+### Scroll position
 
----
+- **Scroll Percent X** and **Scroll Percent Y** set the scroll position as a percentage, where 0% is the top or left and 100% is the bottom or right. Each appears only when the direction allows scrolling on that axis.
+- **Scroll Index** scrolls to an item by its zero-based index. It appears only when the direction is **Vertical** or **Horizontal**.
 
-## List scrolling
+You can key these properties on the timeline or bind them to View Model properties.
 
-In order to scroll Lists, use the same setup as described above in Content Scrolling, but rather than adding multiple Scroll items to the Scroll content layout, you can add a single List. See [Data Binding Lists](/editor/data-binding/lists) for more information.
+<Warning>Scroll Percent and Scroll Index both set the same scroll offset. Use only one at a time. For example, don't key both on the same frame.</Warning>
 
-There are some additional properties that apply when scrolling Lists. These will only be enabled once a List has been added to the Scroll content.
+<Tip>To combine keyed or bound scroll positions with dragging, transition to an empty "reset" state as soon as the viewer interacts with the scroll view, for example with a **Pointer Down** listener on the scroll view. Otherwise the keyed value overrides the drag.</Tip>
 
-#### Virtualize
+### Physics
 
-When enabled, the List will only generate Artboard components for the items currently in the Content view area. This improves performance when scrolling lists containing a large number of items. Note that virtualization can only be applied in one direction (either vertical or horizontal, not both).
+- **Elastic** decelerates after a flick and rubber-bands at the edges, like scrolling on iOS. Set how it feels with:
+  - **Friction**: How quickly scrolling slows down after a flick.
+  - **Speed Multiplier**: How fast a flick scrolls.
+  - **Elastic Factor**: How far the content stretches past the edges.
+- **Clamped** moves the content with the pointer and stops at the edges, with no momentum.
 
-#### Carousel
+### Snap
 
-When enabled, the List will scroll endlessly in either direction. In order to use Carousel mode, Virtualize must be enabled.
+When **Snap** is on, the content always comes to rest with an item aligned to the top or left of the scroll view. It's off by default.
 
----
+### Read-only scroll state
 
-## Creating a scroll bar
+These properties report what the scroll view is doing. You can't edit them, but you can bind them to View Model properties to react to scrolling, for example to show a "back to top" button or fade a header:
 
-To create a content bar, set up a hierarchy that includes:
-- Scroll Bar - the Layout that defines the area that is the scroll bar and track
-- Scroll Thumb - the Layout that defines the draggable scroll thumb
+- **Scroll Active** is true while the content is being dragged or is still moving.
+- **Velocity X** and **Velocity Y** report the current scroll speed on each axis.
 
-![Image](/images/editor/scroll-bar-hierarchy.png)
+## Scrolling a list
 
-To create a scroll bar, select a Layout Component acting as the scroll bar thumb. From the constraints inspector, add a Scroll Bar Thumb constraint.
+To scroll a [Data Binding list](/editor/data-binding/lists), use the same setup as above, but put a single list inside the scroll content instead of separate scroll items.
 
-![Image](/images/editor/layouts/0c295a18-6d04-471d-ba86-c74e4988c4a9.webp)
+These extra properties turn on once the scroll content contains a list:
 
-Use the target button within the options panel to connect a scrolling Layout. As described in the Scrolling Content section above, this should be the Layout that your Scroll Constraint was applied to.
+- **Virtualize** creates components only for the items that are visible, instead of for every item in the list. Turn it on for long lists to improve performance. **Buffer** keeps the given number of extra items ready on each side of the visible area, so they're already running when they scroll into view. Stack layouts can't be virtualized. A grid can be virtualized only if every child of the scroll content is a list.
+- **Carousel** makes the list loop endlessly in both directions. Turning on **Carousel** also turns on **Virtualize**.
 
-![Image](/images/editor/layouts/2f05011a-cf88-41b5-9a96-ae4712d500d9.webp)
+## Adding a scroll bar
+
+A scroll bar needs two Layouts:
+
+- **Scroll bar**: The Layout that defines the track.
+- **Scroll thumb**: The Layout inside the track that the viewer drags.
+
+![Hierarchy with a scroll bar Layout containing a scroll thumb Layout](/images/editor/scroll-bar-hierarchy.png)
+
+<Steps>
+  <Step>
+    Select the scroll thumb Layout.
+  </Step>
+  <Step>
+    In the **Constraints** section of the Inspector, click **+** and select **Scroll Bar Thumb**.
+    ![Adding a Scroll Bar Thumb constraint in the Inspector](/images/editor/layouts/add-scroll-bar-thumb-constraint.webp)
+  </Step>
+  <Step>
+    Open the constraint's options. Use the target button to select the scroll content Layout, which is the Layout with the Scroll constraint.
+    ![Targeting the scroll content Layout from the Scroll Thumb Constraint options](/images/editor/layouts/scroll-bar-thumb-target.webp)
+  </Step>
+</Steps>
+
+
+
+The **Scroll Thumb Constraint** options also include:
+
+- **Direction**: The axis the thumb moves along.
+- **Auto Size**: Resizes the thumb to show how much of the content is visible, like a browser scroll bar. When it's off, the thumb keeps the size you set.
