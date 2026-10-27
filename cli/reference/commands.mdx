@@ -26,6 +26,10 @@ installed version.
 | `rive inspect` | Print the resolved scene |
 | `rive push` | Build the project and upload it to a Rive file in your account. Needs `rive login` |
 | `rive pull` | Overwrite the local project from the Rive file it is linked to. Needs `rive login` |
+| `rive ls` | List the projects, folders and files in your Rive account. Needs `rive login` |
+| `rive workspace` | Show the current workspace, or switch to another. Needs `rive login` |
+| `rive open` | Open a Rive file in the Editor in your browser. Needs `rive login` |
+| `rive library` | Inspect, update and publish Rive libraries. Needs `rive login`, except `library list` |
 | `rive doctor` | Check the environment: version, auth, ports, project |
 | `rive lsp` | Language server over stdio, for editor integrations |
 | `rive update` | Install the latest published CLI |
@@ -44,15 +48,15 @@ These apply to `rive <project-dir>`.
 
 ### Build modes
 
-Mutually exclusive, so pick one. `--screenshot` under [Capture](#capture) counts
-as one of them. With none of them, the CLI opens the preview window and rebuilds as
+Mutually exclusive, so pick one. `--screenshot`, `--semantics`, `--data-dump` and
+`--render-audio` under [Capture](#capture) each count as one of them. With none of them, the CLI opens the preview window and rebuilds as
 you edit.
 
 | Flag | Does |
 |---|---|
 | `--verify` | Check the project without writing a `.riv`. Exit 1 on errors |
 | `--once` | Write an unsigned `.riv`. Exit 1 on errors |
-| `--publish` | Write a signed `.riv`. Needs `rive login`, and may watermark the output, see the note below. Exit 1 on errors |
+| `--publish[=<target>]` | `local` (the default) writes a signed `.riv`. `web` builds, signs and publishes a hosted page. Needs `rive login`, and may watermark the output, see the note below. Exit 1 on errors |
 | `--test` | Run `Tests` scripts. Exit 6 on failures |
 
 <Note>
@@ -80,6 +84,14 @@ These attach to whichever mode you chose.
 | `--screenshot[=<path>]` | Build, render one frame without a window, write a PNG. Defaults to `build/<name>.png` |
 | `--viewport=<WxH>` | The size the scene is laid out at: the capture size with `--screenshot`, and the window size when watching. Defaults to the artboard's own size |
 | `--bench=<frames>` | Build, time that many frames without a window, report advance and render statistics plus WASM memory growth |
+| `--semantics[=<path>]` | Build, run headless, write the accessibility tree as JSON. Defaults to `build/<name>.semantics.json` |
+| `--render-audio[=<path>]` | Build, run headless with no audio device, write what the scripts' audio processors render as a WAV. Defaults to `build/<name>.wav` |
+| `--audio-rate=<Hz>` | The sample rate `--render-audio` renders at. Defaults to `48000` |
+| `--audio-channels=<N>` | The channels `--render-audio` renders. Defaults to `2` |
+| `--probe=<x,y>` | Print the capture's color at that point as `AARRGGBB`. Repeatable |
+| `--compare=<png>` | Print how many pixels differ from an earlier capture |
+| `--scale=<f>` | Shrink the written PNG by this factor, above `0` and at most `1` |
+| `--seed=<N>` | The seed scripts' `math.random` starts from. Defaults to `1` |
 
 `--bench` runs instead of `--screenshot`, not alongside it. Passing both times the
 frames and writes no PNG, without saying so. It is a build mode in its own right, so
@@ -91,18 +103,21 @@ before the ones it times.
 
 | Flag | Does |
 |---|---|
-| `--data=<path=value>` | Set one view model property before the scene runs. Repeat the flag for several properties |
+| `--data=<path=value>` | Set one view model property. Before any interaction it sets a starting value; after one it applies at that point and runs a frame. Repeatable |
 | `--pointer=<kind@x,y>` | Simulate one pointer event at artboard coordinates. Repeatable |
 | `--advance=<N\|Ns\|Nms>` | Step the scene forward. Repeatable, and runs in order with the other interactions |
 | `--key=<key[:phase][+mods]>` | Simulate a keystroke. Repeatable, and runs in order with the other interactions |
+| `--touch=<kind[:id]@x,y>` | Simulate a finger: `down`, `up`, `move` or `tap`, each id its own pointer. `drag@x1,y1>x2,y2+x3,y3>x4,y4` drags fingers together, which is how you pinch. Repeatable |
+| `--gamepad=<event>` | Simulate a gamepad event: `connect`, `disconnect`, `button@<name\|N>:down\|up\|<0..1>`, `axis@<name\|N>:<-1..1>`. Repeatable |
+| `--semantic-action=<type@label>` | Fire `tap`, `increase` or `decrease` on the node carrying that accessibility label. Repeatable |
 | `--data-dump[=<path>]` | Write the bound view model values, globals and nested artboards as JSON. Defaults to `build/<name>.data.json`; `-` or `stdout` writes to standard output |
 | `--data-dump-filter=<paths>` | Keep only these property paths, comma separated. Globs allowed, as in `battery/*,score` |
 | `--data-dump-every=<N\|Ns\|Nms>` | Sample every N frames rather than once at the end, as JSON Lines |
 | `--artboard=<name>` | Artboard to show on launch. An unknown name falls back to the first artboard without warning |
 | `--fit=<mode>` | How the artboard maps into the view: `fill`, `contain`, `cover`, `fit-width`, `fit-height`, `none`, `scale-down`, or `layout` (the default) |
 
-Interactions run in the order you write them, and `--pointer` and `--advance` need
-`--screenshot`.
+Interactions run in the order you write them, and every one of them needs a capture
+mode: `--screenshot`, `--semantics`, `--data-dump` or `--render-audio`.
 
 #### Advancing time
 
@@ -154,7 +169,10 @@ rive myproject --screenshot=out.png --data=level=100
 rive myproject --screenshot=out.png --data=battery/level=100
 ```
 
-Each `--data` sets one property. Repeat the flag to set several:
+A `--data` before any interaction sets a starting value. One placed after a
+`--pointer`, `--touch`, `--key`, `--gamepad`, `--semantic-action` or `--advance`
+applies at that point in the sequence and then runs a frame, so you can change data
+mid-run. Repeat the flag to set several:
 
 ```bash
 rive myproject --screenshot=out.png \
@@ -163,10 +181,11 @@ rive myproject --screenshot=out.png \
 ```
 
 <Note>
-A path that matches no property logs `data: no property at "<path>"` and is dropped.
-The build still succeeds, and the scene renders with that property's authored value.
-Under `--quiet` you see nothing at all, so confirm your values landed rather than
-assuming they did.
+A path that matches no property fails the run with
+`--data <path>: no property at this path` and exit 1, and no capture is written. An
+artboard with no view model bound reports
+`--data <path>: no view model is bound to this artboard` instead. Both print even
+under `--quiet`.
 </Note>
 
 #### Reading data back
@@ -180,7 +199,8 @@ rive myproject --data-dump=- --advance=60
 ```
 
 `--data-dump-every` turns that into a time series instead of a single reading: a
-header, a frame-0 baseline, then only what changed on each sample. It takes a whole
+header, a frame-0 baseline, then only what changed on each sample, written to
+`build/<name>.data.jsonl`. It takes a whole
 number of frames at 60fps, and counts the frames gestures advance internally.
 
 #### Simulating a keystroke
@@ -214,9 +234,12 @@ each, because a state machine only sees a gesture when it next runs:
 rive myproject --screenshot=out.png --pointer=click@120,60
 ```
 
-`--pointer` only checks the shape of the value. A kind that is not `down`, `up`,
-`move`, `exit`, `click` or `drag` parses fine, then fails at delivery with
-`pointer: unknown gesture` and exits with `1`.
+`wheel@x,y:dx,dy[:notches]` and `trackpad@x,y:dx,dy[:steps]` scroll the content by
+`dx,dy` in artboard units. A wheel is one notch unless counted, and a trackpad is a
+two-finger swipe that flings, defaulting to 8 steps.
+
+`--pointer` only checks the shape of the value. A kind it does not know parses fine,
+then fails at delivery with `pointer: unknown gesture` and exits with `1`.
 
 `drag` is a fifth kind, and the only one with a different shape:
 `drag@x1,y1>x2,y2[:steps]`. It moves to the first point, presses, emits `steps` moves
@@ -239,16 +262,26 @@ Quote the `drag` value so the shell does not read `>` as a redirection.
 |---|---|
 | `--serve[=port]` | Also push builds to connected players. Defaults to port `9640` |
 | `--headless-serve` | Serve with no local window. Takes its port from `--serve=<port>` |
+| `--device=<name>` | Serve, and put the player on that device, emulator or simulator |
+| `--android`, `--ios` | The same on the first device of that kind |
+| `--device-backend=<gl\|vulkan>` | How an Android device draws |
 
 ### Other
 
 | Flag | Does |
 |---|---|
-| `--quiet` | No terminal log at all, compiler errors included. Read the exit code, `--format=json`, or `logs.problems` instead |
-| `--optimize` | Compile scripts at Luau O2 instead of O1. The scripts run faster and the bytecode is harder to debug |
-| `--immediate` | Render on the main thread |
+| `--allow-net` | Let scripts `fetch()` `https:` URLs. Without it `fetch` rejects with `disabled` |
+| `--output-dir=<directory>` | Override `output.dir` for local publishing and for the local row of `--list-published`. Relative to the project, and it does not change `rive.yaml` |
+| `--define=<NAME[=n]>` | Set an AnimaScript build constant, `1` by default. Repeatable, and overrides `defines` in `rive.yaml` |
+| `--quiet` | No terminal log, compiler errors included. Script `print` output and script errors still print. Read the exit code, `--format=json`, or `logs.problems` instead |
+| `--optimize` | Compile Luau at O2 instead of O1, and AnimaScript without its debugger line probes. Both run faster and are harder to debug |
 | `--no-status-bar` | Hide the window's [status bar](/cli/reference/status-bar). Paid plans only |
 | `--format=json` or `--format=human` | `human` is the default terminal log. `json` needs `--once`, `--verify`, `--publish` or `--test`, and prints one JSON report object on stdout. `--json` is an alias for `--format=json` |
+
+## Publishing to the web
+
+`--publish=web` builds, signs and hosts the project as a page anyone can open. See
+[Publishing to the web](/cli/publishing).
 
 ## Preview window commands
 
@@ -261,6 +294,7 @@ Type these in the terminal while the preview window is open.
 | `a` or `artboard [name]` | Switch the shown artboard |
 | `f` or `fit [mode]` | Switch how the artboard maps into the window. Bare `f` lists the modes |
 | `z` or `size` | Resize the window to the artboard, and follow it again after a manual drag |
+| `d` or `data [path]` | Write the bound data as JSON. `-` or `stdout` writes to standard output |
 | `rev [path]` | Write an editor `.rev`. Needs `rive login` |
 | `b` or `bar` | Show or hide the [status bar](/cli/reference/status-bar). Paid plans only |
 | `?` or `help` | List commands |
@@ -313,7 +347,8 @@ rive docs <topic>         # one topic, for example `layout` or `luau/protocols`
 
 | Flag | Does |
 |---|---|
-| `--list` | Pick a topic to read |
+| `--list` | Every topic with a description |
+| `--pick` | With `--list` or `--search`, pick one to read |
 | `--search <text>` | Lines matching text across every topic |
 | `--path` | Print the docs directory on disk |
 
@@ -336,7 +371,7 @@ the directory has no `rive.yaml`.
 | Flag | Does |
 |---|---|
 | `--json` | JSON output (the default) |
-| `--summary` | Problems plus object counts per type, per artboard and for the other roots. Not the tree |
+| `--summary` | Problems, object counts per type and per artboard, counts for the other roots such as view models and enums, and each event with what fires it. Not the tree |
 | `--all` | Include editor-only properties |
 | `--artboard=<name>` | One artboard only. An unknown name gives an empty `artboards` list and still exits `0` |
 
@@ -352,8 +387,11 @@ entry to its revision history. It is the same artifact `--rev` would export.
 
 | Flag | Does |
 |---|---|
-| `--project=<id>` | Project for the first push. Falls back to `push.projectId` in `rive.yaml`; a single project is picked automatically, and several open a picker |
-| `--list` | List your projects with their ids, then exit |
+| `--project=<id>` | Project for the first push or `--new-file`. Falls back to `push.projectId` in `rive.yaml` |
+| `--folder=<id>` | Folder for the first push or `--new-file` |
+| `--new-file` | Create a new file and link the project to it, even when `rive.yaml` already links one |
+| `--yes` | Skip the confirmation. A push to an already-linked file asks first, so this is required in CI |
+| `--define=<NAME[=n]>` | Set an AnimaScript build constant. Repeatable |
 | `--name=<label>` | Revision history label. Defaults to `rive-cli push` |
 | `--optimize` | Compile scripts at O2 |
 | `--quiet` | Suppress build logs |
@@ -390,6 +428,125 @@ Overwrite local changes? [y/N]:
 At this time, pull replaces your local project's scene, scripts and assets with the remote file's.
 </Warning>
 
+### `ls`
+
+```bash
+rive ls                          # projects in the current workspace
+rive ls <projectId>              # folders and root files
+rive ls <projectId> <folderId>   # one folder
+rive ls <projectId> --all        # every file in the project, with its folder path
+```
+
+Lists what is in your Rive account, one workspace at a time. It only reads.
+
+| Flag | Does |
+|---|---|
+| `--all` | With a project id, every file in the project with its folder path |
+| `--plain` | Print the table instead of browsing |
+| `--json` | One JSON object per line, rows only |
+| `--workspace=<id>` | List another workspace, for this run only |
+
+On a terminal it browses: arrows move, enter or right opens, left or backspace goes
+up, typing filters, escape quits. Piped, under an agent, or with `RIVE_NO_TUI=1`, it
+prints instead. Every row names its kind and its id, and the JSON keys are
+`projectId`, `folderId` and `fileId`, which are the ids the other commands take:
+
+```bash
+rive ls 1708481 --json      # find a file id
+rive open 2564593           # open it in the Editor
+```
+
+### `workspace`
+
+```bash
+rive workspace        # the current workspace, and every one you can switch to
+rive workspace <id>   # switch to that workspace
+```
+
+`rive ls` and `rive push` work one workspace at a time, and this chooses which. It is
+your personal workspace until you switch, and the choice persists. Use
+`rive ls --workspace=<id>` to read another one without switching.
+
+| Flag | Does |
+|---|---|
+| `--json` | One JSON object per workspace, rows only |
+
+### `open`
+
+```bash
+rive open <fileId>           # open the file in the Editor, and print its url
+rive open <fileId> --print   # print the url, open no browser
+```
+
+Works for any file you can open, and `rive ls` prints file ids.
+
+| Flag | Does |
+|---|---|
+| `--print` | Print the url without opening a browser |
+
+### `library`
+
+```bash
+rive library list [dir]                # what this project imports
+rive library search [dir]              # what it may import
+rive library info [dir] --library=<id> # one library's versions
+rive library update [dir]              # move imports to the newest version
+rive library publish [dir]             # publish this project's file as a library
+```
+
+A library is content published in Rive that other files import: artboards marked as
+components, view models, enums, scripts and shaders. What a project imports is
+recorded in the `libraries` block of
+[rive.yaml](/cli/reference/project-config), and `rive pull` downloads the snapshots.
+
+`library list` reads the project's own markup, so it runs offline and needs no
+session. The rest need `rive login`.
+
+<Note>
+`library search` and `library publish` depend on the workspace's plan. Where it is not
+enabled the CLI says so and names the account page to upgrade on. `library list`,
+`library info` and `library update` have no such check.
+</Note>
+
+Each subcommand takes its own flags.
+
+| `library list` | Does |
+|---|---|
+| `--json` | One JSON object per reference, rows only |
+
+| `library search` | Does |
+|---|---|
+| `--match=<text>` | Only libraries whose name contains the text |
+| `--project=<id>` | The Rive project to answer for, instead of the one this project is linked to. Lets this run outside a project |
+| `--json` | One JSON object per library, rows only |
+
+| `library info` | Does |
+|---|---|
+| `--library=<id>` | Which library, by its library id. Required. `library list` and `library search` both print it |
+| `--version=<N>` | Only that version, instead of all of them |
+| `--json` | The library as one object, versions nested |
+
+| `library update` | Does |
+|---|---|
+| `--library=<id>` | Only that library. Omit for every one with a newer version |
+| `--yes` | Skip the confirmation. Required where there is no terminal to ask on |
+
+| `library publish` | Does |
+|---|---|
+| `--description=<text>` | Note shown against this version |
+| `--yes` | Skip the confirmation |
+
+A library is named by its id rather than its name, because a library's name is its
+source file's name and can change at any time. `library search` takes `--project` to
+answer for a project other than this one; `library info` does not, since an id names
+a library on its own.
+
+<Warning>
+`library publish` pushes the project before publishing, because a version is cut from
+the file's content. That push overwrites the remote file, so run `rive pull` first if
+someone else has been working in it.
+</Warning>
+
 ### `doctor`
 
 ```bash
@@ -400,17 +557,18 @@ rive doctor [project-dir]
 |---|---|
 | `--format=json` | Machine-readable report on stdout |
 
-`doctor` prints five checks (`version`, `update`, `auth`, `live-link` and `project`),
-each `ok`, `warn` or `fail`. It exits `0` when everything is `ok` or `warn`, and `1`
-when a check fails.
+`doctor` prints a row per check, each `ok`, `warn` or `fail`. `version`, `update`,
+`auth`, `live-link` and `project` cover authoring, and further rows report on device
+builds where the platform supports them. It exits `0` when everything is `ok` or
+`warn`, and `1` when a check fails.
 
 ## Signing in
 
 | What you run | Session needed |
 |---|---|
-| `--publish`, `--rev`, `rive push`, `rive pull`, `create --from-remote-file` | Yes, with `rive login` |
+| `--publish`, `--rev`, `rive push`, `rive pull`, `create --from-remote-file`, `rive ls`, `rive workspace`, `rive open`, `library` except `list` | Yes, with `rive login` |
 | Preview window, `--once`, `--verify`, `--test`, `--screenshot`, `--serve`, `--headless-serve` | No, and these work offline |
-| `create`, `docs`, `samples`, `schema`, `inspect` | No |
+| `create`, `docs`, `samples`, `schema`, `inspect`, `library list` | No |
 | `update`, `whoami`, `doctor` | No account, but they reach the network. `whoami` exits `3` when you are not signed in and `7` when it cannot reach Rive; `doctor` reports a missing session as a warning and still exits `0`, but exits `1` when a check fails |
 
 Credentials live outside the project: `~/.config/rive/app.rive.cli/` on macOS and
@@ -427,10 +585,11 @@ connection even with valid stored credentials.
 |---|---|
 | `0` | OK |
 | `1` | Build errors, or any failure without a more specific code |
-| `2` | A flag the CLI parsed and rejected: a bad `--pointer`, `--data`, `--advance` or `--viewport` value; `--frame`, which is gone; `--format` given anything but `json` or `human`; `--format=json` without a build mode; two build modes at once; `--rev` with a mode that writes nothing; an interaction with no `--screenshot`; or `rive` with no arguments outside a project |
+| `2` | An unknown flag, or one the CLI parsed and rejected: a bad `--pointer`, `--data`, `--advance` or `--viewport` value; `--frame`, which is gone; `--format` given anything but `json` or `human`; `--format=json` without a build mode; two build modes at once; `--rev` with a mode that writes nothing; an interaction with no `--screenshot`; or `rive` with no arguments outside a project |
 | `3` | Not logged in, or the session was rejected |
 | `6` | Test cases failed. The build itself was fine |
 | `7` | A service could not be reached, so it is safe to retry |
+| `8` | This CLI is below the published minimum. Run `rive update` |
 
 <Note>
 Any argument without a leading `--` is read as the project directory. Passing more

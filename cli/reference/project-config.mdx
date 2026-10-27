@@ -18,9 +18,11 @@ maintain.
 | Extension | Becomes |
 |---|---|
 | `.luau` | Scripts, both protocol scripts and importable modules |
+| `.as` | AnimaScript (new). Requires `scripting: wasm` |
 | `.wgsl` | Shaders, compiled to RSTB |
 | `.rml` | The scene. A project can hold any number of markup files, in any folders, and they compile as one document |
 | `.png` `.jpg` `.jpeg` `.webp` | Image assets |
+| `.ttf` `.otf` | Font assets |
 | Anything else | A blob asset, findable by name from scripts |
 
 <Note>
@@ -40,7 +42,9 @@ it is in. Split by whatever reads well, such as artboards in one file and view m
 in another.
 
 Dot-files and dot-directories are skipped, and so are `rive.yaml`, whatever
-`output.dir` points at, and anything ending `.riv`, `.rev` or `.log`.
+`output.dir` points at, anything ending `.riv`, `.rev` or `.log`, and editor backups
+ending `~`. A log file that does not end `.log` and sits outside `output.dir` is
+bundled like any other file.
 
 Asset paths in RML are project-relative:
 
@@ -68,8 +72,9 @@ myproject/
 ```yaml rive.yaml
 name: myproject
 main: main
-debugLevel: 0
-optimizationLevel: 2
+scripting: bytecode          # or "wasm", required for .as files
+debugLevel: none             # none | medium | max
+optimizationLevel: max       # none | medium | max
 
 artboard:
   width: 800
@@ -94,8 +99,16 @@ excludeFromRev:
   contents:
     - logo
 
-libraries:
-  - ../shared_widgets
+libraries:                   # written by the tool
+  "palette":
+    fileId: 4002
+    libraryId: 42
+    version: 1
+    override: ../palette     # optional, and the only part you write
+
+pages:                       # written by the first --publish=web
+  teamId: 77
+  name: "my-scene"
 
 revFlavor: editable          # or "library"
 
@@ -114,14 +127,27 @@ logs:
 
 **`name`** — Required. Also the name other projects use to import this one.
 
-**`main`** — Which artboard is the file's default. Without it, the first one declared
-wins, and markup files compile in path order, so that depends on filenames sorting the
-way you expect. Name the artboard here instead.
+**`main`** — Which artboard is the file's default, by name. A name that matches no
+artboard fails the build. Without the key, the first artboard declared wins, and
+markup files compile in path order, so that depends on filenames sorting the way you
+expect. Name the artboard here instead.
 
-**`debugLevel`**, **`optimizationLevel`**, **`shaderOutputs`** — Publish settings the
-Editor keeps on the `Backboard`. A fragment declares no `Backboard`, so these live
-here instead, and the build synthesizes one from them. `create --from-rev` writes a
-`.rev`'s `Backboard` back into these keys.
+**`debugLevel`**, **`optimizationLevel`** — The Editor's publish levels for scripts:
+`none`, `medium` or `max`. They default to `none` and `max`. A number is not accepted.
+
+**`shaderOutputs`** — The shader backends compiled on publish, a list drawn from
+`msl`, `glsl`, `wgsl`, `hlsl` and `spirv`. Defaults to all of them.
+
+**`scripting`** — `bytecode` (the default) or `wasm`. `wasm` is required for `.as`
+AnimaScript files.
+
+These and `main` are what the Editor keeps on the file's `Backboard`. A fragment
+declares no `Backboard`, so they live here instead and the build synthesizes one from
+them.
+
+`create --from-rev`, `create --from-remote-file` and every `rive pull` write the
+remote file's `Backboard` into these keys. A setting back at its default has its key
+removed rather than left behind, so a hand-set value here does not survive a pull.
 
 **`artboard`** — Default size and background for generated artboards, used only when
 there is no `.rml`. Sizes default to 800 x 800. `background` takes `#RRGGBB` or
@@ -153,23 +179,37 @@ and the preview window always contain everything. Four categories:
 Patterns support `*` (any run of characters, including `/`) and `?` (one character).
 Excluding a layout script also drops its generated artboard.
 
-**`libraries`** — Other project directories whose modules become importable under
-their project name:
+**`libraries`** — The libraries published in Rive that this project's scene imports
+directly. The tool writes this block: `rive create --from-remote-file` creates it, and both
+`rive pull` and `rive library update` rewrite it, so do not hand-edit `fileId`,
+`libraryId` or `version`.
+
+The key is the library's name, lowercased, and it is also the label a `require` writes
+after `lib:`:
 
 ```lua
-local button = require('lib:shared_widgets/button')
+local ink = require('lib:palette/ink')
 ```
 
-Dependencies resolve through nested libraries, a library two projects both depend on
-is loaded once, and cycles are an error. Each library also exports its own `.rev`
-alongside the project's.
+`override` is yours, and a pull leaves it alone. It points the build at a local
+project instead of the downloaded snapshot, so a library and a file that imports it
+can be edited together without publishing between every change.
 
-**`revFlavor`** — `editable` (the default) or `library`. Controls whether the exported
-`.rev` opens as a normal editor file or as a library others import.
+See [`library`](/cli/reference/commands#library) for inspecting, updating and
+publishing libraries.
+
+**`revFlavor`** — `editable` (the default) or `library`. `library` exports scripts as
+immutable source only, with no editable line tree, which is the flavor published
+libraries use. It does not register the file as a library; `rive library publish`
+does that.
 
 **`push`** — `projectId` and `fileId`, the link to the Rive file. `rive push` writes it
 after the first push, and `rive create --from-remote-file` records it up front. `push.fileId` is what `--publish` sends when it asks whether to watermark.
 See [Pushing to a Rive file](#pushing-to-a-rive-file).
+
+**`pages`** — The hosted page `--publish=web` replaces. `teamId` is the team that owns
+the page and `name` is the slug it answers to. The first publish writes it and later
+ones leave it alone. See [Publishing to the web](/cli/reference/commands#publishing-to-the-web).
 
 **`output.dir`** — Where the `.riv` is written. Defaults to `build`.
 
@@ -214,8 +254,8 @@ lists them and you choose. Your workspace's personal files appear first in that 
 so a push can land in your own drafts rather than a shared project. Projects you can
 only view are left out.
 
-`--project=<id>` skips the question, and `rive push --list` prints every project with
-its id without building anything.
+`--project=<id>` and `--folder=<id>` skip the question, and `rive ls` prints your
+projects and their ids without building anything.
 
 The file it creates is recorded in `rive.yaml`:
 
@@ -238,6 +278,7 @@ revision:
 rive push --name="before the terrain rewrite"
 ```
 
+A push to an already-linked file asks for confirmation first, so pass `--yes` in CI.
 A push with nothing new reports `already up to date` and adds no revision. Previous
 content is never lost: it stays in the revision history, and the Editor can restore
 any entry.
