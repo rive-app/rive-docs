@@ -86,7 +86,7 @@ export const Demos = ({
       riv: 'https://static.rive.app/rivs/n-slicing.riv',
       stateMachines: "State Machine 1",
       links: {
-        editor: "https://rive.app/community/files/29026-n-slicing/"
+        editor: "https://rive.app/community/files/29038-tutorial-n-slicing/"
       },
     },
     meshAndBones: {
