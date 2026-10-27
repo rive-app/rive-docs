@@ -32,7 +32,8 @@ stop(fadeToStopTime: number?) -> ()
 </div>
 
 Stops the audio, fading out over `fadeToStopTime` PCM frames. Omit it
-to stop at once.
+to stop at once. A sound that has not started yet stops at once
+whatever the fade.
 ```lua highlight={3}
 function stopSound(self: AudioScript)
   if self.soundInstance then

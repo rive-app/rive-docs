@@ -1,0 +1,121 @@
+---
+title: "Status Bar"
+sidebarTitle: "Status bar"
+description: "What each stat in the preview window's status bar measures."
+---
+
+The preview window (`rive <dir>`) shows a status bar along its bottom edge, on by
+default. It is a 28 point strip below the scene. The scene is laid out above it, so
+the bar never covers content, and the window grows by the strip so the artboard keeps
+its size.
+
+Stats refresh twice a second, each averaged over that half second. Click a stat's
+label in the bar to open its section on this page.
+
+<Note>
+The bar is only drawn in the live window. It never appears in screenshots, `--bench`,
+or any other headless run.
+</Note>
+
+## FPS
+
+Frames presented per second in the window. It is capped by the display's refresh
+rate: 60 on most displays, and up to 120 on ProMotion displays.
+
+## FRAME
+
+The average time between frames, in milliseconds. A 60 Hz display that is keeping up
+shows 16.7 ms. A FRAME well above the display's interval means frames are being
+dropped.
+
+## ADVANCE
+
+CPU time to advance the scene each frame. That covers state machines, animations,
+layout, data binding, and the `advance` and `update` calls of scripts. In scripted
+content, this is the usual cause of jank.
+
+While playback is paused, ADVANCE shows a dash and the bar shows PAUSED. Toggle
+playback with [`p`](/cli/reference/commands#preview-window-commands) in the terminal.
+
+## RECORD
+
+CPU time to record the frame's draw commands. Rendering is deferred: the main thread
+records the commands and a render thread replays them to the GPU. RECORD covers only
+the recording, so it excludes GPU time and presentation.
+
+## HEAP
+
+Memory owned by the file's scripts. A file runs on one script VM, so HEAP reports
+whichever one it uses:
+
+| VM | HEAP is |
+|---|---|
+| AnimaScript | The size of the module's wasm linear memory. It only grows and never shrinks, so it is a high-water mark rather than live allocations |
+| Luau | The garbage collector's heap |
+
+A dash means the file has no scripts.
+
+HEAP turns amber when the runtime warns about a script heap growing steadily, which
+usually means a leak or an unbounded cache, or about leaked handles. The terminal log
+has the details.
+
+## MEM
+
+The whole process's memory, as the operating system counts it:
+
+| Platform | MEM is |
+|---|---|
+| macOS | The physical footprint, the same number as Activity Monitor's **Memory** column |
+| Linux | Resident memory |
+| Windows | Private bytes |
+
+MEM includes HEAP, plus the runtime, artboards, images, fonts and GPU driver
+allocations, and the CLI's own compiler and file watcher. That makes it much larger
+than what the same file uses inside an app. Use it to spot growth over time, not as
+an absolute budget.
+
+## VM
+
+The script VM and the tier it runs on:
+
+| Shows | Means |
+|---|---|
+| AOT | Compiled ahead of time, optimized |
+| AOT -O0 | Compiled ahead of time without optimization |
+| INTERP | The WebAssembly interpreter, many times slower than AOT |
+| LUAU | The Luau VM |
+
+A dash means the file has no scripts.
+
+<Note>
+Script timings in the live window are slower than in a published file, because the
+live window's development builds meter every loop for the watchdog. To time scripts,
+use `rive <dir> --bench=N`, which uses release builds.
+</Note>
+
+## Account and plan
+
+The right side of the bar shows your account:
+
+| You are | The bar shows |
+|---|---|
+| Signed in | @USERNAME, linking to your account page |
+| Signed in on a free plan | @USERNAME, FREE PLAN and an **UPGRADE** button |
+| Signed out | NOT SIGNED IN and **UPGRADE** |
+
+### Hiding the bar
+
+On a paid plan, you can hide the bar in any of these ways:
+
+| Where | How |
+|---|---|
+| The terminal, while the window is open | Type `b` |
+| The command line | Pass `--no-status-bar` |
+| `rive.yaml` | Set `window.statusBar: false` |
+
+```yaml rive.yaml
+window:
+  statusBar: false
+```
+
+Free and signed-out accounts always see the bar.

@@ -5,15 +5,17 @@ description: "Learn how to migrate your Flutter app when upgrading between major
 
 | Version                   | What changed                                                                                                       |
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| [0.15.0](#version-0-15-0) | Data Binding binds when you create a controller, and the Rive Renderer uses deferred rendering on native platforms |
+| [0.15.0](#version-0-15-0) | Data Binding binds when you create a controller, the Rive Renderer uses deferred rendering on native platforms, widgets draw only when their content changed, and custom painters separate advancing from drawing |
 | [0.14.0](#version-0-14-0) | Rive replaced the Dart runtime with the C++ runtime, changing the widget, controller, and file loading APIs         |
 
 ## Version 0.15.0
 
-Two things need migration work in this release:
+These things need migration work in this release:
 
 - Data Binding binds when you create a `RiveWidgetController`, and the separate `dataBind` call is removed.
 - The Rive Renderer (`Factory.rive`) uses deferred rendering on native platforms. This only affects advanced integrations.
+- Rive widgets draw only when their content changed. This only affects custom painters that draw more than their Artboard.
+- Custom `RenderTexturePainter` and `SharedTexturePainter` implementations separate advancing from drawing.
 
 <Note>
   `0.15.0` is a dev release (`{{versionDevFlutter}}`). Migrate against the
@@ -161,6 +163,74 @@ On native platforms, `Factory.rive` resolves to the render context's recording s
 #### Advanced session control
 
 `package:rive_native/rive_deferred.dart` exposes manual session control: attaching or detaching a texture's session with `RenderTexture.useDeferredSession`, session helpers, and render thread stats. Typical apps do not need it.
+
+### Drawing only when changed
+
+Rive widgets skip the draw on frames where nothing in the Artboard changed, with both `Factory.rive` and `Factory.flutter`. Advancing is unchanged: the widget advances while the content animates and stops once it settles. A skipped frame keeps showing the last drawn frame. See [Draw optimization](/runtimes/flutter/flutter#draw-optimization).
+
+Typical `RiveWidget`, `RivePanel`, and `RiveArtboardWidget` usage needs no change. If your Artboard painter (for example a `StateMachinePainter` subclass) draws more than its Artboard in `paint`, call `notifyListeners()` when that extra content changes, or pass `drawOptimization: DrawOptimization.alwaysDraw`:
+
+```dart
+RiveWidget(
+  controller: controller,
+  drawOptimization: DrawOptimization.alwaysDraw,
+)
+```
+
+### Custom painters separate advancing from drawing
+
+**Breaking:** `RenderTexturePainter` (from `rive_native`) and `SharedTexturePainter` (used by `RivePanel`) split advancing and drawing into separate calls. The paint methods no longer take the elapsed time or return whether to keep advancing. This only affects classes that implement these painters directly.
+
+<Tabs>
+  <Tab title="New API">
+    ```dart
+    final class MyPainter extends RenderTexturePainter {
+      @override
+      bool advance(double elapsedSeconds) {
+        // Update state. Return whether to keep advancing.
+        return true;
+      }
+
+      // Optional, defaults to true. Return false when the last advance
+      // changed nothing, so the frame's draw is skipped.
+      @override
+      bool get needsPaint => true;
+
+      @override
+      void paint(RenderTexture texture, double devicePixelRatio, Size size) {
+        // Draw only.
+      }
+    }
+    ```
+  </Tab>
+  <Tab title="Old API">
+    ```dart
+    final class MyPainter extends RenderTexturePainter {
+      @override
+      bool paint(RenderTexture texture, double devicePixelRatio, Size size,
+          double elapsedSeconds) {
+        // Advance by elapsedSeconds, draw, and return whether to keep
+        // advancing.
+        return true;
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+`advance` runs once per frame, before the render object checks `needsPaint` to decide whether to draw.
+
+`SharedTexturePainter` splits the same way:
+
+| Old                                                    | New                                                  |
+| ------------------------------------------------------ | ---------------------------------------------------- |
+| `bool paintIntoSharedTexture(texture, elapsedSeconds)` | `bool advanceSharedTexture(double elapsedSeconds)`   |
+|                                                        | `bool get needsSharedPaint` (default: `true`)        |
+|                                                        | `void paintIntoSharedTexture(RenderTexture texture)` |
+
+A shared texture pass advances every painter, then draws all of them if at least one returns `true` from `needsSharedPaint`.
+
+`ProceduralPainter`, used with `RiveProceduralRenderingWidget`, already had separate `advance` and `paint` methods and is unchanged.
 
 ## Version 0.14.0
 

@@ -18,7 +18,9 @@ The following example shows how RML maps familiar Rive concepts (an artboard, sh
 
 ```xml scene.rml
 <Rive version="1" kind="fragment">
-    <Artboard defaultStateMachineId="0:7" width="500" height="500" name="Artboard" id="0:2">
+    <Artboard defaultStateMachineId="0:7" styleId="0:5" width="500" height="500" name="Artboard" id="0:2">
+        <LayoutComponentStyle name="Artboard Style" id="0:5"/>
+
         <Fill name="Background">
             <SolidColor colorValue="FF1D1D1D" name="Color"/>
         </Fill>
@@ -57,7 +59,7 @@ The following example shows how RML maps familiar Rive concepts (an artboard, sh
 
 ## How RML maps to Rive
 
-Every document is wrapped in a single `Rive` root. It takes two required attributes: `version`, the RML format version, currently `1`; and `kind`, which is `fragment` for a project file you write yourself, or `bundle` for the self-contained document the Rive Editor exports. `Rive` must be the first and only top-level element, and the CLI refuses a document without it.
+Every document is wrapped in a single `Rive` root. It takes two required attributes: `version`, the RML format version, currently `1`; and `kind`, which is `fragment` for a project file you write yourself. The other value, `bundle`, is the self-contained document the Rive Editor exports, and a project's files are never bundles. `Rive` must be the first and only top-level element, and the CLI refuses a document without it.
 
 Inside that root, RML follows the structure of a Rive file. Artboards contain their scene content, while assets, view models, converters, and enums sit alongside them as root elements.
 
@@ -65,7 +67,7 @@ A fragment never declares a `Backboard`. What the Editor keeps there, such as th
 
 Nesting reflects relationships between Rive objects. In the example above, the `Shape` contains a `Triangle` path and a `Fill`. Properties belong to their corresponding Rive type, so the transform position (`x` and `y`) belongs to the `Shape`, while `width` and `height` belong to the `Triangle`.
 
-Animations reference the objects and properties they change. Here, `KeyedObject objectId="0:14"` targets the shape named "Triangle", while `propertyKey="15"` identifies its rotation property. The State Machine references that animation, and `defaultStateMachineId="0:7"` on the Artboard causes the State Machine to play when the file loads.
+Animations reference the objects and properties they change. Here, `KeyedObject objectId="0:14"` targets the shape named "Triangle", while `propertyKey="15"` identifies its rotation property. You can write `property="rotation"` instead, and `rive schema Shape --animatable` lists both forms. The State Machine references that animation, and `defaultStateMachineId="0:7"` on the Artboard causes the State Machine to play when the file loads.
 
 ## Splitting a project across files
 
@@ -113,7 +115,7 @@ References use attributes ending in `Id`, such as `styleId`, `animationId`, and 
 
 | Type | Written as |
 |---|---|
-| Color | ARGB hex, no `#`: `colorValue="FFFF5A3C"` |
+| Color | ARGB hex, no `#`: `colorValue="FFFF5A3C"`. Six digits is opaque RGB. |
 | Boolean | `"true"` / `"false"` |
 | Enum | A name or its integer: `layoutWidthScaleType="fill"` |
 | Rotation | Radians. A full turn is `6.2831855`. |
@@ -152,8 +154,9 @@ For broader RML concepts and patterns, use the RML reference included with the C
 ```bash
 rive docs                    # reference index
 rive docs format             # RML structure and format
+rive docs skeleton           # a complete file, annotated line by line
 rive docs --list             # list available topics
 rive docs --search gradient  # search all topics
 ```
 
-The reference covers topics including layout, data binding, State Machines, text, drawing, rigging, transforms, easing, and assets. `rive docs gotchas` covers common issues, including those that may fail silently.
+The reference covers topics including layout, data binding, State Machines, text, drawing, rigging, transforms, easing, assets, keyboard focus, and accessibility semantics. `rive docs gotchas` covers common issues, including those that may fail silently.

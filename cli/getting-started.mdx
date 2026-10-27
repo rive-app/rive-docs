@@ -86,7 +86,8 @@ rive create myproject --from-remote-file
 rive myproject
 ```
 
-The CLI lists your projects and files to pick from. `rive.yaml`
+The CLI lists your projects and files to pick from, and `rive ls` prints the same ids
+non-interactively when you need them for a script. `rive.yaml`
 records the link, so [`rive push`](/cli/reference/project-config#pushing-to-a-rive-file)
 sends your edits back and `rive pull` brings down changes made in the Editor. This
 requires a logged in session with `rive login`.
