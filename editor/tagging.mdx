@@ -1,68 +1,99 @@
 ---
 title: 'Tagging'
-description: ''
+description: 'Organize objects, data, assets, and animations with color-coded tags, then filter, lock, or select by tag.'
 ---
 
-Tagging is a way to organize your hierarchy further. Create tags, then apply them to objects in the Hierarchy like Bones or Groups, then filter the view to see exactly what you need, when you need it. 
+import { VideoEmbed } from '/snippets/video-embed.jsx'
+
+Tags help you organize a file. Create a tag, assign it to items such as bones, groups, View Models, assets, or animations, then use it to filter a panel, lock objects on the stage, or select everything that shares the tag.
+
+Tags belong to the file, not to a single artboard. Any tag you create is available on every artboard and in every panel that supports tags: the [Hierarchy](/editor/interface-overview/hierarchy), Data, Assets, and Animations panels.
+
+<Note>Tags are available on paid plans. [Learn more about our plans and pricing](https://rive.app/pricing?utm_source=docs&utm_medium=content).</Note>
 
 ## Creating tags
 
-There are two ways to create a Tag: either through the Hierarchy or by using the Inspector. Remember that any Tag created can be used on any artboard in the file.
+You can create a tag from the [Inspector](/editor/interface-overview/inspector), from a panel's tags menu, or while assigning it to an item.
 
-### In the Inspector
+### From the Inspector
 
-To create a new tag, ensure that you have nothing selected on the artboard, then use the plus button next to the Tags option.
+<Steps>
+  <Step>
+    Click an empty area of the stage so nothing is selected.
+  </Step>
+  <Step>
+    In the **Tags** section of the Inspector, click **+**.
+  </Step>
+  <Step>
+    Enter a name for the tag, then click the color swatch to choose its color.
+  </Step>
+</Steps>
 
-![Create Tag through Inspector](https://ucarecdn.com/9b8a9f8d-7755-4341-a2e2-e765277c078b/)
+<VideoEmbed src="https://static.rive.app/video/new-tag-from-inspector.mp4" />
 
-Once the Tag has been added, you can change the name and color to your liking.
+You can come back here at any time to rename a tag, change its color, or drag tags to reorder them. To delete a tag, right-click it and remove it.
 
-### In the Hierarchy
+### From the tags menu
 
-There are two ways to create tags through the Hierarchy. The first is by using the tag menu at the top of the Hierarchy. From here you can create new Tags, edit Tags, collapse Tags, filter, lock, or select assigned Tags.
+Open the context menu in the header of the Hierarchy, Data, Assets, or Animations panel, then select **Create Tag**. The new tag appears in the Inspector, where you can rename it and set its color.
 
-![Create Tag through Tag menu](https://ucarecdn.com/efcce09c-e7dc-46d4-9d29-7f8e57d63248/)
+<VideoEmbed src="https://static.rive.app/video/new-tag-from-sidebar.mp4" />
 
-The second way is to select one or more objects to create a tag directly in the hierarchy, then right-click and use the add tag option. From there, you can either create a new tag or assign a tag that you’ve already created.
+### While assigning a tag
 
-![Create Tag on object](https://ucarecdn.com/7e3b90b7-97de-4337-9c5b-77e8038f11b3/)
+<Steps>
+  <Step>
+    Select one or more items on the stage or in a panel.
+  </Step>
+  <Step>
+    Right-click the selection and open **Add Tag**.
+  </Step>
+  <Step>
+    Select an existing tag, or select **New Tag** to create one and assign it in a single step.
+  </Step>
+</Steps>
 
-To edit the Tag's properties, use the steps above.
+<VideoEmbed src="https://static.rive.app/video/new-tag-from-elements.mp4" />
 
-## The tags menu
+To remove a tag from an item, right-click it and select the tag under **Remove Tag**.
 
-The Tags Menu is where you will find most of the Tag Options. Some of these options are self-explanatory, such as creating or editing a tag. Let’s explore some of the other available options.
+## Using the tags menu
 
-![Tag menu](/images/editor/b4ba7047-3927-467f-9528-32c9b066f0d2.webp)
+Each panel that supports tags has a **Tags** section in its header context menu. It includes these options:
 
-### Collapse tag
+- **Create Tag** adds a new tag to the file.
+- **Edit Tags** clears the selection so you can edit tags in the Inspector.
+- **Collapse Tags** / **Reveal Tags** hides or shows tag names next to tagged items.
+- A submenu for each tag with **Filter**, **Lock**, and **Select**.
 
-When you add a tag to an object, you’ll notice that the Tag's name and the color pip are displayed to the right.
+![Hierarchy context menu showing the Tags section, with a tag's Filter, Lock, and Select submenu open](/images/editor/tagging/tags-menu.png)
 
-![Image](https://ucarecdn.com/eb9e515c-04e3-4f56-bee5-196e72e65ad9/)
+### Collapsing tags
 
-We can use the Collapse Tag option to hide the name. Conversely, we can use the Reveal Tag option to display the names again.
+Tagged items show the tag's color and name to the right of the item.
 
-### Filter tags
+<VideoEmbed src="https://static.rive.app/video/tags-collapse-reveal.mp4" />
 
-When you mouse over a tag in the menu, you’re given the option to Filter. This option will filter your Hierarchy and only show you the objects with the filtered tag. The current filtered tabs are shown next to the Tag Menu.
+Select **Collapse Tags** to hide the names and show only the colors. Select **Reveal Tags** to show the names again. This setting applies to the whole file.
 
-![Image](https://ucarecdn.com/e808968b-1ee4-4e25-a3f6-09f615ba2229/)
+### Filtering by tag
 
-Note that you can add as many tags to the filter as you want. This is a great way to show only the controls you need to create an animation.
+Open a tag's submenu and check **Filter** to show only the items that have that tag. Active filters appear next to the panel name.
 
-### Locked
+<VideoEmbed src="https://static.rive.app/video/tags-filter.mp4" />
 
-The Locked option will allow you to lock the objects with the selected Tag. When locked, you can no longer select that object on the stage.
+You can filter by as many tags as you want. An item stays visible if it has any of the filtered tags. Each panel has its own filters, so filtering the Hierarchy doesn't affect the Data, Assets, or Animations panels.
 
-![Image](https://ucarecdn.com/f2b63a89-cbea-42ed-bd3b-c35969ef62ee/)
+To clear every filter in a panel, select **Remove filters** from the tags menu.
 
-This is a great tool to use when you want to hand off a file to another animator so that they don’t inadvertently use a control that shouldn’t be.
+<Tip>Filter by tag to show only the controls you need while animating, such as the bones and targets of a character rig.</Tip>
 
-This option is also available via the Inspector via the lock icon.
+### Locking by tag
 
-### Select
+Open a tag's submenu in the Hierarchy and check **Lock** to lock every object with that tag. You can't select a locked object on the stage. You can also lock or unlock a tag with the lock icon next to it in the Inspector.
 
-The Select option will select every object with the assigned tag.
+Locking is only available in the Hierarchy. Use it when you hand off a file to another animator, so they don't move objects that shouldn't change.
 
-Note that this option is also available in the Inspector via the target icon.
+### Selecting by tag
+
+Open a tag's submenu and select **Select** to select every item in that panel with the tag. In the Inspector, click the target icon next to a tag to select every tagged object on the stage.
