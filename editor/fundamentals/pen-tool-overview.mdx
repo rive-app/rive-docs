@@ -1,29 +1,55 @@
 ---
-title: "Pen Tool Overview"
-description: "The Pen tool allows you to create custom vector paths as well as add additional vertices to your procedural paths. Learn more about the Pen tool by either watching the video or reading more below."
+title: "Pen Tool"
+description: "Draw custom vector paths and add vertices to existing paths."
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
 
 <YouTube id="dE1OEaaX5dw" />
 
-## Creating custom shapes
+Use the **Pen Tool** to draw custom vector paths one vertex at a time. It gives you precise control over every point and curve.
 
-The Pen tool allows you to create custom vector shapes. Activate the Pen tool by finding it under the Create Tools menu or by using the `P` shortcut.
+<Tip>
+For common shapes such as rectangles and ellipses, use the [Shape tools](/editor/fundamentals/procedural-shapes) instead. To draw freehand, use the [Pencil](/editor/design/freehand-drawing).
+</Tip>
 
-Click on the stage to place vertices.
+## Drawing a path
 
-![Image](/images/editor/fundamentals/pen-tool-create.gif)
+<Steps>
+  <Step>
+    Select the **Pen Tool** from the Create Tools menu, or press <kbd>P</kbd>.
+  </Step>
+  <Step>
+    Click the stage to place straight vertices. Click and drag to place a vertex with mirrored bezier handles.
+  </Step>
+  <Step>
+    Click the first vertex to close the path, or press <kbd>Esc</kbd> to finish with an open path.
+  </Step>
+</Steps>
 
-Click and drag to create a vertex with bezier handles. When you are finished, hit `esc` on your keyboard.
+![Clicking with the Pen Tool to place straight vertices](/images/editor/fundamentals/pen-tool-create.gif)
 
-![Image](/images/editor/fundamentals/pen-tool-create-handless.gif)
+![Clicking and dragging with the Pen Tool to create curved vertices with bezier handles](/images/editor/fundamentals/pen-tool-create-handless.gif)
 
-## Path & vertex shortcuts
+<Tip>While dragging out a new vertex, hold <kbd>Alt</kbd>/<kbd>Opt</kbd> to detach its handles. This lets you make a sharp change of direction between two curves.</Tip>
 
-- Hold Alt (Opt) to detach the Pen tool while drawing a path.
-- Ctrl+click (Cmd+click) on the vertex to toggle between mirrored and straight handles.
-- With Select or Pen tool, Ctrl+click (Cmd+click) on the vertex handle to remove that handle.
-- With Select or Pen tool, Alt+click (Opt+click) on a vertex handle to detach the handle.
-- With Pen tool, Alt+click (Opt+click) on a vertex to delete the vertex.
-- Alt+drag (Option+drag) to duplicate vertices.
+To keep drawing an open path later, select it, press <kbd>Enter</kbd> to edit its vertices, then click its last vertex with the Pen Tool. To open a closed path, use **Open Path** in [Edit Vertices](/editor/fundamentals/edit-vertices).
+
+## Adding vertices to a path
+
+With the Pen Tool active, move the pointer over a segment of a path you're editing. The pointer snaps to the segment, and a click splits it with a new vertex at that point. Drag right after clicking to move the new vertex.
+
+## Path and vertex shortcuts
+
+These shortcuts work with the Pen Tool. Shortcuts marked "Pen or Select" also work with the Select tool while you edit vertices.
+
+| Shortcut | Target | Tool | Result |
+| --- | --- | --- | --- |
+| <kbd>Cmd</kbd>/<kbd>Ctrl</kbd> + click | Vertex | Pen or Select | Toggle between straight and mirrored handles |
+| <kbd>Cmd</kbd>/<kbd>Ctrl</kbd> + drag | Vertex | Pen or Select | Pull out mirrored bezier handles |
+| <kbd>Cmd</kbd>/<kbd>Ctrl</kbd> + click | Handle | Pen or Select | Remove the handle |
+| <kbd>Alt</kbd>/<kbd>Opt</kbd> + click | Handle | Pen or Select | Detach the handle from its partner |
+| <kbd>Alt</kbd>/<kbd>Opt</kbd> or <kbd>Cmd</kbd>/<kbd>Ctrl</kbd> + drag | Handle | Pen or Select | Detach the handle and drag it freely |
+| <kbd>Alt</kbd>/<kbd>Opt</kbd> + click | Vertex | Pen | Delete the vertex |
+
+To learn more about straight, mirrored, and detached handles, and the other path options, see [Edit Vertices](/editor/fundamentals/edit-vertices).
