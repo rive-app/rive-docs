@@ -1,81 +1,108 @@
 ---
 title: 'Interpolation (Easing)'
-description: ''
+description: 'Control how a value changes between two keys, from steady motion to holds, eases, and bounces.'
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
+import { RiveEmbed } from '/snippets/rive-embed.jsx'
+
+When you set two keys on a property, Rive calculates the values in between. This is called interpolation. The interpolation type, often called easing, controls how the value gets from one key to the next: at a steady rate, speeding up and slowing down, bouncing past the target, or jumping straight to it.
+
+Interpolation is set on the key where a change starts, and applies until the next key.
 
 <YouTube id="9xguOdcuhOo" />
 
-When you set two keys on a property, the value in between those keys is automatically calculated. This is called interpolation. Interpolation settings can be customized to create dramatically different results.
+## Interpolation types
 
-You can set the easing on your keys with the Interpolation panel to the right of the Timeline. To see and edit curves on a graph, use the [Graph Editor](/editor/animate-mode/graph-editor).
+<RiveEmbed src="https://static.rive.app/rivs/easing.riv" aspectRatio="608 / 188" />
 
-## Using the Interpolation panel
+- **Hold** doesn't interpolate. It keeps the current value until the next key, then jumps to the new value instantly.
+- **Linear** changes the value at a constant rate. It's the default for new keys.
+- **Cubic** follows a curve that you shape with two handles. The default curve changes slowly at the start and end and fastest in the middle. Cubic always moves between the values you keyed and never past them.
+- **Cubic Value** is like Cubic, but you shape it with Bezier handles in the [Graph Editor](/editor/animate-mode/graph-editor), and the curve can overshoot a key's value before settling on it.
+- **Elastic** overshoots the value and oscillates before settling on it, like a spring.
 
-The Interpolation panel appears to the right of the timeline when you select any number of keys on the timeline.
+| Shortcut | Interpolation |
+| --- | --- |
+| <kbd>F6</kbd> | Hold |
+| <kbd>F7</kbd> | Linear |
+| <kbd>F8</kbd> | Cubic, ease in and out |
+| <kbd>Shift</kbd> + <kbd>F8</kbd> | Cubic, ease in |
+| <kbd>Cmd/Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>F8</kbd> | Cubic, ease out |
+| <kbd>F9</kbd> | Cubic Value, ease in and out |
+| <kbd>Shift</kbd> + <kbd>F9</kbd> | Cubic Value, ease in |
+| <kbd>Cmd/Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>F9</kbd> | Cubic Value, ease out |
+| <kbd>F10</kbd> | Elastic |
 
-![Image](/images/editor/animate-mode/dfb3cbee-603c-4fd5-932f-ad07defaaca2.webp)
+## Setting the interpolation on keys
 
-The interpolation graph is a visual representation of how the value will change over time from the selected key to the next with the x-axis representing time and the y-axis representing the change in the chosen property.
+<Steps>
+  <Step>
+    Select one or more keys on the timeline.
+  </Step>
+  <Step>
+    Choose an interpolation type at the top of the Interpolation panel, to the right of the timeline. The same options are in the **Keyframe Interpolation** section of the Inspector.
 
-You can choose which interpolation type to use by selecting any of the icons above the graph.
+    ![Interpolation panel to the right of the timeline, showing a Linear curve](/images/editor/animate-mode/interpolation-panel.webp)
 
-### Linear
+    You can also right-click the keys and choose a type from the **Interpolation** menu, or use one of the [shortcuts](#interpolation-types).
+  </Step>
+  <Step>
+    Adjust the curve or options for the type you chose. See below.
+  </Step>
+</Steps>
 
-![Image](https://ucarecdn.com/992113a2-f03d-43be-9f22-d638fa48ba70/)
+<Tip>If the Interpolation panel is hidden, click the curve icon next to the timeline tabs to show it.</Tip>
 
-Linear is the default interpolation type, and it creates a constant rate of change from one key value to the next.
+The graph in the Interpolation panel shows how the value changes from the selected key to the next one. Time runs along the horizontal axis, and the change in value runs up the vertical axis.
 
-### Cubic
+### Cubic options
 
-![Image](https://ucarecdn.com/c37db072-f932-4bbd-8232-19b6ef59e901/)
+Drag the two handles on the graph to shape the curve. You can drag them as far as you want up or down; the graph zooms out to keep them in view.
 
-Cubic interpolation uses a curve to interpolate between key values. It gives you two handles that can be dragged to customize the curve.
+The field below the graph shows the curve as four numbers: the horizontal and vertical positions of the first handle, then the second, like a CSS `cubic-bezier()` value. Type your own values, separated by commas or spaces, to match an easing from a brand's motion guidelines or another tool. You can also copy them to reuse elsewhere.
 
-You can drag the handles as far as you want on the Y-axis. If you drag the handles outside of the graph, the graph view will update to ensure that the handles are always in view.
+![Editing the cubic values field below the interpolation graph](/images/editor/animate-mode/interpolation-values-field.gif)
 
-The default cubic curve creates a gentle curve from the first key to the next, which results in the value changing slowly at the start and end, and changing the most in the middle.
+### Cubic Value options
 
-### Hold
+Shape Cubic Value curves by dragging their handles in the [Graph Editor](/editor/animate-mode/graph-editor). In the Interpolation panel, you can click **Open graph editor**, or turn on **Apply auto bezier** to set the handles automatically for a smooth curve through the surrounding keys. **Auto bezier coefficient** controls how strong that curve is.
 
-![Image](https://ucarecdn.com/39d5d86c-d390-4500-acdb-ad57d3e89539/)
+### Elastic options
 
-Hold doesn't interpolate values between keys. It simply holds the current value until the next key is reached, where the next value is set instantly.
-
-### Elastic
-
-Elastic overshoots the value and oscillates before settling on it. **Amplitude** controls how far it overshoots, and **Period** controls how quickly it settles.
-
-### Interpolation field
-
-A text field below the preview graph represents the interpolation in a numerical format. A total of four values (typically between 0 and 1) represent the position of the handles – two for the inward curve, and two for the outward curve. You can see how these values change by dragging the handles within the preview window.
-
-Use this field if you wish to set specific easing values, perhaps defined in a design language for a specific brand, for instance. The field also makes it easy to copy and paste values across files and tools.
-
-When inputting values manually, use a comma or a space to separate each of the four values.
-
-![Image](https://ucarecdn.com/b8f9898c-ea40-404f-8749-daf1fec86325/)
+- **Easing**: Where the oscillation happens. **Ease In** oscillates at the start, **Ease Out** at the end, and **Ease In Out** at both.
+- **Amplitude**: How far the value overshoots.
+- **Period**: How quickly the oscillation settles.
 
 ## Default interpolation
 
-You can set a default interpolation to control the interpolation used by new keys.
+The default interpolation is the type that new keys use. It starts as Linear.
 
-There are two ways to set the default interpolation:
+To set it from a key:
 
-### Set a selected key as the default
+<Steps>
+  <Step>
+    Select a key that uses the interpolation you want.
+  </Step>
+  <Step>
+    In the Interpolation panel, click **Set as default**.
 
-Select a key, then open the interpolation options in the Inspector and click Set as default.
+    ![Set as default button in the interpolation options](/images/editor/animate-mode/interpolation-set-as-default.png)
+  </Step>
+</Steps>
 
-![Set current interpolation as default](/images/editor/animate-mode/interpolation-set-as-default.png)
+To set it from the Inspector:
 
-### Set the default from the Inspector
+<Steps>
+  <Step>
+    Deselect everything. The Inspector shows **Default Interpolation**.
+  </Step>
+  <Step>
+    Choose the interpolation type and options you want new keys to use.
 
-Deselect everything on the stage. The Inspector shows the default interpolation options for new keys.
-
-Choose the interpolation you want new keys to use by default.
-
-![Set default interpolation from inspector](/images/editor/animate-mode/interpolation-set-default.png)
+    ![Default Interpolation options in the Inspector](/images/editor/animate-mode/interpolation-set-default.png)
+  </Step>
+</Steps>
 
 ## The Graph Editor
 
