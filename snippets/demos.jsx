@@ -396,6 +396,14 @@ export const Demos = ({
       links: {
         editor: "https://rive.app/community/files/28081-constraints/"
       },
+    },
+    clipping: {
+      title: "Clipping",
+      image: "/images/editor/manipulating-shapes/clipping-demo.png",
+      description: "Clipping, multiple clips, inverse clipping, and fill rules.",
+      links: {
+        editor: "https://rive.app/community/files/29092-clipping/"
+      },
     }
   }
 
