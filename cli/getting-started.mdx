@@ -74,8 +74,8 @@ Install the Rive CLI, create a project, and open the live preview. By the end of
   </Step>
 </Steps>
 
-To build without opening a window, use `rive myproject --once`. To check that the
-project compiles without writing anything, use `--verify`.
+To build without opening a window, use `rive myproject --publish`, which creates a signed `.riv`. To check that the
+project compiles without writing anything, use the `--verify` flag instead.
 
 ## Starting from a file in your Rive account
 
@@ -128,6 +128,56 @@ A file containing scripts that is destined for the web must be built with
 project bound to a file in your Rive account, and that file in a workspace on the
 [Cadet plan or higher](https://rive.app/pricing). Bind the project with
 [`rive push`](/cli/reference/project-config#pushing-to-a-rive-file).
+
+## Exporting your project
+
+Once you're ready to share or export your CLI project, there are a few ways you can proceed:
+
+| You want to | Export | Command |
+|---|---|---|
+| Keep working on it in the Rive Editor | A file in your Rive account, or a `.rev` | `rive push`, or `--rev` |
+| Load it in your app with a Rive runtime | A `.riv` | `--publish` |
+
+### Pushing to the Rive editor
+
+To open the project in the Editor, push it to a file in your Rive account:
+
+```bash
+rive login           # once per machine
+rive push myproject  # the first push asks which Rive project to create the file in
+```
+
+The file shows up in the Editor's file browser like any other, and `rive.yaml` records
+the link so later pushes update the same file. Bring changes made in the Editor back into
+the project with `rive pull`. See
+[Pushing to a Rive file](/cli/reference/project-config#pushing-to-a-rive-file) for how
+pushes, revisions and conflicts work.
+
+If you'd rather export a `.rev`:
+
+```bash
+rive myproject --rev=myproject.rev
+```
+
+Both `rive push` and exporting a `--rev` require a logged in session from the CLI.
+
+### Build a .riv for the runtimes
+
+To load the project in your app, build a `.riv` and add it to your project like any
+other Rive file:
+
+```bash
+rive myproject --publish   # signed .riv, needs rive login
+```
+
+This writes to `myproject/build/myproject.riv`, or to the directory set by
+[`output.dir`](/cli/reference/project-config#keys) in `rive.yaml`. From there, follow
+the [runtime guide](/runtimes/getting-started) for your platform to load it.
+
+<Tip>
+To share a playable link instead of a file, `rive myproject --publish=web` hosts the
+build as a public page. See [Publishing CLI Projects](/cli/publishing).
+</Tip>
 
 ## More resources
 
