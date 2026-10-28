@@ -9,7 +9,7 @@ import { YouTube } from '/snippets/youtube.mdx'
 
 When you set two keys on a property, the value in between those keys is automatically calculated. This is called interpolation. Interpolation settings can be customized to create dramatically different results.
 
-You can set the easing on your keys by either using the Interpolation panel to the right of the Timeline, or by using the Graph Editor, which you can toggle on via the shortcut near the Timeline options.
+You can set the easing on your keys with the Interpolation panel to the right of the Timeline. To see and edit curves on a graph, use the [Graph Editor](/editor/animate-mode/graph-editor).
 
 ## Using the Interpolation panel
 
@@ -79,27 +79,4 @@ Choose the interpolation you want new keys to use by default.
 
 ## The Graph Editor
 
-<YouTube id="yfC6_1yS_vE" />
-
-
-Rive's Graph Editor visually represents how an object's properties change over time. Using this graph, we can edit the rate of change and the values being interpolated.
-
-### Enabling the Graph Editor
-
-Use the Graph Editor button on the timeline to enable the Graph Editor. You'll notice that the Graph Editor replaces the timeline.
-
-Note that only objects that are selected will appear on the Graph Editor.
-
-### Using the Graph Editor
-
-The Graph Editor gives a visual representation of the current interpolation. You have two ways to edit the interpolation on the graph.
-
-#### Using cubic interpolation
-
-Cubic interpolation describes the easing function applied between one key and the next, much like a cubic Bezier easing curve in CSS. It shapes how fast the value changes over time, but it always lands exactly on the values you keyed. Adjust a Cubic curve from the Interpolation Panel; the Graph Editor shows the curve, but you set it from the panel.
-
-#### Using cubic value
-
-Cubic Value gives you draggable Bezier handles directly on the Graph Editor, similar to After Effects. Because Rive stores the X and Y position of each handle, it uses a little more data than Cubic, but it gives you much more control over the motion, including the ability to overshoot a value before settling on the final key.
-
-That overshoot is the key difference. Cubic interpolation can only move between the values you key, so animating a property from 0 to 0 produces no motion at all. Cubic Value lets you pull the handles so the curve travels past 0 and back, creating real movement even when the start and end values are identical. This makes Cubic Value ideal for bounces, anticipation, and other effects that need to push beyond the final value.
+To see and edit interpolation as curves on a graph, use the [Graph Editor](/editor/animate-mode/graph-editor).

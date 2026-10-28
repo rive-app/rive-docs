@@ -1,0 +1,84 @@
+---
+title: 'Graph Editor'
+description: 'See and edit how property values change over time as curves.'
+---
+
+import { YouTube } from '/snippets/youtube.mdx'
+
+<YouTube id="yfC6_1yS_vE" />
+
+The Graph Editor shows each keyed property as a curve, with time on the horizontal axis and the property's value on the vertical axis. Where the timeline shows when your keys happen, the Graph Editor shows what the value does between them, so you can see the shape of your motion at a glance.
+
+You can move keys in time and value, add keys on a curve, and shape [Cubic Value](#cubic-vs-cubic-value) curves with Bezier handles, similar to the graph editor in After Effects.
+
+## Opening the Graph Editor
+
+Click the Graph Editor button in the timeline toolbar, or press <kbd>Shift</kbd> + <kbd>F3</kbd>. The Graph Editor replaces the timeline. Click the button again to go back to the timeline.
+
+You can also click **Open graph editor** in the Interpolation panel.
+
+## Choosing which curves to show
+
+The Graph Editor shows the keyed properties of the objects you select on the stage or in the Hierarchy.
+
+To focus on a single property, click it in the property list on the left of the Graph Editor. <kbd>Shift</kbd>-click to add or remove more properties.
+
+## Cubic vs. Cubic Value
+
+Both [interpolation types](/editor/animate-mode/interpolation-easing) draw a curve between keys, but only Cubic Value has handles you can drag in the Graph Editor.
+
+- **Cubic** works like a cubic Bezier easing curve in CSS. It shapes how fast the value changes over time, but it always lands exactly on the values you keyed. You edit it in the [Interpolation panel](/editor/animate-mode/interpolation-easing#using-the-interpolation-panel); the Graph Editor only displays it.
+- **Cubic Value** gives each key draggable Bezier handles in the Graph Editor. Because the handles store both time and value, the curve can overshoot a key's value before settling on it. It uses a little more data than Cubic.
+
+That overshoot is the key difference. Animating a property from 0 to 0 with Cubic produces no motion at all. With Cubic Value, you can pull the handles so the curve travels past 0 and back, creating real movement even when the start and end values are identical. This makes Cubic Value ideal for bounces, anticipation, and other effects that push beyond the final value.
+
+<Tip>To switch selected keys to Cubic Value, press <kbd>F9</kbd> for ease in and out, <kbd>Shift</kbd> + <kbd>F9</kbd> for ease in, or <kbd>Cmd/Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>F9</kbd> for ease out.</Tip>
+
+## Editing curves
+
+### Moving keys
+
+Drag a key up or down to change its value, or left or right to change its time. Hold <kbd>Shift</kbd> while dragging to lock the movement to one axis.
+
+To add a key, hover over a curve until the pen cursor appears, then click.
+
+### Shaping a curve with handles
+
+<Steps>
+  <Step>
+    Select the keys you want to shape and set their interpolation to **Cubic Value**.
+  </Step>
+  <Step>
+    Drag a handle to change the curve. Handles on either side of a key are mirrored, so the curve stays smooth through the key.
+  </Step>
+  <Step>
+    To move one handle without its partner and create a sharp change in direction, hold <kbd>Alt</kbd> while dragging.
+  </Step>
+</Steps>
+
+While dragging a handle, hold <kbd>Shift</kbd> to lock it to one axis, or press <kbd>Esc</kbd> to cancel the drag.
+
+To set handles to exact values, select them. **Value** and **Ease** fields appear in the options bar at the bottom of the Graph Editor. Typing a value applies it to every selected handle, which is an easy way to give several keys the same ease.
+
+### Auto Bezier
+
+Cubic Value keys can set their handles automatically to create a smooth curve through the surrounding keys. Turn on **Apply auto bezier** in the Interpolation panel, and use **Auto bezier coefficient** to control how strong the curve is. Dragging a handle turns auto bezier off for that key.
+
+### Shortcuts
+
+| Shortcut | Result |
+| --- | --- |
+| <kbd>Shift</kbd> + click | Add keys or handles to the selection |
+| <kbd>Shift</kbd> + drag | Lock a key or handle to one axis |
+| <kbd>Alt</kbd> + drag a handle | Break the mirroring between a key's handles |
+| <kbd>Cmd/Ctrl</kbd> + drag | Turn off snapping |
+| <kbd>Esc</kbd> while dragging a handle | Cancel the drag |
+
+## Navigating the graph
+
+The options bar at the bottom of the Graph Editor has two zoom buttons:
+
+- **Fit** (<kbd>F</kbd>) zooms to fit the curves in view.
+- **Auto-Zoom Height** (<kbd>Shift</kbd> + <kbd>F</kbd>) keeps adjusting the vertical zoom so the curves always fill the height of the graph.
+
+Hold <kbd>Space</kbd> and drag to pan.
