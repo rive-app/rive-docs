@@ -1,58 +1,97 @@
 ---
 title: 'Timeline'
-description: ''
+description: 'Create timelines, control playback, and set how an animation loops, how long it runs, and how fast it plays.'
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
 
+A timeline is a single animation on an artboard. It records how properties change over time as [keys](/editor/animate-mode/keys), and you can play it on its own or combine it with other timelines in a [State Machine](/editor/state-machine/state-machine).
+
+In Animate mode, the timeline panel shows the selected timeline: its keyed objects and properties on the left, their keys along a time ruler on the right, and playback controls and settings above them. Each artboard has its own timelines, so the panel shows the timelines of the [active artboard](/editor/fundamentals/artboards#active-artboard).
+
 <YouTube id="-ftpyjPbHEs" />
 
-The Rive interface displays a timeline with playback controls and options for the current animation in Animate mode. A list of all animations is displayed to the left of the Timeline. Keep in mind that these are animations for the currently [active artboard](/editor/fundamentals/artboards#active-artboard).
+## Creating a timeline
 
-![Image](/images/editor/animate-mode/5c396825-8293-4d8b-8968-aff442075b60.webp)
+<Steps>
+  <Step>
+    Switch to Animate mode and select the artboard you want to animate.
+  </Step>
+  <Step>
+    Click **+** next to the timeline tabs and select **Timeline**.
+  </Step>
+</Steps>
+
+Every timeline on the artboard is listed in the **Animations** panel (<kbd>Cmd/Ctrl</kbd> + <kbd>4</kbd>). Right-click a timeline there to duplicate it, delete it, or [add it to the Render Queue](/editor/exporting/exporting-for-video-and-static-design).
+
+Timelines you open appear as tabs above the timeline. Right-click a tab to close it, the other tabs, or every tab to its left or right.
+
+## Playing a timeline
+
+Click the play button on the timeline tabs, or press <kbd>Space</kbd>, to play and pause the selected timeline.
+
+| Shortcut | Result |
+| --- | --- |
+| <kbd>Space</kbd> | Play or pause |
+| <kbd>Shift</kbd> + <kbd>Space</kbd> | Play the artboard's default animation |
+| <kbd>,</kbd> / <kbd>.</kbd> | Move the playhead back or forward one frame |
+| <kbd>Cmd/Ctrl</kbd> + <kbd>,</kbd> / <kbd>Cmd/Ctrl</kbd> + <kbd>.</kbd> | Move the playhead to the previous or next key |
+| <kbd>Cmd/Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>,</kbd> / <kbd>Cmd/Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>.</kbd> | Move the playhead to the start or end |
 
 ## Animation type
 
-![Image](/images/editor/animate-mode/fa768437-b336-4730-8375-a4307176e17b.webp)
+The buttons next to the time display set what happens when the playhead reaches the end of the timeline:
 
-**One-Shot:** The playhead stops at the end of the animation.
+- **One-Shot** plays once and stops at the end. This is the default.
+- **Loop** jumps back to the start and plays again, continuously.
+- **Ping-Pong** plays to the end, then backward to the start, continuously.
 
-**Ping-Pong:** The playhead continuously plays from the start point to the end point and back from the end point to the start point.
+### Work area
 
-**Loop:** The playhead continuously loops the animation from the start point to the end point.
+The work area limits playback to part of a timeline, so you can focus on one section of a longer animation. Click the **Work Area** button in the timeline toolbar to turn it on, then drag the work area's start and end on the time ruler.
 
-**Work Area:** The work area defines the playback area of an animation. Work areas are an easy way to focus on a small portion of a larger animation.
+To fit the work area to your keys, select the keys, right-click, and select **Set work area**. With a single key selected, choose whether the work area starts or ends at that key.
 
 <YouTube id="m-uqQo-6cAU" />
 
-## Navigate Timeline
+## Timeline settings
 
-The Navigate Timeline menu gives you a list of helpful shortcuts to navigate the Timeline.
+Click the time display at the top of the timeline to open the timeline's settings.
 
-![Image](/images/editor/animate-mode/08ccf645-e2df-43e5-8bc6-0fa64ab264f5.webp)
+![Timeline settings open from the time display, showing Current, Duration, Playback Speed, Snap Keys, Quantize, and Display Frames](/images/editor/animate-mode/timeline-settings.png)
 
-## Show only selected
+- **Current**: The playhead's position. Type a time to move the playhead.
+- **Duration**: How long the timeline is.
+- **Playback Speed**: How fast the timeline plays. The default is 1x. Negative values play the timeline backward.
+- **Snap Keys**: The timeline's frame rate, in frames per second. Keys snap to these frames. The default is 60.
+- **Quantize**: Plays the timeline at its frame rate instead of updating on every frame the app draws. Turn it on for stepped or choppy motion, like a sprite animation. It's off by default.
+- **Display Frames** / **Display Time**: Switches the time display between frames and time.
 
-The Show Only Selected toggle can be helpful when dealing with animations with many different objects keyed. When this option is toggled on, only objects that you have selected will appear on the timeline.
+## Finding objects and properties
 
-![Image](/images/editor/animate-mode/31b183db-26be-400f-be2c-52a6ab73bd03.webp)
+When many objects are keyed, these tools help you focus on the rows you need:
+
+- **Search**: Click the search button in the timeline toolbar to filter the rows by name.
+- **Show Selected**: Click the Show Selected button to show only the rows for the objects you've selected on the stage or in the Hierarchy.
+- **Expand and collapse**: Press <kbd>U</kbd> to expand or collapse the rows of the selected objects.
+- **Show one property**: With objects selected, press <kbd>P</kbd> for position, <kbd>R</kbd> for rotation, <kbd>S</kbd> for scale, <kbd>O</kbd> for opacity, or <kbd>T</kbd> for all transform properties to show only those rows. Hold <kbd>Shift</kbd> to add more.
 
 ## Timeline options
 
-Located to the right of the playback select, the Timeline Options show you the current time, duration, playback speed, and snap keys options.
+Click the options button in the timeline toolbar for more ways to set up the timeline:
 
-![Image](/images/editor/animate-mode/7c8302ac-73ac-42f2-9d05-b176d26a67e0.webp)
+![Timeline options menu with Apply all to design mode, row display options, and the Sort, Tags, and Graph sections](/images/editor/animate-mode/timeline-options.png)
 
-**Current:** The current position of the playhead.
+- **Apply all to design mode**: Copies the keyed values at the playhead to the design. Use it when you want the design to match a moment in the animation.
+- **All Keys Row**: Shows a row at the top of the timeline with every key in the timeline. **Pin All Keys Row** keeps it in view as you scroll.
+- **Object Summary Rows**: Shows each object's keys as a single bar instead of a stack of keys.
+- **Preview on Hover**: Shows the frame under the pointer on the stage as you hover over the timeline.
+- **Sort**: Orders the rows by the **Hierarchy** or in a **Custom** order.
+- **Tags**: Shows [tags](/editor/tagging) on the rows as **Expanded** or **Collapsed**, or hides them.
+- **Graph**: Chooses whether the [Graph Editor](/editor/animate-mode/graph-editor#value-and-speed-graphs) plots **Value** or **Speed**.
 
-**Duration:** The total length of the timeline.
+## Navigating the timeline
 
-**Playback Speed:** The speed at which the animation should play. The default speed is 1x. Negative values cause the animation to play backward.
-
-**Snap Keys:** The interval at which keys can be placed on the Timeline. By default, keys can be set at a subdivision of 60 for each second.
-
-## Navigating the Timeline
-
-**Scroll and Zoom:** Use the horizontal scrollbar at the top of the Timeline (with two grabbers on each side) to scroll and resize the Timeline's zoom level.
-
-**Pan:** You can also use the same pan shortcuts as the stage to pan the Timeline (right-click and drag, or hold the spacebar and drag).
+- **Scroll and zoom**: Drag the bar at the top of the timeline to scroll. Drag its ends to zoom in or out.
+- **Pan**: Right-click and drag, or hold <kbd>Space</kbd> and drag.
+- **Maximize**: Click the maximize button on the timeline tabs to give the timeline more room. Click it again to restore the layout.

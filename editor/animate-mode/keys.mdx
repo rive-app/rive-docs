@@ -1,32 +1,83 @@
 ---
 title: 'Keys'
-description: ''
+description: 'Set, select, move, resize, stagger, copy, and bind the keys that make up an animation.'
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
 import { VideoEmbed } from '/snippets/video-embed.jsx'
 
+A key, or keyframe, stores a property's value at a point in time on a [timeline](/editor/animate-mode/timeline). When a property has two or more keys, Rive [interpolates](/editor/animate-mode/interpolation-easing) the values between them to create motion.
+
 <YouTube id="BiaWH6rHd7o" />
 
-### Set keys
+## Setting keys
 
-Objects and their properties appear on the Timeline once they have been keyed. There are a few different ways to key a property. You can manipulate an object directly on the Stage (which will set keys for any resulting transformation, like position, rotation, or scale) or change the property in the Inspector. You can also use the key button that appears next to any property that can be animated. This will set a key for the current value.
+With a timeline selected in Animate mode, move the playhead to the time you want, then set a key in any of these ways:
 
-![Image](/images/editor/animate-mode/121a3078-7e4d-4695-84bd-70da087e9177.webp)
+- Move, rotate, or scale an object on the stage. Rive keys each property that changes.
+- Change a property's value in the Inspector.
+- Click the key button next to a property in the Inspector to key its current value.
 
-Note that the key button has a grey stroke when a key is not set. If the property has been animated, then the property has a blue stroke. If the property has been animated at the current playhead position, then the key button has a blue fill.
+Once a property is keyed, the object and the property appear as rows on the timeline.
 
-### Manipulate keys
+![Key buttons next to Position, Scale, and Rotate in the Inspector](/images/editor/animate-mode/key-button-states.webp)
 
-Keyed objects and their properties appear on rows in the timeline. Keys for properties are shown in a blue fill. If a property (or multiple properties) is collapsed, then the key appears filled in grey.
+The key button shows the property's state at the playhead:
 
-![Image](https://ucarecdn.com/4a8fc418-1335-42b6-a640-5f2461b14e94/)
+- **Grey outline**: The property isn't animated in this timeline.
+- **Colored outline**: The property is animated, but there's no key at the playhead.
+- **Filled**: There's a key at the playhead.
 
-You can change a key's position on the timeline by clicking and dragging it to the desired location. Use the grey keys to move all of the keyed properties of an object or use the blue keys to change a single property's location.
+<Warning>
+  While a timeline is selected, changing a property creates a key. See [Design and Animate Modes](/editor/fundamentals/design-vs-animate-mode) to learn how to avoid accidental keys.
+</Warning>
+
+## Selecting keys
+
+- Click a key to select it. <kbd>Shift</kbd>-click to add or remove keys.
+- Drag across the timeline to select every key in an area.
+- Click a key on an object's row to select the keys of all of that object's properties at that time.
+
+Keys on a property's row are blue. Keys on an object's row, or on a collapsed row, are grey and stand for all the keys beneath them.
+
+## Moving keys
+
+Drag selected keys left or right to change when they happen. Drag a grey key to move every property on that row at once, or a blue key to move a single property.
+
+![Dragging keys on the timeline](/images/editor/animate-mode/move-keys.gif)
+
+To move the playhead between keys, press <kbd>Cmd/Ctrl</kbd> + <kbd>,</kbd> or <kbd>Cmd/Ctrl</kbd> + <kbd>.</kbd>.
+
+## Resizing keys
+
+To speed up or slow down part of an animation, select two or more keys, hold <kbd>Alt</kbd>, and drag the first or last selected key. The keys in between spread out or squeeze together to match.
+
+![Holding Alt and dragging to resize a selection of keys](/images/editor/animate-mode/resize-keys.gif)
+
+## Staggering keys
+
+To offset the same motion across several objects, so each one starts a little after the last, select the keys, hold <kbd>Cmd/Ctrl</kbd> + <kbd>Alt</kbd>, and drag. Each object's keys shift by a growing amount, in the order the rows appear on the timeline.
+
+When the rows are expanded, each property's keys stagger separately. When they're collapsed, each object's keys move together.
+
+## Copying and pasting keys
+
+Copy selected keys with <kbd>Cmd/Ctrl</kbd> + <kbd>C</kbd>. Then select a destination and press <kbd>Cmd/Ctrl</kbd> + <kbd>V</kbd>. The keys are pasted at the playhead.
+
+- To reuse the same motion on another object, select that object and paste. Rive pastes keys onto the matching properties and skips any the object doesn't have.
+- To copy keys from one property to another, such as from X to Y, select the destination property's row and paste.
+
+## Reversing keys
+
+To play a section of an animation backward, select the keys, right-click, and select **Reverse keys**.
+
+## Setting the interpolation
+
+To control how a value changes between two keys, select the first key and choose its [interpolation](/editor/animate-mode/interpolation-easing). You can also right-click keys and choose a type from the **Interpolation** menu.
 
 ## Binding key values
 
-You can [data bind](/editor/data-binding/overview) the value stored in a key. This lets a keyed value come from data instead of being fixed directly on the timeline.
+You can [data bind](/editor/data-binding/overview) the value stored in a key. This lets a keyed value come from data instead of being fixed on the timeline.
 
 <Steps>
   <Step>
@@ -40,16 +91,6 @@ You can [data bind](/editor/data-binding/overview) the value stored in a key. Th
   </Step>
 </Steps>
 
-Once bound, the key uses the bound value when the animation reaches that point in the timeline.
+Once bound, the key uses the bound value when the animation reaches that point in the timeline. To change or remove the binding, right-click the key and select **Update Bind** or **Unbind**.
 
 <VideoEmbed src="https://static.rive.app/video/bind-key.mp4" />
-
-### Copy keys
-
-You can copy the keys from one object to another by copying the property keys from the animated object and pasting them to another object.
-
-## Resize keys
-
-You can resize a selection of keys by holding `alt` and dragging them from the start or end. This serves as a quick way to shrink or lengthen a selection of keys.
-
-![Image](https://ucarecdn.com/9bb04dbc-dade-4bbc-bc25-70015acc9992/)

@@ -23,6 +23,15 @@ The Graph Editor shows the keyed properties of the objects you select on the sta
 
 To focus on a single property, click it in the property list on the left of the Graph Editor. <kbd>Shift</kbd>-click to add or remove more properties.
 
+## Value and Speed graphs
+
+The Graph Editor can plot each property in two ways. Switch between them with the **Value** and **Speed** tabs in the options bar at the bottom of the Graph Editor, or press <kbd>Shift</kbd> + <kbd>G</kbd>.
+
+- **Value** plots the property's value over time. Use it to see where a property is at each moment, and to add keys or change their values.
+- **Speed** plots how fast the value is changing, in units per second. Use it to see where motion speeds up and slows down, and to shape the ease in and out of each key.
+
+You can also choose the graph under **Graph** in the timeline's options menu.
+
 ## Cubic vs. Cubic Value
 
 Both [interpolation types](/editor/animate-mode/interpolation-easing) draw a curve between keys, but only Cubic Value has handles you can drag in the Graph Editor.
@@ -40,7 +49,7 @@ That overshoot is the key difference. Animating a property from 0 to 0 with Cubi
 
 Drag a key up or down to change its value, or left or right to change its time. Hold <kbd>Shift</kbd> while dragging to lock the movement to one axis.
 
-To add a key, hover over a curve until the pen cursor appears, then click.
+To add a key on the Value graph, hover over a curve until the pen cursor appears, then click.
 
 ### Shaping a curve with handles
 
@@ -58,7 +67,9 @@ To add a key, hover over a curve until the pen cursor appears, then click.
 
 While dragging a handle, hold <kbd>Shift</kbd> to lock it to one axis, or press <kbd>Esc</kbd> to cancel the drag.
 
-To set handles to exact values, select them. **Value** and **Ease** fields appear in the options bar at the bottom of the Graph Editor. Typing a value applies it to every selected handle, which is an easy way to give several keys the same ease.
+On the Speed graph, dragging a handle up or down changes the speed at that key, and dragging it left or right changes the ease, which is how far the handle's influence reaches toward the neighboring key.
+
+To set handles to exact values, select them. Fields appear in the options bar at the bottom of the Graph Editor: **Value** and **Ease** on the Value graph, or **Speed** and **Ease** on the Speed graph. Typing a value applies it to every selected handle, which is an easy way to give several keys the same ease.
 
 ### Auto Bezier
 
