@@ -46,7 +46,7 @@ To change the source later, click the target button on the clip and pick a diffe
 
 A clip source can be a shape or a group, but not an artboard. When the source is a group, every shape inside it is combined into one clip.
 
-The clip follows the filled area of each shape, including any path effects such as [Trim Path](/editor/manipulating-shapes/trim-path), and ignores strokes. A shape with only a stroke doesn't clip anything.
+The clip follows the filled area of each shape, including any path effects such as a [trim](/editor/manipulating-shapes/trim-path), and ignores strokes. A shape with only a stroke doesn't clip anything.
 
 ### Using more than one clip
 
@@ -60,7 +60,7 @@ Click the eye icon on a clip in the Inspector to turn the clip off without remov
 
 ## Fill rule and path direction
 
-Each clip has a fill rule, set from the dropdown on the clip in the Inspector. It decides which areas count as inside when the source has overlapping paths, or paths inside other paths.
+Each clip has a fill rule, set from the dropdown on the clip in the Inspector. It decides which areas count as inside when the source has overlapping paths, or paths inside other paths. It works like a [fill's fill rule](/editor/fundamentals/fill-and-stroke#fill-rules), but it's set separately: the source shape's own fill rule doesn't affect the clip.
 
 - **Non-zero** is the default. Whether an overlapping area is inside depends on the direction each path is drawn in.
 - **Even-odd** alternates: an area inside one path is inside the clip, an area inside two is outside, and so on. Use it to cut holes. See [Inverse clipping](#inverse-clipping).

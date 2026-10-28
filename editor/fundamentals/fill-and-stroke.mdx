@@ -1,183 +1,97 @@
 ---
 title: "Fill and Stroke"
-description: "The Fill and Stroke section of the Inspector allows you to add and modify the Fill and Stroke properties of the currently selected object. You can create as many fills or strokes as you'd like."
+description: "Paint shapes with fills and strokes, and set fill rules, stroke caps and joins, blend modes, and effects."
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
 
+Fills and strokes are the paint on a [shape](/editor/fundamentals/shapes-and-paths-overview). A fill colors the area inside the shape's paths, and a stroke draws a line along them. A shape can have any number of fills and strokes, and each one applies to every path in the shape.
+
+Fills and strokes are listed in the **Fills and Strokes** section of the Inspector. On a [Layout](/editor/layouts/layouts-overview), the same section is called **Background**, or **Foreground** for a Layout's foreground.
+
 <YouTube id="4ZRzKScvJbQ" />
 
-## Fill
+## Adding a fill or stroke
 
-### Create a new Fill
+<Steps>
+  <Step>
+    Select a shape.
+  </Step>
+  <Step>
+    In the **Fills and Strokes** section of the Inspector, click **+** and select **Fill** or **Stroke**.
 
-To create a fill, select a shape, then use the plus button under the Fill and Stroke section of the Inspector. Be sure to select Fill from the new menu. You'll be able to tell that a layer is a fill by looking at the color box on the left side.
+    ![Adding a fill with the + button in the Fills and Strokes section](/images/editor/fill-and-stroke/add-fill.gif)
+  </Step>
+</Steps>
 
-![Creating a fill by clicking the plus button in the Fill and Stroke section of the Inspector and choosing Fill from the menu](/images/newFill.gif)
+A fill's swatch is a filled square, and a stroke's swatch is an outlined square. A new fill on a shape starts as a gradient, and a new stroke starts as a solid color.
 
-### Changing Fill color
+![Adding a stroke, shown with an outlined swatch in the Fills and Strokes section](/images/editor/fill-and-stroke/add-stroke.gif)
 
-To change the color of a Fill, select the color box on the left side of the Fill layer. This will open the Color Picker. From there, you can use the various sliders to choose which color you'd like for the Fill.
+To change a fill or stroke's color or switch it to a gradient, click its swatch. See [Color and Gradients](/editor/fundamentals/color-and-gradients).
 
-![Opening the Color Picker from a fill layer and adjusting the sliders to change the color](/images/changecolor.gif)
+## Managing fills and strokes
 
-### Changing Fill type
+- **Reorder**: Drag a fill or stroke by an empty area of its row. Items higher in the list draw in front of items lower in the list.
+- **Hide**: Click the eye icon. The fill or stroke stays on the shape, but doesn't draw.
+- **Delete**: Click the minus icon.
+- **Duplicate, copy, or convert**: Right-click a fill or stroke to duplicate or copy it, or to convert a fill to a stroke and a stroke to a fill.
 
-When a new shape is created, by default the shape will have a solid fill. When a new fill is added, by default the fill type is set to linear. We often need to change the fill type between the different types. This can be done by selecting the color box.
+![Reordering fills by dragging them in the Fills and Strokes section](/images/editor/fill-and-stroke/reorder-fills.gif)
 
-![Changing the fill type with the Fill Selector menu at the top of the Color Picker](/images/changefilltype.gif)
+![Hiding a fill with the eye icon and deleting it with the minus icon](/images/editor/fill-and-stroke/hide-delete-fill.gif)
 
-Once the Fill has been opened, you'll find the Fill Selector dropdown in the top of the option box.
+## Fill options
 
-The different fills that can be selected are:
+Click the options button on a fill to open its options.
 
-- **Solid**
-- **Linear Gradient**
-- **Radial Gradient**
+![Fill Options showing Name, Blend, Fill Rule, and Feather](/images/editor/fill-and-stroke/fill-options.png)
 
-### Changing Fill color (gradient)
+- **Name**: The fill's name.
+- **Blend**: The fill's [blend mode](#blend-modes).
+- **Fill Rule**: How overlapping paths are filled. See [Fill rules](#fill-rules).
+- **Feather**: Softens the fill's edge. See [Vector Feathering](/editor/fundamentals/vector-feathering).
 
-To change the color of a Fill, select the color box on the left side of the Fill layer. This will open the Color Picker.
+The **Effects** tab adds path effects, such as a trim or dash, to the fill. See [Path effects](#path-effects).
 
-![A gradient fill selected in the Color Picker showing a gradient bar with two color points](/images/changestopper.gif)
+### Fill rules
 
-When a gradient is selected, you'll notice a new bar appear above the color picker. This represents the color of the gradient at different points.
+When a shape has more than one path, or a path crosses itself, the fill rule decides which areas are inside the shape and get filled. To cut a hole in a shape, put the hole's path inside the shape's outer path and choose a fill rule that leaves the overlap empty.
 
-By default, a gradient has two points.
+- **Non-zero** is the default. Each path counts +1 if it's drawn clockwise and −1 if it's drawn counter-clockwise. Areas where the total isn't zero are filled. Two overlapping paths drawn in the same direction fill the overlap, and two drawn in opposite directions leave it empty.
+- **Even-odd** ignores direction and counts how many paths surround an area. Areas inside an odd number of paths are filled, and areas inside an even number are empty. A path inside another path always makes a hole.
+- **Clockwise** is a fill rule made by Rive. Paths drawn clockwise fill, and paths drawn counter-clockwise cut away from them, so you can subtract one path from another by reversing its direction. Feathered fills always use Clockwise.
 
-### Changing the color of a stopper
+To change a path's direction, use **Reverse Direction** while [editing its vertices](/editor/fundamentals/edit-vertices).
 
-To change the color of a particular color stopper, start by selecting the stopper you'd like to change.
+## Stroke options
 
-Next, use the various sliders to choose which color that stopper should be.
+Set a stroke's thickness in the field on its row. Click the options button on a stroke to open the rest of its options.
 
-### Adding and removing stoppers
+- **Name**: The stroke's name.
+- **Blend**: The stroke's [blend mode](#blend-modes).
+- **Cap**: How the ends of an open path look.
+  - **Butt** ends the stroke flat at the end point. A path with no length doesn't draw.
+  - **Round** adds a rounded end. A path with no length draws a circle.
+  - **Square** adds a square end that extends past the end point. A path with no length draws a square.
+- **Join**: How corners look: **Round**, **Bevel**, or **Miter**.
+- **Apply transform**: When it's on, scaling the shape also scales the stroke's thickness. Turn it off to keep the thickness the same at any scale.
+- **Feather**: Softens the stroke's edge. See [Vector Feathering](/editor/fundamentals/vector-feathering).
 
-To add a new color stopper, click any space along the long that isn't currently occupied by another stopper. This will generate an additional color stopper.
+The **Effects** tab adds path effects to the stroke. See [Path effects](#path-effects).
 
-![Adding a color stopper by clicking an empty spot on the gradient bar, and removing one with the Delete key](/images/add_remove.gif)
+## Blend modes
 
-To delete a color stopper, select the stopper you'd like to delete, then hit the Delete or Backspace key.
+Each fill and stroke has its own blend mode. By default it's set to inherit the shape's blend mode.
 
-### Changing Fill order
+## Path effects
 
-The order of fills determines their render order, with fills on top rendered in front and fills at the bottom rendered in back.
+Path effects change the path a fill or stroke draws, without changing the shape itself. Add them from the **Effects** tab of a fill or stroke's options:
 
-![Reordering fills by dragging a fill layer, changing which fill renders in front](/images/fillOrder.gif)
-
-This order can be changed at any time by clicking and dragging on an empty area within the layer.
-
-### Fill properties
-
-Each Fill has its own properties which can be edited and keyed on the timeline. Some of these properties can be found by using the fill option button.
-
-![The Fill Options menu showing the Name, Blend, Fill Rule, and Feather properties for a fill](/images/fillProp.png)
-
-**Fill Name -** You can edit the name of a fill using this property.
-
-**Blend -** This option can be used to change the Blend Mode of an individual Fill. By default, this mode will be set to inherit, which inherits the blend mode from the shape layer.
-
-**Fill Rule -**  This option can be used to change the fill rule for the Fill. This must be set to clock-wise if you want the fill to be feathered.
-
-\*\*Feather - \*\*This option can be toggled to feather the chosen Fill. Read more about Feathering below.
-
-### Deleting and hiding a Fill
-
-Often times we'll need to delete or hide a particular Fill. This can be done by selecting the shape, then using the eye icon to hide the Fill, or the minus icon to delete the fill.
-
-![Deleting a fill with the minus icon and hiding a fill with the eye icon in the Fill and Stroke section](/images/delete.gif)
-
-### Fill rule
-
-The Fill Rule determines how overlapping paths in a shape will be filled:
-
-- **Non-Zero** assigns a \+1 value to clockwise paths and a -1 value to counter clock wise paths. Areas that equal a value other than 0 will be filled.
-- **Even-Odd** assigns a \+1 value to clockwise paths and a -1 value to counter clock wise paths. Areas that equal an even value will be filled while odd values wont be.
-- **Clockwise** a Fill Rule exclusive to Rive. This fill rule enables manual subtraction of paths which can be found in edit vertices mode. This fill rule is also required for shapes where you'd like to enable vector feathering.
-
-## Stroke
-
-### Create a new Stroke
-
-To create a Stroke, select a shape, then use the plus button under the Fill and Stroke section of the Inspector. Be sure to select Stroke from the new menu. You'll be able to tell that a layer is a Stroke by looking at the color box on the left side. Strokes are represented by an outlined box.
-
-![Creating a stroke by clicking the plus button in the Fill and Stroke section of the Inspector and choosing Stroke from the menu](/images/NewStroke.gif)
-
-### Changing stroke color (solid)
-
-To change the color of a Stroke, select the color box on the left side of the Stroke layer. This will open the Color Picker. From there, you can use the various sliders to choose which color you'd like for the Stroke.
-
-![Opening the Color Picker from a stroke layer and adjusting the sliders to change the color](/images/StrokeColor.gif)
-
-### Changing Stroke type
-
-By default, strokes are set to a solid color, but various stroke types are available from the Color Picker menu.
-
-![Changing the stroke type with the Stroke Selector menu at the top of the Color Picker](/images/ChangeStrokeType.gif)
-
-The different strokes that can be selected are:
-
-- **Solid**
-- **Linear Gradient**
-- **Radial Gradient**
-
-### Changing Stroke color (gradient)
-
-To change the color of a Stroke, select the color box on the left side of the Stroke layer. This will open the Color Picker.
-
-When a gradient is selected, you'll notice a new bar appear above the color picker. This represents the color of the gradient at different points.
-
-By default, a gradient has two points.
-
-### Changing the color of a stopper
-
-To change the color of a particular color stopper, start by selecting the stopper you'd like to change.
-
-![Selecting a color stopper on a stroke gradient and adjusting the sliders to change its color](/images/ChangeGradientColor.gif)
-
-Next, use the various sliders to choose which color that stopper should be.
-
-### Adding and removing stoppers
-
-To add a new color stopper, click any space along the long that isn't currently occupied by another stopper. This will generate an additional color stopper.
-
-![Adding a color stopper by clicking an empty spot on the gradient bar, and removing one with the Delete key](/images/add_removeStroke_Stopper.gif)
-
-To delete a color stopper, select the stopper you'd like to delete, then hit the Delete or Backspace key.
-
-### Deleting and hiding a Stroke
-
-Often times we'll need to delete or hide a particular Stroke. This can be done by selecting the shape, then using the eye icon to hide the Stroke, or the minus icon to delete the Stroke.
-
-## Stroke Properties
-
-Each Stroke has its own properties which can be edited and keyed on the timeline. Some of these properties can be found by using the Stroke option button.
-
-**Stroke Name -** You can edit the name of a Stroke using this property.
-
-**Blend -** This option can be used to change the Blend Mode of an individual Stroke. By default, this mode will be set to inherit, which inherits the blend mode from the shape layer.
-
-**Cap -** This option changes the end cap of a Stroke. Read more about the different Caps below.
-
-- **Butt** The end of the stroke is a straight line and does not extend beyond the end vertices. On a zero-length path, the stroke will not be rendered at all.
-- **Round** The ends of a stroke are rounded. On a zero-length path, the stroke is a full circle.
-- **Square** The ends of a stroke are squared off and extend beyond the end vertices. On a zero-length path, the stroke is a square.
-
-**Join -** This option changes how the corners of a Stroke are rendered. Read more about the different Join options below.
-
-- **Round** creates a rounded corner.
-- **Bevel** creates a beveled corner.
-- **Miter** creates a mitered corner.
-
-**Apply Transformations -** The Apply Transformations toggle determines whether the shape layers scale will affect the thickness of the stroke. When this is toggled off, the thickness of the stroke will stay the same regardless of scale.
-
-**Feather -** This option can be toggled to feather the chosen stroke. Read more about Feathering below.
-
-**Stroke Type** - At the bottom of the Stroke Options Panel, you'll find options to change your stroke between a solid, trim, dashed stroke.
-
-- **Solid -** Renders the stroke as a solid stroke. This is the default stroke type for each new stroke created.
-- **Trim -**  Lets you animate the start, end, and offset of a line segment. Read more [here](/editor/manipulating-shapes/trim-path).
-- **Dashed -** Lets you create dashed strokes with animatable property like the length of the dashed segment and offset.  Read more [here.](/editor/manipulating-shapes/trim-path)
+- **Trim Effect** draws only part of the path, so you can animate a line drawing on. See [Trim and Dash](/editor/manipulating-shapes/trim-path).
+- **Dash Effect** breaks the path into dashes and gaps. See [Trim and Dash](/editor/manipulating-shapes/trim-path#dash).
+- **Effect Group** applies a shared stack of effects that you control in one place. See [Effect Groups](/editor/manipulating-shapes/effect-groups).
+- **Scripted path effects** apply a [path effect script](/scripting/protocols/path-effect-scripts).
 
 ## Vector Feathering
 

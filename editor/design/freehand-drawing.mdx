@@ -1,16 +1,17 @@
 ---
-title: "Freehand Drawing with Pencil, Brush, and Eraser"
+title: "Freehand Drawing with Pencil, Brush, Eraser, and Bucket"
 sidebarTitle: "Freehand Drawing"
-description: "Draw and edit vector artwork with the Pencil, Brush, and Eraser tools."
+description: "Draw, erase, and color vector artwork with the Pencil, Brush, Eraser, and Bucket tools."
 ---
 
 import { VideoEmbed } from '/snippets/video-embed.jsx'
 
-Use the **Pencil**, **Brush**, and **Eraser** tools to draw with a mouse, trackpad, or stylus. These tools share many of the same drawing controls, but create or modify artwork differently.
+Use the **Pencil**, **Brush**, and **Eraser** tools to draw with a mouse, trackpad, or stylus. These tools share many of the same drawing controls, but create or modify artwork differently. Use the **Bucket** to color in what you've drawn.
 
 - **Brush** creates freehand paths with configurable tips and variable thickness.
 - **Pencil** creates freehand paths with a consistent thickness.
 - **Eraser** uses similar controls to the Brush, but removes from existing shapes rather than creating new ones.
+- **Bucket** fills enclosed areas and recolors shapes with a click.
 
 ## Brush tool
 
@@ -126,3 +127,30 @@ Simplify only affects flattened shapes, which are erased destructively. Brush sh
 <Tip>
   Hold `⌘` (or `Ctrl` on Windows) to temporarily switch to the [Shape Bend Tool](/editor/design/shape-bend-tool) and see how **Simplify** affects the number of vertices created while erasing.
 </Tip>
+
+## Bucket tool
+
+Use the **Bucket Tool** to color in your artwork with a single click.
+
+<Steps>
+  <Step>
+    Select the **Bucket Tool** or press <kbd>Shift</kbd> + <kbd>U</kbd>.
+  </Step>
+  <Step>
+    Choose a color.
+  </Step>
+  <Step>
+    Click the area you want to color.
+  </Step>
+</Steps>
+
+What happens depends on where you click:
+
+- **Inside an enclosed gap**, such as the inside of a closed outline: the Bucket creates a new shape that fills the gap, placed just below the artwork. The original shape isn't changed. If you've already filled that gap, the Bucket recolors the fill instead.
+- **Inside an open Brush or Pencil stroke**: the stroke doesn't need to be closed. The Bucket fills the area between the stroke and a straight line joining its two ends, so an open arch fills across its open side.
+- **On a shape or text**: the Bucket recolors its top fill. If the fill is a gradient, every stop takes the new color.
+
+<VideoEmbed src="https://static.rive.app/video/bucket-tool.mp4" />
+
+The Bucket skips hidden and locked objects. In Animate mode, recoloring a fill keys the new color.
+
