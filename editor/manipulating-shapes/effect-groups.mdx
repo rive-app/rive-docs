@@ -1,0 +1,70 @@
+---
+title: 'Effect Groups'
+description: 'Share one stack of path effects, such as trim, dash, or scripted effects, across many fills and strokes, and control them from one place.'
+---
+
+import { YouTube } from '/snippets/youtube.mdx'
+
+An Effect Group holds a stack of path effects, such as a [trim or dash](/editor/manipulating-shapes/trim-path) or a [scripted path effect](/scripting/protocols/path-effect-scripts), that you can apply to any number of fills and strokes. Every fill and stroke that uses the group gets the same effects, and changing or animating the group updates all of them at once.
+
+Use an Effect Group when several shapes need to behave the same way, such as many lines that draw on together, or a set of icons that share one dash pattern. Without one, you'd add and animate the same effect on each fill or stroke separately.
+
+<YouTube id="18LrObHLRFQ" />
+
+## Creating an Effect Group
+
+<Steps>
+  <Step>
+    In the toolbar, open the **Stage Control Tools** menu and select **Effect Group**.
+  </Step>
+  <Step>
+    Click the stage to place the Effect Group. It appears in the Hierarchy. Its position only affects where it sits on the stage, not the effects.
+  </Step>
+  <Step>
+    With the Effect Group selected, click **+** in the **Path Effects** section of the Inspector, and add the effects you want: **Trim Effect**, **Dash Effect**, another **Effect Group**, or a scripted path effect.
+  </Step>
+  <Step>
+    Set each effect's options. Effects are applied in the order they appear in the stack.
+  </Step>
+</Steps>
+
+## Applying an Effect Group
+
+You can apply an Effect Group to many shapes at once from the Hierarchy, or to a single fill or stroke from its options. An Effect Group can only be used by shapes on the same artboard.
+
+### To shapes in the Hierarchy
+
+<Steps>
+  <Step>
+    Select the shapes in the Hierarchy.
+  </Step>
+  <Step>
+    Right-click and select **Add Group Effect**, then select the Effect Group.
+  </Step>
+</Steps>
+
+The Effect Group is added to every fill and stroke of the selected shapes. To take it off again, right-click the shapes and select **Remove Group Effect**.
+
+### To a single fill or stroke
+
+<Steps>
+  <Step>
+    Open the options for the fill or stroke.
+  </Step>
+  <Step>
+    In the **Path Effects** section, click **+** and select **Effect Group**.
+  </Step>
+  <Step>
+    Choose the Effect Group from the dropdown.
+  </Step>
+</Steps>
+
+An Effect Group sits in a fill or stroke's effect stack like any other effect, so you can combine it with that fill or stroke's own effects.
+
+## Animating an Effect Group
+
+Key the effects inside the Effect Group, such as a trim's **Start** and **End**, and every fill and stroke that uses the group animates together. To change the animation later, you only need to edit one set of keys.
+
+## Nesting Effect Groups
+
+An Effect Group can contain other Effect Groups. Use this to build a shared base effect, then extend it for some shapes. An Effect Group can't contain itself, directly or through another group.
