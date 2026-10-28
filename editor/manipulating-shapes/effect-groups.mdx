@@ -4,12 +4,15 @@ description: 'Share one stack of path effects, such as trim, dash, or scripted e
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
+import { Demos } from '/snippets/demos.jsx'
 
 An Effect Group holds a stack of path effects, such as a [trim or dash](/editor/manipulating-shapes/trim-path) or a [scripted path effect](/scripting/protocols/path-effect-scripts), that you can apply to any number of fills and strokes. Every fill and stroke that uses the group gets the same effects, and changing or animating the group updates all of them at once.
 
 Use an Effect Group when several shapes need to behave the same way, such as many lines that draw on together, or a set of icons that share one dash pattern. Without one, you'd add and animate the same effect on each fill or stroke separately.
 
 <YouTube id="18LrObHLRFQ" />
+
+<Demos examples={["effectGroups"]} learnByExample />
 
 ## Creating an Effect Group
 

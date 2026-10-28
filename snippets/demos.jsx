@@ -404,6 +404,14 @@ export const Demos = ({
       links: {
         editor: "https://rive.app/community/files/29092-clipping/"
       },
+    },
+    effectGroups: {
+      title: "Effect Groups",
+      image: "/images/editor/manipulating-shapes/effect-groups-demo.png",
+      description: "Share path effects across shapes with Effect Groups, and combine effects in a stack.",
+      links: {
+        editor: "https://rive.app/community/files/29094-effect-groups/"
+      },
     }
   }
 
