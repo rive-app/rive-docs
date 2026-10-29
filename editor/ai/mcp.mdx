@@ -18,6 +18,7 @@ You can connect the Rive Editor to AI tools through MCP (Model Context Protocol)
 - **Create and manage Rive files** — add, rename, resize, arrange, and focus artboards.
 - **Inspect and edit the scene** — query hierarchies, select objects, update properties, rename, duplicate, reorder, reparent, or delete elements.
 - **Build designs** — create shapes, paths, layouts, component instances, component lists, and asset-based elements.
+- **Rig with bones** — create root bones and bone chains, by length and rotation or by head and tail points, then bind and weight them.
 - **Create animation and interaction** — edit linear animations, state machines, states, transitions, conditions, keyframes, and interpolation.
 - **Work with data binding** — create view models, properties, instances, bindings, and custom property groups.
 - **Edit scripts and shaders** — manage Luau scripts and WGSL shaders, update source code, run diagnostics, recompile, test, search code, and read console output.
@@ -25,6 +26,8 @@ You can connect the Rive Editor to AI tools through MCP (Model Context Protocol)
 <Info>
    This list of features will evolve over time as more tools are added.
 </Info>
+
+Edits that would make runtimes refuse or crash on the file, like two colors on one fill or a gradient outside a fill or stroke, are refused and undone. Colors are read the same way as the hex field: `#fff` is white, and names like `red` are refused.
 
 ## Installation
 
