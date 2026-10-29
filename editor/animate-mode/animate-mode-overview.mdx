@@ -1,64 +1,60 @@
 ---
-title: 'Animate Mode Overview'
+title: 'Animation'
 sidebarTitle: 'Overview'
-description: ''
+description: 'How animation works in Rive: timelines of keys, interpolation between them, and state machines that decide what plays.'
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
 
-Use [animate mode](/editor/fundamentals/design-vs-animate-mode) to create timelines, state machines, keys, transitions, and interactive animation logic.
+Animation in Rive is built from a few parts that work together:
 
-In Animate Mode, the editor shows animation tools such as the timeline, animations list, key controls, and interpolation options.
+- A **[timeline](/editor/animate-mode/timeline)** is a single animation, such as an idle loop or a button press.
+- **[Keys](/editor/animate-mode/keys)** on a timeline store a property's value at a point in time, like a ball's Y position at frame 0 and frame 30.
+- **[Interpolation](/editor/animate-mode/interpolation-easing)** fills in the values between two keys, and decides how the motion eases. Use the [Graph Editor](/editor/animate-mode/graph-editor) to shape it as a curve.
+- A **[state machine](/editor/state-machine/state-machine)** decides which timelines play at runtime, and blends and transitions between them in response to data and user input.
+
+You create timelines, keys, and state machines in Animate mode. Switch modes with the toggle in the toolbar, or press `Tab`. See [Design and Animate Modes](/editor/fundamentals/design-vs-animate-mode).
 
 <Warning>
-  Editing objects while a timeline is selected can create keys. See [Design and Animate Modes](/editor/fundamentals/design-vs-animate-mode) to learn how to avoid accidental keying.
+  In Animate mode, editing an object while a timeline is selected can create keys. Make design changes in Design mode instead.
 </Warning>
 
 <YouTube id="4U3er1uSjBw" />
 
-### Learn more about Animate Mode
+## Motion without keys
+
+Not all motion needs keys. These features move objects on their own, or drive timelines for you:
+
+- **[Constraints](/editor/constraints/constraints-overview)**: Make an object follow, aim at, or copy another object.
+- **[Joysticks](/editor/manipulating-shapes/joysticks)**: Blend timelines from a single handle, such as turning a head.
+- **[Data binding](/editor/data-binding/overview)**: Drive properties directly from values your app sets at runtime.
+- **[Scripting](/scripting/getting-started)**: Animate with code.
+
+## Learn more
 
 <CardGroup cols={2}>
-  <Card
-    title="Timeline"
-    icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>}
-    href="/editor/animate-mode/timeline"
-  >
-    The Rive interface displays a timeline with playback controls and options for the current animation in Animate mode.
+  <Card title="Timeline" icon="film" href="/editor/animate-mode/timeline">
+    Create timelines, control playback, and set how an animation loops and how long it runs.
   </Card>
-  <Card
-    title="Keys"
-    icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>}
-    href="/editor/animate-mode/keys"
-  >
-    Objects and their properties appear on the Timeline once they have been keyed. There are a few different ways to key a property.
+  <Card title="Keys" icon="key" href="/editor/animate-mode/keys">
+    Set, select, move, copy, and stagger the keys that make up an animation.
   </Card>
-  <Card
-    title="Interpolation (Easing)"
-    icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>}
-    href="/editor/animate-mode/interpolation-easing"
-  >
-    When you set two keys on a property, the value in between those keys is automatically calculated. This is called interpolation.
+  <Card title="Interpolation" icon="bezier-curve" href="/editor/animate-mode/interpolation-easing">
+    Control how values change between keys, from linear to eased to hold.
   </Card>
-  <Card
-    title="Graph Editor"
-    icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>}
-    href="/editor/animate-mode/graph-editor"
-  >
-    See how property values change over time as curves, and edit them with draggable handles.
+  <Card title="Graph Editor" icon="chart-line" href="/editor/animate-mode/graph-editor">
+    See and edit how property values change over time as curves.
   </Card>
-  <Card
-    title="Animating Draw Order"
-    icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>}
-    href="/editor/animate-mode/animating-draw-order"
-  >
-    You can change the draw order of your graphics at design time by moving items up and down the Hierarchy.
+  <Card title="State Machines" icon="diagram-project" href="/editor/state-machine/state-machine">
+    Decide which timelines play, and blend and transition between them.
+  </Card>
+  <Card title="Custom Draw Order" icon="layer-group" href="/editor/animate-mode/animating-draw-order">
+    Key draw order rules to change what draws on top during an animation.
   </Card>
 </CardGroup>
 
-## Use case: building a bouncing ball
+## Example: a bouncing ball
 
-This video walks you through animating a bouncing ball in Rive. We cover keyframes, interpolation and a couple classic principles of animation.
+This video animates a bouncing ball, covering keys, interpolation, and a couple of classic animation principles.
 
 <YouTube id="DitdOy_HxKc" />
-
