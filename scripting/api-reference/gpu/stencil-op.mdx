@@ -1,0 +1,10 @@
+---
+title: StencilOp
+---
+
+Operation applied to the 8-bit stencil value by a pipeline face state.
+`replace` writes the reference set by `GPURenderPass:setStencilReference`.
+Clamp operations saturate at 0 or 255; wrap operations wrap modulo 256.
+`invert` flips every bit; `keep` leaves the value unchanged.
+
+

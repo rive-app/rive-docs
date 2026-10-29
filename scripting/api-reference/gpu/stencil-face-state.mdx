@@ -1,0 +1,30 @@
+---
+title: StencilFaceState
+---
+
+Stencil operations for one triangle face. Set `stencilFront` and
+`stencilBack` on GPUPipeline.new's descriptor, alongside `depthStencil`.
+
+
+## Fields
+
+### `compare`
+
+Stencil comparison (default 'always').
+
+
+### `failOp`
+
+Stencil test failed (default 'keep').
+
+
+### `depthFailOp`
+
+Stencil passed but depth failed (default 'keep').
+
+
+### `passOp`
+
+Both stencil and depth passed (default 'keep').
+
+
