@@ -1,32 +1,46 @@
 ---
 title: 'States'
-description: ''
+description: 'Add states to a state machine to play timelines, blend them together, and mark where each layer starts and stops.'
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
 import { VideoEmbed } from '/snippets/video-embed.jsx'
 
-States are usually timeline animations that can play at any point in your state machine. A state could be as simple as changing the color and position of an object, or as complex as blending multiple timelines together.
+A state is what a [state machine](/editor/state-machine/state-machine) layer is doing at a given moment. Most states play a [timeline](/editor/animate-mode/timeline), or blend several timelines together. [Transitions](/editor/state-machine/transitions) move the layer from one state to the next.
 
-There are a few types of states that you’ll end up using as you work with the State Machine, including Default States, Single animations, and Blend States.
+Every layer has three default states, Entry, Any State, and Exit, and you add the rest:
+
+- **Single** plays one timeline.
+- **1D** blends timelines based on one value.
+- **Additive** layers several timelines on top of each other, each with its own amount.
 
 ## Default states
 
-The Default States are the states that, by default, are added to every State Machine.
+Every layer starts with an Entry State, an Any State, and an Exit State.
 
-![Default States](/images/editor/state-machine/42815967-dd47-4da1-ba8a-4fc12f64d972.webp)
+![The default Entry, Any State, and Exit states in a new layer](/images/editor/state-machine/default-states.webp)
 
 ### Entry State
 
-The Entry State is the state that your State Machine will start from. You’ll notice that by default, your state machine will already have an animation attached to the Entry State, but you can change this animation at any time. Note that you can connect multiple animations to the Entry State if you need I.E. you want to build a switch that can start in either the on or off state.
+The Entry State is where the layer starts. When the state machine starts, the layer follows the transition out of the Entry State to its first state.
 
-![Using the Entry state](https://ucarecdn.com/9d359af8-f3c3-4d57-8f88-7ba8dcad4847/)
+You can connect the Entry State to more than one state, and use [conditions](/editor/state-machine/transitions#transition-conditions) to choose which one the layer starts in. For example, a switch can start in its On or Off state depending on a bound value.
+
+![A switch whose Entry State connects to an On state, which transitions to an Off state](/images/editor/state-machine/entry-state-switch.gif)
+
+### Any State
+
+Transitions out of the Any State can happen from whatever state the layer is in. Use it for states you need to reach from anywhere, such as changing a character's outfit or setting a rating, without drawing a transition from every other state.
+
+<YouTube id="P6Z3oeAJWqY" />
+
+![A chili pepper rating where the Any State connects to a state for each rating](/images/editor/state-machine/any-state-rating.gif)
 
 ### Exit State
 
 <YouTube id="JuJwak2ikJ4" />
 
-Transitioning to the Exit State stops the [layer](/editor/state-machine/state-machine#layers). It doesn't just stop the current animation: the layer stops advancing entirely, and its objects stay where the last animation left them. Other layers keep playing.
+Transitioning to the Exit State stops the layer. It doesn't just stop the current animation: the layer stops advancing entirely, and its objects stay where the last animation left them. Other layers keep playing.
 
 You'll rarely need it, but it's useful for a layer that has finished its work, such as an intro that plays once. Stopping the layer saves the work of running it.
 
@@ -44,182 +58,124 @@ For example, to play a timeline once and then stop its layer:
   </Step>
 </Steps>
 
-A layer that has exited can still start again through a transition from the [Any State](#any-state).
+A layer that has exited can still start again through a transition from the Any State.
 
-### Any State
+## Adding a state
 
-<YouTube id="P6Z3oeAJWqY" />
+- **From a timeline:** Drag a timeline from the **Animations** list onto the graph. This creates a Single state that plays it.
+- **Empty:** Right-click the graph and choose the type of state to add. Then pick its timelines in the Inspector.
 
-Unlike normal states, states connected to the Any State can be played at any time, regardless of which state your state machine is in. Any States are great to use when you want to create an array of states that can be activated at any time, such as changing the skin of a character.
+![Dragging a timeline from the Animations list onto the graph to create a state](/images/editor/state-machine/drag-timeline-to-graph.gif)
 
-![Rating system using the Any state](https://ucarecdn.com/6c4401fc-1b7c-4748-901d-a6e237f57e51/)
+To change a state's type later, select it and change **Type** in the Inspector.
 
-## Animation states
+To line up states in the graph, select two or more and use the align and distribute buttons at the top of the Inspector.
 
-Animation states include all states other than the default states added to a State Machine. These states will control the look and motion of your interactive content. There are three types of animation states; Single Animation, 1D blend, and Direct blend states.
-
-To add a State to the Graph, you can drag and drop an animation from the Animations List directly onto the Graph. Notice that this will create a Single Animation state. You can change the state type using the inspector.
-
-![Drop and drop State onto the Graph](https://ucarecdn.com/f99e2294-1915-4449-8632-71227dc4f87f/)
-
-Additionally, you can right-click on the graph and create a blank state of any type with no associated timelines.
-
-![Image](https://ucarecdn.com/34662198-6e61-43bd-83dd-d4d8e1ee8012/)
-
-Right-click to add State
-
-To assign a timeline to a state, use the timeline dropdown in the inspector.
-
-### Single animation state
-
+## Single states
 
 <YouTube id="bGW1tNpNt-Y" />
 
-Any timeline that we create can be used as a single animation state. Depending on the type of animation we are using, the single animation state could be a one-shot, looping, or ping-pong state. In most cases, you’ll be using single animation states to create most of your state machines.
+A Single state plays one timeline. Most of a state machine is usually made of Single states. The timeline plays the way it's set up, as a one-shot, a loop, or a ping-pong. See [Animation type](/editor/animate-mode/timeline#animation-type).
 
-### Blend States
+Select a Single state to change its options in the Inspector:
 
-A Blend State is any state that blends together two or more timeline animations. We use these states for content like loading bars, health systems, scrolling interactions, and dynamic face rigs.
+- **Timeline**: The timeline the state plays. Type in the dropdown to search for a timeline.
+- **Speed**: How fast the timeline plays. `1x` is normal speed, `2x` is twice as fast, and negative values play it backward.
 
-There are two types of blend states; 1D and Direct Blend states.
+## Blend states
 
-#### 1D Blend State:
+A blend state plays multiple timelines at once and mixes them together. Use blend states for anything driven by a changing value, such as a health bar, a loading bar, a scroll position, or a face rig.
 
-A 1D Blend State allows us to mix multiple timelines together with a single numerical view model property. This state works by ramping up one animation and ramping down the other while you increase or decrease a number value. Note that this mixing is not linear, but is additive and could give you unexpected results.
+Blends work best with timelines that key only the properties they need. For example, each timeline in a health bar might key only the bar's X scale.
 
-![Health bar using Blend state](https://ucarecdn.com/875b9ed6-41c7-4023-aaad-f38d2042dca7/)
+### 1D blend
 
-**Configuring a 1D Blend State:**
+A 1D blend mixes its timelines based on a single number. Each timeline is set at a value, and as the number moves between two timelines' values, the blend crossfades between them.
 
-You'll want to start by creating a few timelines for your Blend state. Keep in mind that it's often best to use timelines with only a few properties keyed. In this health bar example, only the X scale is keyed.
+For example, a health bar can blend between an Empty timeline at `0` and a Full timeline at `100`, driven by a health property.
 
-![Image](https://ucarecdn.com/a2e08c89-388b-4b21-b31b-3d5fb6e94cd7/)
+![A health bar driven by a 1D blend between an Empty timeline at 0 and a Full timeline at 100](/images/editor/state-machine/blend-1d-health-bar.gif)
 
-Timelines for health bar
+<Steps>
+  <Step>
+    Add a state, and set its **Type** to **1D**.
+  </Step>
+  <Step>
+    Choose the number that drives the blend. Usually this is a [view model](/editor/data-binding/overview) property.
+  </Step>
+  <Step>
+    In **Timelines**, click **+** to add each timeline, and set the value where it plays at full strength.
+  </Step>
+</Steps>
 
-After adding a 1D Blend State to the graph, use the Inspector to configure the state.
+The graph above the timelines shows how they mix across the range. While the state machine is playing, a marker moves across it to show the current value.
 
-![Add Blend state](https://ucarecdn.com/266c2c6d-6719-4b65-b06a-b1ca35d2eb86/)
+#### Capture Base State
 
-First, add the number property you want to drive the blend using the dropdown. If you haven’t created one yet, you’ll notice that nothing appears here.
+**Capture Base State** is the toggle next to the blend's property, and it's on for new 1D blends. When it's on, the blend starts each frame from the original values of the properties its timelines key, then mixes the timelines on top. This keeps the result the same for any given value.
 
-![Create and add number property to Blend state](https://ucarecdn.com/baf39e65-5bf1-44ed-bd2e-b0f0afa24ded/)
+When it's off, the blend mixes on top of whatever values were already there, so the result can depend on what played before.
 
-The plus button that appears below the number property allows you to add timelines to your blend state. Use the dropdown to assign a specific timeline. Note that you can add as many timelines as you’d like.
+### Additive blend
 
-![Add timelines to the Blend state](https://ucarecdn.com/fe5d4505-8290-4be9-b0d6-58f13d1df553/)
+An Additive blend plays several timelines on top of each other, each with its own amount from 0 to 100. Use it to combine independent motions, such as mixing smile, frown, and surprise poses on a face.
 
-Next, you need to define a numerical range that your blend state will work between. This particular blend works between 0 and 100.
+![A face rig combining facial expressions with an Additive blend](/images/editor/state-machine/blend-additive-face.gif)
 
-![Image](https://ucarecdn.com/6a92f242-2979-44c7-bb95-fc51ebeeda5d/)
+In **Timelines**, click **+** and choose how the new timeline's amount is set:
 
-Notice that once you define the range, a graphic appears above the property dropdown, visually representing how your animations will mix. When the state machine is active, as you increase or decrease your property within the defined range, you’ll see a visual representation move across that graph, showing you the mix of your timelines.
-
-![Blend State in action](https://ucarecdn.com/44a40cb9-90d9-4aca-920f-6042cc52340f/)
-
-#### Additive Blend State:
-
-An Additive Blend state allows you to blend together multiple timelines using multiple number properties. This allows us to create unique poses and facial positions by mixing multiple animations together. While working with an Additive Blend, you’ll either be mixing an animation by value or property. Read more below.
-
-![Using Additive Blend for facial animations](https://ucarecdn.com/71cf4345-b728-47a4-946c-e08de2eb86dd/)
-
-**Value vs Property blend**
-
-When adding animations to an Additive blend state, you’ll be prompted to either add a Blend by Value animation or a Blend by Property animation.
-
-![Adding timeline to Additive Blend](https://ucarecdn.com/8e2c7380-85cf-4e41-8dd8-82e98f34d1bd/)
-
-A Blend by Value timeline can be thought of as the baseline animation, or default pose. This value is not tied to a property, so it can’t be used to control the state machine. Instead, this value describes its mix weighting.
-
-A view model property blend is an animation that is mixed with the default pose or motion via a number property. Each of your different property blends should have their own number property.
+- **Mix by value**: A fixed amount that you set in the Inspector. Use it for a base pose that's always applied.
+- **Mix by view model**: The amount comes from a [view model](/editor/data-binding/overview) property, so your app can change it.
+- **Mix by input**: The amount comes from a legacy [input](/editor/state-machine/inputs).
 
 ## State options
 
-When you select a state in the State Machine Graph, you can change its options in the Inspector, including:
+Select a state to see its options in the Inspector:
 
-- **Name** - The name of the state.
-- [Caption](#caption) - Notes for collaborators or your future self.
-- **Type** - The type of state, such as a single animation, 1D blend, or additive blend.
-- [Timeline](#timeline) - The animation assigned to the state.
-- [Speed](#speed) - The speed at which the timeline plays.
-- [Transitions](#transitions) - A list of transitions to and from the state.
+- **Name**: The state's name.
+- **Caption**: A note for collaborators or your future self. See [Captions](#captions).
+- **Type**: Single, 1D, or Additive.
+- **Transitions**: The [transitions](/editor/state-machine/transitions) leaving the state. Click the eye icon to disable one, or **-** to remove it.
+- **Randomize Exit**: Picks one of the state's transitions at random, weighted by a **Factor** you set on each one. See [Randomize exit](/editor/state-machine/transitions#randomize-exit).
 
-### Caption
+Single states also have **Timeline** and **Speed**, and blend states have their blend settings.
 
-You can add a caption to a state to leave notes for collaborators or your future self.
+### Captions
 
-When a state has a caption, an info icon appears on the state in the State Machine Graph. Hover over the icon to view the caption.
+When a state has a caption, an info icon appears on it in the graph. Hover over the icon to read the caption. Use captions to explain why a state exists or how complex logic works.
 
-Captions are useful for explaining why a state exists and documenting complex logic.
-
-<Note>
-  Captions are only visible in the editor. They are not exported for runtime.
-</Note>
+Captions are only visible in the editor, and aren't exported.
 
 <VideoEmbed src="https://static.rive.app/video/state-caption.mp4" />
 
-### Timeline
-
-Use the dropdown to change which animation is assigned to the current state.
-
-![Changing animation on a state](https://ucarecdn.com/e8a8e540-b5ed-4947-b2cc-45ba793f0ea0/)
-
-### Speed
-
-Use **Speed** to change how fast the state’s animation plays. Positive values play the animation forward, and negative values play it backward.
-
-![Change animation speed](https://ucarecdn.com/5ada4e3d-bbba-412d-8bc3-6b4417717e16/)
-
-### Transitions
-
-The **Transitions** section lists the [transitions](/editor/state-machine/transitions) connected to the selected state. Use the eye icon to disable a transition, or the **-** button to remove it.
-
 ## Actions
 
-You can perform actions when the state starts or ends.
-
-Actions can be used to:
-
-- Set property values
-- Report events
-- Align targets
-- Control focus
-- Fire a scripted action
-
-<Note>
-  Actions can also be fired at the start or end of a transition.
-
-  See [Transition Actions](/editor/state-machine/transitions#actions).
-</Note>
+A state can run actions when it starts or ends, such as setting a view model property, reporting an event, or moving focus.
 
 <YouTube id="4Uuu0MkBawE" />
 
-### Action timing
-
-Each action can run at either:
-
-- **Start** — Runs when the state begins
-- **End** — Runs after the state completes
-
-### Creating an action
-
-![Creating an transition action](/images/editor/state-machine/transitions/state-action.gif)
-
 <Steps>
-  <Step title="Add an action">
-    With a state selected, click the `+` button to the right of the state name, and select an action type.
+  <Step>
+    Select a state, click **+** to the right of the state's name, and choose an action type.
   </Step>
-  <Step title="Configure the action">
-    Configure the action based on the action type.
+  <Step>
+    Set whether the action runs at the **Start** of the state, or at the **End**, after the state finishes.
+  </Step>
+  <Step>
+    Configure the action.
   </Step>
 </Steps>
+
+![Adding an action to a state](/images/editor/state-machine/transitions/state-action.gif)
+
+Transitions can run actions too. See [Transition actions](/editor/state-machine/transitions#actions).
 
 ## Common issues
 
 <YouTube id="TnTvFkMC7iI" />
 
-## Use case: build a simple button
+## Example: a simple button
 
-In this exercise, we will use our state machine knowledge to create a simple button with two layers of interactivity. Hover and click.
+This video builds a button with two layers of interactivity, hover and click.
 
 <YouTube id="hlEPcxhc2pI" />
