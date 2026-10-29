@@ -1,33 +1,83 @@
 ---
 title: "State Machine Overview"
 sidebarTitle: "Overview"
-description: "Add intelligence to your animations."
+description: "Connect timelines with logic to build interactive graphics, and run several at once with layers."
 ---
 
-## Overview
+import { YouTube } from '/snippets/youtube.mdx'
 
-State Machines are a visual way to connect animations together and define the logic that drives the transitions. They allow you to build interactive motion graphics that are ready to be implemented in your product, app, game, or website.
+A state machine connects your [timelines](/editor/animate-mode/timeline) with logic. It decides which animation plays, when it changes, and how it blends into the next one, based on data, user interaction, or time. This is what makes a Rive graphic interactive, and it's what your app or game controls at runtime.
 
-State machines create a new level of collaboration between designers and developers, allowing both teams to iterate deep in the development process without the need for a complicated handoff.
+For example, a button might have Idle, Hover, and Pressed timelines. A state machine plays Idle by default, switches to Hover when the pointer moves over the button, and to Pressed when it's clicked.
 
 <YouTube id="0Hb7SlEW6MI" />
 
-Using the State Machine requires designers and animators to think more like a developer but in a straightforward, visual way.
+## How a state machine works
 
-Every artboard has at least one State Machine by default, but you can create as many as you’d like. To create a new state machine, hit the plus button in the Animations List and select the State Machine option.
+A state machine is made of:
 
-### Anatomy of a State Machine
+- **[States](/editor/state-machine/states)**: what's playing, usually a timeline or a blend of timelines.
+- **[Transitions](/editor/state-machine/transitions)**: the connections between states, with conditions that decide when the state machine moves from one state to another.
+- **[Layers](#layers)**: each layer is its own graph of states and transitions. Layers play at the same time.
 
-A basic state machine will consist of a Graph, [States](/editor/state-machine/states), [Transitions](/editor/state-machine/transitions), and [Layers](/editor/state-machine/layers). We’ll explore each of these pieces and more throughout this section.
+The state machine is driven by:
 
-The Graph is the space in which you’ll be adding States and connecting Transitions. It appears in place of the Timeline when a state machine is selected in the animations list.
+- **[Data binding](/editor/data-binding/overview)**: transition conditions can check view model properties, so your app can change a value and the state machine responds.
+- **[Listeners](/editor/state-machine/listeners)**: respond to pointer, keyboard, and other interactions on the artboard.
+- **Time**: a transition can wait until a timeline finishes, or reaches a set point, with [Exit Time](/editor/state-machine/transitions#exit-time).
 
-![State Machine Graph](/images/editor/state-machine/307461c0-2006-4fdf-bdc3-61875d40f422.webp)
+<Note>
+  Older files use [Inputs](/editor/state-machine/inputs) to drive state machines. Use data binding for new work.
+</Note>
 
-States are simply timeline animations that can play in your state machine. Typically, these will represent some state that your animated content is in. For example, a button will typically have an Idle state (the button is stationary), a Hovered state (what the button looks like when it is hovered), and a Clicked state (what the button looks like when it’s been clicked).
+## Creating a state machine
 
-![Preview of States](https://ucarecdn.com/ca93f148-a38c-4eac-a166-8399065315c2/)
+Every artboard starts with one state machine, and you can add as many as you need. Your app chooses which state machine to play at runtime.
 
-Once we have defined the States of our content, we can tie them together with transitions to create a logical path that our State Machine can take through these different timelines. We’re creating a map that our State Machine can use to get from one animation to the next.
+<Steps>
+  <Step>
+    In the **Animations** list, click **+** and select **State Machine**.
+  </Step>
+  <Step>
+    Select the state machine to open its graph in place of the timeline.
+  </Step>
+</Steps>
 
-![Creating Transitions](https://ucarecdn.com/cf0f53e3-abc9-43a9-b43a-e18483fe2613/)
+The graph is where you add states and connect them with transitions. A new state machine's graph has the Entry, Any State, and Exit states. See [Default states](/editor/state-machine/states#default-states).
+
+![The state machine graph with the Entry, Any State, and Exit states, and the Animations list on the left](/images/editor/state-machine/state-machine-graph.webp)
+
+To preview the state machine, click the play button above the graph. It runs on the stage the same way it will at runtime, so you can click, hover, and change bound values to test it.
+
+## Layers
+
+A layer plays one state at a time. To play more than one animation at once, add more layers. For example, one layer can play a character's idle and walk cycle while another layer plays its blinking.
+
+<YouTube id="7Vb1LosMzwk" />
+
+### Adding a layer
+
+Click **+** in the **Layers** tab.
+
+![Adding a new layer](/images/editor/state-machine/state-machine-layer-create.gif)
+
+### Layer order
+
+When two layers animate the same property, the layer lower in the list wins. If your layers animate different properties, their order doesn't matter.
+
+To change the order, drag layers up or down in the **Layers** tab.
+
+![Reordering state machine layers by dragging them in the Layers tab](/images/editor/state-machine/state-machine-layer-order.gif)
+
+<YouTube id="Fc9MutscvAo" />
+
+### Layer options
+
+Click the **...** button next to a layer to open its options.
+
+![Layer menu with Delete, Duplicate, Disable, and Snapping](/images/editor/state-machine/layer-menu.png)
+
+- **Delete**: Deletes the layer.
+- **Duplicate**: Creates a copy of the layer, with its states and transitions.
+- **Disable**: Stops the layer from playing without deleting it. Useful for testing one layer at a time.
+- **Snapping**: Turns snapping on or off for states and transitions in the layer's graph.
