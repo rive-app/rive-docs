@@ -120,7 +120,7 @@ export interface RiveParameters {
 - `animations` - Name of a timeline animation to load from the `.riv` file. Use `stateMachine` to play a state machine instead.
 - `automaticallyHandleEvents` - Enable Rive Events to be handled by the runtime. For example, if during the render loop an `OpenUrlEvent` is detected, the browser may try to open the specified URL in the payload. Defaults to `false`. Deprecated along with the rest of the [Rive Events](/runtimes/web/rive-events) surface — use [data binding](/runtimes/web/data-binding) instead.
 - `onLoop` - Callback that gets fired when the animation completes a loop. Loop events are only reported for linear animation playback, which is itself deprecated. Use a state machine to control playback and [data binding](/runtimes/web/data-binding) to react to changes.
-- `onStateChange` - Callback that gets fired when a state change occurs. Use [data binding](/runtimes/web/data-binding) (view model property observers) or [state machine actions](/editor/state-machine/states#actions) to react to changes from your graphic instead.
+- `onStateChange` - Callback that gets fired when a state change occurs. Use [data binding](/runtimes/web/data-binding) (view model property observers) or [state machine actions](/editor/state-machine/actions) to react to changes from your graphic instead.
 
 
 ## APIs

@@ -140,30 +140,6 @@ Use **Semantic Tap**, **Semantic Increase**, and **Semantic Decrease** listeners
 
 ## Listener actions
 
-A listener action runs when a listener is triggered.
-
-To add a listener action, click the **+** icon in the panel below the **State Machine Graph**.
+When a listener fires, it runs its [actions](/editor/state-machine/actions), such as setting a view model property, moving an object to the pointer, or reporting an event. To add one, select the listener and click **+** in the panel below the graph. You can add as many actions as you need.
 
 <VideoEmbed src="https://static.rive.app/video/docs/add-action-to-listener.mp4" />
-
-| Action                      | Description                                           |
-| --------------------------- | ----------------------------------------------------- |
-| **View Model Change**           | Sets the value of a view model property. See [Data Binding](/editor/data-binding/overview). |
-| **Input Change** (deprecated)   | Sets the value of a state machine [input](/editor/state-machine/inputs). |
-| [Align Target](#align-target)   | Positions an object so it follows the pointer.        |
-| **Focus Target**                | Moves focus to a specific element.                    |
-| **Focus Traversal**             | Steps through the focus order.                        |
-| **Report Event**                | Fires a [Rive event](/editor/events/overview).        |
-| **Scripted Action**             | Runs a [listener action script](/scripting/protocols/listener-action-scripts). |
-
-<Tip>
-  You can add multiple actions to a single listener, and you can data bind values in listener actions.
-</Tip>
-
-### Align Target
-
-The **Align Target** action positions an object so it follows the pointer when the listener is triggered within the listener area.
-
-Use the **Target Picker** to select the object you want to align.
-
-Enable **Preserve Offset** to maintain the original distance between the object and the pointer when the action is triggered. When **Preserve Offset** is disabled, the object aligns directly to the pointer.
