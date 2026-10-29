@@ -6,9 +6,9 @@ description: ''
 import { YouTube } from '/snippets/youtube.mdx'
 import { VideoEmbed } from '/snippets/video-embed.jsx'
 
-States are simply timeline animations that can play at any point in your state machine. A state could be as simple as changing the color and position of an object, or as complex as blending multiple timelines together.
+States are usually timeline animations that can play at any point in your state machine. A state could be as simple as changing the color and position of an object, or as complex as blending multiple timelines together.
 
-There are a few types of states that you’ll end up using as you work with the State Machine, including Default States, Single animations, and Blend States. We’ll explore each of these below.
+There are a few types of states that you’ll end up using as you work with the State Machine, including Default States, Single animations, and Blend States.
 
 ## Default states
 
@@ -26,7 +26,25 @@ The Entry State is the state that your State Machine will start from. You’ll n
 
 <YouTube id="JuJwak2ikJ4" />
 
-The Exit State tells the State Machine layer to stop playing. This niche state has uses when multiple layers are being used.
+Transitioning to the Exit State stops the [layer](/editor/state-machine/state-machine#layers). It doesn't just stop the current animation: the layer stops advancing entirely, and its objects stay where the last animation left them. Other layers keep playing.
+
+You'll rarely need it, but it's useful for a layer that has finished its work, such as an intro that plays once. Stopping the layer saves the work of running it.
+
+For example, to play a timeline once and then stop its layer:
+
+<Steps>
+  <Step>
+    Put the timeline on its own layer, connected from the Entry State.
+  </Step>
+  <Step>
+    Add a transition from the timeline's state to the Exit State.
+  </Step>
+  <Step>
+    Set the transition's [Exit Time](/editor/state-machine/transitions#exit-time) to 100%, so it happens once the timeline has played all the way through.
+  </Step>
+</Steps>
+
+A layer that has exited can still start again through a transition from the [Any State](#any-state).
 
 ### Any State
 
