@@ -3,6 +3,11 @@ title: DepthStencilAttachment
 ---
 
 Depth/stencil attachment descriptor for canvas:beginRenderPass.
+Independent stencil load/store controls are not exposed by this binding.
+Metal clears stencil to 0 and discards it at pass end; Vulkan currently
+derives stencil load/store actions from depthLoadOp/depthStoreOp.
+For portability, clear the attachment and write/test stencil in one pass
+rather than relying on stencil preservation across passes.
 
 
 ## Fields
