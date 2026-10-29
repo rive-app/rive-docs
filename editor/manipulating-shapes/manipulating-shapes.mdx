@@ -1,40 +1,37 @@
 ---
-title: 'Manipulating Shapes Overview'
+title: 'Rigging Overview'
 sidebarTitle: 'Overview'
-description: 'The Rive editor gives you multiple ways to manipulate your graphics to create the animation that you want. In addition to adding the basic transform properties, you can use bones, meshes, joysticks, and constraints to give your graphics and animations some added flair.'
+description: 'Set up your graphics so they bend, follow each other, and can be posed with simple controls, using bones, meshes, joysticks, and constraints.'
 ---
 
+Rigging is the setup you do before animating, so the animating itself is easier. Instead of keying every vertex of an arm or every feature of a face, you build controls that move many things at once, then animate those controls.
+
+A rig can be as simple as one object following another, or a full character with a skeleton, bending limbs, and a handle that turns its head. Most rigs combine several of these tools:
+
 <CardGroup cols={2}>
-  <Card
-    title="Meshes"
-    icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>}
-    iconType="solid"
-    href="/editor/manipulating-shapes/meshes"
-  >
-    Meshes are an excellent way to add natural and organic deformations to raster graphics.
+  <Card title="Bones" icon="bone" href="/editor/manipulating-shapes/bones">
+    Build a skeleton that moves objects as a hierarchy, and bend vector paths and images by binding them to bones.
   </Card>
-  <Card
-    title="Bones"
-    icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>}
-    iconType="solid"
-    href="/editor/manipulating-shapes/bones"
-  >
-    Bones allow you to create a skeleton for your graphics.
+  <Card title="Meshes" icon="draw-polygon" href="/editor/manipulating-shapes/meshes">
+    Add vertices to a raster image so you can warp it, or bind it to bones so it bends.
   </Card>
-  <Card
-    title="Joysticks"
-    icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>}
-    iconType="solid"
-    href="/editor/manipulating-shapes/joysticks"
-  >
-    Joysticks make it easy to set up sophisticated rigs with simple controls.
+  <Card title="Joysticks" icon="gamepad" href="/editor/manipulating-shapes/joysticks">
+    Blend timelines with a single handle, to pose a head, eyes, or face from one control.
   </Card>
-  <Card
-    title="Constraints"
-    icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M8.036 1v4.178c0 1.034.839 1.873 1.873 1.873h4.003v6.178a1.77 1.77 0 0 1-1.77 1.77H3.858a1.77 1.77 0 0 1-1.771-1.77V2.771A1.77 1.77 0 0 1 3.857 1zm1.25.145v4.033c0 .345.279.624.623.624h3.889a1.8 1.8 0 0 0-.377-.597L11.618 3.32 9.842 1.525a1.8 1.8 0 0 0-.557-.38" clip-rule="evenodd"></path></svg>}
-    iconType="solid"
-    href="/editor/constraints/constraints-overview"
-  >
-    Constraints are a way to control the properties of an object through another target object.
+  <Card title="Constraints" icon="link" href="/editor/constraints/constraints-overview">
+    Make an object follow, aim at, or copy another, without keying it.
   </Card>
 </CardGroup>
+
+## Choosing a tool
+
+| To do this | Use |
+| --- | --- |
+| Move parts of a character together, like an arm and hand | [Bones](/editor/manipulating-shapes/bones) |
+| Bend a vector shape, like a sleeve or a tail | [Bones](/editor/manipulating-shapes/bones#deforming-elements) bound to the path's vertices |
+| Bend or warp an image | A [mesh](/editor/manipulating-shapes/meshes), on its own or bound to bones |
+| Reach a target with a limb, like a foot on the ground | An [IK constraint](/editor/constraints/ik-constraint) |
+| Keep an object within a distance of another, or on a path | A [distance](/editor/constraints/distance-constraint) or [follow path](/editor/constraints/follow-path-constraint) constraint |
+| Copy another object's position, rotation, or scale | A [translation](/editor/constraints/translation-constraint), [rotation](/editor/constraints/rotation-constraint), [scale](/editor/constraints/scale-constraint), or [transform](/editor/constraints/transform-constraint) constraint |
+| Pose a face or turn a head with one control | A [joystick](/editor/manipulating-shapes/joysticks) |
+| Make Layout content scrollable | A [scroll constraint](/editor/constraints/scroll-constraint) |
