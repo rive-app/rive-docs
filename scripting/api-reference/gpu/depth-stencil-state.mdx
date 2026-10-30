@@ -2,7 +2,9 @@
 title: DepthStencilState
 ---
 
-Depth/stencil fixed-function state. Omit from pipeline to disable depth testing.
+Attachment format and depth fixed-function state. Omit from the pipeline
+to disable depth testing. Stencil face operations and masks are separate
+top-level pipeline fields, not members of this table.
 
 
 ## Fields
@@ -19,4 +21,10 @@ Write depth on pass (default false).
 ### `depthBias`
 
 ### `depthBiasSlopeScale`
+
+### `depthBiasClamp`
+
+Maximum depth bias magnitude (default 0: no clamp). A nonzero value
+requires context:features().depthBiasClamp.
+
 
