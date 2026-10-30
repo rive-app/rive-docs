@@ -1,65 +1,91 @@
 ---
 title: 'Exporting Videos & Images'
-description: ''
+description: 'Render artboards, timelines, and State Machines to video, GIF, and image formats with the Cloud Renderer.'
 ---
 
 <Note>Exporting video and images is available on paid plans. [Learn more about our plans and pricing](https://rive.app/pricing?utm_source=docs&utm_medium=content).</Note>
 
-Rive is all about interactive animation, but sometimes you need  traditional formats such as MP4, GIF, or PNG sequence. Our Cloud Renderer turns any device into a supercomputer, allowing you to continue working while we generate your video or design file.
+Rive is built for interactive animation, but sometimes you need a traditional format such as an MP4, a GIF, or a PNG. The Cloud Renderer creates these files on Rive's servers, so you can keep working while your render runs.
+
+Rendering has two parts:
+
+- **Render presets** are saved settings for a render, such as what to render, the format, and the size. They belong to an artboard.
+- The **Render Queue** is where you start renders and download the finished files.
 
 ## Supported formats
 
-- H.264
-- GIF
-- PNG Sequence
-- SVG Sequence
-- WebM
-- PNG
-- SVG
+The available formats depend on the preset's mode.
 
-## How to render
+| Mode | Formats |
+| --- | --- |
+| **Design** (a still image) | PNG, SVG |
+| **Animation** or **State Machine** (over time) | H.264 (`.mp4`), WebM, GIF, PNG sequence, SVG sequence |
 
-All rendering is done by creating Rendering Presets, then adding those Render Presets to the Render Que.
+PNG and SVG sequences download as a `.zip` file with one image per frame.
 
-### Creating a preset
+## Creating a render preset
 
-With the Artboard selected, you'll find the Render Presets option. Hitting the plus button will create a new Render Preset. This can be done from either [design or animate mode](/editor/fundamentals/design-vs-animate-mode).
+<Steps>
+  <Step>
+    Select the artboard you want to render.
+  </Step>
+  <Step>
+    In the **Render Presets** section of the Inspector, click **+**.
 
-![Image](/images/editor/exporting/36d52cd8-b10b-444f-8231-a1dc74e7511c.webp)
+    ![Render Presets section in the Inspector](/images/editor/exporting/render-presets-inspector.webp)
+  </Step>
+  <Step>
+    Click the options icon to the left of the preset name, then set the preset's options.
 
-By creating a Render Preset in Design Mode you'll have the option to render either an SVG or PNG. This option can be changed using the dropdown menu with the preset selected.
+    ![Render preset options for an Animation preset](/images/editor/exporting/render-preset-options.gif)
+  </Step>
+</Steps>
 
-![Image](/images/editor/exporting/d002a7fd-0c64-4adf-8ed9-bdd886c4ef6a.webp)
+You can change a preset's format at any time from the dropdown next to its name.
 
-By creating a Render Preset in [animate mode](/editor/fundamentals/design-vs-animate-mode) you'll have the option to render a number of video formats including  H.264, GIF, PNG/SVG sequence, and WebM. This option can be changed using the dropdown menu with the preset selected.
+![Format dropdown on a Design preset showing PNG and SVG](/images/editor/exporting/render-preset-design-format.webp)
 
-![Image](https://ucarecdn.com/e826d407-8977-4ed7-9c02-f35a8a30441b/)
+### Preset options
 
-To the left of the Render Preset name, you'll find additional options which allow you to change a number of options.
+- **Name**: The name of the preset.
+- **Mode**: What to render.
+  - **Design** renders a still image of the artboard.
+  - **Animation** renders a single timeline. Choose it under **Timeline**.
+  - **State Machine** renders a State Machine as it plays over time. Choose it under **State Machine**.
+- **Format**: The file format. For Animation and State Machine presets, also set the frame rate.
+- **Duration**: How long to render, plus a multiplier (**1x**, **2x**, **3x**, or a custom value). Available for Animation and State Machine presets.
+- **Bit rate**: The video quality for H.264 and WebM. Leave it on **Auto**, or enter a custom value in kbps.
+- **Size**: Use **Auto** to render at the artboard's size, or choose a custom width and height.
 
-- Animation
-- Format
-- FPS
-- Duration
-- Bit rate
-- Size
+## Rendering
 
-### Adding a preset to the Render Queue
+<Steps>
+  <Step>
+    Add presets to the Render Queue in any of these ways:
 
-When you're finished creating a preset, you'll need to add it to the Render Queue.
+    - Click **Queue All** below the presets to add every preset on the artboard.
+    - In a preset's options, click **Add to Render Queue**.
+    - To add a preset and start rendering right away, click **Queue and Start Render** in the preset's options, or click the play button next to the preset's name.
 
-Do this by either using the Queue All button below the Render Presets, or by finding the Add to Render Queue option within a Render Preset.
+    The Render Queue opens when you add a preset.
 
-![Image](/images/editor/exporting/af23a14f-9a85-4bf6-af36-10a867fd8ca8.webp)
+    ![Render Queue open next to the Hierarchy](/images/editor/exporting/render-queue-open.webp)
+  </Step>
+  <Step>
+    On the **Queued** tab, check each render's settings. Expand a render to change its options for that render only, such as **Matte**, the background color, or the **View Model** instance to render with.
+  </Step>
+  <Step>
+    Click the play button next to a render to start it, or click the double play button at the top of the Render Queue to start every queued render.
 
-Once you've added an item to the Render, you'll see that a new window appears. This window is the Render Queue. From here, you can change rendering options, as well as begin the rendering process.
+    ![Queued tab of the Render Queue](/images/editor/exporting/render-queue-queued.webp)
+  </Step>
+  <Step>
+    When a render finishes, open the **Completed** tab and click the download button next to it.
 
-You can always find the Renderer via the File Menu.\
-\
-To begin rendering an animation, use the play button next to the preset name, or hit the double play button at the top of the Render Queue.
+    ![Completed tab of the Render Queue with the download button](/images/editor/exporting/render-queue-completed.webp)
+  </Step>
+</Steps>
 
-![Image](/images/editor/exporting/137a5d20-809e-4344-9d92-8e41519c7b45.webp)
+To reopen the Render Queue later, open the Editor Menu and select **Open Render Queue**.
 
-Once you're file  is finished rendering, you'll be able to download it from the Completed tab within the Cloud Renderer.
-
-![Image](/images/editor/exporting/67a9f6ab-7738-4f6e-bce4-21518e01ca2a.webp)
+<Tip>You can also add a timeline straight to the Render Queue: right-click it in the Animations list and select **Add to Render Queue**.</Tip>

@@ -1,41 +1,49 @@
 ---
 title: "Text Styles"
+description: "Define fonts, sizes, spacing, and paints for text, then apply them to individual text runs."
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
 
 <YouTube id="FeUOLDzvSDw" />
 
-A Text Style contains many of the familiar options that define how you'd like your text to be styled, and is applied to one or more runs. Currently, only Text Styles defined on a Text object can be applied to it. We'll introduce ways to share Text Styles across multiple Text objects or entire Rive files in future.
+A text style defines how text looks: its font, size, spacing, and paints. Each style belongs to a Text object, and you can apply it to one or more of that object's [text runs](/editor/text/text-runs). Use several styles in the same Text object to mix looks within a single block of text, or key between styles in an animation.
 
-Each new Text object is created with a Text Style. Use the `+` action in the Inspector to create additional styles to be applied to specific Text Runs or to key between in an animation.
+Text styles can only be applied to runs in the Text object where they're defined. You can't share a style across Text objects or files.
 
-Each Text Style contains:
+## Text style properties
 
-- Font
-- Font Size
-- Font Weight
-- Line Height
-- Fills
-- Strokes
+Each text style includes these properties:
+
+- **Font** and **weight**: The font family and the weight or style, such as Regular or Bold.
+- **Font Size**: The size of the text.
+- **Letter Spacing**: The space between characters.
+- **Line Height**: The space between lines. Set it to **Auto** to use the font's default.
+- **Fills and strokes**: The paints applied to the text itself.
+- **Background Fill** and **Background Stroke**: Paints drawn behind the text, with a **Corner** radius to round the background.
 
 ![Add multiple styles to a single text object](/images/editor/text/text-runs-styles.gif)
 
-### Applying a style to a Text Run
+### Font options
 
-There are two ways to apply a Text Style to a Text Run:
+Some fonts include variable axes, such as weight, width, or slant, or OpenType features, such as ligatures and stylistic alternates. For these fonts, an options button appears on the text style in the Inspector. Click it to open **Font Options**:
 
-- Select the Text Run in the hierarchy, then use the Style dropdown in the Inspector.
-- Select the `A+` icon alongside the style options in the Inspector, then use the popup menu to select the desired Text Run. Hovering each option will preview the result on the Stage.
+- **Variables** sets the font's variable axes. For example, set weight to any value in the font's range instead of choosing a fixed weight.
+- **Features** turns the font's OpenType features on or off.
+
+You can animate variable axes. Open **Font Options** in [Animate mode](/editor/fundamentals/design-vs-animate-mode) to key the available axes.
+
+![Animating a font's variable axes](/images/editor/text/text-runs-variable.gif)
+
+## Creating text styles
+
+Each new Text object starts with one text style. To add another, select the Text object and click **+** in the **Text Styles** section of the Inspector.
+
+## Applying a style to a text run
+
+You can apply a text style to a run in either of two ways:
+
+- Select the text run in the Hierarchy, then choose a style from the **Style** dropdown in the Inspector.
+- Click **Apply to Runs** next to the style in the Inspector, then select a run from the menu. Hover over each option to preview the result on the stage.
 
 ![Apply a style to a chosen run](/images/editor/text/text-runs-apply.gif)
-
----
-
-## Variables
-
-Fonts that support variable axes or OpenType features will surface an options fly-out button on the Text Style within the Inspector. Use the fly-out to access and configure the available variables and features for the selected font.
-
-Font variables can be animated in Rive. Open the variable fly-out in [animate mode](/editor/fundamentals/design-vs-animate-mode) to key the available axes.
-
-![Animate font variables](/images/editor/text/text-runs-variable.gif)

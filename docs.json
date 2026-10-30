@@ -74,20 +74,12 @@
                   "editor/interface-overview/file-browser",
                   "editor/interface-overview/stage",
                   "editor/interface-overview/toolbar",
+                  "editor/fundamentals/design-vs-animate-mode",
                   "editor/interface-overview/sidebar",
                   "editor/interface-overview/inspector",
-                  "editor/interface-overview/debug-panel"
-                ]
-              },
-              {
-                "group": "Workflows",
-                "pages": [
+                  "editor/interface-overview/debug-panel",
                   "editor/interface-overview/selection-and-navigation",
-                  "editor/keyboard-shortcuts",
-                  "editor/workflows/dependency-graph",
-                  "editor/tagging",
-                  "editor/fundamentals/revision-history",
-                  "getting-started/best-practices"
+                  "editor/keyboard-shortcuts"
                 ]
               }
             ]
@@ -101,18 +93,31 @@
                   "editor/fundamentals/artboards",
                   "editor/fundamentals/components",
                   {
+                    "group": "Hierarchy",
+                    "pages": [
+                      "editor/interface-overview/hierarchy",
+                      "editor/fundamentals/groups",
+                      "editor/manipulating-shapes/solos",
+                      "editor/fundamentals/origin",
+                      "editor/animate-mode/animating-draw-order",
+                      "editor/tagging"
+                    ]
+                  },
+                  {
                     "group": "Drawing",
                     "pages": [
                       "editor/fundamentals/shapes-and-paths-overview",
+                      "editor/fundamentals/fill-and-stroke",
+                      "editor/fundamentals/color-and-gradients",
                       "editor/fundamentals/procedural-shapes",
                       "editor/design/shape-builder",
                       "editor/fundamentals/pen-tool-overview",
-                      "editor/design/freehand-drawing",
-                      "editor/fundamentals/fill-and-stroke",
                       "editor/fundamentals/edit-vertices",
-                      "editor/design/bucket-tool",
+                      "editor/design/freehand-drawing",
                       "editor/design/shape-bend-tool",
+                      "editor/fundamentals/vector-feathering",
                       "editor/manipulating-shapes/trim-path",
+                      "editor/manipulating-shapes/effect-groups",
                       "editor/manipulating-shapes/clipping"
                     ]
                   },
@@ -125,17 +130,6 @@
                       "editor/text/text-styles",
                       "editor/text/text-modifiers",
                       "editor/text/text-input"
-                    ]
-                  },
-                  {
-                    "group": "Hierarchical Relationships",
-                    "pages": [
-                      "editor/interface-overview/hierarchy",
-                      "editor/fundamentals/groups",
-                      "editor/manipulating-shapes/solos",
-                      "editor/fundamentals/transform-spaces",
-                      "editor/fundamentals/freeze-and-origin",
-                      "editor/animate-mode/animating-draw-order"
                     ]
                   },
                   {
@@ -169,7 +163,31 @@
                   "editor/animate-mode/animate-mode-overview",
                   "editor/animate-mode/timeline",
                   "editor/animate-mode/keys",
-                  "editor/animate-mode/interpolation-easing"
+                  "editor/animate-mode/interpolation-easing",
+                  "editor/animate-mode/graph-editor"
+                ]
+              },
+              {
+                "group": "Rigging & Control",
+                "pages": [
+                  "editor/manipulating-shapes/manipulating-shapes",
+                  "editor/manipulating-shapes/meshes",
+                  "editor/manipulating-shapes/bones",
+                  "editor/manipulating-shapes/joysticks",
+                  {
+                    "group": "Constraints",
+                    "pages": [
+                      "editor/constraints/constraints-overview",
+                      "editor/constraints/ik-constraint",
+                      "editor/constraints/distance-constraint",
+                      "editor/constraints/scale-constraint",
+                      "editor/constraints/rotation-constraint",
+                      "editor/constraints/transform-constraint",
+                      "editor/constraints/translation-constraint",
+                      "editor/constraints/follow-path-constraint",
+                      "editor/constraints/scroll-constraint"
+                    ]
+                  }
                 ]
               },
               {
@@ -180,11 +198,11 @@
                     "pages": [
                       "editor/state-machine/state-machine",
                       "editor/state-machine/states",
-                      "editor/state-machine/transitions",
-                      "editor/state-machine/layers"
+                      "editor/state-machine/transitions"
                     ]
                   },
                   "editor/state-machine/listeners",
+                  "editor/state-machine/actions",
                   {
                     "group": "Events",
                     "pages": [
@@ -224,41 +242,6 @@
                   "editor/exporting/exporting-for-video-and-static-design",
                   "editor/exporting/exporting-for-backup"
                 ]
-              }
-            ]
-          },
-          {
-            "group": "Advanced Topics",
-            "pages": [
-              {
-                "group": "AI",
-                "pages": [
-                  "editor/ai-agent/ai-agent",
-                  "editor/ai/mcp"
-                ]
-              },
-              {
-                "group": "Rigging & Control",
-                "pages": [
-                  "editor/manipulating-shapes/manipulating-shapes",
-                  "editor/manipulating-shapes/meshes",
-                  "editor/manipulating-shapes/bones",
-                  "editor/manipulating-shapes/joysticks",
-                  {
-                    "group": "Constraints",
-                    "pages": [
-                      "editor/constraints/constraints-overview",
-                      "editor/constraints/ik-constraint",
-                      "editor/constraints/distance-constraint",
-                      "editor/constraints/scale-constraint",
-                      "editor/constraints/rotation-constraint",
-                      "editor/constraints/transform-constraint",
-                      "editor/constraints/translation-constraint",
-                      "editor/constraints/follow-path-constraint",
-                      "editor/constraints/scroll-constraint"
-                    ]
-                  }
-                ]
               },
               {
                 "group": "Accessibility",
@@ -269,26 +252,21 @@
                 ]
               },
               {
-                "group": "Admin & Workspaces",
+                "group": "AI",
                 "pages": [
-                  {
-                    "group": "Workspaces",
-                    "pages": [
-                      "account-admin/workspaces/workspaces-overview",
-                      "account-admin/workspaces/managing-workspaces",
-                      "account-admin/workspaces/managing-workspace-members"
-                    ]
-                  },
-                  "account-admin/bring-your-own-bucket"
-                ]
-              },
-              {
-                "group": "Legacy Features",
-                "pages": [
-                  "editor/state-machine/inputs",
-                  "editor/events/general-events"
+                  "editor/ai/agent-vs-cli",
+                  "editor/ai-agent/ai-agent",
+                  "editor/ai/mcp"
                 ]
               }
+            ]
+          },
+          {
+            "group": "Workflows",
+            "pages": [
+              "getting-started/best-practices",
+              "editor/workflows/dependency-graph",
+              "editor/fundamentals/revision-history"
             ]
           }
         ]
@@ -949,7 +927,16 @@
                   "account-admin/account-overview/delete-my-account",
                   "account-admin/workspaces/reactivating-a-canceled-workspace"
                 ]
-              }
+              },
+              {
+                "group": "Workspaces",
+                "pages": [
+                  "account-admin/workspaces/workspaces-overview",
+                  "account-admin/workspaces/managing-workspaces",
+                  "account-admin/workspaces/managing-workspace-members"
+                ]
+              },
+              "account-admin/bring-your-own-bucket"
             ]
           }
         ]
@@ -1051,12 +1038,20 @@
   },
   "redirects": [
     {
+      "source": "/editor/design/bucket-tool",
+      "destination": "/editor/design/freehand-drawing#bucket-tool"
+    },
+    {
       "source": "/state-machine",
       "destination": "/editor/state-machine/state-machine"
     },
     {
       "source": "/editor/state-machine/overview",
       "destination": "/editor/state-machine/state-machine"
+    },
+    {
+      "source": "/editor/state-machine/layers",
+      "destination": "/editor/state-machine/state-machine#layers"
     },
     {
       "source": "/editor/share-links/:slug*",
@@ -1085,6 +1080,14 @@
     {
       "source": "/editor/fundamentals/nested-artboards",
       "destination": "/editor/fundamentals/components"
+    },
+    {
+      "source": "/editor/fundamentals/transform-spaces",
+      "destination": "/editor/fundamentals/groups#using-groups-as-pivots"
+    },
+    {
+      "source": "/editor/fundamentals/freeze-and-origin",
+      "destination": "/editor/fundamentals/origin"
     },
     {
       "source": "/scripting/ai-agent",

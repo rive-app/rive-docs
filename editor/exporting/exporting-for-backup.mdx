@@ -1,25 +1,62 @@
 ---
 title: 'Exporting for Backup'
-description: ''
+description: 'Download a .rev backup of a file to keep a local copy or send it to Rive support.'
 ---
 
-<Note>Exporting for backup is available on paid plans. [Learn more about our plans and pricing](https://rive.app/pricing?utm_source=docs&utm_medium=content).</Note>
+<Note>
+A backup is a snapshot, so it doesn't stay in sync with the original file. Depending on what you need, another option may suit you better:
 
-Exporting a file for backup is useful when you want a hard copy of your file saved to your device, if you are looking to transfer a file from one user to another, or you're trying to send in a file for a support ticket. Unlike files exported for runtime (.riv), files exported for backup (.rev) contain all of the information that is typically stripped from the file.\
-\
- To export a file for backup, you can either do this from the file browser, or from the file menu when the file is open.
+- **To share a file with someone,** [invite them](/editor/interface-overview/toolbar#invite) to the file, or add them to the project that contains it. They'll always see the latest version.
+- **To keep a file in source control,** use the [Rive CLI](/cli/overview) to convert it to [Rive Markup Language (RML)](/runtimes/advanced-topic/rml), a text format that diffs and merges like code and stays linked to the original file.
+- **To go back to an earlier version of a file,** use [Revision History](/editor/fundamentals/revision-history).
+</Note>
 
-## Exporting from the file browser
+A backup is a `.rev` file: a complete copy of a Rive file that you can import back into the Editor and keep editing. Unlike a [runtime export](/editor/exporting/exporting-for-runtime) (`.riv`), which strips out everything your app doesn't need, a backup keeps all of the Editor data.
 
-To export a backup file from the file browser, first, find the file that you want to download.
+Export a backup when you want to:
 
-![Image](https://ucarecdn.com/4a80265b-e521-476a-8bbd-476e34027443/)
+- Keep a local copy of a file on your computer.
+- Send a file to Rive support with a support ticket.
 
-\
-Next, right click on the file and choose whether you want to download the file backup, or you can choose to download a specific revision of the file.
+Exporting and importing backups are available on paid plans. [Learn more about our plans and pricing](https://rive.app/pricing?utm_source=docs&utm_medium=content).
 
-## Exporting from the file menu
+## Exporting from the File Browser
 
-To export a backup file, when the file is open, first, click on the file menu. Next, find the export option and select "for backup".
+<Steps>
+  <Step>
+    In the [File Browser](/editor/interface-overview/file-browser), find the file you want to back up.
+  </Step>
+  <Step>
+    Right-click the file and select **Download Backup** to download the current version.
 
-![Image](https://ucarecdn.com/4af741f7-8925-4ab1-88de-472ea00a47e1/)
+    To download an earlier version instead, open **Download Revision** and select a revision.
+  </Step>
+</Steps>
+
+![Download Backup in the File Browser right-click menu](/images/editor/exporting/download-backup-file-browser.gif)
+
+## Exporting from an open file
+
+<Steps>
+  <Step>
+    Open the Editor Menu.
+  </Step>
+  <Step>
+    Select **Export** > **For Backup**.
+  </Step>
+</Steps>
+
+![Export For Backup in the Editor Menu](/images/editor/exporting/export-for-backup-editor-menu.gif)
+
+## Importing a backup
+
+<Steps>
+  <Step>
+    Open the File Browser and go to the project or folder where you want the file.
+  </Step>
+  <Step>
+    Drag the `.rev` file from your computer into the File Browser.
+  </Step>
+</Steps>
+
+The backup is imported as a new file. It doesn't replace or update the original.

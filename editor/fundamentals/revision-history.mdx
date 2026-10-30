@@ -1,24 +1,55 @@
 ---
 title: "Revision History"
-description: "Rive saves your files automatically as you work. Even if multiple people are working on the same file at the same time, Rive tracks all changes and stores them in the Revision History."
+description: "Browse, name, preview, and restore earlier versions of a file."
 ---
 
-## View a file's history
+Rive saves your work automatically as you edit, including when several people edit the same file at once. These saves are stored in the file's Revision History, so you can look back at earlier versions of a file and restore one if you need to.
 
-The Revision History can be accessed from the [Editor Menu](/editor/interface-overview/toolbar).
+Revision History holds two kinds of revisions:
 
-![Menu Revision History](/images/editor/fundamentals/revision-history-menu.gif)
+- **Autosaves** are created automatically as you work.
+- **Named revisions** are checkpoints you create yourself, such as "Before rig rework" or "Sent to client". They're easier to find later.
 
-## Restore a revision
+<Note>Revision History is available on paid plans. [Learn more about our plans and pricing](https://rive.app/pricing?utm_source=docs&utm_medium=content).</Note>
 
-Select a revision to preview it and press the Edit Current Revision button. This copies the selected revision and creates a new entry at the top of the list. This guarantees that even restoring revisions is non-destructive, and you can always go back to the previous version of the file.
+## Viewing a file's history
 
-![Restore a revision](/images/editor/fundamentals/revision-history-restore.gif)
+Open the [Editor Menu](/editor/interface-overview/toolbar) and select **Revision History**. The current version appears at the top of the panel, with earlier revisions grouped by day below it.
 
-## Save a revision
+![Opening Revision History from the Editor Menu](/images/editor/fundamentals/revision-history-menu.gif)
 
-From the Editor Menu, select the Create a Revision button. You'll then be prompted to name the revision.
+To show only named revisions, open the panel's options menu and turn off **Show Autosave Revisions**. Use **Collapse All** and **Expand All** in the same menu to fold or unfold the day groups.
 
-Once the revision is created, you can restore that revision using the steps above.
+## Restoring a revision
 
-![Save a new revision](/images/editor/fundamentals/revision-history-save.gif)
+<Steps>
+  <Step>
+    In **Revision History**, click a revision to preview it on the stage.
+  </Step>
+  <Step>
+    Click **Restore** at the top of the editor, or right-click the revision and select **Restore Revision**.
+  </Step>
+</Steps>
+
+![Restoring a revision](/images/editor/fundamentals/revision-history-restore.gif)
+
+The restored revision becomes the current version of the file. The other revisions stay in the history, so you can restore a different one if you change your mind.
+
+## Creating a named revision
+
+<Steps>
+  <Step>
+    Open the Editor Menu and select **Create revision...**, or click **+** in the **Revision History** panel.
+  </Step>
+  <Step>
+    Enter a name for the revision and click **Save**.
+  </Step>
+</Steps>
+
+![Creating a named revision](/images/editor/fundamentals/revision-history-save.gif)
+
+To name an autosave, or to rename a named revision, right-click it in **Revision History** and select **Name revision...** or **Rename revision...**.
+
+## Downloading a revision
+
+To download an earlier revision without opening the file, right-click the file in the [File Browser](/editor/interface-overview/file-browser), open **Download Revision**, and select a revision.

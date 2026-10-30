@@ -1,0 +1,106 @@
+---
+title: 'Vector Feathering'
+sidebarTitle: 'Feathering (Glows & Shadows)'
+description: 'Soften the edges of fills and strokes to create glows, drop shadows, inner shadows, and soft shapes.'
+---
+
+Vector Feathering softens the edge of a fill or stroke, so it fades out gradually instead of ending in a hard line. Use it for glows, drop shadows, inner shadows, soft light, and any shape that needs a blurred edge.
+
+Rive invented Vector Feathering. It softens the vector path itself instead of blurring rendered pixels, which avoids the heavy cost of a traditional Gaussian blur and keeps the edge crisp at any size. To learn how it works and why it's so much faster, read [How Rive reinvented feathering for the vectorian era](https://rive.app/blog/how-rive-reinvented-feathering-for-the-vectorian-era?utm_source=docs&utm_medium=content).
+
+<Note>
+  Vector Feathering requires the Rive Renderer. Runtimes or packages that draw with another renderer, such as the web runtime's Canvas2D packages, don't support it. See [Choosing a Renderer](/runtimes/choose-a-renderer/overview).
+</Note>
+
+## Adding a feather
+
+You can feather any fill or stroke.
+
+<Steps>
+  <Step>
+    Select the shape.
+  </Step>
+  <Step>
+    In the Inspector, click the feather icon on the fill or stroke you want to soften. You can also turn on **Feather** in the fill or stroke options.
+
+    ![Turning on Vector Feathering with the feather icon on a fill, or the Feather toggle in the fill options](/images/editor/feathering/enable-feather.gif)
+  </Step>
+  <Step>
+    Open the fill or stroke options to adjust the feather.
+  </Step>
+</Steps>
+
+To remove a feather, click the feather icon again. Rive keeps the feather's settings, so turning it back on restores them.
+
+<Warning>
+  Feathering a fill switches it to Rive's Clockwise fill rule, and you can't change the fill rule while the feather is on. Self-intersecting paths can look different with this fill rule than they did in your original design.
+</Warning>
+
+## Feather options
+
+### Direction
+
+Only fills have a direction.
+
+- **Outer** feathers outward from the edge of the path, like a glow or a shadow. This is the default.
+- **Inner** feathers inward from the edge, like an inner shadow or a vignette.
+
+![Switching the feather Direction between Outer and Inner](/images/editor/feathering/feather-direction.gif)
+
+### Amount
+
+How soft the edge is. Higher values spread the feather over a wider area. The default is 12.
+
+![Increasing and decreasing the feather Amount](/images/editor/feathering/feather-amount.gif)
+
+### Offset
+
+Moves the feather away from the path by an **X** and **Y** distance. Use it to cast a shadow below or to the side of a shape.
+
+### Space
+
+Sets which transform the offset follows.
+
+- **World** keeps the offset pointing the same way, even if the shape or its parents rotate or scale. Use it for drop shadows that should stay consistent with a single light source. This is the default.
+- **Local** moves the offset with the shape, so it rotates and scales along with it.
+
+![Setting the feather Space to World or Local](/images/editor/feathering/feather-space.gif)
+
+**Direction**, **Amount**, and **Offset** can all be keyed on a timeline or [bound to data](/editor/data-binding/overview).
+
+## Examples
+
+### Glow
+
+<Steps>
+  <Step>
+    Add a second fill or stroke to the shape and give it a bright color.
+  </Step>
+  <Step>
+    Move it behind the original fill or stroke.
+  </Step>
+  <Step>
+    Turn on its feather and raise the **Amount** until the glow is as wide as you want.
+  </Step>
+</Steps>
+
+### Drop shadow
+
+<Steps>
+  <Step>
+    Add a second fill to the shape, give it a dark, semi-transparent color, and move it behind the original fill.
+  </Step>
+  <Step>
+    Turn on its feather and set an **Amount**.
+  </Step>
+  <Step>
+    Set the **Offset** to move the shadow, for example a few units down and to the right.
+  </Step>
+  <Step>
+    Keep **Space** set to **World** so the shadow stays in the same direction as the shape rotates.
+  </Step>
+</Steps>
+
+### Inner shadow
+
+Add a second fill above the original fill, give it a dark color, then turn on its feather and set **Direction** to **Inner**. Add an **Offset** to push the shadow toward one edge.

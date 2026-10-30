@@ -1,23 +1,39 @@
 ---
 title: 'Exporting for Runtime'
-description: 'Export a .riv file to use in apps, games, websites, and other supported runtimes.'
+description: 'Export a production-ready .riv file to ship in apps, games, websites, and other supported runtimes.'
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
 
 <Note>Every plan can export for runtime. On the Free plan, exported files play a Rive splash screen; paid plans export without it. [Learn more about our plans and pricing](https://rive.app/pricing?utm_source=docs&utm_medium=content).</Note>
 
-A `.riv` file is the final Rive file you load at runtime. You can use the same exported file across supported runtimes, including web, mobile, game engines, and other platforms.
+A `.riv` file is the production-ready version of your Rive file. It isn't a design file, a mockup, or a prototype to hand off and rebuild. It's the final asset that ships in your product. Your artboards, animations, state machines, data binding, and scripts all run at runtime exactly as you built them.
+
+The same `.riv` file works across every supported runtime, including web, mobile, and game engines. Load it with any of Rive's [open source runtimes](/runtimes/).
 
 ## Exporting a .riv file
 
 <YouTube id="H_px35jTqhg" />
 
-To export a file for runtime, click the blue **Publish** button on the right side of the toolbar, or go to **Export** > **For runtime** from the left toolbar menu.
+<Steps>
+  <Step>
+    Click **Publish** on the right side of the toolbar and choose **To .riv**.
 
-You can load the exported `.riv` file into your app, game, or website with any of Rive's [open source runtimes](/runtimes/).
+    You can also open the main menu in the left of the toolbar and choose **Export** > **For Runtime**.
+  </Step>
+  <Step>
+    In the dialog that opens, click **Export your Rive file**.
 
-![Image](/images/editor/exporting/94fc0d7c-cc7e-4b17-a6f7-0a00c98db70e.webp)
+    On a paid plan, turn on **Skip this modal next time** to export directly in the future.
+  </Step>
+  <Step>
+    Add the downloaded `.riv` file to your app, game, or website, and load it with a [runtime](/runtimes/).
+  </Step>
+</Steps>
+
+<Tip>
+  To save an editable copy of your file, export it **For Backup** as a `.rev` file instead.
+</Tip>
 
 ## Using newer files with older runtimes
 

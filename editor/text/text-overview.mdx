@@ -1,108 +1,132 @@
 ---
 title: "Text"
 sidebarTitle: "Overview"
-description: "Create and format text, control sizing and overflow, and convert text to shapes."
-keywords: ["text", "text tool", "text box", "typography", "text sizing", "text overflow", "text alignment"]
+description: "Create and format text, control sizing, wrapping, and overflow, and convert text to shapes."
+keywords: ["text", "text tool", "text box", "typography", "text sizing", "text overflow", "text alignment", "word break"]
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
+
+Rive text is live text, not a picture of text. It's laid out at runtime, so you can change its content while your graphic runs, animate it, and fit it to any size of container. Use it for labels, buttons, counters, captions, and anything else that needs to change or be translated.
+
+A text object is built from a few parts:
+
+- **[Text runs](/editor/text/text-runs)**: The content. A text object has one or more runs, each with its own style. [Bind a run to a string property](/editor/data-binding/overview) to change its content at runtime.
+- **[Text styles](/editor/text/text-styles)**: The font, size, spacing, and paint of each run.
+- **[Fonts](/editor/text/fonts)**: The typefaces your styles use, and how much of each font is exported.
+- **[Text modifiers](/editor/text/text-modifiers)**: Animate or transform individual glyphs, words, or lines, or make text follow a path.
+- **[Text input](/editor/text/text-input)**: An editable field that users can type into at runtime.
+
+This page covers creating text and the options on the text object itself: sizing, wrapping, alignment, and overflow.
 
 <YouTube id="nykDEo6XqXY" />
 
 ## Creating text
 
-Press `T` or select the **Text Tool** from the toolbar.
+<Steps>
+  <Step>
+    Press `T`, or select the **Text Tool** in the toolbar.
+  </Step>
+  <Step>
+    Add the text to the artboard:
 
-- **Click** anywhere on the artboard to create text that automatically sizes to its content.
-- **Click and drag** to create a text box with a defined width.
+    - **Click** to create text that sizes itself to fit its content (**Auto Width**).
+    - **Click and drag** to draw a text box of a set size (**Fixed Size**).
+  </Step>
+  <Step>
+    Type your text.
+  </Step>
+</Steps>
 
-Double-click text to edit its content.
+To edit text later, double-click it.
 
-## Text properties
+## Sizing
 
-Select text to view its properties in the Inspector. In addition to standard properties such as position, rotation, and origin, you can control how text sizes, wraps, aligns, and handles overflow.
+Sizing controls how the text's bounds respond to its content.
 
-### Align origin to baseline
-
-Enable **Align Origin to Baseline** to align the text's origin to its baseline.
-
-
-![Toggle Align Origin to Baseline](/images/editor/design/text/align-origin-to-baseline.gif)
-
-### Sizing
-
-Use the sizing options to control how the bounds of the text respond to its content.
-
-- **Auto Width**: The width and height adjust to fit the text.
-- **Auto Height**: The width remains fixed while the height adjusts to fit the text.
-- **Fixed Size**: The width and height remain fixed.
+- **Auto Width**: The width and height grow and shrink to fit the text.
+- **Auto Height**: The width stays fixed, and the height grows to fit the text.
+- **Fixed Size**: The width and height stay fixed. Use [Overflow](#overflow) to decide what happens when the text doesn't fit.
 
 ![Three text elements with each of the different size options](/images/editor/design/text/text-sizing-types.png)
 
-### Overflow
+## Alignment
 
-Overflow controls what happens when the sizing is fixed and the text exceeds its available bounds.
+Horizontal alignment (left, center, right) and vertical alignment (top, middle, bottom) position the text inside its bounds.
 
-- **Visible**: Displays text beyond the bounds.
-- **Hidden**: Hides lines that don't fit within the bounds. Partial lines aren't displayed.
-- **Clipped**: Clips text at the bounds, including partial lines.
-- **Ellipsis**: Truncates overflowing text with an ellipsis.
-- **Fit**: Adjusts the text to fit within the available bounds.
-- **Fit Font Size**: Adjusts the font size to fit the text within the available bounds.
+![Text elements showing horizontal and vertical alignment options](/images/editor/design/text/text-alignment.png)
+
+<Note>
+  Alignment only has an effect where the bounds are larger than the text. With **Auto Width**, the bounds always fit the text, so neither alignment changes anything. With **Auto Height**, vertical alignment doesn't change anything.
+</Note>
+
+## Wrapping
+
+- **Wrap** moves text to a new line when it reaches the width of its bounds.
+- **No Wrap** keeps each paragraph on a single line.
+
+Turning off wrapping works differently with each overflow option:
+
+![Toggling wrap on text elements with each overflow option](/images/editor/design/text/wrap-options.gif)
+
+### Break
+
+**Break** decides what happens to a single word that's too long to fit on a line. It only matters while the text wraps.
+
+- **Break Word** is the default. A word moves to the next line, and is only split if it doesn't fit on a line by itself.
+- **Normal** never splits a word. A word that's too long runs past the edge of the bounds.
+- **Break All** splits words wherever the line ends, so every line is filled to the edge.
+
+## Overflow
+
+Overflow controls what happens when text in a **Fixed Size** box doesn't fit.
+
+- **Visible**: The text runs past the bounds.
+- **Hidden**: Lines that don't fit are hidden. Partly visible lines are hidden too.
+- **Clipped**: The text is cut off at the bounds, including partly visible lines.
+- **Ellipsis**: The text is cut off and ends with an ellipsis (…).
+- **Fit**: The text is scaled down until it fits, keeping its line breaks. Turn on **Maintain baseline** to keep the first line's baseline in place as it scales.
+- **Fit Font Size**: The font size is reduced until the text fits, and the text is laid out again at the new size, so its line breaks can change.
 
 ![Text elements showing the various overflow options](/images/editor/design/text/overflow-options.png)
 
-### Wrapping
-
-Use **Wrap** to allow text to move to a new line when it reaches the available width. Use **No Wrap** to keep text on a single line.
-
-See how disabling wrap works differently with the various overflow options:
-
-![Toggle wrap with text elements with the various overflow options](/images/editor/design/text/wrap-options.gif)
-
-### Alignment
-
-Use horizontal and vertical alignment to control how text is positioned within its available bounds.
-
-<Note>
-The available alignment options depend on the sizing mode:
-
-- **Auto Width**: Alignment has no effect because the text bounds automatically fit the content.
-- **Auto Height**: Vertical alignment has no effect because the height automatically fits the content.
-
-![Text elements showing horizontal and vertical alignment options](/images/editor/design/text/text-alignment.png)
-</Note>
+## Spacing and trim
 
 ### Paragraph spacing
 
-Use **Paragraph Spacing** to control the amount of space between paragraphs.
+**Paragraph Spacing** adds space between paragraphs. To change the space between lines, set the line height in the [text style](/editor/text/text-styles).
 
 ### Trim
 
-Use **Trim** to adjust the vertical bounds of text.
+By default, text bounds include the space a font reserves above and below its letters. **Trim** removes that space, so the bounds hug the letters and the text lines up with other objects more easily. Set the top and bottom separately.
 
-- **None**
-- **Cap**
-- **Ex**
+- **Top**:
+  - **None** keeps the font's full height above the text.
+  - **Cap** trims to the top of capital letters.
+  - **Ex** trims to the top of lowercase letters, such as "x".
+- **Bottom**:
+  - **None** keeps the font's full depth below the text.
+  - **Alphabetic** trims to the baseline, the line the letters sit on.
+  - **Text** trims to the bottom of the text, including descenders like "g" and "y".
 
-![Text Trim Options](/images/editor/design/text/trim-options.png)
+![Text with the top trim set to None, Cap, and Ex](/images/editor/design/text/trim-options.png)
 
-### Bounds
+![Text with the bottom trim set to None, Text, and Alphabetic](/images/editor/design/text/text-bounds-options.png)
 
-Choose how the text bounds are calculated.
+## Align origin to baseline
 
-- **None**
-- **Alphabetic**
-- **Text**
+Turn on **Align origin to baseline** to put the text's origin on the baseline of its first line. This makes it easier to line text up with other objects, or keep its baseline in place as it changes size.
 
-Text bounds determine how the bounds of the text are calculated relative to the font's metrics.
+![Toggling Align origin to baseline](/images/editor/design/text/align-origin-to-baseline.gif)
 
-![Text with Bounds option set to none, text, and alphabetic](/images/editor/design/text/text-bounds-options.png)
+## Highlight text runs
+
+Turn on **Highlight text runs** to tint each [run](/editor/text/text-runs) in a different color on the stage, so you can see where one ends and the next begins. It only affects the editor.
 
 ## Flatten to shape
 
-Use **Flatten to Shape** to convert text into vector shapes. Once flattened, the resulting shapes can be edited like other vector geometry but can no longer be edited as text.
+**Flatten to Shape** converts the text into vector paths that you can edit like any other shape. The result is no longer text, so you can't edit its content, and any keys on the text are removed.
 
 <Note>
-Flattening text can create a significant amount of geometry. If you're flattening text to reduce the size of an embedded font, consider keeping the text as text and including only the [used glyphs](/editor/text/fonts#export-options) instead.
+  Flattening text can create a lot of geometry. If you're flattening text to avoid embedding a font, keep it as text instead and export only the [glyphs you use](/editor/text/fonts#export-options).
 </Note>
