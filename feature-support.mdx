@@ -12,9 +12,6 @@ Use the table below to verify whether a feature used in your `.riv` file is supp
 <Warning>
   Certain features require the use of the Rive Renderer at runtime. See our
   documentation on [choosing a renderer](/runtimes/choose-a-renderer/).
-
-  Currently, the only feature that requires the Rive Renderer is **[Vector
-  Feathering](https://rive.app/blog/introducing-vector-feathering?utm_source=docs&utm_medium=content)**.
 </Warning>
 
 When a feature requires API changes, migration notes will be included below.
@@ -23,14 +20,14 @@ When a feature requires API changes, migration notes will be included below.
 
 <FeatureSupportGroup runtime={["webWebGL2", "webCanvas", "webCanvasLite"]} title="Web">
     - **WebGL2** (`@rive-app/webgl2`): The recommended package for most web projects. Uses the Rive Renderer, so it supports every Rive Editor feature, including vector feathering.
-    - **Canvas** (`@rive-app/canvas`): Uses the browser's Canvas2D renderer. Does not support vector feathering at this time.
+    - **Canvas** (`@rive-app/canvas`): Uses the browser's Canvas2D renderer.
     - **Canvas Lite** (`@rive-app/canvas-lite`): Uses the same API as `@rive-app/canvas`, but excludes certain features to reduce bundle size.
 
     See [Canvas vs WebGL2](/runtimes/web/canvas-vs-webgl) for the tradeoffs.
 </FeatureSupportGroup>
 <FeatureSupportGroup runtime={["reactWebGL2", "reactCanvas", "reactCanvasLite"]} title="React">
     - **WebGL2** (`@rive-app/react-webgl2`): The recommended package for most React projects. Uses the Rive Renderer, so it supports every Rive Editor feature, including vector feathering.
-    - **Canvas** (`@rive-app/react-canvas`): Uses the browser's Canvas2D renderer. Does not support vector feathering at this time.
+    - **Canvas** (`@rive-app/react-canvas`): Uses the browser's Canvas2D renderer.
     - **Canvas Lite** (`@rive-app/react-canvas-lite`): Uses the same API as `@rive-app/react-canvas`, but excludes certain features to reduce bundle size.
 
     See [Canvas vs WebGL2](/runtimes/web/canvas-vs-webgl) for the tradeoffs.
@@ -67,6 +64,7 @@ When a feature requires API changes, migration notes will be included below.
 
 A green checkmark (✅) indicates that a feature is supported in all relevant runtimes.
 A yellow circle (🟡) indicates that support varies by runtime or renderer.
+Inside a table, a yellow circle marks partial support, with the limitation noted after the version.
 
 Differences may reflect:
 - Platform or SDK limitations where a feature cannot be supported
@@ -132,12 +130,12 @@ Differences may reflect:
 
 <FeatureSupportGroup runtime="webWebGL">
     <Warning>
-        The `@rive-app/webgl` runtime is deprecated as of `v2.37.0`. Use `@rive-app/webgl2` (recommended for most content), or `@rive-app/canvas` if your Rive graphics do not require vector feathering.
+        The `@rive-app/webgl` runtime is deprecated as of `v2.37.0`. Use `@rive-app/webgl2` (recommended for most content), or `@rive-app/canvas`.
     </Warning>
 </FeatureSupportGroup>
 <FeatureSupportGroup runtime="reactWebGL" >
     <Warning>
-        The `@rive-app/react-webgl` runtime is deprecated as of `v4.30.0`. Use `@rive-app/react-webgl2` (recommended for most content), or `@rive-app/react-canvas` if your Rive graphics do not require vector feathering.
+        The `@rive-app/react-webgl` runtime is deprecated as of `v4.30.0`. Use `@rive-app/react-webgl2` (recommended for most content), or `@rive-app/react-canvas`.
     </Warning>
 </FeatureSupportGroup>
 <FeatureSupportGroup runtime="reactNativeLegacy" >
