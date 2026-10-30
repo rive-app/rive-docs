@@ -14,7 +14,7 @@ Switching is a one-line import change, so you can try both and measure against y
 | | `@rive-app/webgl2` (recommended) | `@rive-app/canvas` |
 | --- | --- | --- |
 | Draws with | The [Rive Renderer](https://rive.app/renderer?utm_source=docs&utm_medium=content) on WebGL2 | The browser's [Canvas2D](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API) API |
-| [Vector Feathering](/editor/fundamentals/fill-and-stroke#vector-feathering) | ✅ Supported | ❌ Not yet supported; planned for a future release |
+| [Vector Feathering](/editor/fundamentals/fill-and-stroke#vector-feathering) | ✅ Supported | 🟡 Supported, but feathered gradients aren't dithered and may show banding. Not supported in `@rive-app/canvas-lite`. |
 | Editor fidelity | ✅ The same renderer the Rive Editor uses | 🟡 Matches for nearly all content (see [Fill Rules](#fill-rules)) |
 | Blend modes | 🟡 All blend modes, but anything other than **Normal** is expensive (see [Performance](#performance)) | ✅ All blend modes, at no extra cost |
 | Graphics per page | 🟡 Bound by the browser's WebGL context limit (see [WebGL Context Limits](#webgl-context-limits)) | ✅ No practical limit |
@@ -54,7 +54,7 @@ Until then, blend modes are where you may notice a difference. On the MSAA path,
 
 In practice:
 
-- Blend modes on mobile are the case where `@rive-app/canvas` can be meaningfully faster. If your file leans on them and does not use Vector Feathering, it is worth comparing the two.
+- Blend modes on mobile are the case where `@rive-app/canvas` can be meaningfully faster. If your file leans on them, it is worth comparing the two.
 - Measure on real devices. Swapping packages is a one-line change, so testing both is cheap.
 
 ## Canvas package variants
@@ -63,7 +63,7 @@ Two variants of the canvas package are available if you have specific bundling n
 
 ### `@rive-app/canvas-lite`
 
-[`@rive-app/canvas-lite`](https://www.npmjs.com/package/@rive-app/canvas-lite) is the smallest Rive web package. It has the same API and renderer as `@rive-app/canvas`, but drops the text, layout, audio, and scripting engines to save space.
+[`@rive-app/canvas-lite`](https://www.npmjs.com/package/@rive-app/canvas-lite) is the smallest Rive web package. It has the same API and renderer as `@rive-app/canvas`, but drops the text, layout, audio, and scripting engines, as well as Vector Feathering, to save space.
 
 Use it when your files do not rely on those features. If a file does use them, the affected content will not appear.
 

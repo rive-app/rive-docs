@@ -357,11 +357,11 @@ export const FeatureSupportGroup = ({
             title: "Vector Feathering",
             runtimes: {
                 webWebGL2: { supported: true, version: "2.26.0+" },
-                webCanvas: { supported: false, na: true },
+                webCanvas: { supported: true, partial: true, version: "2.44.1+", description: "No dithering" },
                 webCanvasLite: { supported: false, na: true },
                 webWebGL: { supported: false, description: "Not supported" },
                 reactWebGL2: { supported: true, version: "4.18.0+" },
-                reactCanvas: { supported: false, na: true },
+                reactCanvas: { supported: true, partial: true, version: "4.37.0+", description: "No dithering" },
                 reactCanvasLite: { supported: false, na: true },
                 reactWebGL: { supported: false, description: "Not supported" },
                 reactNative: { supported: true, version: "0.1.4+" },
@@ -566,16 +566,19 @@ export const FeatureSupportGroup = ({
     }
 
     // Renders a single version cell. Shared by both table layouts.
+    // Set `partial: true` (with a description of the limitation) for features
+    // that are supported with caveats; they show a yellow icon instead of a check.
     const renderSupportCell = (support) => {
         if (!support) {
             return <td>Unknown</td>
         }
-        const { supported, version, na } = support
+        const { supported, partial, version, na } = support
         const description = na ? "NA" : support.description
+        const icon = partial ? '🟡 ' : supported ? '✅ ' : ''
         if (version) {
             return (
                 <td data-numeric="true">
-                    {supported && '✅ '}
+                    {icon}
                     <code>{version.endsWith('+') ? version : `${version}+`}</code>
                     {description && ` (${description})`}
                 </td>
@@ -583,7 +586,7 @@ export const FeatureSupportGroup = ({
         }
         return (
             <td>
-                {supported && '✅ '}
+                {icon}
                 {description}
             </td>
         )
@@ -650,7 +653,7 @@ export const FeatureSupportGroup = ({
     const currentFeature = features[feature]
     const allSupported = Object.entries(currentFeature.runtimes)
         .filter(([runtimeKey, runtimeSupport]) => !legacyRuntimes.includes(runtimeKey) && !runtimeSupport.na)
-        .every(([, runtimeSupport]) => runtimeSupport.supported === true)
+        .every(([, runtimeSupport]) => runtimeSupport.supported === true && !runtimeSupport.partial)
     const statusEmoji = allSupported ? '✅' : '🟡'
     const titleWithEmoji = `${statusEmoji} ${currentFeature.title}`
 
