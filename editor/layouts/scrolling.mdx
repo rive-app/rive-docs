@@ -16,7 +16,7 @@ Scrolling is the right choice when the amount of content can grow without a limi
 Scrolling in Rive is a [constraint](/editor/constraints/constraints-overview) that you add to a Layout. A scroll region is made of three levels of Layouts:
 
 - **Scroll view:** The Layout that defines the visible area. Its size usually comes from the rest of your responsive design, such as a Fill height in a Column.
-- **Scroll content:** A Layout inside the scroll view that holds everything that scrolls. This Layout gets the **Scroll** constraint. Set it to **Hug** so it grows with its content.
+- **Scroll content:** A Layout inside the scroll view that holds everything that scrolls. This Layout gets the **Scroll** constraint. Set it to **Hug** on the scrolling axis and enable **Hug past bounds** so it can grow beyond the scroll view. See [Hug](/editor/layouts/sizing-and-positioning#hug).
 - **Scroll items:** The Layouts inside the scroll content, such as the rows of a list.
 
 When the scroll content is larger than the scroll view, people can scroll it by dragging, with a mouse wheel or trackpad, or you can drive it from an animation or [Data Binding](/editor/data-binding/overview).
