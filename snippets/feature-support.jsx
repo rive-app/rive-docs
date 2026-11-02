@@ -54,6 +54,7 @@ export const FeatureSupportGroup = ({
     ]
 
     const featuresInOrder = [
+        "layerMasks",
         "gamepad",
         "textInput",
         "focus",
@@ -80,6 +81,27 @@ export const FeatureSupportGroup = ({
     ]
 
     const features = {
+        layerMasks: {
+            title: "Layer Masks",
+            runtimes: {
+                webCanvas: { supported: false, description: "Not supported" },
+                webCanvasLite: { supported: false, description: "Not supported" },
+                webWebGL: { supported: false, description: "Not supported" },
+                webWebGL2: { supported: true, version: "2.45.1", description: "GPU Canvas required" },
+                reactCanvas: { supported: false, description: "Not supported" },
+                reactCanvasLite: { supported: false, description: "Not supported" },
+                reactWebGL: { supported: false, description: "Not supported" },
+                reactWebGL2: { supported: true, version: "4.37.1", description: "GPU Canvas required" },
+                reactNative: { supported: true, partial: true, version: "0.5.7", description: "GPU Canvas required; iOS also supported from 0.5.3" },
+                reactNativeLegacy: { supported: false, description: "Not supported" },
+                flutter: { supported: true, version: "0.15.0-dev.4", description: "GPU Canvas required" },
+                apple: { supported: true, partial: true, version: "6.28.0", description: "GPU Canvas required; no simulators" },
+                android: { supported: true, version: "11.13.0", description: "GPU Canvas required" },
+                cpp: { supported: true, description: "GPU Canvas required" },
+                unity: { supported: true, version: "0.5.2-canary.59", description: "GPU Canvas required" },
+                unreal: { supported: true, version: "0.4.26-weekly_2026_10_03", description: "GPU Canvas required" }
+            }
+        },
         gamepad: {
             title: "Gamepad",
             runtimes: {
