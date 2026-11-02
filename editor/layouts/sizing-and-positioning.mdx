@@ -34,6 +34,8 @@ A Hug width or height shrinks or grows to fit the child's own content. Use Hug w
 
 To Hug, a Layout needs content it can measure: child Layouts, text, or parametric shapes (rectangles, ellipses, triangles, polygons, and stars). If the Layout has nothing it can measure, the Hug option isn't available.
 
+By default, a Hug child stops growing at the edge of its parent, even if its content is larger. To let it grow to its full content size, select **Hug past bounds**. This option appears when the width or height uses Hug. Min and max [size constraints](#size-constraints) still apply.
+
 <Note>
   An artboard can only Hug if it contains a relative Layout or a component instance in **Layout** mode.
 </Note>
