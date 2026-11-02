@@ -98,7 +98,7 @@ export const FeatureSupportGroup = ({
                 apple: { supported: true, partial: true, version: "6.28.0", description: "GPU Canvas required; no simulators" },
                 android: { supported: true, version: "11.13.0", description: "GPU Canvas required" },
                 cpp: { supported: true, description: "GPU Canvas required" },
-                unity: { supported: true, version: "0.5.2-canary.59", description: "GPU Canvas required" },
+                unity: { supported: true, version: "0.5.2-exp.8", description: "GPU Canvas required" },
                 unreal: { supported: true, version: "0.4.26-weekly_2026_10_03", description: "GPU Canvas required" }
             }
         },
@@ -203,7 +203,7 @@ export const FeatureSupportGroup = ({
                 apple: { supported: true, version: "6.25.0" },
                 android: { supported: true, version: "11.12.0+" },
                 cpp: { supported: true, description: "Supported" },
-                unity: { supported: false, description: "Coming soon" },
+                unity: { supported: true, version: "0.5.2-exp.8" },
                 unreal: { supported: true, version: "0.4.26" }
             }
         },
