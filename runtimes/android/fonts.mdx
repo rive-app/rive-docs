@@ -35,6 +35,10 @@ fun getFont(weight: Fonts.Weight): List<FontBytes>
 
 Implementers need to override this method. The user's implementation must then be set as the current fallback strategy via `FontFallbackStrategy.stylePicker`.
 
+<Warning>
+  `FontFallbackStrategy.stylePicker` holds your strategy through a weak reference. Keep your own strong reference to it for as long as Rive should use it, for example by implementing the strategy on your `Application` class. A strategy that nothing else references, such as an anonymous object assigned directly to `stylePicker`, can be garbage collected, and Rive then stops using the fonts it returns.
+</Warning>
+
 **Example:**
 
 ```kotlin
