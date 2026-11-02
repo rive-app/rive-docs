@@ -6,9 +6,9 @@ description: 'Control how a Layout arranges its children with direction, alignme
 import { YouTube } from '/snippets/youtube.mdx'
 import { UseCase } from '/snippets/use-case.mdx'
 
-A Layout arranges the children that participate in it. This page covers the settings you set on the parent: which direction its children flow, how they wrap and align, and how much space surrounds and separates them.
+A Layout arranges the children that participate in it. This page covers the settings you set on the parent: which direction its children flow, how they wrap and align, how much space surrounds and separates them, and how the Layout itself looks.
 
-These settings only affect children that participate in the Layout: other Layouts, shapes, text, and images set to **Layout** in the **Inspector**, and component instances in **Layout** mode. Absolute children ignore them. To control a child's own size or pin it to the parent's edges, see [Sizing and Positioning](/editor/layouts/sizing-and-positioning).
+Apart from clip and styles, these settings only affect children that participate in the Layout: other Layouts, shapes, text, and images set to **Layout** in the **Inspector**, and component instances in **Layout** mode. Absolute children ignore them. To control a child's own size or pin it to the parent's edges, see [Sizing and Positioning](/editor/layouts/sizing-and-positioning).
 
 ## Layout type
 
@@ -99,3 +99,16 @@ Text direction decides whether a Layout reads left to right or right to left. Us
 The direction passes down to every child Layout set to **Inherit**, so you can usually set it once on the artboard or an outer Layout.
 
 <YouTube id="oLjFOu-UFxM" />
+
+## Clip
+
+Select the clip toggle to hide anything inside the Layout that extends past its edges. Clip applies to all of the Layout's content, including absolute children and content that doesn't participate in the Layout.
+
+![Layout inspector with the clip toggle highlighted in the top-right icon group](/images/editor/layouts/clip-toggle.webp)
+## Styles
+
+Layouts can have fills, strokes, feathers, blend modes, and corner radii, just like other objects in Rive. This means a Layout can be the visible shape of a button or card, rather than needing a separate rectangle behind its content.
+
+Styles can be drawn in the **Background**, behind the Layout's children, or in the **Foreground**, in front of them. For example, you might place a fill and a feathered shadow behind the children while drawing a stroke in front.
+
+Corner radius applies to the Layout's styles and to its clipping edges, so clipped content follows the rounded corners.
