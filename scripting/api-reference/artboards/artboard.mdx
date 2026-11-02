@@ -308,6 +308,10 @@ node(name: string) -> NodeData?
 </div>
 
 Returns the node with the given name, or nil if no such node exists.
+The node's name must be [exported](/editor/exporting/exporting-names)
+(in the Hierarchy, right-click the node and select **Export Name**).
+Names that aren't exported are left out of the exported file, so
+`node` returns nil for them.
 ```lua highlight={2}
 if self.instance then
   local node = self.instance:node('Root')

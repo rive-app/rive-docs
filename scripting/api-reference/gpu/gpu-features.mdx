@@ -108,3 +108,10 @@ Maximum MSAA sample count for color render targets (always a power-of-two: 1, 2,
 What setBindGroup's dynamic offsets must be a multiple of.
 
 
+### `multisampledTextureRead`
+
+Shaders may read texture_multisampled_2d and texture_depth_multisampled_2d.
+False on WebGL2, so a project that reads one needs a fallback gated on
+this to run there.
+
+

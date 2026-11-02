@@ -12,6 +12,7 @@ Use the table below to verify whether a feature used in your `.riv` file is supp
 <Warning>
   Certain features require the use of the Rive Renderer at runtime. See our
   documentation on [choosing a renderer](/runtimes/choose-a-renderer/).
+  Layer Masks require GPU Canvas in every runtime.
 </Warning>
 
 When a feature requires API changes, migration notes will be included below.
@@ -46,6 +47,8 @@ When a feature requires API changes, migration notes will be included below.
 
     This setting applies to every Rive file in the app. Changes made after file loading begins are ignored. If you [override the native SDK versions](/runtimes/react-native/native-version-customization), GPU Canvas requires Rive iOS `6.25.0` or later and Rive Android `11.12.0` or later.
 
+    Layer Masks require GPU Canvas on both iOS and Android. With the bundled native SDKs, they are supported on iOS in `0.5.3` and later, and on Android in `0.5.7` and later. Layer Masks are not supported in iOS simulators. If you override the native SDK versions, use Rive iOS `6.28.0` or later and Rive Android `11.13.0` or later.
+
     Semantics are supported on iOS in `0.5.0` and later. Import `Semantics` from `@rive-app/react-native` and set `semantics={Semantics.Automatic}` on `RiveView` to enable accessibility when VoiceOver is running.
 
     <Note>
@@ -53,7 +56,11 @@ When a feature requires API changes, migration notes will be included below.
     </Note>
 </FeatureSupportGroup>
 <FeatureSupportGroup runtime="flutter" />
-<FeatureSupportGroup runtime="apple" />
+<FeatureSupportGroup runtime="apple">
+    <Warning>
+        Layer Masks require [GPU Canvas](/runtimes/apple/gpu-canvas) (the deferred renderer) on Apple platforms. They are supported on physical devices, Mac Catalyst, and macOS, but are not supported in simulators.
+    </Warning>
+</FeatureSupportGroup>
 <FeatureSupportGroup runtime="android" />
 <FeatureSupportGroup runtime="cpp" />
 <FeatureSupportGroup runtime="unity" />
@@ -73,6 +80,11 @@ Differences may reflect:
     A feature may still be considered fully supported even if it is unavailable in legacy runtimes.
 </Note>
 
+<FeatureSupportGroup feature="layerMasks">
+    Layer Masks require the Rive Renderer with GPU Canvas enabled in every runtime. On [Web](/runtimes/web/gpu-canvas) and [React](/runtimes/react/gpu-canvas), use the WebGL2 package and enable GPU Canvas; Canvas, Canvas Lite, and legacy WebGL packages do not support Layer Masks.
+
+    On Apple, enable [GPU Canvas](/runtimes/apple/gpu-canvas). Layer Masks are supported on physical devices, Mac Catalyst, and macOS, but are not supported in simulators.
+</FeatureSupportGroup>
 <FeatureSupportGroup feature="gamepad" />
 <FeatureSupportGroup feature="textInput" />
 <FeatureSupportGroup feature="focus" />
