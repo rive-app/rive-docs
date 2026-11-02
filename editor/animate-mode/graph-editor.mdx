@@ -36,7 +36,7 @@ You can also choose the graph under **Graph** in the timeline's options menu.
 
 Both [interpolation types](/editor/animate-mode/interpolation-easing) draw a curve between keys, but only Cubic Value has handles you can drag in the Graph Editor.
 
-- **Cubic** works like a cubic Bezier easing curve in CSS. It shapes how fast the value changes over time, but it always lands exactly on the values you keyed. You edit it in the [Interpolation panel](/editor/animate-mode/interpolation-easing#using-the-interpolation-panel); the Graph Editor only displays it.
+- **Cubic** works like a cubic Bezier easing curve in CSS. It shapes how fast the value changes over time, but it always lands exactly on the values you keyed. You edit it in the [Interpolation panel](/editor/animate-mode/interpolation-easing#setting-the-interpolation-on-keys); the Graph Editor only displays it.
 - **Cubic Value** gives each key draggable Bezier handles in the Graph Editor. Because the handles store both time and value, the curve can overshoot a key's value before settling on it. It uses a little more data than Cubic.
 
 That overshoot is the key difference. Animating a property from 0 to 0 with Cubic produces no motion at all. With Cubic Value, you can pull the handles so the curve travels past 0 and back, creating real movement even when the start and end values are identical. This makes Cubic Value ideal for bounces, anticipation, and other effects that push beyond the final value.
