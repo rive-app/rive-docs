@@ -1,0 +1,264 @@
+---
+title: "Scripting Security"
+sidebarTitle: "Security"
+description: "What AnimaScript, Luau, and shader code in a Rive file can do, how Rive contains it, and how to ship Rive files safely."
+---
+
+A Rive file can carry code along with its artwork, Timelines, and State Machines: [AnimaScript](https://rive.app/rasc/index.html) scripts, Luau scripts, and WGSL shaders. Rive runtimes do not trust that code. It runs in a sandbox, with only the abilities Rive gives it, and it cannot reach the network, the device's files, or the rest of your app.
+
+<Note>
+  AnimaScript is the recommended language for new scripts. Luau is deprecated: Luau scripts keep running on every Rive runtime, but new scripting features land in AnimaScript. This page covers both.
+</Note>
+
+## Summary
+
+| Question | Answer |
+|---|---|
+| Can a script send data out of the app? | No. Rive runtimes give scripts no access to the network, files, or other apps. A script can pass data only to your own code, through View Models and events. |
+| Can a file make the runtime send network requests? | Only to download Hosted assets, on runtimes that do this by default. Scripts cannot add data to these requests, and you can turn the download off. See [Hosted assets](#hosted-assets). |
+| What can a script read? | The View Model data your app binds to its file, the input that reaches the Rive view, and the current time. |
+| Can a file open a URL or navigate the app? | No. Apple and Android runtimes do not open URLs from a file, and the web runtime does so only if you turn it on. Your code decides what to do with events and View Model values. |
+| Is the code in a file signed? | Luau scripts and shaders are signed, and runtimes refuse them without a valid signature. AnimaScript is not signed today: the WebAssembly sandbox contains it instead. |
+| What does a signature prove? | That Rive's compilers produced the code, and that nobody edited it afterward. It does not prove that the code is yours. Anyone can export signed code from their own Rive account. |
+| Does the signature cover the whole file? | Not today. It covers compiled Luau scripts and shaders only. [Whole-file signing](#whole-file-signing) is coming soon. |
+| Can the runtime accept only our files? | Not today. Check each file in your app before you load it. See [Protecting files between design and release](#protecting-files-between-design-and-release) and [Whole-file signing](#whole-file-signing). |
+| Can we turn off scripting? | Yes, by using a runtime build without scripting. There is no setting for a single file. |
+
+## How Rive approaches script security
+
+- **The sandbox is the safety boundary.** Rive does not depend on trusting the person who made a file. Code in a file runs inside a sandbox that limits what it can reach, so even a harmful script cannot get past what Rive allows.
+- **Scripts start with nothing.** Rive adds each ability on purpose, as an API it controls: drawing, View Models, input, audio, and the objects in the script's own file. A script cannot use anything Rive did not give it.
+- **Signing proves where code came from, not that it is safe.** Rive requires a signature only where the engine cannot check code itself: Luau bytecode and compiled shaders. Rive compiles that code on its own servers, so it signs only code it produced. AnimaScript needs no signature, because the WebAssembly sandbox checks and contains every module.
+- **A script that breaks the rules stops with an error.** Your app keeps running. Runtimes also interrupt script calls that run too long. See [Time limits](#time-limits) for what each limit covers.
+- **Your app decides.** A file cannot act on your app directly. It can only hand values to your code, and your code decides what to do with them.
+
+## What code in a file can do
+
+Everything in a Rive file, code included, works inside the view your app gives it. AnimaScript and Luau scripts have the same limits.
+
+A file can:
+
+- Draw inside its view. It cannot draw outside the view or change the rest of your app's UI.
+- Play sounds stored in the file. AnimaScript scripts can also generate sound.
+- React to the input that reaches its view: pointer, keyboard, gamepad, and text entry.
+- Read and change the View Model data your app binds to it.
+- Report events to your app.
+
+Scripts add logic to these abilities. A script can also read the current time, print messages to the debug console, and draw with [GPU Canvas shaders](/scripting/wgsl-shaders). AnimaScript scripts can also run jobs and workers, on background threads where the runtime supports them.
+
+Neither a file nor its scripts can:
+
+- Make network requests. The one exception, downloading **Hosted** assets, is done by the runtime, and your app controls it. See [Hosted assets](#hosted-assets).
+- Read or write files on the device.
+- Read device data such as location, contacts, photos, camera, microphone, or clipboard.
+- Read app data that you have not bound to the file.
+- Reach other Rive files your app has loaded. Each file runs its scripts in its own environment.
+- Load code from outside the file, or create new code while it runs.
+- Open URLs or navigate your app.
+
+## How each language is contained
+
+| | AnimaScript | Luau |
+|---|---|---|
+| Status | Recommended for new scripts | Deprecated. Existing scripts keep running. |
+| Stored in the file as | A WebAssembly module | Luau bytecode |
+| Web runtime | Runs on the browser's WebAssembly engine | Runs on the Luau virtual machine, itself compiled to WebAssembly |
+| Apple and Android runtimes | Not yet supported. Files still load and play, but their AnimaScript scripts do not run. | Runs on the Luau virtual machine |
+| Signed | No | Yes |
+| Contained by | The WebAssembly sandbox | The Luau sandbox, plus signing |
+
+### AnimaScript
+
+AnimaScript compiles to WebAssembly, a format designed to run code safely inside a sandbox. The Rive Editor or the Rive CLI compiles your scripts to a WebAssembly module and stores it in the .riv file.
+
+- **On the web**, the runtime loads the module into the browser's own WebAssembly engine, the same sandbox that browsers use for all WebAssembly.
+- **Outside the browser**, Rive runs modules with [WAMR](https://github.com/bytecodealliance/wasm-micro-runtime), an open-source WebAssembly runtime, under the same sandbox rules. A .riv file carries these modules only as WebAssembly bytecode, never as machine code, and the runtime rejects anything else. Depending on the platform, a module runs as machine code compiled ahead of time, or on WAMR's interpreter. The Apple and Android runtimes do not run AnimaScript yet. See [Where Scripts Run](https://rive.app/rasc/docs/execution-lanes.html).
+
+Inside the sandbox:
+
+- A module can call only the functions Rive provides. It has no other way to reach the system.
+- Every memory access stays inside the module's own memory. An access outside it, or a bad pointer passed to a Rive API, stops the module with an error.
+- Threads and audio processors run in sandboxed modules of their own. Any memory they share belongs to the same file's scripts.
+
+AnimaScript is not signed today. Its safety comes from the sandbox, which checks and contains every module, whoever built it.
+
+In AnimaScript source, raw memory access must sit in functions marked `unsafe`, so a reviewer can find it with a text search. Even there, it reaches only the module's own memory. See [The Unsafe Gate](https://rive.app/rasc/docs/unsafe.html).
+
+### Luau
+
+Rive runs Luau scripts in a sandboxed [Luau](https://luau.org/sandbox) virtual machine with a reduced standard library:
+
+- Base functions, without `loadstring`
+- `table`, `math`, `string`, `utf8`, `buffer`, and `bit32`
+- `os`, limited to `clock`, `date`, `difftime`, and `time`
+
+There is no `io`, `package`, or `debug` library. Built-in libraries and globals are read-only, and `require` finds only scripts in the same file.
+
+The Luau virtual machine assumes that the bytecode it runs came from the Luau compiler, which is why [Luau recommends signing](https://luau.org/sandbox) compiled code. Rive runtimes run Luau bytecode only if its signature is valid. See [What signing guarantees](#what-signing-guarantees).
+
+### Shaders
+
+AnimaScript and Luau scripts can both draw with [GPU Canvas](/scripting/wgsl-shaders) shaders written in WGSL. Rive's servers compile and sign shaders when you export, and runtimes refuse shader code without a valid signature. A shader works only with the buffers and textures its script gives it.
+
+### Time limits
+
+- **AnimaScript:** every call into a script runs under a time budget, 200 ms in the runtimes. Native runtimes enforce it with a timer. In browsers, a call can be stopped only if the module was built with fuel checks. Debug builds always include them. Optimized builds, which every publish makes, include them only with `wasmFuel: true`. Without fuel checks, a script that never returns hangs the page. Builds made with `dangerouslyFast` have no time budget at all. Background jobs and workers have no time limit; they run until they finish or the runtime stops them. See [Build Settings](https://rive.app/rasc/docs/build-settings.html).
+- **Luau:** Rive runtimes interrupt a Luau script call that runs longer than 200 ms. A script written to get around the interrupt can keep running.
+
+Treat these limits as protection against mistakes, not against attacks. A file built to cause harm can still use enough CPU, GPU, or memory to freeze or crash your app.
+
+## What signing guarantees
+
+Rive signs compiled Luau scripts and shaders. When you export a file from the Rive Editor, or publish one with the Rive CLI, Rive's servers compile the source and sign the result. Rive compiles the code itself, so it signs only code it produced. Rive keeps the private signing key on its servers. Every Rive runtime that supports scripting carries the matching public key and checks the signature when it loads a file. Code that is unsigned, or that was edited after signing, does not run.
+
+The Rive Editor and the Rive CLI run Luau scripts before they are signed, so you can work on them. Runtimes do not.
+
+<Info>
+  The signature check is part of the open-source runtime. See [text_asset_importer.cpp](https://github.com/rive-app/rive-runtime/blob/main/src/importers/text_asset_importer.cpp) and `File::acceptsScript` in [file.cpp](https://github.com/rive-app/rive-runtime/blob/main/src/file.cpp).
+</Info>
+
+### What a signature does not prove
+
+- **Who made the file, or that its scripts are yours.** Today, Rive signs every export with the same key, whatever the account or Workspace. Anyone can write Luau scripts in their own Rive account and export them with a valid signature, so a swapped file with someone else's scripts passes the check. The sandbox limits what those scripts can do. The signature does not.
+- **That the rest of the file is unchanged.** Today the signature covers only compiled Luau scripts and shaders.
+
+### What the signature covers
+
+The signature covers the compiled code of the file's Luau scripts and shaders. It does not cover the rest of the file, including:
+
+- Artboards, Timelines, and State Machines
+- Text, images, fonts, and audio
+- Default View Model values and script input values
+- Event settings, such as the address of an Open URL event
+- Which objects use which scripts
+- AnimaScript modules
+
+If someone changes these parts, the runtime cannot detect it. If someone edits a Luau script or shader inside the file, the signature check fails, and the runtime runs none of the file's Luau scripts and shaders. The rest of the file still plays.
+
+### Whole-file signing
+
+Whole-file signing is coming soon. It is planned to cover the entire exported .riv file, AnimaScript modules included, and runtimes are planned to refuse a file whose signature check fails. A change anywhere in the file would then stop it from loading. We're also working on a way to use the signature to tell which Workspace exported a file. Signing would then prove where a file came from. The sandbox stays the safety boundary.
+
+## Protecting files between design and release
+
+Today, any file exported from Rive with Luau scripts or shaders carries a valid signature, so signing cannot tell your files apart from anyone else's. Protect the path each file takes from the Rive Editor to your users, as you do for your app's code and other assets. [Whole-file signing](#whole-file-signing) will help once it ships. Even then, the checks below confirm that a file is the exact one you approved.
+
+### Files bundled in your app
+
+iOS and Android require a code signature that covers every file in your app package. After release, nobody can change a bundled .riv file without breaking that signature. The risk comes earlier, when a file passes from design to engineering. To reduce it:
+
+- Keep approved .riv files in version control, and change them only through code review.
+- Record the SHA-256 hash of each approved file, and check it in your build pipeline.
+
+### Files your app downloads
+
+If your app downloads .riv files, check each one before you load it.
+
+<Steps>
+  <Step>
+    Serve files over HTTPS from a server you control.
+  </Step>
+  <Step>
+    Compare the file's SHA-256 hash with a value built into your app, or verify a signature made with your own key. Don't fetch the expected hash from the same server as the file.
+  </Step>
+  <Step>
+    Pass the bytes to the Rive runtime only if the check passes.
+  </Step>
+</Steps>
+
+<CodeGroup>
+```swift Swift
+import CryptoKit
+import Foundation
+
+enum RiveFileError: Error { case integrityCheckFailed }
+
+// SHA-256 of the approved file, as lowercase hex, built into the app.
+let expectedHash = "<sha-256 of the approved file>"
+
+// fileURL points to the downloaded file on disk.
+func verifiedRiveData(from fileURL: URL) throws -> Data {
+    let data = try Data(contentsOf: fileURL)
+    let hash = SHA256.hash(data: data)
+        .map { String(format: "%02x", $0) }
+        .joined()
+    guard hash == expectedHash else { throw RiveFileError.integrityCheckFailed }
+    return data // Pass these bytes to the Rive runtime.
+}
+```
+
+```kotlin Kotlin
+import java.io.File
+import java.security.MessageDigest
+
+// SHA-256 of the approved file, as lowercase hex, built into the app.
+const val EXPECTED_HASH = "<sha-256 of the approved file>"
+
+// file is the downloaded file on disk.
+fun verifiedRiveBytes(file: File): ByteArray {
+    val bytes = file.readBytes()
+    val hash = MessageDigest.getInstance("SHA-256").digest(bytes)
+        .joinToString("") { "%02x".format(it) }
+    check(hash == EXPECTED_HASH) { "Rive file failed its integrity check" }
+    return bytes // Pass these bytes to the Rive runtime.
+}
+```
+</CodeGroup>
+
+To get a file's hash, run `shasum -a 256 your-file.riv` on macOS, or `sha256sum your-file.riv` on Linux.
+
+## Network requests, URLs, and navigation
+
+### Scripts
+
+No Rive runtime gives scripts network access.
+
+### Hosted assets
+
+In the Rive Editor, you can set an image, font, or audio asset to **Hosted**. A Hosted asset stays on Rive's CDN instead of inside the .riv file, and some runtimes download it when they load the file. The web runtime and the legacy Apple and Android runtimes download from an address stored in the file, so a changed file can point that download at any server. Scripts cannot change the address or attach data to the request.
+
+| Runtime | Downloads Hosted assets by default | How to turn it off |
+|---|---|---|
+| Apple, {{runtimeCurrentNameApple}} | No | Nothing to do |
+| Apple, {{runtimeLegacyNameApple}} | Yes | Pass `loadCdn: false` to `RiveFile` or `RiveViewModel` |
+| Android, new runtime | No | Nothing to do |
+| Android, legacy runtime | Yes | Call `setShouldLoadCDNAssets(false)` on the `RiveAnimationView` builder, set `app:riveShouldLoadCDNAssets="false"` in XML, or create `FallbackAssetLoader` with `loadCDNAssets = false` |
+| Web | Yes | Set `enableRiveAssetCDN: false` in the `Rive` options |
+
+For other runtimes, see the Loading Assets page for your runtime.
+
+### Open URL events
+
+Apple and Android runtimes do not open URLs from a file. If your code listens for events, it receives [Open URL events](/editor/events/open-url-events) as data and decides what to do with them. The web runtime opens these URLs only if you set the deprecated `automaticallyHandleEvents` option to `true`. It is `false` by default.
+
+### Navigation
+
+Rive runtimes cannot navigate your app or open screens. A file can affect your app only through the events and View Model values that your code reads. If your code navigates, opens URLs, or calls your servers based on those values, check them first, as you would any input from outside your app.
+
+## Turning off scripting
+
+Rive runtimes have no setting to turn off scripts for one file or for the whole app. To play Rive files without scripts, use a runtime build that leaves scripting out. These builds run no AnimaScript, Luau, or shaders. Files still load and play, but anything a script drives stops working.
+
+| Platform | Runtime without scripting |
+|---|---|
+| Web | Use [`@rive-app/canvas-lite`](/runtimes/web/canvas-vs-webgl#rive-app-canvas-lite) or `@rive-app/react-canvas-lite`. These packages also leave out text, layouts, audio, and Vector Feathering. |
+| Apple | Build [rive-ios](https://github.com/rive-app/rive-ios) from source with the `--no-scripting` option. See its [contributing guide](https://github.com/rive-app/rive-ios/blob/main/CONTRIBUTING.md). |
+| Android | Build [rive-android](https://github.com/rive-app/rive-android) from source with the `noScripting` Gradle property, for example `-PnoScripting`. |
+
+## Recommendations for apps that handle sensitive data
+
+1. **Control where files come from.** Bundle files in your app when you can, and check every downloaded file before you load it.
+2. **Bind only the data a file needs.** Scripts can read every View Model property your app binds to their file. Never put passwords, tokens, or full card numbers in a View Model.
+3. **Use native text fields for secrets.** Scripts can read what users type into a [Text Input](/editor/text/text-input) in their file.
+4. **Keep secrets out of files.** A .riv file is not encrypted. Anyone who has the file can inspect its contents, including compiled scripts and any text in them.
+5. **Treat what a file sends back as untrusted input.** Check events and View Model values before you act on them. For URLs and screens, accept only values from a list you define.
+6. **Turn off what you don't use.** If you don't use Hosted assets, turn off their download. Leave `automaticallyHandleEvents` off on the web. If your files have no scripts, use a runtime without scripting.
+7. **Ask for fuel checks on the web.** If your web app plays AnimaScript files from outside your team, ask for files built with `wasmFuel: true`, so the browser can stop a runaway script. Don't ship files built with `dangerouslyFast` unless you trust their source.
+8. **Keep your Rive runtime up to date** to get security fixes.
+
+## Security resources
+
+- **Open-source runtimes.** The Rive runtimes are open source under the MIT license, so your team can review the code your app runs: [rive-runtime](https://github.com/rive-app/rive-runtime) (the C++ core, including the signature check and both scripting engines), [rive-ios](https://github.com/rive-app/rive-ios), [rive-android](https://github.com/rive-app/rive-android), and [rive-wasm](https://github.com/rive-app/rive-wasm).
+- **AnimaScript.** [Where Scripts Run](https://rive.app/rasc/docs/execution-lanes.html) explains how AnimaScript runs on each platform and how its time budgets work.
+- **SOC 2 Type II.** Part of the [Enterprise plan](https://rive.app/enterprise).
+- **Reporting a vulnerability.** Contact us privately through the <a href={"{{supportForm}}"}>support form</a>. Please don't report security issues in the community forum or in GitHub issues.
