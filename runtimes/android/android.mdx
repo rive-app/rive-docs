@@ -131,6 +131,10 @@ RiveLog.logger = RiveLog.LogcatLogger()
         }
     }
     ```
+
+    <Note>
+      If the GPU driver resets or fails, the worker can lose its render context and stop rendering. Your app should handle this case. See [Handling a lost render context](/runtimes/android/handling-render-context-loss).
+    </Note>
   </Step>
   <Step title="Loading a Rive File">
     Before you can display a Rive element, you must load a Rive file, i.e. an exported .riv file. Rive files are specified by a `RiveFileSource`, which can be either a `RawRes` (for local raw resources) or a `Bytes` (for raw byte data, from any source including the network). In this case, we'll use a raw resource for simplicity. That source, along with the above worker, are passed to `rememberRiveFile`, which internally will load and cache the file for use in the composition.
