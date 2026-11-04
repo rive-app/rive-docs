@@ -87,8 +87,12 @@ The CLI stops the action and does not retry it. It prints the reset date and a l
 upgrade, and exits with code `9`:
 
 ```text
-Monthly CLI allowance used up: 50 of 50 publishes and pushes. Resets Dec 1, 2026 (UTC). Upgrade: https://rive.app/pricing
+Monthly CLI allowance used up in your personal workspace: 50 of 50 publishes and pushes. Resets Dec 1, 2026 (UTC). Upgrade: https://rive.app/pricing
 ```
+
+The message names the workspace the action counted against. If it says your personal
+workspace but you meant to use a team's allowance, bind the project to a file in that
+team's workspace with `push.fileId`.
 
 With `--publish --format=json`, the message is in `errors`. The same answer is also in
 the `allowance` field, with `code`, `message`, `scope`, `limit`, `used`, `resetsAt`, and
