@@ -56,7 +56,7 @@ How Fill behaves depends on whether the axis runs in the same direction as the p
 Fill ratios decide how siblings split the leftover space. Three children set to `1fr` each get an equal share of the leftover space. A child set to `2fr` gets twice the space of a child set to `1fr`.
 
 <UseCase title="A sidebar and content area">
-  A Row Layout contains a sidebar and a content area, both set to Fill width. The sidebar is `1fr` and the content area is `3fr`, so the sidebar takes a quarter of the width and the content area takes the rest. When the Row gets wider, both grow, and the sidebar stays a quarter of the width.
+  A Row Layout with no padding or gap contains a sidebar and a content area, both set to Fill width with **Base size** set to `0` points. The sidebar is `1fr` and the content area is `3fr`, so the sidebar takes a quarter of the width and the content area takes the rest. When the Row gets wider, both grow in the same proportions.
 </UseCase>
 
 When a child uses Fill along its parent's direction, the **Inspector** also shows a **Base size** field. The base size is the child's starting size before the leftover space is shared out. Set it in points or as a percentage, or leave it on auto to start from the size of the child's content.
