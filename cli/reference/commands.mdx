@@ -652,8 +652,8 @@ The CLI sends usage analytics to help improve Rive. Each run reports:
 - Whether the command ran in a terminal or was started by a coding agent
 - Your Rive account ID and plan, when you're signed in
 
-The preview window also reports when its status bar shows an upgrade button, and which status bar items you click. Our analytics provider receives the IP address each event comes from and uses it for approximate location.
+The preview window also reports when its status bar shows an upgrade button, and which status bar items you click. Events carry no IP address or location.
 
-The first run prints a notice and sends nothing. Analytics start with the next run.
+The first run prints a notice and sends nothing. Analytics start with the next run. The CLI saves events under `~/.rive` and a background process sends them, so a command never waits on the network.
 
 To turn analytics off, run `rive analytics off`, or set `RIVE_ANALYTICS=off` or `DO_NOT_TRACK=1`. Run `rive analytics` to see the current setting, and the variable that set it, if any.
