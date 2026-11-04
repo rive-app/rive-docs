@@ -15,8 +15,8 @@ never count against the allowance.
 
 | Plan | Allowance per workspace, per month |
 |---|---|
-| Free | 50 publishes and pushes, combined |
-| Cadet | 1,000 publishes and pushes, combined |
+| Free | {{cliAllowanceFree}} publishes and pushes, combined |
+| Cadet | {{cliAllowanceCadet}} publishes and pushes, combined |
 | Voyager | Unlimited |
 | Enterprise | Unlimited |
 
@@ -73,7 +73,7 @@ When 20% or less of the allowance is left, the CLI prints one warning per run. T
 warning shows how many actions are left and when the allowance resets:
 
 ```text
-CLI allowance: 8 of 50 publishes and pushes left this month (resets Dec 1). Upgrade: https://rive.app/pricing
+CLI allowance: 8 of {{cliAllowanceFree}} publishes and pushes left this month (resets Dec 1). Upgrade: https://rive.app/pricing
 ```
 
 With `--publish --format=json`, the warning is in `warnings`.
@@ -87,7 +87,7 @@ The CLI stops the action and does not retry it. It prints the reset date and a l
 upgrade, and exits with code `9`:
 
 ```text
-Monthly CLI allowance used up in your personal workspace: 50 of 50 publishes and pushes. Resets Dec 1, 2026 (UTC). Upgrade: https://rive.app/pricing
+Monthly CLI allowance used up in your personal workspace: {{cliAllowanceFree}} of {{cliAllowanceFree}} publishes and pushes. Resets Dec 1, 2026 (UTC). Upgrade: https://rive.app/pricing
 ```
 
 The message names the workspace the action counted against. If it says your personal
