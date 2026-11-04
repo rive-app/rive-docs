@@ -30,7 +30,8 @@ advance(seconds: number) -> boolean
 
 Advances the animation by the given time in seconds. Returns true if the
 animation hasn't reached its end. If the animation is set to loop or ping
-pong, it will always return true
+pong, it will always return true. The example works only when the component
+artboard has no default state machine; otherwise let the machine play.
 ```lua highlight={23}
 type AnimationExample = {
   -- Artboard input, assigned in the Rive editor by the designer
