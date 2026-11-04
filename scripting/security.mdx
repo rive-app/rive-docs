@@ -17,7 +17,8 @@ Rive files can include code: [AnimaScript](https://rive.app/rasc/index.html) and
 | Can a script send data out of the app? | **No.** Rive runtimes give scripts no access to the network, files, or other apps. A script can pass data only to your own code, through View Models and events. |
 | Can a file make the runtime send network requests? | **Only to download Hosted assets**, on runtimes that do this by default. Scripts cannot add data to these requests, and you can turn the download off. See [Hosted assets](#hosted-assets). |
 | What can a script read? | The View Model data your app binds to its file, the input that reaches the Rive view, and the current time. |
-| Can a file open a URL or navigate the app? | **Not by default.** Apple and Android runtimes do not open URLs from a file, and the web runtime does so only if you turn it on. Your code decides what to do with events and View Model values. |
+| Can a file open a URL? | **Not by default.** Apple and Android runtimes do not open URLs from a file, and the web runtime does so only if you turn it on. See [Open URL events](#open-url-events). |
+| Can a file navigate the app? | **No.** Your code decides what to do with events and View Model values. See [Navigation](#navigation). |
 | Is the code in a file signed? | Luau scripts and shaders are signed, and runtimes refuse them without a valid signature. AnimaScript needs no signature, because the WebAssembly sandbox checks and contains every module. |
 | What does a signature prove? | That Rive's compilers produced the code, and that nobody edited it afterward. It does not prove that the code is yours. Anyone can export signed code from their own Rive account. |
 | Does the signature cover the whole file? | **Not today.** It covers compiled Luau scripts and shaders only. [Whole-file signing](#whole-file-signing) is coming soon. |
@@ -26,15 +27,15 @@ Rive files can include code: [AnimaScript](https://rive.app/rasc/index.html) and
 
 ## How Rive approaches script security
 
-- **The sandbox is the safety boundary.** Rive does not depend on trusting the person who made a file. Code in a file runs inside a sandbox that limits what it can reach, so even a harmful script cannot get past what Rive allows.
+- **The sandbox is the safety boundary.** Rive does not depend on trusting the person who made a file. Code in a file runs inside a sandbox that limits what it can reach, so even a harmful script cannot reach anything Rive doesn't allow.
 - **Scripts start with nothing.** Rive adds each ability on purpose, as an API it controls: drawing, View Models, input, audio, and the objects in the script's own file. A script cannot use anything Rive did not give it.
 - **Signing proves where code came from, not that it is safe.** Rive requires a signature only where the engine cannot check code itself: Luau bytecode and compiled shaders. Rive compiles that code on its own servers, so it signs only code it produced. AnimaScript needs no signature, because the WebAssembly sandbox checks and contains every module.
-- **A script that breaks the rules stops with an error.** Your app keeps running. Runtimes also interrupt script calls that run too long. See [Time limits](#time-limits) for what each limit covers.
+- **A script that breaks the rules stops with an error.** Your app keeps running. Time limits stop most script calls that run too long, but not all of them, and a script can still use enough CPU, GPU, or memory to slow or freeze your app. See [Time limits](#time-limits) for what each limit covers.
 - **Your app decides.** A file cannot act on your app directly. It can only hand values to your code, and your code decides what to do with them.
 
 ## What code in a file can do
 
-Everything in a Rive file, code included, works inside the view your app gives it. AnimaScript and Luau scripts have the same limits.
+Everything in a Rive file, code included, works inside the view your app gives it. AnimaScript and Luau scripts share the same restrictions.
 
 A file can:
 
