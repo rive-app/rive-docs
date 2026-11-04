@@ -1,28 +1,28 @@
 ---
 title: "Scripting Security"
 sidebarTitle: "Security"
-description: "What AnimaScript, Luau, and shader code in a Rive file can do, how Rive contains it, and how to ship Rive files safely."
+description: "How Rive keeps the scripts and shaders in your files sandboxed, and how to ship those files safely."
 ---
 
-A Rive file can carry code along with its artwork, Timelines, and State Machines: [AnimaScript](https://rive.app/rasc/index.html) scripts, Luau scripts, and WGSL shaders. Rive runtimes do not trust that code. It runs in a sandbox, with only the abilities Rive gives it, and it cannot reach the network, the device's files, or the rest of your app.
+Rive files can include code: [AnimaScript](https://rive.app/rasc/index.html) and Luau scripts, and WGSL shaders. Rive runtimes treat that code as untrusted. It runs in a sandbox and can only do what Rive allows, so it can't reach the network, the device's files, or the rest of your app.
 
 <Note>
   AnimaScript is the recommended language for new scripts. Luau is deprecated: Luau scripts keep running on every Rive runtime, but new scripting features land in AnimaScript. This page covers both.
 </Note>
 
-## Summary
+## FAQs
 
 | Question | Answer |
 |---|---|
-| Can a script send data out of the app? | No. Rive runtimes give scripts no access to the network, files, or other apps. A script can pass data only to your own code, through View Models and events. |
-| Can a file make the runtime send network requests? | Only to download Hosted assets, on runtimes that do this by default. Scripts cannot add data to these requests, and you can turn the download off. See [Hosted assets](#hosted-assets). |
+| Can a script send data out of the app? | **No.** Rive runtimes give scripts no access to the network, files, or other apps. A script can pass data only to your own code, through View Models and events. |
+| Can a file make the runtime send network requests? | **Only to download Hosted assets**, on runtimes that do this by default. Scripts cannot add data to these requests, and you can turn the download off. See [Hosted assets](#hosted-assets). |
 | What can a script read? | The View Model data your app binds to its file, the input that reaches the Rive view, and the current time. |
-| Can a file open a URL or navigate the app? | No. Apple and Android runtimes do not open URLs from a file, and the web runtime does so only if you turn it on. Your code decides what to do with events and View Model values. |
-| Is the code in a file signed? | Luau scripts and shaders are signed, and runtimes refuse them without a valid signature. AnimaScript is not signed today: the WebAssembly sandbox contains it instead. |
+| Can a file open a URL or navigate the app? | **Not by default.** Apple and Android runtimes do not open URLs from a file, and the web runtime does so only if you turn it on. Your code decides what to do with events and View Model values. |
+| Is the code in a file signed? | Luau scripts and shaders are signed, and runtimes refuse them without a valid signature. AnimaScript needs no signature, because the WebAssembly sandbox checks and contains every module. |
 | What does a signature prove? | That Rive's compilers produced the code, and that nobody edited it afterward. It does not prove that the code is yours. Anyone can export signed code from their own Rive account. |
-| Does the signature cover the whole file? | Not today. It covers compiled Luau scripts and shaders only. [Whole-file signing](#whole-file-signing) is coming soon. |
-| Can the runtime accept only our files? | Not today. Check each file in your app before you load it. See [Protecting files between design and release](#protecting-files-between-design-and-release) and [Whole-file signing](#whole-file-signing). |
-| Can we turn off scripting? | Yes, by using a runtime build without scripting. There is no setting for a single file. |
+| Does the signature cover the whole file? | **Not today.** It covers compiled Luau scripts and shaders only. [Whole-file signing](#whole-file-signing) is coming soon. |
+| Can the runtime accept only our files? | **Not today.** Check each file in your app before you load it. See [Protecting files between design and release](#protecting-files-between-design-and-release) and [Whole-file signing](#whole-file-signing). |
+| Can we turn off scripting? | **Yes**, by using a runtime build without scripting. There is no setting for a single file. |
 
 ## How Rive approaches script security
 
@@ -54,16 +54,17 @@ Neither a file nor its scripts can:
 - Read app data that you have not bound to the file.
 - Reach other Rive files your app has loaded. Each file runs its scripts in its own environment.
 - Load code from outside the file, or create new code while it runs.
-- Open URLs or navigate your app.
+- Navigate your app.
+- Open URLs, unless you turn it on. Only the web runtime can do this, using the deprecated `automaticallyHandleEvents` option. See [Open URL events](#open-url-events).
 
 ## How each language is contained
 
 | | AnimaScript | Luau |
 |---|---|---|
-| Status | Recommended for new scripts | Deprecated. Existing scripts keep running. |
+| Status | Recommended for new scripts | Deprecated, but existing scripts keep running |
 | Stored in the file as | A WebAssembly module | Luau bytecode |
 | Web runtime | Runs on the browser's WebAssembly engine | Runs on the Luau virtual machine, itself compiled to WebAssembly |
-| Apple and Android runtimes | Not yet supported. Files still load and play, but their AnimaScript scripts do not run. | Runs on the Luau virtual machine |
+| Apple and Android runtimes | Not yet supported, so files load and play without running their AnimaScript scripts | Runs on the Luau virtual machine |
 | Signed | No | Yes |
 | Contained by | The WebAssembly sandbox | The Luau sandbox, plus signing |
 
