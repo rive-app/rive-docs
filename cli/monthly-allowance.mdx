@@ -4,35 +4,35 @@ sidebarTitle: "Monthly allowance"
 description: "How many publishes and pushes each plan includes per month, what counts, and what happens at the limit."
 ---
 
-On the Free and Cadet plans, each workspace can publish and push from the Rive CLI a
-set number of times per month. Three actions count: `rive push`, `--publish`, and
+Free, Cadet, Voyager, and Enterprise each include a monthly allowance of Rive CLI
+publishes and pushes for each Workspace. Three actions count: `rive push`, `--publish`, and
 `--publish=web`.
 
-Previewing on your own machine and exporting from the Rive Editor are unlimited and
-never count against the allowance.
+Building and previewing on your own machine and exporting from the Rive Editor are
+unlimited and never count against the allowance.
 
 ## Allowance by plan
 
-| Plan | Allowance per workspace, per month |
+| Plan | Allowance per Workspace, per month |
 |---|---|
 | Free | {{cliAllowanceFree}} publishes and pushes, combined |
 | Cadet | {{cliAllowanceCadet}} publishes and pushes, combined |
-| Voyager | Unlimited |
-| Enterprise | Unlimited |
+| Voyager | {{cliAllowanceVoyager}} publishes and pushes per seat, combined and shared across the Workspace. Top-up credits cover more. |
+| Enterprise | Set in your agreement |
 
 Student plans and legacy paid plans have no monthly allowance. See
 [Pricing](/account-admin/pricing) for what else each plan includes.
 
-An action counts against the workspace that owns the Rive file your project is bound
+An action counts against the Workspace that owns the Rive file your project is bound
 to (`push.fileId` in [`rive.yaml`](/cli/reference/project-config#pushing-to-a-rive-file)).
 If the project is not bound to a file, the action counts against your personal
-workspace. If you are an editor in a workspace that has no allowance (Voyager,
-Enterprise, Student, or a legacy paid plan), your personal workspace has none either.
-Being an editor in a Cadet workspace does not change your personal allowance.
+Workspace. If you're an editor in a Voyager, Enterprise, Student, or legacy paid Workspace,
+your personal Workspace has no limit either.
+Being an editor in a Cadet Workspace does not change your personal allowance.
 
 ## What counts
 
-On Free and Cadet, each action counts once:
+Each action counts once:
 
 | Action | Counts when |
 |---|---|
@@ -89,9 +89,9 @@ upgrade, and exits with code `9`:
 Monthly CLI allowance used up in your personal workspace: {{cliAllowanceFree}} of {{cliAllowanceFree}} publishes and pushes. Resets Dec 1, 2026 (UTC). Upgrade: https://rive.app/pricing
 ```
 
-The message names the workspace the action counted against. If it says your personal
-workspace but you meant to use a team's allowance, bind the project to a file in that
-team's workspace with `push.fileId`.
+The message names the Workspace the action counted against. If it says your personal
+Workspace but you meant to use a team's allowance, bind the project to a file in that
+team's Workspace with `push.fileId`.
 
 With `--publish --format=json`, the message is in `errors`. The same answer is also in
 the `allowance` field, with `code`, `message`, `scope`, `limit`, `used`, `resetsAt`, and
@@ -99,7 +99,8 @@ the `allowance` field, with `code`, `message`, `scope`, `limit`, `used`, `resets
 
 Files you already pushed or published keep working. You can still pull, preview,
 check builds with `--verify`, build apps, and export from the Rive Editor. To publish
-or push from the CLI again before the reset, [upgrade the workspace](https://rive.app/pricing).
+or push from the CLI again before the reset, [upgrade the Workspace](https://rive.app/pricing)
+or, on Voyager, use top-up credits.
 
 <Note>
 The monthly allowance is separate from the short-term rate limits on publishing,
