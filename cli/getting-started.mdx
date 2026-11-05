@@ -124,9 +124,10 @@ A file containing scripts that is destined for the web must be built with
 `--publish`. Unsigned scripts are rejected by the CDN and the web runtimes. A file with no scripts is unaffected.
 </Warning>
 
-`--publish` may add a watermark to the graphic. A clean `.riv` needs two things: the
-project bound to a file in your Rive account, and that file in a workspace on the
-[Cadet plan or higher](https://rive.app/pricing). Bind the project with
+`--publish` writes a `.riv` with no watermark when the project is bound to a file in
+your Rive account, and that file is in a workspace on the
+[Cadet plan or higher](https://rive.app/pricing). Otherwise it adds a watermark.
+Bind the project with
 [`rive push`](/cli/reference/project-config#pushing-to-a-rive-file).
 
 ## Exporting your project
