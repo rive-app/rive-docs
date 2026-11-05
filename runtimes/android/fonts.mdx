@@ -35,6 +35,10 @@ fun getFont(weight: Fonts.Weight): List<FontBytes>
 
 Implementers need to override this method. The user's implementation must then be set as the current fallback strategy via `FontFallbackStrategy.stylePicker`.
 
+<Warning>
+  `FontFallbackStrategy.stylePicker` is held through a `WeakReference`. Keep a strong reference to your strategy, for example by implementing it on your `Application`. An anonymous object assigned directly to `stylePicker` can be garbage collected.
+</Warning>
+
 **Example:**
 
 ```kotlin
