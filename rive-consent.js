@@ -5,12 +5,13 @@
    Global Privacy Control always keeps Marketing off.
    GA4 comes from Framer's Google Analytics setting and follows Consent Mode set here.
    The same file runs on the docs (rive-docs/rive-consent.js). There Mintlify loads its own Amplitude, gated by
-   docs.json integrations.cookies on localStorage rive_analytics = "granted", so this file loads no trackers on /docs.
+   docs.json integrations.cookies on localStorage rive_analytics = "granted". This file loads trackers only on the
+   Framer site (rive.app outside /docs, *.framer.app previews), never on docs or local previews.
    Keep both copies identical. */
 (function () {
   var KEY = "rive_consent", FLAG = "rive_analytics", VERSION = 1, DAYS = 365, now = Date.now();
   var w = window, d = document;
-  var DOCS = /^\/docs(\/|$)/.test(location.pathname) || /\.mintlify\.(app|dev|site)$/.test(location.hostname);
+  var SITE = /(^|\.)rive\.app$|\.framer\.(app|website)$/.test(location.hostname) && !/^\/docs(\/|$)/.test(location.pathname);
 
   function optInRegion() {
     try {
@@ -105,7 +106,7 @@
   };
 
   function apply() {
-    if (DOCS) return;
+    if (!SITE) return;
     if (state.analytics) loadAnalytics();
     if (state.marketing) loadMarketing();
   }
@@ -117,11 +118,24 @@
     flag();
     w.gtag("consent", "update", gmode(state));
     if (!state.marketing) try { localStorage.removeItem("rive_ad_params"); } catch (e) {}
-    if (revoked && (loaded.analytics || loaded.marketing || DOCS)) { location.reload(); return; }
-    if (DOCS && newlyAnalytics) { location.reload(); return; }
+    if (revoked && (loaded.analytics || loaded.marketing || !SITE)) { location.reload(); return; }
+    if (!SITE && newlyAnalytics) { location.reload(); return; }
     apply();
   }
   apply();
+
+  /* A choice saved in another tab (rive.app or docs) replaces this tab's state. */
+  w.addEventListener("storage", function (e) {
+    if (e.key !== KEY) return;
+    var c = read(); if (!c) return;
+    saved = c;
+    var revoked = (state.analytics && !c.analytics) || (state.marketing && !c.marketing);
+    state = { analytics: !!c.analytics, marketing: !!c.marketing && !gpc };
+    w.gtag("consent", "update", gmode(state));
+    if (box) close();
+    if (revoked && (loaded.analytics || loaded.marketing || !SITE)) { location.reload(); return; }
+    apply();
+  });
 
   /* Banner */
   var CSS = ""
@@ -225,7 +239,7 @@
   function boot() {
     var ls = el("style"); ls.id = "rc-link-css"; ls.textContent = LINK_CSS; d.head.appendChild(ls);
     if (location.hash === "#cookie-settings" || /[?&]cookie-settings(=|&|$)/.test(location.search)) open(true, true);
-    else if (mustAsk && !saved) setTimeout(function () { open(false, false); }, 800);
+    else if (mustAsk && !saved) setTimeout(function () { if (!box && !read()) open(false, false); }, 800);
   }
   if (d.readyState === "loading") d.addEventListener("DOMContentLoaded", boot); else boot();
 })();
