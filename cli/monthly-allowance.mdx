@@ -28,7 +28,8 @@ to (`push.fileId` in [`rive.yaml`](/cli/reference/project-config#pushing-to-a-ri
 If the project is not bound to a file, the action counts against your personal
 Workspace. Your personal Workspace uses its own plan's allowance, whichever Workspaces
 you're an editor in. To use another Workspace's allowance, bind the project to a
-file in that Workspace.
+file in that Workspace. Publishing a bound project needs Editor access in that file's
+Workspace; Viewers can't publish it from the CLI.
 
 ## What counts
 
@@ -83,7 +84,7 @@ When a Voyager Workspace uses up its monthly allowance, CLI publishes and pushes
 continue on the Workspace's top-up credits, the same credits the Rive Agent uses.
 Each action uses $0.01 in credits. The CLI tells you and your agent when an action
 was paid with credits and how much is left. When the credits run out, the CLI stops
-as described below.
+and links to where you can top up.
 
 ## When the allowance is used up
 
