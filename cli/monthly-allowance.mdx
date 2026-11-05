@@ -26,9 +26,10 @@ Student plans and legacy paid plans have no monthly allowance. See
 An action counts against the Workspace that owns the Rive file your project is bound
 to (`push.fileId` in [`rive.yaml`](/cli/reference/project-config#pushing-to-a-rive-file)).
 If the project is not bound to a file, the action counts against your personal
-Workspace. If you're an editor in a Voyager, Enterprise, Student, or legacy paid Workspace,
-your personal Workspace has no limit either.
-Being an editor in a Cadet Workspace does not change your personal allowance.
+Workspace. Your personal Workspace uses its own plan's allowance, whichever Workspaces
+you're an editor in. To use another Workspace's allowance, bind the project to a
+file in that Workspace. Publishing a bound project from the CLI needs edit access to
+that file.
 
 ## What counts
 
@@ -76,6 +77,14 @@ CLI allowance: 8 of {{cliAllowanceFree}} publishes and pushes left this month (r
 ```
 
 With `--publish --format=json`, the warning is in `warnings`.
+
+## Past the allowance on Voyager
+
+When a Voyager Workspace uses up its monthly allowance, CLI publishes and pushes
+continue on the Workspace's top-up credits, the same credits the Rive Agent uses.
+Each action uses $0.01 in credits. The CLI tells you and your agent when an action
+was paid with credits and how much is left. When the credits run out, the CLI stops
+and links to where you can top up.
 
 ## When the allowance is used up
 
