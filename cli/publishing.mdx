@@ -113,7 +113,14 @@ its url. The bar shows for a moment and then hides to a lip at the bottom of the
 |---|---|
 | `docked` | keeps the bar out |
 | `hidden` | starts with only the lip showing |
-| `none` | has no bar at all |
+| `none` | has no bar at all (paid plans) |
+
+The first time the bar opens, a tooltip over its Rive link reads "Made with Rive. Build
+your own." for a few seconds. On a page that starts with only the lip, the tooltip shows
+above the lip first. On a paid plan, `--no-promo` leaves the tooltip off.
+
+Each publish sends its own settings, so pass `--drawer=` and `--no-promo` every time you
+publish the page.
 
 ## List published pages
 
@@ -163,7 +170,8 @@ and its name frees up, so publishing the name again makes a new page at a new ur
 | `--team=<id>` | The team that owns the page, instead of being asked |
 | `--name=<name>` | Publish under this name, instead of the project's |
 | `--no-wait` | Print the url and exit without waiting for the page to go live |
-| `--drawer=<mode>` | How the page's control bar starts: `docked`, `hidden` or `none` |
+| `--drawer=<mode>` | How the page's control bar starts: `docked`, `hidden` or `none`. `none` needs a paid plan |
+| `--no-promo` | Leave the "Made with Rive" tooltip off the page. Needs a paid plan |
 | `--list-published[=<target>]` | Where this project is published. Bare prints `local` and `web`; `web` lists every page on the team |
 | `--unpublish=web` | Take the page down |
 | `--yes`, `-y` | Skip the `--unpublish=web` confirmation |
