@@ -36,7 +36,7 @@ installed version.
 | `rive update` | Install the latest published CLI |
 | `rive switch` | Pick a CLI version, or select one by name |
 | `rive uninstall` | Remove a cached CLI version |
-| `rive analytics` | Show or set usage analytics (`on` \| `off`) |
+| `rive analytics` | Show or set [usage analytics](#usage-analytics) (`on` \| `off`) |
 
 <Note>
 `update`, `switch` and `uninstall` are only supported for the installer build under
@@ -636,7 +636,9 @@ can do.
 | `XDG_CONFIG_HOME` | Relocates the credential directory on macOS and Linux |
 | `RIVE_DOCS_DIR` | The directory `rive docs` reads |
 | `RIVE_SAMPLES_DIR` | The directory `rive samples` copies from |
-| `RIVE_ANALYTICS` | Forces analytics consent: `on`/`1`/`true`/`yes`, or `off`/`0`/`false`/`no` |
+| `RIVE_ANALYTICS` | Turns usage analytics on or off: `on`/`1`/`true`/`yes`, or `off`/`0`/`false`/`no`. Wins over `DO_NOT_TRACK`, `CI` and `rive analytics` |
+| `DO_NOT_TRACK` | Any non-empty value except `0` or `false` turns usage analytics off |
+| `CI` | Any non-empty value except `0` or `false` keeps usage analytics off while no setting is stored, as on a fresh CI machine |
 
 
 <Note>
@@ -644,3 +646,19 @@ Interactive pickers draw on stderr, so redirecting stdout alone does not disable
 them. Where no picker can draw (`TERM=dumb`, `RIVE_NO_TUI=1`, or stdin not a
 terminal as in CI), the CLI falls back to printing the list instead.
 </Note>
+
+## Usage analytics
+
+The CLI sends usage analytics to help improve Rive. Each run reports:
+
+- The command name, never argument values, file names or file content
+- The CLI version, operating system and language
+- A random ID for this install
+- Whether the command ran in a terminal or was started by a coding agent
+- Your Rive account ID and plan, when you're signed in
+
+The preview window also reports when its status bar shows an upgrade button, and which status bar items you click. Events carry no IP address or location.
+
+The first run prints a notice and sends nothing. Analytics start with the next run. The CLI saves events under `~/.rive` and a background process sends them, so a command never waits on the network.
+
+To turn analytics off, run `rive analytics off`, or set `RIVE_ANALYTICS=off` or `DO_NOT_TRACK=1`. Run `rive analytics` to see the current setting, and the variable that set it, if any.
