@@ -24,6 +24,7 @@ installed version.
 | `rive samples` | Clone a runnable example project to your machine |
 | `rive schema` | Look up types |
 | `rive inspect` | Print the resolved scene |
+| `rive build` | Ship the project as an Android or iOS app |
 | `rive push` | Build the project and upload it to a Rive file in your account. Needs `rive login` |
 | `rive pull` | Overwrite the local project from the Rive file it is linked to. Needs `rive login` |
 | `rive ls` | List the projects, folders and files in your Rive account. Needs `rive login` |
@@ -35,7 +36,7 @@ installed version.
 | `rive update` | Install the latest published CLI |
 | `rive switch` | Pick a CLI version, or select one by name |
 | `rive uninstall` | Remove a cached CLI version |
-| `rive analytics` | Show or set usage analytics (`on` \| `off`) |
+| `rive analytics` | Show or set [usage analytics](#usage-analytics) (`on` \| `off`) |
 
 <Note>
 `update`, `switch` and `uninstall` are only supported for the installer build under
@@ -590,6 +591,7 @@ connection even with valid stored credentials.
 | `6` | Test cases failed. The build itself was fine |
 | `7` | A service could not be reached, so it is safe to retry |
 | `8` | This CLI is below the published minimum. Run `rive update` |
+| `9` | The workspace used its [monthly CLI allowance](/cli/monthly-allowance). Retrying does not help until it resets or the workspace upgrades |
 
 <Note>
 Any argument without a leading `--` is read as the project directory. Passing more
@@ -618,6 +620,9 @@ object on stdout. `data` differs per mode. `--verify` and `--once` carry the bui
 `severity` one of `error`, `warning` or `hint`. `errors` repeats them as
 `script:line message` strings. `data.riv` is `null` on `--verify`
 and on any failed build. Logs stay on stderr, so stdout carries nothing else.
+Each of these reports also has an `allowance` field. It is `null` unless the
+[monthly CLI allowance](/cli/monthly-allowance) stopped the run, which only `--publish`
+can do.
 
 ## Environment variables
 
@@ -631,7 +636,9 @@ and on any failed build. Logs stay on stderr, so stdout carries nothing else.
 | `XDG_CONFIG_HOME` | Relocates the credential directory on macOS and Linux |
 | `RIVE_DOCS_DIR` | The directory `rive docs` reads |
 | `RIVE_SAMPLES_DIR` | The directory `rive samples` copies from |
-| `RIVE_ANALYTICS` | Forces analytics consent: `on`/`1`/`true`/`yes`, or `off`/`0`/`false`/`no` |
+| `RIVE_ANALYTICS` | Turns usage analytics on or off: `on`/`1`/`true`/`yes`, or `off`/`0`/`false`/`no`. Wins over `DO_NOT_TRACK`, `CI` and `rive analytics` |
+| `DO_NOT_TRACK` | Any non-empty value except `0` or `false` turns usage analytics off |
+| `CI` | Any non-empty value except `0` or `false` keeps usage analytics off while no setting is stored, as on a fresh CI machine |
 
 
 <Note>
@@ -639,3 +646,19 @@ Interactive pickers draw on stderr, so redirecting stdout alone does not disable
 them. Where no picker can draw (`TERM=dumb`, `RIVE_NO_TUI=1`, or stdin not a
 terminal as in CI), the CLI falls back to printing the list instead.
 </Note>
+
+## Usage analytics
+
+The CLI sends usage analytics to help improve Rive. Each run reports:
+
+- The command name, never argument values, file names or file content
+- The CLI version, operating system and language
+- A random ID for this install
+- Whether the command ran in a terminal or was started by a coding agent
+- Your Rive account ID and plan, when you're signed in
+
+The preview window also reports when its status bar shows an upgrade button, and which status bar items you click. Events carry no IP address or location.
+
+The first run prints a notice and sends nothing. Analytics start with the next run. The CLI saves events under `~/.rive` and a background process sends them, so a command never waits on the network.
+
+To turn analytics off, run `rive analytics off`, or set `RIVE_ANALYTICS=off` or `DO_NOT_TRACK=1`. Run `rive analytics` to see the current setting, and the variable that set it, if any.

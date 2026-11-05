@@ -1,0 +1,108 @@
+---
+title: "Monthly CLI Allowance"
+sidebarTitle: "Monthly allowance"
+description: "How many publishes and pushes each plan includes per month, what counts, and what happens at the limit."
+---
+
+On the Free and Cadet plans, each workspace can publish and push from the Rive CLI a
+set number of times per month. Three actions count: `rive push`, `--publish`, and
+`--publish=web`.
+
+Previewing on your own machine and exporting from the Rive Editor are unlimited and
+never count against the allowance.
+
+## Allowance by plan
+
+| Plan | Allowance per workspace, per month |
+|---|---|
+| Free | {{cliAllowanceFree}} publishes and pushes, combined |
+| Cadet | {{cliAllowanceCadet}} publishes and pushes, combined |
+| Voyager | Unlimited |
+| Enterprise | Unlimited |
+
+Student plans and legacy paid plans have no monthly allowance. See
+[Pricing](/account-admin/pricing) for what else each plan includes.
+
+An action counts against the workspace that owns the Rive file your project is bound
+to (`push.fileId` in [`rive.yaml`](/cli/reference/project-config#pushing-to-a-rive-file)).
+If the project is not bound to a file, the action counts against your personal
+workspace. If you are an editor in a workspace that has no allowance (Voyager,
+Enterprise, Student, or a legacy paid plan), your personal workspace has none either.
+Being an editor in a Cadet workspace does not change your personal allowance.
+
+## What counts
+
+On Free and Cadet, each action counts once:
+
+| Action | Counts when |
+|---|---|
+| `rive push` | The push completes |
+| `--publish` or `--publish=local`, which writes the `.riv` to disk | The publish starts |
+| `--publish=web`, which publishes a hosted page | The publish starts |
+
+A `.riv` you publish to test on your own machine counts like any other publish. It
+counts even when the project has no scripts to sign.
+
+A web publish counts once, as a publish. Uploading and hosting the page do not count
+separately.
+
+A publish counts as soon as it starts, even if a later step such as signing fails.
+A push counts only when it completes, so a push that fails does not count.
+
+## What never counts
+
+- Exports from the Rive Editor, on any plan.
+- `rive pull`, on any plan.
+- `rive build`, which ships the project as an Android or iOS app, on any plan.
+- Work that stays on your machine: the preview window that rebuilds as you edit,
+  `--serve`, `--verify`, `--test`, `--screenshot`, and `rive inspect`. These make no
+  calls to Rive.
+- `--rev`. It needs `rive login`, but it does not count.
+- A push that fails, and a push that finds the file already up to date.
+- Retries and status checks the CLI makes on its own during one action. Running the
+  command again is a new action.
+
+## Monthly reset
+
+The allowance resets at 00:00 UTC on the first day of each month. Actions you do not
+use in a month do not carry over to the next month.
+
+## Warning before the limit
+
+When 20% or less of the allowance is left, the CLI prints one warning per run. The
+warning shows how many actions are left and when the allowance resets:
+
+```text
+CLI allowance: 8 of {{cliAllowanceFree}} publishes and pushes left this month (resets Dec 1). Upgrade: https://rive.app/pricing
+```
+
+With `--publish --format=json`, the warning is in `warnings`.
+
+## When the allowance is used up
+
+The CLI checks the allowance before a push starts. A push that fails this check sends
+nothing.
+
+The CLI stops the action and does not retry it. It prints the reset date and a link to
+upgrade, and exits with code `9`:
+
+```text
+Monthly CLI allowance used up in your personal workspace: {{cliAllowanceFree}} of {{cliAllowanceFree}} publishes and pushes. Resets Dec 1, 2026 (UTC). Upgrade: https://rive.app/pricing
+```
+
+The message names the workspace the action counted against. If it says your personal
+workspace but you meant to use a team's allowance, bind the project to a file in that
+team's workspace with `push.fileId`.
+
+With `--publish --format=json`, the message is in `errors`. The same answer is also in
+the `allowance` field, with `code`, `message`, `scope`, `limit`, `used`, `resetsAt`, and
+`upgradeUrl`. The field is `null` unless the allowance stopped the run.
+
+Files you already pushed or published keep working. You can still pull, preview,
+check builds with `--verify`, build apps, and export from the Rive Editor. To publish
+or push from the CLI again before the reset, [upgrade the workspace](https://rive.app/pricing).
+
+<Note>
+The monthly allowance is separate from the short-term rate limits on publishing,
+which apply on every plan. See [Publishing CLI Projects](/cli/publishing).
+</Note>
