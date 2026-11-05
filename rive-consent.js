@@ -17,7 +17,9 @@
     try {
       var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
       if (!tz) return true;
-      return /^Europe\//.test(tz) || /^(Atlantic\/(Canary|Madeira|Azores|Faroe|Reykjavik)|Arctic\/Longyearbyen|Asia\/(Nicosia|Famagusta))$/.test(tz);
+      /* Europe/*, plus EU/EEA regions in other zones (Canaries, Madeira, Azores, Ceuta, French overseas regions, Cyprus,
+         Iceland, Svalbard) and legacy aliases. */
+      return /^Europe\//.test(tz) || /^(Atlantic\/(Canary|Madeira|Azores|Faroe|Faeroe|Reykjavik)|Arctic\/Longyearbyen|Africa\/Ceuta|Indian\/(Reunion|Mayotte)|America\/(Guadeloupe|Martinique|Cayenne|Marigot)|Asia\/(Nicosia|Famagusta)|Iceland|Eire|GB|GB-Eire|Poland|Portugal|WET|CET|MET|EET)$/.test(tz);
     } catch (e) { return true; }
   }
   function read() {
