@@ -24,6 +24,7 @@ installed version.
 | `rive samples` | Clone a runnable example project to your machine |
 | `rive schema` | Look up types |
 | `rive inspect` | Print the resolved scene |
+| `rive build` | Ship the project as an Android or iOS app |
 | `rive push` | Build the project and upload it to a Rive file in your account. Needs `rive login` |
 | `rive pull` | Overwrite the local project from the Rive file it is linked to. Needs `rive login` |
 | `rive ls` | List the projects, folders and files in your Rive account. Needs `rive login` |
@@ -590,6 +591,7 @@ connection even with valid stored credentials.
 | `6` | Test cases failed. The build itself was fine |
 | `7` | A service could not be reached, so it is safe to retry |
 | `8` | This CLI is below the published minimum. Run `rive update` |
+| `9` | The workspace used its [monthly CLI allowance](/cli/monthly-allowance). Retrying does not help until it resets or the workspace upgrades |
 
 <Note>
 Any argument without a leading `--` is read as the project directory. Passing more
@@ -618,6 +620,9 @@ object on stdout. `data` differs per mode. `--verify` and `--once` carry the bui
 `severity` one of `error`, `warning` or `hint`. `errors` repeats them as
 `script:line message` strings. `data.riv` is `null` on `--verify`
 and on any failed build. Logs stay on stderr, so stdout carries nothing else.
+Each of these reports also has an `allowance` field. It is `null` unless the
+[monthly CLI allowance](/cli/monthly-allowance) stopped the run, which only `--publish`
+can do.
 
 ## Environment variables
 

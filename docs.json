@@ -26,6 +26,8 @@
     "pricingVoyagerMonthly": "$49",
     "pricingVoyagerYearly": "$384",
     "pricingEnterpriseYearly": "$1,440",
+    "cliAllowanceFree": "50",
+    "cliAllowanceCadet": "1,000",
     "versionWeb": "2.40.1",
     "versionReact": "4.33.0",
     "versionApple": "6.24.0",
@@ -900,7 +902,13 @@
               "cli/overview",
               "cli/getting-started",
               "cli/agents",
-              "cli/publishing",
+              {
+                "group": "Publishing",
+                "pages": [
+                  "cli/publishing",
+                  "cli/monthly-allowance"
+                ]
+              },
               "cli/examples"
             ]
           },
