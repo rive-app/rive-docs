@@ -1,6 +1,6 @@
 /* Cookie consent. One place for every tracker on rive.app.
    EU/EEA/UK/CH visitors (by time zone): nothing loads until they accept.
-   Everyone else: trackers load as before; "Your Privacy Choices" (any link to #cookie-settings) lets them opt out
+   Everyone else: trackers load as before; "Your Privacy Choices" (any link containing "cookie-settings") lets them opt out
    (California CCPA alternative opt-out link; the official CA opt-out icon is added to that link below).
    Global Privacy Control always keeps Marketing off.
    GA4 comes from Framer's Google Analytics setting and follows Consent Mode set here.
@@ -216,15 +216,15 @@
   w.riveConsent = { get: function () { return { analytics: state.analytics, marketing: state.marketing }; }, open: function () { open(true, true); }, set: function (s) { done(s); } };
 
   d.addEventListener("click", function (e) {
-    var a = e.target && e.target.closest && e.target.closest('a[href$="#cookie-settings"]');
+    var a = e.target && e.target.closest && e.target.closest('a[href*="cookie-settings"]');
     if (!a) return;
     e.preventDefault(); e.stopPropagation(); open(true, true);
   }, true);
 
-  var LINK_CSS = "a[href$=\"#cookie-settings\"],a[href$=\"#cookie-settings\"]:hover,a[href$=\"#cookie-settings\"]:active,a[href$=\"#cookie-settings\"]:focus{padding:0 36px 0 0!important;background:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 14'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' fill='%23FFFFFF' d='M7.4,12.8h6.8l3.1-11.6H7.4C4.2,1.2,1.6,3.8,1.6,7S4.2,12.8,7.4,12.8z'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' fill='%230066FF' d='M22.6,0H7.4c-3.9,0-7,3.1-7,7s3.1,7,7,7h15.2c3.9,0,7-3.1,7-7S26.4,0,22.6,0z M1.6,7c0-3.2,2.6-5.8,5.8-5.8 h9.9l-3.1,11.6H7.4C4.2,12.8,1.6,10.2,1.6,7z'/%3E%3Cpath fill='%23FFFFFF' d='M24.6,4c0.2,0.2,0.2,0.6,0,0.8l0,0L22.5,7l2.2,2.2c0.2,0.2,0.2,0.6,0,0.8c-0.2,0.2-0.6,0.2-0.8,0 l0,0l-2.2-2.2L19.5,10c-0.2,0.2-0.6,0.2-0.8,0c-0.2-0.2-0.2-0.6,0-0.8l0,0L20.8,7l-2.2-2.2c-0.2-0.2-0.2-0.6,0-0.8 c0.2-0.2,0.6-0.2,0.8,0l0,0l2.2,2.2L23.8,4C24,3.8,24.4,3.8,24.6,4z'/%3E%3Cpath fill='%230066FF' d='M12.7,4.1c0.2,0.2,0.3,0.6,0.1,0.8l0,0L8.6,9.8C8.5,9.9,8.4,10,8.3,10c-0.2,0.1-0.5,0.1-0.7-0.1l0,0 L5.4,7.7c-0.2-0.2-0.2-0.6,0-0.8c0.2-0.2,0.6-0.2,0.8,0l0,0L8,8.6l3.8-4.5C12,3.9,12.4,3.9,12.7,4.1z'/%3E%3C/svg%3E\") no-repeat right center/30px 14px!important}";
+  var LINK_CSS = "a[href*=\"cookie-settings\"],a[href*=\"cookie-settings\"]:hover,a[href*=\"cookie-settings\"]:active,a[href*=\"cookie-settings\"]:focus{padding:0 36px 0 0!important;background:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 14'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' fill='%23FFFFFF' d='M7.4,12.8h6.8l3.1-11.6H7.4C4.2,1.2,1.6,3.8,1.6,7S4.2,12.8,7.4,12.8z'/%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' fill='%230066FF' d='M22.6,0H7.4c-3.9,0-7,3.1-7,7s3.1,7,7,7h15.2c3.9,0,7-3.1,7-7S26.4,0,22.6,0z M1.6,7c0-3.2,2.6-5.8,5.8-5.8 h9.9l-3.1,11.6H7.4C4.2,12.8,1.6,10.2,1.6,7z'/%3E%3Cpath fill='%23FFFFFF' d='M24.6,4c0.2,0.2,0.2,0.6,0,0.8l0,0L22.5,7l2.2,2.2c0.2,0.2,0.2,0.6,0,0.8c-0.2,0.2-0.6,0.2-0.8,0 l0,0l-2.2-2.2L19.5,10c-0.2,0.2-0.6,0.2-0.8,0c-0.2-0.2-0.2-0.6,0-0.8l0,0L20.8,7l-2.2-2.2c-0.2-0.2-0.2-0.6,0-0.8 c0.2-0.2,0.6-0.2,0.8,0l0,0l2.2,2.2L23.8,4C24,3.8,24.4,3.8,24.6,4z'/%3E%3Cpath fill='%230066FF' d='M12.7,4.1c0.2,0.2,0.3,0.6,0.1,0.8l0,0L8.6,9.8C8.5,9.9,8.4,10,8.3,10c-0.2,0.1-0.5,0.1-0.7-0.1l0,0 L5.4,7.7c-0.2-0.2-0.2-0.6,0-0.8c0.2-0.2,0.6-0.2,0.8,0l0,0L8,8.6l3.8-4.5C12,3.9,12.4,3.9,12.7,4.1z'/%3E%3C/svg%3E\") no-repeat right center/30px 14px!important}";
   function boot() {
     var ls = el("style"); ls.id = "rc-link-css"; ls.textContent = LINK_CSS; d.head.appendChild(ls);
-    if (location.hash === "#cookie-settings") open(true, true);
+    if (location.hash === "#cookie-settings" || /[?&]cookie-settings(=|&|$)/.test(location.search)) open(true, true);
     else if (mustAsk && !saved) setTimeout(function () { open(false, false); }, 800);
   }
   if (d.readyState === "loading") d.addEventListener("DOMContentLoaded", boot); else boot();
