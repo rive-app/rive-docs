@@ -10,7 +10,7 @@
 (function () {
   var KEY = "rive_consent", FLAG = "rive_analytics", VERSION = 1, DAYS = 365, now = Date.now();
   var w = window, d = document;
-  var DOCS = /^\/docs(\/|$)/.test(location.pathname) || /\.mintlify\.(app|dev)$/.test(location.hostname);
+  var DOCS = /^\/docs(\/|$)/.test(location.pathname) || /\.mintlify\.(app|dev|site)$/.test(location.hostname);
 
   function optInRegion() {
     try {
