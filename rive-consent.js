@@ -130,16 +130,18 @@
     var c = read(); if (!c) return;
     saved = c;
     var revoked = (state.analytics && !c.analytics) || (state.marketing && !c.marketing);
+    var newlyAnalytics = !state.analytics && !!c.analytics;
     state = { analytics: !!c.analytics, marketing: !!c.marketing && !gpc };
     w.gtag("consent", "update", gmode(state));
     if (box) close();
     if (revoked && (loaded.analytics || loaded.marketing || !SITE)) { location.reload(); return; }
+    if (!SITE && newlyAnalytics) { location.reload(); return; }
     apply();
   });
 
   /* Banner */
   var CSS = ""
-    + ".rc{position:fixed;right:20px;bottom:20px;z-index:2147483000;width:360px;max-width:calc(100vw - 24px);box-sizing:border-box;padding:20px;background:#0e0e0e;border:1px solid rgba(255,255,255,.12);color:#fff;font:14px/1.45em Inter,\"Inter Placeholder\",sans-serif;-webkit-font-smoothing:antialiased;opacity:0;transform:translateY(8px);transition:opacity .3s ease,transform .3s ease}"
+    + ".rc{position:fixed;right:20px;bottom:20px;z-index:2147483000;width:360px;max-width:calc(100vw - 24px);box-sizing:border-box;padding:20px;background:#0e0e0e;border:1px solid rgba(255,255,255,.12);color:#fff;font:14px/1.45em Inter,\"Inter Placeholder\",sans-serif;-webkit-font-smoothing:antialiased;max-height:calc(100vh - 40px);overflow-y:auto;overscroll-behavior:contain;opacity:0;transform:translateY(8px);transition:opacity .3s ease,transform .3s ease}"
     + ".rc.on{opacity:1;transform:none}"
     + ".rc *{box-sizing:border-box}"
     + ".rc-eye{margin:0 0 10px;font-weight:500;font-size:12px;line-height:1.2em;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.8)}"
@@ -165,13 +167,17 @@
     + ".rc-t:hover{border-color:#fff}"
     + ".rc-t[aria-disabled=true]{opacity:.4;cursor:default}"
     + ".rc-t[aria-disabled=true]:hover{border-color:rgba(255,255,255,.45)}"
-    + "@media (max-width:640px){.rc{left:12px;right:12px;bottom:12px;width:auto;max-width:none}}"
+    + "@media (max-width:640px){.rc{left:12px;right:12px;bottom:12px;width:auto;max-width:none;max-height:calc(100vh - 24px)}}"
     + "@media (prefers-reduced-motion:reduce){.rc,.rc-t,.rc-t::after{transition:none}}";
 
-  var box = null, choice = null;
+  var box = null, choice = null, opener = null;
   function el(tag, cls, text) { var e = d.createElement(tag); if (cls) e.className = cls; if (text) e.textContent = text; return e; }
   function btn(label, cls, fn) { var b = el("button", "rc-b" + (cls ? " " + cls : ""), label); b.type = "button"; b.addEventListener("click", fn); return b; }
-  function close() { if (!box) return; var b = box; box = null; b.classList.remove("on"); setTimeout(function () { b.remove(); }, 300); }
+  function close() {
+    if (!box) return; var b = box; box = null; b.classList.remove("on"); setTimeout(function () { b.remove(); }, 300);
+    var o = opener; opener = null;
+    if (o && d.contains(o) && b.contains(d.activeElement)) try { o.focus(); } catch (e) {}
+  }
   function done(s) { save(s); close(); }
 
   function render(detail) {
@@ -224,7 +230,10 @@
       render(detail);
       requestAnimationFrame(function () { requestAnimationFrame(function () { if (box) box.classList.add("on"); }); });
     } else render(detail);
-    if (focus) { var f = box.querySelector(detail ? ".rc-t" : ".rc-b"); if (f) f.focus(); }
+    if (focus) {
+      if (!opener && d.activeElement && d.activeElement !== d.body && !box.contains(d.activeElement)) opener = d.activeElement;
+      var f = box.querySelector(detail ? ".rc-t" : ".rc-b"); if (f) f.focus();
+    }
   }
 
   w.riveConsent = { get: function () { return { analytics: state.analytics, marketing: state.marketing }; }, open: function () { open(true, true); }, set: function (s) { done(s); } };
