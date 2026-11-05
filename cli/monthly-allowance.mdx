@@ -89,9 +89,9 @@ upgrade, and exits with code `9`:
 Monthly CLI allowance used up in your personal workspace: {{cliAllowanceFree}} of {{cliAllowanceFree}} publishes and pushes. Resets Dec 1, 2026 (UTC). Upgrade: https://rive.app/pricing
 ```
 
-The message names the Workspace the action counted against. If it says your personal
-Workspace but you meant to use a team's allowance, bind the project to a file in that
-team's Workspace with `push.fileId`.
+The message names the Workspace the action counted against. If it names your personal
+Workspace but you meant to use another Workspace's allowance, bind the project to a
+file in that Workspace with `push.fileId`.
 
 With `--publish --format=json`, the message is in `errors`. The same answer is also in
 the `allowance` field, with `code`, `message`, `scope`, `limit`, `used`, `resetsAt`, and
