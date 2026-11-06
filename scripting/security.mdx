@@ -229,9 +229,11 @@ Once script fetch is on, the runtime checks every request against these rules:
 
 - `https:` URLs only, to host names. No IP addresses, no `localhost`, no one-word names, and no names that end in `.local`, `.internal`, `.lan`, `.localdomain`, or `.home.arpa`.
 - No requests to Rive's own servers.
-- No cookies, saved credentials, or cache. Scripts can't set headers such as `Cookie`, `Host`, `Origin`, or `Referer`.
-- Up to 8 requests at a time per file, and more wait their turn. Request bodies can be up to 8 MiB, and responses up to 16 MiB by default. Requests time out after 30 seconds by default, and after 60 seconds at most.
-- Redirects pass the same checks. On the web, requests don't follow redirects.
+- No cookies, saved credentials, or cache. Scripts can't set headers such as `Cookie`, `Host`, `Origin`, or `Referer`. A script can send its own `Authorization` header.
+- Up to 8 requests at a time per file, and more wait their turn. A file with both AnimaScript and Luau scripts gets 8 for each. Request bodies can be up to 8 MiB, and responses up to 16 MiB by default. Requests time out after 30 seconds by default, and after 60 seconds at most.
+- Outside the browser, requests follow redirects, and every hop passes these rules. On the web, a redirect fails the request.
+
+The host rules look only at the name. On Windows, the Rive CLI also refuses a name that points to a local or private address. On macOS it doesn't check the address yet, and on the web that check is up to the browser.
 
 <Warning>
   Script fetch covers every file your app loads. Once it's on, any script can send what it reads to the hosts it can reach, including View Model data your app binds and text typed into its Text Inputs. Turn it on only if you trust every file your app loads, and allow only the hosts those files need.
@@ -239,9 +241,9 @@ Once script fetch is on, the runtime checks every request against these rules:
 
 On the web:
 
-- `allowedHosts` lists the hosts scripts can reach. If you leave it out, scripts can reach every host. Your page's own host works only when you name it.
+- `allowedHosts` lists the hosts scripts can reach. If you leave it out, scripts can reach every host. Your page's own host works only when you list it by its exact name, since `"*"` doesn't include it.
 - The browser applies its usual cross-origin rules, so a server answers only if it accepts the request's origin.
-- Without `proxyUrl`, requests leave from your page, so servers that accept your site's origin answer them. To keep script requests apart from your site, host the [reference proxy page](https://github.com/rive-app/rive-wasm/tree/master/js/examples/script_fetch_proxy) on a separate domain and pass its address as `proxyUrl`. A proxy page you change sets its own rules for cookies, cache, and redirects.
+- Without `proxyUrl`, requests leave from your page, so servers that trust your site's origin answer them, including your own APIs. To keep script requests apart from your site, host the [reference proxy page](https://github.com/rive-app/rive-wasm/tree/master/js/examples/script_fetch_proxy) on a separate domain and pass its address as `proxyUrl`. A proxy page you change sets its own rules for cookies, cache, and redirects.
 
 <Info>
   The request rules are part of the open-source runtime. See [net_policy.cpp](https://github.com/rive-app/rive-runtime/blob/main/src/scriptnet/net_policy.cpp).
@@ -249,7 +251,7 @@ On the web:
 
 #### Files that scripts decode
 
-On runtimes that support script fetch, a script can turn bytes into a Rive file with `decodeFile` and show that file's artboards in the Rive view. The bytes can come from a download or from data inside the script, so `decodeFile` works even when script fetch is off.
+A script can turn bytes into a Rive file with `decodeFile` and show that file's artboards in the Rive view. `decodeFile` comes with every runtime build that supports script fetch, so it works even while script fetch is off. The bytes can come from a download, or from data inside the script.
 
 A decoded file runs its scripts in a sandbox of its own, under the same rules as any other file. Its Luau scripts run only with a valid Rive signature, even in the Rive Editor and the Rive CLI. Its AnimaScript modules need no signature, as in any file. It loads only the assets stored inside it, so it never downloads Hosted assets.
 
