@@ -38,6 +38,8 @@ Converters can be used individually or combined into [groups](#converter-groups)
 Each converter has its own set of properties, many of which can be bound to other View Model properties.
 This allows converter behavior to update dynamically. For example, you could bind the maximum value of a range map, a multiplier in a formula, or the padding amount in a string converter.
 
+A bind on a converter's property can use a converter of its own, nested as deep as you need. Choose it in the **Convert** row of the data binding popup, the same as for any other bind. For example, a Formula can read an enum through **Convert to Number**, so a value like "visible when skin A or skin B is on" comes straight from a View Model.
+
 
 | Category | Converter                | Description                               |
 |----------|--------------------------|-------------------------------------------|

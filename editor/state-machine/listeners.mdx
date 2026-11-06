@@ -114,7 +114,7 @@ The **Focus Target** action moves focus to a specific element, and **Focus Trave
 
 ### Keyboard
 
-To react to keys, add a **Keyboard** listener and choose **On Key Down** or **On Key Up**. Keys go to the element that has focus.
+To react to keys, add a **Keyboard** listener and choose **On Key Down**, **On Key Repeat**, or **On Key Up**. Keys go to the element that has focus.
 
 To try keyboard input in the editor, press **Option+Space** to play with keyboard capture on, or click **Toggle Keyboard Capture** in the playback header. This lets keys reach your file instead of triggering editor shortcuts.
 
@@ -137,6 +137,17 @@ Use the **Text Input** section of the Inspector to set the field's font, colors,
 The **Semantic** section of the Inspector gives an element a role, such as button, checkbox, slider, or text, plus its traits and state. This helps screen readers read and navigate your file.
 
 Use **Semantic Tap**, **Semantic Increase**, and **Semantic Decrease** listeners to respond to screen reader actions. See [Semantics](/editor/accessibility/semantics#actions) for details on configuring semantic actions.
+
+## Phase
+
+**Phase** controls when a listener runs compared to the elements inside its target.
+
+- **Normal:** The listener runs in the usual order, after the elements inside its target have had a chance to handle the input.
+- **Capture:** The listener runs before anything inside its target, including a component's own listeners and built-in behavior like typing in a [Text Input](/editor/text/text-input).
+
+A capture listener for a specific key and modifiers takes that key, so nothing inside the target receives it. A capture listener for a pointer press takes the whole press, until the pointer is released.
+
+Use **Capture** to override keys or clicks on a component you can't edit.
 
 ## Listener actions
 
