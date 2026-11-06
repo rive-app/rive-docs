@@ -706,6 +706,41 @@ Configures a fallback WASM URL to try if the primary URL fails to load. Defaults
 
 Supply the WASM binary as an in-memory `ArrayBuffer` instead of fetching it from a URL — useful for environments without network access or for bundling WASM inline. When supplied, this is used instead of fetching from the primary URL. Pass `null` to clear.
 
+#### `setScriptFetch()` / `getScriptFetch()`
+
+`static setScriptFetch(options: ScriptFetchOptions | boolean): void`
+`static getScriptFetch(): ScriptFetchOptions | null`
+
+Lets scripts in Rive files call `fetch()`. Script fetch is off by default. Pass `true` or an options object to turn it on for every file on the page, or `false` to turn it off. Each call replaces the previous options, and any option you leave out goes back to its default. `getScriptFetch()` returns the options you last set, or `null` if you never turned script fetch on or last passed `false`.
+
+<Note>
+  Script fetch is available in `@rive-app/webgl2-threads`, on a [cross-origin isolated](https://developer.mozilla.org/en-US/docs/Web/API/Window/crossOriginIsolated) page where its threaded build loads. On other pages and packages, script fetch stays off, and the runtime logs a warning once. Script fetch is coming soon to every Rive runtime.
+</Note>
+
+| Option | Description | Default |
+|---|---|---|
+| `allowedHosts` | Hosts scripts can fetch from: an exact host (`"api.example.com"`), any subdomain (`"*.example.com"`, which doesn't match `example.com`), or any host (`"*"`). An empty array allows none. Your page's own host works only when listed by its exact name, since `"*"` doesn't include it. | Every host |
+| `proxyUrl` | Address of a proxy page on a separate domain with no cookies, set up to accept your page's origin. The runtime loads it in a hidden iframe, and requests leave from the proxy's origin instead of your page's. See the [reference proxy page](https://github.com/rive-app/rive-wasm/tree/master/js/examples/script_fetch_proxy). | None |
+| `maxRequestsPerMinute` | Requests each file's scripts can start per minute, counted separately for AnimaScript and Luau scripts. Requests past the limit wait their turn. `0` means no limit. | `60` |
+| `maxResponseBytes` | Largest response body, in bytes, up to 64 MiB. `0` keeps the default. | 16 MiB |
+
+Requests never carry the browser's cookies or saved credentials, a referrer, or the HTTP cache, and redirects fail. A proxy page you change sets these rules itself. Either way, the runtime allows only `https:` URLs to host names (no IP addresses or local names), and checks the URL each response came from against `allowedHosts`. Scripts can still send their own `Authorization` header.
+
+```typescript
+import { RuntimeLoader } from "@rive-app/webgl2-threads";
+
+// Scripts can fetch only from api.example.com.
+RuntimeLoader.setScriptFetch({ allowedHosts: ["api.example.com"] });
+
+// Later: raise the response limit and keep the other options.
+RuntimeLoader.setScriptFetch({
+  ...RuntimeLoader.getScriptFetch(),
+  maxResponseBytes: 32 * 1024 * 1024,
+});
+```
+
+See [Scripting Security](/scripting/security#script-fetch) for what scripts can do once script fetch is on.
+
 ---
 
 ### `RiveFont`
