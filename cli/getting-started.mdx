@@ -38,6 +38,21 @@ Install the Rive CLI, create a project, and open the live preview. By the end of
         Homebrew install with `brew` instead, using `brew upgrade` and
         `brew uninstall --cask rive-cli`.
       </Tab>
+      <Tab title="AUR">
+        <Info>
+        The `rive-cli-bin` AUR (Arch User Repository) package is unofficial and
+        community maintained. Use at your own discretion.
+        </Info>
+
+        ```bash
+        yay -S rive-cli-bin
+        ```
+
+        `rive update`, `rive switch` and `rive uninstall` need the installer build
+        under `~/.rive`, so they do not work with an AUR/Pacman install. Manage an
+        AUR/Pacman install with your AUR helper (i.e. `yay`) instead, using
+        `yay -Syu` and `yay -Rnscd rive-cli-bin`.
+      </Tab>
     </Tabs>
 
     Run `rive doctor` to check your install.
