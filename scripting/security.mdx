@@ -4,7 +4,7 @@ sidebarTitle: "Security"
 description: "How Rive keeps the scripts and shaders in your files sandboxed, and how to ship those files safely."
 ---
 
-Rive files can include code: [AnimaScript](https://rive.app/rasc/index.html) and Luau scripts, and WGSL shaders. Rive runtimes treat that code as untrusted. It runs in a sandbox and can only do what Rive allows, so it can't reach the network, the device's files, or the rest of your app.
+Rive files can include code: [AnimaScript](https://rive.app/rasc/index.html) and Luau scripts, and WGSL shaders. Rive runtimes treat that code as untrusted. It runs in a sandbox and can only do what Rive allows. It can't reach the device's files or the rest of your app, and it reaches the network only if your app turns on [script fetch](#script-fetch).
 
 <Note>
   AnimaScript is the recommended language for new scripts. Luau is deprecated: Luau scripts keep running on every Rive runtime, but new scripting features land in AnimaScript. This page covers both.
@@ -14,21 +14,23 @@ Rive files can include code: [AnimaScript](https://rive.app/rasc/index.html) and
 
 | Question | Answer |
 |---|---|
-| Can a script send data out of the app? | **No.** Rive runtimes give scripts no access to the network, files, or other apps. A script can pass data only to your own code, through View Models and events. See [What code in a file can do](#what-code-in-a-file-can-do). |
-| Can a file make the runtime send network requests? | **Only to download Hosted assets**, on runtimes that do this by default. Scripts cannot add data to these requests, and you can turn the download off. See [Hosted assets](#hosted-assets). |
-| What can a script read? | The View Model data your app binds to its file, the input that reaches the Rive view, and the current time. See [Recommendations for apps that handle sensitive data](#recommendations-for-apps-that-handle-sensitive-data). |
+| Can a script send data out of the app? | **Only if your app turns on [script fetch](#script-fetch).** Script fetch is off by default. While it's off, a script can pass data only to your own code, through View Models and events. Once your app turns it on, scripts can send what they read to the hosts you allow. See [What code in a file can do](#what-code-in-a-file-can-do). |
+| Can a file make the runtime send network requests? | **Only for Hosted assets and script fetch.** Some runtimes download Hosted assets by default, and you can turn that off. Scripts can't add data to those downloads. Script fetch sends requests only after your app turns it on. See [Network requests, URLs, and navigation](#network-requests-urls-and-navigation). |
+| Can we keep scripts off the network? | **Yes.** Script fetch is off until your app turns it on. If you turn it on, allow only the hosts your files need. See [Script fetch](#script-fetch). |
+| Which runtimes support script fetch? | The web runtime (`@rive-app/webgl2-threads`) and the Rive CLI, today. Script fetch is coming soon to every Rive runtime. See [Script fetch](#script-fetch). |
+| What can a script read? | The View Model data your app binds to its file, the input that reaches the Rive view, and the current time. With script fetch on, it can also read the responses from the hosts you allow. See [Recommendations for apps that handle sensitive data](#recommendations-for-apps-that-handle-sensitive-data). |
 | Can a file open a URL? | **Not by default.** Apple and Android runtimes do not open URLs from a file, and the web runtime does so only if you turn it on. See [Open URL events](#open-url-events). |
 | Can a file navigate the app? | **No.** Your code decides what to do with events and View Model values. See [Navigation](#navigation). |
 | Is the code in a file signed? | Luau scripts and shaders are signed, and runtimes refuse them without a valid signature. AnimaScript needs no signature, because the WebAssembly sandbox checks and contains every module. See [What signing guarantees](#what-signing-guarantees). |
 | What does a signature prove? | That Rive's compilers produced the code, and that nobody edited it afterward. It does not prove that the code is yours. Anyone can export signed code from their own Rive account. See [What a signature does not prove](#what-a-signature-does-not-prove). |
 | Does the signature cover the whole file? | **Not today.** It covers compiled Luau scripts and shaders only. [Whole-file signing](#whole-file-signing) is coming soon. |
-| Can the runtime accept only our files? | **Not today.** Check each file in your app before you load it. See [Protecting files between design and release](#protecting-files-between-design-and-release) and [Whole-file signing](#whole-file-signing). |
+| Can the runtime accept only our files? | **Not today.** Check each file in your app before you load it. On runtimes that support script fetch, scripts can also load Rive files that your app never sees. See [Protecting files between design and release](#protecting-files-between-design-and-release), [Files that scripts decode](#files-that-scripts-decode), and [Whole-file signing](#whole-file-signing). |
 | Can we turn off scripting? | **Yes**, by using a runtime build without scripting. There is no setting for a single file. See [Turning off scripting](#turning-off-scripting). |
 
 ## How Rive approaches script security
 
 - **The sandbox is the safety boundary.** Rive does not depend on trusting the person who made a file. Code in a file runs inside a sandbox that limits what it can reach, so even a harmful script cannot reach anything Rive doesn't allow.
-- **Scripts start with nothing.** Rive adds each ability on purpose, as an API it controls: drawing, View Models, input, audio, and the objects in the script's own file. A script cannot use anything Rive did not give it.
+- **Scripts start with nothing.** Rive adds each ability on purpose, as an API it controls: drawing, View Models, input, audio, and the objects in the script's own file. Network requests come only through script fetch, which your app turns on. A script can't use anything Rive didn't give it.
 - **Signing proves where code came from, not that it is safe.** Rive requires a signature only where the engine cannot check code itself: Luau bytecode and compiled shaders. Rive compiles that code on its own servers, so it signs only code it produced. AnimaScript needs no signature, because the WebAssembly sandbox checks and contains every module.
 - **A script that breaks the rules stops with an error.** Your app keeps running. Time limits stop most script calls that run too long, but not all of them, and a script can still use enough CPU, GPU, or memory to slow or freeze your app. See [Time limits](#time-limits) for what each limit covers.
 - **Your app decides.** A file cannot act on your app directly. It can only hand values to your code, and your code decides what to do with them.
@@ -45,16 +47,16 @@ A file can:
 - Read and change the View Model data your app binds to it.
 - Report events to your app.
 
-Scripts add logic to these abilities. A script can also read the current time, print messages to the debug console, and draw with [GPU Canvas shaders](/scripting/wgsl-shaders). AnimaScript scripts can also run jobs and workers, on background threads where the runtime supports them.
+Scripts add logic to these abilities. A script can also read the current time, print messages to the debug console, and draw with [GPU Canvas shaders](/scripting/wgsl-shaders). AnimaScript scripts can also run jobs and workers, on background threads where the runtime supports them. If your app turns on [script fetch](#script-fetch), scripts can also send HTTPS requests to the hosts you allow and read the responses.
 
 Neither a file nor its scripts can:
 
-- Make network requests. The one exception, downloading **Hosted** assets, is done by the runtime, and your app controls it. See [Hosted assets](#hosted-assets).
+- Make network requests, unless your app turns on [script fetch](#script-fetch). Downloads of **Hosted** assets come from the runtime, and your app controls them. See [Hosted assets](#hosted-assets).
 - Read or write files on the device.
 - Read device data such as location, contacts, photos, camera, microphone, or clipboard.
 - Read app data that you have not bound to the file.
 - Reach other Rive files your app has loaded. Each file runs its scripts in its own environment.
-- Load code from outside the file, or create new code while it runs.
+- Load code from outside the file, or create new code while it runs. The exception is `decodeFile`, on runtimes that support script fetch. See [Files that scripts decode](#files-that-scripts-decode).
 - Navigate your app.
 - Open URLs, unless you turn it on. Only the web runtime can do this, using the deprecated `automaticallyHandleEvents` option. See [Open URL events](#open-url-events).
 
@@ -211,9 +213,47 @@ To get a file's hash, run `shasum -a 256 your-file.riv` on macOS, or `sha256sum 
 
 ## Network requests, URLs, and navigation
 
-### Scripts
+### Script fetch
 
-No Rive runtime gives scripts network access.
+Script fetch lets AnimaScript and Luau scripts call `fetch()` to send HTTPS requests and read the responses, for example to load live data or download another Rive file. It's off until your app turns it on, and nothing in a file can turn it on.
+
+Script fetch is available today in the web runtime and the Rive CLI. It's coming soon to every Rive runtime.
+
+| Runtime | How to turn it on |
+|---|---|
+| Web | Call [`RuntimeLoader.setScriptFetch()`](/runtimes/web/rive-parameters#runtimeloader). It's experimental, and only [`@rive-app/webgl2-threads`](https://www.npmjs.com/package/@rive-app/webgl2-threads) has it, on a [cross-origin isolated](https://developer.mozilla.org/en-US/docs/Web/API/Window/crossOriginIsolated) page. |
+| Rive CLI | Pass [`--allow-net`](/cli/reference/commands#other). It works on macOS and Windows. |
+| Apple, Android, and other runtimes | Coming soon |
+
+Once script fetch is on, the runtime checks every request against these rules:
+
+- `https:` URLs only, to host names. No IP addresses, no `localhost`, no one-word names, and no names that end in `.local`, `.internal`, `.lan`, `.localdomain`, or `.home.arpa`.
+- No requests to Rive's own servers.
+- No cookies, saved credentials, or cache. Scripts can't set headers such as `Cookie`, `Host`, `Origin`, or `Referer`.
+- Up to 8 requests at a time per file, and more wait their turn. Request bodies can be up to 8 MiB, and responses up to 16 MiB by default. Requests time out after 30 seconds by default, and after 60 seconds at most.
+- Redirects pass the same checks. On the web, requests don't follow redirects.
+
+<Warning>
+  Script fetch covers every file your app loads. Once it's on, any script can send what it reads to the hosts it can reach, including View Model data your app binds and text typed into its Text Inputs. Turn it on only if you trust every file your app loads, and allow only the hosts those files need.
+</Warning>
+
+On the web:
+
+- `allowedHosts` lists the hosts scripts can reach. If you leave it out, scripts can reach every host. Your page's own host works only when you name it.
+- The browser applies its usual cross-origin rules, so a server answers only if it accepts the request's origin.
+- Without `proxyUrl`, requests leave from your page, so servers that accept your site's origin answer them. To keep script requests apart from your site, host the [reference proxy page](https://github.com/rive-app/rive-wasm/tree/master/js/examples/script_fetch_proxy) on a separate domain and pass its address as `proxyUrl`. A proxy page you change sets its own rules for cookies, cache, and redirects.
+
+<Info>
+  The request rules are part of the open-source runtime. See [net_policy.cpp](https://github.com/rive-app/rive-runtime/blob/main/src/scriptnet/net_policy.cpp).
+</Info>
+
+#### Files that scripts decode
+
+On runtimes that support script fetch, a script can turn bytes into a Rive file with `decodeFile` and show that file's artboards in the Rive view. The bytes can come from a download or from data inside the script, so `decodeFile` works even when script fetch is off.
+
+A decoded file runs its scripts in a sandbox of its own, under the same rules as any other file. Its Luau scripts run only with a valid Rive signature, even in the Rive Editor and the Rive CLI. Its AnimaScript modules need no signature, as in any file. It loads only the assets stored inside it, so it never downloads Hosted assets.
+
+Your app never sees these files, so the checks in [Files your app downloads](#files-your-app-downloads) can't cover them. To limit where downloaded files come from, limit the hosts that script fetch can reach.
 
 ### Hosted assets
 
@@ -254,7 +294,7 @@ Rive runtimes have no setting to turn off scripts for one file or for the whole 
 3. **Use native text fields for secrets.** Scripts can read what users type into a [Text Input](/editor/text/text-input) in their file.
 4. **Keep secrets out of files.** A .riv file is not encrypted. Anyone who has the file can inspect its contents, including compiled scripts and any text in them.
 5. **Treat what a file sends back as untrusted input.** Check events and View Model values before you act on them. For URLs and screens, accept only values from a list you define.
-6. **Turn off what you don't use.** If you don't use Hosted assets, turn off their download. Leave `automaticallyHandleEvents` off on the web. If your files have no scripts, use a runtime without scripting.
+6. **Turn off what you don't use.** If you don't use Hosted assets, turn off their download. Leave script fetch off unless your files need it, and allow only the hosts they need. Leave `automaticallyHandleEvents` off on the web. If your files have no scripts, use a runtime without scripting.
 7. **Ask for fuel checks on the web.** If your web app plays AnimaScript files from outside your team, ask for files built with `wasmFuel: true`, so the browser can stop a runaway script. Don't ship files built with `dangerouslyFast` unless you trust their source.
 8. **Keep your Rive runtime up to date** to get security fixes.
 
