@@ -242,7 +242,7 @@ The host rules look only at the name. On Windows, the Rive CLI also refuses a na
 On the web:
 
 - `allowedHosts` lists the hosts scripts can reach. If you leave it out, scripts can reach every host. Your page's own host works only when you list it by its exact name, since `"*"` doesn't include it.
-- The browser applies its usual cross-origin rules, so a server answers only if it accepts the request's origin.
+- The browser's cross-origin rules decide whether a script can read the response. A simple request still reaches the server either way, so use `allowedHosts` to limit where requests go.
 - Without `proxyUrl`, requests leave from your page, so servers that trust your site's origin answer them, including your own APIs. To keep script requests apart from your site, host the [reference proxy page](https://github.com/rive-app/rive-wasm/tree/master/js/examples/script_fetch_proxy) on a separate domain and pass its address as `proxyUrl`. A proxy page you change sets its own rules for cookies, cache, and redirects.
 
 <Info>

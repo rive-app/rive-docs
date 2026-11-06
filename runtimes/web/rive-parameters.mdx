@@ -724,7 +724,7 @@ Lets scripts in Rive files call `fetch()`. Script fetch is off by default. Pass 
 | `maxRequestsPerMinute` | Requests each file's scripts can start per minute, counted separately for AnimaScript and Luau scripts. Requests past the limit wait their turn. `0` means no limit. | `60` |
 | `maxResponseBytes` | Largest response body, in bytes, up to 64 MiB. `0` keeps the default. | 16 MiB |
 
-Requests never carry cookies or other credentials, a referrer, or the HTTP cache, and redirects fail. A proxy page you change sets these rules itself. Either way, the runtime allows only `https:` URLs to host names (no IP addresses or local names), and checks the URL each response came from against `allowedHosts`.
+Requests never carry the browser's cookies or saved credentials, a referrer, or the HTTP cache, and redirects fail. A proxy page you change sets these rules itself. Either way, the runtime allows only `https:` URLs to host names (no IP addresses or local names), and checks the URL each response came from against `allowedHosts`. Scripts can still send their own `Authorization` header.
 
 ```typescript
 import { RuntimeLoader } from "@rive-app/webgl2-threads";
