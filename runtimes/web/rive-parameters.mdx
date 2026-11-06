@@ -714,7 +714,7 @@ Supply the WASM binary as an in-memory `ArrayBuffer` instead of fetching it from
 Lets scripts in Rive files call `fetch()`. Script fetch is off by default. Pass `true` or an options object to turn it on for every file on the page, or `false` to turn it off. Each call replaces the previous options, and any option you leave out goes back to its default. `getScriptFetch()` returns the options you last set, or `null` if you never turned script fetch on or last passed `false`.
 
 <Note>
-  Script fetch is experimental. Only `@rive-app/webgl2-threads` has it, on a [cross-origin isolated](https://developer.mozilla.org/en-US/docs/Web/API/Window/crossOriginIsolated) page where its threaded build loads. Anywhere else, script fetch stays off, and the runtime logs a warning once.
+  Script fetch is available in `@rive-app/webgl2-threads`, on a [cross-origin isolated](https://developer.mozilla.org/en-US/docs/Web/API/Window/crossOriginIsolated) page where its threaded build loads. On other pages and packages, script fetch stays off, and the runtime logs a warning once. Script fetch is coming soon to every Rive runtime.
 </Note>
 
 | Option | Description | Default |
