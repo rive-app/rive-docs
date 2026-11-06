@@ -31,7 +31,7 @@ The best use for Inputs is quick, prototype interactions that you don't plan to 
 
 To create a new Input, use the plus button in the input panel. After hitting the plus button, you’ll be prompted to select the type of input you want to create. There are three types of inputs; booleans, triggers, and numbers.
 
-![Image](https://ucarecdn.com/11d24273-9c87-4adb-963a-fd45f8e667b6/)
+![Clicking the plus button in the Inputs panel to choose a Boolean, Trigger, or Number input](/images/editor/state-machine/create-input-menu.gif)
 
 ## Input types
 
@@ -41,19 +41,19 @@ We can use three types of inputs depending on the situation and type of interact
 
 A boolean can hold either a true or false value.
 
-![Boolean for a switch](https://ucarecdn.com/4886ec99-ad57-4ae7-9709-5f028c6cbaab/)
+![Toggling a Boolean input to switch a smiley toggle between its on and off states in the State Machine](/images/editor/state-machine/boolean-input-switch.gif)
 
 ### Trigger
 
 Triggers are similar to booleans, but can only become true for a short time.
 
-![Trigger for attack animation](https://ucarecdn.com/29401ecd-875b-4925-bb1e-b48518786c42/)
+![Firing an attack Trigger input to play a character attack animation from the State Machine](/images/editor/state-machine/trigger-input-attack.gif)
 
 ### Number
 
 A number input give you a number box that can be any integer.
 
-![Number input for rating animation](https://ucarecdn.com/dbd19760-02e4-4d37-a3a8-627ce8e0b65c/)
+![Changing a rating Number input to fill in a row of chili pepper icons through Any State transitions](/images/editor/state-machine/number-input-rating.gif)
 
 ## Exposing inputs and events
 
@@ -63,7 +63,7 @@ Expose the Inputs and/or Events of a Component to control them from a parent/hos
 
 Exposing an Input allows the parent artboard to access and manipulate it. To do this, select the desired input, then check the expose to main artboard option in the inspector.
 
-![Image](https://ucarecdn.com/251b0247-ae05-4f58-8858-8e7a21abd816/)
+![Selecting an input and checking Expose to Parent Artboard in the Inspector](/images/editor/state-machine/expose-input-to-parent-artboard.gif)
 
 After creating a Component, you’ll see any exposed inputs in the Inspector via the options panel and in the Inputs panel.
 
@@ -71,19 +71,19 @@ After creating a Component, you’ll see any exposed inputs in the Inspector via
 
 Exposed inputs can be found in the Inputs panel or in the inspector. You can use them through listeners, an event, or by keying them on a timeline.
 
-![Image](https://ucarecdn.com/ee1dd959-9fba-45c9-a74b-1173cd71e894/)
+![Exposed inputs from nested Component artboards listed in the parent artboard Inputs panel](/images/editor/state-machine/exposed-inputs-parent-artboard.gif)
 
 #### Via a listener
 
 When you create a listener, you’ll find all exposed Inputs as a set input property of a Listener. This option lets you, for example, change the boolean input of multiple artboards simultaneously.
 
-![Image](https://ucarecdn.com/2349fdd6-5a5a-434e-a1dc-3974e6f1e01c/)
+![Creating a Listener on the parent artboard that sets an exposed input on multiple Components](/images/editor/state-machine/listener-set-exposed-input.gif)
 
 #### Using events
 
 Additionally, we can use Listeners to listen for Events firing from our Component, and change inputs accordingly.
 
-![Image](https://ucarecdn.com/2b1ddae6-31c9-41be-969c-86a59b2206cd/)
+![Creating a Listener that targets a Component artboard and listens for its Event to change an input](/images/editor/state-machine/listener-component-event-input.gif)
 
 To see an Event associated with an Artboard, you’ll need to set the Artboard as a target of the Listener. The Event will now be listed as a listener action.
 

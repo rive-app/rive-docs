@@ -1,79 +1,127 @@
 ---
 title: "AI Agent"
-description: "Rive's AI agent helps you write code, design, and animate."
+description: "Use Rive's built-in AI agent to design, animate, and write code in your file from a prompt."
+keywords: ["ai", "agent", "ai agent", "credits", "top-up", "prompt"]
 ---
 
-<Note>The AI Agent is available with Cadet, Voyager, and Enterprise plans. [Learn more about our plans and pricing](https://rive.app/pricing?utm_source=docs&utm_medium=content).</Note>
+Rive's AI agent works inside the Editor, in the file you have open. Describe what you want, and it builds it: shapes, layouts, components, view models, animations, state machines, and scripts. You can watch each change on the stage as the agent makes it, then keep editing by hand or ask for more changes.
 
-Rive's AI agent helps you write code, design, and animate. Generate scripts, responsive layouts, data models, and even animation.
+<Note>
+  Every plan includes the agent. Free and Cadet plans have usage limits that refill over time. Voyager and Enterprise plans include monthly credits, more advanced models, and top-up credits. See [Plans and pricing](/account-admin/pricing).
+</Note>
 
-## Getting started
+## Opening the agent
 
-Open the **Agent panel** from the left sidebar and type a prompt describing what you want.
+Click the **Agent** tab in the left sidebar, or press `Cmd + 5` (macOS) or `Ctrl + 5` (Windows).
 
-**Example prompt:**
+![The Agent tab in the left sidebar, with the chat dropdown, the Panel Options button, and the New Chat button](/images/scripting/ai-agent-toolbar.png)
 
-> Create a script that draws a rounded rectangle.
-> Width, height, color, and corner radius should be inputs.
-> When the inputs change, the drawing should update.
+- **Chat dropdown**: Switch between your chats.
+- **+**: Start a new chat. Your other chats are kept.
+- **Panel Options** (**•••**): Close the current chat, close the other chats, clear all chats, or open the chat in the stage area.
 
-The Agent will respond with:
+### Opening the agent in the stage area
 
-- A summary of what it changed
-- Any new scripts it created
-- Explanations for how the script works
-- Suggestions for how to customize it
+For more room, open a chat as a tab in the stage area, next to your artboards:
 
-If a new script is generated, you’ll find it in your Assets panel.
+<Steps>
+  <Step>
+    In the Agent tab, click **Panel Options** (**•••**).
+  </Step>
+  <Step>
+    Choose **Open in Viewport**.
+  </Step>
+</Steps>
 
-## Toolbar
+The chat moves to a tab in the stage area, and the Agent tab in the sidebar closes.
 
-Use the AI Agent toolbar to manage your conversations:
+## Writing a prompt
 
-![AI Agent Toolbar](/images/scripting/ai-agent-toolbar.png)
+Type what you want in the prompt box at the bottom of the panel and press `Enter`. Be specific about what should change and how it should behave.
 
-- **New Chat** – Start a new chat thread without losing your past conversations
-- **Toggle Chats** – Go back to old chats
-- **Close Chat** – Close the chat without losing your history
+> Create a script that draws a rounded rectangle. Width, height, color, and corner radius should be inputs. When the inputs change, the drawing should update.
+
+The agent replies with a summary of what it changed, shows each step it took, and explains anything it created, such as a new script in the **Assets** panel.
+
+You can also attach an image to your prompt, such as a reference or a sketch. Not every model supports images.
+
+### Ask and Build
+
+Choose a mode below the prompt box:
+
+- **Build** designs, animates, and writes code in your file. It uses credits faster.
+- **Ask** answers questions about your file or about how to use Rive, without changing anything. It uses fewer credits.
+
+### Model and effort
+
+Choose the model and the effort level, **Small**, **Medium**, or **Large**, below the prompt box. Higher effort can handle bigger requests, but uses more credits. Advanced models are available on Voyager and Enterprise plans.
+
+On Voyager and Enterprise plans, admins can add your workspace's own API keys for select model providers, so usage is billed to your provider account instead of your Rive credits. Choose **API keys** from the model menu.
+
+## What the agent can do
+
+The agent works in the open file. It can:
+
+- **Design**: Create shapes, paths, and vector artwork, and import SVGs.
+- **Build layouts**: Create [layouts](/editor/layouts/layouts-overview) and [groups](/editor/fundamentals/groups).
+- **Use components**: Create and arrange [components](/editor/fundamentals/components).
+- **Rig**: Add [bones](/editor/manipulating-shapes/bones) and [meshes](/editor/manipulating-shapes/meshes).
+- **Animate**: Create timelines and keys, [state machines](/editor/state-machine/state-machine), and [listeners](/editor/state-machine/listeners).
+- **Bind data**: Create [view models](/editor/data-binding/overview), properties, and [property groups](/editor/data-binding/property-groups).
+- **Write code**: Create and edit [scripts](/scripting/getting-started) and [shaders](/scripting/wgsl-shaders), run tests, and read the console to fix errors.
+- **Manage assets and tags**: Work with the file's assets and [tags](/editor/tagging).
+- **Inspect the file**: Find objects and read their properties, so it can answer questions about the file.
+
+## Credits
+
+The agent is billed in AI credits, which are expressed in USD: \$1 in credits is \$1 of AI usage.
+
+Each paid seat adds monthly credits to your workspace:
+
+- **Voyager**: {{ monthlyCreditsVoyager }}/seat/month
+- **Enterprise**: {{ monthlyCreditsEnterprise }}/seat/month
+
+Credits are shared across the workspace:
+
+- Monthly credits reset each month and don't roll over.
+- Monthly credits are always used before top-up credits.
+- Top-up credits don't expire.
+
+When the workspace runs out of credits, the agent stops accepting new prompts until the monthly credits reset or an admin adds top-up credits. On Free and Cadet plans, usage refills over time instead.
+
+### Adding credits
+
+Workspace admins on Voyager and Enterprise plans can buy top-up credits.
+
+<Steps>
+  <Step>
+    On the **Home** tab, click the dropdown next to the workspace name and choose **Admin**.
+
+    You can also click **Usage** on the **Agent credits** card.
+  </Step>
+  <Step>
+    On the **Overview** tab, find the **Top-up credits** card and click **Purchase credits**.
+  </Step>
+  <Step>
+    Choose an amount and complete the purchase.
+  </Step>
+</Steps>
+
+The **Monthly credits** card next to it shows how much of this month's credits are left and when they reset.
 
 ## FAQ
 
- <AccordionGroup>
-	<Accordion title="How much does it cost?">
-    The AI Coding Agent is billed using AI credits, which are expressed in USD.
-
-    $1 in AI credits = $1 USD of AI usage
-
-    **What's included per paid seat (monthly AI credits)?**
-
-    Each paid seat adds monthly AI credits to your workspace:
-
-    - Voyager: {{ monthlyCreditsVoyager }}/seat/month in AI credits
-    - Enterprise: {{ monthlyCreditsEnterprise }}/seat/month in AI credits
-
-    **AI credit rules**
-
-    - Monthly AI credits reset each month and don’t roll over.
-    - AI credits are shared at the workspace level.
-    - Monthly credits are always consumed before top-up credits.
-    - AI credit top-ups don't expire
-  </Accordion>
-	<Accordion title="What happens when I hit my monthly limit?">
-    When your workspace runs out of available AI credits, the agent stops accepting new prompts until:
-
-    - Your monthly AI credits reset, or
-    - You add an AI credit top-up
-  </Accordion>
-	<Accordion title="Is my code or project data used to train the AI or any other LLMs?">
+<AccordionGroup>
+  <Accordion title="Is my code or project data used to train the AI or any other LLMs?">
     No. We have a Zero Data Retention policy active with our LLM provider. Neither we nor the provider use user data to train AI models.
   </Accordion>
-	<Accordion title="Can I disable the AI Coding Agent for my workspace?">
-    Admins on Enterprise workspaces can toggle the AI Coding Agent on or off for the entire workspace at any time.
+  <Accordion title="Can I disable the agent for my workspace?">
+    Admins on Enterprise workspaces can turn the agent on or off for the entire workspace at any time.
   </Accordion>
-	<Accordion title="Will the AI make mistakes?">
-    Yes. Like any AI system, the agent may occasionally generate incorrect or suboptimal code, but it will attempt to self-correct. Always review code generated by the AI Coding Agent.
+  <Accordion title="Will the AI make mistakes?">
+    Yes. Like any AI system, the agent can make incorrect or suboptimal changes, though it tries to check and correct its work. Always review what it creates, especially code.
   </Accordion>
-	<Accordion title="Can I provide feedback on the AI’s responses?">
+  <Accordion title="Can I provide feedback on the AI's responses?">
     Yes. Please send feedback to our [Community](https://community.rive.app/).
   </Accordion>
 </AccordionGroup>

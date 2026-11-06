@@ -1,40 +1,55 @@
 ---
-title: "Shapes and Paths Overview"
-description: "Rive allows you to create, edit, and animate vector graphics using either procedural or custom shapes. These graphics combine shape and path layers to define them, which Rive exposes to give you greater flexibility and control with your designs and animations."
+title: "Shapes and Paths"
+description: "How shapes and paths work together: shapes hold the fills and strokes, and paths define the geometry."
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
 
-To learn more about Shape and Path layers, watch our video on Shapes and Paths, or read more below.
+Every vector in Rive is made of two parts:
+
+- A **shape** decides how the vector looks. It holds the [fills and strokes](/editor/fundamentals/fill-and-stroke).
+- One or more **paths** inside the shape decide its geometry.
+
+The shape paints every path inside it, so all of its paths share the same fills and strokes. To give part of a drawing a different color, put that part in its own shape.
 
 <YouTube id="KunkCnbkTsg" />
 
-## Shape layer
+## Shapes
 
-![Shape Layer](/images/editor/fundamentals/shape-and-path-shapelayer.png)
+When you draw with a [Shape tool](/editor/fundamentals/procedural-shapes), the [Pen Tool](/editor/fundamentals/pen-tool-overview), or the [Pencil](/editor/design/freehand-drawing), Rive creates a shape with a path inside it. In the Hierarchy you see the shape, and its paths are nested under it.
 
-Vectors in Rive are rendered on shape layers. Shape layers define the style of the shape by allowing you to customize the fill and stroke.\`
+Select the shape to edit its fills and strokes in the Inspector. Moving, rotating, or scaling the shape transforms all of its paths together.
 
-![Fill and Stroke](/images/editor/fundamentals/shape-and-path-fill.png)
+![A character's helmet shape selected, with its fill in the Fills and Strokes section of the Inspector](/images/editor/shapes-and-paths/shape-fills-and-strokes.png)
 
-## Path layer
+## Paths
 
-![Path Layer](/images/editor/fundamentals/shape-and-path-pathlayer.gif)
+Expand a shape in the Hierarchy to see its paths. Select a path to move, rotate, or scale it on its own, without changing the rest of the shape.
 
-The actual shape of a vector is defined by a path (or multiple paths). Expanding a shape layer in Rive will reveal the paths it's using.
+![A star shape expanded in the Hierarchy, with the path inside it selected on the stage](/images/editor/shapes-and-paths/star-path-selected.png)
 
-![Move Path](/images/editor/fundamentals/shape-and-path-move.gif)
+A path is one of two kinds:
 
-‌You can add new paths to any shape by dragging and dropping an existing path onto the desired shape layer.
+- **Procedural paths** come from the [Shape tools](/editor/fundamentals/procedural-shapes), such as rectangles, ellipses, polygons, and stars. They keep properties like size, corner radius, and number of points, which you can change and animate in the Inspector.
+- **Custom paths** are drawn vertex by vertex with the [Pen Tool](/editor/fundamentals/pen-tool-overview), or freehand with the [Pencil](/editor/design/freehand-drawing). You shape them by [editing their vertices](/editor/fundamentals/edit-vertices).
 
-### Path layer properties
+![A star path selected, with its size, origin, radius, and points in the Star Path section of the Inspector](/images/editor/shapes-and-paths/procedural-path-properties.png)
 
-Path layers display properties that to the type of path. Learn more about [Procedural Shapes](/editor/fundamentals/procedural-shapes).
+To edit the vertices of a procedural path, it has to become a custom path. When you start editing its vertices, Rive asks you to convert it. Converting removes its procedural properties, along with any keys on them.
 
-![Path layer Properties](/images/editor/fundamentals/shape-and-path-properties.png)
+## Combining paths in a shape
 
-## `Enter` and `Esc` shortcuts
+A shape can hold any number of paths. To add a path to a shape, drag it onto the shape in the Hierarchy. The path takes on that shape's fills and strokes.
 
-Use the `Enter` key to quickly navigate down the Hierarchy. If you have a shape selected, this allows you to select the child path layer quickly.
+![Dragging a rectangle's path into a star shape, so both paths share the star's fill](/images/editor/shapes-and-paths/move-rectangle-path-into-star.gif)
 
-Use the `Esc` key to quickly navigate up the Hierarchy. If you have a path selected, this allows you to select the parent shape layer quickly.
+With a path selected, the Pen Tool also adds new paths to that path's shape instead of creating a new one.
+
+Where a shape's paths overlap, its [fill rule](/editor/fundamentals/fill-and-stroke#fill-rules) decides which areas are filled, so you can use one path to cut a hole in another.
+
+## Moving between shapes and paths
+
+- Press `Enter` with a shape selected to select its first path.
+- Press `Esc` with a path selected to select its shape.
+
+Pressing `Enter` with a path selected [edits its vertices](/editor/fundamentals/edit-vertices).

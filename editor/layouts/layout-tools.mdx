@@ -1,89 +1,72 @@
 ---
-title: 'Tools'
-sidebarTitle: 'Tools'
-description: 'There are several Layout tools available in Rive to build your responsive UI or content'
+title: 'Creating Layouts'
+description: 'Draw new Layouts, wrap existing content in Layouts, and move Layouts into other Layouts.'
 ---
 
-import { YouTube } from '/snippets/youtube.mdx'
+import { VideoEmbed } from '/snippets/video-embed.jsx'
 
-## Getting started with Layouts
+You can start a responsive design from empty Layouts, or add Layouts to artwork you've already made. This page covers each way to create a Layout and how to move Layouts in and out of each other.
 
-There are a number of ways to start adding layouts to your designs.
+## Drawing a Layout
 
-- Layout Tools in the Arrangement Tools menu
-- Wrap in Layout
-- Add Child Layout
-- Dragging and Dropping Layouts
+The Layout tools are in the **Arrangement Tools** menu in the toolbar.
 
----
+![Arrangement Tools menu open in the toolbar, listing the Layout (L), Row (R), and Column (C) tools](/images/editor/layouts/arrangement-tools-menu.webp)
 
-### Layout tools in the arrangement tools menu
+To draw a single, empty Layout, select the **Layout** tool (<kbd>L</kbd>) and drag on the stage.
 
-<Frame caption="Arrangement Tools Menu showing the Layout, Row and Column Tools">
-  <img src="/images/editor/layouts/53f42ad0-4045-41c4-bcfe-90a40ad0dc1d.webp" alt="Arrangement Tools menu open in the toolbar, listing the Layout (L), Row (R), and Column (C) tools" />
-</Frame>
+- Drag on the artboard to create an [absolute](/editor/layouts/sizing-and-positioning#relative-and-absolute-positioning) Layout that's positioned freely.
+- Drag on top of an existing Layout to create a relative child of that Layout.
 
-- **Layout:** A single Layout container. Select the tool and drag on an artboard to create the Layout. Drag directly onto the Artboard to create an Absolute Layout or on top of an existing Layout to create a Relative child. In addition, any objects positioned within the bounds of the newly created Layout will automatically themselves be wrapped in Layouts and absolutely positioned inside the new Layout.
+Any objects inside the area you drag are wrapped in their own Layouts and placed inside the new Layout as absolute children.
 
+<VideoEmbed src="https://ucarecdn.com/994d9855-4783-478f-a808-e5f8e57511af/" />
 
-  <video width="700" controls>
-    <source src="https://ucarecdn.com/994d9855-4783-478f-a808-e5f8e57511af/" type="video/mp4"></source>
-    Layout
-  </video>
+### Drawing a Row, Column, Grid, or Stack
 
-- **Row/Column:** The Row and Column tools create a Layout in the same way as the Layout tool above, but also include an initial set of children which will be positioned in either a Row or Column. You can use either the number keys or the up/down keys to define the number of children while dragging your row or column onto the stage. The created children will have their widths and heights set to **Fill**.
+The **Row**, **Column**, **Grid**, and **Stack** tools draw a Layout of that [type](/editor/layouts/arranging-children#layout-type) that already contains children, so you can start arranging content right away.
 
-  <video width="700" controls>
-    <source src="https://ucarecdn.com/e6fb26b0-a322-4715-8764-f484b99fd70a/" type="video/mp4"></source>
-    Row/Column
-  </video>
+- **Row** (<kbd>Shift</kbd>+<kbd>R</kbd>) and **Column** (<kbd>Shift</kbd>+<kbd>C</kbd>): While dragging, press <kbd>↑</kbd> or <kbd>↓</kbd>, or a number key, to set the number of children. The children's widths and heights are set to **Fill**.
+- **Grid:** Draws a Grid with two `1fr` columns and two `1fr` rows. While dragging, press <kbd>↑</kbd> or <kbd>↓</kbd> to add or remove a column and row together, or a number key to set the number of each.
+- **Stack:** Draws a Stack containing layered children of decreasing size.
 
-<Tip>Absolute Layouts can be dragged around or resized like other Rive objects. By default, if you drag a Layout (or any other object) inside the bounds of another Layout, it will display an indicator showing you that the dragged object will become a child of that Layout if dropped. Hold `command` / `control` while dragging the object to prevent existing items from being moved into the Layout.</Tip>
+<VideoEmbed src="https://ucarecdn.com/e6fb26b0-a322-4715-8764-f484b99fd70a/" />
 
----
+## Wrapping content in a Layout
 
-### Wrap in Layout
+To add a Layout around content you've already made, select one or more objects and do one of the following:
 
-Instead of starting with an empty Layout container, you can wrap existing objects into a Layout. There are a number of ways to wrap an active selection in a Layout:
+- Right-click the selection on the stage or in the **Hierarchy**, then select **Wrap in** > **Layout**.
 
-- Right click on the stage or the hierarchy to surface the context menu. Select `Wrap in` &gt; `Layout`. You can do this for a single or multiple objects at once.
+  <VideoEmbed src="https://ucarecdn.com/8dc09645-bb6b-4572-a519-5f655d39e114/" />
 
-  <video width="700" controls>
-    <source src="https://ucarecdn.com/8dc09645-bb6b-4572-a519-5f655d39e114/" type="video/mp4"></source>
-    Wrap in
-  </video>
+- Press <kbd>Shift</kbd>+<kbd>L</kbd>.
 
-- Use the `shift` + `L` shortcut.
+  <VideoEmbed src="https://ucarecdn.com/fc768d5a-33bf-4ce5-88fe-c40257263bc2/" />
 
-  <video width="700" controls>
-    <source src="https://ucarecdn.com/fc768d5a-33bf-4ce5-88fe-c40257263bc2/" type="video/mp4"></source>
-    `shift` + `L` shortcut
-  </video>
+- Click **Layout Selection** in the **Inspector**. This button appears when the selection doesn't include any Layouts.
 
-- Alternatively, you can use the `Layout selection` button in the inspector. This is available when only non-Layout objects are selected.
+  <VideoEmbed src="https://ucarecdn.com/cca29ef7-5762-40a7-bfb2-0b1ac9da5ee8/" />
 
-  <video width="700" controls>
-    <source src="https://ucarecdn.com/cca29ef7-5762-40a7-bfb2-0b1ac9da5ee8/" type="video/mp4"></source>
-    Layout selection
-  </video>
+<Tip>
+  Shapes, text, and images don't always need a wrapper Layout. To make one participate in its parent Layout directly, select it and choose **Layout** instead of **Node** at the top of the **Inspector**. See [What takes part in a Layout](/editor/layouts/layouts-overview#what-takes-part-in-a-layout).
+</Tip>
 
----
+## Adding a child Layout
 
-### Add child Layout
-
-When a Layout is the current selection, an `Add Child Layout` button will appear in the Layout inspector. Clicking this will add a new Layout as a child of the selected Layout, with its width and height set to Fill.
+To add an empty Layout inside the selected Layout, click **Add Child Layout** in the **Inspector**. The new child's width and height are set to **Fill**.
 
 ![Add Child Layout button at the top of the Layout inspector, above the alignment grid and Column layout settings](/images/editor/add-child-layout.png)
 
----
+## Moving Layouts into other Layouts
 
-### Dragging and dropping Layouts
+You can move any Layout into another Layout at any time:
 
-Layouts (both Absolute and Relative) can be dragged and dropped into other Layouts at any time. This can be done in two ways:
-
-- Drag and drop Layouts in the hierarchy panel.
-- Drag and drop Layouts directly on the stage. When doing so, an indicator will show where in the new parent Layout the dragging Layout will be inserted.
+- **In the Hierarchy:** Drag the Layout onto its new parent.
+- **On the stage:** Drag the Layout over its new parent. An indicator shows where among the parent's children it will be inserted.
 
 ![A Layout on the stage containing four children arranged in a row, with spacing indicators marking where a dragged Layout would be inserted](/images/editor/layout-drag-drop.png)
 
-Layouts can also be deleted by selecting the Layout on stage or in the hierarchy and hitting the delete key.
+When you drag any object over a Layout on the stage, it becomes a child of that Layout when you drop it. To move an object over a Layout without putting it inside, hold <kbd>Cmd</kbd> (macOS) or <kbd>Ctrl</kbd> (Windows) while dragging.
+
+To remove a Layout, select it on the stage or in the **Hierarchy** and press <kbd>Delete</kbd>.

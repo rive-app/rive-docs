@@ -1,101 +1,112 @@
 ---
 title: 'N-Slicing'
-description: ''
+description: 'Resize images and artwork without stretching their corners and edges.'
 ---
 
 import { Demos } from '/snippets/demos.jsx'
 
-## What is N-Slicing?
+When artwork is resized, everything in it stretches, including details that should stay the same size, such as rounded corners or a decorative border. N-Slicing divides artwork into segments and decides which ones stay fixed and which ones scale, so it can resize without distorting.
 
-Rive's N-Slice feature is inspired by the 9-slicing technique commonly used in game design. A 9-slice is typically applied to an image to prevent the four corner segments from scaling when resized. Meanwhile, the remaining five inner segments stretch or tile to allow raster artwork to scale up and change ratio without distorting.
-
-N-Slicing takes things a step further; allowing you to create any number of segments, to both raster and vector artwork within Rive.
+N-Slicing is based on 9-slicing, a technique common in game design. A 9-slice divides an image into nine segments. The four corners keep their size, and the edges and center stretch or tile to fill the space. Rive's N-Slicing works the same way, but you can create any number of segments, on both images and vector artwork.
 
 <Demos examples={["nSlicing"]} />
 
+## N-Slicing in responsive designs
+
+N-Slicing is useful for artwork that needs to fit a Layout, such as a button background, a speech bubble, or a panel frame. Place an N-Slice directly inside a Layout, and it resizes to fill that Layout while its fixed segments keep their size. See [What takes part in a Layout](/editor/layouts/layouts-overview#what-takes-part-in-a-layout).
+
 ## Creating an N-Slice
 
-There are three types of N-Slice — those applied to images, those applied to vector objects in the form of a group, and those applied to components. Whilst much of the functionality between them is shared, there are some subtle differences, starting with the way you apply them.
+You can apply an N-Slice to an image, to a group of vector objects, or to a component instance.
 
-### Image/Raster N-Slice
+### On an image
 
 <Steps>
-    <Step>
-        Select the image you want to apply an N-Slice to.
-    </Step>
-    <Step>
-        Select the add action within the Deform section of the inspector and choose the N-Slice option. Alternatively, right-click the image on the stage or in the hierarchy and navigate to the N-Slice option within the Deform submenu."
-    </Step>
-    <Step>
-        Upon creation, the N-Slice will enter edit mode. Here you can set up the axes and tile modes that define the scale behaviour of the image. Start by positioning and/or creating the axes as desired. Once completed, select the 'Done' action in the inspector or stage prompt. Learn more about how to best setup your N-Slice in the 'Setting up an N-Slice' section below.
-    </Step>
-    <Step>
-        To return to the edit mode, select the 'Edit N-Slice' action in the inspector or right-click menu.
-    </Step>
+  <Step>
+    Select the image.
+  </Step>
+  <Step>
+    In the **Deform** section of the **Inspector**, click **+** and select **N-Slice**. You can also right-click the image on the stage or in the **Hierarchy** and select **Deform** > **N-Slice**.
+  </Step>
+  <Step>
+    Position the axes and set the tile modes. See [Setting up an N-Slice](#setting-up-an-n-slice).
+  </Step>
+  <Step>
+    Click **Done** in the **Inspector** or on the stage.
+  </Step>
 </Steps>
 
-### Group/Vector N-Slice
+### On vector artwork
 
 <Steps>
-    <Step>
-        If your selection is already contained within a group, select the group on the stage or in the hierarchy and use the 'Convert to N-Slice' action in the inspector. Alternatively, select the stage objects you'd like to wrap in an N-Slice group and choose the 'N-Slice selection' action in the inspector. You can also reach this option by right-clicking on the items within the stage or the hierarchy and navigating to the 'Wrap in' submenu.
-    </Step>
-    <Step>
-        With the N-Slice group selected, use the 'Edit N-Slice' option in the inspector (or press `enter`) to enable the edit mode. From here, you can setup your axes and tile modes. Once completed, select the 'Done' action in the inspector or stage prompt. Learn more about how to best setup your N-Slice in the 'Setting up an N-Slice' section below.
-    </Step>
+  <Step>
+    Select the artwork. If it's already in a group, select the group and click **Convert to N-Slice** in the **Inspector**. Otherwise, select the objects and click **N-Slice selection** in the **Inspector**, or right-click them and select **Wrap in** > **N-Slice**.
+  </Step>
+  <Step>
+    With the N-Slice group selected, click **Edit N-Slice** in the **Inspector** or press <kbd>Enter</kbd>.
+  </Step>
+  <Step>
+    Position the axes. See [Setting up an N-Slice](#setting-up-an-n-slice).
+  </Step>
+  <Step>
+    Click **Done** in the **Inspector** or on the stage.
+  </Step>
 </Steps>
 
-### Component N-Slice
+### On a component instance
 
-A [component](/editor/fundamentals/components#deform) instance with **Mode** set to **Node** can take an N-Slice the same way an image can. The component draws its artboard as a flat image and slices that image. Like an image, it can look soft when scaled up.
+A [component](/editor/fundamentals/components#deform) instance with **Mode** set to **Node** can take an N-Slice the same way an image can. The component draws its artboard as a flat image and slices that image, so, like an image, it can look soft when scaled up.
 
 <Steps>
-    <Step>
-        Select the component instance and set **Mode** to **Node**.
-    </Step>
-    <Step>
-        In the **Deform** section of the Inspector, click **+** and select **N-Slice**. Set up the axes and tile modes the same way you would for an image.
-    </Step>
+  <Step>
+    Select the component instance and set **Mode** to **Node**.
+  </Step>
+  <Step>
+    In the **Deform** section of the **Inspector**, click **+** and select **N-Slice**.
+  </Step>
+  <Step>
+    Position the axes and set the tile modes the same way you would for an image.
+  </Step>
 </Steps>
 
 ## Setting up an N-Slice
 
-With your image or N-Slice item selected, use the inspector action, right-click menu, or `enter` key to enter the edit mode. The edit mode allows you to change the configuration of your axes and tile modes to define how your image or group scales.
+To change an N-Slice, select it and click **Edit N-Slice** in the **Inspector**, right-click it and select **Edit N-Slice**, or press <kbd>Enter</kbd>.
 
-<Note>We recommend setting up your N-Slice *before* scaling the image or changing the size of the group. While it's possible to adjust the axes on an already-scaled image, accurately positioning new ones can be more difficult.</Note>
+<Note>
+  Set up your N-Slice before resizing the image or group. You can adjust axes on artwork that's already been resized, but it's harder to position new ones accurately.
+</Note>
 
-The scale behaviour of segments within an N-Slice alternate, starting with a fixed segment. With a regular 9-slice, this results in a fixed segment, followed by a scaling one, and ending with another fixed. This behaviour is applied along both axes. You can identify a fixed segment from a scaling one by the solid blue borders displayed in edit mode. Meanwhile, scaling segments are identifiable via dashed borders.
+### Fixed and scaling segments
 
-**Creating and positioning axes**
+Segments alternate between fixed and scaling, starting with a fixed segment. In a 9-slice, that means fixed, then scaling, then fixed, along both the horizontal and vertical axes.
 
-By default, a new N-Slice is created with 4 axes — 2 vertical and 2 horizontal. Together they divide the content into 9 segments. Click and drag the existing axes to reposition them, or adjust their values in the inspector. Values can be defined as points or percentages.
+In edit mode, fixed segments have solid blue borders, and scaling segments have dashed borders.
 
-To create new axes, click and drag from the outer bounds of the image or group. You can identify the bounds via the white handles positioned on each edge. By default, a new axis will be created with a mirrored counterpart. This helps maintain the alternating fixed/scale behaviour. However if you'd prefer to create a single axis, hold `command` / `control`  before dragging the new axis.
+### Positioning axes
 
-<Info>Hold `command` / `control` while dragging a new axis to prevent a mirrored counterpart being created at the same time.</Info>
+A new N-Slice has four axes, two vertical and two horizontal, which divide the artwork into nine segments. Drag an axis to move it, or enter its position in the **Inspector** in points or as a percentage.
 
-**Setting tile modes**
+To add an axis, drag inward from one of the white handles on the edges of the artwork. A new axis is created with a mirrored partner on the opposite side, which keeps the fixed and scaling segments alternating. To create a single axis instead, hold <kbd>Cmd</kbd> (macOS) or <kbd>Ctrl</kbd> (Windows) before you start dragging.
 
-<Info>Tile modes can only be changed on image/raster based n-slices.</Info>
+### Setting tile modes
 
-Tile modes determine the behaviour of a **scaling segment**. There're 3 tile mode options to choose from:
+Tile modes control how a scaling segment fills its space. They're only available on images and component instances.
 
-- **Stretch:** Stretches the segment as the image is resized.
-- **Repeat:** Tiles the segment repeatedly as the image is resized.
-- **Hidden:** Hides the segment, not rendering it at all.
+- **Stretch:** The segment stretches to fill the space.
+- **Repeat:** The segment tiles to fill the space.
+- **Hidden:** The segment isn't drawn.
 
-<Info>Tile modes other than 'hidden' won't have any effect on a fixed segment.</Info>
-
-To change the tile mode of a segment:
+**Hidden** also works on fixed segments. **Stretch** and **Repeat** have no effect on them, because fixed segments don't change size.
 
 <Steps>
-    <Step>
-        With the image or its N-Slice selected, use the 'Edit N-Slice' option in the inspector (or press `enter`) to enable the edit mode.
-    </Step>
-    <Step>
-        Identify the segment you want to change by selecting it on the stage. The corresponding tile will be highlighted in the inspector.
-    </Step>
-    <Step>
-        Set the tile mode via the dropdown menu in the inspector.
-    </Step>
+  <Step>
+    Open the N-Slice's edit mode.
+  </Step>
+  <Step>
+    Click a segment on the stage. Its tile is highlighted in the **Inspector**.
+  </Step>
+  <Step>
+    Select a tile mode from the dropdown in the **Inspector**.
+  </Step>
 </Steps>

@@ -905,7 +905,7 @@ In practice, working with linear animations is more granular and brittle compare
 
 The legacy runtime allows multiple state machines to be associated with a single `RiveAnimationView` instance. At the core runtime level there is no technical limitation, and each state machine is processed in sequence. In practice this leads to complexity and difficulty reasoning about state, especially when data binding is involved. Only the Android legacy runtime supported this capability among the various Rive runtimes.
 
-The new runtime enforces a one-to-one relationship between Rive instances and state machines to simplify state management. If you need to manage concurrent, overlapping states, consider using [state machine layers](/editor/state-machine/layers).
+The new runtime enforces a one-to-one relationship between Rive instances and state machines to simplify state management. If you need to manage concurrent, overlapping states, consider using [state machine layers](/editor/state-machine/state-machine#layers).
 
 <Callout icon="ban">
   There are no current plans to reintroduce multiple state machines per Rive instance in the new runtime.

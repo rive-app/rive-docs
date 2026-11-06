@@ -1,42 +1,52 @@
 ---
 title: "Groups"
-description: "Use groups to organize your graphics or to add extra transform spaces."
+description: "Use groups to organize objects, and to add pivots so you can animate objects from more than one point."
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
 
-<YouTube id="FnnZV57Dp3c" />
+A group is an empty container. It isn't drawn, but its children inherit its position, rotation, and scale, like any other parent in the [Hierarchy](/editor/interface-overview/hierarchy#parent-child-relationships). Use groups to:
 
-Activate the Group tool with the `G` shortcut. Click anywhere in an artboard to add a new group. Now drag and drop objects into the group in the Hierarchy.
+- **Organize** related objects, so you can select, move, and hide them together.
+- **Add a pivot**, so you can rotate or scale objects from a point other than their own origin. See [Using groups as pivots](#using-groups-as-pivots).
+- **Mark a point** for a [constraint](/editor/constraints/constraints-overview) or other feature to target. See [Target style](#target-style).
 
-You can also wrap a selection of shapes into a group with `⌘`\+`G` in macOS or `Ctrl`\+`G` in Windows.
+## Creating a group
 
-Unwrap a group with `⌘`\+`Shift`\+`G` in macOS or `Ctrl`\+`Shift` +`G` in Windows.
+- **From a selection**: Select objects and press `Cmd + G` (macOS) or `Ctrl + G` (Windows).
+- **With the Group tool**: Press `G`, click the artboard to add an empty group, then drag objects into it in the Hierarchy.
 
-## Group style
+To remove a group and keep its children, select it and press `Cmd + Shift + G` (macOS) or `Ctrl + Shift + G` (Windows).
 
-The Style property of a group can be set to Group or Target.
+## Using groups as pivots
 
-### Group
+Each object rotates and scales around its own origin. Nesting it in a group adds a second origin, and the group's rotation and scale move the object around that point. Nest more groups to add more pivots, and animate each one separately. In motion graphics this is often called a transform space.
 
-Group is the default behavior, which behaves as described in the [Selection and Navigation](/editor/interface-overview/selection-and-navigation).
+For example, a moon can spin on its own axis while it orbits the Earth:
 
-### Target
+- An **Earth** group rotates the Earth.
+- A **Moon** group sits at the Earth's center and rotates, carrying the moon around the Earth.
+- Inside it, a group at the moon's center rotates the moon on its own axis.
 
-The Target option draws an icon on the stage that is visible regardless of whether the group has children (usually a group only displays an icon if it is empty). Target visibility can be toggled on or off in the View Options menu.
+![An animated moon orbiting a spinning Earth while also spinning on its own axis](/images/editor/groups/planet-transform-spaces.webp)
 
-Targets are directly selectable on the stage. You don't need to use [Deep Select](/editor/interface-overview/selection-and-navigation#deep-select) to select them.
+![The Hierarchy for the planet animation, with a Moon group that orbits the Earth and nested groups for the moon's own rotation](/images/editor/groups/planet-group-hierarchy.webp)
+
+To change where a group rotates and scales from without moving its children, use [Freeze](/editor/fundamentals/origin#freeze).
+
+<YouTube id="IcSXchdnzHM" />
+
+## Target style
+
+Set a group's **Style** in the Inspector to choose how it appears on the stage.
+
+- **Group** is the default. A group only shows an icon on the stage when it's empty.
+- The **Target** styles always show an icon on the stage, even when the group has children. Choose a circle, square, or triangle, at full or small size.
+
+Targets are directly selectable on the stage without [Deep Select](/editor/interface-overview/selection-and-navigation#deep-select). This makes them useful as handles for [constraints](/editor/constraints/constraints-overview), such as an IK target for a foot. The style only affects the editor.
 
 ![Setting the Style of a group to Target in the Inspector, which adds a selectable target icon on the stage](/images/editor/fundamentals/groups-targets.gif)
 
-The Target option is particularly useful when working with Constraints.
-
 <Tip>
   If targets aren't visible on the stage, open the **View Options** menu and make sure **Targets** is enabled.
-
-  ![Enabling Targets in the View Options menu so target icons appear on the stage](/images/editor/interface/toggle-show-targets.gif)
 </Tip>
-
-<Card title="Constraints" icon={<svg xmlns="http://www.w3.org/2000/svg" height="100%" fill="none" viewBox="0 0 16 16" class="size-4 text-gray-500/80 dark:text-gray-400" aria-hidden="true"><path fill="currentColor" d="M7.31 7.111 2.406 5.15l4.61-1.844.328-.126a2.3 2.3 0 0 1 1.647 0l.33.126L13.93 5.15 9.024 7.112c-.55.22-1.163.22-1.712 0"></path><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" d="m2.405 10.911 4.906 1.963c.55.22 1.162.22 1.712 0l4.906-1.963M2.405 8.031 7.31 9.992c.55.22 1.162.22 1.712 0l4.906-1.963M2.405 5.15 7.31 7.111c.55.22 1.162.22 1.712 0l4.906-1.962-4.61-1.844-.329-.126a2.3 2.3 0 0 0-1.647 0l-.329.126z"></path></svg>} iconType="solid" href="/editor/constraints/">
-  Constraints are a way to control the properties of an object through another target object. Some constraints can set limits on these properties (and their hierarchical relationships), while others can copy properties from one object to another.
-</Card>

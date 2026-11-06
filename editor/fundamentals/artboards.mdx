@@ -5,6 +5,7 @@ description: "Learn how to create, manage, and configure artboards in Rive."
 
 import { YouTube } from '/snippets/youtube.mdx'
 import { VideoEmbed } from '/snippets/video-embed.jsx'
+import { UseCase } from '/snippets/use-case.mdx'
 
 <YouTube id="xdqqPAlB4n8" />
 
@@ -22,11 +23,7 @@ When you create a new Rive file, you'll be prompted to create an artboard. Choos
 
 ![New artboard size options](/images/editor/artboards/artboard-size-presets.png)
 
-The width and height define the artboard's dimensions in Rive. The size and aspect ratio at runtime may differ depending on the available space and your [layout settings](/editor/layouts/layouts-overview).
-
-<Note>
-Artboard dimensions are measured in units rather than pixels. For example, if a 500-unit-wide artboard is displayed at 1000 pixels wide, each unit represents 2 pixels. For simplicity, you can often treat these units like pixels while working in the editor.
-</Note>
+The width and height define the artboard's dimensions in the editor. At runtime, the artboard is drawn at whatever size its container is, so its displayed size and aspect ratio can differ. See [Artboard size at runtime](#artboard-size-at-runtime).
 
 ### Creating additional Artboards
 
@@ -50,6 +47,42 @@ Artboards can't be nested directly inside other artboards. To nest an artboard, 
 Select an artboard and press **Cmd/Ctrl + D** to duplicate the artboard and all of its contents.
 
 ![Copying an artboard](/images/editor/artboards/copy-artboard.gif)
+
+## Artboard size at runtime
+
+The artboard's width and height don't set its size in your app or game. At runtime, Rive draws the artboard into a container, such as a canvas or a view, and the container's size comes from your app. The **fit** mode, which you set in the runtime, decides how the artboard fills that container.
+
+Artboard dimensions are measured in units rather than pixels. If a 500-unit-wide artboard is displayed 1000 pixels wide, each unit covers 2 pixels. While you work in the editor, you can usually treat units like pixels.
+
+### Responsive graphics: use Layout
+
+If your graphic should adapt to different screen sizes, orientations, or container sizes, build it with [Layouts](/editor/layouts/layouts-overview) and set the fit mode to **Layout** at runtime.
+
+With **Layout**, the runtime doesn't scale the artboard. It resizes the artboard to match the container, and the artboard's Layouts decide how the content moves and resizes, the same way they do when you resize the artboard in the editor. To make the content larger or smaller within the container, set a layout scale factor at runtime.
+
+<Note>The **Layout** fit mode only works well if the artboard is built with Layouts. Content that isn't inside a Layout won't respond to the new size.</Note>
+
+### Fixed-size graphics: scaling fit modes
+
+The other fit modes scale the whole artboard as a single image. Use them for graphics that should keep the same composition at any size, such as an illustration or a logo animation:
+
+- **Contain** (the default) scales the artboard until it fits inside the container while keeping its aspect ratio. If the aspect ratios don't match, empty space is left on one axis.
+- **Cover** scales the artboard until it fills the container while keeping its aspect ratio. If the aspect ratios don't match, content is cropped on one axis.
+- **Fill** stretches the artboard to the container's width and height, distorting it if the aspect ratios don't match.
+- **None** draws the artboard at its original size without scaling.
+
+Because **Contain** is the default, a responsive artboard won't respond to the container until you change the fit mode to **Layout**.
+
+<UseCase title="A 500 × 500 artboard in a 1000 × 500 container">
+  - **Layout:** The artboard becomes 1000 × 500 units, and its Layouts reposition and resize the content to fit the wider space.
+  - **Contain:** The artboard is drawn at 500 × 500 pixels, with 250 pixels of empty space on the left and right.
+  - **Cover:** The artboard is scaled to 1000 × 1000 pixels, and 250 pixels are cropped from the top and bottom.
+  - **Fill:** The artboard is stretched to 1000 × 500 pixels, so everything looks twice as wide.
+</UseCase>
+
+When a scaling fit mode leaves empty space, the runtime's **alignment** setting decides where the artboard sits in the container, such as centered or top-left.
+
+For every fit mode and how to set it on each platform, see [Runtime layout](/runtimes/layout).
 
 
 ## Managing Artboards
