@@ -59,9 +59,9 @@ Until then, there are a few things you can do to get the most out of `@rive-app/
 
 On the MSAA path, any blend mode other than **Normal** (such as Screen, Multiply, or Color Dodge) forces the renderer to re-read the frame as it draws, and that cost adds up very quickly on mobile browsers.
 
-Additive blending doesn't have that cost. In the Editor, it's authored on the **Normal** blend mode with the **Additive strength** slider, from 0% (ordinary Normal blending) to 100% (fully additive). The Rive Renderer draws it with the GPU's standard hardware blending, the same as Normal, so it doesn't re-read the frame. Additive strength can also be animated and data bound.
+Additive blending doesn't have that cost. In the Editor, it's authored on a fill, stroke, or drawable set to the **Normal** blend mode, using the **Additive strength** slider, from 0% (ordinary Normal blending) to 100% (fully additive). The Rive Renderer draws it with the GPU's standard hardware blending, the same as Normal, so it doesn't re-read the frame. Additive strength can also be animated and data bound.
 
-If you use blend modes to brighten content, such as glows, light effects, or particles, try additive blending first and keep advanced blend modes for effects that truly need them.
+If you use blend modes to brighten content, such as glows, fire, light effects, or particles, try additive blending first and keep advanced blend modes for effects that truly need them.
 
 <Note>
   `@rive-app/canvas` draws additive blending at full strength and ignores the **Additive strength** amount, since Canvas2D can't express partial additive blending.
