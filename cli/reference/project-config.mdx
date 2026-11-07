@@ -107,7 +107,7 @@ libraries:                   # written by the tool
     override: ../palette     # optional, and the only part you write
 
 pages:                       # written by the first --publish=web
-  teamId: 77
+  workspaceId: 77
   name: "my-scene"
 
 revFlavor: editable          # or "library"
@@ -204,12 +204,19 @@ libraries use. It does not register the file as a library; `rive library publish
 does that.
 
 **`push`** — `projectId` and `fileId`, the link to the Rive file. `rive push` writes it
-after the first push, and `rive create --from-remote-file` records it up front. `push.fileId` is what `--publish` sends when it asks whether to watermark.
-See [Pushing to a Rive file](#pushing-to-a-rive-file).
+after the first push, and `rive create --from-remote-file` records it up front.
+With `push.fileId` set, a publish counts against the Workspace that owns the file, and
+that Workspace's plan decides the allowance and the watermark. Without it, a publish
+counts against the Workspace you choose with [`rive workspace`](/cli/reference/commands#workspace),
+or the only one where you're an Editor. A web publish from a project without
+`push.fileId` counts against the Workspace that owns the page.
+See [Pushing to a Rive file](#pushing-to-a-rive-file) and
+[Which Workspace counts](/cli/monthly-allowance#which-workspace-counts).
 
-**`pages`** — The hosted page `--publish=web` replaces. `teamId` is the team that owns
-the page and `name` is the slug it answers to. The first publish writes it and later
-ones leave it alone. See [Publishing to the web](/cli/reference/commands#publishing-to-the-web).
+**`pages`** — The hosted page `--publish=web` replaces. `workspaceId` is the ID of the
+Workspace that owns the page and `name` is the slug it answers to. The first publish
+writes it and later ones leave it alone. `teamId`, the older name for `workspaceId`,
+still works. See [Publishing to the web](/cli/reference/commands#publishing-to-the-web).
 
 **`output.dir`** — Where the `.riv` is written. Defaults to `build`.
 
@@ -250,7 +257,7 @@ the project folder on your machine: the first `rive push` asks which Rive projec
 create the file in, then records your answer so later pushes go back to the same file.
 
 If your account has one project, it is chosen for you. If it has several, the CLI
-lists them and you choose. Your workspace's personal files appear first in that list,
+lists them and you choose. Your Workspace's personal files appear first in that list,
 so a push can land in your own drafts rather than a shared project. Projects you can
 only view are left out.
 
