@@ -16,7 +16,7 @@ Switching is a one-line import change, so you can try both and measure against y
 | Draws with | The [Rive Renderer](https://rive.app/renderer?utm_source=docs&utm_medium=content) on WebGL2 | The browser's [Canvas2D](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API) API |
 | [Vector Feathering](/editor/fundamentals/fill-and-stroke#vector-feathering) | ✅ Supported | 🟡 Supported, but feathered gradients aren't dithered and may show banding. Not supported in `@rive-app/canvas-lite`. |
 | Editor fidelity | ✅ The same renderer the Rive Editor uses | 🟡 Matches for nearly all content (see [Fill Rules](#fill-rules)) |
-| Blend modes | 🟡 All blend modes, but anything other than **Normal** is expensive (see [Performance](#performance)) | ✅ All blend modes, at no extra cost |
+| Blend modes | 🟡 All blend modes. Normal and additive are cheap, but advanced blend modes are expensive (see [Performance](#use-additive-blending-instead-of-advanced-blend-modes)) | 🟡 All blend modes at no extra cost, but additive always draws at full strength |
 | Graphics per page | 🟡 Bound by the browser's WebGL context limit (see [WebGL Context Limits](#webgl-context-limits)) | ✅ No practical limit |
 
 ## Other notable tradeoffs
@@ -46,16 +46,59 @@ This limit does not apply to `@rive-app/canvas`.
 
 ## Performance
 
-Today, `@rive-app/webgl2` draws through a multisample anti-aliasing (MSAA) path.
+Today, `@rive-app/webgl2` by default draws through a multisample anti-aliasing (MSAA) path.
 
 The Rive Renderer has a faster path to draw that relies on a GPU capability Metal and Vulkan already expose to native apps. On web browsers, it comes from [`WEBGL_shader_pixel_local_storage`](https://www.khronos.org/registry/webgl/extensions/WEBGL_shader_pixel_local_storage/), a draft WebGL extension that Rive is helping to standardize. As browsers adopt it, `@rive-app/webgl2` will pick it up automatically and draw faster.
 
-Until then, blend modes are where you may notice a difference. On the MSAA path, any blend mode other than **Normal** forces the renderer to re-read the frame as it draws, and that cost adds up quickly on mobile browsers. `@rive-app/canvas` has no equivalent cost, because Canvas2D blends natively.
+Until then, there are a few things you can do to get the most out of `@rive-app/webgl2`:
 
-In practice:
+1. [Use additive blending instead of advanced blend modes](#use-additive-blending-instead-of-advanced-blend-modes) where your design allows it.
+2. [Opt in to inkbleed antialiasing](#inkbleed-antialiasing) and measure it against MSAA on your content.
 
-- Blend modes on mobile are the case where `@rive-app/canvas` can be meaningfully faster. If your file leans on them, it is worth comparing the two.
-- Measure on real devices. Swapping packages is a one-line change, so testing both is cheap.
+### Use additive blending instead of advanced blend modes
+
+On the MSAA path, any blend mode other than **Normal** (such as Screen, Multiply, or Color Dodge) forces the renderer to re-read the frame as it draws, and that cost adds up very quickly on mobile browsers.
+
+Additive blending doesn't have that cost. In the Editor, it's authored on a fill, stroke, or drawable set to the **Normal** blend mode, using the **Additive strength** slider, from 0% (ordinary Normal blending) to 100% (fully additive). The Rive Renderer draws it with the GPU's standard hardware blending, the same as Normal, so it doesn't re-read the frame. Additive strength can also be animated and data bound.
+
+If you use blend modes to brighten content, such as glows, fire, light effects, or particles, try additive blending first and keep advanced blend modes for effects that truly need them.
+
+<Note>
+  `@rive-app/canvas` draws additive blending at full strength and ignores the **Additive strength** amount, since Canvas2D can't express partial additive blending.
+</Note>
+
+### Inkbleed antialiasing
+
+`@rive-app/webgl2` can draw with **inkbleed**, an antialiasing mode in the Rive Renderer offered as an alternative to MSAA. Instead of rendering multiple samples per pixel, it renders one and antialiases edges by bleeding them out about half a pixel, which avoids MSAA's multisampled buffers.
+
+Opt in with `enableInkbleed` when you create the Rive instance:
+
+```javascript
+import { Rive } from "@rive-app/webgl2";
+
+const r = new Rive({
+  canvas: document.getElementById("canvas"),
+  src: "my-file.riv",
+  stateMachine: "State Machine 1",
+  autoplay: true,
+  autoBind: true,
+  enableInkbleed: true,
+});
+```
+
+Things to know before turning it on:
+
+- **It disables the canvas's native MSAA.** The instance creates its WebGL2 context without MSAA so inkbleed can draw instead.
+- **Edges bleed out by about half a pixel.** This is most noticeable on thin strokes.
+- **Fills are converted to the clockwise [fill rule](/editor/fundamentals/fill-and-stroke#fill-rule).** Fills that use a different fill rule are converted on a best-effort basis, so check your content for visual differences.
+- **It needs its own WebGL context.** Inkbleed doesn't apply when using the shared offscreen renderer (`useOffscreenRenderer: true`), so each instance with inkbleed counts toward the browser's [WebGL context limit](#webgl-context-limits).
+
+If the renderer can't use inkbleed, the runtime logs a one-time console warning and renders without it. Read [`inkbleed`](/runtimes/web/rive-parameters#inkbleed) on the Rive instance to check whether it is in effect, or set it to toggle inkbleed at runtime.
+
+### Choosing a package for performance
+
+- Advanced blend modes on mobile are the case where `@rive-app/canvas` can be meaningfully faster, because Canvas2D blends natively. If your file still leans on them after moving what you can to additive blending, it is worth comparing the two.
+- Measure on real devices. Swapping packages is a one-line change, so testing each option is cheap.
 
 ## Canvas package variants
 

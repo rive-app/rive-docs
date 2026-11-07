@@ -12,7 +12,6 @@ Use the table below to verify whether a feature used in your `.riv` file is supp
 <Warning>
   Certain features require the use of the Rive Renderer at runtime. See our
   documentation on [choosing a renderer](/runtimes/choose-a-renderer/).
-  Layer Masks require GPU Canvas in every runtime.
 </Warning>
 
 When a feature requires API changes, migration notes will be included below.
@@ -20,15 +19,15 @@ When a feature requires API changes, migration notes will be included below.
 ## Feature support by runtime
 
 <FeatureSupportGroup runtime={["webWebGL2", "webCanvas", "webCanvasLite"]} title="Web">
-    - **WebGL2** (`@rive-app/webgl2`): The recommended package for most web projects. Uses the Rive Renderer, so it supports every Rive Editor feature, including vector feathering.
-    - **Canvas** (`@rive-app/canvas`): Uses the browser's Canvas2D renderer.
+    - **WebGL2** (`@rive-app/webgl2`): The recommended package for most web projects. Uses the Rive Renderer, which supports the most Rive Editor features.
+    - **Canvas** (`@rive-app/canvas`): Uses the browser's Canvas2D renderer. Some rendering features, such as Layer Masks and Bitmap Cache, are not supported.
     - **Canvas Lite** (`@rive-app/canvas-lite`): Uses the same API as `@rive-app/canvas`, but excludes certain features to reduce bundle size.
 
     See [Canvas vs WebGL2](/runtimes/web/canvas-vs-webgl) for the tradeoffs.
 </FeatureSupportGroup>
 <FeatureSupportGroup runtime={["reactWebGL2", "reactCanvas", "reactCanvasLite"]} title="React">
-    - **WebGL2** (`@rive-app/react-webgl2`): The recommended package for most React projects. Uses the Rive Renderer, so it supports every Rive Editor feature, including vector feathering.
-    - **Canvas** (`@rive-app/react-canvas`): Uses the browser's Canvas2D renderer.
+    - **WebGL2** (`@rive-app/react-webgl2`): The recommended package for most React projects. Uses the Rive Renderer, which supports the most Rive Editor features.
+    - **Canvas** (`@rive-app/react-canvas`): Uses the browser's Canvas2D renderer. Some rendering features, such as Layer Masks and Bitmap Cache, are not supported.
     - **Canvas Lite** (`@rive-app/react-canvas-lite`): Uses the same API as `@rive-app/react-canvas`, but excludes certain features to reduce bundle size.
 
     See [Canvas vs WebGL2](/runtimes/web/canvas-vs-webgl) for the tradeoffs.
@@ -81,9 +80,28 @@ Differences may reflect:
 </Note>
 
 <FeatureSupportGroup feature="layerMasks">
-    Layer Masks require the Rive Renderer with GPU Canvas enabled in every runtime. On [Web](/runtimes/web/gpu-canvas) and [React](/runtimes/react/gpu-canvas), use the WebGL2 package and enable GPU Canvas; Canvas, Canvas Lite, and legacy WebGL packages do not support Layer Masks.
+    Layer Masks require the Rive Renderer. On Web and React, use the WebGL2 package. On Apple, Android, and React Native, Layer Masks also require GPU Canvas.
 
     On Apple, enable [GPU Canvas](/runtimes/apple/gpu-canvas). Layer Masks are supported on physical devices, Mac Catalyst, and macOS, but are not supported in simulators.
+</FeatureSupportGroup>
+<FeatureSupportGroup feature="bitmapCache">
+    On Web runtimes, the Canvas and Canvas Lite packages draw cached content as vectors, without the cache.
+</FeatureSupportGroup>
+<FeatureSupportGroup feature="artboardFills">
+    Fills and strokes that paint with an artboard. On Web and React, the Canvas and Canvas Lite packages draw the fill's own color instead.
+</FeatureSupportGroup>
+<FeatureSupportGroup feature="componentMeshes">
+    See [Meshes](/editor/manipulating-shapes/meshes) and [Components](/editor/fundamentals/components#deform). On Web and React, the Canvas and Canvas Lite packages draw the component undeformed.
+</FeatureSupportGroup>
+<FeatureSupportGroup feature="imageFills">
+    Fills and strokes that paint with an image.
+</FeatureSupportGroup>
+<FeatureSupportGroup feature="innerOuterStrokes">
+    Strokes with **Position** set to **Inside** or **Outside** in **Stroke Options**.
+</FeatureSupportGroup>
+<FeatureSupportGroup feature="angularGradients" />
+<FeatureSupportGroup feature="additiveStrength">
+    On Web runtimes, the Canvas and Canvas Lite packages draw any strength above 0% as fully additive. See [Use additive blending instead of advanced blend modes](/runtimes/web/canvas-vs-webgl#use-additive-blending-instead-of-advanced-blend-modes).
 </FeatureSupportGroup>
 <FeatureSupportGroup feature="gamepad" />
 <FeatureSupportGroup feature="textInput" />
