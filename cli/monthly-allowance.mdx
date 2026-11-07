@@ -34,7 +34,8 @@ and whether a publish has the watermark (the Rive splash screen).
   the Workspace that owns the file. You need edit access to that file.
 - **A publish from a project that isn't bound to a file** counts against the Workspace
   you choose with [`rive workspace <id>`](/cli/reference/commands#workspace). If you
-  haven't chosen one, it counts against the only Workspace where you're an
+  haven't chosen one, or you chose your personal Workspace, it counts against the only
+  Workspace where you're an
   [Editor](/account-admin/workspaces/managing-workspace-members#member-roles).
 - **A web publish from a project that isn't bound to a file** counts against the
   Workspace that owns the page (`--team=<id>`, or `pages.teamId` in `rive.yaml`). See
@@ -44,8 +45,9 @@ To publish a project that isn't bound to a file, you need to be an Editor in the
 Workspace it counts against. Admins count as Editors, and Viewer access isn't enough.
 Without the Editor role, the CLI stops and says why, and nothing counts.
 
-If you're an Editor in several Workspaces and haven't chosen one, the CLI stops before
-anything counts. It lists those Workspaces and exits with code `10`:
+If you're an Editor in several Workspaces and haven't chosen one, or you chose your
+personal Workspace, the CLI stops before anything counts. It lists those Workspaces and
+exits with code `10`:
 
 ```text
 Choose the Workspace this publish counts against with `rive workspace <id>`. You're an Editor in Client Work (77), Acme Studio (2201).
@@ -54,14 +56,14 @@ Choose the Workspace this publish counts against with `rive workspace <id>`. You
 ```
 
 Run `rive workspace 2201` to choose Acme Studio, then publish again. The CLI saves the
-choice, so later publishes count against Acme Studio too.
+choice for later publishes from projects that aren't bound to a file.
 
 <Note>
 Older versions of the CLI don't send your chosen Workspace with a publish. For them, a
 publish from a project that isn't bound to a file counts against the only Workspace
 where you're an Editor. If you're an Editor in several Workspaces or in none, it counts
-against your personal Workspace and has the watermark. Update the CLI to choose the
-Workspace yourself.
+against your personal Workspace and has the watermark. If you're an Editor in several,
+update the CLI and choose one.
 </Note>
 
 ## What counts
@@ -109,8 +111,8 @@ warning shows the Workspace, how many actions are left, and when the allowance r
 CLI allowance in Acme Studio: 8 of {{cliAllowanceFree}} publishes and pushes left this month (resets Dec 1). Upgrade: https://rive.app/pricing
 ```
 
-Admins of that Workspace get the link to upgrade. Everyone else gets "Ask an admin of
-Acme Studio to upgrade." instead.
+Admins of that Workspace get the link to upgrade. In its place, everyone else gets
+"Ask an admin of Acme Studio to upgrade."
 
 With `--publish --format=json`, the warning is in `warnings`.
 
@@ -135,8 +137,8 @@ Monthly CLI allowance used up in Acme Studio: {{cliAllowanceFree}} of {{cliAllow
 ```
 
 The message names the Workspace the action counts against. Admins of that Workspace
-get the link to upgrade. Everyone else gets "Ask an admin of Acme Studio to upgrade."
-instead.
+get the link to upgrade. In its place, everyone else gets
+"Ask an admin of Acme Studio to upgrade."
 
 If the message names a Workspace you didn't expect,
 [Which Workspace counts](#which-workspace-counts) explains how the CLI picks it and how

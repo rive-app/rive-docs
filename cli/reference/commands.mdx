@@ -468,13 +468,17 @@ rive workspace        # the current Workspace, and your role in every one you ca
 rive workspace <id>   # switch to that Workspace
 ```
 
-`rive ls` and `rive push` work one Workspace at a time, and this chooses which. The
-choice persists. Use `rive ls --workspace=<id>` to read another one without switching.
+`rive ls` and `rive push` work one Workspace at a time, and this chooses which. Until
+you switch, they use your personal Workspace. The choice persists. Use
+`rive ls --workspace=<id>` to read another one without switching.
+
+The list shows your role in each Workspace, Editor or Viewer, and marks your personal
+Workspace as `personal`.
 
 A publish from a project that isn't bound to a file counts against the Workspace you
 choose here, and needs you to be an Editor in it. A web publish is the exception: it
-counts against the Workspace that owns the page. The list shows your role in each
-Workspace: Editor or Viewer. If you haven't chosen one and you're an Editor in
+counts against the Workspace that owns the page. For a publish, choosing your personal
+Workspace counts as choosing none. If you haven't chosen one and you're an Editor in
 several, the CLI stops the publish and exits with code `10`. See
 [Which Workspace counts](/cli/monthly-allowance#which-workspace-counts).
 
@@ -602,7 +606,7 @@ connection even with valid stored credentials.
 | `7` | A service could not be reached, so it is safe to retry |
 | `8` | This CLI is below the published minimum. Run `rive update` |
 | `9` | The Workspace used its [monthly CLI allowance](/cli/monthly-allowance). Retrying does not help until it resets or the Workspace upgrades |
-| `10` | The project isn't bound to a file, no Workspace is chosen, and you're an Editor in several. Choose one with `rive workspace <id>`, using an id the CLI lists. See [Which Workspace counts](/cli/monthly-allowance#which-workspace-counts) |
+| `10` | The project isn't bound to a file, no Workspace is chosen (choosing your personal Workspace counts as none), and you're an Editor in several. Choose one with `rive workspace <id>`, using an id the CLI lists. See [Which Workspace counts](/cli/monthly-allowance#which-workspace-counts) |
 
 <Note>
 Any argument without a leading `--` is read as the project directory. Passing more
