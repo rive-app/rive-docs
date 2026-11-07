@@ -27,12 +27,18 @@ rive myproject --publish=web    # build, sign, upload, wait for it to go live
     [signing and the web runtime](#signing-and-the-web-runtime).
   </Step>
 
-  <Step title="Choose a team">
-    Pages belong to a team, not your personal files. Create
-    a team in the Editor, or join an existing one.
+  <Step title="Choose a Workspace">
+    Pages belong to a Workspace other than your personal Workspace. If your personal
+    Workspace is the only Workspace you have, the CLI creates a Free Workspace for you
+    when you sign in, or when you next publish. To create another Workspace, run
+    [`rive workspace create <name>`](/cli/reference/commands#workspace). You can also
+    create a Workspace in the Editor, or join an existing one.
 
-    With one team, the CLI picks it for you. With several teams your account is attached to, CLI opens a picker to select a team.
-    Alternatively, set the `--team=<id>` flag to skip the question.
+    If you're an [Editor](/account-admin/workspaces/managing-workspace-members#member-roles)
+    in one Workspace, the CLI picks it for you. If you're an Editor in several, the CLI
+    opens a picker to select one. To skip the question, pass the Workspace ID with
+    `--workspace=<id>`. `rive workspace` lists your Workspaces and their IDs.
+    `--team=<id>`, the older name for this flag, still works.
   </Step>
 
   <Step title="Publish">
@@ -52,9 +58,11 @@ The first publish records where the page lives by writing a `pages:` block into
 
 ```yaml
 pages:
-  teamId: 77
+  workspaceId: 77
   name: "my-scene"
 ```
+
+`pages.teamId`, the older name for `pages.workspaceId`, still works.
 
 ## Signing and the web runtime
 
@@ -69,7 +77,7 @@ plan decides the watermark. See
 
 ## Republish a page
 
-A page is identified by its name within the team. The name is lowercased into a slug
+A page is identified by its name within its Workspace. The name is lowercased into a slug
 (anything outside `a-z0-9` becomes a dash), and the url is that slug plus a short
 random suffix minted once, when the page is created.
 
@@ -97,8 +105,8 @@ status rather than the CLI's, so a failed sign-in, build or upload exits `0` and
 job carries on with an empty `url`.
 </Warning>
 
-Pass `--team=<id>` as well, since the CLI will not pick a team when stdin is not a
-terminal.
+Pass `--workspace=<id>` as well, since the CLI can't ask which Workspace to use when
+stdin is not a terminal.
 
 <Note>
 Publishing is rate limited per account. A run that hits the limit reports
@@ -120,7 +128,7 @@ its url. The bar shows for a moment and then hides to a lip at the bottom of the
 The first time the bar opens, a tooltip over its Rive link reads "Made with Rive. Build
 your own." for a few seconds. On a page that starts with only the lip, the tooltip shows
 above the lip first. On a paid plan, `--no-promo` leaves the tooltip off. If your
-workspace moves to a plan without these options, its pages show the tooltip and the
+Workspace moves to a plan without these options, its pages show the tooltip and the
 bar again, until you upgrade.
 
 Each publish sends its own settings, so pass `--drawer=` and `--no-promo` every time you
@@ -132,7 +140,7 @@ List your published pages with the `list-published` command.
 
 ```bash
 rive myproject --list-published        # where is this project published
-rive myproject --list-published=web    # every page on the team, with its url
+rive myproject --list-published=web    # every page in the Workspace, with its url
 ```
 
 `built` means the file is on disk, not that it is signed. `--once` writes the same path
@@ -171,11 +179,11 @@ and its name frees up, so publishing the name again makes a new page at a new ur
 | Flag | Does |
 |---|---|
 | `--publish=web` | Build, sign and publish the page |
-| `--team=<id>` | The team that owns the page, instead of being asked |
+| `--workspace=<id>` | The ID of the Workspace that owns the page, instead of being asked |
 | `--name=<name>` | Publish under this name, instead of the project's |
 | `--no-wait` | Print the url and exit without waiting for the page to go live |
 | `--drawer=<mode>` | How the page's control bar starts: `docked`, `hidden` or `none`. `none` needs a paid plan |
 | `--no-promo` | Leave the "Made with Rive" tooltip off the page. Needs a paid plan |
-| `--list-published[=<target>]` | Where this project is published. Bare prints `local` and `web`; `web` lists every page on the team |
+| `--list-published[=<target>]` | Where this project is published. Bare prints `local` and `web`; `web` lists every page in the Workspace |
 | `--unpublish=web` | Take the page down |
 | `--yes`, `-y` | Skip the `--unpublish=web` confirmation |
