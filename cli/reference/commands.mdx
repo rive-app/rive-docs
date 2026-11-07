@@ -69,7 +69,9 @@ and everyone else is told to ask an admin.
 A project bound to a file counts against the file's Workspace. Binding is done by
 [`rive push`](/cli/reference/project-config#pushing-to-a-rive-file), which records
 `push.fileId` in `rive.yaml`. Other projects count against the Workspace you choose
-with [`rive workspace`](#workspace), or the only one where you're an Editor. See
+with [`rive workspace`](#workspace), or the only one where you're an Editor. A web
+publish from a project that isn't bound to a file counts against the Workspace that
+owns the page. See
 [Which Workspace counts](/cli/monthly-allowance#which-workspace-counts).
 </Note>
 
@@ -476,10 +478,11 @@ The list shows your role in each Workspace, Editor or Viewer, and marks your per
 Workspace as `personal`.
 
 A publish from a project that isn't bound to a file counts against the Workspace you
-choose here, and needs you to be an Editor in it. A web publish is the exception: it
-counts against the Workspace that owns the page. For a publish, choosing your personal
-Workspace counts as choosing none. If you haven't chosen one and you're an Editor in
-several, the CLI stops the publish and exits with code `10`. See
+choose here, and needs you to be an Editor in it. For a publish, choosing your personal
+Workspace counts as choosing none. If you haven't chosen a Workspace and you're an
+Editor in several, the CLI stops the publish and exits with code `10`. A web publish
+from a project that isn't bound to a file counts against the Workspace that owns the
+page, whichever Workspace you choose here. See
 [Which Workspace counts](/cli/monthly-allowance#which-workspace-counts).
 
 | Flag | Does |

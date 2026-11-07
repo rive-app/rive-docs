@@ -145,10 +145,10 @@ to change it.
 
 With `--publish --format=json`, the message is in `errors`. The same answer is also in
 the `allowance` field, with `code`, `message`, `scope`, `limit`, `used`, `resetsAt`,
-`upgradeUrl`, and `workspace`. `workspace` is the Workspace the action counts against,
-with its `id` and `name`, `personal` (`true` for your personal Workspace), and `admin`
-(`true` when you can upgrade it). `allowance` is `null` unless the allowance stopped
-the run.
+`upgradeUrl`, and `workspace`. `workspace` is the Workspace the action counts against:
+its `id`, its `name` (`null` for your personal Workspace), `personal` (`true` for your
+personal Workspace), and `admin` (`true` when you can upgrade it). `allowance` is
+`null` unless the allowance stopped the run.
 
 Files you already pushed or published keep working. You can still pull, preview,
 check builds with `--verify`, build apps, and export from the Rive Editor. To publish
