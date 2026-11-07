@@ -44,9 +44,11 @@ To publish a project that isn't bound to a file, you need to be an Editor in the
 Workspace it counts against. Admins count as Editors, and Viewer access isn't enough.
 Without the Editor role, the CLI stops and says why, and nothing counts.
 
-If you're an Editor in several Workspaces and haven't chosen one, or you chose your
-personal Workspace, the CLI stops before anything counts. It lists those Workspaces and
-exits with code `10`:
+If you haven't chosen a Workspace and you're an Editor in several, a publish from a
+project that isn't bound to a file stops before anything counts. Choosing your personal
+Workspace counts as choosing none. A web publish doesn't need this choice, because it
+uses the page's Workspace. When the CLI stops, it lists the Workspaces where you're an
+Editor and exits with code `10`:
 
 ```text
 Choose the Workspace this publish counts against with `rive workspace <id>`. You're an Editor in Client Work (77), Acme Studio (2201).
