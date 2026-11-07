@@ -63,8 +63,8 @@ you edit.
 <Note>
 `--publish` writes a `.riv` with no watermark when the Workspace the publish counts
 against is on the [Cadet plan or higher](https://rive.app/pricing). Otherwise it adds
-a watermark and names that Workspace. Admins of that Workspace get a link to upgrade,
-and everyone else is told to ask an admin.
+a watermark and names that Workspace, unless it's your personal Workspace. Admins of
+that Workspace get a link to upgrade, and everyone else is told to ask an admin.
 
 A project bound to a file counts against the file's Workspace. Binding is done by
 [`rive push`](/cli/reference/project-config#pushing-to-a-rive-file), which records
@@ -472,8 +472,8 @@ rive workspace create <name>  # create a Free Workspace and switch to it
 ```
 
 `rive ls` and `rive push` work one Workspace at a time, and this chooses which. Until
-you switch, they use your personal Workspace. The choice persists. Use
-`rive ls --workspace=<id>` to read another one without switching.
+you switch, they use your personal Workspace. The choice persists for the account that
+made it. Use `rive ls --workspace=<id>` to read another one without switching.
 
 The list shows your role in each Workspace, Editor or Viewer, and marks your personal
 Workspace as `personal`.
