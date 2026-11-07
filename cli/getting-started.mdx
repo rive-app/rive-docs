@@ -119,6 +119,10 @@ rive login
 
 An account is required for `--publish`, which signs the file through Rive's API, and `--rev`, which exports a `.rev`. Everything else runs locally and works signed out and offline.
 
+If your personal Workspace is the only Workspace you have, the CLI also creates a Free
+Workspace for you when you sign in. Publishes from projects that aren't bound to a file
+then count against it, because it's the only Workspace where you're an Editor.
+
 <Warning>
 A file containing scripts that is destined for the web must be built with
 `--publish`. Unsigned scripts are rejected by the CDN and the web runtimes. A file with no scripts is unaffected.
