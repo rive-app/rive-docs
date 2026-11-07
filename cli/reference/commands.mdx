@@ -28,7 +28,7 @@ installed version.
 | `rive push` | Build the project and upload it to a Rive file in your account. Needs `rive login` |
 | `rive pull` | Overwrite the local project from the Rive file it is linked to. Needs `rive login` |
 | `rive ls` | List the projects, folders and files in your Rive account. Needs `rive login` |
-| `rive workspace` | Show the current workspace, or switch to another. Needs `rive login` |
+| `rive workspace` | Show the current Workspace and your role in each Workspace, or switch to another. Needs `rive login` |
 | `rive open` | Open a Rive file in the Editor in your browser. Needs `rive login` |
 | `rive library` | Inspect, update and publish Rive libraries. Needs `rive login`, except `library list` |
 | `rive doctor` | Check the environment: version, auth, ports, project |
@@ -61,12 +61,16 @@ you edit.
 | `--test` | Run `Tests` scripts. Exit 6 on failures |
 
 <Note>
-`--publish` writes a `.riv` with no watermark when the project is bound to a file in
-your Rive account, and that file is in a workspace on the
-[Cadet plan or higher](https://rive.app/pricing). Otherwise it adds a watermark.
-Binding is done by
+`--publish` writes a `.riv` with no watermark when the Workspace the publish counts
+against is on the [Cadet plan or higher](https://rive.app/pricing). Otherwise it adds
+a watermark and names that Workspace. Admins of that Workspace get a link to upgrade,
+and everyone else is told to ask an admin.
+
+A project bound to a file counts against the file's Workspace. Binding is done by
 [`rive push`](/cli/reference/project-config#pushing-to-a-rive-file), which records
-`push.fileId` in `rive.yaml`.
+`push.fileId` in `rive.yaml`. Other projects count against the Workspace you choose
+with [`rive workspace`](#workspace), or the only one where you're an Editor. See
+[Which Workspace counts](/cli/monthly-allowance#which-workspace-counts).
 </Note>
 
 ### Modifiers
@@ -460,17 +464,23 @@ rive open 2564593           # open it in the Editor
 ### `workspace`
 
 ```bash
-rive workspace        # the current workspace, and every one you can switch to
-rive workspace <id>   # switch to that workspace
+rive workspace        # the current Workspace, and your role in every one you can switch to
+rive workspace <id>   # switch to that Workspace
 ```
 
-`rive ls` and `rive push` work one workspace at a time, and this chooses which. It is
-your personal workspace until you switch, and the choice persists. Use
-`rive ls --workspace=<id>` to read another one without switching.
+`rive ls` and `rive push` work one Workspace at a time, and this chooses which. The
+choice persists. Use `rive ls --workspace=<id>` to read another one without switching.
+
+A publish from a project that isn't bound to a file counts against the Workspace you
+choose here, and needs you to be an Editor in it. A web publish is the exception: it
+counts against the Workspace that owns the page. The list shows your role in each
+Workspace: Editor or Viewer. If you haven't chosen one and you're an Editor in
+several, the CLI stops the publish and exits with code `10`. See
+[Which Workspace counts](/cli/monthly-allowance#which-workspace-counts).
 
 | Flag | Does |
 |---|---|
-| `--json` | One JSON object per workspace, rows only |
+| `--json` | One JSON object per Workspace, rows only |
 
 ### `open`
 
@@ -591,7 +601,8 @@ connection even with valid stored credentials.
 | `6` | Test cases failed. The build itself was fine |
 | `7` | A service could not be reached, so it is safe to retry |
 | `8` | This CLI is below the published minimum. Run `rive update` |
-| `9` | The workspace used its [monthly CLI allowance](/cli/monthly-allowance). Retrying does not help until it resets or the workspace upgrades |
+| `9` | The Workspace used its [monthly CLI allowance](/cli/monthly-allowance). Retrying does not help until it resets or the Workspace upgrades |
+| `10` | The project isn't bound to a file, no Workspace is chosen, and you're an Editor in several. Choose one with `rive workspace <id>`, using an id the CLI lists. See [Which Workspace counts](/cli/monthly-allowance#which-workspace-counts) |
 
 <Note>
 Any argument without a leading `--` is read as the project directory. Passing more

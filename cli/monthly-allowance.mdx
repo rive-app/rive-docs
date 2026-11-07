@@ -23,13 +23,46 @@ unlimited and never count against the allowance.
 Student plans and legacy paid plans have no monthly allowance. See
 [Pricing](/account-admin/pricing) for what else each plan includes.
 
-An action counts against the Workspace that owns the Rive file your project is bound
-to (`push.fileId` in [`rive.yaml`](/cli/reference/project-config#pushing-to-a-rive-file)).
-If the project is not bound to a file, the action counts against your personal
-Workspace. Your personal Workspace uses its own plan's allowance, whichever Workspaces
-you're an editor in. To use another Workspace's allowance, bind the project to a
-file in that Workspace. Publishing a bound project from the CLI needs edit access to
-that file.
+## Which Workspace counts
+
+Each action counts against one Workspace. That Workspace's plan decides the allowance
+and whether a publish has the watermark (the Rive splash screen).
+
+- **A push** counts against the Workspace that owns the Rive file it pushes to.
+- **A publish from a project bound to a Rive file** (`push.fileId` in
+  [`rive.yaml`](/cli/reference/project-config#pushing-to-a-rive-file)) counts against
+  the Workspace that owns the file. You need edit access to that file.
+- **A publish from a project that isn't bound to a file** counts against the Workspace
+  you choose with [`rive workspace <id>`](/cli/reference/commands#workspace). If you
+  haven't chosen one, it counts against the only Workspace where you're an
+  [Editor](/account-admin/workspaces/managing-workspace-members#member-roles).
+- **A web publish from a project that isn't bound to a file** counts against the
+  Workspace that owns the page (`--team=<id>`, or `pages.teamId` in `rive.yaml`). See
+  [Publishing CLI Projects](/cli/publishing).
+
+To publish a project that isn't bound to a file, you need to be an Editor in the
+Workspace it counts against. Admins count as Editors, and Viewer access isn't enough.
+Without the Editor role, the CLI stops and says why, and nothing counts.
+
+If you're an Editor in several Workspaces and haven't chosen one, the CLI stops before
+anything counts. It lists those Workspaces and exits with code `10`:
+
+```text
+Choose the Workspace this publish counts against with `rive workspace <id>`. You're an Editor in Client Work (77), Acme Studio (2201).
+  77    Client Work
+  2201  Acme Studio
+```
+
+Run `rive workspace 2201` to choose Acme Studio, then publish again. The CLI saves the
+choice, so later publishes count against Acme Studio too.
+
+<Note>
+Older versions of the CLI don't send your chosen Workspace with a publish. For them, a
+publish from a project that isn't bound to a file counts against the only Workspace
+where you're an Editor. If you're an Editor in several Workspaces or in none, it counts
+against your personal Workspace and has the watermark. Update the CLI to choose the
+Workspace yourself.
+</Note>
 
 ## What counts
 
@@ -70,11 +103,14 @@ use in a month do not carry over to the next month.
 ## Warning before the limit
 
 When 20% or less of the allowance is left, the CLI prints one warning per run. The
-warning shows how many actions are left and when the allowance resets:
+warning shows the Workspace, how many actions are left, and when the allowance resets:
 
 ```text
-CLI allowance: 8 of {{cliAllowanceFree}} publishes and pushes left this month (resets Dec 1). Upgrade: https://rive.app/pricing
+CLI allowance in Acme Studio: 8 of {{cliAllowanceFree}} publishes and pushes left this month (resets Dec 1). Upgrade: https://rive.app/pricing
 ```
+
+Admins of that Workspace get the link to upgrade. Everyone else gets "Ask an admin of
+Acme Studio to upgrade." instead.
 
 With `--publish --format=json`, the warning is in `warnings`.
 
@@ -91,16 +127,20 @@ and links to where you can top up.
 The CLI checks the allowance before a push starts. A push that fails this check sends
 nothing.
 
-The CLI stops the action and does not retry it. It prints the reset date and a link to
+The CLI stops the action and does not retry it. It prints the reset date and how to
 upgrade, and exits with code `9`:
 
 ```text
-Monthly CLI allowance used up in your personal workspace: {{cliAllowanceFree}} of {{cliAllowanceFree}} publishes and pushes. Resets Dec 1, 2026 (UTC). Upgrade: https://rive.app/pricing
+Monthly CLI allowance used up in Acme Studio: {{cliAllowanceFree}} of {{cliAllowanceFree}} publishes and pushes. Resets Dec 1, 2026 (UTC). Upgrade: https://rive.app/pricing
 ```
 
-The message names the Workspace the action counted against. If it names your personal
-Workspace but you meant to use another Workspace's allowance, bind the project to a
-file in that Workspace with `push.fileId`.
+The message names the Workspace the action counts against. Admins of that Workspace
+get the link to upgrade. Everyone else gets "Ask an admin of Acme Studio to upgrade."
+instead.
+
+If the message names a Workspace you didn't expect,
+[Which Workspace counts](#which-workspace-counts) explains how the CLI picks it and how
+to change it.
 
 With `--publish --format=json`, the message is in `errors`. The same answer is also in
 the `allowance` field, with `code`, `message`, `scope`, `limit`, `used`, `resetsAt`, and
