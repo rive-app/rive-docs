@@ -45,11 +45,11 @@ Workspace it counts against. Admins count as Editors, and Viewer access isn't en
 Without the Editor role, the CLI stops and says why, and nothing counts.
 
 If your personal Workspace is the only Workspace you have, the CLI creates a Free
-Workspace for you, right after `rive login` signs you in or before the next command
-that needs a Workspace. You're its admin, and it's the only Workspace where you're an
-Editor, so publishes from projects that aren't bound to a file count against it.
-[`rive workspace`](/cli/reference/commands#workspace) explains how the new Workspace
-gets its name.
+Workspace for you, right after `rive login` signs you in, or when you next run a
+command that needs a Workspace. You're its admin, and it's the only Workspace where
+you're an Editor, so publishes from projects that aren't bound to a file count against
+it. [`rive workspace`](/cli/reference/commands#workspace) explains how the new
+Workspace gets its name.
 
 If you're a Viewer in other Workspaces but an Editor in none, a publish from a project
 that isn't bound to a file stops. Ask an admin of one of those Workspaces for the

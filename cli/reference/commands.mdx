@@ -492,13 +492,14 @@ around a name with spaces. The CLI prints
 `created a Free Workspace: <name> (<id>), now the current one`.
 
 If your personal Workspace is the only Workspace you have, the CLI creates a Free
-Workspace for you, right after `rive login` signs you in or before the next command
-that needs a Workspace. In a terminal, it asks you for a name and suggests your name
-followed by `'s Workspace`. Without a terminal, as when an agent runs the CLI, it uses
-that suggestion. It prints `created a Free Workspace: <name> (<id>)`. The new Workspace
-doesn't become the current one, so `rive ls` and `rive push` keep using your personal
-Workspace until you switch. Publishes from projects that aren't bound to a file count
-against the new Workspace, because it's the only one where you're an Editor.
+Workspace for you, right after `rive login` signs you in, or when you next run a
+command that needs a Workspace. In a terminal, it asks you for a name and suggests
+your name followed by `'s Workspace`. Without a terminal, as when an agent runs the
+CLI, it uses that suggestion. It prints `created a Free Workspace: <name> (<id>)`. The
+new Workspace doesn't become the current one, so `rive ls` and `rive push` keep using
+your personal Workspace until you switch. Publishes from projects that aren't bound to
+a file count against the new Workspace, because it's the only one where you're an
+Editor.
 
 | Flag | Does |
 |---|---|
