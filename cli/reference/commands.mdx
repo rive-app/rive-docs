@@ -17,7 +17,7 @@ installed version.
 |---|---|
 | `rive create` | Scaffold a Rive project locally. It creates the following: `rive.yaml`, `scene.rml`, `AGENTS.md`, `.gitignore` |
 | `rive <project-dir>` | Open the preview window and rebuild as you edit. The directory defaults to `.` |
-| `rive login` | Sign in with your Rive account |
+| `rive login` | Sign in with your Rive account. Creates a Free Workspace if your personal Workspace is the only one you have. See [`workspace`](#workspace) |
 | `rive logout` | Sign out |
 | `rive whoami` | Show who you are signed in as |
 | `rive docs` | The CLI's own authoring documentation |
@@ -28,7 +28,7 @@ installed version.
 | `rive push` | Build the project and upload it to a Rive file in your account. Needs `rive login` |
 | `rive pull` | Overwrite the local project from the Rive file it is linked to. Needs `rive login` |
 | `rive ls` | List the projects, folders and files in your Rive account. Needs `rive login` |
-| `rive workspace` | Show the current Workspace and your role in each Workspace, or switch to another. Needs `rive login` |
+| `rive workspace` | Show the current Workspace and your role in each Workspace, switch to another, or create a Free one. Needs `rive login` |
 | `rive open` | Open a Rive file in the Editor in your browser. Needs `rive login` |
 | `rive library` | Inspect, update and publish Rive libraries. Needs `rive login`, except `library list` |
 | `rive doctor` | Check the environment: version, auth, ports, project |
@@ -466,8 +466,9 @@ rive open 2564593           # open it in the Editor
 ### `workspace`
 
 ```bash
-rive workspace        # the current Workspace, and your role in every one you can switch to
-rive workspace <id>   # switch to that Workspace
+rive workspace                # the current Workspace, and your role in every one you can switch to
+rive workspace <id>           # switch to that Workspace
+rive workspace create <name>  # create a Free Workspace and switch to it
 ```
 
 `rive ls` and `rive push` work one Workspace at a time, and this chooses which. Until
@@ -485,9 +486,24 @@ doesn't need this choice: it counts against the Workspace that owns the page, wh
 Workspace you choose here. See
 [Which Workspace counts](/cli/monthly-allowance#which-workspace-counts).
 
+`rive workspace create <name>` creates a Workspace on the Free plan, with you as its
+admin, and makes it the current Workspace. The name is 3 to 60 characters. Put quotes
+around a name with spaces. The CLI prints
+`created a Free Workspace: <name> (<id>), now the current one`.
+
+If your personal Workspace is the only Workspace you have, the CLI creates a Free
+Workspace for you, right after `rive login` signs you in or before the next command
+that needs a Workspace. In a terminal, it asks you for a name and suggests your name
+followed by `'s Workspace`. Without a terminal, as when an agent runs the CLI, it uses
+that suggestion. It prints `created a Free Workspace: <name> (<id>)`. The new Workspace
+doesn't become the current one, so `rive ls` and `rive push` keep using your personal
+Workspace until you switch. Publishes from projects that aren't bound to a file count
+against the new Workspace, because it's the only one where you're an Editor.
+
 | Flag | Does |
 |---|---|
 | `--json` | One JSON object per Workspace, rows only |
+| `--format=json` | With `create`, print the new Workspace as one JSON object with its `id` and `name` |
 
 ### `open`
 
@@ -638,9 +654,11 @@ object on stdout. `data` differs per mode. `--verify` and `--once` carry the bui
 `severity` one of `error`, `warning` or `hint`. `errors` repeats them as
 `script:line message` strings. `data.riv` is `null` on `--verify`
 and on any failed build. Logs stay on stderr, so stdout carries nothing else.
-Each of these reports also has an `allowance` field. It is `null` unless the
-[monthly CLI allowance](/cli/monthly-allowance) stopped the run, which only `--publish`
-can do.
+Each of these reports also has an `allowance` field and a `workspace` field.
+`allowance` is `null` unless the [monthly CLI allowance](/cli/monthly-allowance)
+stopped the run, which only `--publish` can do. `workspace` names the Workspace a
+`--publish` run counts against. It's `null` on the other modes, and when Rive doesn't
+name one. See [Which Workspace counts](/cli/monthly-allowance#which-workspace-counts).
 
 ## Environment variables
 

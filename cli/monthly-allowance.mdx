@@ -44,6 +44,18 @@ To publish a project that isn't bound to a file, you need to be an Editor in the
 Workspace it counts against. Admins count as Editors, and Viewer access isn't enough.
 Without the Editor role, the CLI stops and says why, and nothing counts.
 
+If your personal Workspace is the only Workspace you have, the CLI creates a Free
+Workspace for you, right after `rive login` signs you in or before the next command
+that needs a Workspace. You're its admin, and it's the only Workspace where you're an
+Editor, so publishes from projects that aren't bound to a file count against it.
+[`rive workspace`](/cli/reference/commands#workspace) explains how the new Workspace
+gets its name.
+
+If you're a Viewer in other Workspaces but an Editor in none, a publish from a project
+that isn't bound to a file stops. Ask an admin of one of those Workspaces for the
+Editor role, or create your own Free Workspace with
+[`rive workspace create <name>`](/cli/reference/commands#workspace).
+
 If you haven't chosen a Workspace and you're an Editor in several, a publish from a
 project that isn't bound to a file stops before anything counts. Choosing your personal
 Workspace counts as choosing none. A web publish doesn't need this choice, because it
@@ -58,6 +70,11 @@ Choose the Workspace this publish counts against with `rive workspace <id>`. You
 
 Run `rive workspace 2201` to choose Acme Studio, then publish again. The CLI saves the
 choice for later publishes from projects that aren't bound to a file.
+
+With `--publish --format=json`, the top-level `workspace` field names the Workspace the
+publish counts against: its `id`, its `name` (`null` for your personal Workspace),
+`personal` (`true` for your personal Workspace), and `admin` (`true` when you can
+upgrade it). It's `null` when Rive doesn't name one.
 
 <Note>
 Older versions of the CLI don't send your chosen Workspace with a publish. For them, a
@@ -147,10 +164,9 @@ to change it.
 
 With `--publish --format=json`, the message is in `errors`. The same answer is also in
 the `allowance` field, with `code`, `message`, `scope`, `limit`, `used`, `resetsAt`,
-`upgradeUrl`, and `workspace`. `workspace` is the Workspace the action counts against:
-its `id`, its `name` (`null` for your personal Workspace), `personal` (`true` for your
-personal Workspace), and `admin` (`true` when you can upgrade it). `allowance` is
-`null` unless the allowance stopped the run.
+`upgradeUrl`, and `workspace`. That `workspace` has the same `id`, `name`, `personal`,
+and `admin` fields as the top-level `workspace` field. `allowance` is `null` unless the
+allowance stopped the run.
 
 Files you already pushed or published keep working. You can still pull, preview,
 check builds with `--verify`, build apps, and export from the Rive Editor. To publish
