@@ -70,8 +70,9 @@ Run `rive workspace 2201` to choose Acme Studio, then publish again. The CLI sav
 choice for later publishes from projects that aren't bound to a file.
 
 With `--publish --format=json`, the top-level `workspace` field names the Workspace the
-publish counts against: its `id`, its `name`, and `admin` (`true` when you can upgrade
-it). It's `null` when Rive doesn't name one.
+publish counts against, or is `null` when Rive doesn't name one. It has `id`, `name`,
+`personal`, and `admin` (`true` when you can upgrade it). When the publish counts
+against your account instead of a Workspace, `personal` is `true` and `name` is `null`.
 
 <Note>
 Older versions of the CLI don't send your chosen Workspace with a publish. For them, a
@@ -161,8 +162,8 @@ to change it.
 
 With `--publish --format=json`, the message is in `errors`. The same answer is also in
 the `allowance` field, with `code`, `message`, `scope`, `limit`, `used`, `resetsAt`,
-`upgradeUrl`, and `workspace`. That `workspace` has the same `id`, `name`, and `admin`
-fields as the top-level `workspace` field. `allowance` is `null` unless the
+`upgradeUrl`, and `workspace`. That `workspace` has the same `id`, `name`, `personal`,
+and `admin` fields as the top-level `workspace` field. `allowance` is `null` unless the
 allowance stopped the run.
 
 Files you already pushed or published keep working. You can still pull, preview,
