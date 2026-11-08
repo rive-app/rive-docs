@@ -473,10 +473,10 @@ rive workspace create <name>  # create a Free Workspace and switch to it
 
 `rive ls` and `rive push` work one Workspace at a time, and this chooses which. Until
 you switch, the current Workspace is the only one where you're an Editor. If you're an
-Editor in several, none is current until you choose one: in a terminal, `rive ls` and a
-first `rive push` open a picker, and anywhere else they list your Workspaces and exit
-with code `10`. The choice persists. Use `rive ls --workspace=<id>` to read another one
-without switching.
+Editor in several or in none, no Workspace is current until you choose one: in a
+terminal, `rive ls` and a first `rive push` open a picker, and anywhere else they list
+your Workspaces and exit with code `10`. The choice persists. Use
+`rive ls --workspace=<id>` to read another one without switching.
 
 The list shows your role in each Workspace, Editor or Viewer. `rive workspace <id>` takes
 an id from that list.
@@ -627,7 +627,7 @@ connection even with valid stored credentials.
 | `7` | A service could not be reached, so it is safe to retry |
 | `8` | This CLI is below the published minimum. Run `rive update` |
 | `9` | The Workspace used its [monthly CLI allowance](/cli/monthly-allowance). Retrying does not help until it resets or the Workspace upgrades |
-| `10` | You haven't chosen a Workspace and you're an Editor in several, so the CLI can't tell which one to use. This stops a publish from a project that isn't bound to a file, and `rive ls` or a first `rive push` that can't open a picker. Choose one with `rive workspace <id>`, using an id the CLI lists. A web publish doesn't need this choice, because it uses the page's Workspace. See [Which Workspace counts](/cli/monthly-allowance#which-workspace-counts) |
+| `10` | You haven't chosen a Workspace, and the CLI can't pick one for you. A publish from a project that isn't bound to a file stops here when you're an Editor in several. `rive ls`, and a first `rive push` that can't open a picker, stop here when you're an Editor in several or in none. Choose one with `rive workspace <id>`, using an id the CLI lists. A web publish doesn't need this choice, because it uses the page's Workspace. See [Which Workspace counts](/cli/monthly-allowance#which-workspace-counts) |
 
 <Note>
 Any argument without a leading `--` is read as the project directory. Passing more
