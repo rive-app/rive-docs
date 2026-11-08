@@ -34,8 +34,7 @@ and whether a publish has the watermark (the Rive splash screen).
   the Workspace that owns the file. You need edit access to that file.
 - **A publish from a project that isn't bound to a file** counts against the Workspace
   you choose with [`rive workspace <id>`](/cli/reference/commands#workspace). If you
-  haven't chosen one, or you chose your personal Workspace, it counts against the only
-  Workspace where you're an
+  haven't chosen one, it counts against the only Workspace where you're an
   [Editor](/account-admin/workspaces/managing-workspace-members#member-roles).
 - **A web publish from a project that isn't bound to a file** counts against the
   Workspace that owns the page. See [Publishing CLI Projects](/cli/publishing).
@@ -44,12 +43,12 @@ To publish a project that isn't bound to a file, you need to be an Editor in the
 Workspace it counts against. Admins count as Editors, and Viewer access isn't enough.
 Without the Editor role, the CLI stops and says why, and nothing counts.
 
-If your personal Workspace is the only Workspace you have, the CLI creates a Free
-Workspace for you, right after `rive login` signs you in, or when you next run a
-command that needs a Workspace. You're its admin, and it's the only Workspace where
-you're an Editor, so publishes from projects that aren't bound to a file count against
-it. [`rive workspace`](/cli/reference/commands#workspace) explains how the new
-Workspace gets its name.
+If you aren't a member of any Workspace, the CLI creates a Free Workspace for you,
+right after `rive login` signs you in, or when you next run a command that needs a
+Workspace. You're its admin, and it's the only Workspace where you're an Editor, so
+publishes from projects that aren't bound to a file count against it.
+[`rive workspace`](/cli/reference/commands#workspace) explains how the new Workspace
+gets its name.
 
 If you're a Viewer in one or more Workspaces but an Editor in none, a publish from a
 project that isn't bound to a file stops. Ask an admin of one of those Workspaces for
@@ -57,13 +56,12 @@ the Editor role, or create your own Free Workspace with
 [`rive workspace create <name>`](/cli/reference/commands#workspace).
 
 If you haven't chosen a Workspace and you're an Editor in several, a publish from a
-project that isn't bound to a file stops before anything counts. Choosing your personal
-Workspace counts as choosing none. A web publish doesn't need this choice, because it
-uses the page's Workspace. When the CLI stops, it lists the Workspaces where you're an
-Editor and exits with code `10`:
+project that isn't bound to a file stops before anything counts. A web publish doesn't
+need this choice, because it uses the page's Workspace. When the CLI stops, it lists the
+Workspaces where you're an Editor and exits with code `10`:
 
 ```text
-Choose the Workspace this publish counts against with `rive workspace <id>`. You're an Editor in Client Work (77), Acme Studio (2201).
+Choose the Workspace this publish counts against with `rive workspace <id>`.
   77    Client Work
   2201  Acme Studio
 ```
@@ -72,15 +70,14 @@ Run `rive workspace 2201` to choose Acme Studio, then publish again. The CLI sav
 choice for later publishes from projects that aren't bound to a file.
 
 With `--publish --format=json`, the top-level `workspace` field names the Workspace the
-publish counts against: its `id`, its `name` (`null` for your personal Workspace),
-`personal` (`true` for your personal Workspace), and `admin` (`true` when you can
-upgrade it). It's `null` when Rive doesn't name one.
+publish counts against: its `id`, its `name`, and `admin` (`true` when you can upgrade
+it). It's `null` when Rive doesn't name one.
 
 <Note>
 Older versions of the CLI don't send your chosen Workspace with a publish. For them, a
 publish from a project that isn't bound to a file counts against the only Workspace
 where you're an Editor. If you're an Editor in several Workspaces or in none, it counts
-against your personal Workspace and has the watermark. If you're an Editor in several,
+against your account rather than a Workspace, and has the watermark. If you're an Editor in several,
 update the CLI and choose one.
 </Note>
 
@@ -164,8 +161,8 @@ to change it.
 
 With `--publish --format=json`, the message is in `errors`. The same answer is also in
 the `allowance` field, with `code`, `message`, `scope`, `limit`, `used`, `resetsAt`,
-`upgradeUrl`, and `workspace`. That `workspace` has the same `id`, `name`, `personal`,
-and `admin` fields as the top-level `workspace` field. `allowance` is `null` unless the
+`upgradeUrl`, and `workspace`. That `workspace` has the same `id`, `name`, and `admin`
+fields as the top-level `workspace` field. `allowance` is `null` unless the
 allowance stopped the run.
 
 Files you already pushed or published keep working. You can still pull, preview,
