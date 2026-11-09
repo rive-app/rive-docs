@@ -81,7 +81,7 @@ These attach to whichever mode you chose.
 | Flag | Does |
 |---|---|
 | `--init` | Write `rive.yaml` if missing, then continue |
-| `--rev=<path>` | Also write an editor `.rev`. Needs `rive login`. Combines with `--publish`. On its own it builds without writing a `.riv`. Refused with `--verify`, `--test` and `--screenshot` |
+| `--rev=<path>` | Also write an editor `.rev`. Needs `rive login`. Combines with `--publish[=local]`. On its own it builds without writing a `.riv`, then exits. Refused with `--verify`, `--test` and `--screenshot` |
 
 ### Capture
 
@@ -282,7 +282,7 @@ Quote the `drag` value so the shell does not read `>` as a redirection.
 | `--quiet` | No terminal log, compiler errors included. Script `print` output and script errors still print. Read the exit code, `--format=json`, or `logs.problems` instead |
 | `--optimize` | Compile Luau at O2 instead of O1, and AnimaScript without its debugger line probes. Both run faster and are harder to debug |
 | `--no-status-bar` | Hide the window's [status bar](/cli/reference/status-bar). Paid plans only |
-| `--format=json` or `--format=human` | `human` is the default terminal log. `json` needs `--verify`, `--publish` or `--test`, and prints one JSON report object on stdout. `--json` is an alias for `--format=json` |
+| `--format=json` or `--format=human` | `human` is the default terminal log. `json` needs `--verify`, `--publish[=local]` or `--test`, and prints one JSON report object on stdout. `--json` is an alias for `--format=json` |
 
 ## Publishing to the web
 
@@ -620,7 +620,7 @@ connection even with valid stored credentials.
 |---|---|
 | `0` | OK |
 | `1` | Build errors, or any failure without a more specific code |
-| `2` | An unknown flag, or one the CLI parsed and rejected: a bad `--pointer`, `--data`, `--advance` or `--viewport` value; `--frame`, which is gone; `--format` given anything but `json` or `human`; `--format=json` without a build mode; two build modes at once; `--rev` with a mode that writes nothing; an interaction with no `--screenshot`; or `rive` with no arguments outside a project |
+| `2` | An unknown flag, or one the CLI parsed and rejected: a bad `--pointer`, `--data`, `--advance` or `--viewport` value; `--frame` or `--once`, which are gone; `--format` given anything but `json` or `human`; `--format=json` without a build mode; two build modes at once; `--rev` with a mode that writes nothing; an interaction with no `--screenshot`; or `rive` with no arguments outside a project |
 | `3` | Not logged in, or the session was rejected |
 | `6` | Test cases failed. The build itself was fine |
 | `7` | A service could not be reached, so it is safe to retry |
@@ -636,7 +636,7 @@ the others, so a stray word changes what gets built.
 
 ## JSON output
 
-`--format=json` on `--verify`, `--publish` or `--test` prints one JSON
+`--format=json` on `--verify`, `--publish[=local]` or `--test` prints one JSON
 object on stdout. `data` differs per mode. `--verify` and `--publish` carry the build:
 
 ```json
