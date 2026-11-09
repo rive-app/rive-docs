@@ -693,6 +693,7 @@ The CLI sends usage analytics to help improve Rive. Each run reports:
 - The CLI version, operating system and language
 - A random ID for this install
 - Whether the command ran in a terminal or was started by a coding agent
+- The coding agent's name, such as `codex`. If the agent sets `AI_AGENT`, the CLI sends that value when it's 32 or fewer letters, digits, `.`, `_` and `-`, and `other` if not
 - Your Rive account ID and plan, when you're signed in
 
 The preview window also reports when its status bar shows an upgrade button, and which status bar items you click. Events carry no IP address or location.
