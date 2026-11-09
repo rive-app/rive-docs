@@ -432,3 +432,37 @@ Returns a Promise that resolves with a DecodedImage table.
 Use with await() inside async(), or chain with :andThen().
 
 
+### `loadImage`
+
+{/* function loadImage(self, data: buffer): Promise<Image> */}
+<div class="signature">
+```lua
+loadImage(data: buffer) -> Promise<Image>
+```
+</div>
+
+Decode compressed image data (PNG, JPEG, WebP) into an [Image](/scripting/api-reference/image/image), the
+same kind an image asset gives: draw it with `drawImage`, or assign it
+to a view model image property so whatever is bound to it shows it.
+Native runtimes decode on the calling thread, and the Promise rejects
+with "failed to decode image data" when the bytes do not decode. Web
+runtimes, the editor and the CLI preview decode in the background:
+there the Promise resolves with an Image whose width and height are 0
+until it has decoded, and bytes that do not decode give an Image that
+never draws.
+```lua
+async(function()
+    local ok, response = await(fetch("https://example.com/a.png"))
+    if not ok or not response.ok then return nil end
+    local _, bytes = await(response:arrayBuffer())
+    local loaded, image = await(context:loadImage(bytes))
+    local vm = context:viewModel()
+    local photo = if vm then vm:getImage('photo') else nil
+    if loaded and photo then
+        photo.value = image
+    end
+    return nil
+end)
+```
+
+
