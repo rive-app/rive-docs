@@ -9,9 +9,9 @@ description: "Generate TypeScript types from your .riv files so artboard, state 
 
 You can generate a TypeScript schema for each `.riv` file. With it, artboard, state machine, view model, property, and enum names are checked at compile time, and your editor autocompletes them. A typo becomes a compile error instead of a runtime failure.
 
-A schema is a `.riv.d.ts` file next to the asset. It only adds types, so nothing changes in your bundle.
+A schema is a `.riv.d.ts` file next to the `.riv` file. It lists the file's artboards, state machines, view models, and enums. It contains only types, so nothing changes in your bundle.
 
-Types only apply when you load the asset with `import`. TypeScript finds the `.riv.d.ts` file automatically, with no tsconfig change. `require(...)` returns `any`, so it stays untyped even if a schema exists. This lets you adopt schemas one file at a time.
+Types only apply when you load the Rive file with `import`. TypeScript finds the `.riv.d.ts` file automatically, with no tsconfig change. `require(...)` returns `any`, so it stays untyped even if a schema exists. This lets you adopt schemas one file at a time.
 
 ```tsx
 import rewardsRiv from './assets/rive/rewards.riv'; // typed by rewards.riv.d.ts
@@ -36,7 +36,7 @@ const untypedRiv = require('./assets/rive/rewards.riv'); // untyped
 
     Commit the generated files. The output is stable, so regenerating an unchanged file gives no diff.
   </Step>
-  <Step title="Import the asset">
+  <Step title="Import the Rive file">
     Importing a `.riv` file needs `riv` in Metro's `assetExts`. See [loading Rive files](/runtimes/react-native/loading-rive-files).
 
     ```tsx
@@ -93,7 +93,7 @@ The types flow from the import, so you don't need to annotate anything. Artboard
 />
 ```
 
-View model names, property paths, and enum values are checked too. Paths must match the property's kind, and nested paths work:
+View model names, property paths, and enum values are checked too. Each hook only accepts paths to properties of its type, including nested property paths:
 
 ```tsx
 const { instance } = useViewModelInstance(riveFile, {
@@ -110,7 +110,7 @@ setValue('Gem');       // ✓
 setValue('Diamond');   // ✗ not a value of Item_Selection
 ```
 
-Enum values are the enum's keys, not its display labels. To reuse them in your own types, use `EnumValues`:
+To reuse an enum's values in your own types, use `EnumValues`:
 
 ```ts
 import { type EnumValues } from '@rive-app/react-native';
@@ -120,7 +120,7 @@ type ItemKind = EnumValues<typeof rewardsRiv, 'Item_Selection'>; // 'Coin' | 'Ge
 
 ### Referenced assets
 
-Assets that aren't embedded in the file are listed in `referencedAssets` by their unique name. The `referencedAssets` option of `useRiveFile` is checked against that list: an unknown name or a wrong `type` is a compile error.
+Out-of-band assets are listed in `referencedAssets`, keyed by the asset name and unique identifier as exported from the Rive editor. The `referencedAssets` option of `useRiveFile` is checked against that list: an unknown key or a wrong `type` is a compile error.
 
 ```tsx
 // Schema contains: referencedAssets: { 'Inter-594377': 'font' }
@@ -131,11 +131,11 @@ const { riveFile } = useRiveFile(outOfBandRiv, {
 });
 ```
 
-See [loading assets](/runtimes/react-native/loading-assets) for the ways to supply an asset.
+See [loading assets](/runtimes/react-native/loading-assets) for the ways to load out-of-band assets.
 
 ## Typing your own components
 
-To pass a typed file or instance to another component, use `TypedRiveFile` and `TypedViewModelOf`:
+To pass a typed Rive file or view model instance to another component, use `TypedRiveFile` and `TypedViewModelOf`:
 
 ```tsx
 import {
@@ -195,8 +195,8 @@ To catch stale schemas in CI, regenerate and fail if anything changed:
 
 ## Limits
 
-- Nested paths are typed up to two levels deep (`'a/b/leaf'`). Deeper paths work at runtime but need a cast.
-- Paths must be string literals. To build a path at runtime, use an untyped instance.
+- Nested property paths are typed up to two levels deep (`'a/b/leaf'`). Deeper paths work at runtime but need a cast.
+- Paths must be string literals. To build a path at runtime, use a view model instance without a schema.
 - List items are untyped, because the schema can't know which view model each item uses.
 - A nested view model is only typed if it has a default instance in the file. Otherwise its paths aren't typed.
 
@@ -204,7 +204,7 @@ To catch stale schemas in CI, regenerate and fail if anything changed:
 
 <AccordionGroup>
   <Accordion title="Names aren't checked">
-    Load the asset with `import`, not `require(...)`. Check that a `.riv.d.ts` file with the same name sits next to the `.riv` file.
+    Load the Rive file with `import`, not `require(...)`. Check that a `.riv.d.ts` file with the same name sits next to the `.riv` file.
   </Accordion>
   <Accordion title="An import reports 'This .riv.d.ts is out of date'">
     The schema was generated for a different version of `@rive-app/react-native`. Run `npx rive-gen-types` again.
