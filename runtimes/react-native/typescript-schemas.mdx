@@ -110,7 +110,7 @@ setValue('Gem');       // ✓
 setValue('Diamond');   // ✗ not a value of Item_Selection
 ```
 
-To reuse an enum's values in your own types, use `EnumValues`:
+Enum values are checked against the value names defined in the Rive file. To reuse an enum's values in your own types, use `EnumValues`:
 
 ```ts
 import { type EnumValues } from '@rive-app/react-native';
