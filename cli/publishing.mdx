@@ -140,8 +140,8 @@ rive myproject --list-published        # where is this project published
 rive myproject --list-published=web    # every page in the Workspace, with its url
 ```
 
-`built` means the file is on disk, not that it is signed. `--once` writes the same path
-as `--publish=local`, so a `built` row can still be an unsigned build. `not published`
+`built` means the file is on disk, not that it is signed: a project with no scripts
+publishes an unsigned `.riv`. `not published`
 means no page was found for the project's `pages:` binding.
 
 ## Unpublish a page

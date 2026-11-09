@@ -56,7 +56,6 @@ you edit.
 | Flag | Does |
 |---|---|
 | `--verify` | Check the project without writing a `.riv`. Exit 1 on errors |
-| `--once` | Write an unsigned `.riv`. Exit 1 on errors |
 | `--publish[=<target>]` | `local` (the default) writes a signed `.riv`. `web` builds, signs and publishes a hosted page. Needs `rive login`. See the note below for publishing without a watermark. Exit 1 on errors |
 | `--test` | Run `Tests` scripts. Exit 6 on failures |
 
@@ -82,7 +81,7 @@ These attach to whichever mode you chose.
 | Flag | Does |
 |---|---|
 | `--init` | Write `rive.yaml` if missing, then continue |
-| `--rev=<path>` | Also write an editor `.rev`. Needs `rive login`. Combines with `--once` or `--publish`, and on its own does an `--once` build too. Refused with `--verify`, `--test` and `--screenshot` |
+| `--rev=<path>` | Also write an editor `.rev`. Needs `rive login`. Combines with `--publish`. On its own it builds without writing a `.riv`. Refused with `--verify`, `--test` and `--screenshot` |
 
 ### Capture
 
@@ -102,7 +101,7 @@ These attach to whichever mode you chose.
 
 `--bench` runs instead of `--screenshot`, not alongside it. Passing both times the
 frames and writes no PNG, without saying so. It is a build mode in its own right, so
-it does not combine with `--verify`, `--once`, `--publish` or `--test`. It renders at
+it does not combine with `--verify`, `--publish` or `--test`. It renders at
 the artboard's own size and ignores `--viewport`, and it runs 300 warm-up frames
 before the ones it times.
 
@@ -283,7 +282,7 @@ Quote the `drag` value so the shell does not read `>` as a redirection.
 | `--quiet` | No terminal log, compiler errors included. Script `print` output and script errors still print. Read the exit code, `--format=json`, or `logs.problems` instead |
 | `--optimize` | Compile Luau at O2 instead of O1, and AnimaScript without its debugger line probes. Both run faster and are harder to debug |
 | `--no-status-bar` | Hide the window's [status bar](/cli/reference/status-bar). Paid plans only |
-| `--format=json` or `--format=human` | `human` is the default terminal log. `json` needs `--once`, `--verify`, `--publish` or `--test`, and prints one JSON report object on stdout. `--json` is an alias for `--format=json` |
+| `--format=json` or `--format=human` | `human` is the default terminal log. `json` needs `--verify`, `--publish` or `--test`, and prints one JSON report object on stdout. `--json` is an alias for `--format=json` |
 
 ## Publishing to the web
 
@@ -603,7 +602,7 @@ builds where the platform supports them. It exits `0` when everything is `ok` or
 | What you run | Session needed |
 |---|---|
 | `--publish`, `--rev`, `rive push`, `rive pull`, `create --from-remote-file`, `rive ls`, `rive workspace`, `rive open`, `library` except `list` | Yes, with `rive login` |
-| Preview window, `--once`, `--verify`, `--test`, `--screenshot`, `--serve`, `--headless-serve` | No, and these work offline |
+| Preview window, `--verify`, `--test`, `--screenshot`, `--serve`, `--headless-serve` | No, and these work offline |
 | `create`, `docs`, `samples`, `schema`, `inspect`, `library list` | No |
 | `update`, `whoami`, `doctor` | No account, but they reach the network. `whoami` exits `3` when you are not signed in and `7` when it cannot reach Rive; `doctor` reports a missing session as a warning and still exits `0`, but exits `1` when a check fails |
 
@@ -637,11 +636,11 @@ the others, so a stray word changes what gets built.
 
 ## JSON output
 
-`--format=json` on `--once`, `--verify`, `--publish` or `--test` prints one JSON
-object on stdout. `data` differs per mode. `--verify` and `--once` carry the build:
+`--format=json` on `--verify`, `--publish` or `--test` prints one JSON
+object on stdout. `data` differs per mode. `--verify` and `--publish` carry the build:
 
 ```json
-{"success": true, "command": "build", "data": {"riv": "./build/myproject.riv", "bytes": 140, "buildMs": 2.0, "problems": []}, "errors": [], "warnings": []}
+{"success": true, "command": "publish", "data": {"riv": "./build/myproject.riv", "bytes": 140, "buildMs": 2.0, "problems": []}, "errors": [], "warnings": []}
 ```
 
 `--test` carries the run:
@@ -650,8 +649,8 @@ object on stdout. `data` differs per mode. `--verify` and `--once` carry the bui
 {"success": false, "command": "test", "data": {"passed": 5, "failed": 1, "noTestsFound": false, "failures": [{"test": "clamp > intentional failure", "line": 29, "message": "5 is not equal to 10"}]}, "errors": ["clamp > intentional failure: 5 is not equal to 10"], "warnings": []}
 ```
 
-`command` is the mode, not the flag: `"build"` for `--once`, `"verify"` for
-`--verify`, `"publish"` for `--publish`, `"test"` for `--test`. Each entry in
+`command` names the mode: `"verify"` for `--verify`, `"publish"` for `--publish`,
+`"test"` for `--test`. Each entry in
 `data.problems` is `{severity, kind, code, script, line, column, message}`, with
 `severity` one of `error`, `warning` or `hint`. `errors` repeats them as
 `script:line message` strings. `data.riv` is `null` on `--verify`
