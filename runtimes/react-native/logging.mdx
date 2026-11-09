@@ -1,0 +1,49 @@
+---
+title: 'Logging'
+description: 'Debug logging for the Rive React Native runtime'
+---
+
+import Overview from '/snippets/runtimes/logging/overview.mdx'
+
+<Overview />
+
+<Note>
+  This page only applies to the [new
+  runtime](https://github.com/rive-app/rive-nitro-react-native), `@rive-app/react-native` 0.5.0 or later.
+</Note>
+
+By default, Rive logs to Logcat on Android and to React Native's `RCTLog` on iOS. Nothing reaches JavaScript until you call `RiveLog.forwardToConsole()` or `RiveLog.setHandler()`.
+
+On iOS, errors are logged with `RCTLogError`, so debug builds also show them as a red error screen. Forwarding logs to the console or setting a handler avoids this.
+
+## Forwarding logs to the console
+
+```ts
+import { RiveLog } from '@rive-app/react-native';
+
+RiveLog.forwardToConsole();
+```
+
+Messages start with `[Rive/<tag>]`. Debug and info logs use `console.log`. Warnings and errors both use `console.warn`, so they don't show the red error screen in debug builds. Errors you can handle reach your app through `onError` and rejected promises. See [Error handling](/runtimes/react-native/error-handling).
+
+## Setting the logging level
+
+Logs below the level you set are dropped everywhere. The default is `warn`.
+
+```ts
+RiveLog.setLogLevel('debug'); // 'debug' | 'info' | 'warn' | 'error'
+```
+
+## Using a custom logger
+
+```ts
+RiveLog.setHandler((level, tag, message) => {
+  myLogger.log(level, `[Rive/${tag}] ${message}`);
+});
+```
+
+Only one handler is active at a time, so `setHandler` and `forwardToConsole` replace each other. Tags differ between iOS and Android, so don't match on specific tags.
+
+## Returning to the default
+
+Call `RiveLog.resetHandler()` to remove the current handler and log to Logcat and `RCTLog` again.
