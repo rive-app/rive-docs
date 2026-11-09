@@ -14,6 +14,8 @@ import Overview from '/snippets/runtimes/logging/overview.mdx'
 
 By default, Rive logs stay on the native side: Logcat on Android and `os_log` on iOS, through React Native's `RCTLog`. Nothing reaches JavaScript until you forward logs to the console or set a custom handler, so an app that doesn't opt in pays no JS cost per log line.
 
+On iOS, native error logs go through `RCTLogError`, so in development builds they also show a red box unless you forward logs to the console or set a custom handler.
+
 ## Forwarding logs to the console
 
 To see Rive logs in the JS console, call `forwardToConsole`:
