@@ -1,42 +1,55 @@
 ---
 title: "Solos"
-description: "A Solo is similar to a group, but only one of the elements inside the solo is rendered at a time. This is much faster than having to animate the opacity of each object individually."
+description: "Show one object at a time from a group, to switch between skins, rigs, layouts, or frames."
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
+
+A Solo is like a group, but only one of its children is visible at a time, called the active child. Use it to switch between versions of something, such as hats on a character, views of a rig, or frames of an animation.
+
+Switching a Solo is cheaper than animating the opacity of each object. The inactive children aren't drawn or updated at all.
 
 <YouTube id="diYNK8aidaE" />
 
 ## Creating a Solo
 
-There are two ways to create a solo. The first is to select multiple items on your artboard, right click them in the Hierarchy, and click "Wrap in Solo".
+- **From a selection**: Select objects in the Hierarchy, right-click, and choose **Wrap in** > **Solo**.
+- **From a group**: Right-click a group and choose **Convert to Solo**.
+- **With the Solo tool**: Select the **Solo** tool from the **Arrangement Tools** menu in the toolbar (or press `S`), click the stage, then drag objects into the Solo in the Hierarchy.
 
-![Wrap in Solo](/images/editor/manipulating-shapes/28ce305c-d84f-45ca-b70f-f0aa925ec21e.webp)
+![Wrapping selected objects in a Solo from the Hierarchy's right-click menu](/images/editor/manipulating-shapes/wrap-in-solo.webp)
 
-The second option is to select the **Solo** tool from the **Hierarchy Tools** dropdown (or click **S** on your keyboard) and click anywhere on your artboard. Now that you have a Solo in your Hierarchy, you can drag elements into it.
+## Choosing the active child
 
-![Solo Tool](/images/editor/manipulating-shapes/0bacaffd-b25c-445f-9677-a4f31c4c2043.webp)
+Click the radio button next to a child in the Hierarchy, or choose it from **Active** in the Inspector.
 
-## Animating Solos
+Some children aren't options and are always applied, such as constraints and clipping shapes.
 
-You can animate solos by opening a timeline and clicking the solo's radio buttons in the Hierarchy.
+## Animating a Solo
 
-![Image](/images/editor/manipulating-shapes/8be34515-c2e9-46f9-9dc3-7347e2528dd9.webp)
+In a timeline, click a child's radio button to key the active child. The Solo switches instantly at each key.
 
-## Creating new skins
+![A Solo with three hat options in the Hierarchy, and keys on the Solo's row in the timeline](/images/editor/manipulating-shapes/animate-solo.webp)
 
-One of the most common use cases for Solos is creating new skins for a character.
+To switch the active child from your app, [bind](/editor/data-binding/overview) the Solo's **Active** property. See [Controlling Solos with enums](/editor/data-binding/enums#controlling-solos-with-enums).
 
-![Image](https://ucarecdn.com/1dc10aa9-1dd9-438d-8a3d-8b8192ff9647/)
+## Examples
 
-## Change the underlying rig
+### Skins
 
-Sometimes when we animate an object or character, we need to create animations at different angles. Solos allow us to create multiple rigs and switch between them during our animation.
+Put each version of a part in its own Solo to build swappable skins.
 
-![Image](https://ucarecdn.com/c168815b-d92e-4c8e-b5f6-4ecbc013e08d/)
+![Switching a car's air intake and stickers by clicking the radio buttons of two Solos](/images/editor/manipulating-shapes/solo-skins.webp)
 
-## Frame-by-frame animation
+### Switching rigs
 
-The ability to toggle between many images gives you a quick way to create frame by frame effects.
+Rig a character from several angles, put each rig in a Solo, and switch between them as the character turns.
 
-![Image](https://ucarecdn.com/76841fdd-3190-46d5-b553-e33bd7cf9c6d/)
+![Switching a character between a front view rig and a 3/4 view rig with a Solo](/images/editor/manipulating-shapes/solo-switch-rigs.gif)
+
+### Frame-by-frame animation
+
+Put each frame in a Solo and key the active child on each frame of the timeline.
+
+![Switching between mouth images on a dragon character with a Solo](/images/editor/manipulating-shapes/solo-frame-by-frame.gif)
+

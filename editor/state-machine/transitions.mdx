@@ -168,46 +168,7 @@ If you are unfamiliar with the basics of Interpolation, see [Interpolation (Easi
 
 ## Actions
 
-Transitions can also perform actions when the transition occurs.
-
-Unlike conditions, which determine whether a transition can happen, actions perform an operation when the transition is triggered.
-
-Actions can be used to:
-
-- Set property values
-- Report events
-- Align targets
-- Control focus
-- Fire a scripted action
-
-<Note>
-  Actions can also be fired at the start or end of a state.
-
-  See [State Actions](/editor/state-machine/states#actions).
-</Note>
-
-
-<YouTube id="4Uuu0MkBawE" />
-
-### Creating an action
-
-![Creating a transition action](/images/editor/state-machine/transitions/transition-action.gif)
-
-<Steps>
-  <Step title="Add an action">
-    With a transition selected, go to the Actions tab, click the `+` button, and select an action type.
-  </Step>
-  <Step title="Configure the action">
-    Configure the action based on the action type.
-  </Step>
-</Steps>
-
-#### Action timing
-
-Each action can run at either:
-
-- **Start** — Runs when the transition begins
-- **End** — Runs after the transition completes
+A transition can run [actions](/editor/state-machine/actions) when it starts or finishes, such as setting a view model property, reporting an event, or moving focus. Unlike conditions, which decide whether a transition happens, actions do something when it does. Select the transition, then click **+** next to its name in the panel below the graph.
 
 ## Randomize exit
 

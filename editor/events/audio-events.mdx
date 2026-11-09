@@ -1,40 +1,34 @@
 ---
 title: 'Audio Events'
-description: ''
+description: 'Play short sound effects from timelines, transitions, and listeners.'
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
 
+An Audio Event plays a sound when it fires. Use it for short sound effects, such as button clicks, pops, and footsteps, that start in sync with an animation or a user interaction. Sounds from several Audio Events can play over each other.
+
+<Note>
+  Audio Events are built for quick sounds. There are no runtime controls for the sound: you can't pause it or change its volume or panning while it plays. For background music, voice-overs, and other long or controlled audio, use [Scripting](/scripting/getting-started) with [AudioSound](/scripting/api-reference/interfaces/audio-sound) and [AudioSource](/scripting/api-reference/interfaces/audio-source).
+</Note>
+
 <YouTube id="62j3fbNgxFY" />
 
-Event-based audio provides the means to trigger sound effects within your animations and/or in response to user interactions. Just like existing events, they can be triggered by a keyframe on a timeline, during a state transition, or via a listener.
+## Creating an Audio Event
 
-Audio events represent the first phase of audio features in Rive — they provide an ideal way to trigger sound effects that can be layered on top of each other.
+Drag an audio asset or clip from the [Assets panel](/editor/assets/audio) onto the stage. Rive creates an Audio Event that plays that sound.
 
-Previously, triggering audio with events would require some work with one of the Rive runtimes and your application or game. The introduction of audio events directly inside the Rive editor streamlines the process of adding sound to your animations — further empowering designers, whilst simplifying the implementation for developers.
+To turn an existing event into an Audio Event, select it, set **Type** to **Audio** in the Inspector, and choose a sound. You can create a new event with the Event tool (<kbd>Shift</kbd> + <kbd>E</kbd>).
 
-<Info>
-Audio events are ideal for triggering shorter sounds in response to user interactions or to complement character animations. Whilst longer form audio — such as background music and voice overs — can also be triggered with audio events, they lack a level of control to manipulate volume, panning, and more over time.
+To import sounds, browse the Soundly library, make clips, or adjust a sound's volume, see [Audio Assets](/editor/assets/audio).
 
-For use cases requiring greater control over volume and playback, consider using [Scripting](/scripting/getting-started). Check out [AudioSound](/scripting/api-reference/interfaces/audio-sound) and [AudioSource](/scripting/api-reference/interfaces/audio-source) for more information.
-</Info>
+## Playing an Audio Event
 
-## Working with audio assets
+An Audio Event plays its sound whenever it's reported. Like any [event](/editor/events/overview#signaling-an-event), you can report it from:
 
-Audio events use sounds from the Assets panel. See [Importing Assets](/editor/fundamentals/assets-overview#importing-assets) to import MP3, WAV, and FLAC files, or see [Audio Assets](/editor/assets/audio) to browse Soundly sounds, create clips, and adjust asset volume.
+- **A timeline**, to play the sound at an exact frame.
+- **A state or transition**, to play the sound when the State Machine enters a state or makes a transition.
+- **A listener**, to play the sound in response to the user, such as a click on a shape.
 
-## Creating an audio event
+## Monitoring levels
 
-The simplest way to create an audio event is to drag your audio asset or clip directly from the [assets panel](/editor/assets/audio) onto the stage. In doing so, an event is created with the preassigned asset. Alternatively, create a regular event by activating the event tool (`SHIFT + E`) and clicking on the stage. Once created, set the type setting in the inspector to Audio. Additional options to assign an asset and browse the Soundly library will be presented for audio events.
-
-## Triggering an audio event
-
-Like regular events, audio events can be triggered in a selection of different ways:
-
-- **Timeline:** Whilst in animate mode, with a timeline selected, the event inspector will surface a button to key the event. Keying an event causes it to be reported. In the context of an audio event, reporting it will start the playback of the assigned audio asset.
-- **Transitions:** Select a transition node within a State Machine and add an event via the inspector. You can choose whether the event should be reported at the start or at the end of the transition.
-- **Listeners:** Select a listener within a State Machine and add a 'report event' action via the inspector. The pointer option will determine when the audio will play. For example, a pointer down listener with an assigned audio event targeting a shape will start playback when the user clicks on the shape.
-
-### Monitoring audio
-
-Audio levels can be monitored via the VU meter at the base of the inspector. Use the VU meter to check for clipping. This may occur if multiple audio events are playing at once, causing the overall output to clip. If you notice peak levels turning red, consider lowering the volume of your audio asset to provide more headroom.
+The VU meter at the bottom of the Inspector shows the audio output level. If the peaks turn red, the output is clipping, often because several sounds are playing at once. Lower the volume of your audio assets to give them more headroom.

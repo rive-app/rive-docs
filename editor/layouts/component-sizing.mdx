@@ -3,11 +3,13 @@ title: "Component Sizing"
 description: "Control how component instances scale, fit, and reflow within their parent."
 ---
 
-Component sizing determines how a component instance responds to the space available from its parent. Choose a sizing mode based on how you want the component and its contents to respond as that space changes.
+A [component](/editor/fundamentals/components) instance is a whole artboard placed inside another artboard. When that instance sits inside a Layout, its sizing mode decides how it responds to the space it's given. Choose a mode based on how you want the component and its contents to respond as that space changes.
 
-- **Node** - Scale the component as a single object.
-- **Leaf** - Fit the component's contents within the available space.
-- **Layout** - Resize the component's artboard, allowing its contents to reflow.
+- **Node** - Scale the component as a single object. It doesn't take part in the Layout.
+- **Leaf** - Fit the component's contents within the Layout, the way an image fits its frame. The contents scale but don't reflow.
+- **Layout** - Take part in the Layout like any other child, and resize the component's artboard so the Layouts inside it can reflow.
+
+Use **Layout** mode to build responsive designs out of reusable pieces, such as a button component that's used in several menus and hugs a different label in each one.
 
 ![Rive app interface showing Sizing Mode dropdown in the Inspector.](/images/editor/layouts/sizing-mode.png)
 
@@ -60,7 +62,7 @@ Use Layout for responsive components whose internal content needs to resize or r
 
 ### Size
 
-In Layout mode, the component's width and height can each use one of three sizing behaviors:
+In Layout mode, the component's width and height can each use one of three sizing behaviors. These work the same way as they do for Layouts. See [Width and height](/editor/layouts/sizing-and-positioning#width-and-height).
 
 - **Fixed** - Use a defined width or height. Fixed dimensions can use either units or percentage values.
 - **Hug** - Resize to fit the component's contents. This is useful when content such as text needs to determine the component's size.

@@ -16,17 +16,17 @@ import { Demos } from "/snippets/demos.jsx";
     <Step title="Add a Transform Constraint to an object">
         Use the Constraints section of the Inspector to add a Transform Constraint to an object.
 
-        ![Image](https://ucarecdn.com/17a0bf31-0430-46cd-9980-2650a08a27cb/)
+        ![Adding a Transform Constraint to a blue square from the Constraints section of the Inspector](/images/editor/constraints/transform-constraint-add.gif)
     </Step>
     <Step title="Choose a target">
         Use the new constraint's fly-out menu to select a target for this constraint.
 
-        ![Image](https://ucarecdn.com/c5320720-2332-4c4a-8784-cda0aee1423b/)
+        ![Using the Transform Constraint flyout's target button to select the pink square as the target](/images/editor/constraints/transform-constraint-choose-target.gif)
     </Step>
     <Step title="Test that the Transform Constraint is working">
         Manipulating the target object now causes the constrained object to copy Position, Rotation, and Scale properties.
 
-        ![Image](https://ucarecdn.com/ced5a14f-0add-4300-bdee-2738983c46b3/)
+        ![Moving, rotating, and scaling the pink square target while the blue square copies its transform](/images/editor/constraints/transform-constraint-test.gif)
     </Step>
 </Steps>
 
@@ -38,7 +38,7 @@ A Strength of 0% means the constraint won't have any effect.
 
 A Strength of 50% means half the value from the target will be applied.
 
-![50% Strength](https://ucarecdn.com/73b4a724-6707-4cd0-80a0-5e6813327a5a/)
+![Transform Constraint at 50% Strength, with the blue square applying half of the pink square's transform](/images/editor/constraints/transform-constraint-50-percent-strength.gif)
 
 ## Transform Space
 
@@ -49,21 +49,3 @@ Choose whether this constraint should use World or Local coordinates for the Sou
 ### Destination Space
 
 Choose whether this constraint should use World or Local coordinates for the Destination Space.
-
-## Example: mechanical arm
-
-Consider the package resting on the table and the mechanical arm below.
-
-![Image](/images/editor/constraints/6c362145-62a9-4af2-8986-5751d1846cc7.webp)
-
-Add a Transform Constraint to the package and a target group at the end of the arm.
-
-![Image](https://ucarecdn.com/86ac428d-ed87-4846-b448-4504214ed127/)
-
-The target group is a child of the arm hierarchy, so it moves with the arm.
-
-With a Strength of 100%, all the transform properties of the package match the target. Notice how the package moves and rotates correctly with the movement of the arm.
-
-![Image](https://ucarecdn.com/411ce58c-031c-4f34-88c4-a7f40a5efbc0/)
-
-Set the Strength to 0% to make the arm drop the package.

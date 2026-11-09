@@ -1,54 +1,119 @@
 ---
 title: "Clipping"
-description: "Clipping allows you to cut one shape out from another."
+description: "Hide everything outside a shape, or cut a hole in your graphics with inverse clipping."
 ---
 
 import { YouTube } from '/snippets/youtube.mdx'
+import { VideoEmbed } from '/snippets/video-embed.jsx'
+import { Demos } from '/snippets/demos.jsx'
+
+Clipping hides the parts of an object that fall outside another shape, called the clip source. Use it to crop graphics to a frame, reveal an object as a shape moves over it, or keep content inside a container.
+
+You can clip a shape, a group, or any other object on the stage. Clipping a group clips everything inside it.
+
+<Note>
+  To hide everything outside an artboard's bounds, you don't need a clip source. Turn on the artboard's [Clip](/editor/fundamentals/artboards#clip) option instead. This is mostly useful for artboards used as [components](/editor/fundamentals/components), since content outside a top-level artboard isn't rendered at runtime.
+</Note>
+
+![A jewel graphic, and the same jewel clipped by an ellipse so only the part inside the ellipse shows](/images/editor/manipulating-shapes/clipping-example.webp)
 
 <YouTube id="bxmipy1Gv6Y" />
 
-## How to use clipping
+<Demos examples={["clipping"]} learnByExample />
 
-Select the shape or group you want to clip and hit the plus button next to the Clipping options in the Inspector. After hitting the plus button, you'll notice a blue border appear around the stage, indicating that you can pick a shape as the clipping source. Now, select the path you want to use as a clipping path. Remember, the clipping target must be a shape, not a group or any other object.
+## Adding a clip
 
-![Clipping](/images/editor/manipulating-shapes/Clipping.gif)
+<Steps>
+  <Step>
+    Select the object you want to clip.
+  </Step>
+  <Step>
+    In the **Clip** section of the Inspector, click **+**. A blue border appears around the stage while Rive waits for you to pick a clip source.
+  </Step>
+  <Step>
+    Click the shape or group you want to clip with, on the stage or in the Hierarchy.
+  </Step>
+  <Step>
+    Hide the clip source by clicking its eye icon in the Hierarchy, so it doesn't cover the graphics it's clipping. The clip still works while the source is hidden.
+  </Step>
+</Steps>
 
-You can add as many clipping paths to a shape as you'd like.
+<VideoEmbed src="https://static.rive.app/video/clipping-add-clip.mp4" />
 
-## Clipping and path direction
+To change the source later, click the target button on the clip and pick a different shape or group.
 
-If you have shapes that aren't clipping, or only partially clipping, be sure to check the winding of that shape. In most cases, reversing the direction of the path fixes this problem.
+### What can be a clip source
 
-![Reverse Direction](/images/editor/manipulating-shapes/ReverseDirection.gif)
+A clip source can be a shape or a group, but not an artboard. When the source is a group, every shape inside it is combined into one clip.
+
+The clip follows the filled area of each shape, including any path effects such as a [trim](/editor/manipulating-shapes/trim-path), and ignores strokes. A shape with only a stroke doesn't clip anything.
+
+### Using more than one clip
+
+You can add as many clips to an object as you want. Only the parts of the object that fall inside every clip are drawn.
+
+![A pentagon clipped by both a star and a circle, so only the area where the star and circle overlap is visible](/images/editor/manipulating-shapes/multiple-clips.png)
+
+### Turning a clip on and off
+
+Click the eye icon on a clip in the Inspector to turn the clip off without removing it. You can key this toggle on a timeline or [bind it to data](/editor/data-binding/overview) to switch clipping on and off while your graphic runs.
+
+## Fill rule and path direction
+
+Each clip has a fill rule, set from the dropdown on the clip in the Inspector. It decides which areas count as inside when the source has overlapping paths, or paths inside other paths. It works like a [fill's fill rule](/editor/fundamentals/fill-and-stroke#fill-rules), but it's set separately: the source shape's own fill rule doesn't affect the clip.
+
+- **Non-zero** is the default. Whether an overlapping area is inside depends on the direction each path is drawn in.
+- **Even-odd** alternates: an area inside one path is inside the clip, an area inside two is outside, and so on. Use it to cut holes. See [Inverse clipping](#inverse-clipping).
+
+![Switching a clip's fill rule between Non-zero and Even-odd in the Inspector, changing which areas of the clip source cut through](/images/editor/manipulating-shapes/clip-fill-rule.gif)
+
+If a shape clips only partly, or not at all, check the direction of its paths. With **Non-zero**, paths drawn in opposite directions cancel each other out where they overlap. Reversing the direction of a path usually fixes this. **Even-odd** won't help here, since it always treats overlapping areas as outside.
 
 ## Inverse clipping
 
-Clipping is typically used to hide a part of your graphics. In the example below, we're using an ellipse to show only part of our jewel graphic.
+Inverse clipping does the opposite of a normal clip: it hides the graphics inside a shape and shows everything outside it.
 
-![Image](/images/editor/manipulating-shapes/cb6d8e76-41f9-4ef3-81db-80db5ef37412.webp)
+![A jewel with a circular hole clipped out of it](/images/editor/manipulating-shapes/inverse-clipping-example.webp)
 
-You occasionally may want to invert the clipping, so that only the graphics outside of the clipping paths are drawn.
+To do this, clip with a shape that has a hole in it: a large rectangle with the hole's path inside it.
 
-![Image](/images/editor/manipulating-shapes/7d83b2ef-77de-4c9d-9220-12977d137fef.webp)
+![The clip source: a grey rectangle the size of the artboard with a circular hole](/images/editor/manipulating-shapes/inverse-clip-shape.webp)
 
-This is achieved using a clipping path that looks like the gray shape in the image below.
+<Steps>
+  <Step>
+    Draw a rectangle that covers the area you want to keep, such as the whole artboard.
+  </Step>
+  <Step>
+    Draw the shape of the hole, such as an ellipse. In the Hierarchy, move its path into the same shape as the rectangle's path.
 
-![Image](/images/editor/manipulating-shapes/b71b9c54-7d99-43d9-9614-29ada59bf6cc.webp)
+    ![Ellipse Path and Rectangle Path inside the same Clipping Shape in the Hierarchy](/images/editor/manipulating-shapes/inverse-clip-shape-hierarchy.webp)
+  </Step>
+  <Step>
+    Select the object you want to clip, add a clip, and pick the shape you just made as its source.
 
-To create this shape, draw a rectangle the size of the artboard. Add both the rectangle path and ellipse path to the same shape layer in your Hierarchy.
+    ![Adding a clip to the Jewel group with Clipping Shape as the source](/images/editor/manipulating-shapes/add-inverse-clip.webp)
+  </Step>
+  <Step>
+    Set the clip's fill rule to **Even-odd**, so the area inside both paths is cut out.
 
-![Image](/images/editor/manipulating-shapes/2c9721d3-a003-47c4-b0b8-e8da713831da.webp)
+    ![Setting the clip's fill rule to Even-Odd](/images/editor/manipulating-shapes/clip-fill-rule.webp)
+  </Step>
+  <Step>
+    Hide the clip source so it doesn't cover your graphics.
+  </Step>
+</Steps>
 
-Note that your shape might not show a hole as ours does. That's because you need to set the Fill Rule of your shape to Even-Odd. This setting doesn't affect your Clipping Path, but it helps explain how the Even-Odd operation works, which will be useful later!
+<Tip>
+  The shape's own fill doesn't affect the clip, but it can help you see what you're building. To show the hole on the stage while you work, set the shape's fill rule to **Even-Odd** in its fill options.
 
-![Image](/images/editor/manipulating-shapes/4e35e170-b0e0-470b-8d2c-53bf74388fd7.webp)
+  ![Setting a shape's fill rule to Even-Odd in Fill Options](/images/editor/manipulating-shapes/inverse-clip-shape-fill-rule.webp)
+</Tip>
 
-Select the group containing the jewel and use the "plus" icon in the Clipping section of the Inspector. Next, select the Clipping Shape as the target.
+## Performance
 
-![Image](/images/editor/manipulating-shapes/a5b01f21-4757-435b-8a6b-f822cc519005.webp)
+Clipping adds rendering work. Rive first draws the clip source, then checks every pixel of every clipped object against it. The more objects a clip covers, and the more area they fill, the more work it adds.
 
-Open the Clip Options and set the Operation to Even-Odd.
-
-![Image](/images/editor/manipulating-shapes/c38910e3-9b33-4fef-a69f-5a2154aa6eec.webp)
-
-Be sure to hide the visibility of your clipping shape so it doesn't cover your graphic.
+- **Use a fill rule instead of a clip when you can.** To cut a hole in a single shape, put the hole's path inside the shape and set the shape's fill rule to **Even-Odd**, or reverse the hole's path direction. This costs nothing extra. Save inverse clipping for when the hole needs to cut through other objects.
+- **Clip only what needs it.** A clip on one small group costs less than a clip that covers everything in the artboard.
+- **Share one clip.** Clipping a group once is cheaper than giving each object inside it its own clip.
+- **Rectangles are cheaper.** Clipping to a rectangle that isn't rotated, such as an artboard's bounds or a Layout without rounded corners, takes a faster path than clipping to an ellipse, a star, or any other shape.

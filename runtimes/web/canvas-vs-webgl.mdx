@@ -21,6 +21,7 @@ Switching is a one-line import change, so you can try both and measure against y
 
 ## Other notable tradeoffs
 
+
 ### WebGL context limits
 
 Note that if you're using `@rive-app/webgl2`, browsers cap how many WebGL contexts a page can hold at once. The exact number varies by browser and device, and the oldest context is typically dropped once the cap is reached — which limits how many `new Rive({...})` instances you can run. See [WebGL Context Limits](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/WebGL_context_limits) for more details.
@@ -42,7 +43,7 @@ This limit does not apply to `@rive-app/canvas`.
 
 ### Fill rules
 
-`@rive-app/canvas` uses the Canvas2D renderer, which offers the non-zero and even-odd [fill rules](/editor/fundamentals/fill-and-stroke#fill-rule), so Rive's clockwise fill rule draws as non-zero. The result is identical unless a path has self-intersecting, reversed, or overlapping contours. This applies to both fills and clipping paths.
+`@rive-app/canvas` uses the Canvas2D renderer, which offers the non-zero and even-odd [fill rules](/editor/fundamentals/fill-and-stroke#fill-rules), so Rive's clockwise fill rule draws as non-zero. The result is identical unless a path has self-intersecting, reversed, or overlapping contours. This applies to both fills and clipping paths.
 
 ## Performance
 

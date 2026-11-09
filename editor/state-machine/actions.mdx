@@ -1,0 +1,83 @@
+---
+title: 'Actions'
+description: 'Set view model properties, report events, move focus, and more when a state starts or ends, a transition happens, or a listener fires.'
+---
+
+import { YouTube } from '/snippets/youtube.mdx'
+import { VideoEmbed } from '/snippets/video-embed.jsx'
+
+An action does something in response to the state machine, such as setting a view model property or reporting an event. Actions can run from three places:
+
+- **[States](/editor/state-machine/states)**: when the state starts or ends.
+- **[Transitions](/editor/state-machine/transitions)**: when the transition starts or ends.
+- **[Listeners](/editor/state-machine/listeners)**: when the listener fires.
+
+The same action types are available in all three. You can add as many actions as you need, and you can [data bind](/editor/data-binding/overview) the values they use.
+
+<YouTube id="4Uuu0MkBawE" />
+
+## Action types
+
+| Action | What it does |
+| --- | --- |
+| **View Model Change** | Sets a [view model](/editor/data-binding/overview) property. |
+| **Input Change** | Sets a legacy state machine [input](/editor/state-machine/inputs). Use View Model Change for new work. |
+| **Align Target** | Moves an object to the pointer. See [Align Target](#align-target). |
+| **Focus** | Moves keyboard [focus](/editor/accessibility/focus). See [Focus](#focus). |
+| **Report Event** | Fires a [Rive event](/editor/events/overview). |
+| **Scripted Action** | Runs a [listener action script](/scripting/protocols/listener-action-scripts). |
+
+### Align Target
+
+Moves the target object to the pointer's position. Use it to make an object follow the pointer, such as a custom cursor or a slider handle.
+
+- **Target**: The object to move.
+- **Preserve offset**: Keeps the object's distance from the pointer when the action starts, instead of snapping its origin to the pointer.
+
+### Focus
+
+Moves [focus](/editor/accessibility/focus) between focusable elements. Choose a mode:
+
+- **target**: Focuses a specific element.
+- **traverse**: Moves focus in a direction: **next**, **previous**, **up**, **down**, **left**, or **right**.
+- **clear**: Removes focus.
+
+## Adding an action to a state or transition
+
+<Steps>
+  <Step>
+    Select the state or transition in the graph.
+  </Step>
+  <Step>
+    In the panel below the graph, click **+** next to its name and choose an action type.
+  </Step>
+  <Step>
+    Choose when the action runs: at **enter** or at **exit**.
+
+    - For a state, **enter** runs when the state starts and **exit** runs when the layer leaves it.
+    - For a transition, **enter** runs when the transition starts and **exit** runs when it finishes.
+  </Step>
+  <Step>
+    Configure the action.
+  </Step>
+</Steps>
+
+![Adding an action to a state](/images/editor/state-machine/transitions/state-action.gif)
+
+## Adding an action to a listener
+
+<Steps>
+  <Step>
+    Select the listener in the **Listeners** panel.
+  </Step>
+  <Step>
+    In the panel below the graph, click **+** and choose an action type.
+  </Step>
+  <Step>
+    Configure the action.
+  </Step>
+</Steps>
+
+Listener actions run every time the listener fires.
+
+<VideoEmbed src="https://static.rive.app/video/docs/add-action-to-listener.mp4" />

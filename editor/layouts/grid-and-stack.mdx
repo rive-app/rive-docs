@@ -1,0 +1,77 @@
+---
+title: 'Grid and Stack'
+description: 'Arrange children in columns and rows, or layer them on top of each other.'
+---
+
+import { YouTube } from '/snippets/youtube.mdx'
+import { UseCase } from '/snippets/use-case.mdx'
+
+Rows and Columns arrange children in a single line. Grid and Stack cover two other common patterns: a Grid places children in cells across columns and rows, and a Stack layers children on top of each other in the same space.
+
+To use either one, select a Layout and set its layout type to **Grid** or **Stack** in the **Inspector**. See [Layout type](/editor/layouts/arranging-children#layout-type).
+
+<YouTube id="54fj9_zUemc" />
+
+## Grid
+
+A Grid Layout arranges its children in cells made of columns and rows. Use a Grid when content should line up in two directions, such as an inventory screen, a photo gallery, or a dashboard of cards.
+
+A new Grid starts with one column and one row. Add columns and rows in the **Inspector** to build out the grid. While the Grid is selected, the stage shows guides for each cell and shading for the gaps between them.
+
+### Sizing columns and rows
+
+Each column and row (or *track*) has its own size. Tracks use the same scale types as Layouts, applied to the whole column or row:
+
+- **Fill:** The track takes a share of the leftover space, measured in `fr` (fill ratio) units. Three columns set to `1fr` split the width equally, while a `2fr` column takes twice the space of a `1fr` column. New tracks use `1fr`.
+- **Fixed:** The track has a set width or height, in points or as a percentage of the Grid.
+- **Hug:** The track shrinks or grows to fit the largest child inside it.
+
+Drag tracks to reorder them. To edit several tracks at once, hold <kbd>Shift</kbd> and click their track numbers.
+
+To add space between columns and rows, use the Grid's [gap](/editor/layouts/arranging-children#setting-gap). The horizontal gap separates columns, and the vertical gap separates rows.
+
+<UseCase title="A sidebar and content grid">
+  A two-column Grid has a Fixed `240` point column for a sidebar and a `1fr` column for the main content. When the Grid gets wider, the sidebar stays 240 points wide and the content column takes all of the extra space.
+</UseCase>
+
+### Placing children in cells
+
+Children are placed into the Grid in hierarchy order. Each row is filled from left to right before moving to the next row.
+
+To control where a child goes, select the child and use the **Grid Cell** options in the **Inspector**:
+
+- **Cell:** The column and row to place the child in. By default, children are placed automatically in the next available cell.
+- **Span:** The number of columns or rows the child covers.
+
+When a child spans more than one cell, the children after it move on to the next available cells. If there are more children than cells, Rive adds rows to fit them. To control the size of those extra rows, add them to the Grid yourself and set their scale type.
+
+To make a child fill its whole cell, set its width and height to **Fill**.
+
+<Tip>
+  A component instance in **Layout** mode set to **Fill** fills its cell, but can't use Grid Cell options such as **Span**. To span a component across cells, wrap the instance in a Layout, set that Layout's width and height to **Fill**, and set the span on the Layout.
+</Tip>
+
+### Animating a Grid
+
+You can key track sizes, gaps, and Grid Cell spans and positions, which lets you animate children moving to new cells. The number of columns and rows can't be animated.
+
+## Stack
+
+A Stack Layout places all of its children in the same space, layered on top of each other. Use a Stack for anything made of layered parts, such as a card with a background, artwork, and a label, or a button with an icon over a shape.
+
+Children are drawn in hierarchy order. The topmost child in the **Hierarchy** is drawn in front, and the bottommost child is drawn at the back.
+
+### Sizing and positioning layers
+
+Each child's size decides how much of the Stack it covers:
+
+- **Fill:** The child covers the whole Stack. Use Fill for backgrounds and for layers that use their own padding and alignment to place their content.
+- **Fixed** or **Hug:** The child keeps its own size, and the Stack's [alignment](/editor/layouts/arranging-children#alignment) decides where it sits.
+
+Layers follow the same sizing rules as children in a Row or Column. See [Sizing and positioning](/editor/layouts/sizing-and-positioning).
+
+Content larger than the Stack overflows based on its alignment. A centered Stack overflows equally on all sides, while a Stack aligned to the bottom-left overflows up and to the right.
+
+<UseCase title="Inventory item card">
+  An item card is a Stack with four layers: a badge, the item info, the item art, and a background. Each layer is a Layout set to Fill, so they all cover the card. Each layer uses its own padding and alignment to place its content: the badge sits in the top-left corner, and the item name and category are aligned to the bottom. An inventory screen then places these cards in a Grid, with one card spanning two columns.
+</UseCase>

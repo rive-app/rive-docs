@@ -1,54 +1,68 @@
 ---
-title: 'Trim Path'
-description: ''
+title: 'Trim and Dash'
+description: 'Draw only part of a path with a trim, or break it into dashes and gaps, and animate either one.'
 ---
 
-The Trim Path feature allows you to draw only a portion of the stroke on a vector shape. This can be used to create a variety of animations where a line needs to follow a path. Every stroke you create for a shape can have its own independent Trim Path.
+Trim and Dash are path effects. They change which parts of a path a stroke or fill draws, without changing the shape itself. They're most often used on strokes:
 
-![Image](https://ucarecdn.com/996191bd-6394-4aa3-be85-1a5a46150220/)
+- **Trim** draws only part of the path. Animate it to make a line draw on, draw off, or travel along a path.
+- **Dash** breaks the path into a repeating pattern of dashes and gaps. Animate its offset to make the dashes march along the path.
 
-## Enable trim path
+## Adding a trim or dash
 
-To activate Trim Path, select a shape that has a stroke and click the stroke options in the inspector. Now, use the Trim Path drop-down menu and select either Sequential or Synced mode. Both modes enable Trim Path, but behave differently when used on a shape with multiple paths.
+<Steps>
+  <Step>
+    Select the shape, then click the options button on the stroke or fill in the **Fills and Strokes** section of the Inspector.
+  </Step>
+  <Step>
+    Open the **Effects** tab.
+  </Step>
+  <Step>
+    In **Path Effects**, click **+** and select **Trim Effect** or **Dash Effect**.
+  </Step>
+</Steps>
 
-### Sequential
+Each stroke and fill has its own effects, and you can stack more than one. To share the same trim or dash across many shapes, put it in an [Effect Group](/editor/manipulating-shapes/effect-groups).
 
-When Trim Path is set to Sequential, paths are animated sequentially. The order in which they animate is dictated by their order under the shape.
+## Trim
 
-![Image](https://ucarecdn.com/b1e23052-84c2-4b55-8653-9af6253953a4/)
+### Start and end
 
-### Synced
+**Start** and **End** set which part of the path is drawn, as a percentage of the path's length. Only the section between them is visible. Key them on a timeline to animate the trim, for example from an **End** of 0% to 100% to draw a line on.
 
-Synced mode animates the trim path along all paths concurrently.
+![Changing a trim's Start and End](/images/editor/trim-and-dash/trim-start-end.gif)
 
-![Image](https://ucarecdn.com/fba474d1-ab60-444f-a89c-fa5fedda0f77/)
+### Offset
 
-## Start and end
+**Offset** moves the visible section along the path, keeping its length the same. Animate it to make a segment travel around a shape.
 
-The trim of a stroke happens from a Start point to an End point. By default, all shapes have a Stroke that starts at 0% and ends at 100%. Change these values to modify the position of the Start and End points of the trim (which are represented by a percentage of the full length of the path).
+![Changing a trim's Offset to move the visible section along the path](/images/editor/trim-and-dash/trim-offset.gif)
 
-![Image](https://ucarecdn.com/e5c990dd-278f-4f41-b2d7-5d95fa46127d/)
+### Sequential and Synced
 
-## Offset
+When a shape has more than one path, the trim's mode decides how they're trimmed:
 
-Use Offset to easily move the trimmed portion of the path.
+- **Sequential** treats the paths as one long path, trimming them one after another in their order under the shape.
+- **Synced** trims every path at the same time, by the same percentage.
 
-![Image](https://ucarecdn.com/50b672cd-610a-4829-a46d-5f106dcad0e9/)
+![A Sequential trim drawing paths one after another](/images/editor/trim-and-dash/trim-sequential.gif)
 
-## Dashed Stroke
+![A Synced trim drawing all paths at the same time](/images/editor/trim-and-dash/trim-synced.gif)
 
-Much like Trim Path, the Dashed Stroke option allows you to dynamically change and animate parts of a path. Dash strokes allow you to customize the size of the dash and offset the dashes around the path. Note that you can add more than one dash size and gap to a path.
+Set the mode to **None** to remove the trim.
 
-![Image](https://ucarecdn.com/56fa4778-555d-460e-8133-809e73c7746a/)
+## Dash
 
-### Dash
+![A dashed stroke around a rounded rectangle](/images/editor/trim-and-dash/dash-example.gif)
 
-The dash property controls the size of the dashed segments. This option can be in pixels, or a percentage length of the path.
+### Dashes and gaps
 
-![Image](https://ucarecdn.com/34d7c4d3-3f92-4140-9a12-bc83b67f8e0d/)
+A dash starts with one **Dash** length. Click **Add gap** to add a gap after it, then **Add dash** to add another dash, building up a pattern that repeats along the path. Each length can be in pixels or a percentage of the path's length.
 
-## Offset
+![Setting a dash length and adding a gap](/images/editor/trim-and-dash/dash-length.gif)
 
-The offset property moves the dashes along the path. This option can be in pixels, or a percentage.
+### Offset
 
-![Image](https://ucarecdn.com/1b2bf36f-940e-4e56-a1ef-4d98c6cbd8b7/)
+**Offset** moves the dash pattern along the path, in pixels or a percentage. Animate it to make the dashes travel along the path.
+
+![Changing a dash's Offset to move the dashes along the path](/images/editor/trim-and-dash/dash-offset.gif)

@@ -1,0 +1,62 @@
+---
+title: "Origin"
+description: "Change the point an object rotates and scales from, with Freeze, the align tools, or the Origin property."
+keywords: ["origin", "pivot", "anchor point", "freeze", "transform origin"]
+---
+
+import { YouTube } from '/snippets/youtube.mdx'
+
+An object's origin is the point it rotates and scales from, sometimes called its pivot or anchor point. Its children rotate and scale around it too. The origin changes how an animation looks: a door swings from its hinge, not its middle, and a bar grows from one end, not its center.
+
+<YouTube id="nA15ZXkMb_c" />
+
+You can move an origin in three ways:
+
+- **[Freeze](#freeze)**: Drag the origin of any object on the stage.
+- **[Align tools](#with-the-align-tools)**: Snap the origin to an edge or the center of the object.
+- **[Origin property](#origin-of-a-shape)**: Set an exact position for shapes drawn with the Shape tools.
+
+## Freeze
+
+Moving a parent normally moves its children with it. Freeze lets you move a parent, such as a group, shape, or bone, without moving its children, so you can put its origin anywhere.
+
+<Steps>
+  <Step>
+    Press `Y`, or select **Freeze** from the **Transform Tools** menu in the [toolbar](/editor/interface-overview/toolbar).
+  </Step>
+  <Step>
+    Select the object and move it to where you want its origin. Its children stay in place.
+  </Step>
+  <Step>
+    Press `Y` again to turn off Freeze.
+  </Step>
+</Steps>
+
+While Freeze is on, the stage is outlined in blue as a reminder. Remember to turn it off, or the next objects you move will leave their children behind too.
+
+## With the align tools
+
+Hold `Alt` (Windows) or `Option` (macOS) with an object selected, and the [align buttons](/editor/fundamentals/align-and-distribute) set its origin instead of moving it. Choose left, center, right, top, middle, or bottom of the object's bounds.
+
+You can also use these shortcuts:
+
+| Shortcut | Origin |
+| --- | --- |
+| `Alt + A` / `Alt + D` | Left / right |
+| `Alt + W` / `Alt + S` | Top / bottom |
+| `Alt + H` | Horizontal center |
+| `Alt + V` | Vertical middle |
+
+## Origin of a shape
+
+Shapes drawn with the [Shape tools](/editor/fundamentals/procedural-shapes) have an **Origin** property in the Inspector, set as a percentage of the shape's size. It also decides which way the shape grows when you change its size.
+
+With the origin at 50% X and 50% Y, changing the width grows the rectangle from its center:
+
+![Changing the width of a rectangle with the origin centered at 50% X and 50% Y, so it grows outward from the center](/images/editor/origin/procedural-origin-center.gif)
+
+With the origin at 0% X, the rectangle grows from its left edge:
+
+![Changing the width of a rectangle with the origin on the left at 0% X, so it grows from the left](/images/editor/origin/procedural-origin-left.gif)
+
+Artboards also have an Origin property. See [Artboards](/editor/fundamentals/artboards).
