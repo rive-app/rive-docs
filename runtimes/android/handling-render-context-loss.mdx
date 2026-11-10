@@ -16,11 +16,13 @@ Rive detects a loss the next time the worker draws, and updates the status while
 
 ## Recovering with a new worker
 
-See the [Compose render context recovery example](https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeRenderContextRecoveryActivity.kt), where an Android `ViewModel` owns the worker.
-
 To recover, create a new worker and load your content on it again. If you create workers with the `RiveWorker` constructor, release the lost worker yourself. Also close anything you loaded from it without a `remember` function, such as files and images. The old worker shuts down only after it's released and everything loaded from it is closed.
 
-In Compose, you can put the worker and everything you load from it inside a `key` block, and change the key when the status changes to `Lost`. When the key changes, Compose disposes the block. The `remember` functions in it close what they loaded and release the old worker. The block then runs again with a new worker.
+### Recovering in Compose
+
+See the [Compose render context recovery example](https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeRenderContextRecoveryActivity.kt), where an Android `ViewModel` owns the worker.
+
+You can put the worker and everything you load from it inside a `key` block, and change the key when the status changes to `Lost`. When the key changes, Compose disposes the block. The `remember` functions in it close what they loaded and release the old worker. The block then runs again with a new worker.
 
 Creating the new worker can fail, so the example below uses `rememberRiveWorkerOrNull`. It returns `null` instead of throwing, which lets you show a fallback.
 
@@ -54,8 +56,14 @@ setContent {
 }
 ```
 
-If you use the experimental `RiveCanvasSession`, the session stops advancing and rendering after a loss, but `beginPlaying` doesn't return until you close the session or cancel its coroutine. Watch `renderContextStatus` yourself, then close the session and what you loaded, and create them again on a new worker. See the [Canvas render context recovery example](https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/CanvasRenderContextRecoveryActivity.kt).
+### Recovering with `RiveCanvasSession`
+
+The experimental `RiveCanvasSession` stops advancing and rendering after a loss, but `beginPlaying` doesn't return until you close the session or cancel its coroutine. Watch `renderContextStatus` yourself, then close the session and what you loaded, and create them again on a new worker. See the [Canvas render context recovery example](https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/CanvasRenderContextRecoveryActivity.kt).
+
+### Loading assets again
 
 Assets embedded in the Rive file load again with the file. Images, fonts, and audio that you load yourself can only be used on the worker that loaded them, so load them again on the new worker. Keep their bytes, or be ready to download them again.
 
-Everything on the new worker starts from its initial state. State machines start from their entry state, and new view model instances have their initial values. If your app changed view model properties, set them again on the new view model instance.
+### Restoring state
+
+Everything on the new worker starts from its initial state. State machines start from their entry state, and new view model instances have their initial values. If your app changed view model properties, set them again on the new view model instance. Setting them again changes a state machine's state only if its transitions use those properties.
