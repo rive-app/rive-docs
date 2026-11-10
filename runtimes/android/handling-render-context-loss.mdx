@@ -12,13 +12,13 @@ As of v11.16.0, you can detect a lost render context with `RiveWorker.renderCont
 
 Rive detects a loss the next time the worker draws, and updates the status while the worker is polled. `rememberRiveWorker` and `rememberRiveWorkerOrNull` poll the worker for you by default while the lifecycle is resumed. If you create a `RiveWorker` yourself, you need to call `beginPolling`.
 
-Rive can miss some losses, such as one that happens while the surface Rive draws to is being created or resized. In that case, the status stays `Ready`.
+`Ready` only means that Rive hasn't detected a loss. It doesn't mean every operation on the worker will succeed, so keep handling the errors that Rive APIs can throw. Rive can also miss some losses, such as one that first shows up while the surface it draws to is being created or resized.
 
 ## Recovering with a new worker
 
 See the [Compose render context recovery example](https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/ComposeRenderContextRecoveryActivity.kt), where an Android `ViewModel` owns the worker.
 
-To recover, create a new worker and load your content on it again. If you created the lost worker yourself, release it and close everything you loaded from it, such as files and images. The old worker only shuts down once all of these are closed.
+To recover, create a new worker and load your content on it again. If you create workers with the `RiveWorker` constructor, release the lost worker yourself. Also close anything you loaded from it without a `remember` function, such as files and images. The old worker shuts down only after it's released and everything loaded from it is closed.
 
 In Compose, you can put the worker and everything you load from it inside a `key` block, and change the key when the status changes to `Lost`. When the key changes, Compose disposes the block. The `remember` functions in it close what they loaded and release the old worker. The block then runs again with a new worker.
 
