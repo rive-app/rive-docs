@@ -222,8 +222,12 @@ getIndex() -> number
 ```
 </div>
 
-Returns the index.
-Returns -1 if view model does not have an index available.
+Returns the view model's index in the list that holds it, counting
+from 0. The index lives in a List Index property
+(`ViewModelPropertySymbolListIndex`) that the view model must declare;
+without one every instance returns -1. It is written as the list
+changes, so it is already right in the callback that pushed or moved
+the view model.
 
 
 ### `getImage`
