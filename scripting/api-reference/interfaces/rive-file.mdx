@@ -1,0 +1,30 @@
+---
+title: RiveFile
+---
+
+A Rive file decoded with `context:decodeFile`. Only assets embedded in
+the file load, and its scripts run only if Rive signed them.
+
+
+## Fields
+
+### `artboardNames`
+
+The names of the file's artboards, in file order.
+
+
+## Methods
+
+### `bindableArtboard`
+
+{/* function bindableArtboard(self, name: string?): BindableArtboard? */}
+<div class="signature">
+```lua
+bindableArtboard(name: string?) -> BindableArtboard?
+```
+</div>
+
+The named artboard, or the file's default artboard when name is nil;
+nil when there is no such artboard.
+
+

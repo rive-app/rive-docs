@@ -283,3 +283,25 @@ end
 ```
 
 
+### `getArtboard`
+
+{/* getArtboard: (self: ViewModel, name:string) -> Property<BindableArtboard?>? */}
+<div class="signature">
+```lua
+getArtboard(name: string) -> Property<BindableArtboard?>?
+```
+</div>
+
+Looks up an artboard property by name.
+Returns a `Property<BindableArtboard?>`: assign one of this file's
+artboards from `context:bindableArtboard`, one of another file's from
+`context:decodeFile` and `RiveFile:bindableArtboard`, or nil to clear
+it. An artboard chosen in the editor reads back as nil.
+```lua highlight={3}
+local vm = context:viewModel()
+if vm then
+    local character = vm:getArtboard('character')
+end
+```
+
+
