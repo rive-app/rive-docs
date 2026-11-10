@@ -283,6 +283,32 @@ end
 ```
 
 
+### `bindableArtboard`
+
+{/* function bindableArtboard(self, name: string?): BindableArtboard? */}
+<div class="signature">
+```lua
+bindableArtboard(name: string?) -> BindableArtboard?
+```
+</div>
+
+Returns one of this file's own artboards as a [BindableArtboard](/scripting/api-reference/interfaces/bindable-artboard), by
+name or the file's default artboard when `name` is nil; nil when
+there is no such artboard. Assign it to a view model artboard
+property (see `ViewModel:getArtboard`) and whatever is bound to that
+property shows it, bound to the same data an artboard chosen in the
+editor would be: the host's. For an artboard of another file, decode
+that file with `decodeFile` and use `RiveFile:bindableArtboard`.
+```lua highlight={4}
+function init(self: Skinned, context: Context): boolean
+    local vm = context:viewModel()
+    local skin = if vm then vm:getArtboard('skin') else nil
+    if skin then skin.value = context:bindableArtboard('AquaSkin') end
+    return true
+end
+```
+
+
 ### `audio`
 
 {/* function audio(self, name: string): AudioSource? */}

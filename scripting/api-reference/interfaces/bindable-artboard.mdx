@@ -1,0 +1,25 @@
+---
+title: BindableArtboard
+---
+
+An artboard of a file decoded with `context:decodeFile`, or one of the
+script's own file from `context:bindableArtboard`. Assign it to a view
+model artboard property (see `ViewModel:getArtboard`) and whatever is
+bound to that property shows it.
+
+
+## Fields
+
+### `name`
+
+The artboard's name.
+
+
+### `data`
+
+The instance of the artboard's own view model that it is bound to,
+or nil when the artboard has none. Changes to it show in the
+artboard. An artboard of the script's own file has none here: a host
+binds it to its own data, as it does an artboard chosen in the editor.
+
+
