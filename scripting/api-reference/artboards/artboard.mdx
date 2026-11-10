@@ -539,3 +539,41 @@ Forwards a gamepad disconnection to the artboard, the same way as
 `gamepadConnected`.
 
 
+### `keyboardEvent`
+
+{/* keyboardEvent: (self: Artboard<T>, event: KeyboardEvent) -> boolean */}
+<div class="signature">
+```lua
+keyboardEvent(event: KeyboardEvent) -> boolean
+```
+</div>
+
+Forwards a key press, repeat or release to the artboard's focused
+control, such as a text input. Returns true when something inside
+took it; return that from `keyboardEvent` to stop it propagating.
+The host only receives keys while it holds focus itself.
+```lua
+function keyboardEvent(self: Forwarder, event: KeyboardEvent): boolean
+  return self.instance ~= nil and self.instance:keyboardEvent(event)
+end
+```
+
+
+### `textEvent`
+
+{/* textEvent: (self: Artboard<T>, event: TextInput) -> boolean */}
+<div class="signature">
+```lua
+textEvent(event: TextInput) -> boolean
+```
+</div>
+
+Forwards typed text to the artboard's focused text input, the same way
+as `keyboardEvent`.
+```lua
+function textEvent(self: Forwarder, event: TextInput): boolean
+  return self.instance ~= nil and self.instance:textEvent(event)
+end
+```
+
+
