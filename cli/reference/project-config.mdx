@@ -239,6 +239,7 @@ entry naming a script that does not exist. A misspelled key will not fail the bu
 `rive push` builds the project and uploads it to a Rive file in your account. The file opens from the Editor's file browser
 like any other, and every push replaces its contents and adds a named entry to its
 revision history, so any push can be inspected or restored from the Editor.
+When a coding agent runs the push, Rive stores [the agent's name](/cli/reference/commands#environment-variables) with the edits.
 
 ```bash
 rive login   # once per machine, the same session as --publish
