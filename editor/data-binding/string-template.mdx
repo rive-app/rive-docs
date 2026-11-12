@@ -1,0 +1,86 @@
+---
+title: "String Template Converter"
+sidebarTitle: "String Template"
+description: "Build text from a template and view model values."
+---
+
+The String Template converter fills placeholders in a template with values you bind.
+
+The converter's input is the template, such as `You scored ${score} of ${total}`. It replaces each placeholder with the value of a matching argument. Each argument is a **Number** or a **String**, and you can bind its value to a view model property.
+
+Store the template in a view model String property so you can change it at runtime. This helps with localization, because each language can put the values in a different order.
+
+## Creating a string template
+
+<Steps>
+  <Step title="Create the template property">
+    Add a String property to your view model and set its value to `You scored ${score} of ${total}`. Add Number properties for `score` and `total`.
+  </Step>
+  <Step title="Create the converter">
+    In the Data panel, click the `+` button and select **Converter** > **String** > **Template**.
+  </Step>
+  <Step title="Add arguments">
+    Next to **Arguments**, click the **Add Argument** (`+`) button and choose **Number** or **String**. Add one argument for each value you want to insert. For this example, add two Number arguments.
+  </Step>
+  <Step title="Name and bind each argument">
+    Name the arguments `score` and `total`. Bind each argument's value to the matching view model property.
+  </Step>
+  <Step title="Apply the converter">
+    Bind your text to the String property that holds the template, and set **Converter** to your string template.
+  </Step>
+</Steps>
+
+**Example:**
+
+- **Template:** `You scored ${score} of ${total}`
+- **Arguments:** `score` (Number) bound to a property with the value `10`, and `total` (Number) bound to a property with the value `12`
+
+**Result:** "You scored 10 of 12"
+
+<Tip>
+  A translated template can use the same arguments in a different order. For example, a template can place `${total}` before `${score}`.
+</Tip>
+
+## Placeholders
+
+A placeholder can refer to an argument by name, by position, or by order.
+
+| Placeholder | Uses |
+|-------------|------|
+| `${score}`  | The argument named `score` |
+| `${0}`      | The argument at position 0 (the first argument) |
+| `${}`       | The next argument in order. The first `${}` uses the first argument, the second uses the second, and so on. |
+
+The Inspector shows each argument's position next to its name. Drag an argument to change its position.
+
+An argument name can use letters, digits, and `_`, and can't start with a digit. If two arguments have the same name, a placeholder uses the first one.
+
+A placeholder with no matching argument adds nothing to the text.
+
+## Formatting numbers
+
+Add a colon and a printf-style format after the placeholder name to control how a Number argument is displayed.
+
+| Placeholder        | Value     | Result      |
+|--------------------|-----------|-------------|
+| `${score}`         | `3.14159` | `3.14159`   |
+| `${score:%.1f}`    | `3.14159` | `3.1`       |
+| `${score:%,d}`     | `1234567` | `1,234,567` |
+| `${score:%05.2f}`  | `3.14159` | `03.14`     |
+
+Without a format, numbers show up to 6 decimal places, with trailing zeros removed. The `,` flag adds thousands separators. Integer formats such as `%d` round the number. If the format is not valid, the number uses the default format.
+
+String arguments ignore the format.
+
+## Choosing a syntax
+
+Use **Syntax** to choose how placeholders are written:
+
+- `${name}` (default)
+- `{name}`
+- `{{name}}`
+- **Custom**: set your own **Open** and **Close** delimiters. Each delimiter is 1 to 4 ASCII symbols, such as `{`, `%`, or `<`. It can't include `_`, `\`, or `:`.
+
+If a custom delimiter is not valid, the Inspector shows a warning and the converter outputs the template as plain text.
+
+To show the open delimiter as plain text, put a backslash before it. For example, `\${score}` displays `${score}` instead of the value. Two backslashes display one backslash.
