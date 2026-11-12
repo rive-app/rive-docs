@@ -13,15 +13,15 @@ The position of the pointer in local coordinates.
 ```lua highlight={10,11}
 function handlePointerDown(self: RenderInstance, event: PointerEvent)
   if self.instance then
-    local localPos = event.position - Vector.xy(self.x, self.y)
+    local localPos = event.position - Vector.xy(self.x, self.y) -- everything from '- Vector.xy(self.x, self.y)' is not necessary only if you're trying to read trying to read the exact co-ordinates on a nested artboard
     local localEvent = PointerEvent.new(event.id, localPos)
     local hit = self.instance:pointerDown(localEvent)
     if hit ~= 0 then
       print(
         string.format(
           'Local hit at (%.1f, %.1f)',
-          localEvent.position.x,
-          localEvent.position.y
+          localEvent.position.x, -- access the xPosition of the pointer event
+          localEvent.position.y -- access the yPosition of the pointer event
         )
       )
     end
