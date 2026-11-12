@@ -19,6 +19,7 @@ This page is a **reference** for constructor options, types, and instance method
 - [Playing audio](/runtimes/web/playing-audio) — handling audio assets and controlling volume levels
 - [Focus](/runtimes/web/focus) — keyboard navigation with Tab and arrow keys, **`tabIndex`**, **`focusOptions`**
 - [Text and key input](/runtimes/web/text-and-key-input) — keyboard listeners and text inputs in the graphic
+- [Gamepad Input](/runtimes/web/gamepad): game controller input, **`gamepadOptions`**, **`shouldDisableGamepad`**
 
 ## `Rive` constructor parameters
 
@@ -52,6 +53,8 @@ export interface RiveParameters {
   enablePerfMarks?: boolean;
   tabIndex?: number;
   focusOptions?: RiveFocusOptions;
+  gamepadOptions?: RiveGamepadOptions;
+  shouldDisableGamepad?: boolean;
   semanticsMode?: SemanticMode; // experimental
   semanticsOptions?: RiveSemanticsOptions; // experimental
   enableGPUCanvas?: boolean; // experimental, @rive-app/webgl2 only
@@ -101,6 +104,9 @@ export interface RiveParameters {
 - `tabIndex` - *(optional)* The tab index to set on the `<canvas>` when the graphic has focus nodes and the canvas has no `tabindex` of its own (or its `tabindex` is `-1`). Defaults to `0`. Alternatively, you may set the `tabindex` attribute directly on the `<canvas>` itself. See [Focus](/runtimes/web/focus#setting-the-tab-index).
 - `focusOptions` - *(optional)* Options for keyboard [focus](/runtimes/web/focus) management.
   - `allowFocusInterrupt` - When `true`, the canvas takes browser focus whenever the graphic goes from having no focused node to having one, even if the user's focus is elsewhere on the page. Defaults to `false`. See [Allowing Rive to take browser focus](/runtimes/web/focus#allowing-rive-to-take-browser-focus).
+- `gamepadOptions` - *(optional)* Options for [gamepad input](/runtimes/web/gamepad).
+  - `requireFocus` - When `true`, controller input only reaches the graphic while browser focus is on the canvas. Defaults to `false`. See [Requiring canvas focus](/runtimes/web/gamepad#requiring-canvas-focus).
+- `shouldDisableGamepad` - *(optional)* When `true`, the instance doesn't read game controllers, and its state machine receives no gamepad events. Defaults to `false`. See [Turning off gamepad input](/runtimes/web/gamepad#turning-off-gamepad-input).
 - `semanticsMode` - *(optional, experimental)* Whether to build an accessible DOM overlay for the graphic's [semantics](/runtimes/web/semantics). Either `SemanticMode.Disabled` or `SemanticMode.Enabled`. Defaults to `SemanticMode.Disabled`.
 - `semanticsOptions` - *(optional, experimental)* Options for the accessibility overlay. See [Semantics](/runtimes/web/semantics).
   - `riveCanvasLabel` - *(optional)* The `aria-label` applied to the overlay's container element. Defaults to `"Rive animation"`.
