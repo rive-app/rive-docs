@@ -1,0 +1,78 @@
+---
+title: 'Speed Graph'
+description: 'See how fast each property changes over time, and shape eases by speed.'
+---
+
+The Speed Graph is the second view of the [Graph Editor](/editor/animate-mode/graph-editor). The Value Graph plots a property's value at each moment. The Speed Graph plots how fast that value is changing, so you can see where motion speeds up and where it slows down.
+
+Two curves can look almost the same on the Value Graph and still feel different in motion. The Speed Graph shows that difference.
+
+The Speed Graph adds no data to your file. It edits the same keys and handles as the Value Graph, so your animations play back the same in every runtime.
+
+## Switching to the Speed Graph
+
+Open the Graph Editor, then select **Speed** in the **Value** | **Speed** toggle in the options bar at the bottom of the Graph Editor. Select **Value** to switch back.
+
+You can also switch graphs in these ways:
+
+- Press <kbd>Shift</kbd> + <kbd>G</kbd> to switch between the Value Graph and the Speed Graph.
+- Choose **Value** or **Speed** under **Graph** in the [timeline's options menu](/editor/animate-mode/timeline#timeline-options).
+
+If you close the Graph Editor and open it again with <kbd>Shift</kbd> + <kbd>F3</kbd>, it shows the graph you used last.
+
+## Reading the Speed Graph
+
+The vertical axis shows speed in the property's units per second, such as degrees per second for rotation or percent per second for scale. Axis labels end in **/s**.
+
+Speed is positive when the value goes up and negative when it goes down. The line at zero is highlighted. On that line, the property isn't moving.
+
+Each interpolation type has its own shape:
+
+- **Hold** draws a flat line at zero, because the value doesn't change until the next key.
+- **Linear** draws a flat line, because the value changes at a constant rate.
+- **Cubic**, **Cubic Value**, and **Elastic** draw curves.
+
+If the speed going into a key is different from the speed leaving it, the curve jumps at that key. The jump means the speed changes instantly at that moment.
+
+## Editing curves
+
+You can only shape a curve that starts at a key that uses [Cubic Value](/editor/animate-mode/graph-editor#cubic-vs-cubic-value). That curve has two handles: one at its first key and one at the next key. Curves that start at keys with other interpolation types have no handles.
+
+### Dragging handles
+
+On the Speed Graph, each handle sits level with its key, at the speed going into or out of that key.
+
+- Drag a handle up or down to change the speed at that key.
+- Drag a handle left or right to change the ease, which is how far the handle's influence reaches toward the neighboring key. The speed stays the same.
+
+When you drag a handle, the handle on the other side of the key changes to the same speed, so the motion doesn't jump at that key. Its ease doesn't change. To change one side only, hold <kbd>Alt</kbd> while dragging.
+
+While dragging a handle:
+
+- The handle snaps to zero speed, so you can bring the motion to a full stop. Hold <kbd>Cmd/Ctrl</kbd> to turn off snapping.
+- Hold <kbd>Shift</kbd> to lock the handle to one axis.
+- Press <kbd>Esc</kbd> to cancel the drag.
+
+### Moving keys
+
+Drag a key left or right to change its time.
+
+Drag a key up or down to change the speed on both sides of the key at once. The key's value stays the same. This changes only the sides of the key that use Cubic Value.
+
+To add a key on a curve, switch to the Value Graph. Clicking a curve on the Speed Graph doesn't add a key.
+
+### Setting exact values
+
+Select one or more handles. The **Speed** and **Ease** fields appear in the options bar at the bottom of the Graph Editor. **Ease** is a percentage.
+
+Typing a value applies it to every selected handle. If the selected handles have different values, the field shows **-**.
+
+### Shortcuts
+
+| Shortcut | Result |
+| --- | --- |
+| <kbd>Shift</kbd> + <kbd>G</kbd> | Switch between the Value Graph and the Speed Graph |
+| <kbd>Alt</kbd> + drag a handle | Change the speed on one side of a key only |
+| <kbd>Cmd/Ctrl</kbd> + drag a handle | Turn off snapping to zero speed |
+| <kbd>Shift</kbd> + drag | Lock a key or handle to one axis |
+| <kbd>Esc</kbd> while dragging a handle | Cancel the drag |
