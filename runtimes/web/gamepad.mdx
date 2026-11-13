@@ -1,0 +1,49 @@
+---
+title: "Gamepad Input"
+description: "Send input from game controllers to your Rive graphic in the Web (JS) runtime."
+---
+
+The Web (JS) runtime sends input from game controllers to your Rive graphic, so players can drive it with a controller's buttons and sticks. Gamepad input is on by default in `@rive-app/canvas`, `@rive-app/canvas-lite`, and `@rive-app/webgl2` `2.48.0+`.
+
+To react to a controller in your file, add a [Gamepad listener](/editor/state-machine/listeners#gamepad) to a state machine. Scripts can receive gamepad events too.
+
+## How input reaches the graphic
+
+- The runtime reads every controller the browser detects once per frame, before the state machine advances.
+- Controllers without the browser's standard button layout also work. Their buttons and sticks are sent as the browser reports them.
+- Each Rive instance on the page sends input to its playing state machine. If it plays more than one, only the first receives controller input.
+- Gamepad events go to the node that has [focus](/runtimes/web/focus), then up through its ancestors. When no node has focus, only scripts receive them.
+
+## Requiring canvas focus
+
+By default, a Rive instance receives controller input even when its canvas doesn't have browser focus. To send input only while browser focus is on the canvas, set `requireFocus` to `true` in `gamepadOptions`. This helps when several graphics on one page use a controller.
+
+```js highlight={6-8}
+const rive = new Rive({
+  canvas: document.getElementById("rive-canvas"),
+  src: "game.riv",
+  stateMachine: "State Machine 1",
+  autoplay: true,
+  gamepadOptions: {
+    requireFocus: true,
+  },
+});
+```
+
+The [Semantics](/runtimes/web/semantics) overlay and the [hidden input](/runtimes/web/text-and-key-input#the-hidden-input) count as part of the canvas. While browser focus is somewhere else, controllers stay connected, but the graphic sees all buttons released and all sticks at rest.
+
+## Turning off gamepad input
+
+To stop a Rive instance from reading controllers, set `shouldDisableGamepad` to `true`. Its state machine then receives no gamepad events.
+
+```js highlight={6}
+const rive = new Rive({
+  canvas: document.getElementById("rive-canvas"),
+  src: "game.riv",
+  stateMachine: "State Machine 1",
+  autoplay: true,
+  shouldDisableGamepad: true,
+});
+```
+
+Setting `shouldDisableRiveListeners` to `true` also turns off gamepad input.
