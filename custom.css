@@ -36,3 +36,11 @@ ol li {
 .dark .card:hover {
   border-color: var(--primary-light) !important;
 }
+
+/* Mintlify leaves row headers (<th scope="row">) unstyled. Match body cells. */
+.prose tbody th[scope="row"] {
+  padding: 0.5714286em 0.5714286em 0.5714286em 0;
+  vertical-align: baseline;
+  font-weight: 600;
+  color: var(--tw-prose-headings);
+}
