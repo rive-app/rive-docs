@@ -1,0 +1,45 @@
+---
+title: "Focus"
+description: "Navigate Rive graphics with a keyboard or Apple TV remote in the Apple runtime."
+---
+
+With the Swift Concurrency API, your Rive view joins native focus navigation automatically when the graphic has [focus nodes](/editor/accessibility/focus#making-an-element-focusable). The platform moves focus between views. Rive moves focus between elements in the graphic.
+
+## Native focus
+
+Rive discovers focus nodes asynchronously after loading. The graphic can appear before the view can receive focus.
+
+<Note>
+  Native focus varies by platform. See Apple's guidance for [iPadOS 15 and later, tvOS, and visionOS](https://developer.apple.com/design/human-interface-guidelines/focus-and-selection/) and [Mac Catalyst](https://developer.apple.com/documentation/uikit/navigating-an-app-s-user-interface-using-a-keyboard). iPhone offers [Full Keyboard Access](https://developer.apple.com/videos/play/wwdc2021/10120/) as a separate accessibility feature.
+</Note>
+
+<Tabs>
+  <Tab title="SwiftUI">
+    `RiveUIViewRepresentable` and `AsyncRiveUIViewRepresentable` become focusable automatically when the graphic is ready. Add either view directly to your SwiftUI hierarchy.
+  </Tab>
+  <Tab title="UIKit">
+    To make `RiveUIView` the preferred target for initial focus, return it from the hosting view controller's `preferredFocusEnvironments`.
+
+    ```swift
+    // In the view controller that hosts riveView.
+    override var preferredFocusEnvironments: [any UIFocusEnvironment] {
+        [riveView]
+    }
+    ```
+
+    UIKit considers this preference when it updates focus. If a native control already has focus, loading the graphic leaves focus on that control. See Apple's [UIFocusEnvironment documentation](https://developer.apple.com/documentation/uikit/uifocusenvironment).
+  </Tab>
+  <Tab title="AppKit">
+    The Rive view joins the window's key-view loop. Use `NSWindow`'s `selectNextKeyView(_:)` or `selectPreviousKeyView(_:)` to move through the loop from code. See [AppKit's key-view APIs](https://developer.apple.com/documentation/appkit/nswindow#Managing-the-Key-View-Loop).
+  </Tab>
+</Tabs>
+
+## Moving between elements
+
+- **Tab** and **Shift+Tab** follow the [focus order](/editor/accessibility/focus#focus-order) set in the editor.
+- **Arrow keys** move focus in the direction you press.
+- On **tvOS**, the Siri Remote also moves focus. Rive treats the remote's Select button as **Enter**. See [Apple TV focus interactions](https://developer.apple.com/documentation/uikit/about-focus-interactions-for-apple-tv).
+
+Rive waits for the State Machine to handle each key before deciding whether to pass it back to the platform. [Keyboard listeners](/editor/state-machine/listeners#keyboard) get the key before focus navigation does. For example, if Rive leaves **Tab** unhandled at the last element, the platform can move focus to the next native control.
+
+Full Keyboard Access and gamepad navigation outside tvOS fall outside the Apple runtime's focus support. Use [Semantics](/runtimes/apple/semantics) for VoiceOver.

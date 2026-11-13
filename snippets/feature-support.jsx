@@ -158,7 +158,7 @@ export const FeatureSupportGroup = ({
                 reactNative: { supported: false, description: "Coming soon" },
                 reactNativeLegacy: { supported: false, description: "Coming soon" },
                 flutter: { supported: true, version: "0.15.0-dev.3" },
-                apple: { supported: false, description: "Coming soon" },
+                apple: { supported: true, partial: true, version: "6.30.0", description: "Swift Concurrency API. Native navigation varies by platform" },
                 android: { supported: false, description: "Coming soon" },
                 cpp: { supported: true, description: "Supported" },
                 unity: { supported: false, description: "Coming soon" },
