@@ -277,7 +277,10 @@ animation(name: string) -> Animation?
 ```
 </div>
 
-Creates an animation instance linked to the artboard instance
+Creates an animation instance linked to the artboard instance, for the
+timeline named [name]. Returns nil if no timeline has that name. A
+timeline in a newer file carries its name only when set to export it
+(Export name in the editor, `exportNameValue="export"` in markup).
 
 
 ### `bounds`
