@@ -63,6 +63,7 @@ export const FeatureSupportGroup = ({
         "globalViewModels",
         "dataBindingFonts",
         "semantics",
+        "animaScript",
         "scripting",
         "dataBindingListsImagesArtboards",
         "rightToLeftLayoutsText",
@@ -266,6 +267,27 @@ export const FeatureSupportGroup = ({
                 apple: { supported: true, version: "6.21.0" },
                 android: { supported: true, version: "11.10.0+" },
                 cpp: { supported: true, description: "Supported" },
+                unity: { supported: false, description: "Not yet supported" },
+                unreal: { supported: false, description: "Not yet supported" }
+            }
+        },
+        animaScript: {
+            title: "AnimaScript",
+            runtimes: {
+                webCanvas: { supported: true, version: "2.44.1+" },
+                webCanvasLite: { supported: false, na: true },
+                webWebGL: { supported: false, description: "Not supported" },
+                webWebGL2: { supported: true, version: "2.44.1+" },
+                reactCanvas: { supported: true, version: "4.37.0+" },
+                reactCanvasLite: { supported: false, na: true },
+                reactWebGL: { supported: false, description: "Not supported" },
+                reactWebGL2: { supported: true, version: "4.37.0+" },
+                reactNative: { supported: false, description: "Not yet supported" },
+                reactNativeLegacy: { supported: false, description: "Not supported" },
+                flutter: { supported: false, description: "Not yet supported" },
+                apple: { supported: false, description: "Not yet supported" },
+                android: { supported: false, description: "Not yet supported" },
+                cpp: { supported: true, version: "runtime-v0.1.536+" },
                 unity: { supported: false, description: "Not yet supported" },
                 unreal: { supported: false, description: "Not yet supported" }
             }
