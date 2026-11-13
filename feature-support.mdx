@@ -19,14 +19,14 @@ When a feature requires API changes, migration notes will be included below.
 ## Feature support by runtime
 
 <FeatureSupportGroup runtime={["webWebGL2", "webCanvas", "webCanvasLite"]} title="Web">
-    - **WebGL2** (`@rive-app/webgl2`): The recommended package for most web projects. Uses the Rive Renderer, which supports the most Rive Editor features.
+    - **WebGL2** (`@rive-app/webgl2`): The recommended package for most web projects. Uses the Rive Renderer, which support every Rive Editor feature.
     - **Canvas** (`@rive-app/canvas`): Uses the browser's Canvas2D renderer. Some rendering features, such as Layer Masks and Bitmap Cache, are not supported.
     - **Canvas Lite** (`@rive-app/canvas-lite`): Uses the same API as `@rive-app/canvas`, but excludes certain features to reduce bundle size.
 
     See [Canvas vs WebGL2](/runtimes/web/canvas-vs-webgl) for the tradeoffs.
 </FeatureSupportGroup>
 <FeatureSupportGroup runtime={["reactWebGL2", "reactCanvas", "reactCanvasLite"]} title="React">
-    - **WebGL2** (`@rive-app/react-webgl2`): The recommended package for most React projects. Uses the Rive Renderer, which supports the most Rive Editor features.
+    - **WebGL2** (`@rive-app/react-webgl2`): The recommended package for most React projects. Uses the Rive Renderer, which support every Rive Editor feature.
     - **Canvas** (`@rive-app/react-canvas`): Uses the browser's Canvas2D renderer. Some rendering features, such as Layer Masks and Bitmap Cache, are not supported.
     - **Canvas Lite** (`@rive-app/react-canvas-lite`): Uses the same API as `@rive-app/react-canvas`, but excludes certain features to reduce bundle size.
 
@@ -57,7 +57,7 @@ When a feature requires API changes, migration notes will be included below.
 <FeatureSupportGroup runtime="flutter" />
 <FeatureSupportGroup runtime="apple">
     <Warning>
-        Layer Masks require [GPU Canvas](/runtimes/apple/gpu-canvas) (the deferred renderer) on Apple platforms. They are supported on physical devices, Mac Catalyst, and macOS, but are not supported in simulators.
+        Some rendering features require [GPU Canvas](/runtimes/apple/gpu-canvas) (the deferred renderer) on Apple platforms. These are marked "GPU Canvas required" in the table below.
     </Warning>
 </FeatureSupportGroup>
 <FeatureSupportGroup runtime="android" />
@@ -88,7 +88,7 @@ Differences may reflect:
     On Web runtimes, the Canvas and Canvas Lite packages draw cached content as vectors, without the cache.
 </FeatureSupportGroup>
 <FeatureSupportGroup feature="artboardFills">
-    Fills and strokes that paint with an artboard. On Web and React, the Canvas and Canvas Lite packages draw the fill's own color instead.
+    Fills and strokes that paint with an artboard.
 </FeatureSupportGroup>
 <FeatureSupportGroup feature="componentMeshes">
     See [Meshes](/editor/manipulating-shapes/meshes) and [Components](/editor/fundamentals/components#deform). On Web and React, the Canvas and Canvas Lite packages draw the component undeformed.
