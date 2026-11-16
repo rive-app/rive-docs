@@ -694,7 +694,7 @@ The CLI sends usage analytics to help improve Rive. Each run reports:
 - Whether the command ran in a terminal or was started by a coding agent
 - Your Rive account ID and plan, when you're signed in
 
-The preview window also reports when its status bar shows an upgrade button, and which status bar items you click. Events carry no IP address or location.
+The preview window also reports when its status bar shows an upgrade button, and which status bar items you click. When you're signed out, the CLI also reports when it shows the tip about signing in. Events carry no IP address or location.
 
 The first run prints a notice and sends nothing. Analytics start with the next run. The CLI saves events under `~/.rive` and a background process sends them, so a command never waits on the network.
 
