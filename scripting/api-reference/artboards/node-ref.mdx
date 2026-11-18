@@ -1,0 +1,48 @@
+---
+title: NodeRef
+---
+
+A node in the script's own artboard, picked in the editor's inspector as
+an input. Exporting the file keeps the reference.
+
+A write made in `advance` shows the same frame; one made in `draw` shows
+from the next. A shape keeps its geometry in path children, so walk
+`children` to reach paths.
+```lua highlight={2,6}
+type Outline = {
+  caster: Input<NodeRef>,
+}
+
+function draw(self: Outline, renderer: Renderer)
+  local node = self.caster:get()
+  if node then
+    for _, child in node.children do
+      local path = child:asPath()
+    end
+  end
+end
+```
+
+
+## Methods
+
+### `get`
+
+{/* get: (self: NodeRef) -> NodeData? */}
+<div class="signature">
+```lua
+get() -> NodeData?
+```
+</div>
+
+The node, or nil when none is picked or it was deleted. The same
+node each call, so it can be kept: it reads empty once the scripted
+object is gone.
+```lua highlight={1}
+local node = self.caster:get()
+if node then
+  local world = node.worldTransform
+end
+```
+
+
