@@ -121,7 +121,7 @@ Any change to the component's contents forces the image to redraw, so a cache he
 
 To add a bitmap cache, select the component's artboard and click **+** next to **Bitmap Cache** in the Inspector. The cache applies to every instance of the component. To remove it, click the delete button next to **Bitmap Cache**.
 
-- **Resolution** sets how sharp the cached image is, as a multiple of the size the component is drawn at on screen. `1x` is the default, and `2x` uses twice the pixels. Higher values look crisper but use more memory. The image is capped at 2048 pixels per side.
+- **Resolution** sets how sharp the cached image is, as a multiple of the size the component is drawn at on screen. `1x` is the default, and `2x` doubles each dimension, using approximately four times as many pixels before the size cap. Higher values look crisper but use more memory. The image is capped at 2048 pixels per side.
 - **On / Off** turns the cache on or off without removing it. You can key or data bind it, for example to cache only while the component isn't changing.
 
 ## Component instance properties
