@@ -75,7 +75,7 @@ Once the field reaches a limit, typing and `Enter` stop adding text, and a paste
 
 - **Background color:** The fill color of the field.
 - **Stroke color:** The border color and width.
-- **Padding:** Space between the border and the text. Set horizontal and vertical padding, or switch to individual edges.
+- **Padding:** Space between the border and the text. Set horizontal and vertical padding, or switch to individual edges to set **Left**, **Right**, **Top**, and **Bottom** padding separately.
 - **Corner radius:** Rounds the corners of the field. Corners are linked by default; unlink them to set each corner separately.
 
 ### Focus
@@ -98,6 +98,14 @@ See [Listeners](/editor/state-machine/listeners) for setting up listeners and th
 <Tip>
   To read the field's text in your app, bind **Value** to a string property on your view model rather than handling each keystroke.
 </Tip>
+
+## Custom text input components
+
+You can make your own component show up in the editor as a text input. Select the component and set **Type** to **Text Input** in the Inspector. **Type** only appears on components.
+
+Instances of a **Text Input** component use the **Text Input** section in the Inspector instead of the usual component properties. The section lists the properties the component exposes on its [view model](/editor/data-binding/stateful-components). To get the same rows as the bundled component, use the same property names, such as `text`, `placeholderText`, `textColor`, and `focus`.
+
+Set **Type** back to **Regular** to treat it as a standard component.
 
 ## Runtime support
 

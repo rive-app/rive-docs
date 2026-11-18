@@ -43,6 +43,8 @@ When you hover over an object on the stage, Rive outlines the object that will b
 
 If multiple objects overlap, press `Alt` to cycle through objects under the cursor. When the object you want is outlined, click to select it.
 
+You can also right-click and choose **Select** to pick from a list of the objects under the cursor. Hover a name to highlight that object on the stage.
+
 ![Select behind](/images/editor/interface-overview/select-behind.gif)
 
 ### Moving up and down the Hierarchy
@@ -53,6 +55,31 @@ Use `Enter` and `Esc` to move through nested objects in the hierarchy.
 * Press `Esc` to move up and select the parent of the current selection.
 
 ![Enter And Escape](/images/editor/fundamentals/EnterAndEscape.gif)
+
+## Transform handles
+
+When you select an object, handles appear on the stage so you can move, rotate, scale, and resize it. Which handles appear depends on the [transform tool](/editor/interface-overview/toolbar#transform-tools) you're using.
+
+### Gizmo
+
+- **Red arrow:** drag to move the selection along its X axis only.
+- **Green arrow:** drag to move the selection along its Y axis only.
+- **Center dot:** drag to move the selection freely in any direction, like dragging the object itself.
+- **Ring:** drag to rotate the selection around the gizmo's center. Hold `Shift` to snap to 45° steps.
+- **Red square:** drag to scale the selection along its X axis. Hold `Shift` to scale proportionally.
+- **Green square:** drag to scale the selection along its Y axis. Hold `Shift` to scale proportionally.
+
+<Note>
+  Artboards don't show a gizmo. Use the bounding box to move and resize them.
+</Note>
+
+### Bounding box
+
+With the **Select** tool, a bounding box surrounds the selection.
+
+- **Corners:** drag to resize from that corner. The opposite corner stays put. Hold `Shift` to keep proportions, or `Alt` to resize around the origin.
+- **Edges:** drag to resize from that side. The opposite side stays put. Hold `Alt` to resize around the origin.
+- **Outside a corner:** drag just outside a corner to rotate the selection. Hold `Shift` to snap to 45° steps.
 
 ## Navigating the Stage
 

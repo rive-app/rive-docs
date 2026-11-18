@@ -44,3 +44,25 @@ Select a Text Run in the hierarchy for inspector options:
 - **Style:** Assign one of the Text Styles defined on the text object. Key this value in [animate mode](/editor/fundamentals/design-vs-animate-mode).
 
 ![Assign a Text Style to a Text Run](/images/editor/text/text-runs-managing-run.gif)
+
+---
+
+## Building runs from a list
+
+You can build a Text object's runs from a [view model list](/editor/data-binding/lists). Each item in the list becomes a run, after the runs you created in the editor. The item supplies the run's text and style.
+
+<Steps>
+  <Step>
+    In the **Data** panel, click **+** and choose **View Model** > **Templates** > **Text Run**. This creates a view model with a **Text Content** property for the run's text and a **Text Style** property for its style.
+  </Step>
+  <Step>
+    Add a list property that uses that view model to the view model your artboard is bound to.
+  </Step>
+  <Step>
+    Select the Text object and use **Bind** at the bottom of the **Text Runs** section in the Inspector to bind the list.
+  </Step>
+</Steps>
+
+Set an item's **Text Style** to the name of one of the Text object's styles. If no style has that name, the run uses the Text object's first style.
+
+Runs created from a list don't appear in the Inspector, so you can't edit them there. Change the list items instead.

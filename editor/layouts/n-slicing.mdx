@@ -71,7 +71,7 @@ A [component](/editor/fundamentals/components#deform) instance with **Mode** set
 
 ## Setting up an N-Slice
 
-To change an N-Slice, select it and click **Edit N-Slice** in the **Inspector**, right-click it and select **Edit N-Slice**, or press <kbd>Enter</kbd>.
+To change an N-Slice, select it and click **Edit N-Slice** in the **Inspector**, right-click it and select **Edit N-Slice**, or press <kbd>Enter</kbd>. When you're finished, click **Done Editing** to leave edit mode and select the sliced object again.
 
 <Note>
   Set up your N-Slice before resizing the image or group. You can adjust axes on artwork that's already been resized, but it's harder to position new ones accurately.
@@ -82,6 +82,10 @@ To change an N-Slice, select it and click **Edit N-Slice** in the **Inspector**,
 Segments alternate between fixed and scaling, starting with a fixed segment. In a 9-slice, that means fixed, then scaling, then fixed, along both the horizontal and vertical axes.
 
 In edit mode, fixed segments have solid blue borders, and scaling segments have dashed borders.
+
+On vector artwork, set the N-Slice group's **Size** in the **Inspector** to choose the size it draws its contents at. Fixed segments keep their size, and scaling segments absorb the difference.
+
+Because segments alternate by position, deleting an axis swaps the segments after it: fixed segments become scaling, and scaling segments become fixed. To delete an axis, click the delete button next to it in the **Inspector**.
 
 ### Positioning axes
 

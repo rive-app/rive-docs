@@ -51,6 +51,32 @@ The circle's horizontal position is now driven by the `circleX` property. Any ti
   ![Preview data binding](/images/editor/data-binding/binding-data/preview-data-binding.gif)
 </Tip>
 
+### Creating a property while binding
+
+You can create a new View Model property from the bind popup instead of adding it in the Data panel first.
+
+<Steps>
+  <Step title="Open the New Property form">
+    Right-click the field, select **Data Bind**, then click the **New Property** (**+**) icon in the popup's header.
+  </Step>
+  <Step title="Choose a View Model">
+    In **Model**, select the View Model to add the property to. To make a new View Model, select **Create New** and enter a name that doesn't match an existing View Model.
+  </Step>
+  <Step title="Name the property">
+    Enter a name in **Property**. Its type matches the field you're binding.
+  </Step>
+  <Step title="Set a starting value">
+    **Value** sets the property's starting value on every instance. It defaults to the field's current value.
+  </Step>
+  <Step title="Create it">
+    Click **Create Property** or press `Enter`. Rive creates the property and binds the field to it.
+  </Step>
+</Steps>
+
+<Note>
+  Only String, Number, Boolean, Color, and Trigger properties can be created here. For other types, such as lists, enums, and assets, create the property in the Data panel.
+</Note>
+
 ### Updating a binding
 
 Right-click the bound element and select **Update Bind**.
@@ -62,6 +88,12 @@ Right-click the bound element and select **Update Bind**.
 Right-click the bound element and select **Unbind**.
 
 ![Remove a binding](/images/editor/data-binding/binding-data/unbind.gif)
+
+### Finding bound objects
+
+In the **Hierarchy**, objects with bound properties show a data bound badge. The arrows show which way data flows, and the badge turns amber when a binding is invalid. Hover the badge to see the bound properties.
+
+If an object has no bindings of its own but something inside it does, it also shows a badge. Expand it to find the bound object.
 
 ## Binding options
 

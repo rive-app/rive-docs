@@ -1,0 +1,106 @@
+---
+title: "Transition Scripts"
+description: "Animate the switch between component instances with a script."
+---
+
+A Transition shows one child at a time, like a [Solo](/editor/manipulating-shapes/solos). When the active child changes, a Transition script draws the change between the outgoing child and the incoming one, such as a crossfade, slide, or wipe.
+
+Transition scripts are different from [Transition Condition Scripts](/scripting/protocols/transition-condition-scripts), which decide when a State Machine moves between states.
+
+## Adding a Transition
+
+<Steps>
+  <Step>
+    [Create a new script](/scripting/creating-scripts) and select **Transition** as the type.
+  </Step>
+  <Step>
+    Add the script to your artboard the same way you [add other scripts to your scene](/scripting/creating-scripts#adding-scripts-to-your-scene).
+  </Step>
+  <Step>
+    Add [component instances](/editor/fundamentals/components) as children of the Transition. Only component instances can be switched between. Other children stay in place.
+  </Step>
+</Steps>
+
+Select the Transition and use **Active** in the Inspector to choose which child it shows. Changing **Active** plays the transition script. You can key or bind **Active** to switch children from an animation or a view model.
+
+The script only animates the change while the artboard is playing. In design mode, the Transition switches children instantly.
+
+## Using a view model list
+
+You can also add children from a [view model list](/editor/data-binding/lists). Select the Transition and use **Source** in the Inspector to bind a list. Each item in the list becomes an extra child the Transition can switch between, after the component instances you added in the Hierarchy.
+
+## Anatomy of a Transition script
+
+New Transition scripts start with a crossfade:
+
+```lua
+type MyTransition = {
+  t: number,
+  duration: number,
+}
+
+function init(self: MyTransition, context: Context): boolean
+  self.t = 1
+  self.duration = 0.3
+  return true
+end
+
+-- Called when the active child changes. `direction` is 1 when moving to a
+-- higher index, -1 to a lower index (0 on first show). Reset the progress clock.
+function changed(
+  self: MyTransition,
+  from: TransitionChild?,
+  to: TransitionChild?,
+  direction: number
+)
+  self.t = 0
+end
+
+-- Advance the transition. Return false to signal completion.
+function advance(self: MyTransition, seconds: number): boolean
+  if self.t >= 1 then
+    return false
+  end
+  self.t = math.min(1, self.t + seconds / self.duration)
+  return self.t < 1
+end
+
+-- Composite the outgoing (from) and incoming (to) children.
+function draw(
+  self: MyTransition,
+  renderer: Renderer,
+  from: TransitionChild?,
+  to: TransitionChild?
+)
+  if from then
+    renderer:save()
+    renderer:modulateOpacity(1 - self.t)
+    from:draw(renderer)
+    renderer:restore()
+  end
+  if to then
+    renderer:save()
+    renderer:modulateOpacity(self.t)
+    to:draw(renderer)
+    renderer:restore()
+  end
+end
+
+-- Return a factory function that Rive uses to build the Transition instance.
+return function(): Transition<MyTransition>
+  return {
+    t = 1,
+    duration = 0.3,
+    init = init,
+    changed = changed,
+    advance = advance,
+    draw = draw,
+  }
+end
+```
+
+- `changed` runs when the active child changes. Reset your progress here.
+- `advance` runs every frame while the transition is running. Return `false` when it's done, and the Transition goes back to drawing the active child normally.
+- `draw` draws the two children. Wrap each `child:draw(renderer)` in renderer state, such as opacity, transforms, or clipping, to build the effect.
+
+See [Transition](/scripting/api-reference/interfaces/transition) and [TransitionChild](/scripting/api-reference/interfaces/transition-child) in the API reference for every field and method.

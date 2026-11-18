@@ -57,6 +57,8 @@ Joints do not appear as separate objects in the Hierarchy. Moving a joint change
 
 The first bone in a chain is the **root bone**. It controls the position of the entire chain and is the only bone in the chain with X and Y position properties. Every other bone is positioned by its length and rotation relative to its parent.
 
+To move the whole chain, drag the root joint at the start of the root bone.
+
 
 ## Controlling elements with Bones
 
@@ -145,7 +147,7 @@ Rive includes tools to help you adjust vertex weights after bones are bound.
 Auto-Weights includes two settings:
 
 - **Blend** - controls how widely weights blend at the boundary between two bones. Higher values spread the blend across more of the mesh, creating softer deformation. Lower values create a more rigid result, where each vertex sticks more closely to its nearest bone.
-- **Influence** - controls the maximum number of bones that can influence each vertex.
+- **Influences** - controls the maximum number of bones, from 1 to 4, that can influence each vertex.
 
 #### Mesh view options
 

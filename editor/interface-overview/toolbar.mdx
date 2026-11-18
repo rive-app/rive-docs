@@ -21,6 +21,33 @@ Common actions include:
 * [Share and Embed](/editor/embed-urls/overview)
 * [Render to Video or Image](/editor/exporting/exporting-for-video-and-static-design)
 
+### Sharing
+
+- **Share File**: Invite people to this file. See [Invite](#invite).
+- **Copy File URL**: Copy a link that opens this file in the editor.
+
+### Editor settings
+
+These options are under **Options** in the menu.
+
+- **Use Horizontal Field Drag**: Drag number fields left and right to change their value, instead of up and down.
+- **Pause Component Updates**: Stop [components](/editor/fundamentals/components) on the stage from updating. Your changes to them show once you turn this off.
+
+### Language
+
+Use **Language** to change the language of the editor's interface. You can choose English, Español, or 简体中文. Languages marked **Beta** may have some text that isn't translated yet.
+
+While you use a beta language, choose **Translation Feedback** to report problems or suggest fixes in the Rive Community.
+
+You can also change the language from the account menu in the [File Browser](/editor/interface-overview/file-browser#toolbar).
+
+### File maintenance
+
+These items at the bottom of the menu update older files:
+
+- **Convert Inputs to ViewModels**: Replaces state machine inputs with view model properties. See [Migrating State Machine Inputs](/editor/data-binding/migration-guide#state-machine-inputs).
+- **Reset Layout Transforms**: Puts every [layout](/editor/layouts/layouts-overview) back where its parent layout places it, removing stray X and Y offsets. This item only appears until the file has been reset.
+
 ## Tools
 
 ![Toolbar tools](/images/interface/toolbar-tools.png)
@@ -29,17 +56,44 @@ The **Tools** area lets you select, transform, draw, create objects, add rigging
 
 Common tools include:
 
-* Select, translate, rotate, and scale tools
+* [Select, translate, rotate, and scale tools](#transform-tools)
+* [Stage tools](#stage-tools), such as events and joysticks
 * [Artboards](/editor/fundamentals/artboards) and [components](/editor/fundamentals/components)
 * [Shape and drawing tools](/editor/fundamentals/shapes-and-paths-overview)
 * [Bones tools](/editor/manipulating-shapes/manipulating-shapes)
 * Play the [State Machine](/editor/state-machine/state-machine)
 
+### Transform tools
+
+Open the **Transform Tools** menu to pick how you move, rotate, and scale objects on the stage.
+
+| Tool | Shortcut | What it does |
+| --- | --- | --- |
+| **Select** | `V` | Select objects and move, rotate, or scale them. Shows the full [gizmo](/editor/interface-overview/selection-and-navigation#gizmo) and the [bounding box](/editor/interface-overview/selection-and-navigation#bounding-box). |
+| **Translate** | `Q` | Move objects precisely. Shows only the move handles. |
+| **Rotate** | `W` | Rotate objects. Shows only the rotation ring. |
+| **Scale** | `E` | Resize objects proportionately or non-proportionately. Shows only the scale handles. |
+
+Tap `Q`, `W`, or `E` to switch to that tool. Hold the key instead to use the tool temporarily. When you let go, the editor switches back to the tool you were using.
+
+The menu also has a [Freeze](/editor/fundamentals/origin#freeze) toggle (`Y`).
+
+### Stage tools
+
+The **Stage Control Tools** menu holds tools for objects that don't render. They control or organize other elements in your design or animation.
+
+* [Event](/editor/events/overview)
+* [Joystick](/editor/manipulating-shapes/joysticks)
+* [Property Group](/editor/data-binding/property-groups)
+* [Effect Group](/editor/manipulating-shapes/effect-groups)
+
 ## Invite
 
 ![Invite members button](/images/interface/toolbar-invite.png)
 
-Use **Invite** to add collaborators to the file.
+Use **Invite** to add collaborators to the file. You can also choose **Share File** in the [Editor menu](#editor-menu).
+
+Only files in a shared project can be shared. To invite people to one of your personal files, move it to a shared project first.
 
 ## Publish
 

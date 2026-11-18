@@ -35,6 +35,19 @@ For more room, open a chat as a tab in the stage area, next to your artboards:
 
 The chat moves to a tab in the stage area, and the Agent tab in the sidebar closes.
 
+### Starting a new file with the agent
+
+When you click **New File** in the File Browser, a prompt opens so the agent can build the file for you.
+
+- **Prompt** - describe the file you want. Leave it empty to make a blank file.
+- **Examples** - fill the prompt with an example to try. Some start from a template file.
+- **Launch agent** - creates the file and starts the agent on it with your prompt. With an empty prompt, the button becomes **Create blank** and makes a blank file.
+- **Don't ask again** - skip this prompt so **New File** always makes blank files. Turn it back on with the **New File Prompt** (sparkle) button in the File Browser toolbar.
+
+#### Free kickstart
+
+A free kickstart is a free agent build for a new file, with a shorter prompt limit. Once you use it, it recharges over time. Until then, you can only create blank files from this prompt.
+
 ## Writing a prompt
 
 Type what you want in the prompt box at the bottom of the panel and press `Enter`. Be specific about what should change and how it should behave.
@@ -71,6 +84,15 @@ The agent works in the open file. It can:
 - **Write code**: Create and edit [scripts](/scripting/getting-started) and [shaders](/scripting/wgsl-shaders), run tests, and read the console to fix errors.
 - **Manage assets and tags**: Work with the file's assets and [tags](/editor/tagging).
 - **Inspect the file**: Find objects and read their properties, so it can answer questions about the file.
+
+## Reviewing script changes
+
+When the agent edits a script, its changes are shown as a diff in the script editor until you review them. Scripts with pending changes are listed in the [Changes tab](/editor/interface-overview/debug-panel#changes) of the Debug Panel.
+
+- **Previous** and **Next** - jump between blocks of changes. The counter shows the current block and the total in this script.
+- **Accept** and **Reject** - keep or undo a single block of changes.
+- **Accept All** - keep every change the agent made to this script and clear the diff.
+- **Reject All** - undo every change the agent made to this script, restoring the removed lines.
 
 ## Credits
 

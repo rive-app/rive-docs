@@ -1,0 +1,41 @@
+---
+title: "Custom Properties"
+description: "Tag objects on an artboard with named values that scripts read while drawing."
+---
+
+Custom properties let you attach named values to objects on an artboard, such as a `glow` flag on certain shapes. A script that draws the artboard can read those values and decide how to draw each object.
+
+## Adding custom properties to objects
+
+<Steps>
+  <Step>
+    Select one or more objects, such as shapes, images, text, or component instances. Layouts can't have custom properties.
+  </Step>
+  <Step>
+    In the **Custom Properties** section of the Inspector, click **+** and choose a type: **Number**, **String**, **Boolean**, **Color**, **Trigger**, or **Enum**.
+  </Step>
+  <Step>
+    Name the property and set its value. Scripts find the property by its name.
+  </Step>
+</Steps>
+
+With several objects selected, the new property is added to each of them.
+
+## Reading custom properties in a script
+
+Scripts read custom properties when they draw an artboard with a visitor. Pass a visitor function to [`artboard:draw`](/scripting/api-reference/artboards/artboard#draw). Rive hands each object that has custom properties to the visitor instead of drawing it. The visitor decides whether to call `drawable:draw(renderer)` and under what renderer state. Objects without custom properties draw as usual.
+
+Get a [`PropertyKey`](/scripting/api-reference/artboards/property-key) for each property name once, in `init`, with `artboard:propertyKey`. Then read values in the visitor with `number`, `string`, `boolean`, or `color`. Each returns `nil` when the object doesn't have that property.
+
+```lua
+-- In init: self.glow = artboard:propertyKey("glow")
+
+-- Draw only the objects tagged with a true `glow` property.
+artboard:draw(renderer, function(context, drawable, renderer)
+  if drawable:boolean(self.glow) then
+    drawable:draw(renderer)
+  end
+end)
+```
+
+See [Drawable](/scripting/api-reference/artboards/drawable) in the API reference for every method.

@@ -6,7 +6,7 @@ description: "Create editable shapes with adjustable properties."
 import { YouTube } from '/snippets/youtube.mdx'
 import { VideoEmbed } from '/snippets/video-embed.jsx'
 
-Shape tools let you create common shapes, such as rectangles, ellipses, polygons, and stars. These shapes keep editable properties, such as width, height, corner radius, and number of points, until you convert them to custom paths.
+Shape tools let you create common shapes, such as rectangles, ellipses, triangles, polygons, and stars. These shapes keep editable properties, such as width, height, corner radius, and number of points, until you convert them to custom paths.
 
 <YouTube id="vU5SrgymGD8" />
 
@@ -33,14 +33,14 @@ Shape tools are available from the **Create Tools** menu.
 
 ## Shape properties
 
-You can update a shape's properties in the inspector. Available properties depend on the selected shape type.
+You can update a shape's properties in its **Path** section of the inspector, such as **Rectangle Path** or **Star Path**. Available properties depend on the selected shape type.
 
 - **Size**: The width and height of the shape.
 - **Origin**: The [origin](/editor/fundamentals/origin) point of the shape.
 - [Corner](#corner): The corner radius of rectangles.
 - [Radius](#radius): The radius of polygons and stars.
 - [Points](#points): The number of points on polygons and stars.
-- [Angle](#angle): The angle between the outer and inner points of a star.
+- [Inner radius](#inner-radius): How deep a star's inner points go, as a percentage of its size.
 
 ### Corner
 
@@ -62,9 +62,11 @@ Control the number of points by dragging the points handle up or down.
 
 ![Dragging to adjust the number of points on a shape](/images/editor/drawing/points-handle.gif)
 
-### Angle
+### Inner radius
 
-Drag the handle on the inner point up or down to adjust the angle on the inner and outer points of a star.
+Drag the handle on the star's inner point toward or away from the center to move the inner points. Moving them in makes the points sharper, and moving them out makes them blunter. Hold `Shift` to snap to 5% steps.
+
+You can also type the inner radius in the second **Radius** field in the inspector.
 
 ![Adjusting the angle of the inner points of a star](/images/editor/drawing/star-angle.gif)
 
