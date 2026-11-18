@@ -30,7 +30,8 @@ Get a [`PropertyKey`](/scripting/api-reference/artboards/property-key) for each 
 ```lua
 -- In init: self.glow = artboard:propertyKey("glow")
 
--- Draw only the objects tagged with a true `glow` property.
+-- Among objects with custom properties, draw only those tagged with a true `glow`.
+-- Objects without custom properties still draw normally.
 artboard:draw(renderer, function(context, drawable, renderer)
   if drawable:boolean(self.glow) then
     drawable:draw(renderer)
