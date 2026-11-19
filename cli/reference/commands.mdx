@@ -676,6 +676,7 @@ name one. See [Which Workspace counts](/cli/monthly-allowance#which-workspace-co
 | `RIVE_ANALYTICS` | Turns usage analytics on or off: `on`/`1`/`true`/`yes`, or `off`/`0`/`false`/`no`. Wins over `DO_NOT_TRACK`, `CI` and `rive analytics` |
 | `DO_NOT_TRACK` | Any non-empty value except `0` or `false` turns usage analytics off |
 | `CI` | Any non-empty value except `0` or `false` keeps usage analytics off while no setting is stored, as on a fresh CI machine |
+| `AI_AGENT` | Tells the CLI that a coding agent is running it, for agents the CLI doesn't recognize itself. The CLI then skips questions and pickers, usage analytics name the agent, and `rive push` stores the agent's name with the edits it uploads. The name is the value in lowercase when it starts with a letter or digit and has up to 32 letters, digits, `.`, `_` or `-`. A version at the end, such as `@2.0`, is dropped. Any other value gives the name `other`, and so do `1`, `true`, `yes` and `on`. `0`, `false`, `no` and `off` mean no agent |
 
 
 <Note>
@@ -692,6 +693,7 @@ The CLI sends usage analytics to help improve Rive. Each run reports:
 - The CLI version, operating system and language
 - A random ID for this install
 - Whether the command ran in a terminal or was started by a coding agent
+- The coding agent's name, such as `codex`. When the CLI doesn't recognize the agent, the name comes from [`AI_AGENT`](#environment-variables)
 - Your Rive account ID and plan, when you're signed in
 
 The preview window also reports when its status bar shows an upgrade button, and which status bar items you click. Events carry no IP address or location.
