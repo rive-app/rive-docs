@@ -5,13 +5,14 @@ description: "Learn how to migrate your Flutter app when upgrading between major
 
 | Version                   | What changed                                                                                                       |
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| [0.15.0](#version-0-15-0) | Data Binding binds when you create a controller, the Rive Renderer uses deferred rendering on native platforms, widgets draw only when their content changed, and custom painters separate advancing from drawing |
+| [0.15.0](#version-0-15-0) | `RiveNative.init()` returns a result to handle, Data Binding binds when you create a controller, the Rive Renderer uses deferred rendering on native platforms, widgets draw only when their content changed, and custom painters separate advancing from drawing |
 | [0.14.0](#version-0-14-0) | Rive replaced the Dart runtime with the C++ runtime, changing the widget, controller, and file loading APIs         |
 
 ## Version 0.15.0
 
 These things need migration work in this release:
 
+- `RiveNative.init()` returns a `RiveNativeInit` instead of a `bool`.
 - Data Binding binds when you create a `RiveWidgetController`, and the separate `dataBind` call is removed.
 - The Rive Renderer (`Factory.rive`) uses deferred rendering on native platforms. This only affects advanced integrations.
 - Rive widgets draw only when their content changed. This only affects custom painters that draw more than their Artboard.
@@ -25,6 +26,54 @@ These things need migration work in this release:
 ### Requirements
 
 The minimum Flutter version is `3.32.0` (Dart `3.8.0`). Version `0.14.x` declared `3.28.0` by mistake, so older Flutter versions resolved the package and then failed to compile. See [rive-flutter issue #643](https://github.com/rive-app/rive-flutter/issues/643).
+
+### `RiveNative.init()` returns a result
+
+**Breaking:** `RiveNative.init()` returns a `Future<RiveNativeInit>` instead of a `Future<bool>`, on every platform. It never throws. Ignoring the result is an analyzer warning, so update every bare `await RiveNative.init();`.
+
+<Tabs>
+  <Tab title="New API">
+    ```dart
+    bool useFlutterRenderer = false;
+
+    /// Pass this wherever you would pass `Factory.rive`.
+    Factory get riveFactory =>
+        useFlutterRenderer ? Factory.flutter : Factory.rive;
+
+    // In main():
+    switch (await RiveNative.init()) {
+      case RiveNativeReady():
+        break;
+      case RiveRendererUnavailable():
+        // The Rive Renderer could not initialize. Fall back to Flutter.
+        useFlutterRenderer = true;
+      case RiveNativeInitFailed():
+        // Rive cannot run, and it printed why. Leave Rive content out.
+        break;
+    }
+    ```
+  </Tab>
+  <Tab title="Old API">
+    ```dart
+    await RiveNative.init();
+    ```
+  </Tab>
+</Tabs>
+
+Code that checked the old `bool` checks for `RiveNativeInitFailed` instead:
+
+```dart
+if (await RiveNative.init() case RiveNativeInitFailed(:final message)) {
+  // Rive cannot run.
+  showRiveError(message);
+}
+```
+
+`RiveRendererUnavailable` means the Rive Renderer could not initialize, and `Factory.rive` decodes nothing. To handle it, pass `Factory.flutter` wherever you would pass `Factory.rive`. Rive does not switch for you. `RivePanel` and shared textures need `Factory.rive`. On web, `Factory.rive.isSupported` was always `true`. It is now `false` until `init()` completes, and stays `false` when the browser refuses a WebGL2 context.
+
+When `init()` fails, `File.decode`, `File.asset`, `File.url`, and `File.path` throw a `StateError` with the failure message instead of decoding against a runtime that never started.
+
+See [Initializing Rive](/runtimes/flutter/flutter#initializing-rive).
 
 ### Data Binding
 

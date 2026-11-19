@@ -122,6 +122,8 @@ If a runtime is not listed here, there is no renderer setup to configure. It use
 
         You can use different renderers for different graphics in your app.
 
+        From `rive` `0.15.0`, `RiveNative.init()` tells you when the Rive Renderer cannot initialize, so you can handle it, for example by falling back to `Factory.flutter`. See [Initializing Rive](/runtimes/flutter/flutter#initializing-rive).
+
         Some considerations when choosing a renderer:
 
         - If you plan on showing many Rive graphics that are all drawing to different Rive widgets consider using a [RivePanel](/runtimes/flutter/flutter#rivepanel) with `Factory.rive` to draw multiple graphics to the same texture to reduce the overhead of allocating native render targets and textures. Or make use of `Factory.flutter`.

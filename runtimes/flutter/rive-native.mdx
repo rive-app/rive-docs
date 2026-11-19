@@ -93,6 +93,8 @@ dart run rive_native:setup --verbose --clean --platform macos
 
 This will clean the `rive_native` setup and download the platform-specific libraries specified with the `--platform` flag. Refer to the **Platform Support** section above for details.
 
+From `rive` `0.15.0`, `RiveNative.init()` returns `RiveNativeInitFailed` when Rive cannot start, and its `message` names the cause and the fix. See [Initializing Rive](/runtimes/flutter/flutter#initializing-rive).
+
 ### Android
 
 If you're running into automated setup issues (example issues [555](https://github.com/rive-app/rive-flutter/issues/555) and [515](https://github.com/rive-app/rive-flutter/issues/515)),
@@ -162,3 +164,5 @@ The trailing slash is required - the runtime appends `wasm/rive_native.js` or `w
 ## Testing
 
 Shared libraries are included in the download/build process. If you encounter issues using `rive_native` in your tests, please reach out to us for assistance.
+
+The published native libraries don't include the Rive Renderer for `flutter test`. From `rive` `0.15.0`, `RiveNative.init()` returns `RiveRendererUnavailable` in these tests and `Factory.rive` decodes nothing, so use `Factory.flutter`. Tests run with `--platform chrome` use the web runtime instead, where the Rive Renderer is available when the browser provides a WebGL2 context.
