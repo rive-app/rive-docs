@@ -65,6 +65,7 @@
     var pageViewEvent = (location.host.indexOf("uat") === 0 ? "uat" : "prod") + ".rive_web.page_view";
     var amp = w.amplitude.getInstance();
     amp.init("d0ecd959bdcd519674b376ab28af3f96", null, { includeReferrer: true, includeUtm: true });
+    if (!state.marketing) clearGclid(function () {});
     var lastHref = location.href;
     amp.logEvent(pageViewEvent, { url: lastHref, site_version: "framer_v1" });
     function watch() {
@@ -75,6 +76,19 @@
     if (d.body) watch(); else d.addEventListener("DOMContentLoaded", watch);
   }
 
+  /* Marketing withdrawn: remove the click id from the Amplitude user so no later signup or payment is sent to Google. */
+  function clearGclid(done) {
+    var a = w.amplitude, once = false, fin = function () { if (!once) { once = true; done(); } };
+    try {
+      if (localStorage.getItem("rive_gclid") && a && a.Identify) {
+        localStorage.removeItem("rive_gclid");
+        setTimeout(fin, 1500);
+        a.getInstance().identify(new a.Identify().unset("gclid").unset("initial_gclid"), fin);
+        return;
+      }
+    } catch (e) {}
+    fin();
+  }
   function loadMarketing() {
     if (loaded.marketing) return; loaded.marketing = true;
     /* Ad attribution: keep ad click ids and UTM tags from the landing page (window.__riveAdParams). */
@@ -84,8 +98,12 @@
       KEYS.forEach(function (k) { var v = here.searchParams.get(k); if (v) { got[k] = v; n++; } });
       if (got.gclid && !got.utm_source) { got.utm_source = "google"; got.utm_medium = "cpc"; }
       if (n) localStorage.setItem("rive_ad_params", JSON.stringify({ p: got, t: now }));
-      /* Google click id on the Amplitude user: lets signups and payments be sent back to Google Ads. */
-      if (got.gclid && w.amplitude && w.amplitude.Identify) w.amplitude.getInstance().identify(new w.amplitude.Identify().setOnce("initial_gclid", got.gclid).set("gclid", got.gclid));
+      /* Google click id on the Amplitude user: lets signups and payments be sent back to Google Ads.
+         gclid only: our Google ads run on computers, where clicks carry a gclid. clearGclid() undoes it. */
+      if (got.gclid && w.amplitude && w.amplitude.Identify) {
+        w.amplitude.getInstance().identify(new w.amplitude.Identify().setOnce("initial_gclid", got.gclid).set("gclid", got.gclid));
+        localStorage.setItem("rive_gclid", "1");
+      }
     } catch (e) {}
     /* X pixel */
     if (!w.twq) { var q = w.twq = function () { q.exe ? q.exe.apply(q, arguments) : q.queue.push(arguments); }; q.version = "1.1"; q.queue = []; }
@@ -122,7 +140,10 @@
     flag();
     w.gtag("consent", "update", gmode(state));
     if (!state.marketing) try { localStorage.removeItem("rive_ad_params"); } catch (e) {}
-    if (revoked && (loaded.analytics || loaded.marketing || !SITE)) { location.reload(); return; }
+    if (revoked && (loaded.analytics || loaded.marketing || !SITE)) {
+      if (!state.marketing && loaded.analytics) clearGclid(function () { location.reload(); }); else location.reload();
+      return;
+    }
     if (!SITE && newlyAnalytics) { location.reload(); return; }
     apply();
   }
@@ -138,7 +159,10 @@
     state = { analytics: !!c.analytics, marketing: !!c.marketing && !gpc };
     w.gtag("consent", "update", gmode(state));
     if (box) close();
-    if (revoked && (loaded.analytics || loaded.marketing || !SITE)) { location.reload(); return; }
+    if (revoked && (loaded.analytics || loaded.marketing || !SITE)) {
+      if (!state.marketing && loaded.analytics) clearGclid(function () { location.reload(); }); else location.reload();
+      return;
+    }
     if (!SITE && newlyAnalytics) { location.reload(); return; }
     apply();
   });
@@ -197,7 +221,7 @@
       var ul = el("ul", "rc-cats");
       [["Necessary", "Keep the site working and remember this\u00a0choice.", null],
        ["Analytics", "Amplitude and Google Analytics show us which pages people\u00a0visit.", "analytics"],
-       ["Marketing", "X, LinkedIn, and Leadfeeder measure our ads and which companies\u00a0visit.", "marketing"]].forEach(function (c) {
+       ["Marketing", "Google Ads, X, LinkedIn, and Leadfeeder measure our ads and which companies\u00a0visit.", "marketing"]].forEach(function (c) {
         var locked = c[2] === "marketing" && gpc;
         var li = el("li", "rc-cat"), txt = el("div"), h = el("h3", "", c[0]), dsc = el("p", "", locked ? "Off because your browser sends a Global Privacy Control\u00a0signal." : c[1]);
         txt.appendChild(h); txt.appendChild(dsc); li.appendChild(txt);
