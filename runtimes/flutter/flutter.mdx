@@ -90,7 +90,7 @@ Follow the steps below to integrate Rive into your Flutter apps.
             case RiveNativeReady():
               break;
             case RiveRendererUnavailable(:final reason):
-              // No Rive renderer on this device: log why and draw with Flutter.
+              // No Rive renderer on this device. Log why and draw with Flutter.
               debugPrint('Rive renderer unavailable: $reason');
               useFlutterRenderer = true;
             case RiveNativeInitFailed(:final message):
@@ -760,7 +760,7 @@ flutter run --no-enable-impeller
 
 If you encounter issues with Rive in Flutter, consider the following:
 
-- Call `RiveNative.init()` before using any Rive features. From `0.15.0`, check its result: see [Initializing Rive](#initializing-rive).
+- Call `RiveNative.init()` before using any Rive features. From `0.15.0`, also check its result. See [Initializing Rive](#initializing-rive).
 - Check the console for any error messages related to Rive.
 - Make sure your Rive files are correctly referenced in `pubspec.yaml` and exist in the specified paths.
 - If using `RiveWidgetBuilder`, ensure you handle all possible states (loading, loaded, failed) in the builder function.

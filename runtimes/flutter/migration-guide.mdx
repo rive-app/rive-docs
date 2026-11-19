@@ -29,7 +29,7 @@ The minimum Flutter version is `3.32.0` (Dart `3.8.0`). Version `0.14.x` declare
 
 ### `RiveNative.init()` returns a result
 
-**Breaking:** `RiveNative.init()` returns a `Future<RiveNativeInit>` instead of a `Future<bool>`, on every platform. It never throws, and ignoring the result is an analyzer warning, so a bare `await RiveNative.init();` needs updating.
+**Breaking:** `RiveNative.init()` returns a `Future<RiveNativeInit>` instead of a `Future<bool>`, on every platform. It never throws. Ignoring the result is an analyzer warning, so update every bare `await RiveNative.init();`.
 
 <Tabs>
   <Tab title="New API">
@@ -45,7 +45,7 @@ The minimum Flutter version is `3.32.0` (Dart `3.8.0`). Version `0.14.x` declare
       case RiveNativeReady():
         break;
       case RiveRendererUnavailable(:final reason):
-        // No Rive renderer on this device: log why and draw with Flutter.
+        // No Rive renderer on this device. Log why and draw with Flutter.
         debugPrint('Rive renderer unavailable: $reason');
         useFlutterRenderer = true;
       case RiveNativeInitFailed(:final message):
@@ -61,7 +61,7 @@ The minimum Flutter version is `3.32.0` (Dart `3.8.0`). Version `0.14.x` declare
   </Tab>
 </Tabs>
 
-On `RiveRendererUnavailable`, `Factory.rive` decodes nothing: pass `Factory.flutter` wherever you would pass `Factory.rive`. Rive does not switch for you. On web, `Factory.rive.isSupported` is now `false` when the browser refuses a WebGL2 context; it was always `true`.
+On `RiveRendererUnavailable`, `Factory.rive` decodes nothing, so pass `Factory.flutter` wherever you would pass `Factory.rive`. Rive does not switch for you. On web, `Factory.rive.isSupported` is now `false` when the browser refuses a WebGL2 context; it was always `true`.
 
 When `init()` fails, `File.decode`, `File.asset`, `File.url`, and `File.path` throw a `StateError` with the failure message instead of decoding against a runtime that never started.
 
