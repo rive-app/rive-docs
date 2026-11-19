@@ -59,18 +59,49 @@ Follow the steps below to integrate Rive into your Flutter apps.
   </Step>
   <Step title="Initialize Rive">
     <Info>
-      You're encouraged to call `await RiveNative.init()` at the start of your app, or before you use Rive. For example, in `main.dart`. This will automatically be called the first time you load a Rive file, but if you want to ensure Rive is loaded before showing your first graphic, call it manually.
+      Call `RiveNative.init()` at the start of your app, for example in `main.dart`. Rive calls it on its own the first time you load a Rive file, but calling it yourself loads Rive before your first graphic and, from `0.15.0`, gives you the result. See [Initializing Rive](#initializing-rive).
     </Info>
-    ```dart
-    import 'package:rive/rive.dart';
+    <Tabs>
+      <Tab title="0.14.x">
+        ```dart
+        import 'package:rive/rive.dart';
 
-    Future<void> main() async {
-      WidgetsFlutterBinding.ensureInitialized();
-      // Call init before using Rive.
-      await RiveNative.init();
-      runApp(const MyApp());
-    }
-    ```
+        Future<void> main() async {
+          WidgetsFlutterBinding.ensureInitialized();
+          // Call init before using Rive.
+          await RiveNative.init();
+          runApp(const MyApp());
+        }
+        ```
+      </Tab>
+      <Tab title="0.15.0 and later">
+        ```dart
+        import 'package:rive/rive.dart';
+
+        bool useFlutterRenderer = false;
+
+        /// Pass this wherever you would pass `Factory.rive`.
+        Factory get riveFactory =>
+            useFlutterRenderer ? Factory.flutter : Factory.rive;
+
+        Future<void> main() async {
+          WidgetsFlutterBinding.ensureInitialized();
+          switch (await RiveNative.init()) {
+            case RiveNativeReady():
+              break;
+            case RiveRendererUnavailable(:final reason):
+              // No Rive renderer on this device: log why and draw with Flutter.
+              debugPrint('Rive renderer unavailable: $reason');
+              useFlutterRenderer = true;
+            case RiveNativeInitFailed(:final message):
+              // Rive cannot run. `message` names the cause and the fix.
+              debugPrint(message);
+          }
+          runApp(const MyApp());
+        }
+        ```
+      </Tab>
+    </Tabs>
 
   </Step>
   <Step title="Add a Rive widget">
@@ -606,6 +637,36 @@ final file = await File.path("/path/to/animation.riv", riveFactory: Factory.rive
 final file = await File.decode(bytes, riveFactory: Factory.rive);
 ```
 
+## Initializing Rive
+
+<Note>
+Available from `rive` `0.15.0`. In `0.14.x`, `RiveNative.init()` returns a `bool`. See the [migration guide](/runtimes/flutter/migration-guide#version-0-15-0).
+</Note>
+
+`RiveNative.init()` starts Rive and returns a `RiveNativeInit`. It never throws. Rive calls it on its own the first time you load a file; call it yourself in `main()` to get the result. Ignoring the result is an analyzer warning.
+
+The result is one of three cases:
+
+- `RiveNativeReady`: Rive is ready. `Factory.rive` and `Factory.flutter` both work.
+- `RiveRendererUnavailable`: Rive runs, but this device has no Rive renderer, for example no GPU or render context. On web, this means the browser refused a WebGL2 context when Rive started, and that holds until the page reloads. `Factory.rive.isSupported` is `false` and `Factory.rive` decodes nothing, so use `Factory.flutter` instead. `reason` says why, for your logs.
+- `RiveNativeInitFailed`: Rive could not start, for example because the native library is missing or the browser could not load Rive's wasm files. `message` names the cause and the fix; `error` and `stackTrace` hold the underlying error. A later call to `init()` tries again.
+
+Rive does not switch to `Factory.flutter` for you. Keep the factory in one place and pass it wherever you would pass `Factory.rive`, as in the [getting started example](#getting-started):
+
+```dart highlight={6}
+switch (await RiveNative.init()) {
+  case RiveNativeReady():
+    break;
+  case RiveRendererUnavailable(:final reason):
+    debugPrint('Rive renderer unavailable: $reason');
+    useFlutterRenderer = true;
+  case RiveNativeInitFailed(:final message):
+    debugPrint(message);
+}
+```
+
+After a failed `init()`, `File.decode`, `File.asset`, `File.url`, and `File.path` throw a `StateError` with the same `message`. `RiveWidgetBuilder` shows it as `RiveFailed`.
+
 ## Error handling
 
 The Rive Flutter package provides specific exception types for different error scenarios:
@@ -672,6 +733,8 @@ When creating a Rive `File` or `FileLoader`, you need to specify a factory to us
 
 You can use different renderers for different graphics in your app.
 
+Some devices have no Rive renderer. From `0.15.0`, `RiveNative.init()` reports this, and you use `Factory.flutter` there instead. See [Initializing Rive](#initializing-rive).
+
 Some considerations when choosing a renderer:
 
 - If you plan on showing many Rive graphics that are all drawing to different Rive widgets consider using a [RivePanel](#rivepanel) with `Factory.rive` to draw multiple graphics to the same texture to reduce the overhead of allocating native render targets and textures. Or make use of `Factory.flutter`.
@@ -697,7 +760,7 @@ flutter run --no-enable-impeller
 
 If you encounter issues with Rive in Flutter, consider the following:
 
-- Ensure you have called `await RiveNative.init()` before using any Rive features.
+- Call `RiveNative.init()` before using any Rive features. From `0.15.0`, check its result: see [Initializing Rive](#initializing-rive).
 - Check the console for any error messages related to Rive.
 - Make sure your Rive files are correctly referenced in `pubspec.yaml` and exist in the specified paths.
 - If using `RiveWidgetBuilder`, ensure you handle all possible states (loading, loaded, failed) in the builder function.

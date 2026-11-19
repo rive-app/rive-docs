@@ -35,7 +35,7 @@ If you still see setup errors, follow [Rive Native troubleshooting](/runtimes/fl
 
 If you see an error like `LateInitializationError: Field 'makeFlutterFactory' has not been initialized`, make sure you initialize Rive before showing any Rive widgets.
 
-Call `await RiveNative.init()` early (for example in `main()`), before creating or using `Factory.flutter`/`Factory.rive`.
+Call `RiveNative.init()` early (for example in `main()`), before creating or using `Factory.flutter`/`Factory.rive`.
 
 ```dart
 import 'package:flutter/widgets.dart';
@@ -47,6 +47,8 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 ```
+
+From `0.15.0`, `init()` returns a result to handle instead of a `bool`. See [Initializing Rive](/runtimes/flutter/flutter#initializing-rive).
 
 ## "Too many active WebGL contexts" warnings on web
 
