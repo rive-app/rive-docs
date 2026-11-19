@@ -76,14 +76,16 @@
     if (d.body) watch(); else d.addEventListener("DOMContentLoaded", watch);
   }
 
-  /* Marketing withdrawn: remove the click id from the Amplitude user so no later signup or payment is sent to Google. */
+  /* Undoes loadMarketing's identify once marketing is withdrawn; the marker stays until Amplitude confirms, so a later load retries. */
   function clearGclid(done) {
     var a = w.amplitude, once = false, fin = function () { if (!once) { once = true; done(); } };
     try {
       if (localStorage.getItem("rive_gclid") && a && a.Identify) {
-        localStorage.removeItem("rive_gclid");
         setTimeout(fin, 1500);
-        a.getInstance().identify(new a.Identify().unset("gclid").unset("initial_gclid"), fin);
+        a.getInstance().identify(new a.Identify().unset("gclid").unset("initial_gclid"), function (status) {
+          if (status === 200) try { localStorage.removeItem("rive_gclid"); } catch (e) {}
+          fin();
+        });
         return;
       }
     } catch (e) {}
@@ -98,8 +100,7 @@
       KEYS.forEach(function (k) { var v = here.searchParams.get(k); if (v) { got[k] = v; n++; } });
       if (got.gclid && !got.utm_source) { got.utm_source = "google"; got.utm_medium = "cpc"; }
       if (n) localStorage.setItem("rive_ad_params", JSON.stringify({ p: got, t: now }));
-      /* Google click id on the Amplitude user: lets signups and payments be sent back to Google Ads.
-         gclid only: our Google ads run on computers, where clicks carry a gclid. clearGclid() undoes it. */
+      /* Google click id on the Amplitude user, for sending signups and payments back to Google Ads. gclid only: campaigns are computers-only. */
       if (got.gclid && w.amplitude && w.amplitude.Identify) {
         w.amplitude.getInstance().identify(new w.amplitude.Identify().setOnce("initial_gclid", got.gclid).set("gclid", got.gclid));
         localStorage.setItem("rive_gclid", "1");
