@@ -84,6 +84,8 @@
       KEYS.forEach(function (k) { var v = here.searchParams.get(k); if (v) { got[k] = v; n++; } });
       if (got.gclid && !got.utm_source) { got.utm_source = "google"; got.utm_medium = "cpc"; }
       if (n) localStorage.setItem("rive_ad_params", JSON.stringify({ p: got, t: now }));
+      /* Google click id on the Amplitude user: lets signups and payments be sent back to Google Ads. */
+      if (got.gclid && w.amplitude && w.amplitude.Identify) w.amplitude.getInstance().identify(new w.amplitude.Identify().setOnce("initial_gclid", got.gclid).set("gclid", got.gclid));
     } catch (e) {}
     /* X pixel */
     if (!w.twq) { var q = w.twq = function () { q.exe ? q.exe.apply(q, arguments) : q.queue.push(arguments); }; q.version = "1.1"; q.queue = []; }
