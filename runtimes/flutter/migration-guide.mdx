@@ -45,7 +45,7 @@ The minimum Flutter version is `3.32.0` (Dart `3.8.0`). Version `0.14.x` declare
       case RiveNativeReady():
         break;
       case RiveRendererUnavailable():
-        // No Rive renderer on this device. Draw with Flutter instead.
+        // The Rive Renderer could not initialize. Fall back to Flutter.
         useFlutterRenderer = true;
       case RiveNativeInitFailed():
         // Rive cannot run, and it printed why. Leave Rive content out.
@@ -69,7 +69,7 @@ if (await RiveNative.init() case RiveNativeInitFailed(:final message)) {
 }
 ```
 
-On `RiveRendererUnavailable`, `Factory.rive` decodes nothing, so pass `Factory.flutter` wherever you would pass `Factory.rive`. Rive does not switch for you. `RivePanel` and shared textures need `Factory.rive`. On web, `Factory.rive.isSupported` was always `true`. It is now `false` until `init()` completes, and stays `false` when the browser refuses a WebGL2 context.
+`RiveRendererUnavailable` means the Rive Renderer could not initialize, and `Factory.rive` decodes nothing. To handle it, pass `Factory.flutter` wherever you would pass `Factory.rive`. Rive does not switch for you. `RivePanel` and shared textures need `Factory.rive`. On web, `Factory.rive.isSupported` was always `true`. It is now `false` until `init()` completes, and stays `false` when the browser refuses a WebGL2 context.
 
 When `init()` fails, `File.decode`, `File.asset`, `File.url`, and `File.path` throw a `StateError` with the failure message instead of decoding against a runtime that never started.
 

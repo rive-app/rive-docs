@@ -90,7 +90,7 @@ Follow the steps below to integrate Rive into your Flutter apps.
             case RiveNativeReady():
               break;
             case RiveRendererUnavailable():
-              // No Rive renderer on this device. Draw with Flutter instead.
+              // The Rive Renderer could not initialize. Fall back to Flutter.
               useFlutterRenderer = true;
             case RiveNativeInitFailed():
               // Rive cannot run, and it printed why. Leave Rive content out.
@@ -649,7 +649,7 @@ Available from `rive` `0.15.0`. In `0.14.x`, `RiveNative.init()` returns a `bool
 The result is one of three cases:
 
 - `RiveNativeReady`: Rive is ready. `Factory.rive` and `Factory.flutter` both work.
-- `RiveRendererUnavailable`: Rive runs, but this device has no Rive renderer, for example no GPU or render context. On web, this means the browser refused a WebGL2 context when Rive started, and that holds until the page reloads. `Factory.rive.isSupported` is `false` and `Factory.rive` decodes nothing, so use `Factory.flutter` instead. `reason` says why.
+- `RiveRendererUnavailable`: Rive runs, but the Rive Renderer could not initialize, for example because there is no GPU or render context. On web, this means the browser refused a WebGL2 context when Rive started, and that holds until the page reloads. `Factory.rive.isSupported` is `false` and `Factory.rive` decodes nothing. To keep showing Rive content, fall back to `Factory.flutter`. `reason` says why the Rive Renderer could not initialize.
 - `RiveNativeInitFailed`: Rive could not start, for example because the native library is missing or the browser could not load Rive's wasm files. `message` names the cause and the fix; `error` and `stackTrace` hold the underlying error. A later call to `init()` tries again.
 
 Rive does not switch to `Factory.flutter` for you. Keep the factory in one place and pass it wherever you would pass `Factory.rive`. [RivePanel](#rivepanel) and [shared textures](#sharedrendertexture-and-rivesurface) need `Factory.rive`, so leave them out on the fallback path:
@@ -669,7 +669,7 @@ Future<void> main() async {
     case RiveNativeReady():
       break;
     case RiveRendererUnavailable():
-      // No Rive renderer on this device. Draw with Flutter instead.
+      // The Rive Renderer could not initialize. Fall back to Flutter.
       useFlutterRenderer = true;
     case RiveNativeInitFailed():
       // Rive cannot run, and it printed why. Leave Rive content out.
@@ -751,7 +751,7 @@ When creating a Rive `File` or `FileLoader`, you need to specify a factory to us
 
 You can use different renderers for different graphics in your app.
 
-Some devices have no Rive renderer. From `0.15.0`, `RiveNative.init()` reports this, and you use `Factory.flutter` there instead. See [Initializing Rive](#initializing-rive).
+From `0.15.0`, `RiveNative.init()` tells you when the Rive Renderer cannot initialize, so you can handle it, for example by falling back to `Factory.flutter`. See [Initializing Rive](#initializing-rive).
 
 Some considerations when choosing a renderer:
 

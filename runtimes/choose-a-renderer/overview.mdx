@@ -122,7 +122,7 @@ If a runtime is not listed here, there is no renderer setup to configure. It use
 
         You can use different renderers for different graphics in your app.
 
-        Some devices have no Rive renderer. From `rive` `0.15.0`, `RiveNative.init()` reports this, and you use `Factory.flutter` there instead. See [Initializing Rive](/runtimes/flutter/flutter#initializing-rive).
+        From `rive` `0.15.0`, `RiveNative.init()` tells you when the Rive Renderer cannot initialize, so you can handle it, for example by falling back to `Factory.flutter`. See [Initializing Rive](/runtimes/flutter/flutter#initializing-rive).
 
         Some considerations when choosing a renderer:
 
