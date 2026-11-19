@@ -77,13 +77,15 @@
   }
 
   /* Google click id on the Amplitude user, for sending signups and payments back to Google Ads. gclid only: campaigns are computers-only.
-     Runs from both loaders, so it works whichever consent comes first; the marker holds the id already sent. */
+     Runs from both loaders, so it works whichever consent comes first. rive_gclid = sent (clearGclid undoes it), rive_gclid_ok = confirmed (no resend). */
   function sendGclid() {
     try {
       var x = JSON.parse(localStorage.getItem("rive_ad_params") || "null"), g = x && Date.now() - x.t < 30 * 864e5 && x.p.gclid, a = w.amplitude;
-      if (!g || !a || !a.Identify || localStorage.getItem("rive_gclid") === g) return;
-      a.getInstance().identify(new a.Identify().setOnce("initial_gclid", g).set("gclid", g));
+      if (!g || !a || !a.Identify || localStorage.getItem("rive_gclid_ok") === g) return;
       localStorage.setItem("rive_gclid", g);
+      a.getInstance().identify(new a.Identify().setOnce("initial_gclid", g).set("gclid", g), function (status) {
+        if (status === 200) try { localStorage.setItem("rive_gclid_ok", g); } catch (e) {}
+      });
     } catch (e) {}
   }
   /* Undoes sendGclid once marketing is withdrawn; the marker stays until Amplitude confirms, so a later load retries. */
@@ -93,7 +95,7 @@
       if (localStorage.getItem("rive_gclid") && a && a.Identify) {
         setTimeout(fin, 1500);
         a.getInstance().identify(new a.Identify().unset("gclid").unset("initial_gclid"), function (status) {
-          if (status === 200) try { localStorage.removeItem("rive_gclid"); } catch (e) {}
+          if (status === 200) try { localStorage.removeItem("rive_gclid"); localStorage.removeItem("rive_gclid_ok"); } catch (e) {}
           fin();
         });
         return;
