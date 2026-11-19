@@ -37,18 +37,36 @@ If you see an error like `LateInitializationError: Field 'makeFlutterFactory' ha
 
 Call `RiveNative.init()` early (for example in `main()`), before creating or using `Factory.flutter`/`Factory.rive`.
 
-```dart
-import 'package:flutter/widgets.dart';
-import 'package:rive/rive.dart';
+<Tabs>
+  <Tab title="0.14.x">
+    ```dart
+    import 'package:flutter/widgets.dart';
+    import 'package:rive/rive.dart';
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await RiveNative.init();
-  runApp(const MyApp());
-}
-```
+    Future<void> main() async {
+      WidgetsFlutterBinding.ensureInitialized();
+      await RiveNative.init();
+      runApp(const MyApp());
+    }
+    ```
+  </Tab>
+  <Tab title="0.15.0 and later">
+    `init()` returns a result to handle. See [Initializing Rive](/runtimes/flutter/flutter#initializing-rive) for the full example.
 
-From `0.15.0`, `init()` returns a result to handle instead of a `bool`. See [Initializing Rive](/runtimes/flutter/flutter#initializing-rive).
+    ```dart
+    switch (await RiveNative.init()) {
+      case RiveNativeReady():
+        break;
+      case RiveRendererUnavailable():
+        useFlutterRenderer = true;
+      case RiveNativeInitFailed():
+        // Rive cannot run. Its `message` names the cause, for example a
+        // missing native library.
+        break;
+    }
+    ```
+  </Tab>
+</Tabs>
 
 ## "Too many active WebGL contexts" warnings on web
 

@@ -44,13 +44,12 @@ The minimum Flutter version is `3.32.0` (Dart `3.8.0`). Version `0.14.x` declare
     switch (await RiveNative.init()) {
       case RiveNativeReady():
         break;
-      case RiveRendererUnavailable(:final reason):
-        // No Rive renderer on this device. Log why and draw with Flutter.
-        debugPrint('Rive renderer unavailable: $reason');
+      case RiveRendererUnavailable():
+        // No Rive renderer on this device. Draw with Flutter instead.
         useFlutterRenderer = true;
-      case RiveNativeInitFailed(:final message):
-        // Rive cannot run. `message` names the cause and the fix.
-        debugPrint(message);
+      case RiveNativeInitFailed():
+        // Rive cannot run. Show your own fallback in place of Rive content.
+        break;
     }
     ```
   </Tab>
@@ -61,7 +60,7 @@ The minimum Flutter version is `3.32.0` (Dart `3.8.0`). Version `0.14.x` declare
   </Tab>
 </Tabs>
 
-On `RiveRendererUnavailable`, `Factory.rive` decodes nothing, so pass `Factory.flutter` wherever you would pass `Factory.rive`. Rive does not switch for you. On web, `Factory.rive.isSupported` is now `false` when the browser refuses a WebGL2 context; it was always `true`.
+On `RiveRendererUnavailable`, `Factory.rive` decodes nothing, so pass `Factory.flutter` wherever you would pass `Factory.rive`. Rive does not switch for you. On web, `Factory.rive.isSupported` was always `true`. It is now `false` until `init()` completes, and stays `false` when the browser refuses a WebGL2 context.
 
 When `init()` fails, `File.decode`, `File.asset`, `File.url`, and `File.path` throw a `StateError` with the failure message instead of decoding against a runtime that never started.
 
