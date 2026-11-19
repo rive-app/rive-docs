@@ -77,14 +77,16 @@
   }
 
   /* Google click id on the Amplitude user, for sending signups and payments back to Google Ads. gclid only: campaigns are computers-only.
-     Runs from both loaders, so it works whichever consent comes first. rive_gclid = sent (clearGclid undoes it), rive_gclid_ok = confirmed (no resend). */
+     Runs from both loaders, so it works whichever consent comes first. rive_gclid = sent (clearGclid undoes it), rive_gclid_ok = confirmed (no resend).
+     Each send writes a fresh token; a late reply touches the markers only if its token is still there. */
   function sendGclid() {
     try {
       var x = JSON.parse(localStorage.getItem("rive_ad_params") || "null"), g = x && Date.now() - x.t < 30 * 864e5 && x.p.gclid, a = w.amplitude;
       if (!g || !a || !a.Identify || localStorage.getItem("rive_gclid_ok") === g) return;
-      localStorage.setItem("rive_gclid", g);
+      var token = g + "|" + Date.now() + Math.random();
+      localStorage.setItem("rive_gclid", token);
       a.getInstance().identify(new a.Identify().setOnce("initial_gclid", g).set("gclid", g), function (status) {
-        if (status === 200) try { localStorage.setItem("rive_gclid_ok", g); } catch (e) {}
+        if (status === 200) try { if (localStorage.getItem("rive_gclid") === token) localStorage.setItem("rive_gclid_ok", g); } catch (e) {}
       });
     } catch (e) {}
   }
@@ -92,10 +94,11 @@
   function clearGclid(done) {
     var a = w.amplitude, once = false, fin = function () { if (!once) { once = true; done(); } };
     try {
-      if (localStorage.getItem("rive_gclid") && a && a.Identify) {
+      var token = localStorage.getItem("rive_gclid");
+      if (token && a && a.Identify) {
         setTimeout(fin, 1500);
         a.getInstance().identify(new a.Identify().unset("gclid").unset("initial_gclid"), function (status) {
-          if (status === 200) try { localStorage.removeItem("rive_gclid"); localStorage.removeItem("rive_gclid_ok"); } catch (e) {}
+          if (status === 200) try { if (localStorage.getItem("rive_gclid") === token) { localStorage.removeItem("rive_gclid"); localStorage.removeItem("rive_gclid_ok"); } } catch (e) {}
           fin();
         });
         return;
