@@ -165,4 +165,4 @@ The trailing slash is required - the runtime appends `wasm/rive_native.js` or `w
 
 Shared libraries are included in the download/build process. If you encounter issues using `rive_native` in your tests, please reach out to us for assistance.
 
-With the published libraries, the Rive Renderer cannot initialize under `flutter test`. From `rive` `0.15.0`, `RiveNative.init()` returns `RiveRendererUnavailable` there, so use `Factory.flutter` in tests.
+The published native libraries don't include the Rive Renderer for `flutter test`. From `rive` `0.15.0`, `RiveNative.init()` returns `RiveRendererUnavailable` in these tests and `Factory.rive` decodes nothing, so use `Factory.flutter`. Tests run with `--platform chrome` use the web runtime instead, where the Rive Renderer is available when the browser provides a WebGL2 context.
