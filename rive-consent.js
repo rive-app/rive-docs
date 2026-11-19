@@ -65,6 +65,7 @@
     var pageViewEvent = (location.host.indexOf("uat") === 0 ? "uat" : "prod") + ".rive_web.page_view";
     var amp = w.amplitude.getInstance();
     amp.init("d0ecd959bdcd519674b376ab28af3f96", null, { includeReferrer: true, includeUtm: true });
+    if (state.marketing) sendGclid(); else clearGclid(function () {});
     var lastHref = location.href;
     amp.logEvent(pageViewEvent, { url: lastHref, site_version: "framer_v1" });
     function watch() {
@@ -75,6 +76,36 @@
     if (d.body) watch(); else d.addEventListener("DOMContentLoaded", watch);
   }
 
+  /* Google click id on the Amplitude user, for sending signups and payments back to Google Ads. gclid only: campaigns are computers-only.
+     Runs from both loaders, so it works whichever consent comes first. rive_gclid = sent (clearGclid undoes it), rive_gclid_ok = confirmed (no resend).
+     Each send writes a fresh token; a late reply touches the markers only if its token is still there. */
+  function sendGclid() {
+    try {
+      var x = JSON.parse(localStorage.getItem("rive_ad_params") || "null"), g = x && Date.now() - x.t < 30 * 864e5 && x.p.gclid, a = w.amplitude;
+      if (!g || !a || !a.Identify || localStorage.getItem("rive_gclid_ok") === g) return;
+      var token = g + "|" + Date.now() + Math.random();
+      localStorage.setItem("rive_gclid", token);
+      a.getInstance().identify(new a.Identify().setOnce("initial_gclid", g).set("gclid", g), function (status) {
+        if (status === 200) try { if (localStorage.getItem("rive_gclid") === token) localStorage.setItem("rive_gclid_ok", g); } catch (e) {}
+      });
+    } catch (e) {}
+  }
+  /* Undoes sendGclid once marketing is withdrawn; the marker stays until Amplitude confirms, so a later load retries. */
+  function clearGclid(done) {
+    var a = w.amplitude, once = false, fin = function () { if (!once) { once = true; done(); } };
+    try {
+      var token = localStorage.getItem("rive_gclid");
+      if (token && a && a.Identify) {
+        setTimeout(fin, 1500);
+        a.getInstance().identify(new a.Identify().unset("gclid").unset("initial_gclid"), function (status) {
+          if (status === 200) try { if (localStorage.getItem("rive_gclid") === token) { localStorage.removeItem("rive_gclid"); localStorage.removeItem("rive_gclid_ok"); } } catch (e) {}
+          fin();
+        });
+        return;
+      }
+    } catch (e) {}
+    fin();
+  }
   function loadMarketing() {
     if (loaded.marketing) return; loaded.marketing = true;
     /* Ad attribution: keep ad click ids and UTM tags from the landing page (window.__riveAdParams). */
@@ -84,6 +115,7 @@
       KEYS.forEach(function (k) { var v = here.searchParams.get(k); if (v) { got[k] = v; n++; } });
       if (got.gclid && !got.utm_source) { got.utm_source = "google"; got.utm_medium = "cpc"; }
       if (n) localStorage.setItem("rive_ad_params", JSON.stringify({ p: got, t: now }));
+      sendGclid();
     } catch (e) {}
     /* X pixel */
     if (!w.twq) { var q = w.twq = function () { q.exe ? q.exe.apply(q, arguments) : q.queue.push(arguments); }; q.version = "1.1"; q.queue = []; }
@@ -120,7 +152,10 @@
     flag();
     w.gtag("consent", "update", gmode(state));
     if (!state.marketing) try { localStorage.removeItem("rive_ad_params"); } catch (e) {}
-    if (revoked && (loaded.analytics || loaded.marketing || !SITE)) { location.reload(); return; }
+    if (revoked && (loaded.analytics || loaded.marketing || !SITE)) {
+      if (!state.marketing && loaded.analytics) clearGclid(function () { location.reload(); }); else location.reload();
+      return;
+    }
     if (!SITE && newlyAnalytics) { location.reload(); return; }
     apply();
   }
@@ -136,7 +171,10 @@
     state = { analytics: !!c.analytics, marketing: !!c.marketing && !gpc };
     w.gtag("consent", "update", gmode(state));
     if (box) close();
-    if (revoked && (loaded.analytics || loaded.marketing || !SITE)) { location.reload(); return; }
+    if (revoked && (loaded.analytics || loaded.marketing || !SITE)) {
+      if (!state.marketing && loaded.analytics) clearGclid(function () { location.reload(); }); else location.reload();
+      return;
+    }
     if (!SITE && newlyAnalytics) { location.reload(); return; }
     apply();
   });
@@ -195,7 +233,7 @@
       var ul = el("ul", "rc-cats");
       [["Necessary", "Keep the site working and remember this\u00a0choice.", null],
        ["Analytics", "Amplitude and Google Analytics show us which pages people\u00a0visit.", "analytics"],
-       ["Marketing", "X, LinkedIn, and Leadfeeder measure our ads and which companies\u00a0visit.", "marketing"]].forEach(function (c) {
+       ["Marketing", "Google Ads, X, LinkedIn, and Leadfeeder measure our ads and which companies\u00a0visit.", "marketing"]].forEach(function (c) {
         var locked = c[2] === "marketing" && gpc;
         var li = el("li", "rc-cat"), txt = el("div"), h = el("h3", "", c[0]), dsc = el("p", "", locked ? "Off because your browser sends a Global Privacy Control\u00a0signal." : c[1]);
         txt.appendChild(h); txt.appendChild(dsc); li.appendChild(txt);
