@@ -51,20 +51,9 @@ Call `RiveNative.init()` early (for example in `main()`), before creating or usi
     ```
   </Tab>
   <Tab title="0.15.0 and later">
-    `init()` returns a result to handle. See [Initializing Rive](/runtimes/flutter/flutter#initializing-rive) for the full example.
+    Call `init()` the same way and handle its result. See [Initializing Rive](/runtimes/flutter/flutter#initializing-rive).
 
-    ```dart
-    switch (await RiveNative.init()) {
-      case RiveNativeReady():
-        break;
-      case RiveRendererUnavailable():
-        useFlutterRenderer = true;
-      case RiveNativeInitFailed():
-        // Rive cannot run. Its `message` names the cause, for example a
-        // missing native library.
-        break;
-    }
-    ```
+    This error can also mean `init()` returned `RiveNativeInitFailed`. Its `message` says why.
   </Tab>
 </Tabs>
 

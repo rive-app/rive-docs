@@ -93,14 +93,14 @@ Follow the steps below to integrate Rive into your Flutter apps.
               // No Rive renderer on this device. Draw with Flutter instead.
               useFlutterRenderer = true;
             case RiveNativeInitFailed():
-              // Rive cannot run. Show your own fallback in place of Rive content.
+              // Rive cannot run, and it printed why. Leave Rive content out.
               break;
           }
           runApp(const MyApp());
         }
         ```
 
-        The examples below pass `Factory.rive`. Pass `riveFactory` instead so the fallback applies. See [Initializing Rive](#initializing-rive).
+        The examples below pass `Factory.rive`. Pass `riveFactory` instead so the fallback applies. `RivePanel` and shared textures need `Factory.rive`, so leave them out when `useFlutterRenderer` is `true`.
       </Tab>
     </Tabs>
 
@@ -652,7 +652,7 @@ The result is one of three cases:
 - `RiveRendererUnavailable`: Rive runs, but this device has no Rive renderer, for example no GPU or render context. On web, this means the browser refused a WebGL2 context when Rive started, and that holds until the page reloads. `Factory.rive.isSupported` is `false` and `Factory.rive` decodes nothing, so use `Factory.flutter` instead. `reason` says why.
 - `RiveNativeInitFailed`: Rive could not start, for example because the native library is missing or the browser could not load Rive's wasm files. `message` names the cause and the fix; `error` and `stackTrace` hold the underlying error. A later call to `init()` tries again.
 
-Rive does not switch to `Factory.flutter` for you. Keep the factory in one place and pass it wherever you would pass `Factory.rive`:
+Rive does not switch to `Factory.flutter` for you. Keep the factory in one place and pass it wherever you would pass `Factory.rive`. [RivePanel](#rivepanel) and [shared textures](#sharedrendertexture-and-rivesurface) need `Factory.rive`, so leave them out on the fallback path:
 
 ```dart highlight={3,6-7,16}
 import 'package:rive/rive.dart';
@@ -672,7 +672,7 @@ Future<void> main() async {
       // No Rive renderer on this device. Draw with Flutter instead.
       useFlutterRenderer = true;
     case RiveNativeInitFailed():
-      // Rive cannot run. Show your own fallback in place of Rive content.
+      // Rive cannot run, and it printed why. Leave Rive content out.
       break;
   }
   runApp(const MyApp());
