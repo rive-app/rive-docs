@@ -80,18 +80,14 @@ Differences may reflect:
 </Note>
 
 <FeatureSupportGroup feature="layerMasks">
-    Layer Masks require the Rive Renderer. On Web and React, use the WebGL2 package. On Apple, Android, and React Native, Layer Masks also require GPU Canvas.
-
-    On Apple, enable [GPU Canvas](/runtimes/apple/gpu-canvas). Layer Masks are supported on physical devices, Mac Catalyst, and macOS, but are not supported in simulators.
+    Layer Masks require the Rive Renderer.
 </FeatureSupportGroup>
-<FeatureSupportGroup feature="bitmapCache">
-    On Web runtimes, the Canvas and Canvas Lite packages draw cached content as vectors, without the cache.
-</FeatureSupportGroup>
+<FeatureSupportGroup feature="bitmapCache" />
 <FeatureSupportGroup feature="artboardFills">
     Fills and strokes that paint with an artboard.
 </FeatureSupportGroup>
 <FeatureSupportGroup feature="componentMeshes">
-    See [Meshes](/editor/manipulating-shapes/meshes) and [Components](/editor/fundamentals/components#deform). On Web and React, the Canvas and Canvas Lite packages draw the component undeformed.
+    See [Meshes](/editor/manipulating-shapes/meshes) and [Components](/editor/fundamentals/components#deform).
 </FeatureSupportGroup>
 <FeatureSupportGroup feature="imageFills">
     Fills and strokes that paint with an image.
@@ -100,9 +96,7 @@ Differences may reflect:
     Strokes with **Position** set to **Inside** or **Outside** in **Stroke Options**.
 </FeatureSupportGroup>
 <FeatureSupportGroup feature="angularGradients" />
-<FeatureSupportGroup feature="additiveStrength">
-    On Web runtimes, the Canvas and Canvas Lite packages draw any strength above 0% as fully additive. See [Use additive blending instead of advanced blend modes](/runtimes/web/canvas-vs-webgl#use-additive-blending-instead-of-advanced-blend-modes).
-</FeatureSupportGroup>
+<FeatureSupportGroup feature="additiveStrength" />
 <FeatureSupportGroup feature="gamepad" />
 <FeatureSupportGroup feature="textInput" />
 <FeatureSupportGroup feature="focus" />

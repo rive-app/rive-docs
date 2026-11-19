@@ -14,9 +14,9 @@ Switching is a one-line import change, so you can try both and measure against y
 | | `@rive-app/webgl2` (recommended) | `@rive-app/canvas` |
 | --- | --- | --- |
 | Draws with | The [Rive Renderer](https://rive.app/renderer?utm_source=docs&utm_medium=content) on WebGL2 | The browser's [Canvas2D](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API) API |
-| [Vector Feathering](/editor/fundamentals/fill-and-stroke#vector-feathering) | ✅ Supported | 🟡 Supported, but feathered gradients aren't dithered and may show banding. Not supported in `@rive-app/canvas-lite`. |
+| Rendering features | ✅ All supported | 🟡 Some features are not available (see [Feature Support](/feature-support#feature-support-by-runtime)) |
 | Editor fidelity | ✅ The same renderer the Rive Editor uses | 🟡 Matches for nearly all content (see [Fill Rules](#fill-rules)) |
-| Blend modes | 🟡 All blend modes. Normal and additive are cheap, but advanced blend modes are expensive (see [Performance](#use-additive-blending-instead-of-advanced-blend-modes)) | 🟡 All blend modes at no extra cost, but additive always draws at full strength |
+| Blend modes | 🟡 All blend modes supported. Normal and additive are highly recommended, as advanced blend modes are expensive (see [Performance](#use-additive-blending-instead-of-advanced-blend-modes)) | 🟡 All blend modes at no extra cost, but additive always draws at full strength |
 | Graphics per page | 🟡 Bound by the browser's WebGL context limit (see [WebGL Context Limits](#webgl-context-limits)) | ✅ No practical limit |
 
 ## Other notable tradeoffs
@@ -73,7 +73,7 @@ If you use blend modes to brighten content, such as glows, fire, light effects, 
 
 Opt in with `enableInkbleed` when you create the Rive instance:
 
-```javascript
+```javascript highlight={9}
 import { Rive } from "@rive-app/webgl2";
 
 const r = new Rive({
