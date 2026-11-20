@@ -27,6 +27,8 @@ Draw Order Rules allow you to select a target (note that this must be a drawable
 
 <Note>The target must be a drawable item, like a shape. It cannot be a group.</Note>
 
+If a rule conflicts with another, such as two objects each set to draw above the other, Rive can't resolve the order. A warning icon with a **Cyclic dependency** tip appears next to the rule. Change or remove one of the rules to fix it.
+
 In Animate mode, use the radio button next to the Draw Order Rules to set a key. Note that these are [Hold keys](/editor/animate-mode/interpolation-easing#interpolation-types) as Draw Order cannot be interpolated.
 
 ![Keying Draw Order Rules in Animate mode to move an icon above and below a calendar shape](/images/editor/animate-mode/draw-order-rules-keying.gif)

@@ -60,6 +60,11 @@ Here’s a slightly more complex mesh with a center vertex, dividing the image i
 
 The position of these vertices can be keyed on a timeline or [controlled by bones](/editor/manipulating-shapes/bones).
 
+In Animate mode, the Inspector has two buttons for keying vertices on the current frame:
+
+- **Key All Vertices** keys the position of every vertex in the mesh.
+- **Key Selected Vertices** keys the position of only the selected vertices.
+
 ## Contours
 
 The contour defines the visible shape and vertex structure of the mesh. Editing the contour changes the mesh structure without deforming the image.
@@ -105,6 +110,8 @@ Use **Edit Contour** or press **P** to adjust the existing contour. The Mesh Pen
 <VideoEmbed src="https://static.rive.app/video/edit-mesh.mp4" />
 
 Click continuously to create forced edges between vertices. Press **Esc** between clicks to create separate vertices and let Rive automatically generate the edges between them.
+
+To connect two existing contour vertices with a forced edge, click one and then the other. To delete a contour vertex, hold **Alt** (**Option** on macOS) and click it.
 
 <VideoEmbed src="https://static.rive.app/video/auto-generate-triangles.mp4" />
 

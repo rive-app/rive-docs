@@ -45,7 +45,7 @@ A bind on a converter's property can use a converter of its own, nested as deep 
 |----------|--------------------------|-------------------------------------------|
 | String   | [Pad](#pad)                      | Add padding to a string                   |
 |          | Trim                     | Remove leading or trailing whitespace     |
-|          | Convert to String        | Convert a value to a string               |
+|          | [Convert to String](#convert-to-string)        | Convert a value to a string               |
 |          | Remove Trailing Zeros    | Remove unnecessary decimal zeros          |
 |          | [String Template](#string-template) | Build text from a template and view model values |
 | Number   | Round                    | Round to the nearest value                |
@@ -56,7 +56,7 @@ A bind on a converter's property can use a converter of its own, nested as deep 
 |          | Convert to Number        | Convert a value to a number               |
 | Boolean  | Toggle                   | Invert a boolean value                    |
 | List     | [Number to List](#number-to-list)           | Generate a list of components based on a number               |
-|          | List to Length          | Get the number of items in a list         |
+|          | [List to Length](#list-to-length)          | Get the number of items in a list         |
 | Color         | [Interpolator](#color-interpolator)             | Smoothly interpolate between colors       |
 | Script     | [Converter Scripts](#converter-scripts)           | Create your own custom converters              |
 
@@ -74,6 +74,39 @@ If the string is shorter than the specified length, the pad value is repeated an
 - **Length:** 3
 
 **Result**: "001"
+
+---
+
+### Convert to string
+
+Converts a number, color, enum, or boolean into a string. Enums become the name of their value, and booleans become `1` or `0`.
+
+**From a Number**
+
+- **Round Decimals**: Round to the number of decimal places you set.
+- **Remove Trailing Zeros**: Drop zeros at the end of the decimals, such as `2.50` to `2.5`.
+- **Format With Commas**: Add thousands separators, such as `1,234,567`.
+
+**From a Color**
+
+Use **Format** to choose how a color is written. Each code is replaced with one channel of the color, and any other text is kept as is. Click **+** next to **From a Color** to insert a code.
+
+| Code | Channel |
+|------|---------|
+| `%r` `%g` `%b` `%a` | Red, green, blue, or alpha, from 0 to 255 |
+| `%R` `%G` `%B` `%A` | Red, green, blue, or alpha, as two-digit hex |
+| `%h` | Hue, from 0 to 360 |
+| `%s` | Saturation, from 0 to 100 |
+| `%l` | Luminance, from 0 to 100 |
+
+To show a `%` as literal text, put a backslash before it: `\%`.
+
+**Example:**
+
+- **Format:** `#%R%G%B`
+- **Value:** orange
+
+**Result**: "#FF8800"
 
 ---
 
@@ -168,6 +201,15 @@ Convert a slider value (0–100) into an opacity value (0–1):
 **Result**:
 0.5
 
+**Options**
+
+- **Clamp**: Click the clamp buttons next to the output range to keep the result from going below the lower bound or above the upper bound.
+- **Interpolation**: Choose **Linear**, **Cubic**, or **Elastic** to control how values are mapped between the two ranges.
+- **Reverse**: Reverse the mapping.
+- **Modulo**: Wrap the value when it goes past the range.
+
+Use the presets menu next to the output range to set common ranges, such as 0–1, 0–100, or 0–360 degrees.
+
 ---
 
 ### Numeric interpolator
@@ -225,6 +267,14 @@ When using `random()` in your formula, the Random Mode determines when a new ran
 The Number to List converter allows you to generate a specified number of Components based on a number.
 
 See [Lists](/editor/data-binding/lists#view-model-number-with-converter) for more information.
+
+---
+
+### List to length
+
+Converts a list into a number: the number of items in the list.
+
+Use it to show an item count, or to drive other properties or conditions from the size of a list.
 
 ---
 

@@ -65,6 +65,14 @@ When a child uses Fill along its parent's direction, the **Inspector** also show
   With the base size on auto, siblings with the same fill ratio aren't always the same size. Each child starts from the size of its content, and only the leftover space is shared equally. For example, if three `1fr` children contain child Layouts of different sizes, the child with the largest content ends up the largest. To make them exactly the same size, set the **Base size** of each child to `0`.
 </Note>
 
+## Aspect ratio
+
+Use **Ratio** in the **Inspector** to lock a Layout's width and height to an aspect ratio. Enter a ratio as `16:9`, `16/9`, or a decimal such as `1.78`.
+
+The **W**/**H** button at the end of the field picks the axis you size yourself. That axis keeps its scale type and value. The other axis is calculated from the ratio, and its controls become read-only. For example, lock **W** on a Fill-width card with a `16:9` ratio, and its height follows as the card gets wider.
+
+If you pick an axis before entering a ratio, the ratio is taken from the Layout's current size.
+
 ## Size constraints
 
 Size constraints set a minimum or maximum width or height. They're most useful with Hug and Fill, when you want a child to respond to its content or parent but only up to a point. For example, a text field can fill its row but stop growing at 400 points wide.
@@ -88,7 +96,7 @@ A child is positioned in one of two ways:
 
 Use absolute positioning for things that should stay in place while other content reflows, such as a close button in the corner of a dialog or a badge on a card.
 
-Use the toggle at the top-right of the Layout section in the **Inspector** to switch between relative and absolute.
+Use the toggle at the top-right of the Layout section in the **Inspector** to switch between relative and absolute. The section's heading shows the current mode: **Position: Constrained by Parent** for a relative child, or **Position: Absolute** for an absolute one.
 
 ![Layout inspector with the absolute/relative toggle highlighted in the top-right corner](/images/editor/layouts/absolute-relative-toggle.webp)
 
@@ -98,8 +106,26 @@ An absolute child is pinned to at least two edges of its parent: one horizontal 
 
 To choose which edges to pin, select the markers in the position widget in the **Inspector**, or use the fields below it. Hold <kbd>Shift</kbd> while selecting a marker to pin a second edge on the same axis, such as both left and right. Distances can be set in points or as a percentage of the parent's size.
 
+You can also choose the pinned edges from the horizontal and vertical constraint dropdowns below the position widget:
+
+- **Left**, **Right**, **Top**, or **Bottom:** The child keeps its distance from that edge.
+- **Left + Right** or **Top + Bottom:** The child keeps its distance from both edges, so its width or height stretches with the parent.
+- **Scale:** The child keeps both distances as percentages of the parent, so its position and size scale with the parent.
+
 ![Absolute Layout with all four edges pinned at 80 px, showing the position widget and Left + Right / Top + Bottom fields in the inspector](/images/editor/layouts/absolute-position-controls.webp)
 
 <UseCase title="A badge on a card">
   A notification badge is an absolute child of a card, pinned 8 points from the top and 8 points from the right. When the card's content changes size, the badge stays in the top-right corner, and the card's other content is arranged as if the badge weren't there.
 </UseCase>
+
+## Hiding a Layout
+
+Click the eye button in the Layout section header to hide a Layout and take it out of its parent's arrangement. A hidden Layout takes up no space, so its siblings reflow to fill the gap. Click it again to show the Layout.
+
+This is different from lowering opacity, which leaves the Layout in place and still taking up space. You can key the button in animate mode or bind it, for example to collapse a row when there's nothing to show.
+
+## Computed transform
+
+Layouts and constraints can move and resize an object, so its **Transform** values don't always match where it ends up. Expand the **Computed Transform** section in the **Inspector** to see the final world, artboard, and local position, and the final size of Layouts, text, and images. See [Computed Transform](/editor/interface-overview/inspector#computed-transform) for each value.
+
+The values are read-only, but you can bind them with [Target to Source](/editor/data-binding/binding-data#target-to-source) to write them into a view model. For example, bind a Layout's computed width to a number property to read its size after layout in your app or in other bindings.

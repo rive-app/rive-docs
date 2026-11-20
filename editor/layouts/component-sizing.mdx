@@ -52,6 +52,13 @@ For more precise positioning, use **Alignment Position X/Y**. Values range from 
 
 You can also use values between these positions. For example, an X value of `0.5` positions the content halfway between center and right.
 
+### Fits to layout parent
+
+**Fits to layout parent** appears when a Leaf instance's direct parent isn't a Layout, such as when it's inside a **Solo** or a bone, with a Layout higher up.
+
+- **On**: Size against the nearest Layout, reaching through the **Solo** or bone. Setting an instance's **Mode** to **Leaf** turns this on.
+- **Off**: Size only against a Layout that is the direct parent.
+
 ## Layout
 
 **Layout** resizes the component's artboard instead of scaling its contents. As the artboard changes size, Layouts within the component can reflow their contents to respond to the available space.

@@ -32,6 +32,20 @@ Constraints are a way to control the properties of an object through another tar
 - Copy translation, rotation, or scale from another object.
 - Push an object away as one gets closer, or ensure an object always stays close to another one.
 
+## Strength
+
+Every constraint has a **Strength** that sets how much it applies. At 0% it has no effect, and at 100% it applies fully. Values in between blend between the object's own transform and the constrained result.
+
+## Constraint order
+
+When an object has more than one constraint, they apply from top to bottom in its **Constraints** section of the **Inspector**. Drag the rows to change the order.
+
+## Turning a constraint off
+
+Click the eye icon on a constraint's row in the **Hierarchy** to turn it off without removing it. Click it again to turn it back on.
+
+## Types of constraints
+
 Types of constraints in Rive:
 - [IK Constraint](/editor/constraints/ik-constraint)​
 - [Distance Constraint](/editor/constraints/distance-constraint)

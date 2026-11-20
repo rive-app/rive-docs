@@ -40,6 +40,18 @@ The key button shows the property's state at the playhead:
 
 Keys on a property's row are blue. Keys on an object's row, or on a collapsed row, are grey and stand for all the keys beneath them.
 
+Some objects also have group rows that collect related keys, such as keyed vertices, constraints, nested animations, or grid tracks.
+
+### Row menu
+
+Right-click a row on the timeline for commands that act on the keys that row covers. Right-click an empty part of the timeline, or the **All Keys Row**, to act on the whole timeline.
+
+- **Select All Keys**: Select every key the row covers.
+- **Select Keys Before Playhead** / **Select Keys After Playhead**: Select the keys at or before, or at or after, the playhead.
+- **Key All at Playhead**: Key every animated property the row covers at the playhead.
+- **Delete Keys at Playhead**: Delete the keys the row covers at the playhead.
+- **Remove Redundant Keys**: Delete keys that don't change the animation, like repeats of the same value. It applies to the selected keys, or to the row if no keys are selected.
+
 ## Moving keys
 
 Drag selected keys left or right to change when they happen. Drag a grey key to move every property on that row at once, or a blue key to move a single property.

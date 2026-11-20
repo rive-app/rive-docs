@@ -47,3 +47,25 @@ return config
 
   ![autocomplete editor themes](/images/scripting/config-theme.png)
 </Tip>
+
+## File scripting settings
+
+The settings above apply to the code editor for your account. Each file also has its own scripting settings that control how its scripts are exported. Deselect everything to show the file properties in the Inspector, then find the **Scripting** section.
+
+### Optimization
+
+How much exported scripts are optimized. The default is **Full**.
+
+- **None:** No optimization.
+- **Medium:** Safe optimizations that keep debugging intact.
+- **Full:** Adds optimizations, such as inlining, that make debugging harder.
+
+### Debug
+
+How much debug info exported scripts keep. The default is **None**.
+
+- **None:** No debug info.
+- **Medium:** Line numbers and function names, enough for stack traces.
+- **Full:** Also keeps local variable names, which a debugger needs.
+
+To debug scripts in an exported file, raise **Debug** and lower **Optimization**.

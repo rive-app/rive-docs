@@ -59,6 +59,24 @@ A View Model defines the structure of your data. Before creating View Model Inst
 
 ![Create a View Model](/images/editor/data-binding/view-models/create-view-model.gif)
 
+## Working in the Data panel
+
+### Templates
+
+Templates add a View Model that's already set up for a common use. In the Data panel, click the `+` icon and select **Templates**:
+
+- **Text Run** adds a View Model with text and text style properties, ready to bind to a text run.
+
+### Searching
+
+Use the search field in the Data panel to filter it by name.
+
+### Private properties
+
+Properties whose names start with an underscore (`_`), such as `_internalState`, are private. They're hidden from the Data panel's preview by default.
+
+To show them, open the Data panel's header menu and check **Private properties** under **Preview**.
+
 ## Creating and editing instances
 
 Once your View Model has been created, you can create one or more View Model Instances that store actual values for those properties.
@@ -106,6 +124,8 @@ Click the `-` icon next to the instance name to delete it.
   Deleting a View Model Instance does not remove the View Model or its properties. It only removes that instance and its stored values.
 </Note>
 
+To clean up a View Model, right-click it in the Data panel and select **Delete Unused Instances**. This deletes the View Model's instances that nothing in the file uses. Rive shows how many will be deleted before you confirm.
+
 ### Exporting instances
 
 By default, exported View Model Instances are included in the .riv file. Disable Export Instance when the data is only needed during development, not in your application at runtime.
@@ -117,6 +137,29 @@ By default, exported View Model Instances are included in the .riv file. Disable
 
   In this case embedding the example data just increases your .riv file size.
 </UseCase>
+
+### Using the data table
+
+The data table shows all of a View Model's instances and their values at once. To open it, right-click a View Model in the Data panel and select **Open Data Table**, or click the **Open Table Data** button in the Inspector.
+
+By default, each row is an instance and each column is a property. Use the table's toolbar to change the view:
+
+- **Search** filters the table's instances by name. When the axes are flipped, it filters properties instead.
+- **Flip Axes** swaps rows and columns, so instances run across the top and properties run down the side.
+- **Tag Display** sets how [tags](/editor/tagging) show on instances and properties: **Expanded** shows their names, **Collapsed** shows colored dots, and **Off** hides them.
+
+Right-click an instance or property header for more options:
+
+- **Filter Instance** or **Filter Property** shows only that instance or property.
+- **Open Data Table** on a [View Model property](/editor/data-binding/property-types#view-model) opens the table for the View Model it uses.
+
+For [List](/editor/data-binding/lists) properties, click the expand button in the cell to show or hide the list's items.
+
+### Comparing a property across instances
+
+Select one or more properties in the Data panel to see and edit their values in the Inspector. By default, the Inspector lists the values in every instance of the View Model.
+
+Use the **Instance** menu to show **All Instances** or only one. Click the **Open Data Table** button to open the selected properties in the [data table](#using-the-data-table).
 
 ## Connecting View Model instances to Artboards
 
@@ -195,5 +238,14 @@ Unlike traditional component View Model Instances, these instances do not need t
 ![Stateful components](/images/editor/data-binding/view-models/stateful-components.png)
 
 For more information, see [Stateful Components](/editor/data-binding/stateful-components).
+
+## Naming conventions
+
+Workspace admins can set the casing that names should follow across the workspace. Open the [workspace admin](/account-admin/workspaces/managing-workspaces#workspace-admin) and select the **Options** tab:
+
+- **View model naming convention** applies to View Model and enum names. The default is `PascalCase`.
+- **View model property naming convention** applies to View Model property names. The default is `camelCase`.
+
+Choose `PascalCase`, `camelCase`, `snake_case`, `kebab-case`, or **None**. Names that don't match are listed in the [Problems](/editor/interface-overview/debug-panel#problems) tab, and the AI Agent follows the convention when it creates names.
 
 

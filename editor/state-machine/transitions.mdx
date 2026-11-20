@@ -86,6 +86,7 @@ Conditions can be driven by many different sources, including:
 - View Model properties
 - Events
 - Built-in properties such as artboard width, height, and ratio
+- Object properties: choose **Component**, then pick the object and which of its properties to compare
 
 ![Source value](/images/editor/state-machine/transitions/source-value.png)
 
@@ -107,9 +108,15 @@ For example, a transition might occur when `speed` is greater than a data-bound 
 
 ### Adding multiple conditions
 
-You can add multiple conditions to a single transition. All conditions must be met before the transition occurs.
+You can add multiple conditions to a single transition. All conditions must be met before the transition occurs. The first condition starts with **if**, and each one after it starts with **and**.
 
 ![Adding multiple conditions](/images/editor/state-machine/transitions/or-condition.png)
+
+### Editing multiple transitions
+
+When you select several transitions, the conditions panel can show them as groups. Transitions with identical conditions share one group, so editing a condition in the group changes it on all of them. Transitions whose conditions differ get a group of their own.
+
+Use the **Group Transitions** button in the conditions panel, next to the transition options, to turn grouping on or off. Grouping is on by default, and the button only appears when some of the selected transitions can be grouped. Transitions with a [scripted condition](/scripting/protocols/transition-condition-scripts) are never grouped.
 
 
 ## Transition properties
@@ -143,6 +150,8 @@ By default, Exit Time is unchecked. To enable Exit Time, use the checkbox. Once 
 For example, if you want the state machine to play the entire animation before transitioning, you can either enter the duration of the animation, or use 100%.
 
 ![Exit time 100%](/images/editor/state-machine/transitions/exit-time-100.gif)
+
+When the transition leaves a blend state, use **Exit Source** to choose which of the blend's timelines Exit Time is measured against. This option only shows when a single transition is selected.
 
 ### Pause source when exiting
 
@@ -180,6 +189,8 @@ A transition can run [actions](/editor/state-machine/actions) when it starts or 
 To use it, select the origin state and enable **Randomize Exit**. The state lists each path leaving it and lets you assign a weight to each path.
 
 The higher the weight, the more likely that path is to be chosen. For example, if **Timeline 1** has a weight of `3` and **Timeline 2** has a weight of `1`, the State Machine has a 75% chance of transitioning to **Timeline 1** and a 25% chance of transitioning to **Timeline 2**.
+
+You can also set a path's weight by selecting its transition and changing **Randomization Factor** in the Inspector.
 
 
 ## Disabling a transition

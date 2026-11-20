@@ -35,6 +35,8 @@ Use listeners to create dynamic experiences that react to user input and changes
   </Step>
   <Step>
     Click the **+** icon to create a new listener and select the action the listener should perform.
+
+    Choose **Blank** to create a listener with no actions, or **Folder** to add a folder for organizing your listeners.
   </Step>
   <Step>
     With the listener selected, set its **Target**, **Listen to**, and other options in the right sidebar.
@@ -86,6 +88,8 @@ This **Listen to** option is only available when the listener target is an artbo
 
 View Model Change listeners fire whenever the selected property changes. You can’t specify an expected value or direction of change. For example, a Boolean listener fires when the value changes from true to false or from false to true.
 
+If the property can be reached from more than one place, use **Source** to choose the path to it.
+
 ### Rive Event
 
 This **Listen to** option is only available when the listener target is an artboard or nested component.
@@ -116,6 +120,11 @@ The **Focus Target** action moves focus to a specific element, and **Focus Trave
 
 To react to keys, add a **Keyboard** listener and choose **On Key Down**, **On Key Repeat**, or **On Key Up**. Keys go to the element that has focus.
 
+To choose which keys trigger the listener, click **+** next to **Keys** in the Inspector. Each key has:
+
+- **Key code**: Click the field, then press the key. Any modifier keys you hold, such as <kbd>Shift</kbd> or <kbd>Ctrl</kbd>, are saved with it. Press <kbd>Esc</kbd> to cancel.
+- **Phase**: Which key events trigger the listener: **On Key Down**, **On Key Repeat**, and **On Key Up**. Turn on any combination.
+
 To try keyboard input in the editor, press **Option+Space** to play with keyboard capture on, or click **Toggle Keyboard Capture** in the playback header. This lets keys reach your file instead of triggering editor shortcuts.
 
 ### Gamepad
@@ -123,6 +132,13 @@ To try keyboard input in the editor, press **Option+Space** to play with keyboar
 Add a **Gamepad** listener to drive a state machine from a controller's buttons and sticks. Scripts can listen to gamepad events too.
 
 The gamepad icon at the bottom of an open file turns green when Rive can see your controller.
+
+To choose what triggers the listener, click **+** next to **Inputs** in the Inspector. With no inputs, the listener reacts to every gamepad event. Each input has:
+
+- **Kind**: What to listen for. **Button** is a button press or release, **Axis** is a stick or trigger moving, and **Connected** and **Disconnected** fire when a gamepad connects or disconnects.
+- **Mapping**: How the button or axis is picked. **Standard** picks it by name in the standard gamepad layout. **Index** picks it by the raw number the controller reports, whatever its layout.
+- **Button** or **Axis**: The button or the stick or trigger axis to listen to.
+- **Phase**: For buttons, whether the listener fires **On Press**, **On Release**, or both.
 
 <Demos examples={["gamepadListeners", "gamepadRadialMenu", "gamepadGame"]} />
 
@@ -152,5 +168,16 @@ Use **Capture** to override keys or clicks on a component you can't edit.
 ## Listener actions
 
 When a listener fires, it runs its [actions](/editor/state-machine/actions), such as setting a view model property, moving an object to the pointer, or reporting an event. To add one, select the listener and click **+** in the panel below the graph. You can add as many actions as you need.
+
+When you create a listener with **+** in the **Animations** panel, you choose its first action:
+
+- **View Model Change**: Changes a view model property.
+- **Input Change**: Changes a legacy input. Deprecated; use **View Model Change** instead.
+- **Align Target**: Moves an object to the pointer.
+- **Report Event**: Fires a Rive event.
+- **Scripted Action**: Runs a [listener action script](/scripting/protocols/listener-action-scripts).
+- **Focus**: Moves keyboard focus.
+
+See [Action types](/editor/state-machine/actions#action-types) for details.
 
 <VideoEmbed src="https://static.rive.app/video/docs/add-action-to-listener.mp4" />

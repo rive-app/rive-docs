@@ -20,12 +20,20 @@ The same action types are available in all three. You can add as many actions as
 
 | Action | What it does |
 | --- | --- |
-| **View Model Change** | Sets a [view model](/editor/data-binding/overview) property. |
+| **View Model Change** | Sets a [view model](/editor/data-binding/overview) property. See [View Model Change](#view-model-change). |
 | **Input Change** | Sets a legacy state machine [input](/editor/state-machine/inputs). Use View Model Change for new work. |
 | **Align Target** | Moves an object to the pointer. See [Align Target](#align-target). |
 | **Focus** | Moves keyboard [focus](/editor/accessibility/focus). See [Focus](#focus). |
 | **Report Event** | Fires a [Rive event](/editor/events/overview). |
 | **Scripted Action** | Runs a [listener action script](/scripting/protocols/listener-action-scripts). |
+
+### View Model Change
+
+Sets a view model property to a new value. Use **Set To** to choose where the value comes from:
+
+- **A view model property**: Copies that property's value.
+- **A listener value**: Uses something from the event that fired the listener, like the pointer position or a key. Only available in listener actions.
+- **Value**: A fixed value you enter.
 
 ### Align Target
 
