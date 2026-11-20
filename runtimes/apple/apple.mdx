@@ -125,7 +125,7 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
 
                 <CodeGroup>
                     ```swift UIKit
-                    let riveView = RiveUIView({
+                    let riveView = RiveUIView(rive: {
                         let worker = try await Worker(
                             configuration: .init(enableGPUCanvas: true)
                         )
@@ -138,7 +138,7 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
                     ```swift SwiftUI
                     var body: some View {
                         // After having created a `Rive` object, you can initialize your view.
-                        RiveUIViewRepresentable(rive)
+                        RiveUIViewRepresentable(rive: rive)
                     }
                     ```
                     ```swift SwiftUI (Async)
@@ -311,7 +311,7 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
             ```swift SwiftUI
             @State var isPaused = false
             var body: some View {
-                RiveUIViewRepresentable(rive)
+                RiveUIViewRepresentable(rive: rive)
                 .paused(isPaused)
             }
             ```
@@ -356,7 +356,7 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
 
             ```swift SwiftUI
             var body: some View {
-                RiveUIViewRepresentable(rive)
+                RiveUIViewRepresentable(rive: rive)
                 .frameRate(.fps(30))
                 // or
                 .frameRate(.range(minimum: 30, maximum: 60))
@@ -400,7 +400,7 @@ See [Semantics](/runtimes/apple/semantics) for the available modes and more deta
 
 ## Native focus
 
-With the Swift Concurrency API, graphics with authored focus nodes can participate in [native focus navigation](/runtimes/apple/focus#native-focus).
+With the Swift Concurrency API, graphics with authored focus nodes can participate in [native focus navigation](/runtimes/apple/focus#native-focus). To send hardware-keyboard input to a graphic without the user first tabbing into it, see [Requesting keyboard input](/runtimes/apple/focus#requesting-keyboard-input).
 
 ## Threading
 
