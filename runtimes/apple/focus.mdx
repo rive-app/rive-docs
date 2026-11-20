@@ -34,9 +34,66 @@ Rive discovers focus nodes asynchronously after loading. The graphic can appear 
   </Tab>
 </Tabs>
 
+## Requesting keyboard input
+
+Keys go to the element that has focus, and the first element gets focus when the user navigates into the graphic, usually by pressing **Tab**. To send hardware-keyboard input to a graphic without that first **Tab**, such as WASD controls that work as soon as the graphic appears, make the view the keyboard responder.
+
+A request succeeds when the graphic is loaded, playing, in the key window, and has focus nodes. Rive then tries to focus the first element in the [focus order](/editor/accessibility/focus#focus-order), unless an element already has focus.
+
+<Note>
+  Requesting keyboard input doesn't enable text input or show the software keyboard.
+</Note>
+
+<Tabs>
+  <Tab title="SwiftUI">
+    Call `keyboardFocused(_:onResult:)` on `RiveUIViewRepresentable` or `AsyncRiveUIViewRepresentable`, before any SwiftUI modifiers. The view waits until the graphic is ready before it makes the request.
+
+    ```swift highlight={5}
+    @State private var wantsKeyboardInput = true
+
+    var body: some View {
+        RiveUIViewRepresentable(rive: rive)
+            .keyboardFocused(wantsKeyboardInput)
+    }
+    ```
+
+    Each change to `true` makes one request, and a change to `false` gives up keyboard input. To request again, such as after you replace the view's content, set the value to `false` and then back to `true` in a later update.
+
+    To learn whether an attempt succeeded, pass `onResult`. Rive calls it after each attempt with the action, `.become` or `.resign`, and whether it succeeded.
+
+    A change to `true` while the view is paused makes no request. Pausing or removing the view, or a loading failure, cancels a pending request. Rive doesn't call `onResult` in these cases.
+
+    Avoid combining `keyboardFocused(_:onResult:)` with SwiftUI's `focused(_:)` on the same view.
+  </Tab>
+  <Tab title="UIKit">
+    Call `becomeKeyboardResponder()` on `RiveUIView`. It returns whether the request succeeded.
+
+    ```swift
+    let succeeded = riveView.becomeKeyboardResponder()
+    ```
+
+    The request runs immediately and isn't queued. It returns `false` until the graphic is ready, so a call made as soon as the view appears usually fails. Call it again later, such as when the user first interacts with the graphic.
+
+    To give up keyboard input, call `resignKeyboardResponder()`.
+  </Tab>
+  <Tab title="AppKit">
+    Call `becomeKeyboardResponder()` on `RiveUIView`. It returns whether the request succeeded.
+
+    ```swift
+    let succeeded = riveView.becomeKeyboardResponder()
+    ```
+
+    The request runs immediately and isn't queued. It returns `false` until the graphic is ready, so a call made as soon as the view appears usually fails. Call it again later, such as when the user first interacts with the graphic.
+
+    To give up keyboard input, call `resignKeyboardResponder()`.
+  </Tab>
+</Tabs>
+
+On iOS, iPadOS, visionOS, and Mac Catalyst, **Tab** and the arrow keys don't [move between elements](#moving-between-elements) until the view also has native focus. After you replace a view's content, request keyboard input again.
+
 ## Moving between elements
 
-- **Tab** and **Shift+Tab** follow the [focus order](/editor/accessibility/focus#focus-order) set in the editor.
+- **Tab** and **Shift+Tab** follow the focus order set in the editor.
 - **Arrow keys** move focus in the direction you press.
 - On **tvOS**, the Siri Remote also moves focus. Rive treats the remote's Select button as **Enter**. See [Apple TV focus interactions](https://developer.apple.com/documentation/uikit/about-focus-interactions-for-apple-tv).
 
