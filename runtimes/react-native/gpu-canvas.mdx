@@ -6,7 +6,7 @@ description: "Enable GPU Canvas in React Native to render 3D content."
 GPU Canvas enables 3D content in the React Native runtime. It is a process-wide setting: it applies to every Rive file your app loads and every `RiveView` that renders them.
 
 <Note>
-  GPU Canvas is required to render 3D content. It requires `@rive-app/react-native` `0.5.3` or later.
+  GPU Canvas is required to render 3D content. It requires `@rive-app/react-native` `0.5.3` or later on iOS and `0.5.7` or later on Android. On Android, we recommend `0.5.13` or later for stability.
 </Note>
 
 ## Enabling GPU Canvas
@@ -42,7 +42,7 @@ Before the first file loads, this returns the requested setting. After the first
 GPU Canvas uses the [Apple](/runtimes/apple/gpu-canvas) and Android runtimes' GPU Canvas support. The default native SDK versions bundled with `@rive-app/react-native` support it. If you [override the native SDK versions](/runtimes/react-native/native-version-customization):
 
 - iOS requires Rive iOS `6.25.0` or later. Older versions fail to compile.
-- Android requires Rive Android `11.12.0` or later. With older versions, files load without GPU Canvas, a warning is logged, and `isGPUCanvasEnabled()` returns `false`.
+- Android requires Rive Android `11.14.2` or later. Older versions fail to compile.
 
 ## Default behavior
 

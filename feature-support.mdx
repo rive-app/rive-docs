@@ -36,7 +36,7 @@ When a feature requires API changes, migration notes will be included below.
 <FeatureSupportGroup runtime="reactNative">
     Versions refer to the `@rive-app/react-native` package, built with Nitro.
 
-    GPU Canvas is supported on iOS and Android in `0.5.3` and later. It is disabled by default. Enable it before loading any Rive files:
+    GPU Canvas is supported on iOS in `0.5.3` and later, and on Android in `0.5.7` and later. It is disabled by default. Enable it before loading any Rive files:
 
     ```ts
     import { RiveRuntime } from '@rive-app/react-native';
@@ -44,7 +44,7 @@ When a feature requires API changes, migration notes will be included below.
     RiveRuntime.setGPUCanvasEnabled(true);
     ```
 
-    This setting applies to every Rive file in the app. Changes made after file loading begins are ignored. If you [override the native SDK versions](/runtimes/react-native/native-version-customization), GPU Canvas requires Rive iOS `6.25.0` or later and Rive Android `11.12.0` or later.
+    This setting applies to every Rive file in the app. Changes made after file loading begins are ignored. If you [override the native SDK versions](/runtimes/react-native/native-version-customization), GPU Canvas requires Rive iOS `6.25.0` or later and Rive Android `11.14.2` or later.
 
     Layer Masks require GPU Canvas on both iOS and Android. With the bundled native SDKs, they are supported on iOS in `0.5.3` and later, and on Android in `0.5.13` and later. Layer Masks are not supported in iOS simulators. If you override the native SDK versions, use Rive iOS `6.28.0` or later and Rive Android `11.16.3` or later.
 
@@ -60,7 +60,11 @@ When a feature requires API changes, migration notes will be included below.
         Some rendering features require [GPU Canvas](/runtimes/apple/gpu-canvas) (the deferred renderer) on Apple platforms. These are marked "GPU Canvas required" in the table below.
     </Warning>
 </FeatureSupportGroup>
-<FeatureSupportGroup runtime="android" />
+<FeatureSupportGroup runtime="android">
+    <Warning>
+        Some rendering features require [GPU Canvas](/runtimes/android/gpu-canvas) on Android. These are marked "GPU Canvas required" in the table below.
+    </Warning>
+</FeatureSupportGroup>
 <FeatureSupportGroup runtime="cpp" />
 <FeatureSupportGroup runtime="unity" />
 <FeatureSupportGroup runtime="unreal" />

@@ -344,11 +344,11 @@ export const FeatureSupportGroup = ({
                 reactCanvasLite: { supported: false, na: true },
                 reactWebGL: { supported: false, description: "Not supported" },
                 reactWebGL2: { supported: true, version: "4.34.0+" },
-                reactNative: { supported: true, version: "0.5.3+" },
+                reactNative: { supported: true, version: "0.5.7+", description: "iOS also supported from 0.5.3" },
                 reactNativeLegacy: { supported: false, description: "Not supported" },
                 flutter: { supported: true, version: "0.15.0-dev.1" },
                 apple: { supported: true, version: "6.25.0" },
-                android: { supported: true, version: "11.12.0+" },
+                android: { supported: true, version: "11.14.2+" },
                 cpp: { supported: true, description: "Supported" },
                 unity: { supported: true, version: "0.5.2-exp.8" },
                 unreal: { supported: true, version: "0.4.26" }
