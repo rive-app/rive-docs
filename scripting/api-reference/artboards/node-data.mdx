@@ -44,6 +44,18 @@ end
 ```
 
 
+### `name`
+
+The node's name, or an empty string when its name was not
+[exported](/editor/exporting/exporting-names).
+```lua highlight={3}
+local artboard = context:artboard()
+if artboard then
+  for _, child in artboard.children do print(child.name) end
+end
+```
+
+
 ## Methods
 
 ### `decompose`

@@ -37,3 +37,31 @@ True if the Meta (Command/Windows) modifier is active.
 The current phase ([KeyPhase](/scripting/api-reference/artboards/key-phase)) of the interaction.
 
 
+## Methods
+
+### `hit`
+
+{/* hit: (self: KeyboardEvent, isTranslucent: boolean?) -> () */}
+<div class="signature">
+```lua
+hit(isTranslucent: boolean?) -> ()
+```
+</div>
+
+Claims the key so it goes no further. From a listener action
+(`ListenerContext:asKeyboardEvent()`), bare `hit()` stops the key at
+the listener's target: on a capture-phase listener, nothing inside its
+target, a text input included, ever sees it, and when it was the
+press, its repeats and release stay away too. `hit(true)` only marks
+it seen and lets it go on. In a node's `keyboardEvent`, `hit()` stops
+propagation like returning `true`.
+```lua highlight={4}
+function performAction(self: KeepEscape, context: ListenerContext)
+  local event = context:asKeyboardEvent()
+  if event and event.key == 256 then -- Escape
+    event:hit()
+  end
+end
+```
+
+

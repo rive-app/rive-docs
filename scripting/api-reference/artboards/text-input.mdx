@@ -12,3 +12,34 @@ Represents a text input event.
 The input text.
 
 
+## Methods
+
+### `hit`
+
+{/* hit: (self: TextInput, isTranslucent: boolean?) -> () */}
+<div class="signature">
+```lua
+hit(isTranslucent: boolean?) -> ()
+```
+</div>
+
+Claims the text so it goes no further. From a listener action
+(`ListenerContext:asTextInput()`), bare `hit()` stops the text at the
+listener's target: on a capture-phase listener, a text input inside
+its target never inserts it. Typed, pasted and IME text all arrive
+here, a paste as one string. `hit(true)` only marks it seen and lets
+it go on. In a node's `textEvent`, `hit()` stops propagation like
+returning `true`.
+```lua highlight={5}
+function performAction(self: NoEmoji, context: ListenerContext)
+  local input = context:asTextInput()
+  for _, codepoint in utf8.codes(input and input.text or '') do
+    if codepoint >= 0x1F000 then
+      input:hit()
+      return
+    end
+  end
+end
+```
+
+

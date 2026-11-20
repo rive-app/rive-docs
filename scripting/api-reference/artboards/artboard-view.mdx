@@ -1,0 +1,86 @@
+---
+title: ArtboardView
+---
+
+The artboard a script's object lives in, from `context:artboard()`. The
+script does not own it, so it can walk and move its nodes but not draw,
+advance or instance it. Once the object is gone it reads as empty, and
+its nodes as the identity.
+
+
+## Fields
+
+### `width`
+
+The artboard's width.
+```lua highlight={3}
+local artboard = context:artboard()
+if artboard then
+  print(artboard.width)
+end
+```
+
+
+### `height`
+
+The artboard's height.
+```lua highlight={3}
+local artboard = context:artboard()
+if artboard then
+  print(artboard.height)
+end
+```
+
+
+### `children`
+
+The artboard's top level nodes.
+```lua highlight={3}
+local artboard = context:artboard()
+if artboard then
+  for _, child in artboard.children do print(child.name) end
+end
+```
+
+
+## Methods
+
+### `bounds`
+
+{/* function bounds(self): (Vector, Vector) */}
+<div class="signature">
+```lua
+bounds() -> (Vector, Vector)
+```
+</div>
+
+The bounding box of the artboard as its minimum and maximum points.
+```lua highlight={3}
+local artboard = context:artboard()
+if artboard then
+  local min, max = artboard:bounds()
+  print(max.x - min.x, max.y - min.y)
+end
+```
+
+
+### `node`
+
+{/* function node(self, name: string): NodeData? */}
+<div class="signature">
+```lua
+node(name: string) -> NodeData?
+```
+</div>
+
+The node with this [exported name](/editor/exporting/exporting-names),
+or nil when there is none.
+```lua highlight={2}
+local artboard = context:artboard()
+local hand = if artboard then artboard:node('Hand') else nil
+if hand then
+  hand.rotation = math.pi / 4
+end
+```
+
+
