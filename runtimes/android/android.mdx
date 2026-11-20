@@ -132,6 +132,8 @@ RiveLog.logger = RiveLog.LogcatLogger()
     }
     ```
 
+    Rive files with 3D or shader content, or with features such as Layer Masks, need a worker with GPU Canvas enabled. See [GPU Canvas](/runtimes/android/gpu-canvas).
+
     <Note>
       If the GPU driver resets or fails, the worker can lose its render context and stop rendering. Your app should handle this case. See [Handling a lost render context](/runtimes/android/handling-render-context-loss).
     </Note>

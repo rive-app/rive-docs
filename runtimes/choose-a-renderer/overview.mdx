@@ -21,7 +21,7 @@ The Rive Renderer is designed to provide better performance and visual fidelity 
 | [Web (JS)](#web-js)          | Depends on package       | Rive / Canvas2D                              |
 | [Web (React)](#web-react)          | Depends on package       | Rive / Canvas2D                              |
 | [Apple](#apple) | Rive | Rive |
-| Android (Compose)     | Rive             | Rive |
+| [Android (Compose)](#android-compose)     | Rive             | Rive |
 | [Android (Legacy)](#android-legacy)     | Rive             | Rive / Canvas / Skia (removed as of v10.0.0) |
 | [React Native](#react-native) | Rive             | Rive                     |
 | [Flutter](#flutter)      | No default       | Rive / Flutter Skia / Flutter Impeller       |
@@ -66,6 +66,18 @@ If a runtime is not listed here, there is no renderer setup to configure. It use
         ```
 
         GPU Canvas is required for 3D content. The setting applies to every `File` loaded by that worker and every `Rive` object created from those files. It cannot be changed during the worker's lifetime.
+    </Tab>
+    <Tab title="Android (Compose)">
+        The Compose API uses the Rive Renderer. You can opt a Rive worker into [GPU Canvas](/runtimes/android/gpu-canvas) when it is created:
+
+        ```kotlin
+        setContent {
+            @OptIn(ExperimentalDeferredRendering::class)
+            val riveWorker = rememberDeferredRiveWorker()
+        }
+        ```
+
+        GPU Canvas is required for 3D and shader content and for some rendering features, such as Layer Masks. The setting applies to every file loaded with that worker. It cannot be changed during the worker's lifetime.
     </Tab>
     <Tab title="Android (Legacy)">
         Options: `Canvas / Skia (removed in v10.0.0)`
