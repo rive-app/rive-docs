@@ -348,7 +348,7 @@ export const FeatureSupportGroup = ({
                 reactNativeLegacy: { supported: false, description: "Not supported" },
                 flutter: { supported: true, version: "0.15.0-dev.1" },
                 apple: { supported: true, version: "6.25.0" },
-                android: { supported: true, version: "11.12.0+" },
+                android: { supported: true, version: "11.14.2+" },
                 cpp: { supported: true, description: "Supported" },
                 unity: { supported: true, version: "0.5.2-exp.8" },
                 unreal: { supported: true, version: "0.4.26" }
