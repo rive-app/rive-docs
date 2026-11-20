@@ -10,7 +10,7 @@ A render context is the GPU device (Vulkan) or GPU context (OpenGL) that a Rive 
 
 As of v11.16.0, you can detect a lost render context with `RiveWorker.renderContextStatus`. This `StateFlow` starts as `RenderContextStatus.Ready` and changes to `RenderContextStatus.Lost` when Rive detects a loss. It never changes back.
 
-Rive detects a loss the next time the worker draws, and updates the status while the worker is polled. `rememberRiveWorker` and `rememberRiveWorkerOrNull` poll the worker for you by default while the lifecycle is resumed. If you create a `RiveWorker` yourself, you need to call `beginPolling`.
+Rive detects a loss the next time the worker draws, and updates the status on the main thread. As of v11.16.3, the worker delivers this update automatically. In v11.16.0 to v11.16.2, the status updates while the worker is polled. `rememberRiveWorker` and `rememberRiveWorkerOrNull` poll the worker for you by default while the lifecycle is resumed. If you create a `RiveWorker` yourself on those versions, call `beginPolling`.
 
 `Ready` only means that Rive hasn't detected a loss. It doesn't mean every operation on the worker will succeed, so keep handling the errors that Rive APIs can throw. Rive can also miss some losses, such as one that first shows up while the surface it draws to is being created or resized.
 
