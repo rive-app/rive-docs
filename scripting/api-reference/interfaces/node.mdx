@@ -52,7 +52,9 @@ advance(self: T, seconds: number) -> boolean
 </div>
 
 Optional per-frame update. Returns true if the node should continue
-receiving advance calls.
+receiving advance calls. After returning false, it is called again on
+the next frame after a node it read from `context:artboard()` or
+`context:node()` changes.
 
 For a more complete example using `advance`, see [Fixed-step Advanced](/scripting/protocols/node-scripts#fixed-step-advance).
 ```lua highlight={6,7,8,13}
@@ -83,7 +85,8 @@ update(self: T) -> ()
 ```
 </div>
 
-Called when an input value changes.
+Called when an input value changes, and again, in the same frame, when
+a node it read from `context:artboard()` or `context:node()` changes.
 ```lua highlight={5,6,7,12}
 -- Define the script's data and inputs.
 type MyNode = {}
