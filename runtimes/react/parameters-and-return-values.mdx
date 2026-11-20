@@ -26,6 +26,8 @@ Most of these parameters come from the underlying web runtime configuration item
 
 For keyboard focus, pass `tabIndex` and `focusOptions` here as you would to the `Rive` constructor. See [Focus](/runtimes/react/focus) and [Text and key input](/runtimes/react/text-and-key-input).
 
+To reduce idle rendering and load time, pass `enableSettling` and `deferDecoding` here as you would to the `Rive` constructor. Both require `v4.40.0` or later. See [Rive Parameters](/runtimes/web/rive-parameters) for how each works and when `deferDecoding` helps.
+
 The following parameters are specific to `useRive`, or behave differently in React than they do in the web runtime:
 
 - `enableGPUCanvas` - *(optional, experimental)* Render GPU Canvas content — 3D and shaders — on this instance. `@rive-app/react-webgl2` only. Turning it on flips the `useOffscreenRenderer` default to `false`, since the two cannot be combined. False by default. See [GPU Canvas](/runtimes/react/gpu-canvas).
@@ -139,6 +141,7 @@ The main benefit of this hook is that it allows you to create a `RiveFile` insta
 - `enableRiveAssetCDN?` - *(optional)* Allow the runtime to automatically load assets hosted in Rive's CDN. Enabled by default.
 - `enablePerfMarks?` - *(optional)* Emits `performance.mark` / `performance.measure` entries for key Rive startup events for performance profiling purposes. False by default.
 - `enableGPUCanvas?` - *(optional, experimental)* Import the file for GPU Canvas content — 3D and shaders. `@rive-app/react-webgl2` only at this time.
+- `deferDecoding?` - *(optional)* Decode parts of the file the first time they're used instead of when it loads. False by default. Requires `v4.40.0` or later. See [Rive Parameters](/runtimes/web/rive-parameters) for the tradeoffs.
 
 **Return Values**
 

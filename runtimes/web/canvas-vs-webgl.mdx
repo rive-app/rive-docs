@@ -101,6 +101,54 @@ If the renderer can't use inkbleed, the runtime logs a one-time console warning 
 - Advanced blend modes on mobile are the case where `@rive-app/canvas` can be meaningfully faster, because Canvas2D blends natively. If your file still leans on them after moving what you can to additive blending, it is worth comparing the two.
 - Measure on real devices. Swapping packages is a one-line change, so testing each option is cheap.
 
+### Settling
+
+By default, a playing `Rive` instance keeps requesting animation frames and advances its state machines on every one, even when nothing on screen is moving. It skips redrawing unchanged frames, but the per-frame advance still runs.
+
+When setting [`enableSettling: true`](/runtimes/web/rive-parameters) on the Rive instance, the runtime notices when every playing state machine has nothing left to animate and stops there: it no longer advances or draws the graphic, and stops requesting animation frames for it. A graphic that sits idle between interactions then costs no per-frame work until something changes. If a gamepad is connected, the runtime still checks it each frame, but doesn't advance or draw.
+
+The runtime wakes a settled instance and restarts the render loop when something changes, for example:
+
+- Pointer movement, clicks or scrolling on the canvas, when the graphic has listeners
+- Keyboard input and focus changes
+- Gamepad input
+- Setting state machine inputs or text runs
+- Setting view model property values from JavaScript
+- An asset changing after load, such as an image that finishes decoding
+- Changing the layout or resizing the canvas
+
+If you change something the runtime can't see, such as writing `canvas.width` directly, call `drawFrame()` to resume. You can check [`isSettled`](/runtimes/web/rive-parameters#issettled) to see whether an instance is currently settled.
+
+`enableSettling` works in both `@rive-app/canvas` and `@rive-app/webgl2`. It's off by default in v2 of the runtime, and will be on by default in the next major version.
+
+```javascript highlight={6}
+const r = new rive.Rive({
+  src: "my_file.riv",
+  canvas: document.getElementById("canvas"),
+  stateMachine: "State Machine 1",
+  autoplay: true,
+  enableSettling: true,
+});
+```
+
+### Deferred decoding
+
+By default, the runtime decodes the whole `.riv` file when it loads. With [`deferDecoding: true`](/runtimes/web/rive-parameters) set when instantiating Rive, it decodes only what it needs to start, and decodes artboards, animations and view model instances the first time they're used. The first artboard in the file always decodes at load.
+
+This optimization shortens the work done at load for files that hold many artboards, animations or view model instances that a page doesn't all use. Parts of the `.riv` the page never uses, apart from the first artboard, generally stay undecoded.
+
+`deferDecoding` works in both canvas and WebGL2 runtime variants. Set it on a `RiveFile`, or on `Rive` when it loads the file itself with `src` or `buffer`. If you pass a `riveFile`, set it on the `RiveFile` instead. It's off by default.
+
+```javascript highlight={6}
+const r = new rive.Rive({
+  src: "my_file.riv",
+  canvas: document.getElementById("canvas"),
+  stateMachine: "State Machine 1",
+  autoplay: true,
+  deferDecoding: true,
+});
+```
+
 ## Canvas package variants
 
 Two variants of the canvas package are available if you have specific bundling needs.

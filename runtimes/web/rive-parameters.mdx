@@ -59,6 +59,8 @@ export interface RiveParameters {
   semanticsOptions?: RiveSemanticsOptions; // experimental
   enableGPUCanvas?: boolean; // experimental, @rive-app/webgl2 only
   enableInkbleed?: boolean; // experimental, @rive-app/webgl2 only
+  enableSettling?: boolean;
+  deferDecoding?: boolean;
 
   // Deprecated parameters
   animations?: string | string[]; // deprecated in favor of stateMachine
@@ -113,6 +115,11 @@ export interface RiveParameters {
   - `riveCanvasLabel` - *(optional)* The `aria-label` applied to the overlay's container element. Defaults to `"Rive animation"`.
 - `enableGPUCanvas` - *(optional, experimental)* Render GPU Canvas content — 3D and shaders — on this instance. `@rive-app/webgl2` only, and cannot be combined with `useOffscreenRenderer: true`. Ignored when you pass a `riveFile`, which carries its own mode. False by default. See [GPU Canvas](/runtimes/web/gpu-canvas).
 - `enableInkbleed` - *(optional, experimental)* Render with inkbleed antialiasing instead of MSAA. `@rive-app/webgl2` only, and has no effect with `useOffscreenRenderer: true`. Required to toggle [`inkbleed`](#inkbleed) after construction. False by default. See [Inkbleed antialiasing](/runtimes/web/canvas-vs-webgl#inkbleed-antialiasing).
+- `enableSettling` - *(optional)* Stop advancing and drawing once every playing state machine has nothing left to animate, and resume as soon as something changes, including runtime changes such as view model property setting, and user interactions that invoke listeners. While settled, [`isSettled`](#issettled) is `true`. If you change something the runtime can't see, such as writing `canvas.width` directly, call `drawFrame()` to resume. Defaults to `false` for now, and will be on by default in the next major version. Added in `v2.52.0`. See [Performance](/runtimes/web/canvas-vs-webgl#performance).
+- `deferDecoding` - *(optional)* Lazily decode parts of the `.riv` file the first time they're used instead of all up front when the file loads. This can make loading faster for files with many artboards, animations or view model instances that your instance may not use at all. Defaults to `false`. Added in `v2.51.0`.
+  - Animations decode the first time they're used, usually when they first play. Artboards decode the first time they're used, except the first artboard in the file, which always decodes at load. View model instances decode the first time they're fetched, for example with `defaultInstance()` or `autoBind`; reading their names and counts doesn't decode them. Some parts still decode at load.
+  - If your file is small, or your page uses all of its artboards and animations as soon as it loads, that work still happens at startup, so you're unlikely to see a benefit.
+  - The option is also available on `RiveFile`.
 
 <Warning>
   `semanticsMode` and `semanticsOptions` are experimental and may encounter breaking behavior changes without a major version bump.
@@ -425,7 +432,13 @@ Starts the render loop if it was stopped with `stopRendering()`. No-op if alread
 
 `drawFrame(): void`
 
-Advances and draws one frame. Use this when you need an explicit draw after certain updates, but typically you do not need to manually call this API.
+Advances and draws one frame. Use this when you need an explicit draw after certain updates, but typically you do not need to manually call this API. With `enableSettling`, calling `drawFrame()` also resumes a settled instance.
+
+#### isSettled
+
+`isSettled: boolean` (getter)
+
+`true` while `enableSettling` has stopped advancing and drawing because every playing state machine has nothing left to animate. `pause()` and `stopRendering()` don't set it.
 
 #### `resolveAnimationFrame()`
 
