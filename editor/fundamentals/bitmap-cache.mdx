@@ -40,7 +40,7 @@ To remove the cache, click the delete button next to **Bitmap Cache**.
 Only components can add a Bitmap Cache. If the artboard isn't a component yet, [convert it to a component](/editor/fundamentals/components#converting-artboards-to-components) first. Selecting several components lets you add, remove, or edit the cache on all of them at once.
 
 <Note>
-Only component instances draw through the cache. The component's own artboard doesn't use it when it's displayed directly as the main artboard.
+The cache is meant for component instances. Don't rely on it for an artboard shown directly as the main artboard: most runtimes draw that artboard as vectors.
 </Note>
 
 ## Bitmap Cache properties
