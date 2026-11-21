@@ -17,7 +17,7 @@ The cached image is redrawn only when it's out of date:
 Moving or rotating an instance doesn't redraw the image.
 
 <Warning>
-A cache helps most with static content. A component that changes on every frame, or an instance that's scaled on every frame, redraws its image on every frame, which costs more than drawing its vectors directly. Turn the cache off while the component animates, or don't add one.
+A cache helps most with static content. A component whose content changes on every frame redraws its image on every frame, which costs more than drawing its vectors directly. Scaling an instance continuously also redraws its image often. Turn the cache off while the component animates, or don't add one.
 </Warning>
 
 Each instance keeps its own image, so memory use grows with the number of cached instances and their size on screen.
@@ -57,7 +57,7 @@ Resolution can be set from `0.01x` to `8x`. The image is capped at 2048 pixels p
 
 ### On/Off
 
-The toggle next to **Resolution** turns the cache on or off without removing it. When the cache is off, the component draws its vectors as if it had no cache, and its image is released from memory.
+The toggle next to **Resolution** turns the cache on or off without removing it. When the cache is off, the component draws its vectors as if it had no cache, and its image is released from memory. Instances with a Mesh or N-Slice still draw from an image, at `1x`. See [Meshes and N-Slices on components](#meshes-and-n-slices-on-components).
 
 You can key the toggle (it appears as **Enabled** on the timeline) or data bind it. For example, turn the cache on while a component is at rest and off while it animates. **Resolution** can also be keyed and data bound.
 
