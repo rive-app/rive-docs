@@ -283,6 +283,52 @@ end
 ```
 
 
+### `artboard`
+
+{/* function artboard(self): ArtboardView? */}
+<div class="signature">
+```lua
+artboard() -> ArtboardView?
+```
+</div>
+
+The artboard this script's object lives in, to walk and move its
+nodes; nil when the object has none (converters, interpolators,
+listener actions and transition conditions). Nodes from it can be
+kept: once the object is gone they read as the identity and take no
+writes. A write lands like any other, so an animation can overwrite
+it, and one made while drawing shows on the next frame.
+```lua highlight={2}
+function init(self: Waver, context: Context): boolean
+    local artboard = context:artboard()
+    self.hand = if artboard then artboard:node('Hand') else nil
+    return true
+end
+```
+
+
+### `node`
+
+{/* function node(self): NodeData? */}
+<div class="signature">
+```lua
+node() -> NodeData?
+```
+</div>
+
+This script's object as a node, to reach its parent and siblings; nil
+when the object is not a transform (path effects and the objects
+without an artboard).
+```lua highlight={2}
+function init(self: Follower, context: Context): boolean
+    local node = context:node()
+    local parent = if node then node.parent else nil
+    if parent then print(parent.name) end
+    return true
+end
+```
+
+
 ### `bindableArtboard`
 
 {/* function bindableArtboard(self, name: string?): BindableArtboard? */}

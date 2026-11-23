@@ -110,8 +110,9 @@ What setBindGroup's dynamic offsets must be a multiple of.
 
 ### `multisampledTextureRead`
 
-Shaders may read texture_multisampled_2d and texture_depth_multisampled_2d.
-False on WebGL2, so a project that reads one needs a fallback gated on
-this to run there.
+A shader reading texture_multisampled_2d or texture_depth_multisampled_2d
+sees each sample. False on GL and WebGL2, where a read returns the
+resolved texture: every sample index reads the same value and
+textureNumSamples is 1.
 
 
