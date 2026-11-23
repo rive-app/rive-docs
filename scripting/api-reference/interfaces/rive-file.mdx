@@ -28,3 +28,36 @@ The named artboard, or the file's default artboard when name is nil;
 nil when there is no such artboard.
 
 
+### `artboard`
+
+{/* function artboard(self, name: string?): Artboard<ViewModel?>? */}
+<div class="signature">
+```lua
+artboard(name: string?) -> Artboard<ViewModel?>?
+```
+</div>
+
+A new instance of the named artboard, or of the default one when name
+is nil, for the script to own, advance, draw and forward input to;
+nil when there is no such artboard. Its default state machine runs
+on new instances of the artboard's view model (`data`) and of the
+file's global view models, never the script's own. It plays as part
+of the script's content from its first frame, with no Rive splash
+screen of its own. It keeps the file loaded.
+```lua
+local game = file:artboard("Game")
+if game then
+    game.width = 400
+    game.height = 300
+    local data = game.data
+    local finished = if data then data:getTrigger("finished") else nil
+    if finished then
+        finished:addListener(function()
+            print("game over")
+        end)
+    end
+    self.game = game
+end
+```
+
+

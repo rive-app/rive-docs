@@ -63,6 +63,33 @@ end
 ```
 
 
+## Static Functions
+
+### `fromPixels`
+
+{/* fromPixels: (width: number, height: number, data: buffer) -> Image? */}
+<div class="signature">
+```lua
+fromPixels(width: number, height: number, data: buffer) -> Image?
+```
+</div>
+
+Makes an image from `width * height` premultiplied RGBA8 pixels, the
+layout of `DecodedImage.data`. The runtime keeps its own copy and
+builds the mipmaps on the GPU, so the image draws and samples like an
+image asset. Returns nil when `data` is not `width * height * 4`
+bytes, or when the renderer cannot make images from pixels. A width or
+height past the GPU's texture limit is not always caught: where
+drawing is recorded and played back later, as on the web, the image
+comes back but draws nothing. 4096 or less per side is safe on most
+devices.
+```lua
+local pixels = buffer.create(4)
+buffer.writeu32(pixels, 0, 0xFF0000FF) -- opaque red
+local red = Image.fromPixels(1, 1, pixels)
+```
+
+
 ## Methods
 
 ### `view`
