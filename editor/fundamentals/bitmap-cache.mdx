@@ -1,0 +1,73 @@
+---
+title: "Bitmap Cache"
+description: "Draw a component's instances from a cached image instead of redrawing their vectors every frame."
+---
+
+A Bitmap Cache turns a [component](/editor/fundamentals/components) into an image at runtime. Each instance of the component draws its vector content once into an image, then shows that image on every frame instead of redrawing the vectors.
+
+Use it for components with complex vector artwork that rarely changes, such as a detailed background, an illustration, or an icon repeated across a list. Drawing one image is faster than drawing many paths, so a cache can save rendering time when the same complex artwork stays on screen.
+
+## How the cache updates
+
+The cached image is redrawn only when it's out of date:
+
+- **The component's content changes.** Any change inside the component, such as an animation playing, a data-bound value updating, or a property changing, redraws the image.
+- **The instance's size on screen changes.** Scaling the instance or zooming the view redraws the image at the new size.
+
+Moving or rotating an instance doesn't redraw the image.
+
+<Warning>
+A cache helps most with static content. A component whose content changes on every frame redraws its image on every frame, which costs more than drawing its vectors directly. Scaling an instance continuously also redraws its image often. Turn the cache off while the component animates, or don't add one.
+</Warning>
+
+Each instance keeps its own image, so memory use grows with the number of cached instances and their size on screen.
+
+## Adding a Bitmap Cache
+
+The Bitmap Cache is set on the component, and applies to every instance of it.
+
+<Steps>
+  <Step>
+    Select the component's artboard.
+  </Step>
+  <Step>
+    Click **+** next to **Bitmap Cache** in the **Inspector**.
+  </Step>
+</Steps>
+
+To remove the cache, click the delete button next to **Bitmap Cache**.
+
+Only components can add a Bitmap Cache. If the artboard isn't a component yet, [convert it to a component](/editor/fundamentals/components#converting-artboards-to-components) first. Selecting several components lets you add, remove, or edit the cache on all of them at once.
+
+<Note>
+The cache is meant for component instances. Don't rely on it for an artboard shown directly as the main artboard: most runtimes draw that artboard as vectors.
+</Note>
+
+## Bitmap Cache properties
+
+### Resolution
+
+**Resolution** sets how sharp the cached image is, as a multiple of the pixels the instance covers on screen.
+
+- `1x` is the default. The image has one pixel for every screen pixel the instance covers, so it matches the vectors at their current size.
+- Values above `1x` draw a larger image that's scaled down on screen. `2x` uses four times the memory of `1x`.
+- Values below `1x` draw a smaller image that's scaled up on screen. It uses less memory but looks softer.
+
+Resolution can be set from `0.01x` to `8x`. The image is capped at 2048 pixels per side, so a large instance on a high-density screen can look softer than the value you set.
+
+### On/Off
+
+The toggle next to **Resolution** turns the cache on or off without removing it. When the cache is off, the component draws its vectors as if it had no cache, and its image is released from memory. Instances with a Mesh or N-Slice still draw from an image, at `1x`. See [Meshes and N-Slices on components](#meshes-and-n-slices-on-components).
+
+You can key the toggle (it appears as **Enabled** on the timeline) or data bind it. For example, turn the cache on while a component is at rest and off while it animates. **Resolution** can also be keyed and data bound.
+
+## Meshes and N-Slices on components
+
+A component instance with a [Mesh](/editor/manipulating-shapes/meshes) or [N-Slice](/editor/layouts/n-slicing) is always drawn as an image, because the mesh deforms that image. If the component has a Bitmap Cache that's on, its **Resolution** sets the sharpness of that image. Without a cache, or with the cache off, the image uses `1x`.
+
+For these instances, the image size follows the component's artboard size and **Resolution**, not the instance's size on screen, so scaling the instance doesn't redraw the image. If a meshed instance looks soft on a high-density screen or when it's scaled up, raise **Resolution**.
+
+## Things to know
+
+- The image covers the component's artboard area. Artwork that extends past the artboard's edges is cut off in cached instances, even when the artboard doesn't clip its content.
+- The Bitmap Cache needs a GPU renderer: the Rive Renderer on Flutter, WebGL2 on Web and React, and GPU Canvas on Apple, Android, React Native, and C++. Without one, such as with the Web Canvas packages, the component draws its vectors normally, without caching. See [Feature Support](/feature-support#runtime-support-by-feature) for supported runtimes and versions.
