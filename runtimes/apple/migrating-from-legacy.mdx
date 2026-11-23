@@ -245,7 +245,7 @@ let rive = try await Rive(file: file)
 let riveView = RiveUIView(rive: rive)
 
 // UIKit (async loading)
-let riveView = RiveUIView({
+let riveView = RiveUIView(rive: {
     let worker = try await Worker.shared()
     let file = try await File(source: ..., worker: worker)
     return try await Rive(file: file)
@@ -253,7 +253,7 @@ let riveView = RiveUIView({
 
 // SwiftUI
 var body: some View {
-    RiveUIViewRepresentable(rive)
+    RiveUIViewRepresentable(rive: rive)
 }
 
 // SwiftUI (async)
@@ -679,7 +679,7 @@ let riveView = RiveUIView(rive: rive)
 riveView.isPaused = true // or false to resume
 
 // SwiftUI
-RiveUIViewRepresentable(rive)
+RiveUIViewRepresentable(rive: rive)
     .paused(true)
 ```
 
