@@ -12,8 +12,8 @@ They’re ideal for math helpers, geometry utilities, color functions, or any lo
 
 ```lua
 --- Example helper function.
-local function add(a: number, b: number): MyUtil
-  return a + b,
+local function add(a: number, b: number): number
+  return a + b
 end
 
 -- Return the functions you'd like to use in another script
@@ -66,3 +66,15 @@ return {
 -- With type annotation
 local result: AdditionResult = MyUtil.add(2, 3)
 ```
+
+## Requiring scripts in folders
+
+When you put a script in a folder in the Assets Panel, the folder path becomes the script's namespace. Select the script to see its **Namespace** in the Inspector.
+
+A script's full module name is its namespace and name joined with `/`. Use the full module name when you require it. For example, a script named `Vector` inside a `Math` folder inside a `Utils` folder is required like this:
+
+```lua
+local Vector = require("Utils/Math/Vector")
+```
+
+A script that isn't in a folder has no namespace, so you require it by its name alone. Moving a script to a different folder, or renaming a folder it's in, changes its module name.

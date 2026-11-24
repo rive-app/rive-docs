@@ -21,6 +21,17 @@ Use the panel to import new assets, create Rive assets, sort and filter by type,
 
 <YouTube id="B9uD-Gh8zjg" />
 
+- **Search:** Click the search button in the panel header to filter the Assets panel by name.
+- **Generate Artboard:** Right-click an image or other visual asset and select **Generate Artboard** to create a new artboard sized to fit it.
+
+### Asset status
+
+The Assets panel marks assets that aren't ready to use. An asset can be:
+
+- **Processing:** The asset is still uploading or being processed. It's ready to use once its status clears.
+- **Not Downloaded:** The asset hasn't been downloaded yet. Click the download icon to load it.
+- **Asset Not Found:** The asset's file couldn't be loaded. [Replace](#information) it, or upload the file again.
+
 ## Asset types
 
 Imported file assets include:
@@ -75,7 +86,7 @@ Asset settings panels can include:
 
 ### Information
 
-The **Information** panel shows details about the selected asset, such as file size, dimensions, usage count, and creation date.
+The **Information** panel shows details about the selected asset, such as file size, dimensions, usage count, and creation date. Edit **File Name** to rename the asset in the Assets panel.
 
 Use **Replace** to swap the source asset without changing how the asset is used in the Rive file. For example, replacing an image updates the asset everywhere it is used.
 
@@ -83,6 +94,23 @@ The information shown depends on the asset type:
 
 * **Fonts** can show family, style, supported scripts, publisher/designer information, license details, and glyphs.
 * **Audio** can show volume, format, channels, sample rate, duration, and an audio preview.
+
+### Image sampling and wrapping
+
+Raster images have **Filter**, **Wrap X**, and **Wrap Y** settings in the **Information** panel. They set how the image is sampled, and act as the default for every image object that uses the asset.
+
+**Filter** controls how the image is sampled when it's scaled:
+
+- **Bilinear** (default): smooth.
+- **Nearest**: hard pixels, good for pixel art.
+
+**Wrap X** and **Wrap Y** control how the image is sampled past its horizontal and vertical edges:
+
+- **Clamp** (default): stretch the edge pixels.
+- **Repeat**: tile the image.
+- **Mirror**: tile the image, flipping every other copy.
+
+Image objects on the stage have the same settings in the Inspector, plus **Inherit**. **Inherit** (default) uses the asset's setting. Choose another option to override it for that image.
 
 ### Compression
 

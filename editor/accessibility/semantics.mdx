@@ -115,6 +115,20 @@ Some state flags are only meaningful when their corresponding trait is set. With
 
 Keep semantic states in sync with your Rive file. For example, bind a boolean from your view model to the **toggled** state of a switch. You could also key the **toggled** state in a timeline.
 
+States that come from a trait show three options: **N/A** means the trait is off, and **No** and **Yes** set the state.
+
+### Expanded
+
+Whether screen readers report the element as expanded. Choose **N/A** if it doesn't expand, **No** if it's collapsed, or **Yes** if it's expanded.
+
+### Checked
+
+Whether screen readers report the element as checked. Choose **No** for unchecked or **Yes** for checked. Checkboxes also have **Mixed**, for a partly checked state.
+
+### Required
+
+Whether screen readers report a field as required. Choose **N/A** if it's never required, **No** if it's optional, or **Yes** if it's required.
+
 ### Hidden
 
 Hides the element from the accessibility tree.
@@ -132,6 +146,18 @@ Marks the element as disabled and not interactive.
 ### Live Region
 
 Indicates that the element’s content may update dynamically and should be announced by screen readers.
+
+### Obscured (text fields only)
+
+Screen readers don't read the field's content aloud. Use it for password fields.
+
+### Multiline (text fields only)
+
+Screen readers report the field as accepting multiple lines of text.
+
+### Modal (dialogs only)
+
+Screen readers stay inside the dialog until it closes. Available on the **Dialog** and **Alert dialog** roles.
 
 ## Actions
 
@@ -179,7 +205,7 @@ You should listen for **increase** and **decrease** and update your value accord
 
 Some roles and properties are inferred based on the element they are applied to.
 
-For example, when adding semantics to a text element, the [Role](#semantic-role) is set to **Text**, and the [Value](#value) is automatically derived from the element’s text content.
+For example, when adding semantics to a text element, the [Role](#semantic-role) is set to **Text**, and the [Label](#label) is read from the element’s text content. Screen readers announce this label. You can't edit an inferred label in the Inspector; change the text instead.
 
 ---
 

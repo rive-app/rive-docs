@@ -70,7 +70,8 @@ Set a stroke's thickness in the field on its row. Click the options button on a 
 
 - **Name**: The stroke's name.
 - **Blend**: The stroke's [blend mode](#blend-modes).
-- **Cap**: How the ends of an open path look.
+- **Position**: Where the stroke sits on the path: **Inside**, **Center** (the default), or **Outside**. Inside and outside strokes treat the path as closed.
+- **Cap**: How the ends of an open path look. Only centered strokes have caps.
   - **Butt** ends the stroke flat at the end point. A path with no length doesn't draw.
   - **Round** adds a rounded end. A path with no length draws a circle.
   - **Square** adds a square end that extends past the end point. A path with no length draws a square.
@@ -83,6 +84,16 @@ The **Effects** tab adds path effects to the stroke. See [Path effects](#path-ef
 ## Blend modes
 
 Each fill and stroke has its own blend mode. By default it's set to inherit the shape's blend mode.
+
+### Additive
+
+When a fill, stroke, or object uses the **Normal** blend mode, an **Additive strength** field appears below it. It sets how much the paint adds light to what's behind it, from normal blending at 0% to fully additive blending at 100%. Use it for glows and light effects. Click the slider icon next to the field to show or hide its slider.
+
+Additive strength can be keyed on a timeline and [bound to data](/editor/data-binding/overview).
+
+<Note>
+  Partial additive strength, between 0% and 100%, requires the Rive Renderer. See [Choosing a Renderer](/runtimes/choose-a-renderer/overview).
+</Note>
 
 ## Path effects
 

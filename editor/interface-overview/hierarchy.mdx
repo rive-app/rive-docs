@@ -17,6 +17,12 @@ You can rename items in the Hierarchy to make your file easier to understand and
 
 To rename an item, double-click its name in the Hierarchy, enter a new name, then press Enter.
 
+## Searching and filtering
+
+Click the search button in the Hierarchy header to filter the Hierarchy by object name.
+
+You can also filter the Hierarchy to one type of object, such as bones or layouts, with **Filter Trees** in the [View Options menu](/editor/interface-overview/stage#object-types). While a type filter is on, a **Filter** chip appears in the Hierarchy header. Click it to clear the filter.
+
 ## Parent-child relationships
 
 Each row in the Hierarchy represents an item on the stage. Items with children have a button with an arrow next to them. Use this button to expand or collapse the list of children. Holding Alt/Option and clicking this arrow will deep expand the hierarchy item, revealing all children objects.
@@ -57,9 +63,11 @@ When you hover over an item in the Hierarchy, controls appear for locking, isola
 
 * **Lock** prevents the item from being selected or edited on the stage.
 * **Isolate** focuses on the item by temporarily hiding other items from view.
-* **Hide** temporarily hides the item.
+* **Hide** hides the item. Hidden items don't render at runtime either.
 
 These controls also apply to any children nested under the item.
+
+To turn off isolation for every object on the active artboard, click the panel options button in the Hierarchy header and select **Clear Isolates**.
 
 <Note>
   Lock and isolate are editor workflow tools. They do not change the exported file or runtime behavior.
@@ -71,7 +79,7 @@ Right-click an item in the Hierarchy to open additional options. Depending on th
 
 ![Hierarchy context menu](/images/interface/hierarchy-right-click.png)
 
-* Copy, cut, paste, delete, copy styles, and paste styles
+* Copy, cut, paste, delete, and [copy and paste styles](#copying-and-pasting-styles)
 * Expand or collapse nested items
 * Show dependencies
 * Lock, hide, or isolate elements
@@ -80,3 +88,47 @@ Right-click an item in the Hierarchy to open additional options. Depending on th
 * [Export name](/editor/exporting/exporting-names)
 
 Many of these options are also covered in more detail on related pages.
+
+## Copying and pasting styles
+
+Use **Copy Styles** and **Paste Styles** to give shapes and text the same look.
+
+<Steps>
+  <Step title="Copy the styles">
+    Right-click a shape or text object and select **Copy Styles**, or press `⌘` + `Alt` + `C` on macOS or `Ctrl` + `Alt` + `C` on Windows.
+  </Step>
+  <Step title="Paste the styles">
+    Select one or more shapes or text objects, right-click, and select **Paste Styles**, or press `⌘` + `Alt` + `V` on macOS or `Ctrl` + `Alt` + `V` on Windows.
+  </Step>
+</Steps>
+
+Styles are the object's [fills and strokes](/editor/fundamentals/fill-and-stroke), including their colors, gradients, and effects such as [trim paths](/editor/manipulating-shapes/trim-path), dashes, and [feathering](/editor/fundamentals/vector-feathering). Pasting replaces the existing fills and strokes on the selected objects. When you paste from one shape to another, the blend mode and opacity are copied too, and gradients are scaled to fit the new shape.
+
+<Note>
+  You can only copy and paste styles in Design mode, and you can copy from one object at a time.
+</Note>
+
+## Spaces
+
+Spaces group your [artboards](/editor/fundamentals/artboards) in the editor. Each space has its own stage view and [background colors](/editor/interface-overview/stage#stage-background-colors), so you only see the artboards in the space you're working in. Use spaces to keep related artboards together and organize large files.
+
+Spaces only organize your work in the editor. They aren't exported.
+
+### Showing spaces
+
+Click the **Spaces** button in the Hierarchy header to switch the panel to **Spaces**. It lists each space with its artboards. Click the button again to return to the Hierarchy.
+
+- Click a space to bring its stage forward in the viewport.
+- Click an artboard to select it. Click the arrow next to it to show its objects in the Hierarchy.
+
+### Creating and managing spaces
+
+To add a space, click the **+** button in the panel header and select **Space**. The new space opens so you can name it. To add an artboard to a space, click the **+** button on the space's row.
+
+- Drag an artboard onto another space to move it, or right-click it and select **Move to**.
+- Drag spaces up or down to reorder them.
+- Right-click a space to rename, duplicate, or delete it.
+
+When you delete a space that has artboards, the editor asks what to do with them. A file always needs at least one space.
+
+The panel options menu in **Spaces** has **Reset Project Layout**, which resets the sidebar layout.

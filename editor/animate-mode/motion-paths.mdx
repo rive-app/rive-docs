@@ -1,0 +1,20 @@
+---
+title: 'Motion Paths'
+description: 'See and shape the path an object travels between its position keys, right on the stage.'
+---
+
+A motion path shows the route an object travels between its position keys. In [animate mode](/editor/fundamentals/design-vs-animate-mode), select an object with X or Y position keys, and its motion path appears on the stage as a blue line.
+
+To show or hide motion paths, use the **Tool overlays** options in the stage's [view options menu](/editor/interface-overview/stage#view-options-menu).
+
+## Editing motion paths
+
+You can shape the motion directly on the stage instead of editing keys in the timeline:
+
+- **Keys:** Each position key is a dot on the path. Drag a key to move the object at that frame. Its bezier handles move with it, so the curve keeps its shape.
+- **Segments:** Drag the path between two keys to bend it. This adds bezier handles at the keys on either side.
+- **Handles:** Drag a bezier handle to bend the path. The opposite handle on the same key mirrors it to keep the path smooth. Hold <kbd>Alt</kbd> while dragging to move one handle on its own and make a sharp corner.
+
+<kbd>Cmd/Ctrl</kbd>-click a key to smooth the path through it. On a key in the middle of the path, this adds mirrored handles aimed between its neighbors. On the first or last key, it adds a single handle along the path.
+
+Bending the path switches the keys on that segment to [Cubic Value](/editor/animate-mode/interpolation-easing) interpolation. Linear and Cubic easing convert without changing the motion. Other easing types, such as Hold and Elastic, start over from linear. If a key exists on only one axis, Rive adds the missing X or Y key when you edit it on the path.

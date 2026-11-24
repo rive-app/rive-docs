@@ -93,6 +93,8 @@ Alternatively, use the dropdown next to the **Component Tool** to choose a compo
 
 ![Placing a component instance by clicking the Component Tool dropdown, selecting a component, and clicking the stage](/images/editor/artboards/place-specific-component.gif)
 
+To place an instance before you've picked a component, select **Create Placeholder** from the component menu. Your next click on the stage places an empty component instance. Set its [Source](#source) later.
+
 
 The component menu follows the sort mode used in the Assets panel:
 
@@ -101,11 +103,26 @@ The component menu follows the sort mode used in the Assets panel:
 
 ![Sort assets by Custom](/images/editor/artboards/assets-sort.png)
 
+### Generating an Artboard
+
+To get a new Artboard with an instance of a component already inside it, right-click the component in the **Assets** panel and select **Generate Artboard**.
+
 ## Editing components
 
 Double-click a component instance to open its source component. Changes you make to the source component are reflected in all of its instances, while properties configured on individual instances remain unchanged.
 
 ![Double click to edit a component](/images/editor/artboards/edit-component.gif)
+
+## Bitmap cache
+
+A bitmap cache draws a component's instances from a cached image instead of redrawing their vectors. Use it for components with complex vectors that don't change.
+
+Any change to the component's contents forces the image to redraw, so a cache helps most with static content.
+
+To add a bitmap cache, select the component's artboard and click **+** next to **Bitmap Cache** in the Inspector. The cache applies to every instance of the component. To remove it, click the delete button next to **Bitmap Cache**.
+
+- **Resolution** sets how sharp the cached image is, as a multiple of the size the component is drawn at on screen. `1x` is the default, and `2x` doubles each dimension, using approximately four times as many pixels before the size cap. Higher values look crisper but use more memory. The image is capped at 2048 pixels per side.
+- **On / Off** turns the cache on or off without removing it. You can key or data bind it, for example to cache only while the component isn't changing.
 
 ## Component instance properties
 
@@ -113,13 +130,23 @@ Select a component instance to configure its properties in the Inspector. These 
 
 ![Component properties in the sidebar](/images/editor/artboards/component-properties.png)
 
-<Note>
-You can't change the origin of a component instance directly. To use a different origin, place the component instance inside a group and adjust the group's origin instead.
-</Note>
+### Origin override
+
+By default, a component instance uses the origin set on its component's artboard. To give one instance a different origin, click **+** next to **Position** in the instance's **Transform** section.
+
+An **Origin** row appears below **Position**, starting at the artboard's current origin. Set **X** and **Y** as a percentage of the instance's size:
+
+- `0%` is the left or top edge.
+- `50%` is the center.
+- `100%` is the right or bottom edge.
+
+Click **-** next to **Origin** to remove the override and go back to the artboard's origin.
 
 ### Source
 
 **Source** determines which component is displayed by the instance. Select a component directly, or data bind the source to change the component dynamically.
+
+A placeholder instance, created with **Create Placeholder** in the component menu, starts with no source. Choose a component or data bind the source to fill it.
 
 Learn more about [Data Binding](/editor/data-binding).
 

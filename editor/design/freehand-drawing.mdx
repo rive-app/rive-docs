@@ -28,6 +28,8 @@ A Brush Shape can contain one or more spines. Select the Brush Shape to view its
 
 Each spine has its own **Width** and **Smoothing**. Changing the width preserves any width variation created while drawing.
 
+In Design mode, select one or more spines to edit their **Position**, **Size**, and **Rotation** in the **Transform** section of the Inspector. These values can't be animated.
+
 ![Selecting a brush shape and adjusting its width and smoothing settings](/images/editor/design/spines.png)
 
 <Note>
@@ -47,8 +49,12 @@ Use the options at the top of the panel to control how the Brush behaves while d
 ![Brush tool options](/images/editor/drawing/brush-options.png)
 
 - **Pen Pressure** varies the width of the brush based on pressure from a supported stylus.
-- **Speed** varies the width of the brush based on how quickly you draw.
+- **Velocity** varies the width of the brush based on how quickly you draw. It applies when **Pen Pressure** is off or unavailable. Slow strokes draw at the full **Size**, and fast strokes draw thinner. With both options off, the width stays constant.
 - **Hide Bounding Box** hides the selection bounding box while drawing.
+
+### Color
+
+Use **Color** to set the color and opacity of new brush strokes. Picking a new color starts a new Brush Shape, even when [Add to Selected](#add-to-selected) is on.
 
 ### Brush Tip
 
@@ -64,7 +70,7 @@ Use **Tip** to choose the shape of the Brush. Rive includes a selection of prede
 
 Use **Size** to set the maximum width of the Brush.
 
-**Min Width** sets the minimum width the Brush can reach when **Pen Pressure** or **Speed** is enabled. Increase the value for more consistent strokes, or decrease it for greater variation in width.
+**Min Width** sets the minimum width the Brush can reach when **Pen Pressure** or **Velocity** is enabled. Increase the value for more consistent strokes, or decrease it for greater variation in width.
 
 <VideoEmbed src="https://static.rive.app/video/brush-size.mp4" />
 
@@ -100,7 +106,9 @@ This lets you build up a single shape with multiple brush strokes.
 
 Use the **Pencil Tool** to draw freehand paths with a consistent thickness. Pencil creates the same type of path and stroke as the [Pen Tool](/editor/fundamentals/pen-tool-overview), but lets you create the path by drawing freehand rather than placing vertices manually.
 
-The Pencil shares many of the same controls as the Brush, including **Smoothing**, **Stabilize**, **Show Leash**, **Hide Bounding Box**, and **Add to Selected**. It does not support brush tips, variable width, **Pen Pressure**, or **Speed**.
+The Pencil shares many of the same controls as the Brush, including **Smoothing**, **Stabilize**, **Show Leash**, **Hide Bounding Box**, and **Add to Selected**. It does not support brush tips, variable width, **Pen Pressure**, or **Velocity**.
+
+Use **Color** to set the color and opacity of new pencil strokes. As with the Brush, picking a new color starts a new shape, even when **Add to Selected** is on.
 
 <VideoEmbed src="https://static.rive.app/video/pencil.mp4" />
 
@@ -112,7 +120,7 @@ Use **Thickness** to set the width of the stroke.
 
 Use the **Eraser Tool** to remove portions of existing shapes by drawing over them. Like the Brush Tool, the Eraser uses a **spine**, allowing it to use configurable tips and variable width.
 
-The Eraser shares many of the same controls as the Brush, including **Tip**, **Size**, **Min Width**, **Smoothing**, **Stabilize**, **Hide Bounding Box**, **Pen Pressure**, and **Speed**. It does not include **Color**, **Show Leash**, or **Add to Selected**.
+The Eraser shares many of the same controls as the Brush, including **Tip**, **Size**, **Min Width**, **Smoothing**, **Stabilize**, **Hide Bounding Box**, **Pen Pressure**, and **Velocity**. It does not include **Color**, **Show Leash**, or **Add to Selected**.
 
 <VideoEmbed src="https://static.rive.app/video/eraser.mp4" />
 

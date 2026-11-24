@@ -44,3 +44,25 @@ To run [Node](/scripting/protocols/node-scripts) and [Layout](/scripting/protoco
 2. Check the [Problems Panel](/scripting/debugging/debug-panel#problems) for issues.
 3. Make sure your script returns a function that returns a table with at least an `init` and `draw` function.
 </Tip>
+
+## Compiling scripts
+
+When you edit a script, its tab in the viewport shows a dot until the change is compiled. Hover the dot to see **Not Compiled**. Until then, the stage keeps running the last compiled version of the script.
+
+Rive compiles all of the file's scripts when you stop a playing state machine and when you run tests from the [Testing](/scripting/debugging/unit-testing#running-tests) tab.
+
+## Exporting scripts
+
+Not every script in your file ships in the exported `.riv`. Select a script in the Assets Panel and check **Runtime export** in the Inspector to see whether it ships, and why:
+
+- **Exported:** Something in the file uses the script, such as a scripted object on an artboard, or a script that ships requires it.
+- **Exported (always):** The script's **Behavior** is set to **Force Export**.
+- **Stripped (unreferenced):** Nothing in the file uses the script, and no shipped script requires it.
+- **Stripped (test script):** [Test scripts](/scripting/protocols/test-scripts) only run in the editor.
+- **Stripped (prevent export):** The script's **Behavior** is set to **Prevent Export**.
+
+Use **Behavior** to override the result. **Force Export** ships the script even when nothing uses it, including a test script. **Prevent Export** always strips it, even when a shipped script requires it.
+
+### Fixing missing required scripts
+
+If a stripped script is required by scripts that ship, the Inspector lists them under **Required by**. Those scripts fail at runtime because the script they require isn't in the `.riv`. To fix this, change the stripped script's **Behavior**: from **Prevent Export** to **Automatic**, or to **Force Export** for a test script. You can also remove the `require` from the scripts that use it.

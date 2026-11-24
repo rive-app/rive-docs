@@ -49,6 +49,22 @@ The graph is where you add states and connect them with transitions. A new state
 
 To preview the state machine, click the play button above the graph. It runs on the stage the same way it will at runtime, so you can click, hover, and change bound values to test it.
 
+### Playback header
+
+While a state machine plays, a blue frame surrounds the stage it plays in. The header at the top of the frame shows the state machine's name and two buttons:
+
+- **Stop Playback**: Stops the state machine.
+- **Toggle Keyboard Capture**: Sends key presses to the state machine instead of the editor's shortcuts, so you can test [Keyboard listeners](/editor/state-machine/listeners#keyboard). Press **Option+Space** to stop playback while keys are captured.
+
+Click another stage split to move the frame there.
+
+## Graph controls
+
+The buttons above the graph help you navigate and debug it:
+
+- **Zoom**: Shows the graph's current zoom. Click it to type an exact value, zoom in or out, **Zoom to Fit**, or **Zoom to 100%**. Turn on **Snapping** to snap states to the grid while you drag them.
+- **Console**: Logs what the state machine does while it plays, including frames, layer and state changes, transitions, input changes, and fired events. The log clears each time playback starts.
+
 ## Layers
 
 A layer plays one state at a time. To play more than one animation at once, add more layers. For example, one layer can play a character's idle and walk cycle while another layer plays its blinking.
@@ -79,5 +95,5 @@ Click the **...** button next to a layer to open its options.
 
 - **Delete**: Deletes the layer.
 - **Duplicate**: Creates a copy of the layer, with its states and transitions.
-- **Disable**: Stops the layer from playing without deleting it. Useful for testing one layer at a time.
+- **Disable**: Stops the layer from playing without deleting it. Useful for testing one layer at a time. A disabled layer shows a hidden icon in the **Layers** tab; click it to enable the layer again.
 - **Snapping**: Turns snapping on or off for states and transitions in the layer's graph.

@@ -136,6 +136,8 @@ Define whether modifier properties get applied by:
 - Words
 - Lines
 
+With **Characters** selected, turn on **Exclude Spaces** to skip spaces when counting characters.
+
 <Info>
   The increment value will affect an index-based Range Type.
 </Info>
@@ -145,6 +147,10 @@ Define whether modifier properties get applied by:
 Defines how modifier values are combined when multiple ranges overlap.
 
 For example, if two overlapping ranges each apply a scale of 200%, an **Add** mode would combine them to produce a scale of 400%.
+
+**Clamp**
+
+The checkbox next to **Mode** keeps the combined amount between 0% and 100% after this range is applied. Turn it on so overlapping ranges can't push the modifier past its full effect, or below zero with **Subtract**.
 
 <Info>
   Turn on Modifier Range Values in the visibility menu to get a numerical indication of how much a Text Modifier is affecting glyphs.

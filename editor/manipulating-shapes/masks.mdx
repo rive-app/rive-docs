@@ -1,0 +1,77 @@
+---
+title: "Masks"
+description: "Hide parts of an object using the pixels of another object, with alpha and luminance mask modes."
+---
+
+A mask hides parts of an object using another object, called the mask source. Use masks for soft reveals, fades, and cutouts that follow the transparency or brightness of another graphic.
+
+Masks work like [clipping](/editor/manipulating-shapes/clipping), with one difference: a clip uses the source's shape, while a mask uses the source's pixels. That means a mask follows the source's transparency or brightness, not just its outline.
+
+<Note>
+  Masks require GPU Canvas in every runtime. See [Feature Support](/feature-support).
+</Note>
+
+## Adding a mask
+
+You can mask a shape, a group, a layout, or any other object on the stage, except a path or an artboard. Masking a group masks everything inside it.
+
+<Steps>
+  <Step>
+    Select the object you want to mask.
+  </Step>
+  <Step>
+    In the **Mask** section of the Inspector, click **+**.
+  </Step>
+  <Step>
+    Click the shape, group, or layout you want to use as the mask source.
+  </Step>
+</Steps>
+
+By default, the mask source is used only as the mask and doesn't draw on its own, so you don't need to hide it. See [Drawing the mask source](#drawing-the-mask-source).
+
+An object can have more than one mask. Each mask gets its own card in the **Mask** section.
+
+## Choosing a mask source
+
+The first row of a mask's card shows its source. Hover it to highlight the source on the stage, or click it to pick a different one.
+
+A mask source can be a shape, a group, or a layout on the same artboard. It can't be:
+
+- A path on its own. Pick the shape that contains it instead.
+- An artboard.
+- The masked object itself, anything inside it, or its parent.
+
+When you select an object that's used as a mask source, the **Target For** section of the Inspector shows which object it masks.
+
+If a mask has a warning icon next to its source, the mask isn't being applied. This happens when the source has been moved inside the object it masks, or when a [Draw Order Rule](/editor/animate-mode/animating-draw-order#draw-order-rules) splits the masked object. Hover the icon to see which one.
+
+## Mask modes
+
+The **Mode** dropdown sets which part of the source's pixels decides what shows:
+
+- **Alpha**: Opaque areas of the source show the object, and transparent areas hide it. This is the default.
+- **Inverted Alpha**: Transparent areas of the source show the object, and opaque areas hide it. Use it to cut a hole in an object.
+- **Luminance**: Bright areas of the source show the object, and dark areas hide it.
+- **Inverted Luminance**: Dark areas of the source show the object, and bright areas hide it.
+
+For example, mask an image with a shape whose fill is a white-to-transparent gradient in **Alpha** mode to fade the image out, or use a black-and-white image as the source in **Luminance** mode.
+
+## Turning a mask on and off
+
+Click the toggle at the end of the **Mode** row to turn a mask on or off without removing it. To remove a mask, click its minus icon.
+
+The on and off state, the mode, and **Draw Source** can each be keyed on a timeline and [bound to data](/editor/data-binding/overview), so you can switch a mask on or change its mode during an animation.
+
+## Drawing the mask source
+
+**Draw Source** is off by default, so the source is used only as the mask. Turn it on to also draw the source normally, for example when the source is a visible part of your design that should also mask another object.
+
+## Custom bounds
+
+By default, Rive measures the mask's region from the source's content. Turn on **Custom Bounds** to set the region by hand with its **Position** and **Size**. Use it to crop a mask to a region, or for content that can't report where it paints, such as a [scripted drawable](/scripting/protocols/node-scripts).
+
+When you turn on **Custom Bounds**, the region starts at the area Rive measured, so the mask looks the same until you change it.
+
+## Resolution
+
+**Resolution** sets how sharp the mask is, as a multiple of its size. The default is **1x**. Higher values make the mask crisper, but use more memory.

@@ -54,3 +54,13 @@ When the Orient toggle is set to off, the rotation of the constrained object doe
 #### Offset
 
 The Offset toggle allows the constrained object to move along the path, but from its current, offset position.
+
+## Following a list
+
+You can add a Follow Path Constraint to an [Artboard List](/editor/data-binding/lists#artboard-lists) to spread its items along a path. Instead of a single **Distance**, the constraint has three values, each a percentage of the path:
+
+- **Start**: Where the first list item sits.
+- **End**: Where the last list item sits. The other items are spaced evenly between **Start** and **End**.
+- **Offset**: Shifts every item along the path together. Animate it to move the whole list along the path.
+
+A list with a single item places it at **Start**.

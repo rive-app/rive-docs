@@ -37,6 +37,10 @@ The next step is to bind data to it using Data Binding. This will determine the 
 - Using the View Model List property
 - Using a View Model Number property together with a Number to List converter
 
+### View Model mapping
+
+By default, each list item is drawn with the Artboard its View Model is bound to. To use a different Artboard, select the Artboard List and click `+` in the **View Model mapping** section of the inspector. Then choose a View Model and the Artboard that should draw list items of that type.
+
 ## View Model list property
 
 <Note>
@@ -67,6 +71,8 @@ To Create a View Model List and bind it to an Artboard List:
     After adding your List items, go back to the Hierarchy tab, select the Artboard List, and from the Artboard List property dropdown, select the ViewModel List property you created above.
   </Step>
 </Steps>
+
+To remove the binding, click the delete button next to the Artboard List property dropdown.
 
 Run the state machine and you should see your list items. Remember that the layout will be determined by the Artboard List's parent, so modify the parent's settings in order to tweak your List's layout
 
@@ -106,13 +112,37 @@ To Create a View Model Number to List converter and bind it to an Artboard List:
 
 Run the state machine and you should see your list items. Remember that the layout will be determined by the Artboard List's parent, so modify the parent's settings in order to tweak your List's layout
 
+## List attributes
+
+List attributes are special View Model properties that connect a list item to its List. To add one, click the `+` button next to your item's View Model and select **List Attributes**.
+
+The **General** group contains attributes any list item can use:
+
+- [**Index**](#view-model-list-item-index): the item's position in its parent List.
+- [**Draw Index**](#view-model-list-item-draw-index): a number that sets the item's draw order.
+
+The **Text** group contains attributes for [text lists](#text-list-attributes).
+
+### Text list attributes
+
+A text can build its runs from a list. Select the text, then use **Bind** in the **Text Runs** section of the Inspector to bind a View Model List property. Each list item becomes a text run.
+
+Add these attributes to the item's View Model from **List Attributes \> Text** to set each run's text and style:
+
+- **Text Content**: a String that sets the run's text.
+- **Text Style**: a String naming one of the text's styles to apply to the run. If no style has that name, the run uses the first style.
+
+<Tip>
+  In the Data panel, click **+** and select **View Model \> Templates \> Text Run** to create a View Model that already has both attributes.
+</Tip>
+
 ## View Model list item index
 
 There may be times where it is useful for the Artboard to know at which index it exists within its parent List. This is available using the View Model list item index property.
 
 <YouTube id="CHXIOKQOq6Y" />
 
-This can be added to your item's View Model by clicking the + button and selecting **List Attributes \> Index**.
+This can be added to your item's View Model by clicking the + button and selecting **List Attributes \> General \> Index**.
 
 ![List Attributes menu with Index hovered after clicking + on the item's View Model](/images/editor/list-index.png)
 
@@ -121,6 +151,12 @@ This property can then be bound to an object's properties and used directly (for
 <Info>
   When using item index with the [List property](/editor/data-binding/lists#view-model-list-property) and list items, be aware that if more than 1 list item is bound to the same View Model instance, they will share the same index value
 </Info>
+
+## View Model list item draw index
+
+By default, a List draws its items in list order. To control the draw order yourself, add a draw index to your item's View Model by clicking the + button and selecting **List Attributes \> General \> Draw Index**.
+
+Draw Index is a Number property. When your item's View Model has one, the List draws its items in ascending draw index order instead of list order. Bind or change the value to bring items in front of or behind each other.
 
 ## Lists & scrolling
 

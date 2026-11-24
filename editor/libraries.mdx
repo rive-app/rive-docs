@@ -8,7 +8,7 @@ import { YouTube } from '/snippets/youtube.mdx'
 
 <Note>Libraries are available on Voyager and Enterprise plans. [Learn more about our plans and pricing](https://rive.app/pricing?utm_source=docs&utm_medium=content).</Note>
 
-Libraries let you share [components](/editor/fundamentals/components), [view models](/editor/data-binding/view-models), and enums across Rive files in the same project.
+Libraries let you share [components](/editor/fundamentals/components), [view models](/editor/data-binding/view-models), enums, and [scripts and shaders](#sharing-scripts-and-shaders) across Rive files in the same project.
 
 Publish the elements you want to share from a source file, then import them into other files. When you publish changes to the library, those files receive an update notification so you can choose which elements to update.
 
@@ -28,7 +28,7 @@ Any Rive file can become a library. To publish one:
     Open the publish menu in the toolbar and select **To Library**, or select **Publish Library** from the file menu.
   </Step>
   <Step>
-    In the publishing panel, choose which components, view models, and enums to publish.
+    In the publishing panel, check the components, view models, and enums to publish. Checking an element also checks the elements it depends on, and they stay checked while it is.
   </Step>
 </Steps>
 
@@ -54,11 +54,39 @@ After importing, use the components from the **Assets** panel and view models fr
 
 ![Component with a library icon and version number](/images/editor/libraries/library-icon.png)
 
+### Sharing scripts and shaders
+
+Libraries can also share [scripts](/scripting/getting-started) and [shaders](/scripting/wgsl-shaders). When you publish, check them in the **Scripts & Shaders** section of the publishing panel.
+
+To import them, open the library in the library panel and select the **Scripts** tab. It lists the scripts and shaders published in the selected version. Choose the ones you want, then select **Add to File**.
+
+### Missing dependencies
+
+Imported components can depend on other library components that aren't in your file yet. When that happens, select the library in the **Assets** panel. The inspector shows **Dependencies** as **Missing Dependencies**.
+
+Click **Add Missing Dependencies** to import the library components they depend on.
+
+## Library details
+
+In the **Assets** panel, each library you've imported from appears as its own item. Inside it, elements keep the folders they're organized in within the library's own file.
+
+Select a library in the **Assets** panel to see its details in the inspector:
+
+- **Status**: whether the library is published. You can't import from an [unpublished library](#unpublishing-a-library), but files that already use it keep their components.
+- **Latest Version**: the newest published version of the library.
+- **Open Library File**: opens the library's source file.
+- **View in Library Browser**: opens the library panel on this library so you can browse and import more.
+
 ## Updating a library
 
 ### Publish changes
 
 Edit the source file to change, add, or remove components, view models, and enums. Then republish using **To Library** in the toolbar's publish menu or **Publish Library** in the file menu.
+
+The publishing panel shows:
+
+- **Version**: the current version and the version this update will publish.
+- **Description**: optional change notes. Files that use the library see them when they update.
 
 Files that have imported elements from the library display a badge when an update is available.
 
