@@ -1,0 +1,43 @@
+---
+title: "Deferred File Loading"
+description: "Decode the contents of a Rive file the first time they're used instead of while it loads."
+---
+
+import Overview from "/snippets/runtimes/deferred-file-loading/overview.mdx"
+
+<Overview />
+
+## Example usage
+
+Deferred decoding is available in the {{runtimeCurrentNameApple}} from v6.31.0.
+
+### Enabling deferred decoding
+
+Pass a `File.Configuration` with `deferDecoding` set to `true` when you create the file. The configuration applies for the life of the file.
+
+```swift highlight={5}
+let worker = try await Worker()
+let file = try await File(
+    source: .local("my_file", Bundle.main),
+    worker: worker,
+    configuration: .init(deferDecoding: true)
+)
+```
+
+The `configuration` argument defaults to `File.Configuration()`, which decodes eagerly.
+
+Eager and deferred files can share a `Worker`. You choose the decoding mode per file. Deferred parts decode on the `Worker` that owns the file.
+
+### Handling artboard errors
+
+Creating a malformed artboard with `createArtboard(_:)` throws `FileError.invalidArtboard`.
+
+```swift
+do {
+    let artboard = try await file.createArtboard("Level 12")
+    // Use the artboard.
+} catch FileError.invalidArtboard(let message) {
+    // The artboard doesn't exist, or failed to decode.
+    print(message)
+}
+```

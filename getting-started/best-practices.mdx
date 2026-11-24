@@ -105,6 +105,10 @@ See our documentation on [Loading Assets](/runtimes/loading-assets). This featur
 
 If you're using the same Rive file in multiple places across your page or app, you can [cache the .riv](/runtimes/caching-a-rive-file) file to improve performance. The key benefit of caching is that the file only needs to be parsed and decoded once. Creating new artboard instances from a cached, already-decoded file is significantly faster than decoding the file each time before instantiating an artboard.
 
+### Deferring decoding
+
+If your `.riv` contains many artboards but you only show a few at a time, you can [defer decoding](/runtimes/deferred-file-loading) so that artboards, animations, and view model instances decode the first time they're used instead of while the file loads. This can shorten loading time, at the cost of a delay the first time each part is used.
+
 ### Pausing programmatically
 
 There are several cases where you may want to pause a state machine configured with Rive programmatically. By pausing the Rive graphic at runtime, you may notice that Rive’s impact on the application has negligible resource consumption (i.e., CPU).
