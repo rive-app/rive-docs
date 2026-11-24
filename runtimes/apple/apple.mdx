@@ -117,6 +117,8 @@ Follow the steps below for a quick start on integrating Rive into your Apple app
                     let file = try await File(source: .data(data), worker: worker)
                     ```
                 </CodeGroup>
+
+                For large files where you only use some of the artboards, you can decode each artboard the first time it's used instead of while the file loads. See [Deferred File Loading](/runtimes/apple/deferred-file-loading).
             </Step>
             <Step title="Add a View">
                 Once you have created a `File`, you can move onto creating a `Rive` object. This object defines the configuration of a view. The most basic implementation is created with just a file; Rive will handle loading the default artboard and state machine for rendering. Additionally, if the artboard contains a default view model instance, it will be bound to the state machine automatically.

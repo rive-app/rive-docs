@@ -1,0 +1,41 @@
+import { UseCase } from '/snippets/use-case.mdx'
+
+By default, a Rive file decodes everything in the `.riv` file while it loads, including every artboard, animation, and view model instance. With deferred decoding, the runtime decodes most of these the first time you use them, so a file can be ready sooner when you only use part of it.
+
+## When to defer decoding
+
+Deferred decoding is most useful for large files where you show only some of the artboards at a time. It moves decoding work from load time to first use:
+
+- Loading can finish sooner, because unused contents aren't decoded.
+- The first use of each deferred artboard, animation, or view model instance can take longer, because it decodes then.
+- The runtime keeps a copy of the bytes for each deferred part in memory until that part decodes.
+
+<UseCase title="Level select">
+  Your file has a level select screen with 30 levels, each on its own artboard. A player opens one level at a time. With deferred decoding, the file loads without decoding all 30 artboards, and each level's artboard decodes when the player opens it.
+</UseCase>
+
+For small files, or files where you use every artboard right away, keep the default eager decoding.
+
+## What decodes on first use
+
+With deferred decoding on, the runtime still reads all of the file's bytes while loading. It defers decoding of these parts:
+
+| Part | Decodes when |
+| --- | --- |
+| Artboards | You first create an instance of the artboard. The default artboard still decodes while the file loads. |
+| Animations | An artboard or State Machine first uses the animation. |
+| View model instances | You first create an instance from the view model. Instances inside an artboard decode with that artboard. |
+
+Some parts can't wait and decode while loading as usual.
+
+<Tip>
+  To avoid a delay the first time you show an artboard, create it ahead of time, such as while a previous screen is visible.
+</Tip>
+
+## Handling errors
+
+With eager decoding, a malformed file fails to load. With deferred decoding, the runtime doesn't check deferred parts while loading, so loading can succeed and errors appear on first use instead:
+
+- Creating a malformed artboard fails.
+- An artboard that nests a malformed artboard loads with the nested artboard empty.
+- A malformed view model instance keeps only the values read before the error.

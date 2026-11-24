@@ -1,0 +1,16 @@
+---
+title: "Deferred File Loading"
+description: "Decode the contents of a Rive file the first time they're used instead of while it loads."
+---
+
+import { Runtimes } from '/snippets/runtimes/landing-pages/runtimes.jsx'
+
+Deferred file loading lets a Rive file decode its artboards, animations, and view model instances the first time you use them instead of while the file loads. This can shorten loading time for large files when you only use part of them.
+
+Each runtime provides its own API for turning on deferred decoding.
+
+<Runtimes
+  runtimes={{
+    apple: '/runtimes/apple/deferred-file-loading'
+  }}
+/>
