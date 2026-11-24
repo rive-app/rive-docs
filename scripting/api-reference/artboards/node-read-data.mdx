@@ -180,3 +180,52 @@ end
 ```
 
 
+### `bounds`
+
+{/* function bounds(self): (Vector, Vector) */}
+<div class="signature">
+```lua
+bounds() -> (Vector, Vector)
+```
+</div>
+
+The node's own box in its local space, as its minimum and maximum
+points: a layout's box, a shape's, path's or image's extent, a
+text's layout box, the artboard a nested artboard shows. Both points
+are zero for a node with no size of its own, such as a group or a
+bone.
+```lua highlight={4}
+if self.instance then
+  local button = self.instance:node('Button')
+  if button then
+    local min, max = button:bounds()
+    print(max.x - min.x, max.y - min.y)
+  end
+end
+```
+
+
+### `worldBounds`
+
+{/* function worldBounds(self): (Vector, Vector) */}
+<div class="signature">
+```lua
+worldBounds() -> (Vector, Vector)
+```
+</div>
+
+The node's box in its artboard's space: what `bounds` gives, through
+the world transform, as the minimum and maximum points of the area
+it covers. A node with no size of its own covers just its origin.
+```lua highlight={4}
+if self.instance then
+  local menu = self.instance:node('Menu')
+  if menu then
+    local min, max = menu:worldBounds()
+    local p = Vector.xy(120, 40)
+    print(p.x >= min.x and p.x <= max.x and p.y >= min.y and p.y <= max.y)
+  end
+end
+```
+
+
