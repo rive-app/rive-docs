@@ -78,8 +78,12 @@ This gives you 16KB page support and flexibility to control the NDK used for fut
 
 For additional context, see [rive-flutter issue #479](https://github.com/rive-app/rive-flutter/issues/479).
 
-## Why do I get `Failed to lookup symbol` in iOS release builds with SPM?
+## Why do I get `Failed to lookup symbol` in archived builds with Swift Package Manager?
 
-If an IPA build reports `Failed to lookup symbol` errors, Xcode may be stripping some required global symbols.
+iOS and macOS apps that use Swift Package Manager can fail to load Rive files once Xcode archives them for TestFlight, the App Store or distribution. The error names `loadRiveFile`, `init` or `makeFlutterFactory`. Archiving strips symbols that Rive looks up at runtime.
 
-In Xcode, select the **Runner** target, open **Build Settings** > **Strip Style**, and change **All Symbols** to **Non-Global Symbols**.
+From `rive` `0.15.0`, archived apps load Rive files without extra setup.
+
+On earlier versions, select the **Runner** target in Xcode, open **Build Settings** > **Strip Style**, and change **All Symbols** to **Non-Global Symbols**.
+
+For additional context, see rive-flutter issues [#617](https://github.com/rive-app/rive-flutter/issues/617) and [#641](https://github.com/rive-app/rive-flutter/issues/641).
