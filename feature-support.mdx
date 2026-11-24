@@ -18,22 +18,40 @@ When a feature requires API changes, migration notes will be included below.
 
 ## Feature support by runtime
 
-<FeatureSupportGroup runtime={["webWebGL2", "webCanvas", "webCanvasLite"]} title="Web">
-    - **WebGL2** (`@rive-app/webgl2`): The recommended package for most web projects. Uses the Rive Renderer, which support every Rive Editor feature.
-    - **Canvas** (`@rive-app/canvas`): Uses the browser's Canvas2D renderer. Some rendering features, such as Layer Masks and Bitmap Cache, are not supported.
-    - **Canvas Lite** (`@rive-app/canvas-lite`): Uses the same API as `@rive-app/canvas`, but excludes certain features to reduce bundle size.
+Each table lists the newest features first. A green checkmark (✅) means a feature is supported. A yellow circle (🟡) means it is supported with a limitation, described in the Notes column. Features that are not yet available in a runtime are not listed.
 
-    See [Canvas vs WebGL2](/runtimes/web/canvas-vs-webgl) for the tradeoffs.
-</FeatureSupportGroup>
-<FeatureSupportGroup runtime={["reactWebGL2", "reactCanvas", "reactCanvasLite"]} title="React">
+Differences may reflect:
+- Platform or SDK limitations where a feature cannot be supported
+- Staggered releases as features roll out across runtimes, or
+- Lightweight (“lite”) builds that intentionally omit some features to reduce package size.
+
+<Tabs>
+  <Tab title="Android">
+    <FeatureSupportGroup runtime="android" />
+  </Tab>
+  <Tab title="Apple">
+    <Warning>
+        Some rendering features require [GPU Canvas](/runtimes/apple/gpu-canvas) (the deferred renderer) on Apple platforms. These are marked "GPU Canvas required" in the table below.
+    </Warning>
+
+    <FeatureSupportGroup runtime="apple" />
+  </Tab>
+  <Tab title="C++">
+    <FeatureSupportGroup runtime="cpp" />
+  </Tab>
+  <Tab title="Flutter">
+    <FeatureSupportGroup runtime="flutter" />
+  </Tab>
+  <Tab title="React">
     - **WebGL2** (`@rive-app/react-webgl2`): The recommended package for most React projects. Uses the Rive Renderer, which support every Rive Editor feature.
     - **Canvas** (`@rive-app/react-canvas`): Uses the browser's Canvas2D renderer. Some rendering features, such as Layer Masks and Bitmap Cache, are not supported.
     - **Canvas Lite** (`@rive-app/react-canvas-lite`): Uses the same API as `@rive-app/react-canvas`, but excludes certain features to reduce bundle size.
 
     See [Canvas vs WebGL2](/runtimes/web/canvas-vs-webgl) for the tradeoffs.
-</FeatureSupportGroup>
 
-<FeatureSupportGroup runtime="reactNative">
+    <FeatureSupportGroup runtime={["reactWebGL2", "reactCanvas", "reactCanvasLite"]} />
+  </Tab>
+  <Tab title="React Native">
     Versions refer to the `@rive-app/react-native` package, built with Nitro.
 
     GPU Canvas is supported on iOS and Android in `0.5.3` and later. It is disabled by default. Enable it before loading any Rive files:
@@ -53,136 +71,55 @@ When a feature requires API changes, migration notes will be included below.
     <Note>
         In `0.5.0` and later, the deprecated event and text-run methods are unavailable. Use [data binding](/runtimes/react-native/data-binding) to listen for triggers and update text instead.
     </Note>
-</FeatureSupportGroup>
-<FeatureSupportGroup runtime="flutter" />
-<FeatureSupportGroup runtime="apple">
-    <Warning>
-        Some rendering features require [GPU Canvas](/runtimes/apple/gpu-canvas) (the deferred renderer) on Apple platforms. These are marked "GPU Canvas required" in the table below.
-    </Warning>
-</FeatureSupportGroup>
-<FeatureSupportGroup runtime="android" />
-<FeatureSupportGroup runtime="cpp" />
-<FeatureSupportGroup runtime="unity" />
-<FeatureSupportGroup runtime="unreal" />
 
+    <FeatureSupportGroup runtime="reactNative" />
+  </Tab>
+  <Tab title="Unity">
+    <FeatureSupportGroup runtime="unity" />
+  </Tab>
+  <Tab title="Unreal">
+    <FeatureSupportGroup runtime="unreal" />
+  </Tab>
+  <Tab title="Web">
+    - **WebGL2** (`@rive-app/webgl2`): The recommended package for most web projects. Uses the Rive Renderer, which support every Rive Editor feature.
+    - **Canvas** (`@rive-app/canvas`): Uses the browser's Canvas2D renderer. Some rendering features, such as Layer Masks and Bitmap Cache, are not supported.
+    - **Canvas Lite** (`@rive-app/canvas-lite`): Uses the same API as `@rive-app/canvas`, but excludes certain features to reduce bundle size.
 
-## Runtime support by feature
+    See [Canvas vs WebGL2](/runtimes/web/canvas-vs-webgl) for the tradeoffs.
 
-A green checkmark (✅) indicates that a feature is supported in all relevant runtimes.
-A yellow circle (🟡) indicates that support varies by runtime or renderer.
+    <FeatureSupportGroup runtime={["webWebGL2", "webCanvas", "webCanvasLite"]} />
+  </Tab>
+  <Tab title="Legacy">
+    <FeatureSupportGroup runtime="webWebGL" title="Web - WebGL">
+        <Warning>
+            The `@rive-app/webgl` runtime is deprecated as of `v2.37.0`. Use `@rive-app/webgl2` (recommended for most content), or `@rive-app/canvas`.
+        </Warning>
+    </FeatureSupportGroup>
+    <FeatureSupportGroup runtime="reactWebGL" title="React - WebGL">
+        <Warning>
+            The `@rive-app/react-webgl` runtime is deprecated as of `v4.30.0`. Use `@rive-app/react-webgl2` (recommended for most content), or `@rive-app/react-canvas`.
+        </Warning>
+    </FeatureSupportGroup>
+    <FeatureSupportGroup runtime="reactNativeLegacy" title="React Native (rive-react-native)">
+        <Warning>
+            The `rive-react-native` runtime is deprecated. For better performance and the latest features, use `rive-nitro-react-native`.
 
-Differences may reflect:
-- Platform or SDK limitations where a feature cannot be supported
-- Staggered releases as features roll out across runtimes, or
-- Lightweight (“lite”) builds that intentionally omit some features to reduce package size.
-<Note>
-    A feature may still be considered fully supported even if it is unavailable in legacy runtimes.
-</Note>
+            [Migration guide](/runtimes/react-native/migration-guide#migrating-from-rive-react-native-to-@rive-app/react-native)
+        </Warning>
+    </FeatureSupportGroup>
+  </Tab>
+</Tabs>
 
-<FeatureSupportGroup feature="layerMasks">
-    Layer Masks require the Rive Renderer.
-</FeatureSupportGroup>
-<FeatureSupportGroup feature="bitmapCache" />
-<FeatureSupportGroup feature="artboardFills">
-    Fills and strokes that paint with an artboard.
-</FeatureSupportGroup>
-<FeatureSupportGroup feature="componentMeshes">
-    See [Meshes](/editor/manipulating-shapes/meshes) and [Components](/editor/fundamentals/components#deform).
-</FeatureSupportGroup>
-<FeatureSupportGroup feature="imageFills">
-    Fills and strokes that paint with an image.
-</FeatureSupportGroup>
-<FeatureSupportGroup feature="innerOuterStrokes">
-    Strokes with **Position** set to **Inside** or **Outside** in **Stroke Options**.
-</FeatureSupportGroup>
-<FeatureSupportGroup feature="angularGradients" />
-<FeatureSupportGroup feature="additiveStrength" />
-<FeatureSupportGroup feature="gamepad" />
-<FeatureSupportGroup feature="textInput" />
-<FeatureSupportGroup feature="focus" />
-<FeatureSupportGroup feature="statefulComponents" />
-<FeatureSupportGroup feature="gpuCanvas">
-  GPU Canvas enables 3D and shader content. See each runtime section for more details.
-</FeatureSupportGroup>
-<FeatureSupportGroup feature="globalViewModels">
-    On Apple, this feature requires the Swift Concurrency API. See [Global View Models](/runtimes/apple/data-binding#global-view-models).
-</FeatureSupportGroup>
-<FeatureSupportGroup feature="dataBindingFonts">
-    On Apple, this feature requires the Swift Concurrency API. See [Data Binding](/runtimes/apple/data-binding).
-</FeatureSupportGroup>
-<FeatureSupportGroup feature="semantics">
-  Accessibility voice over support with [Semantics](/editor/accessibility/semantics).
-</FeatureSupportGroup>
-<FeatureSupportGroup feature="scripting">
-  Support for Rive files with [Scripting](/scripting).
-</FeatureSupportGroup>
-<FeatureSupportGroup feature="dataBindingListsImagesArtboards">
-    Data binding lists, images, and artboards were added after initial data binding support.
+## Deprecated features
 
-    See [Data Binding Overview](/editor/data-binding/overview) and [Data Binding for Runtimes](/runtimes/data-binding).
-</FeatureSupportGroup>
-<FeatureSupportGroup feature="rightToLeftLayoutsText" />
-<FeatureSupportGroup feature="textFollowPath" />
-<FeatureSupportGroup feature="dataBinding">
-    See [Data Binding Overview](/editor/data-binding/overview) and [Data Binding for Runtimes](/runtimes/data-binding).
-</FeatureSupportGroup>
-    <FeatureSupportGroup feature="vectorFeathering" />
-<FeatureSupportGroup feature="nSlicing">
-    See [N-Slicing](/editor/layouts/n-slicing).
-</FeatureSupportGroup>
-<FeatureSupportGroup feature="layouts">
-    Allows Rive to automatically update the artboard size as the underlying view/canvas/widget/texture size changes. See [Layouts](/editor/layouts/layouts-overview).
-</FeatureSupportGroup>
-<FeatureSupportGroup feature="fallbackFonts">
-    Allows Rive to use a fallback font if a glyph is not available. A default font is automatically chosen, or you can optionally configure the desired fallback font based on various options. See [Fallback Fonts](/runtimes/text#fallback-fonts).
-</FeatureSupportGroup>
-<FeatureSupportGroup feature="audio">
-    See [Rive Events](/runtimes/rive-events) and [Audio Events](/editor/events/audio-events).
-</FeatureSupportGroup>
-<FeatureSupportGroup feature="outOfBandAssets">
-    See [Loading Assets](/runtimes/loading-assets).
-</FeatureSupportGroup>
-<FeatureSupportGroup feature="text">
-    See [Text](/runtimes/text).
-</FeatureSupportGroup>
-<FeatureSupportGroup feature="cachingARiveFile" />
+<Warning>
+    Listening to [Rive Events](/runtimes/rive-events) at runtime is deprecated and will be removed in future versions.
 
-## Legacy
+    Use [Data Binding](/runtimes/data-binding) to listen for triggers or changes to properties instead.
+</Warning>
 
-**Legacy runtimes**
+<Warning>
+    Setting text, including [nested text](/runtimes/text#read-update-nested-text-runs-at-runtime), at runtime is deprecated and will be removed in a future version.
 
-<FeatureSupportGroup runtime="webWebGL">
-    <Warning>
-        The `@rive-app/webgl` runtime is deprecated as of `v2.37.0`. Use `@rive-app/webgl2` (recommended for most content), or `@rive-app/canvas`.
-    </Warning>
-</FeatureSupportGroup>
-<FeatureSupportGroup runtime="reactWebGL" >
-    <Warning>
-        The `@rive-app/react-webgl` runtime is deprecated as of `v4.30.0`. Use `@rive-app/react-webgl2` (recommended for most content), or `@rive-app/react-canvas`.
-    </Warning>
-</FeatureSupportGroup>
-<FeatureSupportGroup runtime="reactNativeLegacy" >
-    <Warning>
-        The `rive-react-native` runtime is deprecated. For better performance and the latest features, use `rive-nitro-react-native`.
-
-        [Migration guide](/runtimes/react-native/migration-guide#migrating-from-rive-react-native-to-@rive-app/react-native)
-    </Warning>
-</FeatureSupportGroup>
-
-**Deprecated features**
-
-<FeatureSupportGroup feature="events">
-    <Warning>
-        Listening to [Rive Events](/runtimes/rive-events) at runtime is deprecated and will be removed in future versions.
-
-        Use [Data Binding](/runtimes/data-binding) to listen for triggers or changes to properties instead.
-    </Warning>
-</FeatureSupportGroup>
-<FeatureSupportGroup feature="nestedText">
-    <Warning>
-        Setting text, including [nested text](/runtimes/text#read-update-nested-text-runs-at-runtime), at runtime is deprecated and will be removed in a future version.
-
-        Instead, use [Data Binding](/runtimes/data-binding) to update a string, which is bound to a text run.
-    </Warning>
-</FeatureSupportGroup>
-
+    Instead, use [Data Binding](/runtimes/data-binding) to update a string, which is bound to a text run.
+</Warning>
