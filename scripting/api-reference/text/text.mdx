@@ -116,7 +116,24 @@ draw(renderer: Renderer, paint: Paint?) -> ()
 ```
 </div>
 
-Draws every run with its own paint, or all of them with the given paint.
+Draws every run with its own paint, or all of them with the given paint
+(underlines and strikethroughs too, but not highlights).
+
+
+### `drawLines`
+
+{/* function drawLines(self, renderer: Renderer, first: number, last: number, paint: Paint?): () */}
+<div class="signature">
+```lua
+drawLines(renderer: Renderer, first: number, last: number, paint: Paint?) -> ()
+```
+</div>
+
+Draws lines first to last, 1 based and inclusive like `line`, where they
+sit in the full layout: every run with its own paint, or all of them with
+the given paint. A range past either end is clamped. To split a paragraph
+across pages, draw the lines that fit on one page and the rest on the
+next, translated by `-line(first).top`.
 
 
 ### `bounds`
