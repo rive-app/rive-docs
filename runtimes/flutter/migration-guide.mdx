@@ -17,6 +17,7 @@ These things need migration work in this release:
 - The Rive Renderer (`Factory.rive`) uses deferred rendering on native platforms. This only affects advanced integrations.
 - Rive widgets draw only when their content changed. This only affects custom painters that draw more than their Artboard.
 - Custom `RenderTexturePainter` and `SharedTexturePainter` implementations separate advancing from drawing.
+- macOS apps that use Swift Package Manager need a deployment target of macOS 11 or later.
 
 <Note>
   `0.15.0` is a dev release (`{{versionDevFlutter}}`). Migrate against the
@@ -26,6 +27,8 @@ These things need migration work in this release:
 ### Requirements
 
 The minimum Flutter version is `3.32.0` (Dart `3.8.0`). Version `0.14.x` declared `3.28.0` by mistake, so older Flutter versions resolved the package and then failed to compile. See [rive-flutter issue #643](https://github.com/rive-app/rive-flutter/issues/643).
+
+macOS apps that use Swift Package Manager need a deployment target of macOS 11 or later. Flutter 3.47 and later raise it for you. With earlier Flutter versions, select the **Runner** target in Xcode and set **Build Settings** > **macOS Deployment Target** to **11.0**. Nothing changes for CocoaPods or for iOS.
 
 ### `RiveNative.init()` returns a result
 
