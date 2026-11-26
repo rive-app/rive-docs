@@ -53,7 +53,7 @@ Call `RiveNative.init()` early (for example in `main()`), before creating or usi
   <Tab title="0.15.0 and later">
     Call `init()` the same way and handle its result. See [Initializing Rive](/runtimes/flutter/flutter#initializing-rive).
 
-    This error can also mean `init()` returned `RiveNativeInitFailed`. Its `message` says why.
+    Loading a file after a failed `init()` throws a `StateError` with the `RiveNativeInitFailed` `message`, not this error. On web, calling `Factory.flutter` methods such as `decodeImage()` directly before `init()` has succeeded can still throw a `LateInitializationError` naming this field or another one.
   </Tab>
 </Tabs>
 
