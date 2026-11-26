@@ -128,6 +128,8 @@ A settled state machine wakes when the runtime sees a change, such as pointer in
 
 The Flutter, Apple, Android, and Unreal runtimes settle automatically. In the legacy Apple and Android runtimes, call `play()` after setting a view model property on a settled state machine; see the [Apple](/runtimes/apple/migrating-from-legacy#updating-a-data-bind-unsettles-the-state-machine) and [Android](/runtimes/android/migrating-from-legacy#updating-a-data-bind-unsettles-the-state-machine) migration guides. In the web runtime, settling is off by default: turn it on with [`enableSettling`](/runtimes/web/canvas-vs-webgl#settling). The Unity runtime advances its state machine every frame and doesn't settle.
 
+Settling stops the advance. Separately, the Flutter, web, Unity, and current Apple and Android runtimes skip the draw on frames where nothing in the artboard changed, and keep showing the last drawn frame. A state machine that hasn't settled still costs an advance every frame, but not necessarily a draw. In Flutter and on the web, you can change this with [`drawOptimization`](/runtimes/flutter/flutter#draw-optimization) and [`drawingOptions`](/runtimes/web/rive-parameters).
+
 ### Pausing programmatically
 
 There are several cases where you may want to pause a state machine configured with Rive programmatically. By pausing the Rive graphic at runtime, you may notice that Rive’s impact on the application has negligible resource consumption (i.e., CPU).
