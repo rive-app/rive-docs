@@ -126,7 +126,7 @@ A state machine keeps running while there's still something to animate in any of
 
 A settled state machine wakes when the runtime sees a change, such as pointer input on a listener, or a state machine input or view model property set from code.
 
-The Flutter, Apple, and Android runtimes settle automatically. In the legacy Apple and Android runtimes, call `play()` after setting a view model property on a settled state machine; see the [Apple](/runtimes/apple/migrating-from-legacy#updating-a-data-bind-unsettles-the-state-machine) and [Android](/runtimes/android/migrating-from-legacy#updating-a-data-bind-unsettles-the-state-machine) migration guides. In the web runtime, settling is off by default: turn it on with [`enableSettling`](/runtimes/web/canvas-vs-webgl#settling). The Unity runtime advances its state machine every frame and doesn't settle.
+The Flutter, Apple, Android, and Unreal runtimes settle automatically. In the legacy Apple and Android runtimes, call `play()` after setting a view model property on a settled state machine; see the [Apple](/runtimes/apple/migrating-from-legacy#updating-a-data-bind-unsettles-the-state-machine) and [Android](/runtimes/android/migrating-from-legacy#updating-a-data-bind-unsettles-the-state-machine) migration guides. In the web runtime, settling is off by default: turn it on with [`enableSettling`](/runtimes/web/canvas-vs-webgl#settling). The Unity runtime advances its state machine every frame and doesn't settle.
 
 ### Pausing programmatically
 
