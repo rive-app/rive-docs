@@ -67,7 +67,7 @@ Assets referenced by an excluded artboard may still be included in the `.riv`. T
 
 ### Idle Animations
 
-If you have idle animation states where the graphic remains static at a given state in a state machine, consider using a "one-shot" animation and ensuring that the timeline animation is not unnecessarily long. At runtime in a state machine, if no looping animations or active blend states are playing, the runtime will preemptively “pause” itself until a transition to another state. This is useful because resource consumption (i.e., CPU usage) may decrease to the point of making Rive impact on resources negligible in applications.
+If you have idle animation states where the graphic remains static at a given state in a state machine, consider using a "one-shot" animation and ensuring that the timeline animation is not unnecessarily long. At runtime in a state machine, if no looping animations or active blend states are playing, the runtime will preemptively [“pause” itself](#settling) until a transition to another state. This is useful because resource consumption (i.e., CPU usage) may decrease to the point of making Rive impact on resources negligible in applications.
 
 Scenarios: Icons, buttons, graphics that only animate based on user interaction, etc.
 
@@ -109,6 +109,23 @@ If you're using the same Rive file in multiple places across your page or app, y
 
 If your `.riv` contains many artboards but you only show a few at a time, you can [defer decoding](/runtimes/deferred-file-loading) so that artboards, animations, and view model instances decode the first time they're used instead of while the file loads. This can shorten loading time, at the cost of a delay the first time each part is used.
 
+### Settling
+
+A state machine settles once it has nothing left to animate. While it's settled, the runtime stops advancing and drawing it, so an idle graphic uses almost no CPU or GPU. This is the self-pausing described in [Idle Animations](#idle-animations) and [Blend States](#blend-states).
+
+A state machine doesn't settle while any of these is true in any layer or nested artboard:
+
+- A looping or ping-pong animation is playing
+- A blend state is active
+- A one-shot animation hasn't reached its end
+- A transition is in progress or waiting for its exit time
+- A layout animation is in progress
+- A script's [`advance`](/scripting/api-reference/interfaces/node#advance) keeps returning `true`
+
+A settled state machine wakes as soon as something changes, such as pointer input on a listener, or a state machine input or view model property set from code.
+
+The Flutter, Apple, and Android runtimes settle automatically. In the web runtime, settling is off by default: turn it on with [`enableSettling`](/runtimes/web/canvas-vs-webgl#settling).
+
 ### Pausing programmatically
 
 There are several cases where you may want to pause a state machine configured with Rive programmatically. By pausing the Rive graphic at runtime, you may notice that Rive’s impact on the application has negligible resource consumption (i.e., CPU).
@@ -119,7 +136,7 @@ There are several cases where you may want to pause a state machine configured w
 2. Accessibility
    - If a user has set in device settings that they prefer reduced motion, you may want to read this property at runtime and programmatically either call `pause` or set `autoplay: false` with the Rive runtime to ensure these users have reduced motion when navigating the application. Alternatively, different artboards or state machines can be created and loaded at runtime that function differently.
 3. State machine is idle with static graphics
-   a. `Pause` when the Rive graphic is idling while it waits for a transition in the state machine from user interaction, data resolving, etc.
+   a. `Pause` when the Rive graphic is idling while it waits for a transition in the state machine from user interaction, data resolving, etc. Runtimes that [settle](#settling) do this for you.
 
 ### Low-end devices
 
