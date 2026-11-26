@@ -51,6 +51,8 @@ You need to release a worker you create. To release it when an activity or fragm
 riveWorker.withLifecycle(this, "MainActivity")
 ```
 
+Before v11.16.3, you also need to call `beginPolling` on a worker you create yourself. Without it, the worker doesn't deliver results or errors.
+
 ## Render backends
 
 GPU Canvas works with both the OpenGL and Vulkan render backends. OpenGL is the default. To use Vulkan, pass `renderBackend` when you create the worker:
