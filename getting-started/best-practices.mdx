@@ -113,18 +113,20 @@ If your `.riv` contains many artboards but you only show a few at a time, you ca
 
 A state machine settles once it has nothing left to animate. While it's settled, the runtime stops advancing and drawing it, so an idle graphic uses almost no CPU or GPU. This is the self-pausing described in [Idle Animations](#idle-animations) and [Blend States](#blend-states).
 
-A state machine doesn't settle while any of these is true in any layer or nested artboard:
+A state machine keeps running while there's still something to animate in any of its layers, or in a nested artboard that isn't hidden by a [Solo](/editor/manipulating-shapes/solos). For example:
 
-- A looping or ping-pong animation is playing
-- A blend state is active
-- A one-shot animation hasn't reached its end
-- A transition is in progress or waiting for its exit time
-- A layout animation is in progress
-- A script's [`advance`](/scripting/api-reference/interfaces/node#advance) keeps returning `true`
+- A looping or ping-pong animation is playing.
+- A blend state is active.
+- A one-shot animation hasn't reached its end.
+- A transition is in progress or waiting for its [exit time](/editor/state-machine/transitions#exit-time).
+- A [layout animation](/editor/layouts/layout-animation) is in progress.
+- A scroll is still moving.
+- A text input has focus, so its cursor keeps blinking.
+- A script's [`advance`](/scripting/api-reference/interfaces/node#advance) keeps returning `true`.
 
-A settled state machine wakes as soon as something changes, such as pointer input on a listener, or a state machine input or view model property set from code.
+A settled state machine wakes when the runtime sees a change, such as pointer input on a listener, or a state machine input or view model property set from code.
 
-The Flutter, Apple, and Android runtimes settle automatically. In the web runtime, settling is off by default: turn it on with [`enableSettling`](/runtimes/web/canvas-vs-webgl#settling).
+The Flutter, Apple, and Android runtimes settle automatically. In the legacy Apple and Android runtimes, call `play()` after setting a view model property on a settled state machine; see the [Apple](/runtimes/apple/migrating-from-legacy#updating-a-data-bind-unsettles-the-state-machine) and [Android](/runtimes/android/migrating-from-legacy#updating-a-data-bind-unsettles-the-state-machine) migration guides. In the web runtime, settling is off by default: turn it on with [`enableSettling`](/runtimes/web/canvas-vs-webgl#settling). The Unity runtime advances its state machine every frame and doesn't settle.
 
 ### Pausing programmatically
 
