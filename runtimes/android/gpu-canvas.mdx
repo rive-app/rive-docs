@@ -1,0 +1,73 @@
+---
+title: "GPU Canvas"
+description: "Enable GPU Canvas in the Android runtime to render 3D and shader content."
+---
+
+GPU Canvas (*deferred rendering* in API names) enables the Rive Android runtime to render 3D and shader content from Rive files. It is available in the Compose API and in the experimental `RiveCanvasSession`, and is enabled when you create a Rive worker. The setting applies to every file loaded with that worker and can't be changed during the worker's lifetime. The legacy `RiveAnimationView` API doesn't support GPU Canvas.
+
+<Warning>
+  GPU Canvas is experimental. Enabling it requires opting into `ExperimentalDeferredRendering`, and the APIs that enable it may change in future releases.
+</Warning>
+
+## Enabling GPU Canvas in Compose
+
+Create the worker with `rememberDeferredRiveWorker`:
+
+```kotlin highlight={1,4}
+@OptIn(ExperimentalDeferredRendering::class)
+@Composable
+fun MyRiveScreen() {
+    val riveWorker = rememberDeferredRiveWorker()
+    val riveFile = rememberRiveFile(
+        RiveFileSource.RawRes.from(R.raw.my_rive_file),
+        riveWorker
+    )
+    when (riveFile) {
+        is Result.Loading -> LoadingIndicator()
+        is Result.Error -> ErrorMessage(riveFile.throwable)
+        is Result.Success -> Rive(riveFile.value)
+    }
+}
+```
+
+`rememberDeferredRiveWorker` throws a `RiveInitializationException` if the worker can't be created. Its `precompileShaders` option doesn't precompile GPU Canvas shaders.
+
+## Creating the worker yourself
+
+To create a worker outside of composition, pass `enableGPUCanvas = true` to the `RiveWorker` constructor:
+
+```kotlin
+@OptIn(ExperimentalDeferredRendering::class)
+val riveWorker = RiveWorker(enableGPUCanvas = true)
+```
+
+This is also how you create a worker for `RiveCanvasSession`, which requires Android 10 (API level 29) or later and opting into `ExperimentalHardwareBitmapRendering`.
+
+You need to release a worker you create. To release it when an activity or fragment is destroyed, call `withLifecycle` in `onCreate`:
+
+```kotlin
+riveWorker.withLifecycle(this, "MainActivity")
+```
+
+Before v11.16.3, you also need to call `beginPolling` on a worker you create yourself. Without it, the worker doesn't deliver results or errors.
+
+## Render backends
+
+GPU Canvas works with both the OpenGL and Vulkan render backends. OpenGL is the default. To use Vulkan, pass `renderBackend` when you create the worker:
+
+```kotlin
+setContent {
+    @OptIn(ExperimentalDeferredRendering::class)
+    val riveWorker = rememberDeferredRiveWorker(renderBackend = RenderBackend.Vulkan)
+}
+```
+
+The `RiveWorker` constructor takes the same parameter. On devices that can't run Vulkan, the worker can fall back to OpenGL.
+
+Scripts can draw into Rive's render target with `context:gpuTarget()`, but that content only appears with Vulkan. To render on every device, draw into a [GPU canvas](/scripting/api-reference/gpu/gpu-canvas) instead.
+
+## Default behavior
+
+GPU Canvas is disabled by default. You can keep using `rememberRiveWorker` when your content doesn't require it.
+
+See the [GPU Canvas example](https://github.com/rive-app/rive-android/blob/master/app/src/main/java/app/rive/runtime/example/DeferredRendererActivity.kt) in the Android sample app for a complete setup.
