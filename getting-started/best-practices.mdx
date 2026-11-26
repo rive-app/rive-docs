@@ -111,24 +111,33 @@ If your `.riv` contains many artboards but you only show a few at a time, you ca
 
 ### Settling
 
-A state machine settles once it has nothing left to animate. While it's settled, the runtime stops advancing and drawing it, so an idle graphic uses almost no CPU or GPU. This is the self-pausing described in [Idle Animations](#idle-animations) and [Blend States](#blend-states).
+A state machine settles once it has nothing left to animate. Most runtimes then stop advancing and drawing it, so an idle graphic uses almost no CPU or GPU. This is the self-pausing described in [Idle Animations](#idle-animations) and [Blend States](#blend-states). The table below lists how each runtime handles it.
 
-A state machine keeps running while there's still something to animate in any of its layers, or in a nested artboard that isn't hidden by a [Solo](/editor/manipulating-shapes/solos). For example:
+A state machine keeps running while there's still something to animate in its artboard, including its layers and any [component](/editor/fundamentals/components) that isn't hidden by a Solo. For example:
 
 - A looping or ping-pong animation is playing.
 - A blend state is active.
 - A one-shot animation hasn't reached its end.
 - A transition is in progress or waiting for its [exit time](/editor/state-machine/transitions#exit-time).
 - A [layout animation](/editor/layouts/layout-animation) is in progress.
-- A scroll is still moving.
-- A text input has focus, so its cursor keeps blinking.
+- A [scroll](/editor/constraints/scroll-constraint) is still moving.
+- A [text input](/editor/text/text-input) has focus, so its cursor keeps blinking.
 - A script's [`advance`](/scripting/api-reference/interfaces/node#advance) keeps returning `true`.
 
 A settled state machine wakes when the runtime sees a change, such as pointer input on a listener, or a state machine input or view model property set from code.
 
-The Flutter, Apple, Android, and Unreal runtimes settle automatically. In the legacy Apple and Android runtimes, call `play()` after setting a view model property on a settled state machine; see the [Apple](/runtimes/apple/migrating-from-legacy#updating-a-data-bind-unsettles-the-state-machine) and [Android](/runtimes/android/migrating-from-legacy#updating-a-data-bind-unsettles-the-state-machine) migration guides. In the web runtime, settling is off by default: turn it on with [`enableSettling`](/runtimes/web/canvas-vs-webgl#settling). The Unity runtime advances its state machine every frame and doesn't settle.
+Settling and drawing are separate. A state machine that hasn't settled advances every frame, but some runtimes skip the draw on frames where nothing in the artboard changed, and keep showing the last drawn frame.
 
-Settling stops the advance. Separately, the Flutter, web, Unity, and current Apple and Android runtimes skip the draw on frames where nothing in the artboard changed, and keep showing the last drawn frame. A state machine that hasn't settled still costs an advance every frame, but not necessarily a draw. You can change this with [`drawOptimization`](/runtimes/flutter/flutter#draw-optimization) in Flutter, [`drawingOptions`](/runtimes/web/rive-parameters) on the web, and the [Rive Panel](/game-runtimes/unity/components#rive-panel)'s `DrawOptimization` in Unity.
+| Runtime | Settling | Skips unchanged draws |
+| --- | --- | --- |
+| Flutter | Automatic. | Yes by default, from `rive` `0.15.0`. Change it with [`drawOptimization`](/runtimes/flutter/flutter#draw-optimization). |
+| Web | Off by default. Turn it on with [`enableSettling`](/runtimes/web/canvas-vs-webgl#settling), added in `v2.52.0`. | Yes by default. Change it with [`drawingOptions`](/runtimes/web/rive-parameters). |
+| Apple | Automatic. | Always. |
+| Apple (legacy) | Automatic. Call `play()` after setting a view model property on a settled state machine. See the [migration guide](/runtimes/apple/migrating-from-legacy#updating-a-data-bind-unsettles-the-state-machine). | Yes by default. Change it with `RiveView.drawOptimization`. |
+| Android | Automatic. | Always. |
+| Android (legacy) | Automatic. Call `play()` after setting a view model property on a settled state machine. See the [migration guide](/runtimes/android/migrating-from-legacy#updating-a-data-bind-unsettles-the-state-machine). | No. |
+| Unity | Doesn't settle. The state machine advances every frame. | Yes by default. Change it with the [Rive Panel](/game-runtimes/unity/components#rive-panel)'s **Draw Optimization**. |
+| Unreal | Stops advancing, but keeps drawing every frame. | No. |
 
 ### Pausing programmatically
 
