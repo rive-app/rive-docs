@@ -67,7 +67,7 @@ Assets referenced by an excluded artboard may still be included in the `.riv`. T
 
 ### Idle Animations
 
-If you have idle animation states where the graphic remains static at a given state in a state machine, consider using a "one-shot" animation and ensuring that the timeline animation is not unnecessarily long. At runtime in a state machine, if no looping animations or active blend states are playing, the runtime will preemptively [“pause” itself](#settling) until a transition to another state. This is useful because resource consumption (i.e., CPU usage) may decrease to the point of making Rive impact on resources negligible in applications.
+If you have idle animation states where the graphic remains static at a given state in a state machine, consider using a "one-shot" animation and ensuring that the timeline animation is not unnecessarily long. At runtime in a state machine, if no looping animations or active blend states are playing, most runtimes will preemptively [“pause” themselves](#settling) until a transition to another state. This is useful because resource consumption (i.e., CPU usage) may decrease to the point of making Rive impact on resources negligible in applications.
 
 Scenarios: Icons, buttons, graphics that only animate based on user interaction, etc.
 
@@ -111,9 +111,9 @@ If your `.riv` contains many artboards but you only show a few at a time, you ca
 
 ### Settling
 
-A state machine settles once it has nothing left to animate. Most runtimes then stop advancing and drawing it, so an idle graphic uses almost no CPU or GPU. This is the self-pausing described in [Idle Animations](#idle-animations) and [Blend States](#blend-states). The table below lists how each runtime handles it.
+A state machine settles once it has nothing left to animate. Most runtimes then stop advancing and drawing it, so an idle graphic uses almost no CPU or GPU. This is the self-pausing described in [Idle Animations](#idle-animations) and [Blend States](#blend-states). The table below covers the Flutter, web, Apple, Android, Unity, and Unreal runtimes.
 
-A state machine keeps running while there's still something to animate in its artboard, including its layers and any [component](/editor/fundamentals/components) that isn't hidden by a Solo. For example:
+A state machine keeps running while there's still something to animate in any of its layers, or in its artboard, including any [component](/editor/fundamentals/components) that isn't hidden by a Solo or a [hidden Layout](/editor/layouts/sizing-and-positioning#hiding-a-layout). For example:
 
 - A looping or ping-pong animation is playing.
 - A blend state is active.
@@ -132,11 +132,11 @@ Settling and drawing are separate. A state machine that hasn't settled advances 
 | --- | --- | --- |
 | Flutter | Automatic. | Yes by default, from `rive` `0.15.0`. Change it with [`drawOptimization`](/runtimes/flutter/flutter#draw-optimization). |
 | Web | Off by default. Turn it on with [`enableSettling`](/runtimes/web/canvas-vs-webgl#settling), added in `v2.52.0`. | Yes by default. Change it with [`drawingOptions`](/runtimes/web/rive-parameters). |
-| Apple | Automatic. | Always. |
-| Apple (legacy) | Automatic. Call `play()` after setting a view model property on a settled state machine. See the [migration guide](/runtimes/apple/migrating-from-legacy#updating-a-data-bind-unsettles-the-state-machine). | Yes by default. Change it with `RiveView.drawOptimization`. |
-| Android | Automatic. | Always. |
-| Android (legacy) | Automatic. Call `play()` after setting a view model property on a settled state machine. See the [migration guide](/runtimes/android/migrating-from-legacy#updating-a-data-bind-unsettles-the-state-machine). | No. |
-| Unity | Doesn't settle. The state machine advances every frame. | Yes by default. Change it with the [Rive Panel](/game-runtimes/unity/components#rive-panel)'s **Draw Optimization**. |
+| Apple, {{runtimeCurrentNameApple}} | Automatic. | Yes. Can't be turned off. |
+| Apple, {{runtimeLegacyNameApple}} | Automatic. Call `play()` after setting a view model property on a settled state machine. See the [migration guide](/runtimes/apple/migrating-from-legacy#updating-a-data-bind-unsettles-the-state-machine). | Yes by default. Change it with `RiveView.drawOptimization`. |
+| Android, new runtime | Automatic. | Yes, from `11.17.0`. Can't be turned off. |
+| Android, legacy runtime | Automatic. Call `play()` after setting a view model property on a settled state machine. See the [migration guide](/runtimes/android/migrating-from-legacy#updating-a-data-bind-unsettles-the-state-machine). | No. |
+| Unity | Keeps advancing every frame. | Yes by default. Change it with the [Rive Panel](/game-runtimes/unity/components#rive-panel)'s **Draw Optimization**. |
 | Unreal | Stops advancing, but keeps drawing every frame. | No. |
 
 ### Pausing programmatically

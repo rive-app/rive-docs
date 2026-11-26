@@ -28,7 +28,7 @@ Create an instance: Right-click in the scene hierarchy `→ Rive → Rive Panel`
 | Custom Render Target Strategy | The strategy to use for rendering the panel. By default, each panel renders to a single RenderTexture that matches the panel's dimensions. You can provide a different strategy to render to a pool of textures or share a texture between panels. |
 | Update Mode | Controls how the panel updates widgets: `Auto` for automatic updates each frame, or `Manual` for explicit control through `Tick()`. |
 | Disable Editor Preview | Use this to prevent the panel from rendering in Edit mode in the Unity Editor |
-| Draw Optimization | Controls when the panel redraws its render texture. `Draw When Changed` (default) redraws only when an artboard changed, or when Unity triggers a redraw such as a layout or size change. `Always Draw` redraws every frame. |
+| Draw Optimization | Controls when the panel redraws its render texture. `Draw When Changed` (default) redraws only when an artboard changed, or when Unity triggers a redraw such as a layout or size change. `Always Draw` redraws every frame. Panels that share an atlas render target redraw every frame if any of them uses `Always Draw`. |
 | Multitouch Support | When `Disabled`, the panel collapses all input to a single pointer for legacy behavior. When `Enabled`, multiple pointers are tracked independently. |
 
 **Properties**
